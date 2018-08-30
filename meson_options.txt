@@ -1,0 +1,4 @@
+option('session-bus-services-dir',
+       description: 'the directory to install D-Bus services',
+       type: 'string'
+)

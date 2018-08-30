@@ -1,0 +1,30 @@
+{
+    "app-id": "com.endlessm.Clubhouse",
+    "runtime": "com.endlessm.apps.Platform",
+    "runtime-version": "5",
+    "sdk": "com.endlessm.apps.Sdk",
+    "command": "eos-clubhouse",
+    "finish-args": [
+        "--share=ipc",
+        "--socket=x11",
+        "--socket=wayland",
+        "--own-name=com.endlessm.Clubhouse"
+    ],
+    "modules": [
+        {
+            "name": "clubhouse",
+            "buildsystem": "meson",
+            "config-opts" : [
+                "-Dsession-bus-services-dir=/app/share/dbus-1/services"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "path": ".",
+                    "branch": "@GIT_CLONE_BRANCH@"
+                }
+            ]
+        }
+    ]
+}
+
