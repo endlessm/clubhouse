@@ -3,5 +3,6 @@
   <gresource prefix="/com/endlessm/Clubhouse">
     <file>gtk-style.css</file>
     <file preprocess="xml-stripblanks">main-window.ui</file>
+    <file preprocess="xml-stripblanks">message.ui</file>
   </gresource>
 </gresources>

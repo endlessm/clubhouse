@@ -18,7 +18,28 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
-import logging
+from eosclubhouse.quest import Registry, Quest
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+
+class FlappyHack(Quest):
+
+    def __init__(self):
+        super().__init__('FlappyBird Hacking', 'aggretsuko',
+                         ('Betcha cannot beat my super high score in the FlappyHack game! '
+                          'Wanna try it?'))
+
+    def _opened_already(self):
+        print('OPENED')
+
+    def _not_opened_already(self):
+        print('NOT OPENED')
+
+    def start(self):
+        self.show_message('Then make sure that you open FlappyHack!')
+        self.show_message('Bring it on!!!!!', mood='mad')
+        self.show_question('Have you opened it yet?',
+                           choices=[('Yup', self._opened_already),
+                                    ('Not yet…', self._not_opened_already)])
+
+
+Registry.register_quest(FlappyHack)
