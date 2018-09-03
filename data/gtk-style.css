@@ -1,3 +1,20 @@
 .main-window {
     background-image: linear-gradient(white 60%,#d7d7d7);
 }
+
+.clubhouse-message-label {
+    background-color: white;
+    padding: 4px 12px;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: #a5a5a5;
+    border-style: solid;
+    box-shadow: inset 0 1px @theme_base_color, 0 1px 1px alpha(black,0.4);
+    margin: 3px;
+}
+
+.clubhouse-message-button-box button {
+    border-radius: 15px 15px;
+    padding: 2px 12px;
+    margin: 3px;
+}

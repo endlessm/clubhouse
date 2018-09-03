@@ -25,6 +25,7 @@ import os
 import sys
 
 from gi.repository import Gdk, Gio, GLib, Gtk
+from eosclubhouse import logger, quest
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
 CLUBHOUSE_PATH = '/com/endlessm/Clubhouse'
@@ -43,6 +44,35 @@ ClubhouseIface = ('<node>'
                   '</node>')
 
 
+class Message(Gtk.Bin):
+
+    def __init__(self):
+        super().__init__()
+        builder = Gtk.Builder()
+        builder.add_from_resource('/com/endlessm/Clubhouse/message.ui')
+        self.add(builder.get_object('message_box'))
+        self._label = builder.get_object('message_label')
+        self._button_box = builder.get_object('message_button_box')
+        self.show_all()
+
+    def set_text(self, txt):
+        self._label.set_label(txt)
+
+    def add_button(self, label, click_cb, *user_data):
+        button = Gtk.Button(label=label)
+        button.connect('clicked', self._button_clicked_cb, click_cb, *user_data)
+        button.show()
+
+        self._button_box.pack_start(button, False, False, 0)
+        self._button_box.show()
+
+    def _button_clicked_cb(self, button, caller_cb, *user_data):
+        caller_cb(*user_data)
+        for child in self._button_box.get_children():
+            child.destroy()
+        self._button_box.hide()
+
+
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
     DEFAULT_WINDOW_WIDTH = 500
@@ -53,14 +83,39 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                          role='eos-side-component')
         self.set_size_request(self.DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
-
         self.get_style_context().add_class('main-window')
+        self._character = None
 
     def _setup_ui(self):
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/main-window.ui')
         self._main_box = builder.get_object('main_box')
+        self._message_box = builder.get_object('character_message_box')
+        self._character_image = builder.get_object('character_image')
         self.add(self._main_box)
+
+    def show_message(self, txt):
+        message = Message()
+        message.set_text(txt)
+        self._message_box.pack_start(message, False, False, 0)
+        return message
+
+    def show_question(self, txt, answer_choices):
+        message = self.show_message(txt)
+        for answer in answer_choices:
+            text, callback = answer
+            message.add_button(text, callback)
+        return message
+
+    def set_character(self, character):
+        self._character = character
+        self._character.connect('notify::mood', self._character_mood_changed_cb)
+        self._character_mood_changed_cb(character)
+
+    def _character_mood_changed_cb(self, character, prop=None):
+        logger.debug('Character mood changed: mood=%s image=%s',
+                     character.mood, character.get_image_path())
+        self._character_image.set_from_file(character.get_image_path())
 
 
 class ClubhouseApplication(Gtk.Application):
@@ -108,6 +163,34 @@ class ClubhouseApplication(Gtk.Application):
 
         self._update_geometry()
         self._window.show()
+
+        # @todo: Use a location from config
+        quest.Registry.load(os.path.dirname(__file__) + '/quests')
+        quests = quest.Registry.get_quests()
+        current_quest = quests[0]
+        self.start_quest(current_quest)
+
+    def start_quest(self, quest):
+        message = self._window.show_message(quest.get_initial_message())
+        self._window.set_character(quest.get_main_character())
+        message.add_button('Sure!',
+                           lambda app, quest: app.run_quest(quest),
+                           self, quest)
+        message.add_button('Not now…',
+                           lambda: logger.info('Quest refused'))
+
+    def run_quest(self, quest):
+        logger.info('Running quest "%s"', quest)
+        quest.connect('message', self._quest_message_cb)
+        quest.connect('question', self._quest_question_cb)
+        quest.start()
+
+    def _quest_message_cb(self, quest, character_name, message_txt):
+        logger.debug('Message: %s %s', character_name, message_txt)
+        self._window.show_message(message_txt)
+
+    def _quest_question_cb(self, quest, character_name, message_txt, answer_choices):
+        self._window.show_question(message_txt, answer_choices)
 
     def _vibility_notify_cb(self, window, pspec):
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}

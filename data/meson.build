@@ -23,3 +23,10 @@ gnome.compile_resources(
     install: true,
     install_dir: install_dir
 )
+
+install_subdir(
+    'characters',
+    install_dir: join_paths(data_dir, meson.project_name())
+)
+
+characters_dir = join_paths(data_dir, meson.project_name(), 'characters')
