@@ -25,8 +25,8 @@ import os
 import sys
 import threading
 
-from gi.repository import Gdk, Gio, GLib, Gtk
-from eosclubhouse import logger, quest
+from gi.repository import Gdk, Gio, GLib, Gtk, GObject
+from eosclubhouse import config, logger, quest
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
 CLUBHOUSE_PATH = '/com/endlessm/Clubhouse'
@@ -43,6 +43,40 @@ ClubhouseIface = ('<node>'
                   '<property name="Visible" type="b" access="read"/>'
                   '</interface>'
                   '</node>')
+
+
+class Character(GObject.GObject):
+
+    def __init__(self, id_, name=None):
+        super().__init__()
+        self._id = id_
+        self._name = name or id_
+        self.load()
+
+    def _get_name(self):
+        return self._name
+
+    def get_image_path(self):
+        return self._moods.get(self.mood)
+
+    def load(self):
+        char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
+        self._moods = {}
+        for image in os.listdir(char_dir):
+            name, ext = os.path.splitext(image)
+            path = os.path.join(char_dir, image)
+            self._moods[name] = path
+
+        # @todo: Raise exception here instead
+        assert(self._moods)
+
+        if 'normal' in self._moods.keys():
+            self.mood = 'normal'
+        else:
+            self.mood = self._moods.keys()[0]
+
+    name = property(_get_name)
+    mood = GObject.Property(type=str)
 
 
 class Message(Gtk.Bin):
@@ -108,15 +142,20 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             message.add_button(text, callback)
         return message
 
-    def set_character(self, character):
-        self._character = character
+    def set_character(self, character_id):
+        self._character = Character(character_id)
         self._character.connect('notify::mood', self._character_mood_changed_cb)
-        self._character_mood_changed_cb(character)
+        self._character_mood_changed_cb(self._character)
 
     def _character_mood_changed_cb(self, character, prop=None):
         logger.debug('Character mood changed: mood=%s image=%s',
                      character.mood, character.get_image_path())
         self._character_image.set_from_file(character.get_image_path())
+
+    def set_character_mood(self, mood):
+        if mood is None:
+            return
+        self._character.mood = mood
 
 
 class ClubhouseApplication(Gtk.Application):
@@ -186,11 +225,14 @@ class ClubhouseApplication(Gtk.Application):
         quest.connect('question', self._quest_question_cb)
         threading.Thread(target=quest.start, name='quest-thread').start()
 
-    def _quest_message_cb(self, quest, character_name, message_txt):
-        logger.debug('Message: %s %s', character_name, message_txt)
+    def _quest_message_cb(self, quest, message_txt, character_mood):
+        logger.debug('Message: %s mood=%s', character_mood, message_txt)
+        self._window.set_character_mood(character_mood)
         self._window.show_message(message_txt)
 
-    def _quest_question_cb(self, quest, character_name, message_txt, answer_choices):
+    def _quest_question_cb(self, quest, message_txt, answer_choices, character_mood):
+        logger.debug('Quest: %s mood=%s', character_mood, message_txt)
+        self._window.set_character_mood(character_mood)
         self._window.show_question(message_txt, answer_choices)
 
     def _vibility_notify_cb(self, window, pspec):

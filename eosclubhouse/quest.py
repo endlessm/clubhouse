@@ -18,11 +18,10 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
-import os
 import pkgutil
 import sys
 
-from eosclubhouse import config, logger
+from eosclubhouse import logger
 from gi.repository import GObject, GLib
 
 
@@ -56,10 +55,10 @@ class Quest(GObject.GObject):
 
     __gsignals__ = {
         'message': (
-            GObject.SignalFlags.RUN_FIRST, None, (str, str,)
+            GObject.SignalFlags.RUN_FIRST, None, (str, str)
         ),
         'question': (
-            GObject.SignalFlags.RUN_FIRST, None, (str, str, GObject.TYPE_PYOBJECT)
+            GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str)
         ),
     }
 
@@ -68,38 +67,21 @@ class Quest(GObject.GObject):
         self._name = name
         self._initial_msg = initial_msg
         self._characters = {}
-        self._main_character = self.get_character(main_character_id)
+        self._main_character_id = main_character_id
 
     def start(self):
         raise NotImplementedError()
 
     def get_main_character(self):
-        return self._main_character
+        return self._main_character_id
 
-    def get_character(self, character_id):
-        character = self._characters.get(character_id)
+    def show_message(self, txt, character_id=None, mood=None):
+        self._emit_signal('message', txt, mood)
 
-        if character is None:
-            character = Character(self, character_id)
-            self._characters[character_id] = character
-
-        return character
-
-    def show_message(self, txt, character=None, mood=None):
-        character = character or self._main_character
-        if mood is not None:
-            character.mood = mood
-        self._emit_signal('message', character.name, txt)
-
-    def show_question(self, txt, choices, character=None, mood=None):
-        character = character or self._main_character
-        if mood is not None:
-            character.mood = mood
-
+    def show_question(self, txt, choices, character_id=None, mood=None):
         possible_answers = [(text, callback) for text, callback in choices]
 
-        self._emit_signal('question', character.name, txt,
-                          possible_answers)
+        self._emit_signal('question', txt, possible_answers, mood)
 
     def get_initial_message(self):
         return self._initial_msg
@@ -111,41 +93,3 @@ class Quest(GObject.GObject):
         # The quest runs in a separate thread, but we need to emit the
         # signal from the main one
         GLib.idle_add(self.emit, signal_name, *args)
-
-
-class Character(GObject.GObject):
-
-    def __init__(self, quest, id_, name=None):
-        super().__init__()
-        self._quest = quest
-        self._id = id_
-        self._name = name or id_
-        self.load()
-
-    def show_message(self, txt):
-        self._quest.show_message()
-
-    def _get_name(self):
-        return self._name
-
-    def get_image_path(self):
-        return self._moods.get(self.mood)
-
-    def load(self):
-        char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
-        self._moods = {}
-        for image in os.listdir(char_dir):
-            name, ext = os.path.splitext(image)
-            path = os.path.join(char_dir, image)
-            self._moods[name] = path
-
-        # @todo: Raise exception here instead
-        assert(self._moods)
-
-        if 'normal' in self._moods.keys():
-            self.mood = 'normal'
-        else:
-            self.mood = self._moods.keys()[0]
-
-    name = property(_get_name)
-    mood = GObject.Property(type=str)
