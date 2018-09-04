@@ -23,7 +23,7 @@ import pkgutil
 import sys
 
 from eosclubhouse import config, logger
-from gi.repository import GObject
+from gi.repository import GObject, GLib
 
 
 class Registry:
@@ -89,7 +89,7 @@ class Quest(GObject.GObject):
         character = character or self._main_character
         if mood is not None:
             character.mood = mood
-        self.emit('message', character.name, txt)
+        self._emit_signal('message', character.name, txt)
 
     def show_question(self, txt, choices, character=None, mood=None):
         character = character or self._main_character
@@ -98,13 +98,19 @@ class Quest(GObject.GObject):
 
         possible_answers = [(text, callback) for text, callback in choices]
 
-        self.emit('question', character.name, txt, possible_answers)
+        self._emit_signal('question', character.name, txt,
+                          possible_answers)
 
     def get_initial_message(self):
         return self._initial_msg
 
     def __repr__(self):
         return self._name
+
+    def _emit_signal(self, signal_name, *args):
+        # The quest runs in a separate thread, but we need to emit the
+        # signal from the main one
+        GLib.idle_add(self.emit, signal_name, *args)
 
 
 class Character(GObject.GObject):
