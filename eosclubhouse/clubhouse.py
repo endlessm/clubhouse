@@ -23,6 +23,7 @@ gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 import os
 import sys
+import threading
 
 from gi.repository import Gdk, Gio, GLib, Gtk
 from eosclubhouse import logger, quest
@@ -183,7 +184,7 @@ class ClubhouseApplication(Gtk.Application):
         logger.info('Running quest "%s"', quest)
         quest.connect('message', self._quest_message_cb)
         quest.connect('question', self._quest_question_cb)
-        quest.start()
+        threading.Thread(target=quest.start, name='quest-thread').start()
 
     def _quest_message_cb(self, quest, character_name, message_txt):
         logger.debug('Message: %s %s', character_name, message_txt)
