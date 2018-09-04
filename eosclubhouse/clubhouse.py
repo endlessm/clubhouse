@@ -132,6 +132,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def show_message(self, txt):
         message = Message()
         message.set_text(txt)
+        # @todo: Use a Bin or some other widget now that we don't need to
+        # show several messages (which would allow us not to clear the container)
+        for child in self._message_box:
+            child.destroy()
         self._message_box.pack_start(message, False, False, 0)
         return message
 
