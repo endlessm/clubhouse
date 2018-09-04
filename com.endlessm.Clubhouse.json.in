@@ -8,6 +8,7 @@
         "--share=ipc",
         "--socket=x11",
         "--socket=wayland",
+        "--socket=session-bus",
         "--own-name=com.endlessm.Clubhouse"
     ],
     "modules": [
