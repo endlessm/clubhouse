@@ -25,5 +25,9 @@ import sys
 from eosclubhouse.clubhouse import ClubhouseApplication
 
 if __name__ == '__main__':
+    # Make sure the GTK+ event loop is quit if the script is interrupted (Ctrl+C)
+    import signal
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+
     app = ClubhouseApplication()
     app.run(sys.argv)
