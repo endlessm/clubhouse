@@ -36,7 +36,11 @@ class GEditHack(Quest):
     def _open_app(self):
         Desktop.launch_app(self.TARGET_APP_DBUS_NAME)
 
+    def on_key_event(self, event):
+        print(event.keyval)
+
     def start(self):
+        self.set_keyboard_request(True)
         self.show_message('Then make sure that you open Gedit! Bring it on!!!!!', mood='mad')
         time.sleep(2)
 
