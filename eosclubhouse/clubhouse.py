@@ -113,9 +113,13 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     DEFAULT_WINDOW_WIDTH = 500
 
     def __init__(self, app):
-        super().__init__(application=app, title='Clubhouse',
-                         type_hint=Gdk.WindowTypeHint.DOCK,
-                         role='eos-side-component')
+        if os.environ.get('CLUBHOUSE_NO_SIDE_COMPONENT'):
+            super().__init__(application=app, title='Clubhouse')
+        else:
+            super().__init__(application=app, title='Clubhouse',
+                             type_hint=Gdk.WindowTypeHint.DOCK,
+                             role='eos-side-component')
+
         self.set_size_request(self.DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
         self.get_style_context().add_class('main-window')
@@ -173,6 +177,8 @@ class ClubhouseApplication(Gtk.Application):
         self._window = None
         self._dbus_connection = None
 
+        self._key_event_handler = 0
+
     def _init_style(self):
         self.props.resource_base_path = '/com/endlessm/Clubhouse'
         # @todo: Move the resource to a different dir
@@ -212,6 +218,14 @@ class ClubhouseApplication(Gtk.Application):
         quest.Registry.load(os.path.dirname(__file__) + '/quests')
         quests = quest.Registry.get_quests()
         current_quest = quests[0]
+
+        wanted_quest = os.environ.get('CLUBHOUSE_QUEST')
+        if wanted_quest is not None:
+            for q in quests:
+                if q.__class__.__name__ == wanted_quest:
+                    current_quest = q
+                    break
+
         self.start_quest(current_quest)
 
     def start_quest(self, quest):
@@ -232,13 +246,33 @@ class ClubhouseApplication(Gtk.Application):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
 
+    def _key_press_event_cb(self, window, event, quest):
+        event_copy = event.copy()
+        quest.on_key_event(event_copy)
+
+    def _request_key_events_cb(self, quest, events_requested):
+        if not ((self._key_event_handler > 0) ^ events_requested):
+            return
+
+        if self._key_event_handler == 0:
+            self._window.add_events(Gdk.EventMask.KEY_PRESS_MASK)
+            self._window.set_can_focus(True)
+            self._key_event_handler = self._window.connect('key-press-event',
+                                                           self._key_press_event_cb, quest)
+        else:
+            self._window.set_can_focus(False)
+            self._window.handler_disconnect(self._key_event_handler)
+            self._key_event_handler = 0
+
     def connect_quest(self, quest):
         quest.connect('message', self._quest_message_cb)
         quest.connect('question', self._quest_question_cb)
+        quest.connect('key-events-request', self._request_key_events_cb)
 
     def disconnect_quest(self, quest):
         quest.handlers_disconnect_by_func(self._quest_message_cb)
         quest.handlers_disconnect_by_func(self._quest_question_cb)
+        quest.handlers_disconnect_by_func(self._request_key_events_cb)
 
     def run_quest(self, quest):
         logger.info('Running quest "%s"', quest)
