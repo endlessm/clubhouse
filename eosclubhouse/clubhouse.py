@@ -223,11 +223,33 @@ class ClubhouseApplication(Gtk.Application):
         message.add_button('Not now…',
                            lambda: logger.info('Quest refused'))
 
-    def run_quest(self, quest):
-        logger.info('Running quest "%s"', quest)
+    def _run_task_in_thread(self, task):
+        quest = task.get_source_object()
+        quest.start()
+        task.return_boolean(True)
+
+    def on_quest_finished(self, quest, result):
+        logger.debug('Quest {} finished'.format(quest))
+        self.disconnect_quest(quest)
+
+    def connect_quest(self, quest):
         quest.connect('message', self._quest_message_cb)
         quest.connect('question', self._quest_question_cb)
-        threading.Thread(target=quest.start, name='quest-thread').start()
+
+    def disconnect_quest(self, quest):
+        quest.handlers_disconnect_by_func(self._quest_message_cb)
+        quest.handlers_disconnect_by_func(self._quest_question_cb)
+
+    def run_quest(self, quest):
+        logger.info('Running quest "%s"', quest)
+
+        self.connect_quest(quest)
+
+        cancellable = Gio.Cancellable()
+        task = Gio.Task.new(quest, cancellable, self.on_quest_finished)
+        task.set_return_on_cancel(True)
+
+        threading.Thread(target=self._run_task_in_thread, args=(task,), name='quest-thread').start()
 
     def _quest_message_cb(self, quest, message_txt, character_mood):
         logger.debug('Message: %s mood=%s', character_mood, message_txt)
