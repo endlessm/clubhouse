@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+# Convience script to run flake8 with config file and in the right place.
+#
+# Copyright (c) 2018 Endless Mobile Inc.
+#
+# Author: Joaquim Rocha <jrocha@endlessm.com>
+#
+
+script_path=$0
+source_dir="$(dirname "$script_path")/.."
+
+pushd "$source_dir"
+
+flake8 --config=flake8.cfg $@
+ret=$?
+
+popd
+
+exit $ret
