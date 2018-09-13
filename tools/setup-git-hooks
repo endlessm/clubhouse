@@ -1,0 +1,43 @@
+#!/bin/bash -e
+#
+# Setup git hooks.
+#
+# Copyright (c) 2018 Endless Mobile Inc.
+#
+# Author: Joaquim Rocha <jrocha@endlessm.com>
+#
+
+# Pre-commit hook with flake8
+
+virtualenv_python_exec=python3
+source_dir="$(git rev-parse --show-toplevel)"
+virtualenv_dir="${source_dir}/.python-virtual-env"
+
+virtualenv_cmd="$(command -v virtualenv || command -v virtualenv-3 )" || true
+precommit_hook_file="${source_dir}/.git/hooks/pre-commit"
+
+if [ -z $virtualenv_cmd ]; then
+    echo "Please install Python's virtualenv"
+    exit 1
+fi
+
+if [ -f $precommit_hook_file ]; then
+    echo "A pre-commit hook already exists! Delete it if you want to generate a new one!"
+    exit 1
+fi
+
+if [ ! -d $virtualenv_dir ]; then
+    $virtualenv_cmd -p"$virtualenv_python_exec" "$virtualenv_dir"
+    source "$virtualenv_dir/bin/activate"
+    pip install flake8
+    deactivate
+fi
+
+ACTIVATE_CMD="$virtualenv_dir/bin/activate"
+RUN_LINT_CMD="$source_dir/tools/run_lint"
+
+sed -e "s+@@virtualenv_activate@@+$ACTIVATE_CMD+g" -e "s+@@run_lint_command@@+$RUN_LINT_CMD+g" "$source_dir/tools/pre-commit.in" > "$precommit_hook_file"
+
+chmod +x "$precommit_hook_file"
+
+# End pre-commit hook with flake8

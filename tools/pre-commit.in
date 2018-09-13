@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Run flake8 (inside Pytohn's virtualenv) before commiting.
+#
+# Copyright (c) 2018 Endless Mobile Inc.
+#
+# Author: Joaquim Rocha <jrocha@endlessm.com>
+#
+
+source @@virtualenv_activate@@
+
+@@run_lint_command@@
+ret=$?
+
+deactivate
+
+exit $ret
