@@ -1,6 +1,7 @@
-sources += files(
-    '__init__.py',
-    'clubhouse.py',
+#@todo: Properly filter the right files to be installed
+install_subdir(
+    '.',
+    install_dir: install_dir
 )
 
 install_data(

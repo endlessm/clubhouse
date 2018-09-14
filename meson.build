@@ -2,7 +2,7 @@ project('eos-clubhouse',
         ['c'],
         version: '0.1',
         license: 'GPLv2',
-        meson_version: '>= 0.47.0',
+        meson_version: '>= 0.45.0',
 )
 
 cc = meson.get_compiler('c')
@@ -26,6 +26,7 @@ pythondir = join_paths(prefix, python3.sysconfig_path('purelib'))
 install_dir = join_paths(pythondir, 'eosclubhouse')
 sources = []
 
+subdir('data')
 subdir('eosclubhouse')
 
 install_data(
