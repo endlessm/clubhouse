@@ -50,7 +50,7 @@ class Desktop:
     @classmethod
     def launch_app(klass, name):
         try:
-            klass._app_launcher_proxy.Launch('(su)', name, time.time())
+            klass._app_launcher_proxy.Launch('(su)', name, int(time.time()))
         except GLib.Error as e:
             print(e)
             return False
@@ -104,5 +104,6 @@ class App:
 
         return self._clippy.Set('(ssv)', obj, prop, variant)
 
-    def highlight_object(self, obj):
-        self._clippy.Highlight('(s)', obj)
+    def highlight_object(self, obj, timestamp=None):
+        stamp = timestamp or int(time.time())
+        self._clippy.Highlight('(su)', stamp)
