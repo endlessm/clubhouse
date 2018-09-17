@@ -21,7 +21,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "path": "."
+                    "path": ".",
+                    "branch": "@GIT_CLONE_BRANCH@"
                 }
             ]
         }
