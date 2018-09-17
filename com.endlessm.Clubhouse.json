@@ -21,8 +21,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "path": ".",
-                    "branch": "master"
+                    "path": "."
                 }
             ]
         }
