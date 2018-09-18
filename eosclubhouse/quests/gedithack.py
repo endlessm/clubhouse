@@ -30,7 +30,7 @@ class GEditHack(Quest):
 
     def __init__(self):
         super().__init__('GEdit Hacking', 'aggretsuko',
-                         ('Betcha cannot write anything in Gedit! '
+                         ('Betcha cannot write anything in Gedit!'
                           'Wanna try it?'))
 
     def _open_app(self):
