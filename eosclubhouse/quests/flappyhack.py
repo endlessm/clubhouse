@@ -20,7 +20,7 @@
 
 import time
 
-from eosclubhouse.quest import Registry, Quest
+from eosclubhouse.libquest import Registry, Quest
 from eosclubhouse.desktop import Desktop, App
 
 
