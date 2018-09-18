@@ -26,7 +26,7 @@ import sys
 import threading
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject
-from eosclubhouse import config, logger, quest
+from eosclubhouse import config, logger, libquest
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
 CLUBHOUSE_PATH = '/com/endlessm/Clubhouse'
@@ -215,8 +215,8 @@ class ClubhouseApplication(Gtk.Application):
         self._window.show()
 
         # @todo: Use a location from config
-        quest.Registry.load(os.path.dirname(__file__) + '/quests')
-        quests = quest.Registry.get_quests()
+        libquest.Registry.load(os.path.dirname(__file__) + '/quests')
+        quests = libquest.Registry.get_quests()
         current_quest = quests[0]
 
         wanted_quest = os.environ.get('CLUBHOUSE_QUEST')
