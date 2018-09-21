@@ -190,6 +190,7 @@ class QuestWindow(Gtk.Window):
     def on_quest_finished(self, quest, result):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
+        self.destroy()
 
     def _key_press_event_cb(self, window, event, quest):
         event_copy = event.copy()
@@ -298,6 +299,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._hide_message()
 
         message = Message()
+        print(quest_set)
+        print(id(new_quest))
+        print(new_quest.get_initial_message())
         message.set_text(new_quest.get_initial_message())
 
         # @todo: Implement the custom allocation for the message  and pass the allocation to
@@ -317,6 +321,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             logger.info('Start quest {}'.format(quest_to_start))
             self._quest_window = QuestWindow(self.get_application())
             self._quest_window.run_quest(quest_to_start)
+            self._quest_window.connect('destroy', lambda w: self.show())
             self.hide()
 
         self._hide_message()

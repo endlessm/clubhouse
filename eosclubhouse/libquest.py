@@ -48,8 +48,8 @@ class Registry:
         quest = quest_class()
         new_quest_set = type(quest_class.__name__ + 'QuestSet',
                              (QuestSet,),
-                             {'__charachter_id__': quest.get_main_character()})
-        new_quest_set.add_quest(quest_class)
+                             {'__quests__': [quest_class],
+                              '__character_id__': quest.get_main_character()})
         class_.register_quest_set(new_quest_set)
         logger.info('QuestSet %s automatically created for: %s', new_quest_set, quest_class)
 
@@ -137,6 +137,7 @@ class QuestSet(GObject.GObject):
 
     @classmethod
     def add_quest(class_, quest_):
+        print(':::', class_.__quests__)
         class_.__quests__.append(quest_)
 
     @classmethod
