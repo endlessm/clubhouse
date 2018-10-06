@@ -85,7 +85,7 @@ class FlappyHack(Quest):
 class GamesQuestSet(QuestSet):
 
     __character_id__ = 'fenneko'
-    __quests__ = [FlappyHack]
+    __quests__ = [FlappyHack()]
 
 
 Registry.register_quest_set(GamesQuestSet)

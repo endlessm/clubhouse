@@ -153,9 +153,9 @@ class QuestWindow(Gtk.Window):
         quest.connect('key-events-request', self._request_key_events_cb)
 
     def disconnect_quest(self, quest):
-        quest.handlers_disconnect_by_func(self._quest_message_cb)
-        quest.handlers_disconnect_by_func(self._quest_question_cb)
-        quest.handlers_disconnect_by_func(self._request_key_events_cb)
+        quest.disconnect_by_func(self._quest_message_cb)
+        quest.disconnect_by_func(self._quest_question_cb)
+        quest.disconnect_by_func(self._request_key_events_cb)
 
     def run_quest(self, quest):
         self._quest = quest
@@ -191,6 +191,7 @@ class QuestWindow(Gtk.Window):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
         self.destroy()
+        quest.save_conf()
 
     def _key_press_event_cb(self, window, event, quest):
         event_copy = event.copy()
@@ -294,7 +295,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
-        new_quest = quest_set().get_next_quest()()
+        new_quest = quest_set().get_next_quest()
 
         self._hide_message()
 
