@@ -20,7 +20,7 @@
 
 import time
 
-from eosclubhouse.libquest import Registry, Quest
+from eosclubhouse.libquest import Registry, Quest, QuestSet
 from eosclubhouse.desktop import Desktop, App
 
 
@@ -81,4 +81,10 @@ class FlappyHack(Quest):
             time.sleep(1)
 
 
-Registry.register_quest(FlappyHack)
+class GamesQuestSet(QuestSet):
+
+    __character_id__ = 'fenneko'
+    __quests__ = [FlappyHack]
+
+
+Registry.register_quest_set(GamesQuestSet)
