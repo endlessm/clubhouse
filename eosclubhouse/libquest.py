@@ -93,6 +93,7 @@ class Quest(GObject.GObject):
         self._initial_msg = initial_msg
         self._characters = {}
         self._main_character_id = main_character_id
+        self._cancellable = None
         self.load_conf()
 
     def start(self):
@@ -125,6 +126,12 @@ class Quest(GObject.GObject):
         # The quest runs in a separate thread, but we need to emit the
         # signal from the main one
         GLib.idle_add(self.emit, signal_name, *args)
+
+    def set_cancellable(self, cancellable):
+        self._cancellable = cancellable
+
+    def is_cancelled(self):
+        return self._cancellable is not None and self._cancellable.is_cancelled()
 
     @classmethod
     def _get_conf_file_path(class_):

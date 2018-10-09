@@ -49,6 +49,8 @@ class GEditHack(Quest):
         self.show_question("Hmm… I don't see Gedit running… Should open it for you?",
                            choices=[('Please do!', self._open_app)])
         while not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            if self.is_cancelled():
+                return
             time.sleep(1)
 
         txt = 'I love Aggretsuko!'
@@ -60,6 +62,9 @@ class GEditHack(Quest):
         attempts = 0
         success = False
         while True:
+            if self.is_cancelled():
+                return
+
             current_text = app.get_object_property('view.buffer', 'text')
             print('Attempts:', attempts, current_text)
             if current_text.lower() == txt.lower():
