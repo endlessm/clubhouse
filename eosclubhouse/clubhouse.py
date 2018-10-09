@@ -216,17 +216,15 @@ class ClubhouseApplication(Gtk.Application):
 
         # @todo: Use a location from config
         libquest.Registry.load(os.path.dirname(__file__) + '/quests')
-        quests = libquest.Registry.get_quests()
-        current_quest = quests[0]
+        self._quest_sets = libquest.Registry.get_quest_sets()
 
-        wanted_quest = os.environ.get('CLUBHOUSE_QUEST')
-        if wanted_quest is not None:
-            for q in quests:
-                if q.__class__.__name__ == wanted_quest:
-                    current_quest = q
-                    break
+        if not self._quest_sets:
+            logger.warning('No quest sets found!')
+            return
 
-        self.start_quest(current_quest)
+        current_quest = self._quest_sets[0]().get_next_quest()
+
+        self.start_quest(current_quest())
 
     def start_quest(self, quest):
         message = self._window.show_message(quest.get_initial_message())
