@@ -18,6 +18,7 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
+import inspect
 import pkgutil
 import sys
 
@@ -48,7 +49,7 @@ class Registry:
         quest = quest_class()
         new_quest_set = type(quest_class.__name__ + 'QuestSet',
                              (QuestSet,),
-                             {'__quests__': [quest_class],
+                             {'__quests__': [quest],
                               '__charachter_id__': quest.get_main_character()})
         new_quest_set.add_quest(quest_class)
         class_.register_quest_set(new_quest_set)
@@ -137,8 +138,12 @@ class QuestSet(GObject.GObject):
         return class_.__character_id__
 
     @classmethod
-    def add_quest(class_, quest_):
-        class_.__quests__.append(quest_)
+    def add_quest(class_, quest):
+        if inspect.isclass(quest):
+            new_quest = quest()
+        else:
+            new_quest = quest
+        class_.__quests__.append(new_quest)
 
     @classmethod
     def get_quests(class_):
