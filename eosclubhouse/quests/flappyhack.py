@@ -20,7 +20,7 @@
 
 import time
 
-from eosclubhouse.quest import Registry, Quest
+from eosclubhouse.libquest import Registry, Quest, QuestSet
 from eosclubhouse.desktop import Desktop, App
 
 
@@ -31,6 +31,7 @@ class FlappyHack(Quest):
     def __init__(self):
         super().__init__('FlappyBird Hacking', 'aggretsuko',
                          ('Betcha cannot beat my score in Hackybird! '
+                          'My friend Aggretsuko will help!'
                           'Wanna try it?'))
 
     def _open_app(self):
@@ -80,5 +81,8 @@ class FlappyHack(Quest):
             attempts += 1
             time.sleep(1)
 
+class GamesQuestSet(QuestSet):
+    __character_id__ = 'fenneko'
+    __quests__ = [FlappyHack]
 
-Registry.register_quest(FlappyHack)
+Registry.register_quest_set(GamesQuestSet)

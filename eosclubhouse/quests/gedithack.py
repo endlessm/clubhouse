@@ -20,7 +20,7 @@
 
 import time
 
-from eosclubhouse.quest import Registry, Quest
+from eosclubhouse.libquest import Registry, Quest
 from eosclubhouse.desktop import Desktop, App
 
 
@@ -77,5 +77,3 @@ class GEditHack(Quest):
         else:
             self.show_message("Oh well… Maybe next time…", mood='disappointed')
 
-
-Registry.register_quest(GEditHack)
