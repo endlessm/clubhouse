@@ -19,6 +19,8 @@
 #
 
 import inspect
+import json
+import os
 import pkgutil
 import sys
 
@@ -91,6 +93,7 @@ class Quest(GObject.GObject):
         self._initial_msg = initial_msg
         self._characters = {}
         self._main_character_id = main_character_id
+        self.load_conf()
 
     def start(self):
         raise NotImplementedError()
@@ -122,6 +125,30 @@ class Quest(GObject.GObject):
         # The quest runs in a separate thread, but we need to emit the
         # signal from the main one
         GLib.idle_add(self.emit, signal_name, *args)
+
+    @classmethod
+    def _get_conf_file_path(class_):
+        return os.path.join(GLib.get_user_config_dir(), class_.__name__)
+
+    def load_conf(self):
+        conf_path = self._get_conf_file_path()
+        if not os.path.exists(conf_path):
+            self.conf = {}
+            return
+
+        with open(conf_path, 'r') as conf_file:
+            self.conf = json.load(conf_file)
+
+    def save_conf(self):
+        conf_path = self._get_conf_file_path()
+        with open(conf_path, 'w') as conf_file:
+            json.dump(self.conf, conf_file)
+
+    def set_conf(self, key, value):
+        self.conf[key] = value
+
+    def get_conf(self, key):
+        return self.conf.get(key)
 
 
 class QuestSet(GObject.GObject):
