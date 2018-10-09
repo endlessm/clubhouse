@@ -251,6 +251,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def on_quest_finished(self, quest, result):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
+        quest.save_conf()
 
     def _key_press_event_cb(self, window, event, quest):
         event_copy = event.copy()

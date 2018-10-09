@@ -32,6 +32,8 @@ class GEditHack(Quest):
         super().__init__('GEdit Hacking', 'aggretsuko',
                          ('Betcha cannot write anything in Gedit! '
                           'Wanna try it?'))
+        if self.get_conf('complete'):
+            self._initial_msg = 'I see you tried this already! Wanna go again?'
 
     def _open_app(self):
         Desktop.launch_app(self.TARGET_APP_DBUS_NAME)
@@ -74,6 +76,7 @@ class GEditHack(Quest):
 
         if success:
             self.show_message("Awesome! You're the best! A cookie for you!", mood='happy')
+            self.set_conf('complete', True)
         else:
             self.show_message("Oh well… Maybe next time…", mood='disappointed')
 
