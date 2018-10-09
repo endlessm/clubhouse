@@ -108,6 +108,25 @@ class Message(Gtk.Bin):
         self._button_box.hide()
 
 
+class QuestSetButton(Gtk.Button):
+
+    def __init__(self, quest_set):
+        super().__init__(halign=Gtk.Align.START,
+                         relief=Gtk.ReliefStyle.NONE)
+
+        self.get_style_context().add_class('quest-set-button')
+
+        self._quest_set = quest_set
+        character = Character(self._quest_set.get_character())
+
+        self._image = Gtk.Image.new_from_file(character.get_image_path())
+        self._image.show()
+        self.add(self._image)
+
+    def get_quest_set(self):
+        return self._quest_set
+
+
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
     DEFAULT_WINDOW_WIDTH = 500
@@ -120,27 +139,145 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                              type_hint=Gdk.WindowTypeHint.DOCK,
                              role='eos-side-component')
 
+        self._key_event_handler = 0
         self.set_size_request(self.DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
         self.get_style_context().add_class('main-window')
         self._character = None
 
+        self._current_quest_pos = (0, 0)
+
     def _setup_ui(self):
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/main-window.ui')
         self._main_box = builder.get_object('main_box')
-        self._message_box = builder.get_object('character_message_box')
+        self._overlay_msg_box = builder.get_object('main_window_overlay_msg_box')
+        self._character_talk_box = builder.get_object('character_talk_box')
+        self._character_message_box = builder.get_object('character_message_box')
         self._character_image = builder.get_object('character_image')
-        self.add(self._main_box)
+        self._main_window_overlay = builder.get_object('main_window_overlay')
+        self.add(self._main_window_overlay)
+
+    def add_quest_set(self, quest_set):
+        button = QuestSetButton(quest_set)
+        button.connect('clicked', self._button_clicked_cb)
+
+        button.show()
+        self._main_box.pack_start(button, False, False, 0)
+
+    def _button_clicked_cb(self, button):
+        quest_set = button.get_quest_set()
+        new_quest = quest_set().get_next_quest()()
+
+        self._hide_message()
+
+        message = self.show_message(new_quest.get_initial_message())
+
+        # @todo: Implement the custom allocation for the message  and pass the allocation to
+        # it on construction
+        allocation = button.get_allocation()
+        self._character_talk_box.props.margin_left = \
+            allocation.x + allocation.width - allocation.width * .25
+        self._character_talk_box.props.margin_top = allocation.y
+
+        # @todo: Use quest's default answers, and use show_question callback
+        message.add_button('Sure!', self._replied_to_message, new_quest)
+        message.add_button('Not now…', self._replied_to_message, None)
+
+        self._overlay_msg_box.show_all()
+
+    def _replied_to_message(self, quest_to_start):
+        self._hide_message()
+        if quest_to_start is not None:
+            logger.info('Start quest {}'.format(quest_to_start))
+            self.run_quest(quest_to_start)
+        else:
+            self._overlay_msg_box.hide()
+
+    def _hide_message(self):
+        message = self._character_message_box.get_child()
+        if message is not None:
+            message.destroy()
+
+    def _update_geometry(self):
+        display = Gdk.Display.get_default()
+        monitor = display.get_primary_monitor()
+        monitor_geometry = monitor.get_geometry()
+        allocation = self.get_allocation()
+
+        self.move(monitor_geometry.width - 400,
+                  allocation.height / 2 + monitor_geometry.height / 2)
+
+    def connect_quest(self, quest):
+        quest.connect('message', self._quest_message_cb)
+        quest.connect('question', self._quest_question_cb)
+        quest.connect('key-events-request', self._request_key_events_cb)
+
+    def disconnect_quest(self, quest):
+        quest.disconnect_by_func(self._quest_message_cb)
+        quest.disconnect_by_func(self._quest_question_cb)
+        quest.disconnect_by_func(self._request_key_events_cb)
+
+    def run_quest(self, quest):
+        self._quest = quest
+        self.set_character(self._quest.get_main_character())
+        self.show()
+
+        logger.info('Running quest "%s"', quest)
+
+        self.connect_quest(self._quest)
+
+        cancellable = Gio.Cancellable()
+        task = Gio.Task.new(self._quest, cancellable, self.on_quest_finished)
+        task.set_return_on_cancel(True)
+
+        threading.Thread(target=self._run_task_in_thread, args=(task,), name='quest-thread').start()
+
+    def _quest_message_cb(self, quest, message_txt, character_mood):
+        logger.debug('Message: %s mood=%s', character_mood, message_txt)
+        self.set_character_mood(character_mood)
+        self.show_message(message_txt)
+
+    def _quest_question_cb(self, quest, message_txt, answer_choices, character_mood):
+        logger.debug('Quest: %s mood=%s', character_mood, message_txt)
+        self.set_character_mood(character_mood)
+        self.show_question(message_txt, answer_choices)
+
+    def _run_task_in_thread(self, task):
+        quest = task.get_source_object()
+        quest.start()
+        task.return_boolean(True)
+
+    def on_quest_finished(self, quest, result):
+        logger.debug('Quest {} finished'.format(quest))
+        self.disconnect_quest(quest)
+
+    def _key_press_event_cb(self, window, event, quest):
+        event_copy = event.copy()
+        quest.on_key_event(event_copy)
+
+    def _request_key_events_cb(self, quest, events_requested):
+        if not ((self._key_event_handler > 0) ^ events_requested):
+            return
+
+        if self._key_event_handler == 0:
+            self.add_events(Gdk.EventMask.KEY_PRESS_MASK)
+            self._key_event_handler = self.connect('key-press-event',
+                                                   self._key_press_event_cb, quest)
+        else:
+            self.handler_disconnect(self._key_event_handler)
+            self._key_event_handler = 0
 
     def show_message(self, txt):
+        self._hide_message()
         message = Message()
         message.set_text(txt)
-        # @todo: Use a Bin or some other widget now that we don't need to
-        # show several messages (which would allow us not to clear the container)
-        for child in self._message_box:
+
+        for child in self._character_message_box:
             child.destroy()
-        self._message_box.pack_start(message, False, False, 0)
+
+        self._character_message_box.add(message)
+        self._overlay_msg_box.show_all()
         return message
 
     def show_question(self, txt, answer_choices):
@@ -216,82 +353,10 @@ class ClubhouseApplication(Gtk.Application):
 
         # @todo: Use a location from config
         libquest.Registry.load(os.path.dirname(__file__) + '/quests')
-        self._quest_sets = libquest.Registry.get_quest_sets()
+        quest_sets = libquest.Registry.get_quest_sets()
 
-        if not self._quest_sets:
-            logger.warning('No quest sets found!')
-            return
-
-        current_quest = self._quest_sets[0]().get_next_quest()
-
-        self.start_quest(current_quest())
-
-    def start_quest(self, quest):
-        message = self._window.show_message(quest.get_initial_message())
-        self._window.set_character(quest.get_main_character())
-        message.add_button('Sure!',
-                           lambda app, quest: app.run_quest(quest),
-                           self, quest)
-        message.add_button('Not now…',
-                           lambda: logger.info('Quest refused'))
-
-    def _run_task_in_thread(self, task):
-        quest = task.get_source_object()
-        quest.start()
-        task.return_boolean(True)
-
-    def on_quest_finished(self, quest, result):
-        logger.debug('Quest {} finished'.format(quest))
-        self.disconnect_quest(quest)
-
-    def _key_press_event_cb(self, window, event, quest):
-        event_copy = event.copy()
-        quest.on_key_event(event_copy)
-
-    def _request_key_events_cb(self, quest, events_requested):
-        if not ((self._key_event_handler > 0) ^ events_requested):
-            return
-
-        if self._key_event_handler == 0:
-            self._window.add_events(Gdk.EventMask.KEY_PRESS_MASK)
-            self._window.set_can_focus(True)
-            self._key_event_handler = self._window.connect('key-press-event',
-                                                           self._key_press_event_cb, quest)
-        else:
-            self._window.set_can_focus(False)
-            self._window.handler_disconnect(self._key_event_handler)
-            self._key_event_handler = 0
-
-    def connect_quest(self, quest):
-        quest.connect('message', self._quest_message_cb)
-        quest.connect('question', self._quest_question_cb)
-        quest.connect('key-events-request', self._request_key_events_cb)
-
-    def disconnect_quest(self, quest):
-        quest.handlers_disconnect_by_func(self._quest_message_cb)
-        quest.handlers_disconnect_by_func(self._quest_question_cb)
-        quest.handlers_disconnect_by_func(self._request_key_events_cb)
-
-    def run_quest(self, quest):
-        logger.info('Running quest "%s"', quest)
-
-        self.connect_quest(quest)
-
-        cancellable = Gio.Cancellable()
-        task = Gio.Task.new(quest, cancellable, self.on_quest_finished)
-        task.set_return_on_cancel(True)
-
-        threading.Thread(target=self._run_task_in_thread, args=(task,), name='quest-thread').start()
-
-    def _quest_message_cb(self, quest, message_txt, character_mood):
-        logger.debug('Message: %s mood=%s', character_mood, message_txt)
-        self._window.set_character_mood(character_mood)
-        self._window.show_message(message_txt)
-
-    def _quest_question_cb(self, quest, message_txt, answer_choices, character_mood):
-        logger.debug('Quest: %s mood=%s', character_mood, message_txt)
-        self._window.set_character_mood(character_mood)
-        self._window.show_question(message_txt, answer_choices)
+        for quest_set in quest_sets:
+            self._window.add_quest_set(quest_set)
 
     def _vibility_notify_cb(self, window, pspec):
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}
