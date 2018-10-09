@@ -31,6 +31,7 @@ class FlappyHack(Quest):
     def __init__(self):
         super().__init__('FlappyBird Hacking', 'aggretsuko',
                          ('Betcha cannot beat my score in Hackybird! '
+                          'My friend Aggretsuko will help!'
                           'Wanna try it?'))
 
     def _open_app(self):
