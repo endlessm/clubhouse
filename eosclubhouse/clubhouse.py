@@ -169,13 +169,21 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._quest_close_button.connect('clicked', self._quest_close_button_clicked_cb)
 
     def _quest_close_button_clicked_cb(self, button):
+        self.stop_quest()
+
+    def stop_quest(self):
+        if self._quest_task is None:
+            return
+
         cancellable = self._quest_task.get_cancellable()
         if not cancellable.is_cancelled():
+            logger.debug('Stopping quest %s', self._quest_task.get_source_object())
             cancellable.cancel()
 
         self._hide_message()
         self._overlay_msg_box.hide()
         self._quest_close_button.hide
+        self._quest_task = None
 
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set)
@@ -409,7 +417,8 @@ class ClubhouseApplication(Gtk.Application):
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._vibility_notify_cb)
 
-        simple_actions = [('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s'))]
+        simple_actions = [('stop-quest', self._stop_quest, None),
+                          ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s'))]
 
         for name, callback, variant_type in simple_actions:
             action = Gio.SimpleAction.new(name, variant_type)
@@ -434,6 +443,9 @@ class ClubhouseApplication(Gtk.Application):
 
         for quest_set in quest_sets:
             self._window.add_quest_set(quest_set)
+
+    def _stop_quest(self, *args):
+        self._window.stop_quest()
 
     def _quest_user_answer(self, action, action_id):
         self._window.quest_action(action_id.unpack())
