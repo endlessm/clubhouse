@@ -45,6 +45,8 @@ class FlappyHack(Quest):
             self.show_question("Hmm… I don't see Hackybird running… Should open it for you?",
                                choices=[('Please do!', self._open_app)])
             while not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+                if self.is_cancelled():
+                    return
                 time.sleep(1)
 
         app = App(self.TARGET_APP_DBUS_NAME)
@@ -60,6 +62,9 @@ class FlappyHack(Quest):
 
         attempts = 0
         while True:
+            if self.is_cancelled():
+                return
+
             current_score = app.get_object_property('view_hack', 'score')
             print('Attempts:', attempts, current_score)
             if current_score > score:
