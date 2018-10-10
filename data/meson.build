@@ -24,6 +24,11 @@ gnome.compile_resources(
     install_dir: install_dir
 )
 
+install_data(
+    'eos-clubhouse.desktop',
+    install_dir: join_paths(data_dir, 'applications')
+)
+
 install_subdir(
     'characters',
     install_dir: join_paths(data_dir, meson.project_name())
