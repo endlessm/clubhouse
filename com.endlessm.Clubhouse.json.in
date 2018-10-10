@@ -4,6 +4,7 @@
     "runtime-version": "5",
     "sdk": "com.endlessm.apps.Sdk",
     "command": "eos-clubhouse",
+    "rename-desktop-file": "eos-clubhouse.desktop",
     "finish-args": [
         "--share=ipc",
         "--socket=x11",
