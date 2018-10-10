@@ -158,6 +158,18 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._main_window_overlay = builder.get_object('main_window_overlay')
         self.add(self._main_window_overlay)
 
+        self._quest_close_button = builder.get_object('character_message_close_button')
+        self._quest_close_button.connect('clicked', self._quest_close_button_clicked_cb)
+
+    def _quest_close_button_clicked_cb(self, button):
+        cancellable = self._quest_task.get_cancellable()
+        if not cancellable.is_cancelled():
+            cancellable.cancel()
+
+        self._hide_message()
+        self._overlay_msg_box.hide()
+        self._quest_close_button.hide
+
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set)
         button.connect('clicked', self._button_clicked_cb)
@@ -184,6 +196,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         message.add_button('Sure!', self._replied_to_message, new_quest)
         message.add_button('Not now…', self._replied_to_message, None)
 
+        self._quest_close_button.hide()
         self._overlay_msg_box.show_all()
 
     def _replied_to_message(self, quest_to_start):
@@ -219,19 +232,22 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         quest.disconnect_by_func(self._request_key_events_cb)
 
     def run_quest(self, quest):
-        self._quest = quest
-        self.set_character(self._quest.get_main_character())
+        self.set_character(quest.get_main_character())
         self.show()
 
         logger.info('Running quest "%s"', quest)
 
-        self.connect_quest(self._quest)
+        self.connect_quest(quest)
 
         cancellable = Gio.Cancellable()
-        task = Gio.Task.new(self._quest, cancellable, self.on_quest_finished)
-        task.set_return_on_cancel(True)
+        self._quest_task = Gio.Task.new(quest, cancellable, self.on_quest_finished)
+        quest.set_cancellable(cancellable)
 
-        threading.Thread(target=self._run_task_in_thread, args=(task,), name='quest-thread').start()
+        # Show the close button so the user is able to dismiss the quest
+        self._quest_close_button.show()
+
+        threading.Thread(target=self._run_task_in_thread, args=(self._quest_task,),
+                         name='quest-thread').start()
 
     def _quest_message_cb(self, quest, message_txt, character_mood):
         logger.debug('Message: %s mood=%s', character_mood, message_txt)
