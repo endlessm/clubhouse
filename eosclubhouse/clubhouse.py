@@ -321,6 +321,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         notification = Gio.Notification()
         notification.set_body(text)
         notification.set_icon(self._character.get_icon())
+        notification.set_title('')
 
         for key, action in self._actions.items():
             label = action[0]
