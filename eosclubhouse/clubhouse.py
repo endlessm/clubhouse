@@ -198,7 +198,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._hide_message()
 
-        message = self.show_message(new_quest.get_initial_message())
+        self.show_question(new_quest.get_initial_message(),
+                           [('Sure!', self._replied_to_message, new_quest),
+                            ('Not now…', self._replied_to_message, None)])
 
         # @todo: Implement the custom allocation for the message  and pass the allocation to
         # it on construction
@@ -206,10 +208,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._character_talk_box.props.margin_left = \
             allocation.x + allocation.width - allocation.width * .25
         self._character_talk_box.props.margin_top = allocation.y
-
-        # @todo: Use quest's default answers, and use show_question callback
-        message.add_button('Sure!', self._replied_to_message, new_quest)
-        message.add_button('Not now…', self._replied_to_message, None)
 
         self._quest_close_button.hide()
         self._overlay_msg_box.show_all()
