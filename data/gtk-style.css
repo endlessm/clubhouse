@@ -20,12 +20,11 @@
 }
 
 .quest-set-button {
-    border-radius: 50%;
-    border: 1px solid #a5a5a5;
+    background-image: radial-gradient(50px 10px ellipse at center 95%, gray, transparent);
 }
 
 .quest-set-button:hover {
-    background: #f5f5f5;
+    background-image: radial-gradient(50px 10px ellipse at center 95%, #dfdfdf 40%, transparent);
 }
 
 .quest-window {
