@@ -43,7 +43,7 @@ class HackyBalls0(Quest):
     # STEP 0
     def step_first(self, step, starting, time_in_step):
         if starting:
-            self.show_message("Glad you could join me. Launch the Hacky Balls and "
+            self.show_message("Glad you could join me. Launch the Hacky Balls app and "
                               "let's get started with the experiment.")
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
