@@ -52,16 +52,20 @@ class Character(GObject.GObject):
         super().__init__()
         self._id = id_
         self._name = name or id_
+        self._main_image = None
         self.load()
 
     def _get_name(self):
         return self._name
 
-    def get_image_path(self):
+    def get_main_image(self):
+        return self._main_image
+
+    def get_mood_image(self):
         return self._moods.get(self.mood)
 
     def get_icon(self):
-        image_file = Gio.File.new_for_path(self.get_image_path())
+        image_file = Gio.File.new_for_path(self.get_mood_image())
         icon_bytes = image_file.load_bytes(None)
         return Gio.BytesIcon.new(icon_bytes[0])
 
@@ -71,7 +75,10 @@ class Character(GObject.GObject):
         for image in os.listdir(char_dir):
             name, ext = os.path.splitext(image)
             path = os.path.join(char_dir, image)
-            self._moods[name] = path
+            if name == 'main' or name == self._id:
+                self._main_image = path
+            else:
+                self._moods[name] = path
 
         # @todo: Raise exception here instead
         assert(self._moods)
@@ -80,6 +87,11 @@ class Character(GObject.GObject):
             self.mood = 'normal'
         else:
             self.mood = list(self._moods.keys())[0]
+
+        # @todo: This fallback should be deleted soon when we have all WIP
+        # quests in the right format
+        if self._main_image is None:
+            self._main_image = self._moods[self.mood]
 
     name = property(_get_name)
     mood = GObject.Property(type=str)
@@ -156,7 +168,7 @@ class Message(Gtk.Bin):
         self._character.set_mood(mood)
 
     def _character_mood_changed_cb(self, character, prop=None):
-        image_path = character.get_image_path()
+        image_path = character.get_mood_image()
         logger.debug('Character mood changed: mood=%s image=%s',
                      character.mood, image_path)
         self._character_image.set_from_file(image_path)
@@ -173,7 +185,7 @@ class QuestSetButton(Gtk.Button):
         self._quest_set = quest_set
         character = Character(self._quest_set.get_character())
 
-        self._image = Gtk.Image.new_from_file(character.get_image_path())
+        self._image = Gtk.Image.new_from_file(character.get_main_image())
         self._image.show()
         self.add(self._image)
 
