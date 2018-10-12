@@ -19,6 +19,10 @@ configure_file(
 gnome.compile_resources(
     'eos-clubhouse',
     files('com.endlessm.Clubhouse.gresource.xml'),
+    source_dir : [
+        '.',
+        './assets'
+    ],
     gresource_bundle: true,
     install: true,
     install_dir: install_dir

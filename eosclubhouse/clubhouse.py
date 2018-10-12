@@ -186,7 +186,7 @@ class QuestSetButton(Gtk.Button):
 
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
-    DEFAULT_WINDOW_WIDTH = 500
+    DEFAULT_WINDOW_WIDTH = 484
 
     def __init__(self, app):
         if os.environ.get('CLUBHOUSE_NO_SIDE_COMPONENT'):
