@@ -180,6 +180,9 @@ class QuestSetButton(Gtk.Button):
     def get_quest_set(self):
         return self._quest_set
 
+    def get_position(self):
+        return self._quest_set.get_position()
+
 
 class ClubhouseWindow(Gtk.ApplicationWindow):
 

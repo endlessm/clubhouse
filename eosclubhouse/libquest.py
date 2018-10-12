@@ -163,9 +163,11 @@ class QuestSet(GObject.GObject):
     __quests__ = []
     # @todo: Default character; should be set to None in the future
     __character_id__ = 'aggretsuko'
+    __position__ = (0, 0)
 
     def __init__(self):
         super().__init__()
+        self._position = self.__position__
 
     @classmethod
     def get_character(class_):
@@ -186,3 +188,6 @@ class QuestSet(GObject.GObject):
     def get_next_quest(self):
         quests = self.get_quests()
         return quests[0] if quests else None
+
+    def get_position(self):
+        return self._position

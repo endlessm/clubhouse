@@ -20,7 +20,7 @@
 
 import time
 
-from eosclubhouse.libquest import Registry, Quest
+from eosclubhouse.libquest import Registry, Quest, QuestSet
 from eosclubhouse.desktop import Desktop, App
 
 
@@ -86,4 +86,11 @@ class GEditHack(Quest):
             self.show_message("Oh well… Maybe next time…", mood='disappointed')
 
 
-Registry.register_quest(GEditHack)
+class Aggretsuko(QuestSet):
+
+    __character_id__ = 'aggretsuko'
+    __quests__ = [GEditHack()]
+    __position__ = (50, 400)
+
+
+Registry.register_quest_set(Aggretsuko)
