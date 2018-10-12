@@ -62,8 +62,8 @@ class Character(GObject.GObject):
 
     def get_icon(self):
         image_file = Gio.File.new_for_path(self.get_image_path())
-        icon_bytes = image_file.load_contents(None)
-        return Gio.BytesIcon.new(GLib.Bytes.new(icon_bytes[1]))
+        icon_bytes = image_file.load_bytes(None)
+        return Gio.BytesIcon.new(icon_bytes[0])
 
     def load(self):
         char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
