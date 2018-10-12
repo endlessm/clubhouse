@@ -197,7 +197,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
-        new_quest = quest_set().get_next_quest()
+        new_quest = quest_set.get_next_quest()
 
         self._hide_message()
 
