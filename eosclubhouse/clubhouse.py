@@ -250,11 +250,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def run_quest(self, quest):
         self.set_character(quest.get_main_character())
 
-        # @todo Only show the Shell quest view when inviting the character out, as
-        # per design direction. For now we just hide the main window.
-        # The quest will be shown in the Shell quest view
-        self.hide()
-
         logger.info('Running quest "%s"', quest)
 
         self.connect_quest(quest)
