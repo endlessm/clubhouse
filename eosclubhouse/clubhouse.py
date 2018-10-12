@@ -24,6 +24,7 @@ gi.require_version("Gtk", "3.0")
 import os
 import sys
 import threading
+import uuid
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject
 from eosclubhouse import config, logger, libquest
@@ -58,6 +59,11 @@ class Character(GObject.GObject):
 
     def get_image_path(self):
         return self._moods.get(self.mood)
+
+    def get_icon(self):
+        image_file = Gio.File.new_for_path(self.get_image_path())
+        icon_bytes = image_file.load_bytes(None)
+        return Gio.BytesIcon.new(icon_bytes[0])
 
     def load(self):
         char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
@@ -144,6 +150,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._setup_ui()
         self.get_style_context().add_class('main-window')
         self._character = None
+        self._reset_quest_actions()
 
         self._current_quest_pos = (0, 0)
 
@@ -162,13 +169,24 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._quest_close_button.connect('clicked', self._quest_close_button_clicked_cb)
 
     def _quest_close_button_clicked_cb(self, button):
+        self.stop_quest()
+
+    def stop_quest(self):
+        # The quest may have been stopped from the Shell quest view, so show the main window
+        self.show()
+
+        if self._quest_task is None:
+            return
+
         cancellable = self._quest_task.get_cancellable()
         if not cancellable.is_cancelled():
+            logger.debug('Stopping quest %s', self._quest_task.get_source_object())
             cancellable.cancel()
 
         self._hide_message()
         self._overlay_msg_box.hide()
         self._quest_close_button.hide
+        self._quest_task = None
 
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set)
@@ -183,7 +201,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._hide_message()
 
-        message = self.show_message(new_quest.get_initial_message())
+        self.show_question(new_quest.get_initial_message(),
+                           [('Sure!', self._replied_to_message, new_quest),
+                            ('Not now…', self._replied_to_message, None)])
 
         # @todo: Implement the custom allocation for the message  and pass the allocation to
         # it on construction
@@ -191,10 +211,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._character_talk_box.props.margin_left = \
             allocation.x + allocation.width - allocation.width * .25
         self._character_talk_box.props.margin_top = allocation.y
-
-        # @todo: Use quest's default answers, and use show_question callback
-        message.add_button('Sure!', self._replied_to_message, new_quest)
-        message.add_button('Not now…', self._replied_to_message, None)
 
         self._quest_close_button.hide()
         self._overlay_msg_box.show_all()
@@ -233,7 +249,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def run_quest(self, quest):
         self.set_character(quest.get_main_character())
-        self.show()
+
+        # @todo Only show the Shell quest view when inviting the character out, as
+        # per design direction. For now we just hide the main window.
+        # The quest will be shown in the Shell quest view
+        self.hide()
 
         logger.info('Running quest "%s"', quest)
 
@@ -251,13 +271,25 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def _quest_message_cb(self, quest, message_txt, character_mood):
         logger.debug('Message: %s mood=%s', character_mood, message_txt)
+
+        self._reset_quest_actions()
+
         self.set_character_mood(character_mood)
+
         self.show_message(message_txt)
+
+        self._shell_popup_message(message_txt)
 
     def _quest_question_cb(self, quest, message_txt, answer_choices, character_mood):
         logger.debug('Quest: %s mood=%s', character_mood, message_txt)
+
+        self._reset_quest_actions()
+
         self.set_character_mood(character_mood)
+
         self.show_question(message_txt, answer_choices)
+
+        self._shell_popup_message(message_txt)
 
     def _run_task_in_thread(self, task):
         quest = task.get_source_object()
@@ -285,6 +317,19 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.handler_disconnect(self._key_event_handler)
             self._key_event_handler = 0
 
+    def _shell_popup_message(self, text):
+        notification = Gio.Notification()
+        notification.set_body(text)
+        notification.set_icon(self._character.get_icon())
+        notification.set_title('')
+
+        for key, action in self._actions.items():
+            label = action[0]
+            button_target = "app.quest-user-answer('{}')".format(key)
+            notification.add_button(label, button_target)
+
+        self.get_application().send_notification('message', notification)
+
     def show_message(self, txt):
         self._hide_message()
         message = Message()
@@ -297,12 +342,34 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._overlay_msg_box.show_all()
         return message
 
+    def _reset_quest_actions(self):
+        self._actions = {}
+
+    def _add_quest_action(self, action):
+        key = str(uuid.uuid1())
+        self._actions[key] = action
+        return key
+
     def show_question(self, txt, answer_choices):
         message = self.show_message(txt)
         for answer in answer_choices:
-            text, callback = answer
-            message.add_button(text, callback)
+            action_key = self._add_quest_action(answer)
+            message.add_button(answer[0], self.quest_action, action_key)
         return message
+
+    def quest_action(self, action_key):
+        action = self._actions.get(action_key)
+
+        if action is None:
+            logger.debug('Failed to get action for key %s', action_key)
+            logger.debug('Current actions: %s', self._actions)
+            return
+
+        # Call the action
+        callback, args = action[1], action[2:]
+        callback(*args)
+
+        self._reset_quest_actions()
 
     def set_character(self, character_id):
         self._character = Character(character_id)
@@ -356,6 +423,14 @@ class ClubhouseApplication(Gtk.Application):
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._vibility_notify_cb)
 
+        simple_actions = [('stop-quest', self._stop_quest, None),
+                          ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s'))]
+
+        for name, callback, variant_type in simple_actions:
+            action = Gio.SimpleAction.new(name, variant_type)
+            action.connect('activate', callback)
+            self.add_action(action)
+
         display = Gdk.Display.get_default()
         display.connect('monitor-added',
                         lambda disp, monitor: self._update_geometry())
@@ -374,6 +449,12 @@ class ClubhouseApplication(Gtk.Application):
 
         for quest_set in quest_sets:
             self._window.add_quest_set(quest_set)
+
+    def _stop_quest(self, *args):
+        self._window.stop_quest()
+
+    def _quest_user_answer(self, action, action_id):
+        self._window.quest_action(action_id.unpack())
 
     def _vibility_notify_cb(self, window, pspec):
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}
