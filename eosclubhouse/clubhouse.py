@@ -79,7 +79,7 @@ class Character(GObject.GObject):
         if 'normal' in self._moods.keys():
             self.mood = 'normal'
         else:
-            self.mood = self._moods.keys()[0]
+            self.mood = list(self._moods.keys())[0]
 
     name = property(_get_name)
     mood = GObject.Property(type=str)
