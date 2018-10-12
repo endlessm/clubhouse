@@ -1,8 +1,8 @@
 .main-window {
-    background-image: linear-gradient(white 60%,#d7d7d7);
+    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.png');
 }
 
-.clubhouse-message-label {
+.clubhouse-talk-box {
     background-color: white;
     padding: 4px 12px;
     border-radius: 8px;
@@ -20,12 +20,11 @@
 }
 
 .quest-set-button {
-    border-radius: 50%;
-    border: 1px solid #a5a5a5;
+    background-image: radial-gradient(50px 10px ellipse at center 95%, gray, transparent);
 }
 
 .quest-set-button:hover {
-    background: #f5f5f5;
+    background-image: radial-gradient(50px 10px ellipse at center 95%, #dfdfdf 40%, transparent);
 }
 
 .quest-window {
@@ -34,4 +33,9 @@
 
 .clubhouse-quest-overlay {
     background: rgba(100, 100, 100, 0.6);
+}
+
+.character-message-close-button {
+    padding: 0;
+    border-radius: 50%;
 }

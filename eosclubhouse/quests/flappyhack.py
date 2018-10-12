@@ -91,6 +91,7 @@ class GamesQuestSet(QuestSet):
 
     __character_id__ = 'fenneko'
     __quests__ = [FlappyHack()]
+    __position__ = (70, 180)
 
 
 Registry.register_quest_set(GamesQuestSet)
