@@ -87,14 +87,25 @@ class Character(GObject.GObject):
 
 class Message(Gtk.Bin):
 
+    MESSAGE_WIDTH = 300
+
     def __init__(self):
         super().__init__()
+        self._character = None
+        self._character_mood_change_handler = 0
+        self._setup_ui()
+
+    def _setup_ui(self):
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/message.ui')
-        self.add(builder.get_object('message_box'))
+
+        self.add(builder.get_object('character_talk_box'))
+        self.set_size_request(self.MESSAGE_WIDTH, -1)
+
         self._label = builder.get_object('message_label')
         self._button_box = builder.get_object('message_button_box')
-        self.show_all()
+        self._character_image = builder.get_object('character_image')
+        self.close_button = builder.get_object('character_message_close_button')
 
     def set_text(self, txt):
         self._label.set_label(txt)
@@ -109,9 +120,46 @@ class Message(Gtk.Bin):
 
     def _button_clicked_cb(self, button, caller_cb, *user_data):
         caller_cb(*user_data)
-        for child in self._button_box.get_children():
+        self.clear_buttons()
+
+    def reset(self):
+        self._label.set_label('')
+        self.set_character(None)
+        self.clear_buttons()
+
+    def clear_buttons(self):
+        for child in self._button_box:
             child.destroy()
         self._button_box.hide()
+
+    def set_character(self, character_id):
+        if self._character:
+            self._character.disconnect(self._character_mood_change_handler)
+            self._character_mood_change_handler = 0
+            self._character = None
+
+        if character_id is None:
+            return
+
+        self._character = Character(character_id)
+        self._character_mood_change_handler = \
+            self._character.connect('notify::mood', self._character_mood_changed_cb)
+        self._character_mood_changed_cb(self._character)
+
+    def get_character(self):
+        return self._character
+
+    def set_character_mood(self, mood):
+        if self._character or mood is None:
+            return
+
+        self._character.set_mood(mood)
+
+    def _character_mood_changed_cb(self, character, prop=None):
+        image_path = character.get_image_path()
+        logger.debug('Character mood changed: mood=%s image=%s',
+                     character.mood, image_path)
+        self._character_image.set_from_file(image_path)
 
 
 class QuestSetButton(Gtk.Button):
@@ -149,7 +197,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.set_size_request(self.DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
         self.get_style_context().add_class('main-window')
-        self._character = None
         self._reset_quest_actions()
 
         self._current_quest_pos = (0, 0)
@@ -157,16 +204,15 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _setup_ui(self):
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/main-window.ui')
+        self._message = Message()
         self._main_box = builder.get_object('main_box')
         self._overlay_msg_box = builder.get_object('main_window_overlay_msg_box')
-        self._character_talk_box = builder.get_object('character_talk_box')
-        self._character_message_box = builder.get_object('character_message_box')
-        self._character_image = builder.get_object('character_image')
-        self._main_window_overlay = builder.get_object('main_window_overlay')
-        self.add(self._main_window_overlay)
+        self._main_window_message_layer = builder.get_object('main_window_message_layer')
+        self._main_window_message_layer.put(self._message, 0, 0)
 
-        self._quest_close_button = builder.get_object('character_message_close_button')
-        self._quest_close_button.connect('clicked', self._quest_close_button_clicked_cb)
+        self.add(builder.get_object('main_window_overlay'))
+
+        self._message.close_button.connect('clicked', self._quest_close_button_clicked_cb)
 
     def _quest_close_button_clicked_cb(self, button):
         self.stop_quest()
@@ -183,9 +229,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             logger.debug('Stopping quest %s', self._quest_task.get_source_object())
             cancellable.cancel()
 
-        self._hide_message()
+        self._message.hide()
         self._overlay_msg_box.hide()
-        self._quest_close_button.hide
+        self._message.close_button.hide()
         self._quest_task = None
 
     def add_quest_set(self, quest_set):
@@ -199,7 +245,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         quest_set = button.get_quest_set()
         new_quest = quest_set.get_next_quest()
 
-        self._hide_message()
+        self._message.reset()
+        self._message.set_character(new_quest.get_main_character())
 
         self.show_question(new_quest.get_initial_message(),
                            [('Sure!', self._replied_to_message, new_quest),
@@ -207,26 +254,22 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         # @todo: Implement the custom allocation for the message  and pass the allocation to
         # it on construction
-        allocation = button.get_allocation()
-        self._character_talk_box.props.margin_left = \
-            allocation.x + allocation.width - allocation.width * .25
-        self._character_talk_box.props.margin_top = allocation.y
 
-        self._quest_close_button.hide()
+        self._message.close_button.hide()
         self._overlay_msg_box.show_all()
 
+        allocation = button.get_allocation()
+        self._main_window_message_layer.move(self._message,
+                                             self.DEFAULT_WINDOW_WIDTH * .1, allocation.y)
+        self._main_window_message_layer.show_all()
+
     def _replied_to_message(self, quest_to_start):
-        self._hide_message()
+        self._message.hide()
         if quest_to_start is not None:
             logger.info('Start quest {}'.format(quest_to_start))
             self.run_quest(quest_to_start)
         else:
             self._overlay_msg_box.hide()
-
-    def _hide_message(self):
-        message = self._character_message_box.get_child()
-        if message is not None:
-            message.destroy()
 
     def _update_geometry(self):
         display = Gdk.Display.get_default()
@@ -248,7 +291,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         quest.disconnect_by_func(self._request_key_events_cb)
 
     def run_quest(self, quest):
-        self.set_character(quest.get_main_character())
+        self._message.reset()
+        self._message.set_character(quest.get_main_character())
 
         logger.info('Running quest "%s"', quest)
 
@@ -259,7 +303,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         quest.set_cancellable(cancellable)
 
         # Show the close button so the user is able to dismiss the quest
-        self._quest_close_button.show()
+        self._message.close_button.show()
 
         threading.Thread(target=self._run_task_in_thread, args=(self._quest_task,),
                          name='quest-thread').start()
@@ -269,22 +313,22 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._reset_quest_actions()
 
-        self.set_character_mood(character_mood)
-
+        self._message.set_character_mood(character_mood)
         self.show_message(message_txt)
 
-        self._shell_popup_message(message_txt)
+        self._overlay_msg_box.show_all()
+        self._shell_popup_message(message_txt, self._message.get_character())
 
     def _quest_question_cb(self, quest, message_txt, answer_choices, character_mood):
         logger.debug('Quest: %s mood=%s', character_mood, message_txt)
 
         self._reset_quest_actions()
 
-        self.set_character_mood(character_mood)
-
+        self._message.set_character_mood(character_mood)
         self.show_question(message_txt, answer_choices)
 
-        self._shell_popup_message(message_txt)
+        self._overlay_msg_box.show_all()
+        self._shell_popup_message(message_txt, self._message.get_character())
 
     def _run_task_in_thread(self, task):
         quest = task.get_source_object()
@@ -312,11 +356,16 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.handler_disconnect(self._key_event_handler)
             self._key_event_handler = 0
 
-    def _shell_popup_message(self, text):
+    def _shell_popup_message(self, text, character):
+        if self.props.visible:
+            return
+
         notification = Gio.Notification()
         notification.set_body(text)
-        notification.set_icon(self._character.get_icon())
         notification.set_title('')
+
+        if character:
+            notification.set_icon(character.get_icon())
 
         for key, action in self._actions.items():
             label = action[0]
@@ -326,16 +375,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.get_application().send_notification('message', notification)
 
     def show_message(self, txt):
-        self._hide_message()
-        message = Message()
-        message.set_text(txt)
+        self._message.clear_buttons()
+        self._message.set_text(txt)
+        self._message.close_button.show()
 
-        for child in self._character_message_box:
-            child.destroy()
-
-        self._character_message_box.add(message)
-        self._overlay_msg_box.show_all()
-        return message
+        return self._message
 
     def _reset_quest_actions(self):
         self._actions = {}
@@ -365,21 +409,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         callback(*args)
 
         self._reset_quest_actions()
-
-    def set_character(self, character_id):
-        self._character = Character(character_id)
-        self._character.connect('notify::mood', self._character_mood_changed_cb)
-        self._character_mood_changed_cb(self._character)
-
-    def _character_mood_changed_cb(self, character, prop=None):
-        logger.debug('Character mood changed: mood=%s image=%s',
-                     character.mood, character.get_image_path())
-        self._character_image.set_from_file(character.get_image_path())
-
-    def set_character_mood(self, mood):
-        if mood is None:
-            return
-        self._character.mood = mood
 
 
 class ClubhouseApplication(Gtk.Application):
