@@ -208,8 +208,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/main-window.ui')
         self._message = Message()
-        self._main_box = builder.get_object('main_box')
         self._overlay_msg_box = builder.get_object('main_window_overlay_msg_box')
+        self._main_characters_box = builder.get_object('main_characters_box')
         self._main_window_message_layer = builder.get_object('main_window_message_layer')
         self._main_window_message_layer.put(self._message, 0, 0)
 
@@ -242,7 +242,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         button.connect('clicked', self._button_clicked_cb)
 
         button.show()
-        self._main_box.pack_start(button, False, False, 0)
+        x, y = button.get_position()
+        self._main_characters_box.put(button, x, y)
 
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
