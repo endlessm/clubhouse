@@ -6,58 +6,58 @@
     <property name="valign">fill</property>
     <child type="overlay">
       <object class="GtkEventBox" id="main_window_overlay_msg_box">
-        <property name="visible_window">True</property>
-        <property name="halign">start</property>
-        <property name="valign">fill</property>
-        <property name="vexpand">True</property>
+	<property name="visible_window">True</property>
+	<property name="halign">start</property>
+	<property name="valign">fill</property>
+	<property name="vexpand">True</property>
 	<child>
 	  <object class="GtkBox" id="character_talk_box">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="halign">center</property>
-            <property name="valign">start</property>
-            <property name="orientation">horizontal</property>
-            <child>
-              <object class="GtkButton" id="character_message_close_button">
-                <property name="valign">start</property>
-                <property name="halign">center</property>
-                <property name="no-show-all">True</property>
-                <child>
-                  <object class="GtkImage">
-                    <property name="visible">True</property>
-                    <property name="pixel-size">12</property>
-                    <property name="icon_name">window-close-symbolic</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkEventBox" id="character_message_box">
+	    <property name="visible">True</property>
+	    <property name="can_focus">False</property>
+	    <property name="halign">center</property>
+	    <property name="valign">start</property>
+	    <property name="orientation">horizontal</property>
+	    <child>
+	      <object class="GtkButton" id="character_message_close_button">
+		<property name="valign">start</property>
+		<property name="halign">center</property>
+		<property name="no-show-all">True</property>
+		<child>
+		  <object class="GtkImage">
+		    <property name="visible">True</property>
+		    <property name="pixel-size">12</property>
+		    <property name="icon_name">window-close-symbolic</property>
+		  </object>
+		</child>
+	      </object>
+	    </child>
+	    <child>
+	      <object class="GtkEventBox" id="character_message_box">
 		<property name="visible">True</property>
 		<property name="halign">center</property>
 		<property name="valign">start</property>
 		<property name="visible_window">True</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkBox">
+	      </object>
+	    </child>
+	    <child>
+	      <object class="GtkBox">
 		<property name="visible">True</property>
 		<property name="halign">center</property>
 		<property name="valign">end</property>
 		<property name="orientation">vertical</property>
 		<child>
 		  <object class="GtkImage" id="character_image">
-                    <property name="visible">True</property>
-                    <property name="pixel-size">64</property>
+		    <property name="visible">True</property>
+		    <property name="pixel-size">64</property>
 		  </object>
 		</child>
-              </object>
-            </child>
+	      </object>
+	    </child>
 	  </object>
 	</child>
 	<style>
-          <class name="clubhouse-quest-overlay"/>
-        </style>
+	  <class name="clubhouse-quest-overlay"/>
+	</style>
       </object>
     </child>
     <child>
