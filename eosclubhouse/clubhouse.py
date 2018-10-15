@@ -355,6 +355,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
         quest.save_conf()
+        self._overlay_msg_box.hide()
 
     def _key_press_event_cb(self, window, event, quest):
         event_copy = event.copy()
@@ -485,6 +486,7 @@ class ClubhouseApplication(Gtk.Application):
 
         # @todo: Use a location from config
         libquest.Registry.load(os.path.dirname(__file__) + '/quests')
+        libquest.Registry.load(os.path.dirname(__file__) + '/questsets')
         quest_sets = libquest.Registry.get_quest_sets()
 
         for quest_set in quest_sets:
