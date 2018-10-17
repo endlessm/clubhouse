@@ -35,7 +35,7 @@
     background: rgba(100, 100, 100, 0.6);
 }
 
-.character-message-close-button {
+.character-message-side-button {
     padding: 0;
-    border-radius: 50%;
+    border-radius: 20%;
 }

@@ -51,19 +51,43 @@
       </object>
     </child>
     <child>
-      <object class="GtkButton" id="character_message_close_button">
-        <property name="valign">start</property>
-        <property name="no-show-all">True</property>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="halign">center</property>
+        <property name="valign">fill</property>
+        <property name="orientation">vertical</property>
         <child>
-          <object class="GtkImage">
-            <property name="visible">True</property>
-            <property name="pixel-size">12</property>
-            <property name="icon_name">window-close-symbolic</property>
+          <object class="GtkButton" id="character_message_close_button">
+            <property name="valign">start</property>
+            <property name="no-show-all">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="pixel-size">12</property>
+                <property name="icon_name">window-close-symbolic</property>
+              </object>
+            </child>
+            <style>
+              <class name="character-message-side-button"/>
+            </style>
           </object>
         </child>
-        <style>
-          <class name="character-message-close-button"/>
-        </style>
+        <child>
+          <object class="GtkButton" id="character_message_pop_out_button">
+            <property name="valign">start</property>
+            <property name="no-show-all">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="pixel-size">12</property>
+                <property name="icon_name">view-fullscreen-symbolic</property>
+              </object>
+            </child>
+            <style>
+              <class name="character-message-side-button"/>
+            </style>
+          </object>
+        </child>
       </object>
     </child>
     <style>
