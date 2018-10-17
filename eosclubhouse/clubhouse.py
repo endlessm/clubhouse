@@ -203,6 +203,7 @@ class QuestSetButton(Gtk.Button):
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
     DEFAULT_WINDOW_WIDTH = 484
+    QUEST_NOTIFICATION_ID = 'quest-message'
 
     def __init__(self, app):
         if os.environ.get('CLUBHOUSE_NO_SIDE_COMPONENT'):
@@ -384,6 +385,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.handler_disconnect(self._key_event_handler)
             self._key_event_handler = 0
 
+    def _shell_close_popup_message(self):
+        self.get_application().withdraw_notification(self.QUEST_NOTIFICATION_ID)
+
     def _shell_popup_message(self, text, character):
         if self.props.visible:
             return
@@ -400,7 +404,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             button_target = "app.quest-user-answer('{}')".format(key)
             notification.add_button(label, button_target)
 
-        self.get_application().send_notification('message', notification)
+        self.get_application().send_notification(self.QUEST_NOTIFICATION_ID, notification)
 
     def show_message(self, txt):
         self._message.clear_buttons()
@@ -438,6 +442,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         callback(*args)
 
         self._reset_quest_actions()
+
+    def show(self):
+        # Close the Shell quest view just in case there's one
+        self._shell_close_popup_message()
+        super().show()
 
 
 class ClubhouseApplication(Gtk.Application):
