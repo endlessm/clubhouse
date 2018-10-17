@@ -118,9 +118,13 @@ class Message(Gtk.Bin):
         self._button_box = builder.get_object('message_button_box')
         self._character_image = builder.get_object('character_image')
         self.close_button = builder.get_object('character_message_close_button')
+        self.pop_out_button = builder.get_object('character_message_pop_out_button')
 
     def set_text(self, txt):
         self._label.set_label(txt)
+
+    def get_text(self):
+        return self._label.get_label()
 
     def add_button(self, label, click_cb, *user_data):
         button = Gtk.Button(label=label)
@@ -228,9 +232,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.add(builder.get_object('main_window_overlay'))
 
         self._message.close_button.connect('clicked', self._quest_close_button_clicked_cb)
+        self._message.pop_out_button.connect('clicked', self._quest_pop_out_button_clicked_cb)
 
     def _quest_close_button_clicked_cb(self, button):
         self.stop_quest()
+
+    def _quest_pop_out_button_clicked_cb(self, button):
+        self.hide()
+        self._shell_popup_message(self._message.get_text(), self._message.get_character())
 
     def stop_quest(self):
         # The quest may have been stopped from the Shell quest view, so show the main window
@@ -247,6 +256,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._message.hide()
         self._overlay_msg_box.hide()
         self._message.close_button.hide()
+        self._message.pop_out_button.hide()
         self._quest_task = None
 
     def add_quest_set(self, quest_set):
@@ -272,6 +282,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         # it on construction
 
         self._message.close_button.hide()
+        self._message.pop_out_button.hide()
         self._overlay_msg_box.show_all()
 
         allocation = button.get_allocation()
@@ -320,6 +331,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         # Show the close button so the user is able to dismiss the quest
         self._message.close_button.show()
+        self._message.pop_out_button.show()
 
         threading.Thread(target=self._run_task_in_thread, args=(self._quest_task,),
                          name='quest-thread').start()
@@ -394,6 +406,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._message.clear_buttons()
         self._message.set_text(txt)
         self._message.close_button.show()
+        self._message.pop_out_button.show()
 
         return self._message
 
