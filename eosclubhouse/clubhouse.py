@@ -507,6 +507,8 @@ class ClubhouseApplication(Gtk.Application):
 
         # @todo: Use a location from config
         libquest.Registry.load(os.path.dirname(__file__) + '/quests')
+        libquest.Registry.load(os.path.join(GLib.get_user_data_dir(), 'quests'))
+
         quest_sets = libquest.Registry.get_quest_sets()
 
         for quest_set in quest_sets:
