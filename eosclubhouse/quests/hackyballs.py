@@ -1,7 +1,7 @@
 import time
 
 from gi.repository import GLib
-from eosclubhouse.libquest import Registry, Quest, QuestSet
+from eosclubhouse.libquest import Quest
 from eosclubhouse.desktop import Desktop, App
 
 
@@ -219,11 +219,3 @@ class HackyBalls1(Quest):
 
         return step
 
-
-class TeacherQuestSet(QuestSet):
-
-    __character_id__ = 'teacher'
-    __quests__ = [HackyBalls0(), HackyBalls1()]
-
-
-Registry.register_quest_set(TeacherQuestSet)
