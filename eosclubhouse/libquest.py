@@ -193,7 +193,10 @@ class QuestSet(GObject.GObject):
 
     def get_next_quest(self):
         quests = self.get_quests()
-        return quests[0] if quests else None
+        for quest in quests:
+            if not quest.get_conf('complete'):
+                return quest
+        return None
 
     def get_position(self):
         return self._position
