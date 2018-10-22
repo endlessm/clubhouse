@@ -457,8 +457,6 @@ class ClubhouseApplication(Gtk.Application):
         self._window = None
         self._dbus_connection = None
 
-        self._key_event_handler = 0
-
     def _init_style(self):
         self.props.resource_base_path = '/com/endlessm/Clubhouse'
         # @todo: Move the resource to a different dir
