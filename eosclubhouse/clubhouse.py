@@ -226,7 +226,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                              type_hint=Gdk.WindowTypeHint.DOCK,
                              role='eos-side-component')
 
-        self._key_event_handler = 0
+        self._quest_task = None
+        self.connect('key-press-event', self._key_press_event_cb)
+
         self.set_size_request(self.DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
         self.get_style_context().add_class('main-window')
@@ -324,12 +326,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def connect_quest(self, quest):
         quest.connect('message', self._quest_message_cb)
         quest.connect('question', self._quest_question_cb)
-        quest.connect('key-events-request', self._request_key_events_cb)
 
     def disconnect_quest(self, quest):
         quest.disconnect_by_func(self._quest_message_cb)
         quest.disconnect_by_func(self._quest_question_cb)
-        quest.disconnect_by_func(self._request_key_events_cb)
 
     def run_quest(self, quest):
         self._message.reset()
@@ -382,21 +382,18 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.disconnect_quest(quest)
         quest.save_conf()
 
-    def _key_press_event_cb(self, window, event, quest):
-        event_copy = event.copy()
-        quest.on_key_event(event_copy)
+    def _key_press_event_cb(self, window, event):
+        # Allow to fully quit the Clubhouse on Ctrl+Escape ()
+        if event.keyval == Gdk.KEY_Escape and (event.state & Gdk.ModifierType.CONTROL_MASK):
+            self.destroy()
+            return True
 
-    def _request_key_events_cb(self, quest, events_requested):
-        if not ((self._key_event_handler > 0) ^ events_requested):
-            return
+        if self._quest_task:
+            event_copy = event.copy()
+            quest = self._quest_task.get_source_object()
+            quest.on_key_event(event_copy)
 
-        if self._key_event_handler == 0:
-            self.add_events(Gdk.EventMask.KEY_PRESS_MASK)
-            self._key_event_handler = self.connect('key-press-event',
-                                                   self._key_press_event_cb, quest)
-        else:
-            self.handler_disconnect(self._key_event_handler)
-            self._key_event_handler = 0
+        return False
 
     def _shell_close_popup_message(self):
         self.get_application().withdraw_notification(self.QUEST_NOTIFICATION_ID)
@@ -472,8 +469,6 @@ class ClubhouseApplication(Gtk.Application):
 
         self._window = None
         self._dbus_connection = None
-
-        self._key_event_handler = 0
 
     def _init_style(self):
         self.props.resource_base_path = '/com/endlessm/Clubhouse'

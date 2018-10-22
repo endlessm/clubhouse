@@ -82,9 +82,6 @@ class Quest(GObject.GObject):
         'question': (
             GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str)
         ),
-        'key-events-request': (
-            GObject.SignalFlags.RUN_FIRST, None, (bool,)
-        )
     }
 
     def __init__(self, name, main_character_id, initial_msg):
@@ -113,8 +110,9 @@ class Quest(GObject.GObject):
     def get_initial_message(self):
         return self._initial_msg
 
+    # @todo: Obsolete. Delete when quests no longer use it.
     def set_keyboard_request(self, wants_keyboard_events):
-        self._emit_signal('key-events-request', wants_keyboard_events)
+        pass
 
     def on_key_event(self, event):
         pass
