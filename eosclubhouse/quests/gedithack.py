@@ -18,6 +18,7 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
+import os
 import time
 
 from eosclubhouse.libquest import Registry, Quest, QuestSet
@@ -91,6 +92,11 @@ class Aggretsuko(QuestSet):
     __character_id__ = 'aggretsuko'
     __quests__ = [GEditHack()]
     __position__ = (50, 400)
+
+    def __init__(self):
+        super().__init__()
+
+        self.props.visible = 'CLUBHOUSE_SHOW_SAMPLE_QUESTS' in os.environ
 
 
 Registry.register_quest_set(Aggretsuko)
