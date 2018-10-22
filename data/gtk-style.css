@@ -27,6 +27,20 @@
     background-image: radial-gradient(50px 10px ellipse at center 95%, #dfdfdf 40%, transparent);
 }
 
+
+@keyframes pulsate_background {
+  from { background-image: radial-gradient(50px 10px ellipse at center 95%, gray 40%, transparent); }
+  to { background-image: radial-gradient(50px 10px ellipse at center 95%, orange 40%, transparent); }
+}
+
+.quest-set-button.highlighted {
+  animation-name: pulsate_background;
+  animation-duration: 1s;
+  animation-direction: alternate;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
 .quest-window {
     background: white;
 }

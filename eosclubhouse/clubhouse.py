@@ -189,6 +189,11 @@ class QuestSetButton(Gtk.Button):
         self._quest_set = quest_set
         character = Character(self._quest_set.get_character())
 
+        # Set the "highlighted" style on "nudge"
+        self._quest_set.connect('nudge', lambda _quest_set: self.set_highlighted(True))
+        # Reset the "highlighted" style
+        self.connect('clicked', lambda _button: self.set_highlighted(False))
+
         self._image = Gtk.Image.new_from_file(character.get_main_image())
         self._image.show()
         self.add(self._image)
@@ -198,6 +203,14 @@ class QuestSetButton(Gtk.Button):
 
     def get_position(self):
         return self._quest_set.get_position()
+
+    def set_highlighted(self, highlighted):
+        highlighted_style = 'highlighted'
+        style_context = self.get_style_context()
+        if highlighted:
+            style_context.add_class(highlighted_style)
+        else:
+            style_context.remove_class(highlighted_style)
 
 
 class ClubhouseWindow(Gtk.ApplicationWindow):

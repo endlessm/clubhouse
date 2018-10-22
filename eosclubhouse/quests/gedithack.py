@@ -22,6 +22,7 @@ import time
 
 from eosclubhouse.libquest import Registry, Quest, QuestSet
 from eosclubhouse.desktop import Desktop, App
+from gi.repository import GLib
 
 
 class GEditHack(Quest):
@@ -91,6 +92,14 @@ class Aggretsuko(QuestSet):
     __character_id__ = 'aggretsuko'
     __quests__ = [GEditHack()]
     __position__ = (50, 400)
+
+    def __init__(self):
+        super().__init__()
+        GLib.timeout_add_seconds(10, self._highlight_on_timeout)
+
+    def _highlight_on_timeout(self):
+        self.nudge()
+        return GLib.SOURCE_REMOVE
 
 
 Registry.register_quest_set(Aggretsuko)
