@@ -165,6 +165,12 @@ class QuestSet(GObject.GObject):
     __character_id__ = 'aggretsuko'
     __position__ = (0, 0)
 
+    __gsignals__ = {
+        'nudge': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
+
     def __init__(self):
         super().__init__()
         self._position = self.__position__
@@ -191,3 +197,6 @@ class QuestSet(GObject.GObject):
 
     def get_position(self):
         return self._position
+
+    def nudge(self):
+        self.emit('nudge')
