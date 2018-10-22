@@ -165,6 +165,8 @@ class QuestSet(GObject.GObject):
     __character_id__ = 'aggretsuko'
     __position__ = (0, 0)
 
+    visible = GObject.Property(type=bool, default=True)
+
     def __init__(self):
         super().__init__()
         self._position = self.__position__
