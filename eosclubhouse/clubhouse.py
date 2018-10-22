@@ -370,6 +370,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         quest.save_conf()
 
     def _key_press_event_cb(self, window, event):
+        # Allow to fully quit the Clubhouse on Ctrl+Escape ()
+        if event.keyval == Gdk.KEY_Escape and (event.state & Gdk.ModifierType.CONTROL_MASK):
+            self.destroy()
+            return True
+
         if self._quest_task:
             event_copy = event.copy()
             quest = self._quest_task.get_source_object()
