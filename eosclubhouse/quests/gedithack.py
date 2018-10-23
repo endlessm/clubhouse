@@ -40,6 +40,12 @@ class GEditHack(Quest):
     def _open_app(self):
         Desktop.launch_app(self.TARGET_APP_DBUS_NAME)
 
+    def _add_app_to_desktop(self):
+        Desktop.remove_app_from_grid(self.TARGET_APP_DBUS_NAME)
+        Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
+        Desktop.show_app_grid()
+        self.show_message('There you go! Now click the GEdit icon!')
+
     def on_key_event(self, event):
         print(event.keyval)
 
@@ -49,7 +55,8 @@ class GEditHack(Quest):
         time.sleep(2)
 
         self.show_question("Hmm… I don't see Gedit running… Should open it for you?",
-                           choices=[('Please do!', self._open_app)])
+                           choices=[('Please do!', self._open_app),
+                                    ('Give me the app!', self._add_app_to_desktop)])
         while not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             if self.is_cancelled():
                 return
