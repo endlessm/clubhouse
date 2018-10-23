@@ -68,6 +68,8 @@ class Quest(GObject.GObject):
         ),
     }
 
+    available = GObject.Property(type=bool, default=True)
+
     def __init__(self, name, main_character_id, initial_msg):
         super().__init__()
         self._name = name
