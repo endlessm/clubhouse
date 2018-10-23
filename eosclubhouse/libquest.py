@@ -158,6 +158,9 @@ class QuestSet(GObject.GObject):
     def __init__(self):
         super().__init__()
         self._position = self.__position__
+        for quest in self.get_quests():
+            quest.connect('notify',
+                          lambda quest, param: self.on_quest_properties_changed(quest, param.name))
 
     @classmethod
     def get_character(class_):
@@ -176,3 +179,6 @@ class QuestSet(GObject.GObject):
 
     def nudge(self):
         self.emit('nudge')
+
+    def on_quest_properties_changed(self, quest, prop_name):
+        logger.debug('Quest "%s" property changed: %s', quest, prop_name)
