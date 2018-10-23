@@ -19,6 +19,18 @@
 #
 
 import logging
+import os
 
-logging.basicConfig(level=logging.INFO)
+DEBUG_ENV_VARS = {'CLUBHOUSE_LOG_LEVEL': 'debug',
+                  'GTK_DEBUG': 'interactive',
+                  'G_MESSAGES_DEBUG': 'all'}
+
+log_level = logging.INFO
+
+for key, value in DEBUG_ENV_VARS.items():
+    if os.environ.get(key, None) == value:
+        log_level = logging.DEBUG
+        break
+
+logging.basicConfig(level=log_level)
 logger = logging.getLogger(__name__)
