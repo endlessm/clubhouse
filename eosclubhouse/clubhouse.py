@@ -576,7 +576,7 @@ class ClubhouseApplication(Gtk.Application):
         width = self._window.get_size()[0]
 
         geometry = Gdk.Rectangle()
-        geometry.x = workarea.width - width
+        geometry.x = workarea.x + workarea.width - width
         geometry.y = workarea.y
         geometry.width = width
         geometry.height = workarea.height
