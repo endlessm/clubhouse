@@ -18,6 +18,7 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
+import os
 import time
 
 from eosclubhouse.libquest import Registry, Quest, QuestSet
@@ -95,6 +96,7 @@ class Aggretsuko(QuestSet):
 
     def __init__(self):
         super().__init__()
+        self.props.visible = 'CLUBHOUSE_SHOW_SAMPLE_QUESTS' in os.environ
         GLib.timeout_add_seconds(10, self._highlight_on_timeout)
 
     def _highlight_on_timeout(self):

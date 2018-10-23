@@ -194,6 +194,11 @@ class QuestSetButton(Gtk.Button):
         # Reset the "highlighted" style
         self.connect('clicked', lambda _button: self.set_highlighted(False))
 
+        # The button should only be visible when the QuestSet is visible
+        self._quest_set.bind_property('visible', self, 'visible',
+                                      GObject.BindingFlags.BIDIRECTIONAL |
+                                      GObject.BindingFlags.SYNC_CREATE)
+
         self._image = Gtk.Image.new_from_file(character.get_main_image())
         self._image.show()
         self.add(self._image)
@@ -279,7 +284,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         button = QuestSetButton(quest_set)
         button.connect('clicked', self._button_clicked_cb)
 
-        button.show()
         x, y = button.get_position()
         self._main_characters_box.put(button, x, y)
 
