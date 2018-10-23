@@ -18,7 +18,6 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
-import inspect
 import json
 import os
 import pkgutil
@@ -41,21 +40,6 @@ class Registry:
             __import__(modname)
 
         del sys.path[sys.path.index(quest_folder)]
-
-    # @todo: This method should be removed. It's only here for convenience in case the
-    # quest writer has already some quests locally that are registered with this method
-    @classmethod
-    def register_quest(class_, quest_class):
-        if not issubclass(quest_class, Quest):
-            raise TypeError('{} is not a of type {}'.format(quest_class, Quest))
-        quest = quest_class()
-        new_quest_set = type(quest_class.__name__ + 'QuestSet',
-                             (QuestSet,),
-                             {'__quests__': [quest],
-                              '__charachter_id__': quest.get_main_character()})
-        new_quest_set.add_quest(quest_class)
-        class_.register_quest_set(new_quest_set)
-        logger.info('QuestSet %s automatically created for: %s', new_quest_set, quest_class)
 
     @classmethod
     def register_quest_set(class_, quest_set):
@@ -178,14 +162,6 @@ class QuestSet(GObject.GObject):
     @classmethod
     def get_character(class_):
         return class_.__character_id__
-
-    @classmethod
-    def add_quest(class_, quest):
-        if inspect.isclass(quest):
-            new_quest = quest()
-        else:
-            new_quest = quest
-        class_.__quests__.append(new_quest)
 
     @classmethod
     def get_quests(class_):
