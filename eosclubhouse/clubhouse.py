@@ -318,15 +318,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         else:
             self._overlay_msg_box.hide()
 
-    def _update_geometry(self):
-        display = Gdk.Display.get_default()
-        monitor = display.get_primary_monitor()
-        monitor_geometry = monitor.get_geometry()
-        allocation = self.get_allocation()
-
-        self.move(monitor_geometry.width - 400,
-                  allocation.height / 2 + monitor_geometry.height / 2)
-
     def connect_quest(self, quest):
         quest.connect('message', self._quest_message_cb)
         quest.connect('question', self._quest_question_cb)
@@ -585,7 +576,7 @@ class ClubhouseApplication(Gtk.Application):
         width = self._window.get_size()[0]
 
         geometry = Gdk.Rectangle()
-        geometry.x = workarea.width - width
+        geometry.x = workarea.x + workarea.width - width
         geometry.y = workarea.y
         geometry.width = width
         geometry.height = workarea.height
