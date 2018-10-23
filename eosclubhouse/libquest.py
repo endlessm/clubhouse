@@ -174,8 +174,10 @@ class QuestSet(GObject.GObject):
         return class_.__quests__
 
     def get_next_quest(self):
-        quests = self.get_quests()
-        return quests[0] if quests else None
+        for quest in self.get_quests():
+            if quest.available:
+                return quest
+        return None
 
     def get_empty_message(self):
         return self.__empty_message__
