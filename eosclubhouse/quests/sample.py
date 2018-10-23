@@ -37,6 +37,13 @@ class GEditHack(Quest):
         if self.get_conf('complete'):
             self._initial_msg = 'I see you tried this already! Wanna go again?'
 
+        self.available = False
+        GLib.timeout_add_seconds(10, self._available_on_timeout)
+
+    def _available_on_timeout(self):
+        self.available = True
+        return GLib.SOURCE_REMOVE
+
     def _open_app(self):
         Desktop.launch_app(self.TARGET_APP_DBUS_NAME)
 
@@ -104,11 +111,6 @@ class Aggretsuko(QuestSet):
     def __init__(self):
         super().__init__()
         self.props.visible = 'CLUBHOUSE_SHOW_SAMPLE_QUESTS' in os.environ
-        GLib.timeout_add_seconds(10, self._highlight_on_timeout)
-
-    def _highlight_on_timeout(self):
-        self.nudge()
-        return GLib.SOURCE_REMOVE
 
 
 Registry.register_quest_set(Aggretsuko)
