@@ -44,6 +44,12 @@ class Desktop:
                                                     'org.gnome.Shell.AppStore',
                                                     None)
 
+    _shell_proxy = Gio.DBusProxy.new_sync(SESSION_BUS, 0, None,
+                                          'org.gnome.Shell',
+                                          '/org/gnome/Shell',
+                                          'org.gnome.Shell',
+                                          None)
+
     @classmethod
     def app_is_running(klass, name):
         try:
@@ -57,6 +63,16 @@ class Desktop:
     def launch_app(klass, name):
         try:
             klass._app_launcher_proxy.Launch('(su)', name, int(time.time()))
+        except GLib.Error as e:
+            print(e)
+            return False
+        return True
+
+    @classmethod
+    def show_app_grid(klass):
+        try:
+            # @todo: Call a direct method in the Shell interface when that's available
+            klass._shell_proxy.Eval('(s)', 'Main.overview.showApps();')
         except GLib.Error as e:
             print(e)
             return False
