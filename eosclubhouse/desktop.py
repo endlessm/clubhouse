@@ -38,6 +38,12 @@ class Desktop:
                                                  'org.gnome.Shell.AppLauncher',
                                                  None)
 
+    _shell_app_store_proxy = Gio.DBusProxy.new_sync(SESSION_BUS, 0, None,
+                                                    'org.gnome.Shell',
+                                                    '/org/gnome/Shell',
+                                                    'org.gnome.Shell.AppStore',
+                                                    None)
+
     @classmethod
     def app_is_running(klass, name):
         try:
@@ -51,6 +57,30 @@ class Desktop:
     def launch_app(klass, name):
         try:
             klass._app_launcher_proxy.Launch('(su)', name, int(time.time()))
+        except GLib.Error as e:
+            print(e)
+            return False
+        return True
+
+    @classmethod
+    def add_app_to_grid(klass, app_name):
+        if not app_name.endswith('.desktop'):
+            app_name += '.desktop'
+
+        try:
+            klass._shell_app_store_proxy.AddApplication('(s)', app_name)
+        except GLib.Error as e:
+            print(e)
+            return False
+        return True
+
+    @classmethod
+    def remove_app_from_grid(klass, app_name):
+        if not app_name.endswith('.desktop'):
+            app_name += '.desktop'
+
+        try:
+            klass._shell_app_store_proxy.RemoveApplication('(s)', app_name)
         except GLib.Error as e:
             print(e)
             return False
