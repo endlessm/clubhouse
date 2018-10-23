@@ -292,11 +292,22 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         new_quest = quest_set.get_next_quest()
 
         self._message.reset()
-        self._message.set_character(new_quest.get_main_character())
 
-        self.show_question(new_quest.get_initial_message(),
-                           [('Sure!', self._replied_to_message, new_quest),
-                            ('Not now…', self._replied_to_message, None)])
+        character = new_quest.get_main_character() if new_quest else quest_set.get_character()
+        self._message.set_character(character)
+
+        if new_quest is None:
+            msg_text = quest_set.get_empty_message()
+            # If a QuestSet has overridden the empty message to be None, then don't
+            # show anything
+            if msg_text is None:
+                return
+
+            self.show_question(msg_text, [('Ok', self._replied_to_message, None)])
+        else:
+            self.show_question(new_quest.get_initial_message(),
+                               [('Sure!', self._replied_to_message, new_quest),
+                                ('Not now…', self._replied_to_message, None)])
 
         # @todo: Implement the custom allocation for the message  and pass the allocation to
         # it on construction
