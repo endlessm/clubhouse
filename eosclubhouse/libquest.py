@@ -148,6 +148,7 @@ class QuestSet(GObject.GObject):
     # @todo: Default character; should be set to None in the future
     __character_id__ = 'aggretsuko'
     __position__ = (0, 0)
+    __empty_message__ = 'Nothing to see here!'
 
     __gsignals__ = {
         'nudge': (
@@ -175,6 +176,9 @@ class QuestSet(GObject.GObject):
     def get_next_quest(self):
         quests = self.get_quests()
         return quests[0] if quests else None
+
+    def get_empty_message(self):
+        return self.__empty_message__
 
     def get_position(self):
         return self._position
