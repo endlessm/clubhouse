@@ -184,3 +184,5 @@ class QuestSet(GObject.GObject):
 
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s', quest, prop_name)
+        if prop_name == 'available' and quest.get_property(prop_name):
+            self.nudge()
