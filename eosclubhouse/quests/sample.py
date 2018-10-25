@@ -117,7 +117,8 @@ class Aggretsuko(QuestSet):
 
     def __init__(self):
         super().__init__()
-        self.props.visible = 'CLUBHOUSE_SHOW_SAMPLE_QUESTS' in os.environ
+        self.props.visible = False
 
 
-Registry.register_quest_set(Aggretsuko)
+if 'CLUBHOUSE_SHOW_SAMPLE_QUESTS' in os.environ:
+    Registry.register_quest_set(Aggretsuko)
