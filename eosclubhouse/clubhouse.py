@@ -55,6 +55,9 @@ class Character(GObject.GObject):
         self._main_image = None
         self.load()
 
+    def _get_id(self):
+        return self._id
+
     def _get_name(self):
         return self._name
 
@@ -93,6 +96,7 @@ class Character(GObject.GObject):
         if self._main_image is None:
             self._main_image = self._moods[self.mood]
 
+    id = property(_get_id)
     name = property(_get_name)
     mood = GObject.Property(type=str)
 
@@ -150,6 +154,9 @@ class Message(Gtk.Bin):
 
     def set_character(self, character_id):
         if self._character:
+            if self._character.id == character_id:
+                return
+
             self._character.disconnect(self._character_mood_change_handler)
             self._character_mood_change_handler = 0
             self._character = None
@@ -166,10 +173,10 @@ class Message(Gtk.Bin):
         return self._character
 
     def set_character_mood(self, mood):
-        if self._character or mood is None:
+        if not self._character or mood is None:
             return
 
-        self._character.set_mood(mood)
+        self._character.mood = mood
 
     def _character_mood_changed_cb(self, character, prop=None):
         image_path = character.get_mood_image()
@@ -356,22 +363,25 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         threading.Thread(target=self._run_task_in_thread, args=(self._quest_task,),
                          name='quest-thread').start()
 
-    def _quest_message_cb(self, quest, message_txt, character_mood):
-        logger.debug('Message: %s mood=%s', character_mood, message_txt)
+    def _quest_message_cb(self, quest, message_txt, character_id, character_mood):
+        logger.debug('Message: %s character_id=%s mood=%s', message_txt, character_id,
+                     character_mood)
 
         self._reset_quest_actions()
 
+        self._message.set_character(character_id)
         self._message.set_character_mood(character_mood)
         self.show_message(message_txt)
 
         self._overlay_msg_box.show_all()
         self._shell_popup_message(message_txt, self._message.get_character())
 
-    def _quest_question_cb(self, quest, message_txt, answer_choices, character_mood):
-        logger.debug('Quest: %s mood=%s', character_mood, message_txt)
+    def _quest_question_cb(self, quest, message_txt, answer_choices, character_id, character_mood):
+        logger.debug('Quest: %s mood=%s', message_txt, character_mood)
 
         self._reset_quest_actions()
 
+        self._message.set_character(character_id)
         self._message.set_character_mood(character_mood)
         self.show_question(message_txt, answer_choices)
 
