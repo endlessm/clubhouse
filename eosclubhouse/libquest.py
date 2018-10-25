@@ -194,8 +194,11 @@ class QuestSet(GObject.GObject):
 
     def get_next_quest(self):
         for quest in self.get_quests():
-            if quest.available:
-                return quest
+            if not quest.conf['complete']:
+                if quest.available:
+                    logger.info("Quest available: %s", quest)
+                    return quest
+                break
         return None
 
     def get_empty_message(self):
