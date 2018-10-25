@@ -213,4 +213,6 @@ class QuestSet(GObject.GObject):
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s', quest, prop_name)
         if prop_name == 'available' and quest.get_property(prop_name):
+            logger.info('Turning QuestSet "%s" visible from quest %s', self, quest)
+            self.visible = True
             self.nudge()
