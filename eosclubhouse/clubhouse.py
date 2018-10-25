@@ -397,6 +397,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
         quest.save_conf()
+        self._overlay_msg_box.hide()
 
     def _key_press_event_cb(self, window, event):
         # Allow to fully quit the Clubhouse on Ctrl+Escape ()
