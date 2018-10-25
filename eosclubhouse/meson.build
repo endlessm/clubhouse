@@ -6,6 +6,7 @@ install_subdir(
 
 conf = configuration_data()
 conf.set_quoted('characters_dir', characters_dir)
+conf.set_quoted('quests_strings_csv', quests_strings_csv)
 
 configure_file(
     input: 'config.py.in',
