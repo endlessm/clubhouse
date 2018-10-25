@@ -1,14 +1,13 @@
 "ID","Text","Comments"
-"FIRSTCONTACT_WELCOME","Welcome to The Conservatory. My name is Ada. So glad you're here! You look like a curious person so I have a question for you!
-What if you could look behind the screen? What if you could learn how to change technology to do what you want? 
-See that button to the left? It's the ""Flip to Hack"" button. Click on it.","Ada"
+"FIRSTCONTACT_WELCOME","Oh, hello there! So glad you're here! I see you've found your way to the portal. My name is Ada & I'm going to show you around. You look like a curious person. Do you want to learn how to change technology to do what you want? 
+Here's the first step: see that button to the left? It's the ""Flip to Hack"" button. Click on it.","Ada"
 "FIRSTCONTACT_GOAL","In order to get into The Conservatory, you need to perform your first hack.
 See that wave? Match it by moving the slider and the doors will unlock.",""
 "FIRSTCONTACT_REWARD","Perfect. You did it. That was your first real hack. Congrats! Get used to it, because that's how you'll do a lot of things around here.  See you on the other side.
 ",""
 "ROSTER_QUESTION","Hello! Welcome to the Clubhouse. Let me show you around.","Ada"
 "ROSTER_RESPONSE","Ready! ",""
-"ROSTER_PRELAUNCH","Tthe Clubhouse is where you'll find me and other members of the Conservatory.
+"ROSTER_PRELAUNCH","The Clubhouse is where you'll find me and other members of the Conservatory.
 This is where I do my research to help fight rogue AIs.
 If you stick with me, we'll check out how to do things around here.",""
 "ROSTER_LAUNCH","I'm giving you a new app called Roster. Do you see it in the desktop? Go ahead and launch it.",""
@@ -16,7 +15,7 @@ If you stick with me, we'll check out how to do things around here.",""
 Have a look at it and come get me in the Clubhouse whenever you're ready to continue your tour.",""
 "FIZZICSINTRO_QUESTION","Okay, Ace. You're a quick learner! Ready to keep learning about this?","Ada"
 "FIZZICSINTRO_RESPONSE","Yep! Let's go. ",""
-"FIZZICSINTRO_LAUNCH","I'm researching the physics of the bounce. Kinetic energy. Velocity. I can tell you more sometime! You would not believe how much about the world you can learn just by looking at how a ball bounces. So I made a game to help me with that research.
+"FIZZICSINTRO_LAUNCH","I'm researching the physics of the bounce. Kinetic energy. Velocity. I can tell you more sometime! You would not believe how much you can learn about the world just by looking at how a ball bounces. So I made a game to help me with that research.
 You can see it on the desktop. Launch the Fizzics app.",""
 "FIZZICSINTRO_EXPLANATION","Fizzics not only helps me with my research but everyone just wants to play with it because it's just fun to see what happens. ",""
 "FIZZICSINTRO_RICKY","Hey! Welcome ;)  OMG. Fizzics. I love this game. It's my total fave. ","Ricky"
@@ -39,15 +38,15 @@ Whoa, check this out! This key gets us into the Level 1 Hacking Panel of the OS!
 "FIZZICS1_ABORT","Sure, let's play this again some other time! Come get me at the Clubhouse whenever you want to hang out.",""
 "OSINTRO_QUESTION","The OS is a super important place. OS stands for Operating System. Would you like to see it now?","Ada"
 "OSINTRO_RESPONSE","Absolutely!","Simple version for now. Later we can detect whether they tried to flip it or not and have alternate paths for the Archivist intro."
-"OSINTRO_LAUNCH","Okay, so now you'll see an icon for the OS on the desktop. ",""
+"OSINTRO_LAUNCH","Okay, so now you'll see an icon for the OS on the desktop. Go ahead and launch it.",""
 "OSINTRO_EXPLANATION","The OS keeps everything running smoothly. When you're poking around back here you have to be very careful. But it's really cool to be able to adjust things and get involved in how your computer works. ",""
 "OSINTRO_ARCHIVIST","What's all this ruckus? Oh, it's you, Ada. Finding anything interesting while you're here? And who's this with you? ","Archivist"
 "OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel, the Archivist. He keeps things in order around here. He's kind of scary at first, but no one knows more about the OS than Saniel. Also,I'll tell you more sometime, but Saniel a quite the hero!","Ada"
 "OSINTRO_ARCHIVIST2","Hero Schmero. Hmmmmph. Well, anyway, hello there & welcome! Ada is one of our most brilliant students, but I'm afraid she's filing your head with ancient history! But yes, I've been around a while and I do know how things work around here. Glad Ada could show you areound, but you should never come here on your own. You never know what might happen! The only time I should ever see you here is if you're accompanied by an adult.","Archivist"
 "OSINTRO_WRAPUP","See what I mean, he's a bit fierce! But so glad you could meet him. Okay, I'm gonna bounce now! Just come get me at the Clubhouse if you want to look around some more. ","Ada"
 "BREAK_QUESTION","Psssst! I was hoping I'd see you. Wanna go scope around in the OS with that key we found?","Ricky"
-"BREAK_RESPONSE","Most definitely. ",""
-"BREAK_LAUNCH","Ok. So you just need to press here and voila. We're in! ",""
+"BREAK_RESPONSE","Definitely. ",""
+"BREAK_LAUNCH","Ok. So you just need to launch the OS app now and we're golden. ",""
 "BREAK_OSAPP","Awesome. This place is LIT. Okay we have to be extremely quiet. We don't want Saniel knowing we're here. He seems to be able to hear everything that goes on here. I sometimes think OS stands for Old Saniel. Wait, ssshhhh. I think I hear him. 
 Ok, remember the Flip to Hack button? Now press it. ",""
 "BREAK_UNLOCK","Perfect. Now click on that to unlock it. I wonder what's behind it?",""
@@ -58,7 +57,7 @@ Oh, hi Dr. Rowe. We're just doing some studying!",""
 "BREAK_ARCHIVISTARRIVES","I just told you this is no place for novices! Do you realize what you could do if you pressed the wrong buttons? 
 I can't blame you though. I know you want to learn how it all works. Ada's been giving me such glowing reports about you so I'm going to let it pass this time. 
 It's not too late to fix this. You can still press the reset button and it returns you to the original settings. ","Archivist"
-"BREAK_WRAPUP","Okay, so try it. Press reset and get this cursor mess cleaned up! ",""
+"BREAK_WRAPUP","Good job restoring the settings! Glad you know about the reset button now. Keep it handy for when you need to clean up messes like this one! ",""
 "FIZZICS2_QUESTION","I'll give you a key I found if you beat a Fizzics challenge I prepared for you.",""
 "FIZZICS2_RESPONSE","Thanks! ",""
 "FIZZICS2_LAUNCH","Good. Launch the Hacky Balls app. Your goal is to make it so 10 green balls are touching a single red ball at once.",""
@@ -80,3 +79,12 @@ You can take a break now. Here's the level 2 key for Fizzics. You may find it qu
 "HACKDEX1_RICKY","That was cool how you did that. Wait a sec, what's this?
 What was this doing in the Roster? Or did the Archivist drop it again? Weird. Keep it anyway. I'm sure we can make good use of it.
 Ok, it's been fun to explore things with you! Hope you'll come back ;) ","Ricky"
+"NOQUEST_ADA_RICKY","I think Riley was looking for you earlier.","These are the comments characters make when they don't have a quest to give you. For now they just tell you to go talk to another character (if there is one)."
+"NOQUEST_ADA_ARCHIVIST","Dr. Rowe wants to talk to you.",""
+"NOQUEST_ADA_NOTHING","Are you enjoying yourself?",""
+"NOQUEST_RICKY_ADA","Hey, I think Ada wants to tell you something.",""
+"NOQUEST_RICKY_ARCHIVIST","Psss... The Archivist is looking for you.",""
+"NOQUEST_RICKY_NOTHING","What are you up to?",""
+"NOQUEST_ARCHIVIST_ADA","Perhaps you should inquire with Ada.",""
+"NOQUEST_ARCHIVIST_RICKY","That friend of yours is probably up to no good.",""
+"NOQUEST_ARCHIVIST_NOTHING","Stay out of trouble!",""
