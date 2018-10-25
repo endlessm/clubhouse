@@ -27,6 +27,10 @@ from gi.repository import GLib
 from eosclubhouse import config
 
 
+def get_alternative_quests_dir():
+    return os.path.join(GLib.get_user_data_dir(), 'quests')
+
+
 class QuestStringCatalog:
 
     _string_dict = {}
@@ -42,7 +46,7 @@ class QuestStringCatalog:
 
         file_name = os.path.basename(config.QUESTS_STRINGS_CSV)
         dirs = [config.QUESTS_STRINGS_CSV,
-                os.path.join(GLib.get_user_data_dir(), 'quests', file_name)]
+                os.path.join(get_alternative_quests_dir(), file_name)]
 
         for csv_path in dirs:
             if not os.path.exists(csv_path):

@@ -27,7 +27,7 @@ import threading
 import uuid
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject
-from eosclubhouse import config, logger, libquest
+from eosclubhouse import config, logger, libquest, utils
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
 CLUBHOUSE_PATH = '/com/endlessm/Clubhouse'
@@ -530,7 +530,7 @@ class ClubhouseApplication(Gtk.Application):
         self._window.show()
 
         # @todo: Use a location from config
-        libquest.Registry.load(os.path.join(GLib.get_user_data_dir(), 'quests'))
+        libquest.Registry.load(utils.get_alternative_quests_dir())
         libquest.Registry.load(os.path.dirname(__file__) + '/quests')
 
         quest_sets = libquest.Registry.get_quest_sets()
