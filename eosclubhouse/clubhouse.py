@@ -363,22 +363,25 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         threading.Thread(target=self._run_task_in_thread, args=(self._quest_task,),
                          name='quest-thread').start()
 
-    def _quest_message_cb(self, quest, message_txt, character_mood):
-        logger.debug('Message: %s mood=%s', character_mood, message_txt)
+    def _quest_message_cb(self, quest, message_txt, character_id, character_mood):
+        logger.debug('Message: %s character_id=%s mood=%s', message_txt, character_id,
+                     character_mood)
 
         self._reset_quest_actions()
 
+        self._message.set_character(character_id)
         self._message.set_character_mood(character_mood)
         self.show_message(message_txt)
 
         self._overlay_msg_box.show_all()
         self._shell_popup_message(message_txt, self._message.get_character())
 
-    def _quest_question_cb(self, quest, message_txt, answer_choices, character_mood):
-        logger.debug('Quest: %s mood=%s', character_mood, message_txt)
+    def _quest_question_cb(self, quest, message_txt, answer_choices, character_id, character_mood):
+        logger.debug('Quest: %s mood=%s', message_txt, character_mood)
 
         self._reset_quest_actions()
 
+        self._message.set_character(character_id)
         self._message.set_character_mood(character_mood)
         self.show_question(message_txt, answer_choices)
 
