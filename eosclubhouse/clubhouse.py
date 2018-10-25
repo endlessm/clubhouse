@@ -55,6 +55,9 @@ class Character(GObject.GObject):
         self._main_image = None
         self.load()
 
+    def _get_id(self):
+        return self._id
+
     def _get_name(self):
         return self._name
 
@@ -93,6 +96,7 @@ class Character(GObject.GObject):
         if self._main_image is None:
             self._main_image = self._moods[self.mood]
 
+    id = property(_get_id)
     name = property(_get_name)
     mood = GObject.Property(type=str)
 
@@ -150,6 +154,9 @@ class Message(Gtk.Bin):
 
     def set_character(self, character_id):
         if self._character:
+            if self._character.id == character_id:
+                return
+
             self._character.disconnect(self._character_mood_change_handler)
             self._character_mood_change_handler = 0
             self._character = None
