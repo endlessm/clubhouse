@@ -173,10 +173,10 @@ class Message(Gtk.Bin):
         return self._character
 
     def set_character_mood(self, mood):
-        if self._character or mood is None:
+        if not self._character or mood is None:
             return
 
-        self._character.set_mood(mood)
+        self._character.mood = mood
 
     def _character_mood_changed_cb(self, character, prop=None):
         image_path = character.get_mood_image()
