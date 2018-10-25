@@ -82,6 +82,8 @@ class Quest(GObject.GObject):
         self.conf = {}
         self.load_conf()
 
+        self.key_event = False
+
     def start(self):
         raise NotImplementedError()
 
@@ -109,7 +111,13 @@ class Quest(GObject.GObject):
         pass
 
     def on_key_event(self, event):
-        pass
+        print("Keyboard event")
+        self.key_event = True
+
+    def debug_skip(self):
+        skip = self.key_event
+        self.key_event = False
+        return skip
 
     def __repr__(self):
         return self._name
