@@ -18,12 +18,11 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
-import json
-import os
 import pkgutil
 import sys
 
 from eosclubhouse import logger
+from eosclubhouse.system import GameStateService
 from gi.repository import GObject, GLib
 
 
@@ -77,6 +76,10 @@ class Quest(GObject.GObject):
         self._characters = {}
         self._main_character_id = main_character_id
         self._cancellable = None
+
+        self._gss = GameStateService()
+
+        self.conf = {}
         self.load_conf()
 
     def start(self):
@@ -119,28 +122,39 @@ class Quest(GObject.GObject):
         return self._cancellable is not None and self._cancellable.is_cancelled()
 
     @classmethod
-    def _get_conf_file_path(class_):
-        return os.path.join(GLib.get_user_config_dir(), class_.__name__)
+    def _get_conf_key(class_):
+        return class_._get_quest_conf_prefix() + class_.__name__
+
+    @staticmethod
+    def _get_quest_conf_prefix():
+        return 'quest.'
 
     def load_conf(self):
-        conf_path = self._get_conf_file_path()
-        if not os.path.exists(conf_path):
-            self.conf = {}
-            return
-
-        with open(conf_path, 'r') as conf_file:
-            self.conf = json.load(conf_file)
+        self.conf['complete'] = self.is_named_quest_complete(self.__class__.__name__)
 
     def save_conf(self):
-        conf_path = self._get_conf_file_path()
-        with open(conf_path, 'w') as conf_file:
-            json.dump(self.conf, conf_file)
+        key = self._get_conf_key()
+        variant = GLib.Variant('a{sb}', {'complete': self.conf['complete']})
+        self._gss.set(key, variant)
 
     def set_conf(self, key, value):
         self.conf[key] = value
 
     def get_conf(self, key):
         return self.conf.get(key)
+
+    def is_named_quest_complete(self, class_name):
+        key = self._get_quest_conf_prefix() + class_name
+        try:
+            data = self._gss.get(key)
+        except GLib.Error as e:
+            pass
+        except Exception as e:
+            logger.debug(e.message)
+        else:
+            return data['complete']
+
+        return False
 
 
 class QuestSet(GObject.GObject):
