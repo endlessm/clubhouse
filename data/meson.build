@@ -38,4 +38,11 @@ install_subdir(
     install_dir: join_paths(data_dir, meson.project_name())
 )
 
+quests_strings_csv_name = 'quests_strings.csv'
+
+install_data(
+    quests_strings_csv_name,
+    install_dir: join_paths(data_dir, meson.project_name())
+)
+
 characters_dir = join_paths(data_dir, meson.project_name(), 'characters')
