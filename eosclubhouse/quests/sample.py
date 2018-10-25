@@ -22,7 +22,7 @@ import os
 import time
 
 from eosclubhouse.libquest import Registry, Quest, QuestSet
-from eosclubhouse.desktop import Desktop, App
+from eosclubhouse.system import Desktop, App
 from gi.repository import GLib
 
 
