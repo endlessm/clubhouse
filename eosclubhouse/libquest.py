@@ -100,6 +100,10 @@ class Quest(GObject.GObject):
     def get_initial_message(self):
         return self._initial_msg
 
+    def give_item(self, item_name):
+        variant = GLib.Variant('a{sb}', {'used': False})
+        self._gss.set(item_name, variant)
+
     # @todo: Obsolete. Delete when quests no longer use it.
     def set_keyboard_request(self, wants_keyboard_events):
         pass
