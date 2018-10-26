@@ -77,7 +77,7 @@ class Quest(GObject.GObject):
         self._main_character_id = main_character_id
         self._cancellable = None
 
-        self._gss = GameStateService()
+        self.gss = GameStateService()
 
         self.conf = {}
         self.load_conf()
@@ -104,7 +104,7 @@ class Quest(GObject.GObject):
 
     def give_item(self, item_name):
         variant = GLib.Variant('a{sb}', {'used': False})
-        self._gss.set(item_name, variant)
+        self.gss.set(item_name, variant)
 
     # @todo: Obsolete. Delete when quests no longer use it.
     def set_keyboard_request(self, wants_keyboard_events):
@@ -147,7 +147,7 @@ class Quest(GObject.GObject):
     def save_conf(self):
         key = self._get_conf_key()
         variant = GLib.Variant('a{sb}', {'complete': self.conf['complete']})
-        self._gss.set(key, variant)
+        self.gss.set(key, variant)
 
     def set_conf(self, key, value):
         self.conf[key] = value
@@ -158,7 +158,7 @@ class Quest(GObject.GObject):
     def is_named_quest_complete(self, class_name):
         key = self._get_quest_conf_prefix() + class_name
         try:
-            data = self._gss.get(key)
+            data = self.gss.get(key)
         except GLib.Error as e:
             pass
         except Exception as e:
