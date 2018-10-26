@@ -1,2 +1,3 @@
 QUESTS_STRINGS_CSV=@quests_strings_csv@
+QUESTS_ITEMS_CSV=@quests_items_csv@
 CHARACTERS_DIR=@characters_dir@

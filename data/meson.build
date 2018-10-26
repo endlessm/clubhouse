@@ -45,5 +45,15 @@ install_data(
     install_dir: join_paths(data_dir, meson.project_name())
 )
 
-characters_dir = join_paths(data_dir, meson.project_name(), 'characters')
 quests_strings_csv = join_paths(data_dir, meson.project_name(), quests_strings_csv_name)
+
+quests_items_csv_name = 'quests_items.csv'
+
+install_data(
+    quests_items_csv_name,
+    install_dir: join_paths(data_dir, meson.project_name())
+)
+
+quests_items_csv = join_paths(data_dir, meson.project_name(), quests_items_csv_name)
+
+characters_dir = join_paths(data_dir, meson.project_name(), 'characters')
