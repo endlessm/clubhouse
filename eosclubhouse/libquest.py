@@ -111,7 +111,6 @@ class Quest(GObject.GObject):
         pass
 
     def on_key_event(self, event):
-        print("Keyboard event")
         self.key_event = True
 
     def debug_skip(self):
