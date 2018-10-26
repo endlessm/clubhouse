@@ -467,6 +467,14 @@ class ClubhousePage(Gtk.EventBox):
         self._reset_quest_actions()
 
 
+class InventoryPage(Gtk.EventBox):
+
+    def __init__(self, app_window):
+        super().__init__(visible=True)
+
+        self._app_window = app_window
+
+
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
     DEFAULT_WINDOW_WIDTH = 484
@@ -480,6 +488,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                              role='eos-side-component')
 
         self.clubhouse_page = ClubhousePage(self)
+        self.inventory_page = InventoryPage(self)
 
         self.set_size_request(self.DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
@@ -490,9 +499,20 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._main_window_stack = builder.get_object('main_window_stack')
 
-        self._main_window_stack.add(self.clubhouse_page)
+        self._clubhouse_button = builder.get_object('main_window_button_clubhouse')
+        self._inventory_button = builder.get_object('main_window_button_inventory')
+
+        page_switcher_data = {self._clubhouse_button: self.clubhouse_page,
+                              self._inventory_button: self.inventory_page}
+
+        for button, page_widget in page_switcher_data.items():
+            self._main_window_stack.add(page_widget)
+            button.connect('clicked', self._page_switch_button_clicked_cb, page_widget)
 
         self.add(builder.get_object('main_window_overlay'))
+
+    def _page_switch_button_clicked_cb(self, button, page_widget):
+        self._main_window_stack.set_visible_child(page_widget)
 
 
 class ClubhouseApplication(Gtk.Application):
