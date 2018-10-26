@@ -3,7 +3,7 @@ import time
 from gi.repository import GLib
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, GameStateService
+from eosclubhouse.system import Desktop, App
 
 
 class Fizzics1(Quest):
@@ -19,8 +19,7 @@ class Fizzics1(Quest):
         self._initialized = False
         self._msg = ""
         self._go_next_step = False
-        self._game_state_service = GameStateService()
-        self._game_state_service.connect('changed', self.update_availability)
+        self.gss.connect('changed', self.update_availability)
         self.available = False
         self.update_availability()
 

@@ -2,7 +2,7 @@ import time
 
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, GameStateService
+from eosclubhouse.system import Desktop, App
 
 
 class BreakSomething(Quest):
@@ -13,8 +13,7 @@ class BreakSomething(Quest):
         super().__init__('Break Something', 'ricky', QS('BREAK_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self._go_next_step = False
-        self._game_state_service = GameStateService()
-        self._game_state_service.connect('changed', self.update_availability)
+        self.gss.connect('changed', self.update_availability)
         self.available = False
         self.update_availability()
 

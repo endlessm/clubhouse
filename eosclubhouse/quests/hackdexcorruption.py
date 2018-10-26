@@ -2,7 +2,7 @@ import time
 
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, GameStateService
+from eosclubhouse.system import Desktop, App
 
 
 class HackdexCorruption(Quest):
@@ -12,8 +12,7 @@ class HackdexCorruption(Quest):
     def __init__(self):
         super().__init__('Hackdex Corruption', 'archivist', QS('HACKDEX1_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._game_state_service = GameStateService()
-        self._game_state_service.connect('changed', self.update_availability)
+        self.gss.connect('changed', self.update_availability)
         self.available = False
         self.update_availability()
 
