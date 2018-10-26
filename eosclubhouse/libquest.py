@@ -18,12 +18,11 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
-import json
-import os
 import pkgutil
 import sys
 
 from eosclubhouse import logger
+from eosclubhouse.system import GameStateService
 from gi.repository import GObject, GLib
 
 
@@ -77,7 +76,13 @@ class Quest(GObject.GObject):
         self._characters = {}
         self._main_character_id = main_character_id
         self._cancellable = None
+
+        self.gss = GameStateService()
+
+        self.conf = {}
         self.load_conf()
+
+        self.key_event = False
 
     def start(self):
         raise NotImplementedError()
@@ -97,12 +102,21 @@ class Quest(GObject.GObject):
     def get_initial_message(self):
         return self._initial_msg
 
+    def give_item(self, item_name):
+        variant = GLib.Variant('a{sb}', {'used': False})
+        self.gss.set(item_name, variant)
+
     # @todo: Obsolete. Delete when quests no longer use it.
     def set_keyboard_request(self, wants_keyboard_events):
         pass
 
     def on_key_event(self, event):
-        pass
+        self.key_event = True
+
+    def debug_skip(self):
+        skip = self.key_event
+        self.key_event = False
+        return skip
 
     def __repr__(self):
         return self._name
@@ -119,28 +133,39 @@ class Quest(GObject.GObject):
         return self._cancellable is not None and self._cancellable.is_cancelled()
 
     @classmethod
-    def _get_conf_file_path(class_):
-        return os.path.join(GLib.get_user_config_dir(), class_.__name__)
+    def _get_conf_key(class_):
+        return class_._get_quest_conf_prefix() + class_.__name__
+
+    @staticmethod
+    def _get_quest_conf_prefix():
+        return 'quest.'
 
     def load_conf(self):
-        conf_path = self._get_conf_file_path()
-        if not os.path.exists(conf_path):
-            self.conf = {}
-            return
-
-        with open(conf_path, 'r') as conf_file:
-            self.conf = json.load(conf_file)
+        self.conf['complete'] = self.is_named_quest_complete(self.__class__.__name__)
 
     def save_conf(self):
-        conf_path = self._get_conf_file_path()
-        with open(conf_path, 'w') as conf_file:
-            json.dump(self.conf, conf_file)
+        key = self._get_conf_key()
+        variant = GLib.Variant('a{sb}', {'complete': self.conf['complete']})
+        self.gss.set(key, variant)
 
     def set_conf(self, key, value):
         self.conf[key] = value
 
     def get_conf(self, key):
         return self.conf.get(key)
+
+    def is_named_quest_complete(self, class_name):
+        key = self._get_quest_conf_prefix() + class_name
+        try:
+            data = self.gss.get(key)
+        except GLib.Error as e:
+            pass
+        except Exception as e:
+            logger.debug(e.message)
+        else:
+            return data['complete']
+
+        return False
 
 
 class QuestSet(GObject.GObject):
@@ -176,8 +201,11 @@ class QuestSet(GObject.GObject):
 
     def get_next_quest(self):
         for quest in self.get_quests():
-            if quest.available:
-                return quest
+            if not quest.conf['complete']:
+                if quest.available:
+                    logger.info("Quest available: %s", quest)
+                    return quest
+                break
         return None
 
     def get_empty_message(self):
@@ -192,4 +220,6 @@ class QuestSet(GObject.GObject):
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s', quest, prop_name)
         if prop_name == 'available' and quest.get_property(prop_name):
+            logger.info('Turning QuestSet "%s" visible from quest %s', self, quest)
+            self.visible = True
             self.nudge()

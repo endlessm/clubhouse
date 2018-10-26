@@ -22,7 +22,7 @@ import os
 import time
 
 from eosclubhouse.libquest import Registry, Quest, QuestSet
-from eosclubhouse.desktop import Desktop, App
+from eosclubhouse.system import Desktop, App
 from gi.repository import GLib
 
 
@@ -117,7 +117,8 @@ class Aggretsuko(QuestSet):
 
     def __init__(self):
         super().__init__()
-        self.props.visible = 'CLUBHOUSE_SHOW_SAMPLE_QUESTS' in os.environ
+        self.props.visible = False
 
 
-Registry.register_quest_set(Aggretsuko)
+if 'CLUBHOUSE_SHOW_SAMPLE_QUESTS' in os.environ:
+    Registry.register_quest_set(Aggretsuko)
