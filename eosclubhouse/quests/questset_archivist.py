@@ -23,16 +23,5 @@ class ArchivistQuestSet(QuestSet):
 
         return QS('NOQUEST_ARCHIVIST_NOTHING')
 
-    def get_next_quest(self):
-        quest = QuestSet.get_next_quest(self)
-        if quest is None:
-            return None
-
-        # if (isinstance(quest, HackdexCorruption)):
-        #    if (not quest.is_named_quest_complete("BreakSomething")):
-        #        return None
-
-        return quest
-
 
 Registry.register_quest_set(ArchivistQuestSet)
