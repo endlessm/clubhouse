@@ -9,11 +9,6 @@ class FirstContact(Quest):
     # This quest starts already in the first step. There's no prompting.
     def __init__(self):
         super().__init__('First Contact', 'ada', '')
-        self._hint0 = False
-        self._hint1 = False
-        self._hintCount = False
-        self._initialized = False
-        self._msg = ""
         self.available = True
 
     def start(self):

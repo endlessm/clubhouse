@@ -12,11 +12,6 @@ class BreakSomething(Quest):
     def __init__(self):
         super().__init__('Break Something', 'ricky', QS('BREAK_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._hint0 = False
-        self._hint1 = False
-        self._hintCount = False
-        self._initialized = False
-        self._msg = ""
         self._go_next_step = False
         self._game_state_service = GameStateService()
         self._game_state_service.connect('changed', self.update_availability)

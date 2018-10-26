@@ -12,11 +12,6 @@ class Roster(Quest):
     def __init__(self):
         super().__init__('Roster', 'ada', QS('ROSTER_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._hint0 = False
-        self._hint1 = False
-        self._hintCount = False
-        self._initialized = False
-        self._msg = ""
         self._go_next_step = False
 
     def start(self):

@@ -12,11 +12,6 @@ class FizzicsIntro(Quest):
     def __init__(self):
         super().__init__('Fizzics Intro', 'ada', QS('FIZZICSINTRO_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._hint0 = False
-        self._hint1 = False
-        self._hintCount = False
-        self._initialized = False
-        self._msg = ""
         self._go_next_step = False
 
     def start(self):
