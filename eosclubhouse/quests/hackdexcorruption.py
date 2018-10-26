@@ -7,7 +7,7 @@ from eosclubhouse.system import Desktop, App, GameStateService
 
 class HackdexCorruption(Quest):
 
-    TARGET_APP_DBUS_NAME = 'com.endlessm.hackdex1'
+    TARGET_APP_DBUS_NAME = 'com.endlessm.Hackdex_chapter_one'
 
     def __init__(self):
         super().__init__('Hackdex Corruption', 'archivist', QS('HACKDEX1_QUESTION'))

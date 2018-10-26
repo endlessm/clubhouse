@@ -7,7 +7,7 @@ from eosclubhouse.system import Desktop, App
 
 class Roster(Quest):
 
-    TARGET_APP_DBUS_NAME = 'com.endlessm.hackdex1'
+    TARGET_APP_DBUS_NAME = 'com.endlessm.Hackdex_chapter_one'
 
     def __init__(self):
         super().__init__('Roster', 'ada', QS('ROSTER_QUESTION'))

@@ -7,7 +7,7 @@ from eosclubhouse.system import Desktop, App
 
 class OSIntro(Quest):
 
-    TARGET_APP_DBUS_NAME = 'com.endlessm.os'
+    TARGET_APP_DBUS_NAME = 'com.endlessm.OperatingSystemApp'
 
     def __init__(self):
         super().__init__('OS Intro', 'ada', QS('OSINTRO_QUESTION'))

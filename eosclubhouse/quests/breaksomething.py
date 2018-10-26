@@ -7,7 +7,7 @@ from eosclubhouse.system import Desktop, App, GameStateService
 
 class BreakSomething(Quest):
 
-    TARGET_APP_DBUS_NAME = 'com.endlessm.os'
+    TARGET_APP_DBUS_NAME = 'com.endlessm.OperatingSystemApp'
 
     def __init__(self):
         super().__init__('Break Something', 'ricky', QS('BREAK_QUESTION'))
