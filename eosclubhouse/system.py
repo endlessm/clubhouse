@@ -109,7 +109,7 @@ class App:
         app_path = '/' + str(app_dbus_name).replace('.', '/')
         self._clippy = Gio.DBusProxy.new_sync(Desktop.SESSION_BUS, 0, None,
                                               app_dbus_name,
-                                              app_path,
+                                              '/com/endlessm/Clippy',
                                               'com.endlessm.Clippy',
                                               None)
 
