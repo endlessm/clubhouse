@@ -483,7 +483,10 @@ class InventoryItem(Gtk.Box):
 
         icon_path = os.path.join(config.ITEM_ICONS_DIR, icon_name)
 
-        self.add(Gtk.Image.new_from_file(icon_path))
+        image = Gtk.Image(width_request=150, height_request=150, yalign=1.0)
+        image.set_from_file(icon_path)
+        self.add(image)
+
         self.add(Gtk.Label.new(item_name))
 
         self.show_all()
