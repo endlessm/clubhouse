@@ -2,6 +2,10 @@
     background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.png');
 }
 
+.inventory-page {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/inventory_bg.png');
+}
+
 .clubhouse-talk-box {
     background-color: white;
     padding: 4px 12px;
@@ -90,4 +94,12 @@
 
 .clubhouse-button-box > button:hover:not(:checked) {
     background: rgba(40, 40, 40, .6);
+
+}
+
+.inventory-item > label {
+    color: #fff;
+    background: rgba(100, 100, 100, .8);
+    border-radius: 16px;
+    padding: 5px;
 }

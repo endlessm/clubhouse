@@ -28,6 +28,7 @@ import uuid
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject
 from eosclubhouse import config, logger, libquest, utils
+from eosclubhouse.system import GameStateService
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
 CLUBHOUSE_PATH = '/com/endlessm/Clubhouse'
@@ -467,12 +468,90 @@ class ClubhousePage(Gtk.EventBox):
         self._reset_quest_actions()
 
 
+class InventoryItem(Gtk.Box):
+
+    def __init__(self, item_id, icon_name, item_name):
+        super().__init__(halign=Gtk.Align.CENTER,
+                         orientation=Gtk.Orientation.VERTICAL,
+                         visible=True,
+                         spacing=16,
+                         width_request=150)
+
+        self.item_id = item_id
+
+        self.get_style_context().add_class('inventory-item')
+
+        icon_path = os.path.join(config.ITEM_ICONS_DIR, icon_name)
+
+        self.add(Gtk.Image.new_from_file(icon_path))
+        self.add(Gtk.Label.new(item_name))
+
+        self.show_all()
+
+
 class InventoryPage(Gtk.EventBox):
 
     def __init__(self, app_window):
         super().__init__(visible=True)
 
         self._app_window = app_window
+
+        self._setup_ui()
+
+        self._gss = GameStateService()
+        self._gss.connect('changed', lambda _gss: self._load_items())
+        self._items_db = utils.QuestItemDB()
+
+        self._loaded_items = {}
+        self._load_items()
+
+    def _setup_ui(self):
+        self.get_style_context().add_class('inventory-page')
+
+        builder = Gtk.Builder()
+        builder.add_from_resource('/com/endlessm/Clubhouse/inventory-page.ui')
+
+        self._inventory_box = builder.get_object('inventory_box')
+        self.add(self._inventory_box)
+
+    def _add_item(self, item_id, icon_name, item_name):
+        if item_id in self._loaded_items.keys():
+            return
+
+        new_item = InventoryItem(item_id, icon_name, item_name)
+        self._loaded_items[item_id] = new_item
+        self._inventory_box.add(new_item)
+
+    def _remove_item(self, item_id):
+        item = self._loaded_items.get(item_id)
+        if item:
+            item.destroy()
+            del self._loaded_items[item_id]
+
+    def _load_items(self):
+        # For now there is no method in the GameStateService to retrieve items based
+        # on a prefix, so every time there's a change in the service, we need to directly
+        # verify all the items we're interested in.
+        for item_id, (icon, name) in self._items_db.get_all_items():
+            try:
+                item_state = self._gss.get(item_id)
+            except GLib.Error as e:
+                # Raise errors unless their the expected (key missing)
+                if not GameStateService.is_key_error(e):
+                    raise
+
+                self._remove_item(item_id)
+                continue
+
+            # Used keys shouldn't show up in the inventory
+            if self._item_is_key(item_id) and item_state.get('used', False):
+                self._remove_item(item_id)
+                continue
+
+            self._add_item(item_id, icon, name)
+
+    def _item_is_key(self, item_id):
+        return item_id.startswith('item.key.')
 
 
 class ClubhouseWindow(Gtk.ApplicationWindow):
