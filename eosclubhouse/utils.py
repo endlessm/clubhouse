@@ -81,5 +81,24 @@ class QuestStringCatalog(_DictFromCSV):
         contents_dict[key] = value
 
 
+class QuestItemDB(_DictFromCSV):
+
+    def __init__(self):
+        super().__init__(config.QUESTS_ITEMS_CSV)
+
+    @classmethod
+    def get_item(class_, key):
+        return class_.get_dict().get(key)
+
+    @classmethod
+    def get_all_items(class_):
+        return class_.get_dict().items()
+
+    @classmethod
+    def set_key_value_from_csv_row(class_, csv_row, contents_dict):
+        item_id, icon, name = csv_row
+        contents_dict[item_id] = (icon, name)
+
+
 # Convenience "QuestString" method to get a string from the catalog
 QS = QuestStringCatalog().get_string
