@@ -151,7 +151,7 @@ class Fizzics1(Quest):
     # STEP 4
     def step_reward(self, step, starting, time_in_step):
         if starting:
-            self.give_item('item.key.os.1')
+            self.give_item('item.key.OperatingSystemApp.1')
             self.show_question(QS('FIZZICS1_GIVE_KEY'), choices=[('OK', self.go_next_step)])
             self.conf['complete'] = True
             self.available = False
