@@ -20,9 +20,9 @@ Stick with me and I'll show you how to do things around here.",""
 "ROSTER_LAUNCH","I'm giving you a new app called Roster. 
 
 See it in the desktop? Go ahead and launch it.",""
-"ROSTER_EXPLANATION","This is the Roster: Riley, Saniel, Delta, Faber, and me! 
-
-Have a look at it and come get me in the Clubhouse and we'll continue your tour.",""
+"ROSTER_EXPLANATION","This is the Roster: Riley, Saniel, Delta, Faber, and me! Have a look at it.",""
+"ROSTER_CLOSED","It was neat, wasn't it? Come get me in the Clubhouse and we'll continue your tour.","This happens when the player closes the app."
+"ROSTER_TIMEOUT","All right. I see you're enjoying it, but I need to go. Come get me in the Clubhouse whenever you're ready and we'll continue your tour.","And this happens when the player spends more than 2 minutes in the app without closing it."
 "FIZZICSINTRO_QUESTION","Okay, Ace. You're a quick learner! Ready to keep learning about this?","Ada"
 "FIZZICSINTRO_RESPONSE","Yep! Let's go. ",""
 "FIZZICSINTRO_LAUNCH","I'm researching the physics of the bounce. Kinetic energy. Velocity. I can tell you more sometime! 
@@ -138,3 +138,4 @@ It's been fun to explore things with you! Hope you'll come back ;)
 "NOQUEST_ARCHIVIST_ADA","Perhaps you should inquire with Ada.",""
 "NOQUEST_ARCHIVIST_RICKY","That friend of yours is probably up to no good.",""
 "NOQUEST_ARCHIVIST_NOTHING","Stay out of trouble!",""
+"","Yellow: I had to add/modify the text. Needs to be looked at by Genine.",""
