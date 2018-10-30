@@ -66,6 +66,8 @@ class BreakSomething(Quest):
         if self.debug_skip():
             return self.step_unlock
 
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
         return step
 
     def step_unlock(self, step, starting, time_in_step):
@@ -75,6 +77,8 @@ class BreakSomething(Quest):
         # TODO: Wait for unlock
         if self.debug_skip():
             return self.step_unlocked
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
 
         return step
 
@@ -85,6 +89,8 @@ class BreakSomething(Quest):
         # TODO: Wait for goal to be met (large cursor)
         if self.debug_skip():
             return self.step_success
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
 
         return step
 
@@ -122,3 +128,13 @@ class BreakSomething(Quest):
 
     def step_end(self, step, starting, time_in_step):
         return
+
+    # STEP Abort
+    def step_abort(self, step, starting, time_in_step):
+        if starting:
+            self.show_message(QS('BREAK_ABORT'))
+
+        if time_in_step > 5:
+            return
+
+        return step

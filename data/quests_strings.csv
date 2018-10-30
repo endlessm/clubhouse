@@ -100,6 +100,7 @@ It's not too late to fix this. If you press the reset button, it will return you
 "BREAK_WRAPUP","Good job restoring the settings! Glad you know about the reset button now. 
 
 Keep it handy for when you need to clean up messes like this one! ",""
+"BREAK_ABORT","OK, we can try it later.","If player exits the OS app before completing the quest."
 "FIZZICS2_QUESTION","I'll give you a key I found if you beat a Fizzics challenge I prepared for you.",""
 "FIZZICS2_RESPONSE","Thanks! ",""
 "FIZZICS2_LAUNCH","Good. Launch the Hacky Balls app. Your goal is to make it so 10 green balls are touching a single red ball at once.",""
