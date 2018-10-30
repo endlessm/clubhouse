@@ -20,7 +20,7 @@ Stick with me and I'll show you how to do things around here.",""
 "ROSTER_LAUNCH","I'm giving you a new app called Roster. 
 
 See it in the desktop? Go ahead and launch it.",""
-"ROSTER_EXPLANATION","This is the Roster: Riley, Saniel, Delta, Faber, and me! Have a look at it.",""
+"ROSTER_EXPLANATION","Roster gives you some info about Riley, Saniel, Aurora, Faber, and me! Have a look at it.",""
 "ROSTER_CLOSED","It was neat, wasn't it? Come get me in the Clubhouse and we'll continue your tour.","This happens when the player closes the app."
 "ROSTER_TIMEOUT","All right. I see you're enjoying it, but I need to go. Come get me in the Clubhouse whenever you're ready and we'll continue your tour.","And this happens when the player spends more than 2 minutes in the app without closing it."
 "FIZZICSINTRO_QUESTION","Okay, Ace. You're a quick learner! Ready to keep learning about this?","Ada"
@@ -51,8 +51,8 @@ This key will get you into the Level 1 Hacking Panel. From there, there are load
 "FIZZICS1_NOTENOUGH","Hey, wait! Nice try, but you need to keep at least 20 red balls, otherwise it doesn't count.",""
 "FIZZICS1_SUCCESS","Brilliant! I knew you'd ace that. Fun, isn't it?
 
-Since you clearly know your stuff, I'm going to let you in on a secret:",""
-"FIZZICS1_KEY_ALREADY_OS","Check out this key I found the other day. It can let us into the Level 1 Hacking Panel of the OS!!","This is if you've already visited the OS with Ada"
+Since you're clearly such a natural at this, I'm going to let you in on a secret:",""
+"FIZZICS1_KEY_ALREADY_OS","Check out this key I found the other day. We can use it to get into the Level 1 Hacking Panel of the OS!!","This is if you've already visited the OS with Ada"
 "FIZZICS1_KEY_NO_OS","Check out this key I found the other day. It says ""OS Level 1"" on it. I wonder what that is.","And this is if you haven't seen the OS, so you don't know what it is."
 "FIZZICS1_GIVE_KEY","Here, I'm entrusting the key to you. Protect it and don't let anyone see it.
 
@@ -117,10 +117,9 @@ Here's the key I found. I think it must have fallen out of Saniel's pocket. ",""
 "HACKDEX1_LAUNCH","My Roster is behaving strangely. I think something has gotten in and corrupted it. Check to see if yours is okay. 
 
 So let's see how this goes. Launch the Hackdex app.",""
-"HACKDEX1_GOAL","Curses! Yours too! That's very strange. I wonder what's causing this. 
-Your goal is to fix it so everything is readable again. 
-
-You need the key to get to level one, but it appears I have misplaced it.",""
+"HACKDEX1_GOAL","Curses! Yours too! That's very strange. I wonder what's causing this. Your goal is to fix it so everything is readable again.",""
+"HACKDEX1_NEED_KEY","You need the key to get to level one, but it appears I have misplaced it.",""
+"HACKDEX1_UNLOCKED","Excellent! I see you've found the key! Good, good. Now, get in there and do your magic and fix this corruption.",""
 "HACKDEX1_SUCCESS","Ah, that's better. Your solution is acceptable.You can take a break now. 
 
 Here's the level 2 key for Fizzics. You may find it quite interesting. See you at the Clubhouse.",""
@@ -128,8 +127,8 @@ Here's the level 2 key for Fizzics. You may find it quite interesting. See you a
 
 How did this get into the Roster? Or did the Archivist drop it again? Weird. Keep it anyway. I'm sure we can use it!
 
-It's been fun to explore things with you! Hope you'll come back ;) 
-","Ricky"
+It's been fun to explore things with you! Hope you'll come back ;) ","Ricky"
+"HACKDEX1_ABORT","Fine. Come back later to help me then.",""
 "NOQUEST_ADA_RICKY","I think Riley was looking for you earlier.","These are the comments characters make when they don't have a quest to give you. For now they just tell you to go talk to another character (if there is one)."
 "NOQUEST_ADA_ARCHIVIST","Dr. Rowe wants to talk to you.",""
 "NOQUEST_ADA_NOTHING","Are you enjoying yourself?",""

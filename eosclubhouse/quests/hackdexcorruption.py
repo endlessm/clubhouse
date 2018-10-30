@@ -15,6 +15,7 @@ class HackdexCorruption(Quest):
         self.gss.connect('changed', self.update_availability)
         self.available = False
         self._go_next_step = False
+        self._hint_key = False
         self.update_availability()
 
     def start(self):
@@ -52,7 +53,10 @@ class HackdexCorruption(Quest):
         if starting:
             self.show_message(QS('HACKDEX1_LAUNCH'))
 
-        if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
+        if time_in_step < 3:
+            return step
+
+        if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_explanation
 
         return step
@@ -62,9 +66,30 @@ class HackdexCorruption(Quest):
         if starting:
             self.show_message(QS('HACKDEX1_GOAL'))
 
-        # TODO: Check quest completion with invisible ink change
+        # TODO: Check unlock level 1
+        if self.debug_skip():
+            return self.step_check_goal
+
+        if (time_in_step > 20 and not self._hint_key):
+            self._msg = QS('HACKDEX1_NEED_KEY')
+            self.show_message(self._msg)
+            self._hint_key = True
+
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
+
+        return step
+
+    def step_check_goal(self, step, starting, time_in_step):
+        if starting:
+            self.show_message(QS('HACKDEX1_UNLOCKED'))
+
+        # TODO: For color change
         if self.debug_skip():
             return self.step_success
+
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
 
         return step
 
@@ -95,3 +120,13 @@ class HackdexCorruption(Quest):
 
     def step_end(self, step, starting, time_in_step):
         return
+
+    # STEP Abort
+    def step_abort(self, step, starting, time_in_step):
+        if starting:
+            self.show_message(QS('HACKDEX1_ABORT'))
+
+        if time_in_step > 5:
+            return
+
+        return step
