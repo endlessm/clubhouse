@@ -167,6 +167,10 @@ class Quest(GObject.GObject):
 
         return False
 
+    @classmethod
+    def get_id(class_):
+        return class_.__name__
+
 
 class QuestSet(GObject.GObject):
 
@@ -198,6 +202,10 @@ class QuestSet(GObject.GObject):
     @classmethod
     def get_quests(class_):
         return class_.__quests__
+
+    @classmethod
+    def get_id(class_):
+        return class_.__name__
 
     def get_next_quest(self):
         for quest in self.get_quests():
