@@ -18,6 +18,7 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
+import argparse
 import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
@@ -269,6 +270,9 @@ class ClubhousePage(Gtk.EventBox):
         # The quest may have been stopped from the Shell quest view, so show the main window
         self._app_window.show()
 
+        self._cancel_ongoing_task()
+
+    def _cancel_ongoing_task(self):
         if self._quest_task is None:
             return
 
@@ -358,6 +362,22 @@ class ClubhousePage(Gtk.EventBox):
 
         threading.Thread(target=self._run_task_in_thread, args=(self._quest_task,),
                          name='quest-thread').start()
+
+    def run_quest_by_name(self, quest_name, use_shell_quest_view):
+        quest = libquest.Registry.get_quest_by_name(quest_name)
+        if quest is None:
+            logger.warning('No quest with name "%s" found!', quest_name)
+            return
+
+        if self._quest_task is not None and quest == self._quest_task.get_source_object():
+            logger.warning('Quest "%s" is already being run!', quest_name)
+            return
+
+        self._cancel_ongoing_task()
+
+        if use_shell_quest_view:
+            self._app_window.hide()
+        self.run_quest(quest)
 
     def _quest_message_cb(self, quest, message_txt, character_id, character_mood):
         logger.debug('Message: %s character_id=%s mood=%s', message_txt, character_id,
@@ -601,9 +621,11 @@ class ClubhouseApplication(Gtk.Application):
 
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
-                         flags=Gio.ApplicationFlags.FLAGS_NONE)
+                         flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE)
 
         self._init_style()
+
+        self._argparser = self._create_parser()
 
         self._window = None
         self._dbus_connection = None
@@ -622,6 +644,13 @@ class ClubhouseApplication(Gtk.Application):
                                               css_provider,
                                               Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
+    def _create_parser(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument('-q', '--list-quests', action='store_true',
+                            help='List existing quest sets and quests')
+
+        return parser
+
     def do_activate(self):
         pass
 
@@ -632,7 +661,8 @@ class ClubhouseApplication(Gtk.Application):
         self._window.connect('notify::visible', self._vibility_notify_cb)
 
         simple_actions = [('stop-quest', self._stop_quest, None),
-                          ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s'))]
+                          ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
+                          ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)'))]
 
         for name, callback, variant_type in simple_actions:
             action = Gio.SimpleAction.new(name, variant_type)
@@ -665,6 +695,10 @@ class ClubhouseApplication(Gtk.Application):
 
     def _quest_user_answer(self, action, action_id):
         self._window.clubhouse_page.quest_action(action_id.unpack())
+
+    def _run_quest_action_cb(self, action, arg_variant):
+        quest_name, run_in_shell = arg_variant.unpack()
+        self._window.run_quest_by_name(quest_name, run_in_shell)
 
     def _vibility_notify_cb(self, window, pspec):
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}
@@ -726,6 +760,20 @@ class ClubhouseApplication(Gtk.Application):
 
         self._window.move(geometry.x, geometry.y)
         self._window.resize(geometry.width, geometry.height)
+
+    def do_command_line(self, cmdline):
+        args = self._argparser.parse_args(cmdline.get_arguments()[1:])
+
+        if args.list_quests:
+            self._list_quests()
+
+        return 0
+
+    def _list_quests(self):
+        for quest_set in libquest.Registry.get_quest_sets():
+            print(quest_set.get_id())
+            for quest in quest_set.get_quests():
+                print('\t{}'.format(quest.get_id()))
 
 
 if __name__ == '__main__':
