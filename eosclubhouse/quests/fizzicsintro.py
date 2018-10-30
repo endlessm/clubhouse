@@ -7,7 +7,7 @@ from eosclubhouse.system import Desktop, App
 
 class FizzicsIntro(Quest):
 
-    TARGET_APP_DBUS_NAME = 'com.endlessm.hackyballs'
+    TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
 
     def __init__(self):
         super().__init__('Fizzics Intro', 'ada', QS('FIZZICSINTRO_QUESTION'))
