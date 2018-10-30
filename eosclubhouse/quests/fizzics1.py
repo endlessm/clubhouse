@@ -130,15 +130,29 @@ class Fizzics1(Quest):
 
         if self._go_next_step:
             self._go_next_step = False
+            return self.step_prereward
+
+        return step
+
+    def step_prereward(self, step, starting, time_in_step):
+        if starting:
+            if (self.is_named_quest_complete("OSIntro")):
+                msg = 'FIZZICS1_KEY_ALREADY_OS'
+            else:
+                msg = 'FIZZICS1_KEY_NO_OS'
+            self.show_question(QS(msg), choices=[('OK', self.go_next_step)])
+
+        if self._go_next_step:
+            self._go_next_step = False
             return self.step_reward
 
         return step
 
-    # STEP 3
+    # STEP 4
     def step_reward(self, step, starting, time_in_step):
         if starting:
             self.give_item('item.key.os.1')
-            self.show_question(QS('FIZZICS1_GOODBYE'), choices=[('OK', self.go_next_step)])
+            self.show_question(QS('FIZZICS1_GIVE_KEY'), choices=[('OK', self.go_next_step)])
             self.conf['complete'] = True
             self.available = False
 

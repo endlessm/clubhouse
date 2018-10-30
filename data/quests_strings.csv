@@ -49,15 +49,15 @@ You're gonna need to get in there and hack the game in order to get it to do wha
 This key will get you into the Level 1 Hacking Panel. From there, there are loads of cool things you can do. ",""
 "FIZZICS1_HINT","The red balls are constantly touching each other.  Think about it. What if they were smaller?  Try to get them not to touch.",""
 "FIZZICS1_NOTENOUGH","Hey, wait! Nice try, but you need to keep at least 20 red balls, otherwise it doesn't count.",""
-"FIZZICS1_SUCCESS","Brilliant! I knew you'd ace that. Fun, isn't it?... Whoa! What's this key? It just appeared out of nowhere?
+"FIZZICS1_SUCCESS","Brilliant! I knew you'd ace that. Fun, isn't it?
 
-Check this out! This key gets us into the Level 1 Hacking Panel of the OS!! 
+Since you clearly know your stuff, I'm going to let you in on a secret:",""
+"FIZZICS1_KEY_ALREADY_OS","Check out this key I found the other day. It can let us into the Level 1 Hacking Panel of the OS!!","This is if you've already visited the OS with Ada"
+"FIZZICS1_KEY_NO_OS","Check out this key I found the other day. It says ""OS Level 1"" on it. I wonder what that is.","And this is if you haven't seen the OS, so you don't know what it is."
+"FIZZICS1_GIVE_KEY","Here, I'm entrusting the key to you. Protect it and don't let anyone see it.
 
-Here, I'm entrusting this to you. Protect it and don't let anyone see it. ",""
-"FIZZICS1_GOODBYE","See you at the Clubhouse!",""
-"FIZZICS1_ABORT","Sure, let's play this again some other time! 
-
-Come get me at the Clubhouse whenever you want to hang out.",""
+See you at the Clubhouse!",""
+"FIZZICS1_ABORT","Let's play this again some other time. Come get me at the Clubhouse whenever you want to hang out.","This should be one line. Don't want multiple steps when they've lost interest."
 "OSINTRO_QUESTION","The OS is a super important place. OS stands for Operating System. Would you like to see it now?","Ada"
 "OSINTRO_RESPONSE","Absolutely!","Simple version for now. Later we can detect whether they tried to flip it or not and have alternate paths for the Archivist intro."
 "OSINTRO_LAUNCH","Okay, so now you'll see an icon for the OS on the desktop. Go ahead and launch it.",""
