@@ -18,6 +18,7 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
+import argparse
 import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
@@ -601,9 +602,11 @@ class ClubhouseApplication(Gtk.Application):
 
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
-                         flags=Gio.ApplicationFlags.FLAGS_NONE)
+                         flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE)
 
         self._init_style()
+
+        self._argparser = self._create_parser()
 
         self._window = None
         self._dbus_connection = None
@@ -621,6 +624,13 @@ class ClubhouseApplication(Gtk.Application):
         style_context.add_provider_for_screen(Gdk.Screen.get_default(),
                                               css_provider,
                                               Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
+    def _create_parser(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument('-q', '--list-quests', action='store_true',
+                            help='List existing quest sets and quests')
+
+        return parser
 
     def do_activate(self):
         pass
@@ -726,6 +736,20 @@ class ClubhouseApplication(Gtk.Application):
 
         self._window.move(geometry.x, geometry.y)
         self._window.resize(geometry.width, geometry.height)
+
+    def do_command_line(self, cmdline):
+        args = self._argparser.parse_args(cmdline.get_arguments()[1:])
+
+        if args.list_quests:
+            self._list_quests()
+
+        return 0
+
+    def _list_quests(self):
+        for quest_set in libquest.Registry.get_quest_sets():
+            print(quest_set.get_id())
+            for quest in quest_set.get_quests():
+                print('\t{}'.format(quest.get_id()))
 
 
 if __name__ == '__main__':
