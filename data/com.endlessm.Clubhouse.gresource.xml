@@ -2,10 +2,13 @@
 <gresources>
   <gresource prefix="/com/endlessm/Clubhouse">
     <file>gtk-style.css</file>
+    <file preprocess="xml-stripblanks">clubhouse-page.ui</file>
+    <file preprocess="xml-stripblanks">inventory-page.ui</file>
     <file preprocess="xml-stripblanks">main-window.ui</file>
     <file preprocess="xml-stripblanks">message.ui</file>
   </gresource>
   <gresource prefix="/com/endlessm/Clubhouse/images">
     <file>clubhouse_bg.png</file>
+    <file>inventory_bg.png</file>
   </gresource>
 </gresources>

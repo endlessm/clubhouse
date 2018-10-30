@@ -1,5 +1,9 @@
-.main-window {
+.clubhouse-page {
     background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.png');
+}
+
+.inventory-page {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/inventory_bg.png');
 }
 
 .clubhouse-talk-box {
@@ -52,4 +56,50 @@
 .character-message-side-button {
     padding: 0;
     border-radius: 20%;
+}
+
+.clubhouse-button-box {
+    margin-bottom: 25px;
+}
+
+.clubhouse-button-box > button > label {
+    color: white;
+}
+
+.clubhouse-button-box > button {
+    background: rgba(40, 40, 40, .9);
+    border: none;
+    border-left: 1px solid black;
+    border-radius: 0;
+}
+
+.clubhouse-button-box > button:first-child {
+    border: none;
+    border-radius: 20px 0 0 20px;
+}
+
+.clubhouse-button-box > button:last-child {
+    border: none;
+    border-left: 1px solid black;
+    border-radius: 0 20px 20px 0;
+}
+
+.clubhouse-button-box > button:checked {
+    background: rgba(244, 228, 216, .9);
+}
+
+.clubhouse-button-box > button:checked > label {
+    color: black;
+}
+
+.clubhouse-button-box > button:hover:not(:checked) {
+    background: rgba(40, 40, 40, .6);
+
+}
+
+.inventory-item > label {
+    color: #fff;
+    background: rgba(100, 100, 100, .8);
+    border-radius: 16px;
+    padding: 5px;
 }
