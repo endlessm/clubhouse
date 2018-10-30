@@ -55,6 +55,26 @@ class Registry:
     def get_quest_sets(class_):
         return class_._quest_sets
 
+    @classmethod
+    def get_quest_by_name(class_, name):
+        quest_set_name = None
+        name_split = name.split('.', 1)
+
+        if len(name_split) > 1:
+            quest_set_name, quest_name = name_split
+        else:
+            quest_name = name
+
+        for quest_set in class_.get_quest_sets():
+            if quest_set_name is not None and quest_set_name != quest_set.get_id():
+                continue
+
+            for quest in quest_set.get_quests():
+                if quest.get_id() == quest_name:
+                    return quest
+
+        return None
+
 
 class Quest(GObject.GObject):
 
