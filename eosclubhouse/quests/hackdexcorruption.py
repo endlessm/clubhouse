@@ -14,6 +14,7 @@ class HackdexCorruption(Quest):
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self.gss.connect('changed', self.update_availability)
         self.available = False
+        self._go_next_step = False
         self.update_availability()
 
     def start(self):
@@ -36,6 +37,9 @@ class HackdexCorruption(Quest):
                 time.sleep(dt)
                 time_in_step += dt
                 starting = False
+
+    def go_next_step(self):
+        self._go_next_step = True
 
     def update_availability(self, gss=None):
         if self.conf['complete']:
@@ -66,22 +70,28 @@ class HackdexCorruption(Quest):
 
     def step_success(self, step, starting, time_in_step):
         if starting:
-            self.show_message(QS('HACKDEX1_SUCCESS'))
+            self.show_question(QS('HACKDEX1_SUCCESS'), choices=[('OK', self.go_next_step)])
             self.give_item('item.key.fizzics.2')
 
-        if time_in_step > 5:
+        if self._go_next_step:
+            self._go_next_step = False
             return self.step_ricky
 
         return step
 
     def step_ricky(self, step, starting, time_in_step):
         if starting:
-            self.show_message(QS('HACKDEX1_RICKY'))
+            self.show_question(QS('HACKDEX1_RICKY'), choices=[('OK', self.go_next_step)],
+                               character_id='ricky')
             self.give_item('item.mysterious_object')
             self.conf['complete'] = True
             self.available = False
 
-        if time_in_step > 5:
-            return
+        if self._go_next_step:
+            self._go_next_step = False
+            return self.step_end
 
         return step
+
+    def step_end(self, step, starting, time_in_step):
+        return

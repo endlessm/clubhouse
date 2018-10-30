@@ -10,6 +10,7 @@ class FirstContact(Quest):
     def __init__(self):
         super().__init__('First Contact', 'ada', '')
         self.available = True
+        self._go_next_step = False
 
     def start(self):
         dt = 1
@@ -29,6 +30,9 @@ class FirstContact(Quest):
                 time.sleep(dt)
                 time_in_step += dt
                 starting = False
+
+    def go_next_step(self):
+        self._go_next_step = True
 
     # STEP 0
     def step_first(self, step, starting, time_in_step):
@@ -54,11 +58,15 @@ class FirstContact(Quest):
 
     def step_reward(self, step, starting, time_in_step):
         if starting:
-            self.show_message(QS('FIRSTCONTACT_REWARD'))
+            self.show_question(QS('FIRSTCONTACT_REWARD'), choices=[('OK', self.go_next_step)])
             self.conf['complete'] = True
             self.available = False
 
-        if time_in_step > 5:
-            return
+        if self._go_next_step:
+            self._go_next_step = False
+            return self.step_end
 
         return step
+
+    def step_end(self, step, starting, time_in_step):
+        return

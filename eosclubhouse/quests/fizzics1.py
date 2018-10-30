@@ -138,14 +138,18 @@ class Fizzics1(Quest):
     def step_reward(self, step, starting, time_in_step):
         if starting:
             self.give_item('item.key.os.1')
-            self.show_message(QS('FIZZICS1_GOODBYE'))
+            self.show_question(QS('FIZZICS1_GOODBYE'), choices=[('OK', self.go_next_step)])
             self.conf['complete'] = True
             self.available = False
 
-        if time_in_step > 5:
-            return
+        if self._go_next_step:
+            self._go_next_step = False
+            return self.step_end
 
         return step
+
+    def step_end(self, step, starting, time_in_step):
+        return
 
     # STEP Abort
     def step_end_no_app(self, step, starting, time_in_step):

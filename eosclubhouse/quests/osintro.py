@@ -51,43 +51,49 @@ class OSIntro(Quest):
         return step
 
     def step_explanation(self, step, starting, time_in_step):
-        self.show_question(QS('OSINTRO_EXPLANATION'), choices=[('OK', self.go_next_step)])
+        if starting:
+            self.show_question(QS('OSINTRO_EXPLANATION'), choices=[('OK', self.go_next_step)])
         if self._go_next_step:
             self._go_next_step = False
             return self.step_archivist
         return step
 
     def step_archivist(self, step, starting, time_in_step):
-        self.show_question(QS('OSINTRO_ARCHIVIST'), choices=[('OK', self.go_next_step)],
-                           character_id='archivist')
+        if starting:
+            self.show_question(QS('OSINTRO_ARCHIVIST'), choices=[('OK', self.go_next_step)],
+                               character_id='archivist')
         if self._go_next_step:
             self._go_next_step = False
             return self.step_intro
         return step
 
     def step_intro(self, step, starting, time_in_step):
-        self.show_question(QS('OSINTRO_INTRO'), choices=[('OK', self.go_next_step)])
+        if starting:
+            self.show_question(QS('OSINTRO_INTRO'), choices=[('OK', self.go_next_step)])
         if self._go_next_step:
             self._go_next_step = False
             return self.step_archivist2
         return step
 
     def step_archivist2(self, step, starting, time_in_step):
-        self.show_question(QS('OSINTRO_ARCHIVIST2'), choices=[('OK', self.go_next_step)],
-                           character_id='archivist')
+        if starting:
+            self.show_question(QS('OSINTRO_ARCHIVIST2'), choices=[('OK', self.go_next_step)],
+                               character_id='archivist')
         if self._go_next_step:
             self._go_next_step = False
             return self.step_wrapup
         return step
 
     def step_wrapup(self, step, starting, time_in_step):
-        self.show_question(QS('OSINTRO_WRAPUP'), choices=[('OK', self.go_next_step)])
-        if self._go_next_step:
-            self._go_next_step = False
-            return self.step_reward
-        return step
-
-    def step_reward(self, step, starting, time_in_step):
         if starting:
+            self.show_question(QS('OSINTRO_WRAPUP'), choices=[('OK', self.go_next_step)])
             self.conf['complete'] = True
             self.available = False
+
+        if self._go_next_step:
+            self._go_next_step = False
+            return self.step_end
+        return step
+
+    def step_end(self, step, starting, time_in_step):
+        return

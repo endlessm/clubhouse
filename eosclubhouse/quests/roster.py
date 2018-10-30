@@ -65,11 +65,15 @@ class Roster(Quest):
     # STEP 2
     def step_explanation(self, step, starting, time_in_step):
         if starting:
-            self.show_message(QS('ROSTER_EXPLANATION'))
+            self.show_question(QS('ROSTER_EXPLANATION'), choices=[('OK', self.go_next_step)])
             self.conf['complete'] = True
             self.available = False
 
-        if time_in_step > 5:
-            return
+        if self._go_next_step:
+            self._go_next_step = False
+            return self.step_end
 
         return step
+
+    def step_end(self, step, starting, time_in_step):
+        return

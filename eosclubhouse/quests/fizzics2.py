@@ -16,6 +16,7 @@ class Fizzics2(Quest):
         self._hint0 = False
         self._hint1 = False
         self._initialized = False
+        self._go_next_step = False
 
     def start(self):
         self.set_keyboard_request(True)
@@ -37,6 +38,9 @@ class Fizzics2(Quest):
                 time.sleep(dt)
                 time_in_step += dt
                 starting = False
+
+    def go_next_step(self):
+        self._go_next_step = True
 
     # STEP 0
     def step_first(self, step, starting, time_in_step):
@@ -82,15 +86,19 @@ class Fizzics2(Quest):
     # STEP 2
     def step_reward(self, step, starting, time_in_step):
         if starting:
-            self.show_message(QS('FIZZICS2_SUCCESS'))
+            self.show_question(QS('FIZZICS2_SUCCESS'), choices=[('OK', self.go_next_step)])
             self.conf['complete'] = True
             self.available = False
             self.give_item('item.key.hackdex1.1')
 
-        if time_in_step > 10:
-            return
+        if self._go_next_step:
+            self._go_next_step = False
+            return self.step_end
 
         return step
+
+    def step_end(self, step, starting, time_in_step):
+        return
 
     # STEP Abort
     def step_end_no_app(self, step, starting, time_in_step):

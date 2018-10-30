@@ -69,6 +69,8 @@ class FizzicsIntro(Quest):
 
     def step_intro(self, step, starting, time_in_step):
         if starting:
+            self.conf['complete'] = True
+            self.available = False
             self.show_question(QS('FIZZICSINTRO_INTRO'),
                                choices=[('OK', self.go_next_step)])
         if (self._go_next_step):
@@ -77,6 +79,4 @@ class FizzicsIntro(Quest):
         return step
 
     def step_reward(self, step, starting, time_in_step):
-        if starting:
-            self.conf['complete'] = True
-            self.available = False
+        return

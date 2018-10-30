@@ -103,17 +103,22 @@ class BreakSomething(Quest):
 
         # TODO: Wait for goal to be met (reset button)
         if self.debug_skip():
+            return self.step_reward
+
+        return step
+
+    def step_reward(self, step, starting, time_in_step):
+        if starting:
+            self.show_question(QS('BREAK_WRAPUP'), choices=[('OK', self.go_next_step)],
+                               character_id='archivist')
+            self.conf['complete'] = True
+            self.available = False
+
+        if self._go_next_step:
+            self._go_next_step = False
             return self.step_end
 
         return step
 
     def step_end(self, step, starting, time_in_step):
-        if starting:
-            self.show_message(QS('BREAK_WRAPUP'), character_id='archivist')
-            self.conf['complete'] = True
-            self.available = False
-
-        if time_in_step > 4:
-            return
-
-        return step
+        return
