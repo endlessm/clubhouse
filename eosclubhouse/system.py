@@ -106,7 +106,6 @@ class Desktop:
 class App:
 
     def __init__(self, app_dbus_name):
-        app_path = '/' + str(app_dbus_name).replace('.', '/')
         self._clippy = Gio.DBusProxy.new_sync(Desktop.SESSION_BUS, 0, None,
                                               app_dbus_name,
                                               '/com/endlessm/Clippy',
