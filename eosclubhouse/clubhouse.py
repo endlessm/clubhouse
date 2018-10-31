@@ -577,6 +577,18 @@ class InventoryPage(Gtk.EventBox):
         return item_id.startswith('item.key.')
 
 
+class EpisodesPage(Gtk.EventBox):
+
+    def __init__(self, app_window):
+        super().__init__(visible=True)
+
+        self._app_window = app_window
+        self._setup_ui()
+
+    def _setup_ui(self):
+        self.get_style_context().add_class('episodes-page')
+
+
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
     DEFAULT_WINDOW_WIDTH = 484
@@ -591,6 +603,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self.clubhouse_page = ClubhousePage(self)
         self.inventory_page = InventoryPage(self)
+        self.episodes_page = EpisodesPage(self)
 
         self.set_size_request(self.DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
@@ -603,9 +616,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._clubhouse_button = builder.get_object('main_window_button_clubhouse')
         self._inventory_button = builder.get_object('main_window_button_inventory')
+        self._episodes_button = builder.get_object('main_window_button_episodes')
 
         page_switcher_data = {self._clubhouse_button: self.clubhouse_page,
-                              self._inventory_button: self.inventory_page}
+                              self._inventory_button: self.inventory_page,
+                              self._episodes_button: self.episodes_page}
 
         for button, page_widget in page_switcher_data.items():
             self._main_window_stack.add(page_widget)
