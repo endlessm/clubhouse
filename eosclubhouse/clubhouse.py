@@ -657,9 +657,6 @@ class ClubhouseApplication(Gtk.Application):
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
-        self._window = ClubhouseWindow(self)
-        self._window.connect('notify::visible', self._vibility_notify_cb)
-
         simple_actions = [('stop-quest', self._stop_quest, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)'))]
@@ -668,6 +665,19 @@ class ClubhouseApplication(Gtk.Application):
             action = Gio.SimpleAction.new(name, variant_type)
             action.connect('activate', callback)
             self.add_action(action)
+
+        # @todo: Use a location from config
+        libquest.Registry.load(utils.get_alternative_quests_dir())
+        libquest.Registry.load(os.path.dirname(__file__) + '/quests')
+
+        self._ensure_window()
+
+    def _ensure_window(self):
+        if self._window:
+            return
+
+        self._window = ClubhouseWindow(self)
+        self._window.connect('notify::visible', self._vibility_notify_cb)
 
         display = Gdk.Display.get_default()
         display.connect('monitor-added',
@@ -681,12 +691,7 @@ class ClubhouseApplication(Gtk.Application):
         self._update_geometry()
         self._window.show()
 
-        # @todo: Use a location from config
-        libquest.Registry.load(utils.get_alternative_quests_dir())
-        libquest.Registry.load(os.path.dirname(__file__) + '/quests')
-
         quest_sets = libquest.Registry.get_quest_sets()
-
         for quest_set in quest_sets:
             self._window.clubhouse_page.add_quest_set(quest_set)
 
