@@ -620,20 +620,19 @@ class ClubhouseApplication(Gtk.Application):
 
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
-                         flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE)
-
-        self._init_style()
+                         flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+                         resource_base_path='/com/endlessm/Clubhouse')
 
         self._argparser = self._create_parser()
 
         self._window = None
 
-    def _init_style(self):
-        self.props.resource_base_path = '/com/endlessm/Clubhouse'
         # @todo: Move the resource to a different dir
         resource = Gio.resource_load(os.path.join(os.path.dirname(__file__),
                                                   'eos-clubhouse.gresource'))
         Gio.Resource._register(resource)
+
+    def _init_style(self):
         css_file = Gio.File.new_for_uri('resource:///com/endlessm/Clubhouse/gtk-style.css')
         css_provider = Gtk.CssProvider()
         css_provider.load_from_file(css_file)
@@ -654,6 +653,8 @@ class ClubhouseApplication(Gtk.Application):
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
+
+        self._init_style()
 
         simple_actions = [('stop-quest', self._stop_quest, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
