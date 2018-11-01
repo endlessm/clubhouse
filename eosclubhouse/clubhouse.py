@@ -18,7 +18,6 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
-import argparse
 import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
@@ -620,10 +619,7 @@ class ClubhouseApplication(Gtk.Application):
 
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
-                         flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
                          resource_base_path='/com/endlessm/Clubhouse')
-
-        self._argparser = self._create_parser()
 
         self._window = None
 
@@ -636,6 +632,9 @@ class ClubhouseApplication(Gtk.Application):
         libquest.Registry.load(utils.get_alternative_quests_dir())
         libquest.Registry.load(os.path.dirname(__file__) + '/quests')
 
+        self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             'List existing quest sets and quests', None)
+
     def _init_style(self):
         css_file = Gio.File.new_for_uri('resource:///com/endlessm/Clubhouse/gtk-style.css')
         css_provider = Gtk.CssProvider()
@@ -645,15 +644,15 @@ class ClubhouseApplication(Gtk.Application):
                                               css_provider,
                                               Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
-    def _create_parser(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument('-q', '--list-quests', action='store_true',
-                            help='List existing quest sets and quests')
-
-        return parser
-
     def do_activate(self):
         pass
+
+    def do_handle_local_options(self, options):
+        if options.contains('list-quests'):
+            self._list_quests()
+            return 0
+
+        return -1
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
@@ -767,14 +766,6 @@ class ClubhouseApplication(Gtk.Application):
 
         self._window.move(geometry.x, geometry.y)
         self._window.resize(geometry.width, geometry.height)
-
-    def do_command_line(self, cmdline):
-        args = self._argparser.parse_args(cmdline.get_arguments()[1:])
-
-        if args.list_quests:
-            self._list_quests()
-
-        return 0
 
     def _list_quests(self):
         for quest_set in libquest.Registry.get_quest_sets():
