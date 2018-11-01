@@ -741,7 +741,6 @@ class ClubhouseApplication(Gtk.Application):
         return None
 
     def show(self, timestamp):
-        self._window.show()
         self._window.present_with_time(int(timestamp))
 
     def hide(self, timestamp):
