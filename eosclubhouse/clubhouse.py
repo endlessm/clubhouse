@@ -645,7 +645,7 @@ class ClubhouseApplication(Gtk.Application):
                                               Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
     def do_activate(self):
-        pass
+        self.show(Gdk.CURRENT_TIME)
 
     def do_handle_local_options(self, options):
         if options.contains('list-quests'):
@@ -667,8 +667,6 @@ class ClubhouseApplication(Gtk.Application):
             action = Gio.SimpleAction.new(name, variant_type)
             action.connect('activate', callback)
             self.add_action(action)
-
-        self._ensure_window()
 
     def _ensure_window(self):
         if self._window:
@@ -700,12 +698,16 @@ class ClubhouseApplication(Gtk.Application):
         self.withdraw_notification(self.QUEST_NOTIFICATION_ID)
 
     def _stop_quest(self, *args):
-        self._window.clubhouse_page.stop_quest()
+        if (self._window):
+            self._window.clubhouse_page.stop_quest()
+        self.close_quest_notification()
 
     def _quest_user_answer(self, action, action_id):
-        self._window.clubhouse_page.quest_action(action_id.unpack())
+        if self._window:
+            self._window.clubhouse_page.quest_action(action_id.unpack())
 
     def _run_quest_action_cb(self, action, arg_variant):
+        self._ensure_window()
         quest_name, run_in_shell = arg_variant.unpack()
         self._window.clubhouse_page.run_quest_by_name(quest_name, run_in_shell)
 
@@ -746,10 +748,12 @@ class ClubhouseApplication(Gtk.Application):
         return None
 
     def show(self, timestamp):
+        self._ensure_window()
         self._window.present_with_time(int(timestamp))
 
     def hide(self, timestamp):
-        self._window.hide()
+        if self._window:
+            self._window.hide()
 
     def _update_geometry(self):
         monitor = Gdk.Display.get_default().get_primary_monitor()
