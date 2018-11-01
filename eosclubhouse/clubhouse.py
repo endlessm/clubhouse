@@ -229,8 +229,6 @@ class QuestSetButton(Gtk.Button):
 
 class ClubhousePage(Gtk.EventBox):
 
-    QUEST_NOTIFICATION_ID = 'quest-message'
-
     def __init__(self, app_window):
         super().__init__(visible=True)
 
@@ -429,7 +427,7 @@ class ClubhousePage(Gtk.EventBox):
         return False
 
     def _shell_close_popup_message(self):
-        self._app_window.get_application().withdraw_notification(self.QUEST_NOTIFICATION_ID)
+        self._app_window.get_application().close_quest_notification()
 
     def _shell_popup_message(self, text, character):
         if self._app_window.props.visible:
@@ -447,8 +445,7 @@ class ClubhousePage(Gtk.EventBox):
             button_target = "app.quest-user-answer('{}')".format(key)
             notification.add_button(label, button_target)
 
-        self._app_window.get_application().send_notification(self.QUEST_NOTIFICATION_ID,
-                                                             notification)
+        self._app_window.get_application().send_quest_notification(notification)
 
     def show_message(self, txt):
         self._message.clear_buttons()
@@ -619,6 +616,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
 class ClubhouseApplication(Gtk.Application):
 
+    QUEST_NOTIFICATION_ID = 'quest-message'
+
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
                          flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE)
@@ -693,6 +692,12 @@ class ClubhouseApplication(Gtk.Application):
         quest_sets = libquest.Registry.get_quest_sets()
         for quest_set in quest_sets:
             self._window.clubhouse_page.add_quest_set(quest_set)
+
+    def send_quest_notification(self, notification):
+        self.send_notification(self.QUEST_NOTIFICATION_ID, notification)
+
+    def close_quest_notification(self):
+        self.withdraw_notification(self.QUEST_NOTIFICATION_ID)
 
     def _stop_quest(self, *args):
         self._window.clubhouse_page.stop_quest()
