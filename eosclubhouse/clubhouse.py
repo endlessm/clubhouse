@@ -632,6 +632,10 @@ class ClubhouseApplication(Gtk.Application):
                                                   'eos-clubhouse.gresource'))
         Gio.Resource._register(resource)
 
+        # @todo: Use a location from config
+        libquest.Registry.load(utils.get_alternative_quests_dir())
+        libquest.Registry.load(os.path.dirname(__file__) + '/quests')
+
     def _init_style(self):
         css_file = Gio.File.new_for_uri('resource:///com/endlessm/Clubhouse/gtk-style.css')
         css_provider = Gtk.CssProvider()
@@ -664,10 +668,6 @@ class ClubhouseApplication(Gtk.Application):
             action = Gio.SimpleAction.new(name, variant_type)
             action.connect('activate', callback)
             self.add_action(action)
-
-        # @todo: Use a location from config
-        libquest.Registry.load(utils.get_alternative_quests_dir())
-        libquest.Registry.load(os.path.dirname(__file__) + '/quests')
 
         self._ensure_window()
 
