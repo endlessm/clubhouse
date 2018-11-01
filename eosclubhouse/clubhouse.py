@@ -628,7 +628,6 @@ class ClubhouseApplication(Gtk.Application):
         self._argparser = self._create_parser()
 
         self._window = None
-        self._dbus_connection = None
 
     def _init_style(self):
         self.props.resource_base_path = '/com/endlessm/Clubhouse'
@@ -710,15 +709,13 @@ class ClubhouseApplication(Gtk.Application):
         variant = GLib.Variant.new_tuple(GLib.Variant('s', CLUBHOUSE_IFACE),
                                          GLib.Variant('a{sv}', changed_props),
                                          GLib.Variant('as', []))
-        self._dbus_connection.emit_signal(None,
-                                          CLUBHOUSE_PATH,
-                                          'org.freedesktop.DBus.Properties',
-                                          'PropertiesChanged',
-                                          variant)
+        self.get_dbus_connection().emit_signal(None,
+                                               CLUBHOUSE_PATH,
+                                               'org.freedesktop.DBus.Properties',
+                                               'PropertiesChanged',
+                                               variant)
 
     def do_dbus_register(self, connection, path):
-        self._dbus_connection = connection
-
         introspection_data = Gio.DBusNodeInfo.new_for_xml(ClubhouseIface)
         connection.register_object(path,
                                    introspection_data.interfaces[0],
