@@ -43,6 +43,7 @@ ClubhouseIface = ('<node>'
                   '<arg type="u" direction="in" name="timestamp"/>'
                   '</method>'
                   '<property name="Visible" type="b" access="read"/>'
+                  '<signal name="SuggestOpen" />'
                   '</interface>'
                   '</node>')
 
@@ -696,6 +697,13 @@ class ClubhouseApplication(Gtk.Application):
 
     def close_quest_notification(self):
         self.withdraw_notification(self.QUEST_NOTIFICATION_ID)
+
+    def send_suggest_open(self):
+        self.get_dbus_connection().emit_signal(None,
+                                               CLUBHOUSE_PATH,
+                                               CLUBHOUSE_IFACE,
+                                               'SuggestOpen',
+                                               None)
 
     def _stop_quest(self, *args):
         if (self._window):
