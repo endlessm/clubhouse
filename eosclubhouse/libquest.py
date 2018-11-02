@@ -88,6 +88,7 @@ class Quest(GObject.GObject):
     }
 
     available = GObject.Property(type=bool, default=True)
+    skippable = GObject.Property(type=bool, default=False)
 
     def __init__(self, name, main_character_id, initial_msg):
         super().__init__()
@@ -233,7 +234,8 @@ class QuestSet(GObject.GObject):
                 if quest.available:
                     logger.info("Quest available: %s", quest)
                     return quest
-                break
+                if not quest.skippable:
+                    break
         return None
 
     def get_empty_message(self):
