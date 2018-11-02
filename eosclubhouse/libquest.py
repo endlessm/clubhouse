@@ -20,6 +20,7 @@
 
 import pkgutil
 import sys
+import time
 
 from eosclubhouse import logger
 from eosclubhouse.system import GameStateService
@@ -105,7 +106,33 @@ class Quest(GObject.GObject):
         self.key_event = False
 
     def start(self):
-        raise NotImplementedError()
+        '''Start the quest's main function
+
+        This method runs the quest as a step-by-step approach, so a method called 'step_first'
+        needs to be defined in any Quest subclasses that want to follow this approach.
+
+        As an alternative, subclasses can override this very method in order to follow any
+        approach needed.
+        '''
+
+        time_in_step = 0
+        step_func = self.step_first
+
+        while not self.is_cancelled():
+            new_func = step_func(time_in_step)
+            if new_func is None:
+                time.sleep(1)
+                time_in_step += 1
+            else:
+                step_func = new_func
+                time_in_step = 0
+
+    def step_first(self, time_in_step):
+        raise NotImplementedError
+
+    def stop(self):
+        if not self.is_cancelled() and self._cancellable is not None:
+            self._cancellable.cancel()
 
     def get_main_character(self):
         return self._main_character_id
