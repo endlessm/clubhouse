@@ -18,7 +18,6 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
-import argparse
 import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
@@ -229,8 +228,6 @@ class QuestSetButton(Gtk.Button):
 
 class ClubhousePage(Gtk.EventBox):
 
-    QUEST_NOTIFICATION_ID = 'quest-message'
-
     def __init__(self, app_window):
         super().__init__(visible=True)
 
@@ -429,7 +426,7 @@ class ClubhousePage(Gtk.EventBox):
         return False
 
     def _shell_close_popup_message(self):
-        self._app_window.get_application().withdraw_notification(self.QUEST_NOTIFICATION_ID)
+        self._app_window.get_application().close_quest_notification()
 
     def _shell_popup_message(self, text, character):
         if self._app_window.props.visible:
@@ -447,8 +444,7 @@ class ClubhousePage(Gtk.EventBox):
             button_target = "app.quest-user-answer('{}')".format(key)
             notification.add_button(label, button_target)
 
-        self._app_window.get_application().send_notification(self.QUEST_NOTIFICATION_ID,
-                                                             notification)
+        self._app_window.get_application().send_quest_notification(notification)
 
     def show_message(self, txt):
         self._message.clear_buttons()
@@ -619,23 +615,27 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
 class ClubhouseApplication(Gtk.Application):
 
+    QUEST_NOTIFICATION_ID = 'quest-message'
+
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
-                         flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE)
-
-        self._init_style()
-
-        self._argparser = self._create_parser()
+                         resource_base_path='/com/endlessm/Clubhouse')
 
         self._window = None
-        self._dbus_connection = None
 
-    def _init_style(self):
-        self.props.resource_base_path = '/com/endlessm/Clubhouse'
         # @todo: Move the resource to a different dir
         resource = Gio.resource_load(os.path.join(os.path.dirname(__file__),
                                                   'eos-clubhouse.gresource'))
         Gio.Resource._register(resource)
+
+        # @todo: Use a location from config
+        libquest.Registry.load(utils.get_alternative_quests_dir())
+        libquest.Registry.load(os.path.dirname(__file__) + '/quests')
+
+        self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             'List existing quest sets and quests', None)
+
+    def _init_style(self):
         css_file = Gio.File.new_for_uri('resource:///com/endlessm/Clubhouse/gtk-style.css')
         css_provider = Gtk.CssProvider()
         css_provider.load_from_file(css_file)
@@ -644,21 +644,20 @@ class ClubhouseApplication(Gtk.Application):
                                               css_provider,
                                               Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
-    def _create_parser(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument('-q', '--list-quests', action='store_true',
-                            help='List existing quest sets and quests')
-
-        return parser
-
     def do_activate(self):
-        pass
+        self.show(Gdk.CURRENT_TIME)
+
+    def do_handle_local_options(self, options):
+        if options.contains('list-quests'):
+            self._list_quests()
+            return 0
+
+        return -1
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
-        self._window = ClubhouseWindow(self)
-        self._window.connect('notify::visible', self._vibility_notify_cb)
+        self._init_style()
 
         simple_actions = [('stop-quest', self._stop_quest, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
@@ -668,6 +667,13 @@ class ClubhouseApplication(Gtk.Application):
             action = Gio.SimpleAction.new(name, variant_type)
             action.connect('activate', callback)
             self.add_action(action)
+
+    def _ensure_window(self):
+        if self._window:
+            return
+
+        self._window = ClubhouseWindow(self)
+        self._window.connect('notify::visible', self._vibility_notify_cb)
 
         display = Gdk.Display.get_default()
         display.connect('monitor-added',
@@ -681,22 +687,27 @@ class ClubhouseApplication(Gtk.Application):
         self._update_geometry()
         self._window.show()
 
-        # @todo: Use a location from config
-        libquest.Registry.load(utils.get_alternative_quests_dir())
-        libquest.Registry.load(os.path.dirname(__file__) + '/quests')
-
         quest_sets = libquest.Registry.get_quest_sets()
-
         for quest_set in quest_sets:
             self._window.clubhouse_page.add_quest_set(quest_set)
 
+    def send_quest_notification(self, notification):
+        self.send_notification(self.QUEST_NOTIFICATION_ID, notification)
+
+    def close_quest_notification(self):
+        self.withdraw_notification(self.QUEST_NOTIFICATION_ID)
+
     def _stop_quest(self, *args):
-        self._window.clubhouse_page.stop_quest()
+        if (self._window):
+            self._window.clubhouse_page.stop_quest()
+        self.close_quest_notification()
 
     def _quest_user_answer(self, action, action_id):
-        self._window.clubhouse_page.quest_action(action_id.unpack())
+        if self._window:
+            self._window.clubhouse_page.quest_action(action_id.unpack())
 
     def _run_quest_action_cb(self, action, arg_variant):
+        self._ensure_window()
         quest_name, run_in_shell = arg_variant.unpack()
         self._window.clubhouse_page.run_quest_by_name(quest_name, run_in_shell)
 
@@ -705,15 +716,13 @@ class ClubhouseApplication(Gtk.Application):
         variant = GLib.Variant.new_tuple(GLib.Variant('s', CLUBHOUSE_IFACE),
                                          GLib.Variant('a{sv}', changed_props),
                                          GLib.Variant('as', []))
-        self._dbus_connection.emit_signal(None,
-                                          CLUBHOUSE_PATH,
-                                          'org.freedesktop.DBus.Properties',
-                                          'PropertiesChanged',
-                                          variant)
+        self.get_dbus_connection().emit_signal(None,
+                                               CLUBHOUSE_PATH,
+                                               'org.freedesktop.DBus.Properties',
+                                               'PropertiesChanged',
+                                               variant)
 
     def do_dbus_register(self, connection, path):
-        self._dbus_connection = connection
-
         introspection_data = Gio.DBusNodeInfo.new_for_xml(ClubhouseIface)
         connection.register_object(path,
                                    introspection_data.interfaces[0],
@@ -739,11 +748,12 @@ class ClubhouseApplication(Gtk.Application):
         return None
 
     def show(self, timestamp):
-        self._window.show()
+        self._ensure_window()
         self._window.present_with_time(int(timestamp))
 
     def hide(self, timestamp):
-        self._window.hide()
+        if self._window:
+            self._window.hide()
 
     def _update_geometry(self):
         monitor = Gdk.Display.get_default().get_primary_monitor()
@@ -760,14 +770,6 @@ class ClubhouseApplication(Gtk.Application):
 
         self._window.move(geometry.x, geometry.y)
         self._window.resize(geometry.width, geometry.height)
-
-    def do_command_line(self, cmdline):
-        args = self._argparser.parse_args(cmdline.get_arguments()[1:])
-
-        if args.list_quests:
-            self._list_quests()
-
-        return 0
 
     def _list_quests(self):
         for quest_set in libquest.Registry.get_quest_sets():
