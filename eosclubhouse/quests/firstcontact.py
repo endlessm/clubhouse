@@ -9,7 +9,12 @@ class FirstContact(Quest):
     # This quest starts already in the first step. There's no prompting.
     def __init__(self):
         super().__init__('First Contact', 'ada', '')
-        self.available = True
+
+        # This will prevent the quest from ever being shown in the Clubhouse
+        # because it should just be run directly (not by the user)
+        self.available = False
+        self.skippable = True
+
         self._go_next_step = False
 
     def start(self):
