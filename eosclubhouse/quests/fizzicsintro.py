@@ -1,5 +1,3 @@
-import time
-
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App
@@ -14,69 +12,54 @@ class FizzicsIntro(Quest):
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self._go_next_step = False
 
-    def start(self):
-        self.set_keyboard_request(True)
-
-        dt = 1
-        time_in_step = 0
-        starting = True
-        step_func = self.step_first
-
-        while True:
-            new_func = step_func(step_func, starting, time_in_step)
-            if new_func is None:
-                break
-            elif new_func != step_func:
-                step_func = new_func
-                time_in_step = 0
-                starting = True
-            else:
-                time.sleep(dt)
-                time_in_step += dt
-                starting = False
-
     def go_next_step(self):
         self._go_next_step = True
 
+    def check_next_step(self):
+        go_next_step = self._go_next_step
+        self._go_next_step = False
+        return go_next_step
+
     # STEP 0
-    def step_first(self, step, starting, time_in_step):
-        if starting:
+    def step_first(self, time_in_step):
+        if time_in_step == 0:
             self.show_message(QS('FIZZICSINTRO_LAUNCH'))
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
             return self.step_explanation
 
-        return step
+        return None
 
     # STEP 1
-    def step_explanation(self, step, starting, time_in_step):
-        if starting:
+    def step_explanation(self, time_in_step):
+        if time_in_step == 0:
             self.show_question(QS('FIZZICSINTRO_EXPLANATION'),
                                choices=[('OK', self.go_next_step)])
-        if (self._go_next_step):
-            self._go_next_step = False
+        if self.check_next_step():
             return self.step_ricky
-        return step
 
-    def step_ricky(self, step, starting, time_in_step):
-        if starting:
+        return None
+
+    def step_ricky(self, time_in_step):
+        if time_in_step == 0:
             self.show_question(QS('FIZZICSINTRO_RICKY'),
                                choices=[('OK', self.go_next_step)], character_id='ricky')
-        if (self._go_next_step):
-            self._go_next_step = False
+        if self.check_next_step():
             return self.step_intro
-        return step
 
-    def step_intro(self, step, starting, time_in_step):
-        if starting:
+        return None
+
+    def step_intro(self, time_in_step):
+        if time_in_step == 0:
             self.conf['complete'] = True
             self.available = False
             self.show_question(QS('FIZZICSINTRO_INTRO'),
                                choices=[('OK', self.go_next_step)])
-        if (self._go_next_step):
-            self._go_next_step = False
+        if self.check_next_step():
             return self.step_reward
-        return step
 
-    def step_reward(self, step, starting, time_in_step):
-        return
+        return None
+
+    def step_reward(self, time_in_step):
+        self.stop()
+        return None
