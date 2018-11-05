@@ -2,7 +2,7 @@ import time
 
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App
+from eosclubhouse.system import Desktop, App
 
 
 class FirstContact(Quest):
@@ -12,7 +12,7 @@ class FirstContact(Quest):
     # This quest starts already in the first step. There's no prompting.
     def __init__(self):
         super().__init__('First Contact', 'ada', '')
-        self._app = App(self.TARGET_APP_DBUS_NAME)
+        self._app = None
 
         # This will prevent the quest from ever being shown in the Clubhouse
         # because it should just be run directly (not by the user)
@@ -44,6 +44,9 @@ class FirstContact(Quest):
         self._go_next_step = True
 
     def get_hackunlock_mode(self):
+        if self._app is None:
+            self._app = App(self.TARGET_APP_DBUS_NAME)
+
         mode = 0
 
         try:
@@ -58,7 +61,7 @@ class FirstContact(Quest):
         if starting:
             self.show_message(QS('FIRSTCONTACT_WELCOME'))
 
-        if time_in_step < 3:
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or time_in_step < 3:
             return step
 
         if self.get_hackunlock_mode() >= 1 or self.debug_skip():
