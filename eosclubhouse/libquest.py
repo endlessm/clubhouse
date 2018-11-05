@@ -103,6 +103,8 @@ class Quest(GObject.GObject):
 
         self.key_event = False
 
+        self._confirmed_step = False
+
     def start(self):
         '''Start the quest's main function
 
@@ -128,6 +130,14 @@ class Quest(GObject.GObject):
     def step_first(self, time_in_step):
         raise NotImplementedError
 
+    def _confirm_step(self):
+        self._confirmed_step = True
+
+    def confirmed_step(self):
+        confirmed = self._confirmed_step
+        self._confirmed_step = False
+        return confirmed
+
     def stop(self):
         if not self.is_cancelled() and self._cancellable is not None:
             self._cancellable.cancel()
@@ -135,8 +145,11 @@ class Quest(GObject.GObject):
     def get_main_character(self):
         return self._main_character_id
 
-    def show_message(self, txt, character_id=None, mood=None, choices=[]):
+    def show_message(self, txt, character_id=None, mood=None, choices=[], use_confirm=False):
         possible_answers = [(text, callback) for text, callback in choices]
+
+        if use_confirm:
+            possible_answers = [('>', self._confirm_step)] + possible_answers
 
         self._emit_signal('message', txt, possible_answers,
                           character_id or self._main_character_id, mood)
