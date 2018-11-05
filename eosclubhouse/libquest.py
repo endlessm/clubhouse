@@ -154,8 +154,12 @@ class Quest(GObject.GObject):
         self._emit_signal('message', txt, possible_answers,
                           character_id or self._main_character_id, mood)
 
-    def show_question(self, txt, choices, character_id=None, mood=None):
-        self.show_message(txt, character_id=character_id, mood=mood, choices=choices)
+    def show_question(self, txt, choices=[], character_id=None, mood=None):
+        # @todo: Remove the choices argument, to make this a simple convience method for
+        # when we just need the message with the confirm button (very common across quests)
+        use_confirm = True if not choices else False
+        self.show_message(txt, character_id=character_id, mood=mood, choices=choices,
+                          use_confirm=use_confirm)
 
     def get_initial_message(self):
         return self._initial_msg
