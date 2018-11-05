@@ -287,10 +287,14 @@ class ClubhousePage(Gtk.EventBox):
 
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set)
+        quest_set.connect('nudge', lambda _quest_set: self._suggest_open())
         button.connect('clicked', self._button_clicked_cb)
 
         x, y = button.get_position()
         self._main_characters_box.put(button, x, y)
+
+    def _suggest_open(self):
+        self._app_window.get_application().send_suggest_open()
 
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
