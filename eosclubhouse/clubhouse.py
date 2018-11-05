@@ -307,11 +307,11 @@ class ClubhousePage(Gtk.EventBox):
             if msg_text is None:
                 return
 
-            self.show_question(msg_text, [('Ok', self._replied_to_message, None)])
+            self.show_message(msg_text, [('Ok', self._replied_to_message, None)])
         else:
-            self.show_question(new_quest.get_initial_message(),
-                               [('Sure!', self._replied_to_message, new_quest),
-                                ('Not now…', self._replied_to_message, None)])
+            self.show_message(new_quest.get_initial_message(),
+                              [('Sure!', self._replied_to_message, new_quest),
+                               ('Not now…', self._replied_to_message, None)])
 
         # @todo: Implement the custom allocation for the message  and pass the allocation to
         # it on construction
@@ -335,11 +335,9 @@ class ClubhousePage(Gtk.EventBox):
 
     def connect_quest(self, quest):
         quest.connect('message', self._quest_message_cb)
-        quest.connect('question', self._quest_question_cb)
 
     def disconnect_quest(self, quest):
         quest.disconnect_by_func(self._quest_message_cb)
-        quest.disconnect_by_func(self._quest_question_cb)
 
     def run_quest(self, quest):
         self._message.reset()
@@ -376,15 +374,15 @@ class ClubhousePage(Gtk.EventBox):
             self._app_window.hide()
         self.run_quest(quest)
 
-    def _quest_message_cb(self, quest, message_txt, character_id, character_mood):
-        logger.debug('Message: %s character_id=%s mood=%s', message_txt, character_id,
-                     character_mood)
+    def _quest_message_cb(self, quest, message_txt, answer_choices, character_id, character_mood):
+        logger.debug('Message: %s character_id=%s mood=%s choices=[%s]', message_txt, character_id,
+                     character_mood, '|'.join([answer for answer, _cb in answer_choices]))
 
         self._reset_quest_actions()
 
         self._message.set_character(character_id)
         self._message.set_character_mood(character_mood)
-        self.show_message(message_txt)
+        self.show_message(message_txt, answer_choices)
 
         self._overlay_msg_box.show_all()
         self._shell_popup_message(message_txt, self._message.get_character())
@@ -396,7 +394,7 @@ class ClubhousePage(Gtk.EventBox):
 
         self._message.set_character(character_id)
         self._message.set_character_mood(character_mood)
-        self.show_question(message_txt, answer_choices)
+        self.show_message(message_txt, answer_choices)
 
         self._overlay_msg_box.show_all()
         self._shell_popup_message(message_txt, self._message.get_character())
@@ -446,11 +444,15 @@ class ClubhousePage(Gtk.EventBox):
 
         self._app_window.get_application().send_quest_notification(notification)
 
-    def show_message(self, txt):
+    def show_message(self, txt, answer_choices=[]):
         self._message.clear_buttons()
         self._message.set_text(txt)
         self._message.close_button.show()
         self._message.pop_out_button.show()
+
+        for answer in answer_choices:
+            action_key = self._add_quest_action(answer)
+            self._message.add_button(answer[0], self.quest_action, action_key)
 
         return self._message
 
@@ -461,13 +463,6 @@ class ClubhousePage(Gtk.EventBox):
         key = str(uuid.uuid1())
         self._actions[key] = action
         return key
-
-    def show_question(self, txt, answer_choices):
-        message = self.show_message(txt)
-        for answer in answer_choices:
-            action_key = self._add_quest_action(answer)
-            message.add_button(answer[0], self.quest_action, action_key)
-        return message
 
     def quest_action(self, action_key):
         action = self._actions.get(action_key)

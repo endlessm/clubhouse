@@ -81,9 +81,6 @@ class Quest(GObject.GObject):
 
     __gsignals__ = {
         'message': (
-            GObject.SignalFlags.RUN_FIRST, None, (str, str, str)
-        ),
-        'question': (
             GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str, str)
         ),
     }
@@ -138,14 +135,14 @@ class Quest(GObject.GObject):
     def get_main_character(self):
         return self._main_character_id
 
-    def show_message(self, txt, character_id=None, mood=None):
-        self._emit_signal('message', txt, character_id or self._main_character_id, mood)
-
-    def show_question(self, txt, choices, character_id=None, mood=None):
+    def show_message(self, txt, character_id=None, mood=None, choices=[]):
         possible_answers = [(text, callback) for text, callback in choices]
 
-        self._emit_signal('question', txt, possible_answers,
+        self._emit_signal('message', txt, possible_answers,
                           character_id or self._main_character_id, mood)
+
+    def show_question(self, txt, choices, character_id=None, mood=None):
+        self.show_message(txt, character_id=character_id, mood=mood, choices=choices)
 
     def get_initial_message(self):
         return self._initial_msg
