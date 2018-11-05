@@ -7,7 +7,7 @@ from eosclubhouse.quests.hackdexcorruption import HackdexCorruption
 class ArchivistQuestSet(QuestSet):
 
     __character_id__ = 'archivist'
-    __position__ = (50, 650)
+    __position__ = (72, 659)
     __quests__ = [HackdexCorruption()]
 
     def __init__(self):

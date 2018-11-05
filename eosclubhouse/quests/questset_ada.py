@@ -10,7 +10,7 @@ from eosclubhouse.quests.osintro import OSIntro
 class AdaQuestSet(QuestSet):
 
     __character_id__ = 'ada'
-    __position__ = (60, 150)
+    __position__ = (38, 208)
     __quests__ = [FirstContact(), Roster(), FizzicsIntro(), OSIntro()]
 
     def get_empty_message(self):
