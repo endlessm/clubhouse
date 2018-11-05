@@ -2,13 +2,17 @@ import time
 
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
+from eosclubhouse.system import App
 
 
 class FirstContact(Quest):
 
+    TARGET_APP_DBUS_NAME = 'com.endlessm.HackUnlock'
+
     # This quest starts already in the first step. There's no prompting.
     def __init__(self):
         super().__init__('First Contact', 'ada', '')
+        self._app = App(self.TARGET_APP_DBUS_NAME)
 
         # This will prevent the quest from ever being shown in the Clubhouse
         # because it should just be run directly (not by the user)
@@ -39,13 +43,25 @@ class FirstContact(Quest):
     def go_next_step(self):
         self._go_next_step = True
 
+    def get_hackunlock_mode(self):
+        mode = 0
+
+        try:
+            mode = self._app.get_object_property('view.JSContext.globalParameters', 'mode')
+        except Exception as e:
+            print(e)
+
+        return mode
+
     # STEP 0
     def step_first(self, step, starting, time_in_step):
         if starting:
             self.show_message(QS('FIRSTCONTACT_WELCOME'))
 
-        # TODO: Wait until they flip the screen
-        if (self.debug_skip()):
+        if time_in_step < 3:
+            return step
+
+        if self.get_hackunlock_mode() >= 1 or self.debug_skip():
             return self.step_dohack
 
         return step
@@ -55,8 +71,16 @@ class FirstContact(Quest):
         if starting:
             self.show_message(QS('FIRSTCONTACT_GOAL'))
 
-        # TODO: Wait until they suceed
-        if (self.debug_skip()):
+        if self.get_hackunlock_mode() >= 2 or self.debug_skip():
+            return self.step_flipback
+
+        return step
+
+    def step_flipback(self, step, starting, time_in_step):
+        if starting:
+            self.show_message(QS('FIRSTCONTACT_FLIPBACK'))
+
+        if self.get_hackunlock_mode() >= 4 or self.debug_skip():
             return self.step_reward
 
         return step
