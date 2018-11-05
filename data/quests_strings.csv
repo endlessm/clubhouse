@@ -6,10 +6,8 @@ You look like a curious person. First things first: Let's talk about how to chan
 See that button to the left? It's the ""Flip to Hack"" button. Click on it.","Ada"
 "FIRSTCONTACT_GOAL","To enter The Conservatory, you need to perform your 1st hack.
 See that wave? Match it by moving the slider and the doors will unlock.",""
-"FIRSTCONTACT_REWARD","Perfect. You did it. Congrats on your first real hack!
-
-That's how you'll do a lot of things around here.  See you on the other side!
-",""
+"FIRSTCONTACT_FLIPBACK","Congrats! You've got your first real hack under your belt! Okay, let's get right back in there. Exactly, you're on it! Click that Flip to Hack button.",""
+"FIRSTCONTACT_REWARD","That's how you'll do a lot of things around here.  See you on the other side!",""
 "ROSTER_QUESTION","Hello! Welcome to the Clubhouse. Let's go inside and see what's up.","Ada"
 "ROSTER_RESPONSE","Ready! ",""
 "ROSTER_PRELAUNCH","The Clubhouse is where you'll find me and the rest of the crew.
@@ -31,13 +29,13 @@ You can learn so much about the world just by looking at how a ball bounces. Thi
 
 You can see it on the desktop. Launch the Fizzics app.",""
 "FIZZICSINTRO_EXPLANATION","Fizzics not only helps me with my research but everyone just wants to play with it because it's just fun to see what happens. ",""
-"FIZZICSINTRO_RICKY","Hey! Welcome ;)  OMG. Fizzics. I love this game. It's my total fave. ","Ricky"
+"FIZZICSINTRO_RICKY","Hey! Welcome ;)  OMG. Fizzics. I love this game. It's my total fave. ","Riley"
 "FIZZICSINTRO_INTRO","Oh, hey Riley! This is Riley, one of our students. Definitely an important person to know! I'm sure you two will be pals.
 
 Take as long as you want to just play around. Try out different strategies. See what's possible! 
 
 We'll meet back at the Clubhouse.","Ada"
-"FIZZICS1_QUESTION","Hey! So I prepared this special challenge just for you in the Fizzics game. Think you can beat it?","Ricky"
+"FIZZICS1_QUESTION","Hey! So I prepared this special challenge just for you in the Fizzics game. Think you can beat it?","Riley"
 "FIZZICS1_RESPONSE","Bring it on!",""
 "FIZZICS1_LAUNCH","All right. Let's try it. Launch the Fizzics game to get started.",""
 "FIZZICS1_LAUNCHHINT","See the Fizzics app on the desktop? Click it to launch. ","Played 20 seconds after quest start if they haven't launched it yet."
@@ -58,7 +56,7 @@ Since you're clearly such a natural at this, I'm going to let you in on a secret
 
 Gotta go! See you at the Clubhouse!",""
 "FIZZICS1_ABORT","Check ya later! Let's play again soon. You know where to find me! ","This should be one line. Don't want multiple steps when they've lost interest."
-"OSINTRO_QUESTION","The OS is a super important place. OS stands for Operating System. Would you like to see it now?","Ada"
+"OSINTRO_QUESTION"," ","Ada"
 "OSINTRO_RESPONSE","Absolutely!","Simple version for now. Later we can detect whether they tried to flip it or not and have alternate paths for the Archivist intro."
 "OSINTRO_LAUNCH","Okay, so now you'll see an icon for the OS on the desktop. Go ahead and launch it.",""
 "OSINTRO_EXPLANATION","The OS keeps everything running smoothly. You have to be very careful back here. 
@@ -70,11 +68,11 @@ But it's really cool to be able to adjust things and have a say in how your comp
 He's kind of scary at first, but no one knows more about the OS than Saniel. 
 
 Also,I'll tell you more sometime, but Saniel a quite the hero!","Ada"
-"OSINTRO_ARCHIVIST2","Hero Schmero. Hmmmmph. Anyway, hello and welcome! Ada is one of our most brilliant students, but I'm afraid she's filling your head with ancient history! 
+"OSINTRO_ARCHIVIST2","Hero schmero. Hmmmph. Anyway, hello! Ada is one of our most brilliant students, but I'm afraid she's filling your head with ancient history! 
 
-But yes, I've been around a while and I do know a few things about how things work. 
+Though it's true, I've been around a while and I do know a few things about keeping the systems clear of trouble. Glad Ada could show you around.
 
-Glad Ada could show you around, but you should never come here on your own. The only time I should ever see you here is if you're accompanied by an adult.","Archivist"
+But hear me when I say you must never come here alone. Only with an adult. I'll be keeping my eye out for any shenanigans.","Archivist"
 "OSINTRO_WRAPUP","See what I mean, he's a bit fierce! But so glad you could meet him. Okay, I'm gonna bounce now! 
 
 Just come get me at the Clubhouse if you want to look around! ","Ada"
