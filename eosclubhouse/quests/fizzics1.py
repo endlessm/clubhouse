@@ -1,6 +1,3 @@
-import time
-
-from gi.repository import GLib
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App
@@ -18,68 +15,40 @@ class Fizzics1(Quest):
         self._hintCount = False
         self._initialized = False
         self._msg = ""
-        self._go_next_step = False
         self.gss.connect('changed', self.update_availability)
         self.available = False
         self.update_availability()
 
-    def start(self):
-        self.set_keyboard_request(True)
-
-        dt = 1
-        time_in_step = 0
-        starting = True
-        step_func = self.step_first
-
-        while True:
-            new_func = step_func(step_func, starting, time_in_step)
-            if new_func is None:
-                break
-            elif new_func != step_func:
-                step_func = new_func
-                time_in_step = 0
-                starting = True
-            else:
-                time.sleep(dt)
-                time_in_step += dt
-                starting = False
-
-    def go_next_step(self):
-        self._go_next_step = True
-
     def update_availability(self, gss=None):
         if self.conf['complete']:
             return
-        if (self.is_named_quest_complete("FizzicsIntro")):
+        if self.is_named_quest_complete("FizzicsIntro"):
             self.available = True
 
     # STEP 0
-    def step_first(self, step, starting, time_in_step):
-        if starting:
+    def step_first(self, time_in_step):
+        if time_in_step == 0:
             self.show_message(QS('FIZZICS1_LAUNCH'))
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
             return self.step_goal
 
-        if (time_in_step > 20 and not self._hint0):
+        if time_in_step > 20 and not self._hint0:
             self.show_message(QS('FIZZICS1_LAUNCHHINT'))
             self._hint0 = True
 
-        return step
-
     # STEP 1
-    def step_goal(self, step, starting, time_in_step):
-        if starting:
+    def step_goal(self, time_in_step):
+        if time_in_step == 0:
             self.show_message(QS('FIZZICS1_GOAL'))
 
         if time_in_step < 3:
-            return step
+            return
 
         try:
             if not self._initialized:
                 self._app.set_object_property('view.JSContext.globalParameters',
-                                              'preset',
-                                              GLib.Variant('i', 11))
+                                              'preset', ('i', 11))
                 self._initialized = True
         except Exception as ex:
             print(ex)
@@ -87,10 +56,8 @@ class Fizzics1(Quest):
         if time_in_step > 20:
             return self.step_wait_score
 
-        return step
-
-    def step_wait_score(self, step, starting, time_in_step):
-        if starting:
+    def step_wait_score(self, time_in_step):
+        if time_in_step == 0:
             self._msg = QS('FIZZICS1_EXPLANATION')
             self.show_message(self._msg)
             self.give_item('item.key.fizzics.1')
@@ -102,13 +69,13 @@ class Fizzics1(Quest):
 
             type1BallCount = self._app.get_object_property('view.JSContext.globalParameters',
                                                            'type1BallCount')
-            if (time_in_step > 5 and type1BallCount < 20 and not self._hintCount):
+            if time_in_step > 5 and type1BallCount < 20 and not self._hintCount:
                 self.show_message(QS('FIZZICS1_NOTENOUGH'))
                 self._hintCount = True
-            elif (type1BallCount >= 20 and self._hintCount):
+            elif type1BallCount >= 20 and self._hintCount:
                 self.show_message(self._msg)
                 self._hintCount = False
-            elif (time_in_step > 60 and not self._hint1):
+            elif time_in_step > 60 and not self._hint1:
                 self._msg = QS('FIZZICS1_HINT')
                 self.show_message(self._msg)
                 self._hint1 = True
@@ -121,56 +88,40 @@ class Fizzics1(Quest):
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_end_no_app
 
-        return step
-
     # STEP 2
-    def step_success(self, step, starting, time_in_step):
-        if starting:
-            self.show_question(QS('FIZZICS1_SUCCESS'), choices=[('OK', self.go_next_step)])
+    def step_success(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('FIZZICS1_SUCCESS'))
 
-        if self._go_next_step:
-            self._go_next_step = False
+        if self.confirmed_step():
             return self.step_prereward
 
-        return step
-
-    def step_prereward(self, step, starting, time_in_step):
-        if starting:
-            if (self.is_named_quest_complete("OSIntro")):
+    def step_prereward(self, time_in_step):
+        if time_in_step == 0:
+            if self.is_named_quest_complete("OSIntro"):
                 msg = 'FIZZICS1_KEY_ALREADY_OS'
             else:
                 msg = 'FIZZICS1_KEY_NO_OS'
-            self.show_question(QS(msg), choices=[('OK', self.go_next_step)])
+            self.show_question(QS(msg))
 
-        if self._go_next_step:
-            self._go_next_step = False
+        if self.confirmed_step():
             return self.step_reward
 
-        return step
-
     # STEP 4
-    def step_reward(self, step, starting, time_in_step):
-        if starting:
+    def step_reward(self, time_in_step):
+        if time_in_step == 0:
             self.give_item('item.key.OperatingSystemApp.1')
-            self.show_question(QS('FIZZICS1_GIVE_KEY'), choices=[('OK', self.go_next_step)])
+            self.show_question(QS('FIZZICS1_GIVE_KEY'))
             self.conf['complete'] = True
             self.available = False
 
-        if self._go_next_step:
-            self._go_next_step = False
-            return self.step_end
-
-        return step
-
-    def step_end(self, step, starting, time_in_step):
-        return
+        if self.confirmed_step():
+            self.stop()
 
     # STEP Abort
-    def step_end_no_app(self, step, starting, time_in_step):
-        if starting:
+    def step_end_no_app(self, time_in_step):
+        if time_in_step == 0:
             self.show_message(QS('FIZZICS1_ABORT'))
 
         if time_in_step > 5:
-            return
-
-        return step
+            self.stop()
