@@ -10,5 +10,6 @@
   <gresource prefix="/com/endlessm/Clubhouse/images">
     <file>clubhouse_bg.png</file>
     <file>inventory_bg.png</file>
+    <file>episodes_bg.png</file>
   </gresource>
 </gresources>

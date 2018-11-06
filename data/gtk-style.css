@@ -6,6 +6,10 @@
     background-image: url('resource:///com/endlessm/Clubhouse/images/inventory_bg.png');
 }
 
+.episodes-page {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/episodes_bg.png');
+}
+
 .clubhouse-talk-box {
     background-color: white;
     padding: 4px 12px;
