@@ -127,6 +127,17 @@ class Quest(GObject.GObject):
         variant = GLib.Variant('a{sb}', {'used': False})
         self.gss.set(item_name, variant)
 
+    def is_item_used(self, item_name):
+        try:
+            item = self.gss.get(item_name)
+        except GLib.Error as e:
+            pass
+        except Exception as e:
+            logger.debug(e.message)
+        else:
+            return item['used']
+        return False
+
     # @todo: Obsolete. Delete when quests no longer use it.
     def set_keyboard_request(self, wants_keyboard_events):
         pass

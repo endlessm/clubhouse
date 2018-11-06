@@ -84,8 +84,8 @@ class HackdexCorruption(Quest):
         if starting:
             self.show_message(QS('HACKDEX1_GOAL'))
 
-        # TODO: Check unlock level 1
-        if self.debug_skip():
+        # Check unlock level 1
+        if self.is_item_used('item.key.hackdex1.1'):
             return self.step_check_goal
 
         if (time_in_step > 20 and not self._hint_key):
