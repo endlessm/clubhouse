@@ -1,5 +1,3 @@
-import time
-
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App
@@ -12,47 +10,18 @@ class Roster(Quest):
     def __init__(self):
         super().__init__('Roster', 'ada', QS('ROSTER_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._go_next_step = False
-
-    def start(self):
-        self.set_keyboard_request(True)
-
-        dt = 1
-        time_in_step = 0
-        starting = True
-        step_func = self.step_first
-
-        while True:
-            new_func = step_func(step_func, starting, time_in_step)
-            if new_func is None:
-                break
-            elif new_func != step_func:
-                step_func = new_func
-                time_in_step = 0
-                starting = True
-            else:
-                time.sleep(dt)
-                time_in_step += dt
-                starting = False
-
-    def go_next_step(self):
-        self._go_next_step = True
 
     # STEP 0
-    def step_first(self, step, starting, time_in_step):
-        if starting:
-            self.show_question(QS('ROSTER_PRELAUNCH'),
-                               choices=[('OK', self.go_next_step)])
+    def step_first(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('ROSTER_PRELAUNCH'))
 
-        if (self._go_next_step):
-            self._go_next_step = False
+        if self.confirmed_step():
             return self.step_launch
 
-        return step
-
     # STEP 1
-    def step_launch(self, step, starting, time_in_step):
-        if starting:
+    def step_launch(self, time_in_step):
+        if time_in_step == 0:
             self.show_message(QS('ROSTER_LAUNCH'))
             Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
             Desktop.show_app_grid()
@@ -60,47 +29,34 @@ class Roster(Quest):
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_explanation
 
-        return step
-
     # STEP 2
-    def step_explanation(self, step, starting, time_in_step):
-        if starting:
+    def step_explanation(self, time_in_step):
+        if time_in_step == 0:
             self.show_message(QS('ROSTER_EXPLANATION'))
 
-        if (time_in_step < 5):
-            return step
+        if time_in_step < 5:
+            return
 
-        if (not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME)) or self.debug_skip():
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
             return self.step_closed
 
-        if (time_in_step > 60 * 2):
+        if time_in_step > 60 * 2:
             return self.step_timeout
 
-        return step
-
-    def step_closed(self, step, starting, time_in_step):
-        if starting:
-            self.show_question(QS('ROSTER_CLOSED'), choices=[('OK', self.go_next_step)])
+    def step_closed(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('ROSTER_CLOSED'))
             self.conf['complete'] = True
             self.available = False
 
-        if self._go_next_step:
-            self._go_next_step = False
-            return self.step_end
+        if self.confirmed_step():
+            self.stop()
 
-        return step
-
-    def step_timeout(self, step, starting, time_in_step):
-        if starting:
-            self.show_question(QS('ROSTER_TIMEOUT'), choices=[('OK', self.go_next_step)])
+    def step_timeout(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('ROSTER_TIMEOUT'))
             self.conf['complete'] = True
             self.available = False
 
-        if self._go_next_step:
-            self._go_next_step = False
-            return self.step_end
-
-        return step
-
-    def step_end(self, step, starting, time_in_step):
-        return
+        if self.confirmed_step():
+            self.stop()

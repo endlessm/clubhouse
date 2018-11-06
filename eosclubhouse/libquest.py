@@ -20,6 +20,7 @@
 
 import pkgutil
 import sys
+import time
 
 from eosclubhouse import logger
 from eosclubhouse.system import GameStateService
@@ -80,9 +81,6 @@ class Quest(GObject.GObject):
 
     __gsignals__ = {
         'message': (
-            GObject.SignalFlags.RUN_FIRST, None, (str, str, str)
-        ),
-        'question': (
             GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str, str)
         ),
     }
@@ -105,20 +103,60 @@ class Quest(GObject.GObject):
 
         self.key_event = False
 
+        self._confirmed_step = False
+
     def start(self):
-        raise NotImplementedError()
+        '''Start the quest's main function
+
+        This method runs the quest as a step-by-step approach, so a method called 'step_first'
+        needs to be defined in any Quest subclasses that want to follow this approach.
+
+        As an alternative, subclasses can override this very method in order to follow any
+        approach needed.
+        '''
+
+        time_in_step = 0
+        step_func = self.step_first
+
+        while not self.is_cancelled():
+            new_func = step_func(time_in_step)
+            if new_func is None:
+                time.sleep(1)
+                time_in_step += 1
+            else:
+                step_func = new_func
+                time_in_step = 0
+
+    def step_first(self, time_in_step):
+        raise NotImplementedError
+
+    def _confirm_step(self):
+        self._confirmed_step = True
+
+    def confirmed_step(self):
+        confirmed = self._confirmed_step
+        self._confirmed_step = False
+        return confirmed
+
+    def stop(self):
+        if not self.is_cancelled() and self._cancellable is not None:
+            self._cancellable.cancel()
 
     def get_main_character(self):
         return self._main_character_id
 
-    def show_message(self, txt, character_id=None, mood=None):
-        self._emit_signal('message', txt, character_id or self._main_character_id, mood)
-
-    def show_question(self, txt, choices, character_id=None, mood=None):
+    def show_message(self, txt, character_id=None, mood=None, choices=[], use_confirm=False):
         possible_answers = [(text, callback) for text, callback in choices]
 
-        self._emit_signal('question', txt, possible_answers,
+        if use_confirm:
+            possible_answers = [('>', self._confirm_step)] + possible_answers
+
+        self._emit_signal('message', txt, possible_answers,
                           character_id or self._main_character_id, mood)
+
+    def show_question(self, txt, character_id=None, mood=None):
+        self.show_message(txt, character_id=character_id, mood=mood, choices=[],
+                          use_confirm=True)
 
     def get_initial_message(self):
         return self._initial_msg

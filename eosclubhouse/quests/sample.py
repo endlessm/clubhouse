@@ -68,9 +68,9 @@ class GEditHack(Quest):
                           mood='mad')
         time.sleep(3)
 
-        self.show_question("Hmm… I don't see Gedit running… Should open it for you?",
-                           choices=[('Please do!', self._open_app),
-                                    ('Give me the app!', self._add_app_to_desktop)])
+        self.show_message("Hmm… I don't see Gedit running… Should open it for you?",
+                          choices=[('Please do!', self._open_app),
+                                   ('Give me the app!', self._add_app_to_desktop)])
         while not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             if self.is_cancelled():
                 return

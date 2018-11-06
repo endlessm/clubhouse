@@ -1,5 +1,3 @@
-import time
-
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App
@@ -12,35 +10,10 @@ class OSIntro(Quest):
     def __init__(self):
         super().__init__('OS Intro', 'ada', QS('OSINTRO_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._go_next_step = False
-
-    def start(self):
-        self.set_keyboard_request(True)
-
-        dt = 1
-        time_in_step = 0
-        starting = True
-        step_func = self.step_first
-
-        while True:
-            new_func = step_func(step_func, starting, time_in_step)
-            if new_func is None:
-                break
-            elif new_func != step_func:
-                step_func = new_func
-                time_in_step = 0
-                starting = True
-            else:
-                time.sleep(dt)
-                time_in_step += dt
-                starting = False
-
-    def go_next_step(self):
-        self._go_next_step = True
 
     # STEP 0
-    def step_first(self, step, starting, time_in_step):
-        if starting:
+    def step_first(self, time_in_step):
+        if time_in_step == 0:
             self.show_message(QS('OSINTRO_LAUNCH'))
             Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
             Desktop.show_app_grid()
@@ -48,52 +21,39 @@ class OSIntro(Quest):
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
             return self.step_explanation
 
-        return step
+    def step_explanation(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('OSINTRO_EXPLANATION'))
 
-    def step_explanation(self, step, starting, time_in_step):
-        if starting:
-            self.show_question(QS('OSINTRO_EXPLANATION'), choices=[('OK', self.go_next_step)])
-        if self._go_next_step:
-            self._go_next_step = False
+        if self.confirmed_step():
             return self.step_archivist
-        return step
 
-    def step_archivist(self, step, starting, time_in_step):
-        if starting:
-            self.show_question(QS('OSINTRO_ARCHIVIST'), choices=[('OK', self.go_next_step)],
-                               character_id='archivist')
-        if self._go_next_step:
-            self._go_next_step = False
+    def step_archivist(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('OSINTRO_ARCHIVIST'), character_id='archivist')
+
+        if self.confirmed_step():
             return self.step_intro
-        return step
 
-    def step_intro(self, step, starting, time_in_step):
-        if starting:
-            self.show_question(QS('OSINTRO_INTRO'), choices=[('OK', self.go_next_step)])
-        if self._go_next_step:
-            self._go_next_step = False
+    def step_intro(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('OSINTRO_INTRO'))
+
+        if self.confirmed_step():
             return self.step_archivist2
-        return step
 
-    def step_archivist2(self, step, starting, time_in_step):
-        if starting:
-            self.show_question(QS('OSINTRO_ARCHIVIST2'), choices=[('OK', self.go_next_step)],
-                               character_id='archivist')
-        if self._go_next_step:
-            self._go_next_step = False
+    def step_archivist2(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('OSINTRO_ARCHIVIST2'), character_id='archivist')
+
+        if self.confirmed_step():
             return self.step_wrapup
-        return step
 
-    def step_wrapup(self, step, starting, time_in_step):
-        if starting:
-            self.show_question(QS('OSINTRO_WRAPUP'), choices=[('OK', self.go_next_step)])
+    def step_wrapup(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('OSINTRO_WRAPUP'))
             self.conf['complete'] = True
             self.available = False
 
-        if self._go_next_step:
-            self._go_next_step = False
-            return self.step_end
-        return step
-
-    def step_end(self, step, starting, time_in_step):
-        return
+        if self.confirmed_step():
+            self.stop()
