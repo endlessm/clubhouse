@@ -3,7 +3,7 @@ import time
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App
-
+from gi.repository import GObject, GLib
 
 class HackdexCorruption(Quest):
 
@@ -42,6 +42,18 @@ class HackdexCorruption(Quest):
     def go_next_step(self):
         self._go_next_step = True
 
+    def get_dictionary_from_state(self, key):
+        try:
+            data = self.gss.get(key)
+        except GLib.Error as e:
+            pass
+        except Exception as e:
+            logger.debug(e.message)
+        else:
+            return data
+        return None
+
+
     def update_availability(self, gss=None):
         if self.conf['complete']:
             return
@@ -51,17 +63,23 @@ class HackdexCorruption(Quest):
     # STEP 0
     def step_first(self, step, starting, time_in_step):
         if starting:
+            variant = GLib.Variant('a{ss}', {'state': 'corrupted', 'color': ''})
+            self.gss.set('app.com_endlessm_Hackdex_chapter_one.corruption', variant)
             self.show_message(QS('HACKDEX1_LAUNCH'))
 
         if time_in_step < 3:
             return step
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_explanation
+            return self.step_delay1
 
         return step
 
-    # STEP 1
+    def step_delay1(self, step, starting, time_in_step):
+        if time_in_step > 3:
+            return self.step_explanation
+        return step
+
     def step_explanation(self, step, starting, time_in_step):
         if starting:
             self.show_message(QS('HACKDEX1_GOAL'))
@@ -84,13 +102,22 @@ class HackdexCorruption(Quest):
         if starting:
             self.show_message(QS('HACKDEX1_UNLOCKED'))
 
-        # TODO: For color change
-        if self.debug_skip():
-            return self.step_success
+        # Check for color change
+        data = self.get_dictionary_from_state('app.com_endlessm_Hackdex_chapter_one.corruption')
+        if data is None:
+            return self.step_abort
+
+        if data['state'] == 'fixed' or self.debug_skip():
+            return self.step_delay2
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
+        return step
+
+    def step_delay2(self, step, starting, time_in_step):
+        if time_in_step > 3:
+            return self.step_success
         return step
 
     def step_success(self, step, starting, time_in_step):
