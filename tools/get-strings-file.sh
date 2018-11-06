@@ -24,7 +24,7 @@ if [ "$ret" == 0  ] && [ "$1" == '--commit' ]; then
     git reset HEAD > /dev/null
     # Add any changes to the CSV file and commit them
     git add "$source_dir/data/quests_strings.csv"
-    git ci --no-verify -m 'data: Update quests strings CSV'
+    git commit --no-verify -m 'data: Update quests strings CSV'
 fi
 
 popd
