@@ -341,6 +341,8 @@ class ClubhousePage(Gtk.EventBox):
     def run_quest(self, quest):
         logger.info('Running quest "%s"', quest)
 
+        self._cancel_ongoing_task()
+
         self.connect_quest(quest)
 
         cancellable = Gio.Cancellable()
