@@ -102,6 +102,7 @@ class Quest(GObject.GObject):
         self.load_conf()
 
         self.key_event = False
+        self._debug_skip = False
 
         self._confirmed_step = False
 
@@ -173,9 +174,13 @@ class Quest(GObject.GObject):
         self.key_event = True
 
     def debug_skip(self):
-        skip = self.key_event
-        self.key_event = False
+        skip = self.key_event or self._debug_skip
+        self.key_event = None
+        self._debug_skip = False
         return skip
+
+    def set_debug_skip(self, debug_skip):
+        self._debug_skip = debug_skip
 
     def __repr__(self):
         return self._name

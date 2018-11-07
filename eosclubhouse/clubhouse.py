@@ -269,6 +269,11 @@ class ClubhousePage(Gtk.EventBox):
 
         self._cancel_ongoing_task()
 
+    def quest_debug_skip(self):
+        if self._quest_task is not None:
+            quest = self._quest_task.get_source_object()
+            quest.set_debug_skip(True)
+
     def _cancel_ongoing_task(self):
         if self._quest_task is None:
             return
@@ -441,6 +446,10 @@ class ClubhousePage(Gtk.EventBox):
             label = action[0]
             button_target = "app.quest-user-answer('{}')".format(key)
             notification.add_button(label, button_target)
+
+        # Add debug button (e.g. to quickly skip steps)
+        if self._app_window.get_application().has_debug_mode():
+            notification.add_button('🐞', 'app.quest-debug-skip')
 
         self._app_window.get_application().send_quest_notification(notification)
 
@@ -633,6 +642,8 @@ class ClubhouseApplication(Gtk.Application):
 
         self._window = None
 
+        self._debug_mode = False
+
         # @todo: Move the resource to a different dir
         resource = Gio.resource_load(os.path.join(os.path.dirname(__file__),
                                                   'eos-clubhouse.gresource'))
@@ -644,6 +655,8 @@ class ClubhouseApplication(Gtk.Application):
 
         self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'List existing quest sets and quests', None)
+        self.add_main_option('debug', ord('d'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             'Turn on debug mode', None)
 
     def _init_style(self):
         css_file = Gio.File.new_for_uri('resource:///com/endlessm/Clubhouse/gtk-style.css')
@@ -662,6 +675,10 @@ class ClubhouseApplication(Gtk.Application):
             self._list_quests()
             return 0
 
+        if options.contains('debug'):
+            self.register(None)
+            self.activate_action('debug-mode', GLib.Variant('b', True))
+
         return -1
 
     def do_startup(self):
@@ -671,6 +688,8 @@ class ClubhouseApplication(Gtk.Application):
 
         simple_actions = [('stop-quest', self._stop_quest, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
+                          ('quest-debug-skip', self._quest_debug_skip, None),
+                          ('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)'))]
 
         for name, callback, variant_type in simple_actions:
@@ -712,9 +731,16 @@ class ClubhouseApplication(Gtk.Application):
             self._window.clubhouse_page.stop_quest()
         self.close_quest_notification()
 
+    def _debug_mode_action_cb(self, action, arg_variant):
+        self._debug_mode = arg_variant.unpack()
+
     def _quest_user_answer(self, action, action_id):
         if self._window:
             self._window.clubhouse_page.quest_action(action_id.unpack())
+
+    def _quest_debug_skip(self, action, action_id):
+        if self._window:
+            self._window.clubhouse_page.quest_debug_skip()
 
     def _run_quest_action_cb(self, action, arg_variant):
         self._ensure_window()
@@ -792,6 +818,9 @@ class ClubhouseApplication(Gtk.Application):
             print(quest_set.get_id())
             for quest in quest_set.get_quests():
                 print('\t{}'.format(quest.get_id()))
+
+    def has_debug_mode(self):
+        return self._debug_mode
 
 
 if __name__ == '__main__':
