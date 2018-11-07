@@ -43,6 +43,7 @@ ClubhouseIface = ('<node>'
                   '<arg type="u" direction="in" name="timestamp"/>'
                   '</method>'
                   '<property name="Visible" type="b" access="read"/>'
+                  '<signal name="SuggestOpen" />'
                   '</interface>'
                   '</node>')
 
@@ -291,10 +292,14 @@ class ClubhousePage(Gtk.EventBox):
 
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set)
+        quest_set.connect('nudge', lambda _quest_set: self._suggest_open())
         button.connect('clicked', self._button_clicked_cb)
 
         x, y = button.get_position()
         self._main_characters_box.put(button, x, y)
+
+    def _suggest_open(self):
+        self._app_window.get_application().send_suggest_open()
 
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
@@ -725,6 +730,13 @@ class ClubhouseApplication(Gtk.Application):
 
     def close_quest_notification(self):
         self.withdraw_notification(self.QUEST_NOTIFICATION_ID)
+
+    def send_suggest_open(self):
+        self.get_dbus_connection().emit_signal(None,
+                                               CLUBHOUSE_PATH,
+                                               CLUBHOUSE_IFACE,
+                                               'SuggestOpen',
+                                               None)
 
     def _stop_quest(self, *args):
         if (self._window):
