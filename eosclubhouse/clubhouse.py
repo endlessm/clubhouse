@@ -397,18 +397,6 @@ class ClubhousePage(Gtk.EventBox):
         self._overlay_msg_box.show_all()
         self._shell_popup_message(message_txt, self._message.get_character())
 
-    def _quest_question_cb(self, quest, message_txt, answer_choices, character_id, character_mood):
-        logger.debug('Quest: %s mood=%s', message_txt, character_mood)
-
-        self._reset_quest_actions()
-
-        self._message.set_character(character_id)
-        self._message.set_character_mood(character_mood)
-        self.show_message(message_txt, answer_choices)
-
-        self._overlay_msg_box.show_all()
-        self._shell_popup_message(message_txt, self._message.get_character())
-
     def _run_task_in_thread(self, task):
         quest = task.get_source_object()
         quest.start()
