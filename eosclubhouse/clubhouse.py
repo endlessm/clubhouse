@@ -547,13 +547,8 @@ class InventoryPage(Gtk.EventBox):
         # on a prefix, so every time there's a change in the service, we need to directly
         # verify all the items we're interested in.
         for item_id, (icon, name) in self._items_db.get_all_items():
-            try:
-                item_state = self._gss.get(item_id)
-            except GLib.Error as e:
-                # Raise errors unless their the expected (key missing)
-                if not GameStateService.is_key_error(e):
-                    raise
-
+            item_state = self._gss.get(item_id)
+            if item_state is None:
                 self._remove_item(item_id)
                 continue
 

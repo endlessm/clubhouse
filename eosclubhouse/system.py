@@ -185,8 +185,13 @@ class GameStateService(GObject.GObject):
         self._proxy.Set('(sv)', key, variant)
 
     def get(self, key):
-        return self._proxy.Get('(s)', key)
+        try:
+            return self._proxy.Get('(s)', key)
+        except GLib.Error as e:
+            # Raise errors unless they are the expected (key missing)
+            if not self._is_key_error(e):
+                raise
 
     @staticmethod
-    def is_key_error(error):
+    def _is_key_error(error):
         return Gio.DBusError.get_remote_error(error) == 'com.endlessm.GameStateService.KeyError'
