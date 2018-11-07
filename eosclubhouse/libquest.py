@@ -220,16 +220,8 @@ class Quest(GObject.GObject):
 
     def is_named_quest_complete(self, class_name):
         key = self._get_quest_conf_prefix() + class_name
-        try:
-            data = self.gss.get(key)
-        except GLib.Error as e:
-            pass
-        except Exception as e:
-            logger.debug(e.message)
-        else:
-            return data['complete']
-
-        return False
+        data = self.gss.get(key)
+        return data is not None and data['complete']
 
     @classmethod
     def get_id(class_):
