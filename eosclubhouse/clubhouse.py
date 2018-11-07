@@ -365,6 +365,9 @@ class ClubhousePage(Gtk.EventBox):
         self._message.close_button.show()
         self._message.pop_out_button.show()
 
+        # Hide the window so the user focuses on the Shell Quest View
+        self._app_window.hide()
+
         threading.Thread(target=self._run_task_in_thread, args=(self._quest_task,),
                          name='quest-thread').start()
 
@@ -425,9 +428,6 @@ class ClubhousePage(Gtk.EventBox):
         self._app_window.get_application().close_quest_notification()
 
     def _shell_popup_message(self, text, character):
-        if self._app_window.props.visible:
-            return
-
         notification = Gio.Notification()
         notification.set_body(text)
         notification.set_title('')
