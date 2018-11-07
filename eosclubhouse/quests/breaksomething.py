@@ -44,8 +44,8 @@ class BreakSomething(Quest):
         if time_in_step == 0:
             self.show_message(QS('BREAK_UNLOCK'))
 
-        # TODO: Wait for unlock
-        if self.debug_skip():
+        item = self.gss.get('item.key.OperatingSystemApp.1')
+        if item is not None and item.get('used', False):
             return self.step_unlocked
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
