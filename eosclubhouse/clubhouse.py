@@ -748,22 +748,28 @@ class ClubhouseApplication(Gtk.Application):
                                          "This method is not implemented")
             return
 
-        getattr(self, method_name)(*args)
+        invocation.return_value(getattr(self, method_name)(*args))
 
     def handle_get_property(self, connection, sender, object_path,
                             interface, key):
         if key == 'Visible':
-            return GLib.Variant('b', self._window.is_visible())
+            return GLib.Variant('b', self._window.is_visible() if self._window else False)
 
         return None
 
+    # D-Bus implementation
     def show(self, timestamp):
         self._ensure_window()
         self._window.present_with_time(int(timestamp))
 
+        return None
+
+    # D-Bus implementation
     def hide(self, timestamp):
         if self._window:
             self._window.hide()
+
+        return None
 
     def _update_geometry(self):
         monitor = Gdk.Display.get_default().get_primary_monitor()
