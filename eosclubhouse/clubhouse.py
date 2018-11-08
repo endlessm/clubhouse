@@ -630,6 +630,8 @@ class ClubhouseApplication(Gtk.Application):
                              'List existing quest sets and quests', None)
         self.add_main_option('debug', ord('d'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Turn on debug mode', None)
+        self.add_main_option('quit', ord('x'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             'Fully close the application', None)
 
     def _init_style(self):
         css_file = Gio.File.new_for_uri('resource:///com/endlessm/Clubhouse/gtk-style.css')
@@ -651,6 +653,10 @@ class ClubhouseApplication(Gtk.Application):
         if options.contains('debug'):
             self.register(None)
             self.activate_action('debug-mode', GLib.Variant('b', True))
+
+        if options.contains('quit'):
+            self.register(None)
+            self.activate_action('quit', None)
 
         return -1
 
