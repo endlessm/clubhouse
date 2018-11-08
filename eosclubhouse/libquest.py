@@ -57,6 +57,14 @@ class Registry:
         return class_._quest_sets
 
     @classmethod
+    def get_quest_set_by_name(class_, name):
+        for quest_set in class_.get_quest_sets():
+            if quest_set.get_id() == name:
+                return quest_set
+
+        return None
+
+    @classmethod
     def get_quest_by_name(class_, name):
         quest_set_name = None
         name_split = name.split('.', 1)
@@ -288,3 +296,6 @@ class QuestSet(GObject.GObject):
             logger.info('Turning QuestSet "%s" visible from quest %s', self, quest)
             self.visible = True
             self.nudge()
+
+    def is_active(self):
+        return self.visible and self.get_next_quest() is not None
