@@ -76,6 +76,7 @@ But hear me when I say you must never come here alone. Only with an adult. I'll 
 "OSINTRO_WRAPUP","See what I mean, he's a bit fierce! But so glad you could meet him. Okay, gotta bounce now! 
 
 Just come get me at the Clubhouse if you want to look around! ","Ada"
+"OSINTRO_ABORT","Come back to the Clubhouse when you want to finish learning about the System.",""
 "BREAK_QUESTION","Psssst! I was hoping I'd see you. Wanna go scope around in the System with that key we found?","Ricky"
 "BREAK_RESPONSE","Definitely. ",""
 "BREAK_LAUNCH","Ok. So you just need to launch the System app now and we're golden. ",""
@@ -127,13 +128,21 @@ How did this get into the Roster? Or did the Archivist drop it again? Weird. Kee
 
 It's been fun to explore things with you! Hope you'll come back ;) ","Ricky"
 "HACKDEX1_ABORT","All done already? Okay then, Come back soon. We've got our work cut out for us!","Archivist"
+"LOSTFILES_QUESTION","My research files are all gone!!!","Ada"
+"LOSTFILES_ANSWER","What happened?",""
+"LOSTFILES_EXPLANATION","Explain what's going on. Blah blah blah.
+
+This wraps up Act 1 blah blah.",""
 "NOQUEST_ADA_RICKY","I think Riley was looking for you earlier.","These are the comments characters make when they don't have a quest to give you. For now they just tell you to go talk to another character (if there is one)."
 "NOQUEST_ADA_ARCHIVIST","Dr. Rowe wants to talk to you.",""
 "NOQUEST_ADA_NOTHING","Are you enjoying yourself?",""
+"NOQUEST_ADA_CHAPTER1END","We're still investigating how my research was corrupted.",""
 "NOQUEST_RICKY_ADA","Hey, I think Ada wants to tell you something.",""
 "NOQUEST_RICKY_ARCHIVIST","Psss... The Archivist is looking for you.",""
 "NOQUEST_RICKY_NOTHING","What are you up to?",""
+"NOQUEST_RICKY_CHAPTER1END","It looks like everybody is busy with the investigation. That's no fun.",""
 "NOQUEST_ARCHIVIST_ADA","Perhaps you should inquire with Ada.",""
 "NOQUEST_ARCHIVIST_RICKY","That friend of yours is probably up to no good.",""
 "NOQUEST_ARCHIVIST_NOTHING","Stay out of trouble!",""
+"NOQUEST_ARCHIVIST_CHAPTER1END","Shhhh!... We're busy right now.",""
 "","Yellow: I had to add/modify the text. Needs to be looked at by Genine.",""
