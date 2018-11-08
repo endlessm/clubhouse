@@ -49,7 +49,7 @@ class Fizzics2(Quest):
             self._hint1 = True
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_end_no_app
+            return self.step_abort
 
     # STEP 2
     def step_reward(self, time_in_step):
@@ -63,7 +63,7 @@ class Fizzics2(Quest):
             self.stop()
 
     # STEP Abort
-    def step_end_no_app(self, time_in_step):
+    def step_abort(self, time_in_step):
         if time_in_step == 0:
             self.show_message(QS('FIZZICS2_ABORT'))
 

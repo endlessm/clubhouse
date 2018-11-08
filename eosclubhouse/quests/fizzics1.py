@@ -53,6 +53,9 @@ class Fizzics1(Quest):
         except Exception as ex:
             print(ex)
 
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
+
         if time_in_step > 20:
             return self.step_wait_score
 
@@ -86,7 +89,7 @@ class Fizzics1(Quest):
             return self.step_success
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_end_no_app
+            return self.step_abort
 
     # STEP 2
     def step_success(self, time_in_step):
@@ -119,7 +122,7 @@ class Fizzics1(Quest):
             self.stop()
 
     # STEP Abort
-    def step_end_no_app(self, time_in_step):
+    def step_abort(self, time_in_step):
         if time_in_step == 0:
             self.show_message(QS('FIZZICS1_ABORT'))
 
