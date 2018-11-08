@@ -11,7 +11,7 @@ from eosclubhouse.quests.lostfiles import LostFiles
 class AdaQuestSet(QuestSet):
 
     __character_id__ = 'ada'
-    __position__ = (38, 208)
+    __position__ = (38, 211)
     __quests__ = [FirstContact(), Roster(), FizzicsIntro(), OSIntro(), LostFiles()]
 
     def get_empty_message(self):
