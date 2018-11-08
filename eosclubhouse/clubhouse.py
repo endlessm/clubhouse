@@ -663,7 +663,8 @@ class ClubhouseApplication(Gtk.Application):
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('quest-debug-skip', self._quest_debug_skip, None),
                           ('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
-                          ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)'))]
+                          ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
+                          ('quit', self._quit_action_cb, None)]
 
         for name, callback, variant_type in simple_actions:
             action = Gio.SimpleAction.new(name, variant_type)
@@ -726,6 +727,13 @@ class ClubhouseApplication(Gtk.Application):
         self._ensure_window()
         quest_name, run_in_shell = arg_variant.unpack()
         self._window.clubhouse_page.run_quest_by_name(quest_name, run_in_shell)
+
+    def _quit_action_cb(self, action, arg_variant):
+        if self._window:
+            self._window.destroy()
+            self._window = None
+
+        self.quit()
 
     def _vibility_notify_cb(self, window, pspec):
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}
