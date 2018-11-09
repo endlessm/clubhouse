@@ -4,7 +4,7 @@
 You look like a curious person. First things first: Let's talk about how to change technology to do what you want.  
 
 See that button to the left? It's the ""Flip to Hack"" button. Click on it.","Ada"
-"FIRSTCONTACT_GOAL","To enter The Clubhouse, you need to perform your 1st hack.
+"FIRSTCONTACT_GOAL","To enter The Conservatory, you need to perform your 1st hack.
 See that wave? Match it by moving the slider and the doors will unlock.",""
 "FIRSTCONTACT_FLIPBACK","Congrats! You've got your first real hack under your belt! Okay, let's get right back in there. Exactly, you're on it! Click that Flip to Hack button.",""
 "FIRSTCONTACT_REWARD","That's how you'll do a lot of things around here.  See you on the other side!",""
@@ -63,6 +63,7 @@ Gotta go! See you at the Clubhouse!",""
 
 But it's really cool to be able to adjust things and have a say in how your computer works. ",""
 "OSINTRO_ARCHIVIST","What's all this ruckus? Oh, it's you, Ada. Finding anything interesting while you're here? And who's this with you? ","Archivist"
+"OSINTRO_ARCHIVIST_FLIP","What's this? Who let you in here? Don't you know you're not supposed to try to access this part?","Archivist (if player tried to flip panel)"
 "OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel, the Archivist. He keeps things in order around here. 
 
 He's kind of scary at first, but no one knows more about the System than Saniel. 
