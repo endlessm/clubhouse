@@ -479,7 +479,7 @@ class InventoryItem(Gtk.Box):
 
         self.get_style_context().add_class('inventory-item')
 
-        icon_path = os.path.join(config.ITEM_ICONS_DIR, icon_name)
+        icon_path = utils.QuestItemDB.get_icon_path(icon_name)
 
         image = Gtk.Image(width_request=150, height_request=150, yalign=1.0)
         image.set_from_file(icon_path)

@@ -99,6 +99,10 @@ class QuestItemDB(_DictFromCSV):
         item_id, icon, name = csv_row
         contents_dict[item_id] = (icon, name)
 
+    @classmethod
+    def get_icon_path(self, icon_name):
+        return os.path.join(config.ITEM_ICONS_DIR, icon_name)
+
 
 # Convenience "QuestString" method to get a string from the catalog
 QS = QuestStringCatalog().get_string
