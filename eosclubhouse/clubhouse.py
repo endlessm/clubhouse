@@ -412,7 +412,7 @@ class ClubhousePage(Gtk.EventBox):
         return False
 
     def _shell_close_popup_message(self):
-        self._app_window.get_application().close_quest_notification()
+        self._app_window.get_application().close_quest_msg_notification()
 
     def _shell_popup_message(self, text, character):
         notification = Gio.Notification()
@@ -431,7 +431,7 @@ class ClubhousePage(Gtk.EventBox):
         if self._app_window.get_application().has_debug_mode():
             notification.add_button('🐞', 'app.quest-debug-skip')
 
-        self._app_window.get_application().send_quest_notification(notification)
+        self._app_window.get_application().send_quest_msg_notification(notification)
 
     def show_message(self, txt, answer_choices=[]):
         self._message.clear_buttons()
@@ -607,7 +607,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
 class ClubhouseApplication(Gtk.Application):
 
-    QUEST_NOTIFICATION_ID = 'quest-message'
+    QUEST_MSG_NOTIFICATION_ID = 'quest-message'
 
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
@@ -701,11 +701,11 @@ class ClubhouseApplication(Gtk.Application):
         for quest_set in quest_sets:
             self._window.clubhouse_page.add_quest_set(quest_set)
 
-    def send_quest_notification(self, notification):
-        self.send_notification(self.QUEST_NOTIFICATION_ID, notification)
+    def send_quest_msg_notification(self, notification):
+        self.send_notification(self.QUEST_MSG_NOTIFICATION_ID, notification)
 
-    def close_quest_notification(self):
-        self.withdraw_notification(self.QUEST_NOTIFICATION_ID)
+    def close_quest_msg_notification(self):
+        self.withdraw_notification(self.QUEST_MSG_NOTIFICATION_ID)
 
     def send_suggest_open(self):
         self.get_dbus_connection().emit_signal(None,
@@ -717,7 +717,7 @@ class ClubhouseApplication(Gtk.Application):
     def _stop_quest(self, *args):
         if (self._window):
             self._window.clubhouse_page.stop_quest()
-        self.close_quest_notification()
+        self.close_quest_msg_notification()
 
     def _debug_mode_action_cb(self, action, arg_variant):
         self._debug_mode = arg_variant.unpack()
