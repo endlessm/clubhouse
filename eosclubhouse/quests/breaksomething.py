@@ -1,6 +1,7 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App
+from gi.repository import Gio, GLib
 
 
 class BreakSomething(Quest):
@@ -13,6 +14,7 @@ class BreakSomething(Quest):
         self.gss.connect('changed', self.update_availability)
         self.available = False
         self.update_availability()
+        self.settings = Gio.Settings.new("org.gnome.desktop.interface")
 
     def update_availability(self, gss=None):
         if self.conf['complete']:
@@ -45,8 +47,8 @@ class BreakSomething(Quest):
         if time_in_step == 0:
             self.show_message(QS('BREAK_UNLOCK'))
 
-        # TODO: Wait for unlock
-        if self.debug_skip():
+        item = self.gss.get('item.key.OperatingSystemApp.1')
+        if item is not None and item.get('used', False):
             return self.step_unlocked
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
@@ -55,8 +57,7 @@ class BreakSomething(Quest):
         if time_in_step == 0:
             self.show_message(QS('BREAK_UNLOCKED'))
 
-        # TODO: Wait for goal to be met (large cursor)
-        if self.debug_skip():
+        if self.settings.get_int('cursor-size') >= 200:
             return self.step_success
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
@@ -71,8 +72,7 @@ class BreakSomething(Quest):
         if time_in_step == 0:
             self.show_message(QS('BREAK_ARCHIVISTARRIVES'), character_id='archivist')
 
-        # TODO: Wait for goal to be met (reset button)
-        if self.debug_skip():
+        if self.settings.get_int('cursor-size') == 24:
             return self.step_reward
 
     def step_reward(self, time_in_step):
