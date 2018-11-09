@@ -12,6 +12,11 @@ class ArchivistQuestSet(QuestSet):
 
     def __init__(self):
         super().__init__()
+        self.update_visibility()
+        first_quest = self.get_quests()[0]
+        first_quest.gss.connect('changed', self.update_visibility)
+
+    def update_visibility(self, gss=None):
         first_quest = self.get_quests()[0]
         self.visible = (first_quest.available or first_quest.conf['complete'] or
                         first_quest.is_named_quest_complete('OSIntro'))
