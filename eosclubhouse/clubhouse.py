@@ -570,8 +570,10 @@ class InventoryPage(Gtk.EventBox):
                 self._remove_item(item_id)
                 continue
 
-            # Used keys shouldn't show up in the inventory
-            if self._item_is_key(item_id) and item_state.get('used', False):
+            # Used keys shouldn't show up in the inventory if are consume-able
+            if (self._item_is_key(item_id) and
+               item_state.get('used', False) and
+               item_state.get('consume_after_use', True)):
                 self._remove_item(item_id)
                 continue
 
