@@ -58,11 +58,16 @@ class GEditHack(Quest):
 
     def start(self):
         self.set_keyboard_request(True)
+
+        self.give_item('item.key.testkey')
+
         self.show_message("I am the best GEdit teacher out there, ain't that right Ricky!?",
                           mood='mad')
         time.sleep(3)
         self.show_message("Not so sure… But okay…", character_id='ricky')
         time.sleep(3)
+
+        self.give_item('item.reward.testreward', 'You have just gotten this awesome reward!')
 
         self.show_message("So let me show you how it's done! Make sure that you open Gedit!",
                           mood='mad')
