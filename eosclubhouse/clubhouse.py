@@ -334,9 +334,11 @@ class ClubhousePage(Gtk.EventBox):
 
     def connect_quest(self, quest):
         quest.connect('message', self._quest_message_cb)
+        quest.connect('item-given', self._quest_item_given_cb)
 
     def disconnect_quest(self, quest):
         quest.disconnect_by_func(self._quest_message_cb)
+        quest.disconnect_by_func(self._quest_item_given_cb)
 
     def run_quest(self, quest):
         logger.info('Running quest "%s"', quest)
@@ -370,6 +372,9 @@ class ClubhousePage(Gtk.EventBox):
         if use_shell_quest_view:
             self._app_window.hide()
         self.run_quest(quest)
+
+    def _quest_item_given_cb(self, quest, item_id, text):
+        self._shell_popup_item(item_id, text)
 
     def _quest_message_cb(self, quest, message_txt, answer_choices, character_id, character_mood):
         logger.debug('Message: %s character_id=%s mood=%s choices=[%s]', message_txt, character_id,
@@ -432,6 +437,31 @@ class ClubhousePage(Gtk.EventBox):
             notification.add_button('🐞', 'app.quest-debug-skip')
 
         self._app_window.get_application().send_quest_msg_notification(notification)
+
+    def _shell_popup_item(self, item_id, text):
+        item = utils.QuestItemDB.get_item(item_id)
+        if item is None:
+            logger.debug('Failed to get item %s from DB', item_id)
+            return
+
+        icon_name, item_name = item
+
+        notification = Gio.Notification()
+        if text is None:
+            text = 'Got new item!! {}'.format(item_name)
+
+        notification.set_body(text)
+        notification.set_title('')
+
+        icon_file = Gio.File.new_for_path(utils.QuestItemDB.get_icon_path(icon_name))
+        icon_bytes = icon_file.load_bytes(None)
+        icon = Gio.BytesIcon.new(icon_bytes[0])
+
+        notification.set_icon(icon)
+
+        notification.add_button('Show me!', "app.show-page('{}')".format('inventory'))
+
+        self._app_window.get_application().send_quest_item_notification(notification)
 
     def show_message(self, txt, answer_choices=[]):
         self._message.clear_buttons()
@@ -618,6 +648,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 class ClubhouseApplication(Gtk.Application):
 
     QUEST_MSG_NOTIFICATION_ID = 'quest-message'
+    QUEST_ITEM_NOTIFICATION_ID = 'quest-item'
 
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
@@ -717,6 +748,12 @@ class ClubhouseApplication(Gtk.Application):
 
     def close_quest_msg_notification(self):
         self.withdraw_notification(self.QUEST_MSG_NOTIFICATION_ID)
+
+    def send_quest_item_notification(self, notification):
+        self.send_notification(self.QUEST_ITEM_NOTIFICATION_ID, notification)
+
+    def close_quest_item_notification(self):
+        self.withdraw_notification(self.QUEST_ITEM_NOTIFICATION_ID)
 
     def send_suggest_open(self):
         self.get_dbus_connection().emit_signal(None,
