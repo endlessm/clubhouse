@@ -18,7 +18,7 @@ class AdaQuestSet(QuestSet):
         if Registry.get_quest_set_by_name('RickyQuestSet').is_active():
             return QS('NOQUEST_ADA_RICKY')
         if Registry.get_quest_set_by_name('ArchivistQuestSet').is_active():
-            return QS('NOQUEST_ADA_ARCHIVER')
+            return QS('NOQUEST_ADA_ARCHIVIST')
 
         quest = self.get_quests()[0]
         if (quest.is_named_quest_complete("LostFiles")):
