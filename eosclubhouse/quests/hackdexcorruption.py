@@ -28,6 +28,7 @@ class HackdexCorruption(Quest):
             variant = GLib.Variant('a{ss}', {'state': 'corrupted', 'color': ''})
             self.gss.set('app.com_endlessm_Hackdex_chapter_one.corruption', variant)
             self.show_message(QS('HACKDEX1_LAUNCH'))
+            Desktop.show_app_grid()
 
         if time_in_step < 3:
             return
