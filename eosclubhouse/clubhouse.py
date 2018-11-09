@@ -665,12 +665,13 @@ class ClubhouseApplication(Gtk.Application):
 
         self._init_style()
 
-        simple_actions = [('stop-quest', self._stop_quest, None),
-                          ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
+        simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
                           ('quest-debug-skip', self._quest_debug_skip, None),
-                          ('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
+                          ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
+                          ('quit', self._quit_action_cb, None),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
-                          ('quit', self._quit_action_cb, None)]
+                          ('stop-quest', self._stop_quest, None),
+                          ]
 
         for name, callback, variant_type in simple_actions:
             action = Gio.SimpleAction.new(name, variant_type)
