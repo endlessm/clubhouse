@@ -29,16 +29,21 @@ class BreakSomething(Quest):
             Desktop.show_app_grid()
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
+            return self.step_delay1
+
+    def step_delay1(self, time_in_step):
+        if time_in_step > 3:
             return self.step_explanation
 
-    # STEP 1
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
             self.show_message(QS('BREAK_OSAPP'))
 
-        # TODO: Wait for flip to hack
-        if self.debug_skip():
-            return self.step_unlock
+        try:
+            if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
+                return self.step_unlock
+        except Exception as e:
+            print(e)
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort

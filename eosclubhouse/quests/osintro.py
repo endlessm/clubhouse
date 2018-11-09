@@ -29,10 +29,24 @@ class OSIntro(Quest):
             return self.step_archivist
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
+        try:
+            if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
+                return self.step_archivist_flip
+        except Exception as e:
+            print(e)
 
     def step_archivist(self, time_in_step):
         if time_in_step == 0:
             self.show_question(QS('OSINTRO_ARCHIVIST'), character_id='archivist')
+
+        if self.confirmed_step():
+            return self.step_intro
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
+
+    def step_archivist_flip(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('OSINTRO_ARCHIVIST_FLIP'), character_id='archivist')
 
         if self.confirmed_step():
             return self.step_intro
