@@ -24,6 +24,7 @@ class BreakSomething(Quest):
     def step_first(self, time_in_step):
         if time_in_step == 0:
             self.show_message(QS('BREAK_LAUNCH'))
+            Desktop.show_app_grid()
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
             return self.step_explanation
