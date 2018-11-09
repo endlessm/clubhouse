@@ -604,6 +604,16 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _page_switch_button_clicked_cb(self, button, page_widget):
         self._main_window_stack.set_visible_child(page_widget)
 
+    def set_page(self, page_name):
+        page_buttons = {'clubhouse': self._clubhouse_button,
+                        'inventory': self._inventory_button,
+                        'episodes': self._episodes_button}
+
+        button = page_buttons.get(page_name)
+
+        if button is not None:
+            button.set_active(True)
+
 
 class ClubhouseApplication(Gtk.Application):
 
@@ -670,6 +680,7 @@ class ClubhouseApplication(Gtk.Application):
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('quit', self._quit_action_cb, None),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
+                          ('show-page', self._show_page_action_cb, GLib.VariantType.new('s')),
                           ('stop-quest', self._stop_quest, None),
                           ]
 
@@ -741,6 +752,12 @@ class ClubhouseApplication(Gtk.Application):
             self._window = None
 
         self.quit()
+
+    def _show_page_action_cb(self, action, arg_variant):
+        page_name = arg_variant.unpack()
+        if self._window:
+            self._window.set_page(page_name)
+            self._window.show()
 
     def _vibility_notify_cb(self, window, pspec):
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}
