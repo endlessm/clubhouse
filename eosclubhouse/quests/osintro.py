@@ -1,5 +1,5 @@
 from eosclubhouse.utils import QS
-from eosclubhouse.libquest import Quest
+from eosclubhouse.libquest import Registry, Quest
 from eosclubhouse.system import Desktop, App
 
 
@@ -62,6 +62,12 @@ class OSIntro(Quest):
             self.show_question(QS('OSINTRO_WRAPUP'))
             self.conf['complete'] = True
             self.available = False
+
+            # this is the quest that makes the Archivist appear
+            archivist_questset = Registry.get_quest_set_by_name('ArchivistQuestSet')
+            if archivist_questset is not None:
+                archivist_questset.visible = True
+                archivist_questset.nudge()
 
         if self.confirmed_step():
             self.stop()
