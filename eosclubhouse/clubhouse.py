@@ -334,9 +334,11 @@ class ClubhousePage(Gtk.EventBox):
 
     def connect_quest(self, quest):
         quest.connect('message', self._quest_message_cb)
+        quest.connect('item-given', self._quest_item_given_cb)
 
     def disconnect_quest(self, quest):
         quest.disconnect_by_func(self._quest_message_cb)
+        quest.disconnect_by_func(self._quest_item_given_cb)
 
     def run_quest(self, quest):
         logger.info('Running quest "%s"', quest)
@@ -370,6 +372,9 @@ class ClubhousePage(Gtk.EventBox):
         if use_shell_quest_view:
             self._app_window.hide()
         self.run_quest(quest)
+
+    def _quest_item_given_cb(self, quest, item_id, text):
+        self._shell_popup_item(item_id, text)
 
     def _quest_message_cb(self, quest, message_txt, answer_choices, character_id, character_mood):
         logger.debug('Message: %s character_id=%s mood=%s choices=[%s]', message_txt, character_id,
@@ -412,7 +417,7 @@ class ClubhousePage(Gtk.EventBox):
         return False
 
     def _shell_close_popup_message(self):
-        self._app_window.get_application().close_quest_notification()
+        self._app_window.get_application().close_quest_msg_notification()
 
     def _shell_popup_message(self, text, character):
         notification = Gio.Notification()
@@ -431,7 +436,32 @@ class ClubhousePage(Gtk.EventBox):
         if self._app_window.get_application().has_debug_mode():
             notification.add_button('🐞', 'app.quest-debug-skip')
 
-        self._app_window.get_application().send_quest_notification(notification)
+        self._app_window.get_application().send_quest_msg_notification(notification)
+
+    def _shell_popup_item(self, item_id, text):
+        item = utils.QuestItemDB.get_item(item_id)
+        if item is None:
+            logger.debug('Failed to get item %s from DB', item_id)
+            return
+
+        icon_name, item_name = item
+
+        notification = Gio.Notification()
+        if text is None:
+            text = 'Got new item!! {}'.format(item_name)
+
+        notification.set_body(text)
+        notification.set_title('')
+
+        icon_file = Gio.File.new_for_path(utils.QuestItemDB.get_icon_path(icon_name))
+        icon_bytes = icon_file.load_bytes(None)
+        icon = Gio.BytesIcon.new(icon_bytes[0])
+
+        notification.set_icon(icon)
+
+        notification.add_button('Show me!', "app.show-page('{}')".format('inventory'))
+
+        self._app_window.get_application().send_quest_item_notification(notification)
 
     def show_message(self, txt, answer_choices=[]):
         self._message.clear_buttons()
@@ -479,7 +509,7 @@ class InventoryItem(Gtk.Box):
 
         self.get_style_context().add_class('inventory-item')
 
-        icon_path = os.path.join(config.ITEM_ICONS_DIR, icon_name)
+        icon_path = utils.QuestItemDB.get_icon_path(icon_name)
 
         image = Gtk.Image(width_request=150, height_request=150, yalign=1.0)
         image.set_from_file(icon_path)
@@ -604,10 +634,21 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _page_switch_button_clicked_cb(self, button, page_widget):
         self._main_window_stack.set_visible_child(page_widget)
 
+    def set_page(self, page_name):
+        page_buttons = {'clubhouse': self._clubhouse_button,
+                        'inventory': self._inventory_button,
+                        'episodes': self._episodes_button}
+
+        button = page_buttons.get(page_name)
+
+        if button is not None:
+            button.set_active(True)
+
 
 class ClubhouseApplication(Gtk.Application):
 
-    QUEST_NOTIFICATION_ID = 'quest-message'
+    QUEST_MSG_NOTIFICATION_ID = 'quest-message'
+    QUEST_ITEM_NOTIFICATION_ID = 'quest-item'
 
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
@@ -665,12 +706,14 @@ class ClubhouseApplication(Gtk.Application):
 
         self._init_style()
 
-        simple_actions = [('stop-quest', self._stop_quest, None),
-                          ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
+        simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
                           ('quest-debug-skip', self._quest_debug_skip, None),
-                          ('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
+                          ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
+                          ('quit', self._quit_action_cb, None),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
-                          ('quit', self._quit_action_cb, None)]
+                          ('show-page', self._show_page_action_cb, GLib.VariantType.new('s')),
+                          ('stop-quest', self._stop_quest, None),
+                          ]
 
         for name, callback, variant_type in simple_actions:
             action = Gio.SimpleAction.new(name, variant_type)
@@ -700,11 +743,17 @@ class ClubhouseApplication(Gtk.Application):
         for quest_set in quest_sets:
             self._window.clubhouse_page.add_quest_set(quest_set)
 
-    def send_quest_notification(self, notification):
-        self.send_notification(self.QUEST_NOTIFICATION_ID, notification)
+    def send_quest_msg_notification(self, notification):
+        self.send_notification(self.QUEST_MSG_NOTIFICATION_ID, notification)
 
-    def close_quest_notification(self):
-        self.withdraw_notification(self.QUEST_NOTIFICATION_ID)
+    def close_quest_msg_notification(self):
+        self.withdraw_notification(self.QUEST_MSG_NOTIFICATION_ID)
+
+    def send_quest_item_notification(self, notification):
+        self.send_notification(self.QUEST_ITEM_NOTIFICATION_ID, notification)
+
+    def close_quest_item_notification(self):
+        self.withdraw_notification(self.QUEST_ITEM_NOTIFICATION_ID)
 
     def send_suggest_open(self):
         self.get_dbus_connection().emit_signal(None,
@@ -716,7 +765,7 @@ class ClubhouseApplication(Gtk.Application):
     def _stop_quest(self, *args):
         if (self._window):
             self._window.clubhouse_page.stop_quest()
-        self.close_quest_notification()
+        self.close_quest_msg_notification()
 
     def _debug_mode_action_cb(self, action, arg_variant):
         self._debug_mode = arg_variant.unpack()
@@ -740,6 +789,12 @@ class ClubhouseApplication(Gtk.Application):
             self._window = None
 
         self.quit()
+
+    def _show_page_action_cb(self, action, arg_variant):
+        page_name = arg_variant.unpack()
+        if self._window:
+            self._window.set_page(page_name)
+            self._window.show()
 
     def _vibility_notify_cb(self, window, pspec):
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}

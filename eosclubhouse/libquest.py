@@ -91,6 +91,9 @@ class Quest(GObject.GObject):
         'message': (
             GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str, str)
         ),
+        'item-given': (
+            GObject.SignalFlags.RUN_FIRST, None, (str, str)
+        ),
     }
 
     available = GObject.Property(type=bool, default=True)
@@ -170,9 +173,10 @@ class Quest(GObject.GObject):
     def get_initial_message(self):
         return self._initial_msg
 
-    def give_item(self, item_name):
+    def give_item(self, item_name, notification_text=None):
         variant = GLib.Variant('a{sb}', {'used': False})
         self.gss.set(item_name, variant)
+        self._emit_signal('item-given', item_name, notification_text)
 
     # @todo: Obsolete. Delete when quests no longer use it.
     def set_keyboard_request(self, wants_keyboard_events):
