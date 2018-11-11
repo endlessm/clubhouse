@@ -80,27 +80,26 @@ class Character(GObject.GObject):
 
     def load(self):
         char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
-        self._moods = {}
-        for image in os.listdir(char_dir):
+
+        # @todo: This seems duplicated at this point, but will soon be
+        # replaced to load animations, so it's not worth the refactor.
+        self._in_club_actions = {}
+        for image in os.listdir(os.path.join(char_dir, 'fullbody')):
             name, ext = os.path.splitext(image)
-            path = os.path.join(char_dir, image)
-            if name == 'main' or name == self._id:
-                self._main_image = path
-            else:
-                self._moods[name] = path
+            path = os.path.join(char_dir, 'fullbody', image)
+            self._in_club_actions[name] = path
 
-        # @todo: Raise exception here instead
-        assert(self._moods)
+        assert('idle' in self._in_club_actions)
+        self._main_image = self._in_club_actions['idle']
 
-        if 'normal' in self._moods.keys():
-            self.mood = 'normal'
-        else:
-            self.mood = list(self._moods.keys())[0]
+        self._moods = {}
+        for image in os.listdir(os.path.join(char_dir, 'moods')):
+            name, ext = os.path.splitext(image)
+            path = os.path.join(char_dir, 'moods', image)
+            self._moods[name] = path
 
-        # @todo: This fallback should be deleted soon when we have all WIP
-        # quests in the right format
-        if self._main_image is None:
-            self._main_image = self._moods[self.mood]
+        assert('normal' in self._moods)
+        self.mood = 'normal'
 
     id = property(_get_id)
     mood = GObject.Property(type=str)
