@@ -29,6 +29,8 @@ import uuid
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import GameStateService
+from eosclubhouse.animation import AnimationSystem
+
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
 CLUBHOUSE_PATH = '/com/endlessm/Clubhouse'
@@ -242,6 +244,7 @@ class ClubhousePage(Gtk.EventBox):
         self.get_style_context().add_class('clubhouse-page')
         self._reset_quest_actions()
 
+        self.add_tick_callback(AnimationSystem.step)
         self._app_window.connect('show', lambda _window: self._shell_close_popup_message())
 
     def _setup_ui(self):
