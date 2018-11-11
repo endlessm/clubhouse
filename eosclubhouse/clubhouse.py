@@ -50,18 +50,14 @@ ClubhouseIface = ('<node>'
 
 class Character(GObject.GObject):
 
-    def __init__(self, id_, name=None):
+    def __init__(self, id_):
         super().__init__()
         self._id = id_
-        self._name = name or id_
         self._main_image = None
         self.load()
 
     def _get_id(self):
         return self._id
-
-    def _get_name(self):
-        return self._name
 
     def get_main_image(self):
         return self._main_image
@@ -99,7 +95,6 @@ class Character(GObject.GObject):
             self._main_image = self._moods[self.mood]
 
     id = property(_get_id)
-    name = property(_get_name)
     mood = GObject.Property(type=str)
 
 
