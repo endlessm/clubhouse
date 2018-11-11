@@ -49,6 +49,14 @@ ClubhouseIface = ('<node>'
 
 
 class Character(GObject.GObject):
+    _characters = {}
+
+    @classmethod
+    def get_or_create(class_, character_id):
+        if character_id not in class_._characters:
+            character = class_(character_id)
+            class_._characters[character_id] = character
+        return class_._characters[character_id]
 
     def __init__(self, id_):
         super().__init__()
@@ -160,7 +168,7 @@ class Message(Gtk.Bin):
         if character_id is None:
             return
 
-        self._character = Character(character_id)
+        self._character = Character.get_or_create(character_id)
         self._character_mood_change_handler = \
             self._character.connect('notify::mood', self._character_mood_changed_cb)
         self._character_mood_changed_cb(self._character)
@@ -190,7 +198,7 @@ class QuestSetButton(Gtk.Button):
         self.get_style_context().add_class('quest-set-button')
 
         self._quest_set = quest_set
-        character = Character(self._quest_set.get_character())
+        character = Character.get_or_create(self._quest_set.get_character())
 
         # Set the "highlighted" style on "nudge"
         self._quest_set.connect('nudge', lambda _quest_set: self.set_highlighted(True))
@@ -381,8 +389,7 @@ class ClubhousePage(Gtk.EventBox):
         for answer in answer_choices:
             self._add_quest_action(answer)
 
-        # @todo: We should create a factory method for characters and cache their images
-        character = Character(character_id)
+        character = Character.get_or_create(character_id)
         if character_mood is not None:
             character.mood = character_mood
 
