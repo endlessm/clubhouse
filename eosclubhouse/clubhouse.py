@@ -543,7 +543,9 @@ class InventoryPage(Gtk.EventBox):
         builder.add_from_resource('/com/endlessm/Clubhouse/inventory-page.ui')
 
         self._inventory_box = builder.get_object('inventory_box')
-        self.add(self._inventory_box)
+
+        scrolled_window = builder.get_object('inventory_scrolled_window')
+        self.add(scrolled_window)
 
     def _add_item(self, item_id, icon_name, item_name):
         if item_id in self._loaded_items.keys():
