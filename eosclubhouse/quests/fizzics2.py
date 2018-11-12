@@ -17,30 +17,48 @@ class Fizzics2(Quest):
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('FIZZICS2_LAUNCH'))
-            Desktop.show_app_grid()
+            if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+                self.show_message(QS('FIZZICS2_LAUNCH'))
+                Desktop.show_app_grid()
+            else:
+                return self.step_alreadyrunning
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_wait_score
+            return self.step_delay1
 
         if time_in_step > 20 and not self._hint0:
             self.show_message(QS('FIZZICS2_HINT1'))
             self._hint0 = True
 
-    # STEP 1
-    def step_wait_score(self, time_in_step):
+    def step_delay1(self, time_in_step):
+        if time_in_step > 2:
+            return self.step_set_level
+
+    def step_alreadyrunning(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('FIZZICS2_GOAL'))
+            self.show_question(QS('FIZZICS2_ALREADY_RUNNING'))
 
-        if time_in_step < 3:
-            return
+        if self.confirmed_step():
+            return self.step_set_level
 
+    def step_set_level(self, time_in_step):
         try:
             if not self._initialized:
                 self._app.set_object_property('view.JSContext.globalParameters',
                                               'preset', ('i', 12))
                 self._initialized = True
-            elif self._app.get_object_property('view.JSContext.globalParameters', 'quest1Success'):
+        except Exception as ex:
+            print(ex)
+
+        if self._initialized:
+            return self.step_goal
+
+    def step_goal(self, time_in_step):
+        if time_in_step == 0:
+            self.show_message(QS('FIZZICS2_GOAL'))
+
+        try:
+            if self._app.get_object_property('view.JSContext.globalParameters', 'quest1Success'):
                 return self.step_reward
         except Exception as ex:
             print(ex)
