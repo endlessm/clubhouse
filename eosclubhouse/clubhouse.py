@@ -254,6 +254,16 @@ class ClubhousePage(Gtk.EventBox):
 
         self._message.close_button.connect('clicked', self._quest_close_button_clicked_cb)
 
+        self._main_box = builder.get_object('clubhouse_main_box')
+        self._main_box.connect('button-press-event', self._on_button_press_event_cb)
+
+    def _on_button_press_event_cb(self, main_box, event):
+        if event.get_button().button == 1:
+            self._overlay_msg_box.hide()
+            return True
+
+        return False
+
     def _quest_close_button_clicked_cb(self, button):
         # Dismiss the dialog
         self._replied_to_message(None)
