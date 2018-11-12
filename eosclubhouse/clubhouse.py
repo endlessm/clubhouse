@@ -248,12 +248,21 @@ class ClubhousePage(Gtk.EventBox):
         self._message = Message()
         self._overlay_msg_box = builder.get_object('clubhouse_overlay_msg_box')
         self._main_characters_box = builder.get_object('clubhouse_main_characters_box')
-        self._clubhouse_message_layer = builder.get_object('clubhouse_message_layer')
-        self._clubhouse_message_layer.put(self._message, 0, 0)
+        self._overlay_msg_box.add(self._message)
 
         self.add(builder.get_object('clubhouse_overlay'))
 
         self._message.close_button.connect('clicked', self._quest_close_button_clicked_cb)
+
+        self._main_box = builder.get_object('clubhouse_main_box')
+        self._main_box.connect('button-press-event', self._on_button_press_event_cb)
+
+    def _on_button_press_event_cb(self, main_box, event):
+        if event.get_button().button == 1:
+            self._overlay_msg_box.hide()
+            return True
+
+        return False
 
     def _quest_close_button_clicked_cb(self, button):
         # Dismiss the dialog
@@ -314,15 +323,7 @@ class ClubhousePage(Gtk.EventBox):
                               [('Sure!', self._replied_to_message, new_quest),
                                ('Not now…', self._replied_to_message, None)])
 
-        # @todo: Implement the custom allocation for the message  and pass the allocation to
-        # it on construction
-
         self._overlay_msg_box.show_all()
-
-        allocation = button.get_allocation()
-        self._clubhouse_message_layer.move(self._message,
-                                           self.get_allocated_width() * .1, allocation.y)
-        self._clubhouse_message_layer.show_all()
 
     def _replied_to_message(self, quest_to_start):
         self._message.hide()
