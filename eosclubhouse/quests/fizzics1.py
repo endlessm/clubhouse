@@ -28,24 +28,31 @@ class Fizzics1(Quest):
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('FIZZICS1_LAUNCH'))
-            Desktop.show_app_grid()
+            if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+                self.show_message(QS('FIZZICS1_LAUNCH'))
+                Desktop.show_app_grid()
+            else:
+                return self.step_alreadyrunning
 
-        if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
-            return self.step_goal
+        if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_delay1
 
         if time_in_step > 20 and not self._hint0:
             self.show_message(QS('FIZZICS1_LAUNCHHINT'))
             self._hint0 = True
 
-    # STEP 1
-    def step_goal(self, time_in_step):
+    def step_delay1(self, time_in_step):
+        if time_in_step > 2:
+            return self.step_set_level
+
+    def step_alreadyrunning(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('FIZZICS1_GOAL'))
+            self.show_question(QS('FIZZICS1_ALREADY_RUNNING'))
 
-        if time_in_step < 3:
-            return
+        if self.confirmed_step():
+            return self.step_set_level
 
+    def step_set_level(self, time_in_step):
         try:
             if not self._initialized:
                 self._app.set_object_property('view.JSContext.globalParameters',
@@ -53,6 +60,13 @@ class Fizzics1(Quest):
                 self._initialized = True
         except Exception as ex:
             print(ex)
+
+        if self._initialized:
+            return self.step_goal
+
+    def step_goal(self, time_in_step):
+        if time_in_step == 0:
+            self.show_message(QS('FIZZICS1_GOAL'))
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
