@@ -21,6 +21,7 @@
 import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
+import glob
 import os
 import sys
 import threading
@@ -29,6 +30,8 @@ import uuid
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import GameStateService
+from eosclubhouse.animation import AnimationImage, AnimationSystem
+
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
 CLUBHOUSE_PATH = '/com/endlessm/Clubhouse'
@@ -49,22 +52,26 @@ ClubhouseIface = ('<node>'
 
 
 class Character(GObject.GObject):
+    _characters = {}
 
-    def __init__(self, id_, name=None):
+    @classmethod
+    def get_or_create(class_, character_id):
+        if character_id not in class_._characters:
+            character = class_(character_id)
+            class_._characters[character_id] = character
+        return class_._characters[character_id]
+
+    def __init__(self, id_):
         super().__init__()
         self._id = id_
-        self._name = name or id_
-        self._main_image = None
+        self._fullbody_image = None
         self.load()
 
     def _get_id(self):
         return self._id
 
-    def _get_name(self):
-        return self._name
-
-    def get_main_image(self):
-        return self._main_image
+    def get_fullbody_image(self):
+        return self._fullbody_image
 
     def get_mood_image(self):
         return self._moods.get(self.mood)
@@ -76,30 +83,22 @@ class Character(GObject.GObject):
 
     def load(self):
         char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
+
+        fullbody_path = os.path.join(char_dir, 'fullbody')
+        self._fullbody_image = AnimationImage(self._id, fullbody_path)
+        self._fullbody_image.play('idle')
+
         self._moods = {}
-        for image in os.listdir(char_dir):
-            name, ext = os.path.splitext(image)
-            path = os.path.join(char_dir, image)
-            if name == 'main' or name == self._id:
-                self._main_image = path
-            else:
-                self._moods[name] = path
+        moods_path = os.path.join(char_dir, 'moods')
+        for image in os.listdir(moods_path):
+            name, _ext = os.path.splitext(image)
+            path = os.path.join(char_dir, 'moods', image)
+            self._moods[name] = path
 
-        # @todo: Raise exception here instead
-        assert(self._moods)
-
-        if 'normal' in self._moods.keys():
-            self.mood = 'normal'
-        else:
-            self.mood = list(self._moods.keys())[0]
-
-        # @todo: This fallback should be deleted soon when we have all WIP
-        # quests in the right format
-        if self._main_image is None:
-            self._main_image = self._moods[self.mood]
+        assert('normal' in self._moods)
+        self.mood = 'normal'
 
     id = property(_get_id)
-    name = property(_get_name)
     mood = GObject.Property(type=str)
 
 
@@ -165,7 +164,7 @@ class Message(Gtk.Bin):
         if character_id is None:
             return
 
-        self._character = Character(character_id)
+        self._character = Character.get_or_create(character_id)
         self._character_mood_change_handler = \
             self._character.connect('notify::mood', self._character_mood_changed_cb)
         self._character_mood_changed_cb(self._character)
@@ -195,7 +194,7 @@ class QuestSetButton(Gtk.Button):
         self.get_style_context().add_class('quest-set-button')
 
         self._quest_set = quest_set
-        character = Character(self._quest_set.get_character())
+        character = Character.get_or_create(self._quest_set.get_character())
 
         # Set the "highlighted" style on "nudge"
         self._quest_set.connect('nudge', lambda _quest_set: self.set_highlighted(True))
@@ -207,7 +206,7 @@ class QuestSetButton(Gtk.Button):
                                       GObject.BindingFlags.BIDIRECTIONAL |
                                       GObject.BindingFlags.SYNC_CREATE)
 
-        self._image = Gtk.Image.new_from_file(character.get_main_image())
+        self._image = character.get_fullbody_image()
         self._image.show()
         self.add(self._image)
 
@@ -240,6 +239,7 @@ class ClubhousePage(Gtk.EventBox):
         self.get_style_context().add_class('clubhouse-page')
         self._reset_quest_actions()
 
+        self.add_tick_callback(AnimationSystem.step)
         self._app_window.connect('show', lambda _window: self._shell_close_popup_message())
 
     def _setup_ui(self):
@@ -386,8 +386,7 @@ class ClubhousePage(Gtk.EventBox):
         for answer in answer_choices:
             self._add_quest_action(answer)
 
-        # @todo: We should create a factory method for characters and cache their images
-        character = Character(character_id)
+        character = Character.get_or_create(character_id)
         if character_mood is not None:
             character.mood = character_mood
 
