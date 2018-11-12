@@ -16,5 +16,8 @@
 	<property name="visible">True</property>
       </object>
     </child>
+    <style>
+      <class name="inventory-scrolled-window"/>
+    </style>
   </object>
 </interface>
