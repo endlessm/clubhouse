@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <object class="GtkFlowBox" id="inventory_box">
-    <property name="halign">fill</property>
-    <property name="homogeneous">True</property>
-    <property name="margin_top">25</property>
-    <property name="margin_bottom">25</property>
-    <property name="selection_mode">none</property>
-    <property name="max_children_per_line">2</property>
-    <property name="row_spacing">16</property>
-    <property name="valign">start</property>
+  <object class="GtkScrolledWindow" id="inventory_scrolled_window">
     <property name="visible">True</property>
+    <property name="valign">fill</property>
+    <child>
+      <object class="GtkFlowBox" id="inventory_box">
+	<property name="halign">fill</property>
+	<property name="homogeneous">True</property>
+	<property name="margin_top">25</property>
+	<property name="margin_bottom">25</property>
+	<property name="selection_mode">none</property>
+	<property name="max_children_per_line">2</property>
+	<property name="row_spacing">16</property>
+	<property name="valign">start</property>
+	<property name="visible">True</property>
+      </object>
+    </child>
+    <style>
+      <class name="inventory-scrolled-window"/>
+    </style>
   </object>
 </interface>
