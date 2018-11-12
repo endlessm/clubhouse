@@ -21,6 +21,7 @@
 import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
+import glob
 import os
 import sys
 import threading
@@ -29,7 +30,7 @@ import uuid
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import GameStateService
-from eosclubhouse.animation import AnimationSystem
+from eosclubhouse.animation import AnimationImage, AnimationSystem
 
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
@@ -63,14 +64,14 @@ class Character(GObject.GObject):
     def __init__(self, id_):
         super().__init__()
         self._id = id_
-        self._main_image = None
+        self._fullbody_image = None
         self.load()
 
     def _get_id(self):
         return self._id
 
-    def get_main_image(self):
-        return self._main_image
+    def get_fullbody_image(self):
+        return self._fullbody_image
 
     def get_mood_image(self):
         return self._moods.get(self.mood)
@@ -83,20 +84,14 @@ class Character(GObject.GObject):
     def load(self):
         char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
 
-        # @todo: This seems duplicated at this point, but will soon be
-        # replaced to load animations, so it's not worth the refactor.
-        self._in_club_actions = {}
-        for image in os.listdir(os.path.join(char_dir, 'fullbody')):
-            name, ext = os.path.splitext(image)
-            path = os.path.join(char_dir, 'fullbody', image)
-            self._in_club_actions[name] = path
-
-        assert('idle' in self._in_club_actions)
-        self._main_image = self._in_club_actions['idle']
+        fullbody_path = os.path.join(char_dir, 'fullbody')
+        self._fullbody_image = AnimationImage(self._id, fullbody_path)
+        self._fullbody_image.play('idle')
 
         self._moods = {}
-        for image in os.listdir(os.path.join(char_dir, 'moods')):
-            name, ext = os.path.splitext(image)
+        moods_path = os.path.join(char_dir, 'moods')
+        for image in os.listdir(moods_path):
+            name, _ext = os.path.splitext(image)
             path = os.path.join(char_dir, 'moods', image)
             self._moods[name] = path
 
@@ -211,7 +206,7 @@ class QuestSetButton(Gtk.Button):
                                       GObject.BindingFlags.BIDIRECTIONAL |
                                       GObject.BindingFlags.SYNC_CREATE)
 
-        self._image = Gtk.Image.new_from_file(character.get_main_image())
+        self._image = character.get_fullbody_image()
         self._image.show()
         self.add(self._image)
 
