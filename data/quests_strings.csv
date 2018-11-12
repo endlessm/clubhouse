@@ -39,13 +39,14 @@ We'll meet back at the Clubhouse.","Ada"
 "FIZZICS1_RESPONSE","Bring it on!",""
 "FIZZICS1_LAUNCH","All right. Let's try it. Launch the Fizzics game to get started.",""
 "FIZZICS1_LAUNCHHINT","See the Fizzics app on the desktop? Click it to launch. ","Played 20 seconds after quest start if they haven't launched it yet."
+"FIZZICS1_ALREADY_RUNNING","Ah! I see you're already running Fizzics. You read my mind!",""
 "FIZZICS1_GOAL","Cool. See those 20 spiky balls? Your goal is to make it so they don't touch each other.",""
 "FIZZICS1_EXPLANATION","Just wanted to see if you were paying attention. It's actually impossible to do it that way! 
 
 You're gonna need to get in there and hack the game in order to get it to do what you want. 
 
-This key will get you into the Level 1 Hacking Panel. From there, there are loads of cool things you can do. ",""
-"FIZZICS1_HINT","The red balls are constantly touching each other.  Think about it. What if they were smaller?  Try to get them not to touch.",""
+This key will get you into the Level 1 Hacking Panel. From there, there are loads of cool things you can do to solve this.",""
+"FIZZICS1_HINT","The spiky balls are constantly touching each other. Think about it. What if they were smaller? Try to get them not to touch.",""
 "FIZZICS1_NOTENOUGH","Hey, wait! Nice try, but you need to keep at least 20 red balls, otherwise it doesn't count.",""
 "FIZZICS1_SUCCESS","Brilliant! I knew you'd ace that. Fun, isn't it?
 
@@ -104,7 +105,8 @@ Keep it handy for when you need to clean up messes like this one! ",""
 "BREAK_ABORT","No prob! We can try again later. ","If player exits the OS app before completing the quest."
 "FIZZICS2_QUESTION","I'll give you a key I found if you beat a Fizzics challenge I prepared for you.",""
 "FIZZICS2_RESPONSE","Thanks! ",""
-"FIZZICS2_LAUNCH","Good. Launch the Hacky Balls app. Your goal is to make it so 10 green balls are touching a single red ball at once.",""
+"FIZZICS2_LAUNCH","Good. Launch the Fizzics app and let's play!",""
+"FIZZICS2_ALREADY_RUNNING","You're already running Fizzics. Bring it up and let's play!",""
 "FIZZICS2_GOAL","This time I prepared something a little bit more challenging for you. But I know you can do it!
 See those 10 green balls? You need to make sure they're touching that red ball at the same time.",""
 "FIZZICS2_NOTENOUGH","You need to have at least 10 green balls and exactly 1 red ball.",""
