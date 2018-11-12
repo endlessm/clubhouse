@@ -248,8 +248,7 @@ class ClubhousePage(Gtk.EventBox):
         self._message = Message()
         self._overlay_msg_box = builder.get_object('clubhouse_overlay_msg_box')
         self._main_characters_box = builder.get_object('clubhouse_main_characters_box')
-        self._clubhouse_message_layer = builder.get_object('clubhouse_message_layer')
-        self._clubhouse_message_layer.put(self._message, 0, 0)
+        self._overlay_msg_box.add(self._message)
 
         self.add(builder.get_object('clubhouse_overlay'))
 
@@ -314,15 +313,7 @@ class ClubhousePage(Gtk.EventBox):
                               [('Sure!', self._replied_to_message, new_quest),
                                ('Not now…', self._replied_to_message, None)])
 
-        # @todo: Implement the custom allocation for the message  and pass the allocation to
-        # it on construction
-
         self._overlay_msg_box.show_all()
-
-        allocation = button.get_allocation()
-        self._clubhouse_message_layer.move(self._message,
-                                           self.get_allocated_width() * .1, allocation.y)
-        self._clubhouse_message_layer.show_all()
 
     def _replied_to_message(self, quest_to_start):
         self._message.hide()
