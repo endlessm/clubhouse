@@ -82,6 +82,13 @@ class HackdexCorruption(Quest):
             self.give_item('item.key.fizzics.2')
 
         if self.confirmed_step():
+            return self.step_afterkey
+
+    def step_afterkey(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('HACKDEX1_AFTERKEY'))
+
+        if self.confirmed_step():
             return self.step_ricky
 
     def step_ricky(self, time_in_step):
