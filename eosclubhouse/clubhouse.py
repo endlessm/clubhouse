@@ -50,6 +50,8 @@ ClubhouseIface = ('<node>'
                   '</interface>'
                   '</node>')
 
+DEFAULT_WINDOW_WIDTH = 484
+
 
 class Character(GObject.GObject):
     _characters = {}
@@ -104,7 +106,13 @@ class Character(GObject.GObject):
 
 class Message(Gtk.Bin):
 
-    MESSAGE_WIDTH = 300
+    _MARGIN = 20
+    _LABEL_MARGIN = 30
+
+    CHARACTER_HEIGHT = 155
+    BUTTON_HEIGHT = 35
+    LABEL_WIDTH = DEFAULT_WINDOW_WIDTH - _MARGIN * 2 - _LABEL_MARGIN
+    MESSAGE_HEIGHT = CHARACTER_HEIGHT + _MARGIN * 2 + BUTTON_HEIGHT / 2
 
     def __init__(self):
         super().__init__()
@@ -116,13 +124,20 @@ class Message(Gtk.Bin):
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/message.ui')
 
-        self.add(builder.get_object('character_talk_box'))
-        self.set_size_request(self.MESSAGE_WIDTH, -1)
+        overlay = builder.get_object('character_talk_box')
+        self.add(overlay)
+
+        self.set_size_request(-1, self.MESSAGE_HEIGHT)
 
         self._label = builder.get_object('message_label')
-        self._button_box = builder.get_object('message_button_box')
-        self._character_image = builder.get_object('character_image')
+        self._label.set_size_request(self.LABEL_WIDTH, -1)
+
         self.close_button = builder.get_object('character_message_close_button')
+
+        self._character_image = builder.get_object('character_image')
+        overlay.set_overlay_pass_through(self._character_image, True)
+
+        self._button_box = builder.get_object('message_button_box')
 
     def set_text(self, txt):
         self._label.set_label(txt)
@@ -600,8 +615,6 @@ class EpisodesPage(Gtk.EventBox):
 
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
-    DEFAULT_WINDOW_WIDTH = 484
-
     def __init__(self, app):
         if os.environ.get('CLUBHOUSE_NO_SIDE_COMPONENT'):
             super().__init__(application=app, title='Clubhouse')
@@ -614,7 +627,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.inventory_page = InventoryPage(self)
         self.episodes_page = EpisodesPage(self)
 
-        self.set_size_request(self.DEFAULT_WINDOW_WIDTH, -1)
+        self.set_size_request(DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
 
     def _setup_ui(self):
