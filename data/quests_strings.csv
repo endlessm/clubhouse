@@ -5,19 +5,16 @@ You look like a curious person. First things first: Let's talk about how to chan
 
 See that button to the left? It's the ""Flip to Hack"" button. Click on it.","Ada"
 "FIRSTCONTACT_GOAL","To enter The Conservatory, you need to perform your 1st hack.
+
 See that wave? Match it by moving the slider and the doors will unlock.",""
 "FIRSTCONTACT_FLIPBACK","Congrats! You've got your first real hack under your belt! Okay, let's get right back in there. Exactly, you're on it! Click that Flip to Hack button.",""
 "FIRSTCONTACT_REWARD","That's how you'll do a lot of things around here.  See you on the other side!",""
 "ROSTER_QUESTION","Hello! Welcome to the Clubhouse. Let's go inside and see what's up.","Ada"
 "ROSTER_RESPONSE","Ready! ",""
-"ROSTER_PRELAUNCH","The Clubhouse is where you'll find me and the rest of the crew.
-
-I do my research here – fighting rogue AIs!
+"ROSTER_PRELAUNCH","The Clubhouse is where you'll find me and the rest of the crew. I do my research here – fighting rogue AIs!
 
 Stick with me and I'll show you how to do things around here.",""
-"ROSTER_LAUNCH","I'm giving you a new app called Roster. 
-
-See it in the desktop? Go ahead and launch it.",""
+"ROSTER_LAUNCH","I'm giving you a new app called Roster. See it in the desktop? Go ahead and launch it.",""
 "ROSTER_EXPLANATION","Roster helps you get to know our crew here: Riley, Saniel, Aurora, Faber, and me! Check it out!",""
 "ROSTER_CLOSED","Come get me in the Clubhouse and we'll continue your tour.","This happens when the player closes the app."
 "ROSTER_TIMEOUT","Have fun looking around. Come get me in the Clubhouse whenever you're ready and we'll continue your tour.","And this happens when the player spends more than 2 minutes in the app without closing it."
@@ -69,10 +66,10 @@ But it's really cool to be able to adjust things and have a say in how your comp
 
 He's kind of scary at first, but no one knows more about the System than Saniel. 
 
-Also,I'll tell you more sometime, but Saniel a quite the hero!","Ada"
-"OSINTRO_ARCHIVIST2","Hero schmero. Hmmmph. Anyway, hello! Ada is one of our most brilliant students, but I'm afraid she's filling your head with ancient history! 
+Also, I'll tell you more sometime, but Saniel a quite the hero!","Ada"
+"OSINTRO_ARCHIVIST2","Hero schmero. Anyway, hello! Ada is one of our most brilliant students, but I'm afraid she's filling your head with ancient history! 
 
-Though it's true, I've been around a while and I do know a few things about keeping the systems clear of trouble. Glad Ada could show you around.
+Though it's true, I've been around a while and I do know a few things about keeping the systems clear of trouble.
 
 But hear me when I say you must never come here alone. Only with an adult. I'll be keeping my eye out for any shenanigans.","Archivist"
 "OSINTRO_WRAPUP","See what I mean, he's a bit fierce! But so glad you could meet him. Okay, gotta bounce now! 
@@ -85,18 +82,18 @@ Just come get me at the Clubhouse if you want to look around! ","Ada"
 "BREAK_OSAPP","Awesome. This place is LIT. Okay we have to be extremely quiet. We don't want Saniel knowing we're here. 
 
 He seems to be able to hear everything that goes on here. Ssshhhh. I think I hear him.
- 
+
 Ok, remember the Flip to Hack button? Now press it. ",""
 "BREAK_UNLOCK","Perfect. Now click on that to unlock it. I wonder what's behind it?",""
 "BREAK_UNLOCKED","Rad! We can have so much fun with all those settings.
 
 Check it out. That one changes the cursor size. Try changing it all the way to 200 to make it huge! LOLLZZ",""
-"BREAK_SUCCESS","OMG we have to stop laughing or San will hear us. Uh-oh. What happened? It's not working. What's that noise?
+"BREAK_SUCCESS","OMG we have to stop laughing or San will hear us. Uh-oh. That´s pretty unusable. What's that noise?
 
 Oh, hi Dr. Rowe. We're just, er, studying!",""
 "BREAK_ARCHIVISTARRIVES","I just told you this is no place for novices! Do you realize what you could do if you pressed the wrong buttons? 
 
-Can't blame you though. I know you want to learn how it all works. Ada's been giving me such glowing reports about you so I'll let it pass this time. 
+I know you want to learn how it all works. Ada's been giving me such glowing reports about you so I'll let it pass this time. 
 
 It's not too late to fix this. If you press the reset button, it will return you to the original settings. ","Archivist"
 "BREAK_WRAPUP","Good job restoring the settings! Glad you know about the reset button now. 
@@ -108,10 +105,12 @@ Keep it handy for when you need to clean up messes like this one! ",""
 "FIZZICS2_LAUNCH","Good. Launch the Fizzics app and let's play!",""
 "FIZZICS2_ALREADY_RUNNING","You're already running Fizzics. Bring it up and let's play!",""
 "FIZZICS2_GOAL","This time I prepared something a little bit more challenging for you. But I know you can do it!
+
 See those 10 green balls? You need to make sure they're touching that red ball at the same time.",""
 "FIZZICS2_NOTENOUGH","You need to have at least 10 green balls and exactly 1 red ball.",""
 "FIZZICS2_SUCCESS","Yay! That's a really cool solution. You've got a talent for this! I didn't think of that one.
-Here's the key I found. I think it must have fallen out of Saniel's pocket. ",""
+
+Here's the key I found. I think it must have fallen out of Saniel's pocket.",""
 "FIZZICS2_ABORT","No prob. We can try it some other time.",""
 "FIZZICS2_HINT1","Start by launching the Fizzics app on the desktop.",""
 "FIZZICS2_HINT2","Looks like stacking them up isn't going to work. Try going back in and hacking the app and changing the forces between ball types.",""
@@ -123,9 +122,8 @@ So let's see how this goes. Launch the Hackdex app.",""
 "HACKDEX1_GOAL","Curses! Yours too! That's very strange. I wonder what's causing this. Your goal is to fix it so everything is readable again.",""
 "HACKDEX1_NEED_KEY","You need the key to get to level one, but it appears I have misplaced it.",""
 "HACKDEX1_UNLOCKED","Excellent! I see you've found the key! Good, good. Now, get in there and do your magic and fix this corruption.",""
-"HACKDEX1_SUCCESS","Ah, that's better. Your solution is acceptable.You can take a break now. 
-
-Here's the level 2 key for Fizzics. You may find it quite interesting. See you at the Clubhouse.",""
+"HACKDEX1_SUCCESS","Ah, that's better. Your solution is acceptable. You've earned this. Take it.",""
+"HACKDEX1_AFTERKEY","It will let you start doing some actual coding to keep your skills sharp. See you at the Clubhouse.",""
 "HACKDEX1_RICKY","That was cool how you did that. Wait a sec, what's this?
 
 How did this get into the Roster? Or did the Archivist drop it again? Weird. Keep it anyway. I'm sure we can use it!
