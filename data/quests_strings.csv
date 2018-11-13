@@ -40,9 +40,8 @@ We'll meet back at the Clubhouse.","Ada"
 "FIZZICS1_GOAL","Cool. See those 20 spiky balls? Your goal is to make it so they don't touch each other.",""
 "FIZZICS1_EXPLANATION","Just wanted to see if you were paying attention. It's actually impossible to do it that way! 
 
-You're gonna need to get in there and hack the game in order to get it to do what you want. 
-
-This key will get you into the Level 1 Hacking Panel. From there, there are loads of cool things you can do to solve this.",""
+You're gonna need to get in there and hack the game in order to get it to do what you want.",""
+"FIZZICS1_GIVE_KEY1","This key will get you into the Level 1 Hacking Panel. From there, there are loads of cool things you can do to solve this.",""
 "FIZZICS1_HINT","The spiky balls are constantly touching each other. Think about it. What if they were smaller? Try to get them not to touch.",""
 "FIZZICS1_NOTENOUGH","Hey, wait! Nice try, but you need to keep at least 20 red balls, otherwise it doesn't count.",""
 "FIZZICS1_SUCCESS","Brilliant! I knew you'd ace that. Fun, isn't it?
@@ -50,7 +49,7 @@ This key will get you into the Level 1 Hacking Panel. From there, there are load
 Since you're clearly such a natural at this, I'm going to let you in on a secret:",""
 "FIZZICS1_KEY_ALREADY_OS","Check out this key I found the other day. We can use it to get into the Level 1 Hacking Panel of the System!!","This is if you've already visited the OS with Ada"
 "FIZZICS1_KEY_NO_OS","Check out this key I found the other day. It says ""System Level 1"" on it. I wonder what that is.","And this is if you haven't seen the OS, so you don't know what it is."
-"FIZZICS1_GIVE_KEY","Here, I'm entrusting this key to you. Keep it safe and don't let anyone lay eyes on it. 
+"FIZZICS1_GIVE_KEY2","Here, I'm entrusting this key to you. Keep it safe and don't let anyone lay eyes on it. 
 
 Gotta go! See you at the Clubhouse!",""
 "FIZZICS1_ABORT","Check ya later! Let's play again soon. You know where to find me! ","This should be one line. Don't want multiple steps when they've lost interest."
