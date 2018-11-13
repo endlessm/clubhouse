@@ -32,7 +32,7 @@ class BreakSomething(Quest):
             return self.step_delay1
 
     def step_delay1(self, time_in_step):
-        if time_in_step > 3:
+        if time_in_step > 2:
             return self.step_explanation
 
     def step_explanation(self, time_in_step):

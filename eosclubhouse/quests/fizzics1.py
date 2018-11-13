@@ -71,14 +71,21 @@ class Fizzics1(Quest):
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
-        if time_in_step > 20:
+        if time_in_step > 15:
+            return self.step_explanation
+
+    def step_explanation(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('FIZZICS1_EXPLANATION'))
+
+        if self.confirmed_step():
             return self.step_wait_score
 
     def step_wait_score(self, time_in_step):
         if time_in_step == 0:
-            self._msg = QS('FIZZICS1_EXPLANATION')
-            self.show_message(self._msg)
+            self.show_message(QS('FIZZICS1_GIVE_KEY1'))
             self.give_item('item.key.fizzics.1')
+            self._msg = QS('FIZZICS1_HINT')
 
         try:
             if self._app.get_object_property('view.JSContext.globalParameters',
@@ -129,7 +136,7 @@ class Fizzics1(Quest):
     def step_reward(self, time_in_step):
         if time_in_step == 0:
             self.give_item('item.key.OperatingSystemApp.1')
-            self.show_question(QS('FIZZICS1_GIVE_KEY'))
+            self.show_question(QS('FIZZICS1_GIVE_KEY2'))
             self.conf['complete'] = True
             self.available = False
 
