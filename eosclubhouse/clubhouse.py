@@ -622,12 +622,25 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                              type_hint=Gdk.WindowTypeHint.DOCK,
                              role='eos-side-component')
 
+            self.connect('realize', self._window_realize_cb)
+
         self.clubhouse_page = ClubhousePage(self)
         self.inventory_page = InventoryPage(self)
         self.episodes_page = EpisodesPage(self)
 
         self.set_size_request(DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
+
+        display = Gdk.Display.get_default()
+        display.connect('monitor-added',
+                        lambda disp, monitor: self._update_geometry())
+
+        monitor = display.get_primary_monitor()
+        if monitor:
+            monitor.connect('notify::workarea',
+                            lambda klass, args: self._update_geometry())
+
+        self._update_geometry()
 
     def _setup_ui(self):
         builder = Gtk.Builder()
@@ -649,6 +662,15 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self.add(builder.get_object('main_window_overlay'))
 
+    def _window_realize_cb(self, window):
+        def _window_focus_out_event_cb(_window, _event):
+            self.hide()
+            return False
+
+        gdk_window = self.get_window()
+        gdk_window.set_events(gdk_window.get_events() | Gdk.EventMask.FOCUS_CHANGE_MASK)
+        self.connect('focus-out-event', _window_focus_out_event_cb)
+
     def _page_switch_button_clicked_cb(self, button, page_widget):
         self._main_window_stack.set_visible_child(page_widget)
 
@@ -661,6 +683,23 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         if button is not None:
             button.set_active(True)
+
+    def _update_geometry(self):
+        monitor = Gdk.Display.get_default().get_primary_monitor()
+        if not monitor:
+            return
+
+        workarea = monitor.get_workarea()
+        width = self.get_size()[0]
+
+        geometry = Gdk.Rectangle()
+        geometry.x = workarea.x + workarea.width - width
+        geometry.y = workarea.y
+        geometry.width = width
+        geometry.height = workarea.height
+
+        self.move(geometry.x, geometry.y)
+        self.resize(geometry.width, geometry.height)
 
 
 class ClubhouseApplication(Gtk.Application):
@@ -745,16 +784,6 @@ class ClubhouseApplication(Gtk.Application):
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._vibility_notify_cb)
 
-        display = Gdk.Display.get_default()
-        display.connect('monitor-added',
-                        lambda disp, monitor: self._update_geometry())
-
-        monitor = display.get_primary_monitor()
-        if monitor:
-            monitor.connect('notify::workarea',
-                            lambda klass, args: self._update_geometry())
-
-        self._update_geometry()
         self._window.show()
 
         quest_sets = libquest.Registry.get_quest_sets()
@@ -863,22 +892,6 @@ class ClubhouseApplication(Gtk.Application):
             self._window.hide()
 
         return None
-
-    def _update_geometry(self):
-        monitor = Gdk.Display.get_default().get_primary_monitor()
-        if not monitor:
-            return
-        workarea = monitor.get_workarea()
-        width = self._window.get_size()[0]
-
-        geometry = Gdk.Rectangle()
-        geometry.x = workarea.x + workarea.width - width
-        geometry.y = workarea.y
-        geometry.width = width
-        geometry.height = workarea.height
-
-        self._window.move(geometry.x, geometry.y)
-        self._window.resize(geometry.width, geometry.height)
 
     def _list_quests(self):
         for quest_set in libquest.Registry.get_quest_sets():
