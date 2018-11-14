@@ -1,7 +1,7 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App
-from gi.repository import Gio, GLib
+from gi.repository import Gio
 
 
 class BreakSomething(Quest):
