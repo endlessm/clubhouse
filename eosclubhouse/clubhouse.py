@@ -792,8 +792,6 @@ class ClubhouseApplication(Gtk.Application):
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._vibility_notify_cb)
 
-        self._window.show()
-
         quest_sets = libquest.Registry.get_quest_sets()
         for quest_set in quest_sets:
             self._window.clubhouse_page.add_quest_set(quest_set)
