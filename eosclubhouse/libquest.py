@@ -24,6 +24,7 @@ import time
 
 from eosclubhouse import logger
 from eosclubhouse.system import GameStateService
+from eosclubhouse.utils import Performance
 from gi.repository import GObject, GLib
 
 
@@ -33,6 +34,7 @@ class Registry:
     _quest_sets = []
 
     @staticmethod
+    @Performance.timeit
     def load(quest_folder):
         sys.path.append(quest_folder)
 
@@ -42,6 +44,7 @@ class Registry:
         del sys.path[sys.path.index(quest_folder)]
 
     @classmethod
+    @Performance.timeit
     def register_quest_set(class_, quest_set):
         if not issubclass(quest_set, QuestSet):
             raise TypeError('{} is not a of type {}'.format(quest_set, QuestSet))

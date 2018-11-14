@@ -21,10 +21,11 @@
 
 import csv
 import os
+import time
 
 from gi.repository import GLib
 
-from eosclubhouse import config
+from eosclubhouse import config, logger
 
 
 def get_alternative_quests_dir():
@@ -106,3 +107,22 @@ class QuestItemDB(_DictFromCSV):
 
 # Convenience "QuestString" method to get a string from the catalog
 QS = QuestStringCatalog().get_string
+
+
+class Performance:
+
+    _enabled = 'CLUBHOUSE_PERF_DEBUG' in os.environ
+
+    @classmethod
+    def timeit(class_, func):
+        def _report_time_func(*args, **kwargs):
+            start_time = time.time()
+
+            result = func(*args, **kwargs)
+
+            end_time = time.time()
+            logger.info('%s : %3.3fms', str(func), (end_time - start_time) * 1000.0)
+
+            return result
+
+        return _report_time_func if class_._enabled else func

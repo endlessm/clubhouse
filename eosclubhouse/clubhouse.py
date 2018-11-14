@@ -29,6 +29,7 @@ import uuid
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import GameStateService
+from eosclubhouse.utils import Performance
 from eosclubhouse.animation import AnimationImage, AnimationSystem
 
 
@@ -748,6 +749,7 @@ class ClubhouseApplication(Gtk.Application):
                                               css_provider,
                                               Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
+    @Performance.timeit
     def do_activate(self):
         self.show(Gdk.CURRENT_TIME)
 
