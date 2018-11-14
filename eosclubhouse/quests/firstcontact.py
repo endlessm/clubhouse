@@ -11,11 +11,12 @@ class FirstContact(Quest):
     def __init__(self):
         super().__init__('First Contact', 'ada', '')
         self._app = None
+        self._hint = False
 
         # This will prevent the quest from ever being shown in the Clubhouse
         # because it should just be run directly (not by the user)
-        self.available = False
-        self.skippable = True
+        self.available = True
+        self.skippable = False
 
     def get_hackunlock_mode(self):
         if self._app is None:
@@ -38,7 +39,7 @@ class FirstContact(Quest):
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or time_in_step < 3:
             return
 
-        if self.get_hackunlock_mode() >= 1 or self.debug_skip():
+        if self.get_hackunlock_mode() >= 1:
             return self.step_dohack
 
     # STEP 1
@@ -48,6 +49,9 @@ class FirstContact(Quest):
 
         if self.get_hackunlock_mode() >= 2 or self.debug_skip():
             return self.step_flipback
+        if time_in_step > 30 and not self._hint:
+            self._hint = True
+            self.show_message(QS('FIRSTCONTACT_HINT'))
 
     def step_flipback(self, time_in_step):
         if time_in_step == 0:
