@@ -44,6 +44,7 @@
 
 .clubhouse-message-button-box button > label {
     color: white;
+    text-shadow: 0 0.5px 2px alpha(black,0.4);
     font-size: 15px;
     margin: 0 10px;
 }
