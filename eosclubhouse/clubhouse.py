@@ -254,7 +254,6 @@ class ClubhousePage(Gtk.EventBox):
         self._reset_quest_actions()
 
         self.add_tick_callback(AnimationSystem.step)
-        self._app_window.connect('show', lambda _window: self._shell_close_popup_message())
 
     def _setup_ui(self):
         builder = Gtk.Builder()
