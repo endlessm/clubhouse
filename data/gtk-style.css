@@ -49,6 +49,7 @@
 }
 
 .quest-set-button {
+    border: none;
     background-image: radial-gradient(50px 10px ellipse at center 95%, gray, transparent);
 }
 
