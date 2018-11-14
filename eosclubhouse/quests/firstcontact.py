@@ -15,8 +15,8 @@ class FirstContact(Quest):
 
         # This will prevent the quest from ever being shown in the Clubhouse
         # because it should just be run directly (not by the user)
-        self.available = True
-        self.skippable = False
+        self.available = False
+        self.skippable = True
 
     def get_hackunlock_mode(self):
         if self._app is None:
