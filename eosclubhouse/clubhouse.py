@@ -691,7 +691,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             return
 
         workarea = monitor.get_workarea()
-        width = self.get_size()[0]
+        width = DEFAULT_WINDOW_WIDTH
 
         geometry = Gdk.Rectangle()
         geometry.x = workarea.x + workarea.width - width
