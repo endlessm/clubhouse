@@ -1,50 +1,47 @@
 "ID","Text","Comments"
-"FIRSTCONTACT_WELCOME","Hello! !I see you've found your way to the portal. My name is Ada. I'm going to show you around!
+"FIRSTCONTACT_WELCOME","Hello! Welcome to Hack! My name's Ada. I'll be showing you around!  
 
-You look like a curious person. First things first: Let's talk about how to change technology to do what you want.  
+To enter, you'll need to perform your first hack! See that button to the left? It's the ""Flip to Hack"" button. Click on it.","Ada"
+"FIRSTCONTACT_GOAL","Cool! Now we're in the back here where the magic happens in the computer. 
 
-See that button to the left? It's the ""Flip to Hack"" button. Click on it.","Ada"
-"FIRSTCONTACT_GOAL","To enter The Conservatory, you need to perform your 1st hack.
-
-See that wave? Match it by moving the slider and the doors will unlock.",""
-"FIRSTCONTACT_FLIPBACK","Congrats! You've got your first real hack under your belt! Okay, let's get right back in there. Exactly, you're on it! Click that Flip to Hack button.",""
+Now let's get to your first hack! See that wave? Match it by moving the sliders and the doors will unlock.",""
+"FIRSTCONTACT_FLIPBACK","Congrats! You've got your first real hack under your belt! Now click that Flip to Hack button again.",""
 "FIRSTCONTACT_REWARD","That's how you'll do a lot of things around here.  See you on the other side!",""
-"ROSTER_QUESTION","Hello! Welcome to the Clubhouse. Let's go inside and see what's up.","Ada"
+"FIRSTCONTACT_HINT","Keep trying! Move the sliders until the gold wave fits into the groove. ",""
+"ROSTER_QUESTION","Hello again! Welcome to the Clubhouse. Ready to start the tour?","Ada"
 "ROSTER_RESPONSE","Ready! ",""
-"ROSTER_PRELAUNCH","The Clubhouse is where you'll find me and the rest of the crew. I do my research here – fighting rogue AIs!
+"ROSTER_PRELAUNCH","You can always go back to the Clubhouse and find me and the rest of the crew there. 
 
-Stick with me and I'll show you how to do things around here.",""
+That's where I do my research – fighting rogue Artificial Intelligence. We call them AI's around here. ",""
 "ROSTER_LAUNCH","I'm giving you a new app called Roster. See it in the desktop? Go ahead and launch it.",""
-"ROSTER_EXPLANATION","Roster helps you get to know our crew here: Riley, Saniel, Aurora, Faber, and me! Check it out!",""
+"ROSTER_EXPLANATION","You'll find alot of cool info about our crew here. Check it out!",""
 "ROSTER_CLOSED","Come get me in the Clubhouse and we'll continue your tour.","This happens when the player closes the app."
 "ROSTER_TIMEOUT","Have fun looking around. Come get me in the Clubhouse whenever you're ready and we'll continue your tour.","And this happens when the player spends more than 2 minutes in the app without closing it."
-"FIZZICSINTRO_QUESTION","Okay, Ace. You're a quick learner! Want to try out this new game I'm working on? ","Ada"
+"FIZZICSINTRO_QUESTION","Okay, Ace. Great job learning your way around. Want to try out this new app I'm working on? ","Ada"
 "FIZZICSINTRO_RESPONSE","Yep! Let's go. ",""
-"FIZZICSINTRO_LAUNCH","I'm researching the physics of the bounce. Kinetic energy. Velocity. I can tell you more sometime! 
+"FIZZICSINTRO_LAUNCH","You can learn so much about physics just by watching  how a ball bounces. Kinetic energy. Velocity. It's all there!
 
-You can learn so much about the world just by looking at how a ball bounces. This game helps me with that research.
+See the Fizzics app on the desktop? Go ahead and launch it now.",""
+"FIZZICSINTRO_EXPLANATION","Fizzics helps me with my research but I'm also glad everyone just wants to play it!",""
+"FIZZICSINTRO_RICKY","Hey! Welcome ;)  OMG. Fizzics. I love this game. It's my total fave. It's fun seeing what happens when you change the controls. ","Riley"
+"FIZZICSINTRO_INTRO","Oh, hey Riley! This is Riley, one of our students. Definitely an important person to know!
 
-You can see it on the desktop. Launch the Fizzics app.",""
-"FIZZICSINTRO_EXPLANATION","Fizzics not only helps me with my research but everyone just wants to play with it because it's fun to see what happens. ",""
-"FIZZICSINTRO_RICKY","Hey! Welcome ;)  OMG. Fizzics. I love this game. It's my total fave. ","Riley"
-"FIZZICSINTRO_INTRO","Oh, hey Riley! This is Riley, one of our students. Definitely an important person to know! I'm sure you two will be pals.
-
-Take as long as you want to just play around. Try out different strategies. See what's possible! 
+Take as long as you want to just play around. Try out different speeds and gravities. See what you can discover! 
 
 We'll meet back at the Clubhouse.","Ada"
 "FIZZICS1_QUESTION","Hey! So I prepared this special challenge just for you in the Fizzics game. Think you can beat it?","Riley"
 "FIZZICS1_RESPONSE","Bring it on!",""
 "FIZZICS1_LAUNCH","All right. Let's try it. Launch the Fizzics game to get started.",""
 "FIZZICS1_LAUNCHHINT","See the Fizzics app on the desktop? Click it to launch. ","Played 20 seconds after quest start if they haven't launched it yet."
-"FIZZICS1_ALREADY_RUNNING","Ah! I see you're already running Fizzics. You read my mind!",""
-"FIZZICS1_GOAL","Cool. See those 20 spiky balls? Your goal is to make it so they don't touch each other.",""
+"FIZZICS1_ALREADY_RUNNING","Ah! I see you're already running Fizzics. Great. ",""
+"FIZZICS1_GOAL","Okay. See those 20 spiky balls? Your goal is to make it so they don't touch each other.",""
 "FIZZICS1_EXPLANATION","Just wanted to see if you were paying attention. It's actually impossible to do it that way! 
 
 You're gonna need to get in there and hack the game in order to get it to do what you want.",""
 "FIZZICS1_GIVE_KEY1","This key will get you into the Level 1 Hacking Panel. From there, there are loads of cool things you can do to solve this.",""
-"FIZZICS1_HINT","The spiky balls are constantly touching each other. Think about it. What if they were smaller? Try to get them not to touch.",""
+"FIZZICS1_HINT","The spiky balls are constantly touching each other. What if they were smaller? Try to get them not to touch.",""
 "FIZZICS1_NOTENOUGH","Hey, wait! Nice try, but you need to keep at least 20 red balls, otherwise it doesn't count.",""
-"FIZZICS1_SUCCESS","Brilliant! I knew you'd ace that. Fun, isn't it?
+"FIZZICS1_SUCCESS","Brilliant! I knew you'd ace that. 
 
 Since you're clearly such a natural at this, I'm going to let you in on a secret:",""
 "FIZZICS1_KEY_ALREADY_OS","Check out this key I found the other day. We can use it to get into the Level 1 Hacking Panel of the System!!","This is if you've already visited the OS with Ada"
@@ -58,7 +55,7 @@ Gotta go! See you at the Clubhouse!",""
 "OSINTRO_LAUNCH","Okay, so now you'll see an icon for the System on the desktop. Go ahead and launch it.",""
 "OSINTRO_EXPLANATION","The System keeps everything running smoothly. You have to be very careful back here. 
 
-But it's really cool to be able to adjust things and have a say in how your computer works. ",""
+But it's really cool to be able to adjust things and have some input in how your computer works. ",""
 "OSINTRO_ARCHIVIST","What's all this ruckus? Oh, it's you, Ada. Finding anything interesting while you're here? And who's this with you? ","Archivist"
 "OSINTRO_ARCHIVIST_FLIP","What's this? Who let you in here? Don't you know you're not supposed to try to access this part?","Archivist (if player tried to flip panel)"
 "OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel, the Archivist. He keeps things in order around here. 
@@ -68,14 +65,14 @@ He's kind of scary at first, but no one knows more about the System than Saniel.
 Also, I'll tell you more sometime, but Saniel a quite the hero!","Ada"
 "OSINTRO_ARCHIVIST2","Hero schmero. Anyway, hello! Ada is one of our most brilliant students, but I'm afraid she's filling your head with ancient history! 
 
-Though it's true, I've been around a while and I do know a few things about keeping the systems clear of trouble.
+It's true though. I've been around a while and I do know a few things about keeping the systems clear of trouble.
 
-But hear me when I say you must never come here alone. Only with an adult. I'll be keeping my eye out for any shenanigans.","Archivist"
-"OSINTRO_WRAPUP","See what I mean, he's a bit fierce! But so glad you could meet him. Okay, gotta bounce now! 
+But hear me when I say you must never come here alone. Only with an adult. Got it? I'll be keeping my eye out for any shenanigans.","Archivist"
+"OSINTRO_WRAPUP","See what I mean, he's a bit fierce! But so glad you could meet him. Well, I must bounce now! Gotta get back to my research.  
 
 Just come get me at the Clubhouse if you want to look around! ","Ada"
 "OSINTRO_ABORT","Come back to the Clubhouse when you want to finish learning about the System.",""
-"BREAK_QUESTION","Psssst! I was hoping I'd see you. Wanna go scope around in the System with that key we found?","Ricky"
+"BREAK_QUESTION","Psssst! I was hoping I'd see you. Wanna go scope around in the System with that key we found?","Riley"
 "BREAK_RESPONSE","Definitely. ",""
 "BREAK_LAUNCH","Ok. So you just need to launch the System app now and we're golden. ",""
 "BREAK_OSAPP","Awesome. This place is LIT. Okay we have to be extremely quiet. We don't want Saniel knowing we're here. 
@@ -84,20 +81,16 @@ He seems to be able to hear everything that goes on here. Ssshhhh. I think I hea
 
 Ok, remember the Flip to Hack button? Now press it. ",""
 "BREAK_UNLOCK","Perfect. Now click on that to unlock it. I wonder what's behind it?",""
-"BREAK_UNLOCKED","Rad! We can have so much fun with all those settings.
+"BREAK_UNLOCKED","Rad! We can have so much fun playing around with the settings.
 
 Check it out. That one changes the cursor size. Try changing it all the way to 200 to make it huge! LOLLZZ",""
-"BREAK_SUCCESS","OMG we have to stop laughing or San will hear us. Uh-oh. That´s pretty unusable. What's that noise?
+"BREAK_SUCCESS","OMG we have to stop laughing or San will hear us. Uh-oh. Now we've made it so big it doesn't work! What's that noise?
 
 Oh, hi Dr. Rowe. We're just, er, studying!",""
-"BREAK_ARCHIVISTARRIVES","I just told you this is no place for novices! Do you realize what you could do if you pressed the wrong buttons? 
+"BREAK_ARCHIVISTARRIVES","Good job restoring the settings! Glad you know about the reset button now. 
 
-I know you want to learn how it all works. Ada's been giving me such glowing reports about you so I'll let it pass this time. 
-
-It's not too late to fix this. If you press the reset button, it will return you to the original settings. ","Archivist"
-"BREAK_WRAPUP","Good job restoring the settings! Glad you know about the reset button now. 
-
-Keep it handy for when you need to clean up messes like this one! ",""
+Keep it handy for when you need to clean up messes like this one! ","Archivist"
+"BREAK_WRAPUP","",""
 "BREAK_ABORT","No prob! We can try again later. ","If player exits the OS app before completing the quest."
 "FIZZICS2_QUESTION","I'll give you a key I found if you beat a Fizzics challenge I prepared for you.",""
 "FIZZICS2_RESPONSE","Thanks! ",""
@@ -122,26 +115,26 @@ So let's see how this goes. Launch the Hackdex app.",""
 "HACKDEX1_NEED_KEY","You need the key to get to level one, but it appears I have misplaced it.",""
 "HACKDEX1_UNLOCKED","Excellent! I see you've found the key! Good, good. Now, get in there and do your magic and fix this corruption.",""
 "HACKDEX1_SUCCESS","Ah, that's better. Your solution is acceptable. You've earned this. Take it.",""
-"HACKDEX1_AFTERKEY","It will let you start doing some actual coding to keep your skills sharp. See you at the Clubhouse.",""
+"HACKDEX1_AFTERKEY","This key will let you start doing some actual coding to keep your skills sharp. See you at the Clubhouse.",""
 "HACKDEX1_RICKY","That was cool how you did that. Wait a sec, what's this?
 
 How did this get into the Roster? Or did the Archivist drop it again? Weird. Keep it anyway. I'm sure we can use it!
 
-It's been fun to explore things with you! Hope you'll come back ;) ","Ricky"
+It's been fun to explore things with you! Hope you'll come back ;) ","Riley"
 "HACKDEX1_ABORT","All done already? Okay then, Come back soon. We've got our work cut out for us!","Archivist"
-"LOSTFILES_QUESTION","Hey there, glad you're here, but I'm dealing with a situation. Everything's gone. All my research files have just disappeared! ","Ada"
-"LOSTFILES_ANSWER","Whoa. What does that even mean? ",""
-"LOSTFILES_EXPLANATION","Explain what's going on. Blah blah blah.
+"LOSTFILES_QUESTION","Hey, I'm dealing with a serious situation here. Everything's gone. ","Ada"
+"LOSTFILES_ANSWER","Whoa. What happened? ",""
+"LOSTFILES_EXPLANATION","I've been studying these rogue AI's and now they've gotten loose. And all my daily logs. Gone!
 
-This wraps up Act 1 blah blah.",""
+I'm the only one with access to those tanks. What's more troubling is that there's no sign of how anyone got in. Or out! ",""
 "NOQUEST_ADA_RICKY","I think Riley was looking for you earlier.","These are the comments characters make when they don't have a quest to give you. For now they just tell you to go talk to another character (if there is one)."
 "NOQUEST_ADA_ARCHIVIST","Dr. Rowe wants to talk to you.",""
 "NOQUEST_ADA_NOTHING","Are you enjoying yourself?",""
-"NOQUEST_ADA_CHAPTER1END","We're still investigating how my research was corrupted.","This is what the characters say when the whole chapter is over and there's nothing to do."
+"NOQUEST_ADA_CHAPTER1END","We're still trying to get to the bottom of what's happening with Ada's data!","This is what the characters say when the whole chapter is over and there's nothing to do."
 "NOQUEST_RICKY_ADA","Hey, I think Ada wants to tell you something.",""
 "NOQUEST_RICKY_ARCHIVIST","Psss... The Archivist is looking for you.",""
 "NOQUEST_RICKY_NOTHING","What are you up to?",""
-"NOQUEST_RICKY_CHAPTER1END","It looks like everybody is busy with the investigation. That's no fun.",""
+"NOQUEST_RICKY_CHAPTER1END","It looks like everybody's wrapped up in recovering Ada's missing packets. That's no fun.",""
 "NOQUEST_ARCHIVIST_ADA","Perhaps you should inquire with Ada.",""
 "NOQUEST_ARCHIVIST_RICKY","That friend of yours is probably up to no good.",""
 "NOQUEST_ARCHIVIST_NOTHING","Stay out of trouble!",""
