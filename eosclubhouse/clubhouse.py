@@ -622,6 +622,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                              type_hint=Gdk.WindowTypeHint.DOCK,
                              role='eos-side-component')
 
+            self.connect('realize', self._window_realize_cb)
+
         self.clubhouse_page = ClubhousePage(self)
         self.inventory_page = InventoryPage(self)
         self.episodes_page = EpisodesPage(self)
@@ -659,6 +661,15 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             button.connect('clicked', self._page_switch_button_clicked_cb, page_widget)
 
         self.add(builder.get_object('main_window_overlay'))
+
+    def _window_realize_cb(self, window):
+        def _window_focus_out_event_cb(_window, _event):
+            self.hide()
+            return False
+
+        gdk_window = self.get_window()
+        gdk_window.set_events(gdk_window.get_events() | Gdk.EventMask.FOCUS_CHANGE_MASK)
+        self.connect('focus-out-event', _window_focus_out_event_cb)
 
     def _page_switch_button_clicked_cb(self, button, page_widget):
         self._main_window_stack.set_visible_child(page_widget)
