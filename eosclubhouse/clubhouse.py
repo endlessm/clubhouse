@@ -283,9 +283,6 @@ class ClubhousePage(Gtk.EventBox):
         self._replied_to_message(None)
 
     def stop_quest(self):
-        # The quest may have been stopped from the Shell quest view, so show the main window
-        self._app_window.show()
-
         self._cancel_ongoing_task()
 
     def quest_debug_skip(self):
