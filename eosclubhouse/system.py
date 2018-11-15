@@ -139,19 +139,23 @@ class Desktop:
 class App:
 
     def __init__(self, app_dbus_name):
-        self._clippy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
-                                                      0,
-                                                      None,
-                                                      app_dbus_name,
-                                                      '/com/endlessm/Clippy',
-                                                      'com.endlessm.Clippy',
-                                                      None)
+        self._clippy = None
+        self._app_dbus_name = app_dbus_name
 
     def get_clippy_proxy(self):
+        if self._clippy is None:
+            self._clippy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                          0,
+                                                          None,
+                                                          self._app_dbus_name,
+                                                          '/com/endlessm/Clippy',
+                                                          'com.endlessm.Clippy',
+                                                          None)
+
         return self._clippy
 
     def get_object_property(self, obj, prop):
-        return self._clippy.Get('(ss)', obj, prop)
+        return self.get_clippy_proxy().Get('(ss)', obj, prop)
 
     def set_object_property(self, obj, prop, value):
         '''Sets a property in an object of the app.
@@ -182,11 +186,11 @@ class App:
         else:
             variant = value
 
-        return self._clippy.Set('(ssv)', obj, prop, variant)
+        return self.get_clippy_proxy().Set('(ssv)', obj, prop, variant)
 
     def highlight_object(self, obj, timestamp=None):
         stamp = timestamp or int(time.time())
-        self._clippy.Highlight('(su)', obj, stamp)
+        self.get_clippy_proxy().Highlight('(su)', obj, stamp)
 
 
 class GameStateService(GObject.GObject):
