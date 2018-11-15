@@ -615,10 +615,13 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             super().__init__(application=app, title='Clubhouse')
         else:
             super().__init__(application=app, title='Clubhouse',
-                             type_hint=Gdk.WindowTypeHint.DOCK,
-                             role='eos-side-component')
+                             type_hint=Gdk.WindowTypeHint.NORMAL,
+                             role='eos-side-component',
+                             decorated=False)
 
             self.connect('realize', self._window_realize_cb)
+
+        self.set_keep_above(True)
 
         self.clubhouse_page = ClubhousePage(self)
         self.inventory_page = InventoryPage(self)
@@ -664,7 +667,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             return False
 
         gdk_window = self.get_window()
+        gdk_window.set_functions(0)
         gdk_window.set_events(gdk_window.get_events() | Gdk.EventMask.FOCUS_CHANGE_MASK)
+
         self.connect('focus-out-event', _window_focus_out_event_cb)
 
     def _page_switch_button_clicked_cb(self, button, page_widget):
