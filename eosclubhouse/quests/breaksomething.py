@@ -78,7 +78,7 @@ class BreakSomething(Quest):
             self.show_message(QS('BREAK_ARCHIVISTARRIVES'), character_id='archivist')
             # Set reset button visible
             variant = GLib.Variant('a{sb}', {'visible': True})
-            self.gss.set("hack_toolbox.reset_button", variant)
+            self.gss.set("app.hack_toolbox.reset_button", variant)
 
         if self.settings.get_int('cursor-size') == 24:
             return self.step_reward
