@@ -702,6 +702,13 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.move(geometry.x, geometry.y)
         self.resize(geometry.width, geometry.height)
 
+    def hide(self):
+        super().hide()
+        # We update the geometry here to ensure the window will still slide in to the right place
+        # the second time it's opened (for some reason, without this it will slide all the way to
+        # the left of the screen)
+        self._update_geometry()
+
 
 class ClubhouseApplication(Gtk.Application):
 
