@@ -1,5 +1,5 @@
 {
   "width": 175,
   "height": 177,
-  "delays": [1000]
+  "delays": [200, 200]
 }
