@@ -201,31 +201,38 @@ class GameStateService(GObject.GObject):
         ),
     }
 
-    _proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
-                                            0,
-                                            None,
-                                            'com.endlessm.GameStateService',
-                                            '/com/endlessm/GameStateService',
-                                            'com.endlessm.GameStateService',
-                                            None)
+    _proxy = None
+
+    @classmethod
+    def _get_gss_proxy(klass):
+        if klass._proxy is None:
+            klass._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                          0,
+                                                          None,
+                                                          'com.endlessm.GameStateService',
+                                                          '/com/endlessm/GameStateService',
+                                                          'com.endlessm.GameStateService',
+                                                          None)
+
+        return klass._proxy
 
     # @todo: This is becoming a proxy of a proxy, so we should try to use a
     # more direct later
     def __init__(self):
         super().__init__()
 
-        self._proxy.connect('g-signal', self._g_signal_cb)
+        self._get_gss_proxy().connect('g-signal', self._g_signal_cb)
 
     def _g_signal_cb(self, proxy, sender_name, signal_name, params):
         if signal_name == 'changed':
             self.emit('changed')
 
     def set(self, key, variant):
-        self._proxy.Set('(sv)', key, variant)
+        self._get_gss_proxy().Set('(sv)', key, variant)
 
     def get(self, key):
         try:
-            return self._proxy.Get('(s)', key)
+            return self._get_gss_proxy().Get('(s)', key)
         except GLib.Error as e:
             # Raise errors unless they are the expected (key missing)
             if not self._is_key_error(e):
