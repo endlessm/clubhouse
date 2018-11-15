@@ -30,7 +30,6 @@ from gi.repository import GObject, GLib
 
 class Registry:
 
-    _quests = []
     _quest_sets = []
 
     @staticmethod
@@ -50,10 +49,6 @@ class Registry:
             raise TypeError('{} is not a of type {}'.format(quest_set, QuestSet))
         class_._quest_sets.append(quest_set())
         logger.info('QuestSet registered: %s', quest_set)
-
-    @classmethod
-    def get_quests(class_):
-        return class_._quests
 
     @classmethod
     def get_quest_sets(class_):
