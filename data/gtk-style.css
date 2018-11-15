@@ -50,24 +50,27 @@
 }
 
 .quest-set-button {
-    background-image: radial-gradient(50px 10px ellipse at center 95%, gray, transparent);
+    border: none;
+    box-shadow: none;
+    padding-bottom: 20px;
+    background-image: radial-gradient(50px 20px ellipse at center 88%, alpha(black,0.4), transparent);
 }
 
 .quest-set-button:hover {
-    background-image: radial-gradient(50px 10px ellipse at center 95%, #dfdfdf 40%, transparent);
+    background-image: radial-gradient(75px 30px ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001));
 }
 
 
 @keyframes pulsate_background {
-  from { background-image: radial-gradient(50px 10px ellipse at center 95%, gray 40%, transparent); }
-  to { background-image: radial-gradient(50px 10px ellipse at center 95%, orange 40%, transparent); }
+    from { background-image: radial-gradient(50px 20px ellipse at center 88%, alpha(#D9A784,0.4), alpha(white,0.001)); }
+    to { background-image: radial-gradient(75px 30px ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001)); }
 }
 
 .quest-set-button.highlighted {
   animation-name: pulsate_background;
   animation-duration: 1s;
   animation-direction: alternate;
-  animation-timing-function: linear;
+  animation-timing-function: ease;
   animation-iteration-count: infinite;
 }
 
