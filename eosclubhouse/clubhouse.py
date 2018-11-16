@@ -87,7 +87,7 @@ class Character(GObject.GObject):
         char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
 
         fullbody_path = os.path.join(char_dir, 'fullbody')
-        self._fullbody_image = AnimationImage(self._id, fullbody_path)
+        self._fullbody_image = AnimationImage(fullbody_path)
         self._fullbody_image.play('idle')
 
         self._moods = {}

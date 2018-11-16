@@ -6,9 +6,8 @@ from gi.repository import GLib, Gtk, GObject, GdkPixbuf
 
 
 class AnimationImage(Gtk.Image):
-    def __init__(self, character_id, path):
+    def __init__(self, path):
         super().__init__()
-        self._character_id = character_id
         self._animations = {}
         self.load(path)
 
@@ -19,7 +18,7 @@ class AnimationImage(Gtk.Image):
             self._animations[name] = animation
 
     def play(self, name):
-        AnimationSystem.animate(self._character_id, self._animations[name])
+        AnimationSystem.animate(id(self), self._animations[name])
 
 
 class Animation(GObject.GObject):
