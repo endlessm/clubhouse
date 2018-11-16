@@ -115,8 +115,8 @@ class GEditHack(Quest):
 class Aggretsuko(QuestSet):
 
     __character_id__ = 'aggretsuko'
-    __quests__ = [GEditHack()]
     __position__ = (50, 400)
+    __quests__ = [GEditHack]
 
     def __init__(self):
         super().__init__()

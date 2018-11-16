@@ -256,7 +256,11 @@ class QuestSet(GObject.GObject):
     def __init__(self):
         super().__init__()
         self._position = self.__position__
-        for quest in self.get_quests():
+
+        self._quest_objs = []
+        for quest_class in self.__quests__:
+            quest = quest_class()
+            self._quest_objs.append(quest)
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
 
@@ -264,9 +268,8 @@ class QuestSet(GObject.GObject):
     def get_character(class_):
         return class_.__character_id__
 
-    @classmethod
-    def get_quests(class_):
-        return class_.__quests__
+    def get_quests(self):
+        return self._quest_objs
 
     @classmethod
     def get_id(class_):

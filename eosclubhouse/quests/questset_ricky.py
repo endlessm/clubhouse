@@ -9,7 +9,7 @@ class RickyQuestSet(QuestSet):
 
     __character_id__ = 'ricky'
     __position__ = (279, 285)
-    __quests__ = [Fizzics1(), BreakSomething(), Fizzics2()]
+    __quests__ = [Fizzics1, BreakSomething, Fizzics2]
 
     def __init__(self):
         super().__init__()
