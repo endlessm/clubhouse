@@ -721,17 +721,13 @@ class ClubhouseApplication(Gtk.Application):
                          resource_base_path='/com/endlessm/Clubhouse')
 
         self._window = None
-
         self._debug_mode = False
+        self._registry_loaded = False
 
         # @todo: Move the resource to a different dir
         resource = Gio.resource_load(os.path.join(os.path.dirname(__file__),
                                                   'eos-clubhouse.gresource'))
         Gio.Resource._register(resource)
-
-        # @todo: Use a location from config
-        libquest.Registry.load(utils.get_alternative_quests_dir())
-        libquest.Registry.load(os.path.dirname(__file__) + '/quests')
 
         self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'List existing quest sets and quests', None)
@@ -771,6 +767,7 @@ class ClubhouseApplication(Gtk.Application):
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
+        self._ensure_registry_loaded()
         self._init_style()
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
@@ -786,6 +783,13 @@ class ClubhouseApplication(Gtk.Application):
             action = Gio.SimpleAction.new(name, variant_type)
             action.connect('activate', callback)
             self.add_action(action)
+
+    def _ensure_registry_loaded(self):
+        if not self._registry_loaded:
+            # @todo: Use a location from config
+            libquest.Registry.load(utils.get_alternative_quests_dir())
+            libquest.Registry.load(os.path.dirname(__file__) + '/quests')
+            self._registry_loaded = True
 
     def _ensure_window(self):
         if self._window:
@@ -902,6 +906,7 @@ class ClubhouseApplication(Gtk.Application):
         return None
 
     def _list_quests(self):
+        self._ensure_registry_loaded()
         for quest_set in libquest.Registry.get_quest_sets():
             print(quest_set.get_id())
             for quest in quest_set.get_quests():
