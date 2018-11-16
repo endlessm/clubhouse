@@ -51,9 +51,16 @@ class FizzicsIntro(Quest):
 
     def step_intro(self, time_in_step):
         if time_in_step == 0:
+            self.show_question(QS('FIZZICSINTRO_INTRO'))
+        if self.confirmed_step():
+            return self.step_key
+
+    def step_key(self, time_in_step):
+        if time_in_step == 0:
             self.conf['complete'] = True
             self.available = False
-            self.show_question(QS('FIZZICSINTRO_INTRO'))
+            self.give_item('item.key.fizzics.1')
+            self.show_question(QS('FIZZICSINTRO_KEY'))
         if self.confirmed_step():
             self.stop()
 
