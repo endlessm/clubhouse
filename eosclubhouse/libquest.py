@@ -24,15 +24,16 @@ import time
 
 from eosclubhouse import logger
 from eosclubhouse.system import GameStateService
+from eosclubhouse.utils import Performance
 from gi.repository import GObject, GLib
 
 
 class Registry:
 
-    _quests = []
     _quest_sets = []
 
     @staticmethod
+    @Performance.timeit
     def load(quest_folder):
         sys.path.append(quest_folder)
 
@@ -42,15 +43,12 @@ class Registry:
         del sys.path[sys.path.index(quest_folder)]
 
     @classmethod
+    @Performance.timeit
     def register_quest_set(class_, quest_set):
         if not issubclass(quest_set, QuestSet):
             raise TypeError('{} is not a of type {}'.format(quest_set, QuestSet))
         class_._quest_sets.append(quest_set())
         logger.info('QuestSet registered: %s', quest_set)
-
-    @classmethod
-    def get_quests(class_):
-        return class_._quests
 
     @classmethod
     def get_quest_sets(class_):
@@ -181,10 +179,6 @@ class Quest(GObject.GObject):
         self.gss.set(item_name, variant)
         self._emit_signal('item-given', item_name, notification_text)
 
-    # @todo: Obsolete. Delete when quests no longer use it.
-    def set_keyboard_request(self, wants_keyboard_events):
-        pass
-
     def on_key_event(self, event):
         self.key_event = True
 
@@ -262,7 +256,11 @@ class QuestSet(GObject.GObject):
     def __init__(self):
         super().__init__()
         self._position = self.__position__
-        for quest in self.get_quests():
+
+        self._quest_objs = []
+        for quest_class in self.__quests__:
+            quest = quest_class()
+            self._quest_objs.append(quest)
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
 
@@ -270,9 +268,8 @@ class QuestSet(GObject.GObject):
     def get_character(class_):
         return class_.__character_id__
 
-    @classmethod
-    def get_quests(class_):
-        return class_.__quests__
+    def get_quests(self):
+        return self._quest_objs
 
     @classmethod
     def get_id(class_):

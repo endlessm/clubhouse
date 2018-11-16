@@ -57,8 +57,6 @@ class GEditHack(Quest):
         print(event.keyval)
 
     def start(self):
-        self.set_keyboard_request(True)
-
         self.give_item('item.key.testkey')
 
         self.show_message("I am the best GEdit teacher out there, ain't that right Ricky!?",
@@ -117,8 +115,8 @@ class GEditHack(Quest):
 class Aggretsuko(QuestSet):
 
     __character_id__ = 'aggretsuko'
-    __quests__ = [GEditHack()]
     __position__ = (50, 400)
+    __quests__ = [GEditHack]
 
     def __init__(self):
         super().__init__()

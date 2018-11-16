@@ -8,7 +8,7 @@ class ArchivistQuestSet(QuestSet):
 
     __character_id__ = 'archivist'
     __position__ = (72, 664)
-    __quests__ = [HackdexCorruption()]
+    __quests__ = [HackdexCorruption]
 
     def __init__(self):
         super().__init__()

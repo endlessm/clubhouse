@@ -25,35 +25,68 @@ from gi.repository import GLib, GObject, Gio
 
 class Desktop:
 
-    SESSION_BUS = Gio.bus_get_sync(Gio.BusType.SESSION, None)
+    _dbus_proxy = None
+    _app_launcher_proxy = None
+    _shell_app_store_proxy = None
+    _shell_proxy = None
 
-    _dbus_proxy = Gio.DBusProxy.new_sync(SESSION_BUS, 0, None,
-                                         'org.freedesktop.DBus',
-                                         '/org/freedesktop/DBus',
-                                         'org.freedesktop.DBus',
-                                         None)
-    _app_launcher_proxy = Gio.DBusProxy.new_sync(SESSION_BUS, 0, None,
-                                                 'org.gnome.Shell',
-                                                 '/org/gnome/Shell',
-                                                 'org.gnome.Shell.AppLauncher',
-                                                 None)
+    @classmethod
+    def get_dbus_proxy(klass):
+        if klass._dbus_proxy is None:
+            klass._dbus_proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                               0,
+                                                               None,
+                                                               'org.freedesktop.DBus',
+                                                               '/org/freedesktop/DBus',
+                                                               'org.freedesktop.DBus',
+                                                               None)
+        return klass._dbus_proxy
 
-    _shell_app_store_proxy = Gio.DBusProxy.new_sync(SESSION_BUS, 0, None,
-                                                    'org.gnome.Shell',
-                                                    '/org/gnome/Shell',
-                                                    'org.gnome.Shell.AppStore',
-                                                    None)
+    @classmethod
+    def get_app_launcher_proxy(klass):
+        if klass._app_launcher_proxy is None:
+            klass._app_launcher_proxy = \
+                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                               0,
+                                               None,
+                                               'org.gnome.Shell',
+                                               '/org/gnome/Shell',
+                                               'org.gnome.Shell.AppLauncher',
+                                               None)
 
-    _shell_proxy = Gio.DBusProxy.new_sync(SESSION_BUS, 0, None,
-                                          'org.gnome.Shell',
-                                          '/org/gnome/Shell',
-                                          'org.gnome.Shell',
-                                          None)
+        return klass._app_launcher_proxy
+
+    @classmethod
+    def get_shell_app_store_proxy(klass):
+        if klass._shell_app_store_proxy is None:
+            klass._shell_app_store_proxy = \
+                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                               0,
+                                               None,
+                                               'org.gnome.Shell',
+                                               '/org/gnome/Shell',
+                                               'org.gnome.Shell.AppStore',
+                                               None)
+
+        return klass._shell_app_store_proxy
+
+    @classmethod
+    def get_shell_proxy(klass):
+        if klass._shell_proxy is None:
+            klass._shell_proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                                0,
+                                                                None,
+                                                                'org.gnome.Shell',
+                                                                '/org/gnome/Shell',
+                                                                'org.gnome.Shell',
+                                                                None)
+
+        return klass._shell_proxy
 
     @classmethod
     def app_is_running(klass, name):
         try:
-            klass._dbus_proxy.GetNameOwner('(s)', name)
+            klass.get_dbus_proxy().GetNameOwner('(s)', name)
         except GLib.Error as e:
             print(e)
             return False
@@ -62,7 +95,7 @@ class Desktop:
     @classmethod
     def launch_app(klass, name):
         try:
-            klass._app_launcher_proxy.Launch('(su)', name, int(time.time()))
+            klass.get_app_launcher_proxy().Launch('(su)', name, int(time.time()))
         except GLib.Error as e:
             print(e)
             return False
@@ -72,7 +105,7 @@ class Desktop:
     def show_app_grid(klass):
         try:
             # @todo: Call a direct method in the Shell interface when that's available
-            klass._shell_proxy.Eval('(s)', 'Main.overview.showApps();')
+            klass.get_shell_proxy().Eval('(s)', 'Main.overview.showApps();')
         except GLib.Error as e:
             print(e)
             return False
@@ -84,7 +117,7 @@ class Desktop:
             app_name += '.desktop'
 
         try:
-            klass._shell_app_store_proxy.AddApplication('(s)', app_name)
+            klass.get_shell_app_store_proxy().AddApplication('(s)', app_name)
         except GLib.Error as e:
             print(e)
             return False
@@ -96,7 +129,7 @@ class Desktop:
             app_name += '.desktop'
 
         try:
-            klass._shell_app_store_proxy.RemoveApplication('(s)', app_name)
+            klass.get_shell_app_store_proxy().RemoveApplication('(s)', app_name)
         except GLib.Error as e:
             print(e)
             return False
@@ -106,17 +139,23 @@ class Desktop:
 class App:
 
     def __init__(self, app_dbus_name):
-        self._clippy = Gio.DBusProxy.new_sync(Desktop.SESSION_BUS, 0, None,
-                                              app_dbus_name,
-                                              '/com/endlessm/Clippy',
-                                              'com.endlessm.Clippy',
-                                              None)
+        self._clippy = None
+        self._app_dbus_name = app_dbus_name
 
     def get_clippy_proxy(self):
+        if self._clippy is None:
+            self._clippy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                          0,
+                                                          None,
+                                                          self._app_dbus_name,
+                                                          '/com/endlessm/Clippy',
+                                                          'com.endlessm.Clippy',
+                                                          None)
+
         return self._clippy
 
     def get_object_property(self, obj, prop):
-        return self._clippy.Get('(ss)', obj, prop)
+        return self.get_clippy_proxy().Get('(ss)', obj, prop)
 
     def set_object_property(self, obj, prop, value):
         '''Sets a property in an object of the app.
@@ -147,11 +186,11 @@ class App:
         else:
             variant = value
 
-        return self._clippy.Set('(ssv)', obj, prop, variant)
+        return self.get_clippy_proxy().Set('(ssv)', obj, prop, variant)
 
     def highlight_object(self, obj, timestamp=None):
         stamp = timestamp or int(time.time())
-        self._clippy.Highlight('(su)', obj, stamp)
+        self.get_clippy_proxy().Highlight('(su)', obj, stamp)
 
 
 class GameStateService(GObject.GObject):
@@ -162,31 +201,38 @@ class GameStateService(GObject.GObject):
         ),
     }
 
-    _proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
-                                            0,
-                                            None,
-                                            'com.endlessm.GameStateService',
-                                            '/com/endlessm/GameStateService',
-                                            'com.endlessm.GameStateService',
-                                            None)
+    _proxy = None
+
+    @classmethod
+    def _get_gss_proxy(klass):
+        if klass._proxy is None:
+            klass._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                          0,
+                                                          None,
+                                                          'com.endlessm.GameStateService',
+                                                          '/com/endlessm/GameStateService',
+                                                          'com.endlessm.GameStateService',
+                                                          None)
+
+        return klass._proxy
 
     # @todo: This is becoming a proxy of a proxy, so we should try to use a
     # more direct later
     def __init__(self):
         super().__init__()
 
-        self._proxy.connect('g-signal', self._g_signal_cb)
+        self._get_gss_proxy().connect('g-signal', self._g_signal_cb)
 
     def _g_signal_cb(self, proxy, sender_name, signal_name, params):
         if signal_name == 'changed':
             self.emit('changed')
 
     def set(self, key, variant):
-        self._proxy.Set('(sv)', key, variant)
+        self._get_gss_proxy().Set('(sv)', key, variant)
 
     def get(self, key):
         try:
-            return self._proxy.Get('(s)', key)
+            return self._get_gss_proxy().Get('(s)', key)
         except GLib.Error as e:
             # Raise errors unless they are the expected (key missing)
             if not self._is_key_error(e):
