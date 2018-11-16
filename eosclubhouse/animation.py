@@ -66,19 +66,18 @@ class Animation(GObject.GObject):
 
 
 class AnimationSystem:
-    _per_character_animations = {}
-    _current_animations = _per_character_animations.values()
+    _animations = {}
 
     @classmethod
-    def animate(class_, character_id, animation):
-        class_._per_character_animations[character_id] = animation
+    def animate(class_, id_, animation):
+        class_._animations[id_] = animation
         animation.update_image()
 
     @classmethod
     def step(class_, _widget, clock):
         timestamp = clock.get_frame_time()
 
-        for animation in class_._current_animations:
+        for animation in class_._animations.values():
             if animation.last_updated is None:
                 animation.last_updated = timestamp
 
