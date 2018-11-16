@@ -1,6 +1,6 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, Quest
-from eosclubhouse.system import Desktop, App
+from eosclubhouse.system import Desktop, App, Sound
 
 
 class OSIntro(Quest):
@@ -15,6 +15,7 @@ class OSIntro(Quest):
     def step_first(self, time_in_step):
         if time_in_step == 0:
             self.show_message(QS('OSINTRO_LAUNCH'))
+            Sound.play('quests/new-icon')
             Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
             Desktop.show_app_grid()
 
@@ -76,6 +77,7 @@ class OSIntro(Quest):
             self.show_question(QS('OSINTRO_WRAPUP'))
             self.conf['complete'] = True
             self.available = False
+            Sound.play('quests/quest-complete')
 
             # this is the quest that makes the Archivist appear
             archivist_questset = Registry.get_quest_set_by_name('ArchivistQuestSet')

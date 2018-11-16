@@ -1,6 +1,6 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App
+from eosclubhouse.system import Desktop, App, Sound
 from gi.repository import GLib
 
 
@@ -98,6 +98,7 @@ class HackdexCorruption(Quest):
             self.give_item('item.mysterious_object')
             self.conf['complete'] = True
             self.available = False
+            Sound.play('quests/quest-complete')
 
         if self.confirmed_step():
             self.stop()

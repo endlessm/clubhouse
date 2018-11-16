@@ -1,6 +1,6 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App
+from eosclubhouse.system import Desktop, App, Sound
 
 
 class Roster(Quest):
@@ -23,6 +23,7 @@ class Roster(Quest):
     def step_launch(self, time_in_step):
         if time_in_step == 0:
             self.show_message(QS('ROSTER_LAUNCH'))
+            Sound.play('quests/new-icon')
             Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
             Desktop.show_app_grid()
 
@@ -57,6 +58,7 @@ class Roster(Quest):
             self.show_question(QS('ROSTER_TIMEOUT'))
             self.conf['complete'] = True
             self.available = False
+            Sound.play('quests/quest-complete')
 
         if self.confirmed_step():
             self.stop()

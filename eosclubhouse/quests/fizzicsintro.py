@@ -1,6 +1,6 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App
+from eosclubhouse.system import Desktop, App, Sound
 
 
 class FizzicsIntro(Quest):
@@ -45,6 +45,7 @@ class FizzicsIntro(Quest):
 
     def step_ricky(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/riley-intro')
             self.show_question(QS('FIZZICSINTRO_RICKY'), character_id='ricky')
         if self.confirmed_step():
             return self.step_intro
@@ -61,6 +62,7 @@ class FizzicsIntro(Quest):
             self.available = False
             self.give_item('item.key.fizzics.1')
             self.show_question(QS('FIZZICSINTRO_KEY'))
+            Sound.play('quests/quest-complete')
         if self.confirmed_step():
             self.stop()
 
