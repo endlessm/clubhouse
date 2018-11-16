@@ -179,10 +179,6 @@ class Quest(GObject.GObject):
         self.gss.set(item_name, variant)
         self._emit_signal('item-given', item_name, notification_text)
 
-    # @todo: Obsolete. Delete when quests no longer use it.
-    def set_keyboard_request(self, wants_keyboard_events):
-        pass
-
     def on_key_event(self, event):
         self.key_event = True
 

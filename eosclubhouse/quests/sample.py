@@ -57,8 +57,6 @@ class GEditHack(Quest):
         print(event.keyval)
 
     def start(self):
-        self.set_keyboard_request(True)
-
         self.give_item('item.key.testkey')
 
         self.show_message("I am the best GEdit teacher out there, ain't that right Ricky!?",
