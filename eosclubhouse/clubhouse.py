@@ -618,6 +618,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             super().__init__(application=app, title='Clubhouse',
                              type_hint=Gdk.WindowTypeHint.NORMAL,
                              role='eos-side-component',
+                             skip_taskbar_hint=True,
                              decorated=False)
 
             self.connect('realize', self._window_realize_cb)
