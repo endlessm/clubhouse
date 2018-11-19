@@ -1,46 +1,36 @@
 "ID","Text","Comments"
-"FIRSTCONTACT_WELCOME","Hello! Welcome to Hack! My name's Ada. I'll be showing you around!  
+"FIRSTCONTACT_WELCOME","Hello! Welcome to Hack! My name's Ada. I'll be showing you around. 
 
 To enter, you'll need to perform your first hack! See that button to the left? It's the ""Flip to Hack"" button. Click on it.","Ada"
-"FIRSTCONTACT_GOAL","Cool! Now we're in the back here where the magic happens in the computer. 
-
-Now let's get to your first hack! See that wave? Match it by moving the sliders and the doors will unlock.",""
+"FIRSTCONTACT_GOAL","Beautiful! Now let's get to your first hack! See that wave? Match it by moving the sliders and the doors will unlock.",""
 "FIRSTCONTACT_FLIPBACK","Congrats! You've got your first real hack under your belt! Now click that Flip to Hack button again.",""
 "FIRSTCONTACT_REWARD","That's how you'll do a lot of things around here.  See you on the other side!",""
 "FIRSTCONTACT_HINT","Keep trying! Move the sliders until the gold wave fits into the groove. ",""
-"ROSTER_QUESTION","Hello again! Welcome to the Clubhouse. Ready to start the tour?","Ada"
-"ROSTER_RESPONSE","Ready! ",""
-"ROSTER_PRELAUNCH","You can always go back to the Clubhouse and find me and the rest of the crew there. 
-
-That's where I do my research – fighting rogue Artificial Intelligence. We call them AI's around here. ",""
-"ROSTER_LAUNCH","I'm giving you a new app called Roster. See it in the desktop? Go ahead and launch it.",""
-"ROSTER_EXPLANATION","You'll find alot of cool info about our crew here. Check it out!",""
-"ROSTER_CLOSED","Come get me in the Clubhouse and we'll continue your tour.","This happens when the player closes the app."
-"ROSTER_TIMEOUT","Have fun looking around. Come get me in the Clubhouse whenever you're ready and we'll continue your tour.","And this happens when the player spends more than 2 minutes in the app without closing it."
-"FIZZICSINTRO_QUESTION","Okay, Ace. Great job learning your way around. Want to try out this new app I'm working on? ","Ada"
-"FIZZICSINTRO_RESPONSE","Yep! Let's go. ",""
+"FIZZICSINTRO_QUESTION","Hello again! Welcome to the Clubhouse. Let me show you a game I'm making.","Ada"
+"FIZZICSINTRO_RESPONSE","Sounds fun!",""
 "FIZZICSINTRO_LAUNCH","You can learn so much about physics just by watching  how a ball bounces. Kinetic energy. Velocity. It's all there!
 
 See the Fizzics app on the desktop? Go ahead and launch it now.",""
-"FIZZICSINTRO_EXPLANATION","Fizzics helps me with my research but I'm also glad everyone just wants to play it!",""
-"FIZZICSINTRO_RICKY","Hey! Welcome ;)  OMG. Fizzics. I love this game. It's my total fave. It's fun seeing what happens when you change the controls. ","Riley"
-"FIZZICSINTRO_INTRO","Oh, hey Riley! This is Riley, one of our students. Definitely an important person to know!
+"FIZZICSINTRO_EXPLANATION","Fizzics helps me with my research but I'm also glad everyone just wants to play it!
 
-Take as long as you want to just play around. Try out different speeds and gravities. See what you can discover! 
+Give it a try. Take out the slingshot and try to reach level 3.",""
+"FIZZICSINTRO_SUCCESS","Well done! I knew you could do it.","Ada"
+"FIZZICSINTRO_RICKY","Hey! Welcome ;)  OMG. Fizzics. I love this game. It's my total fave. It's fun seeing how balls all act in different ways.","Riley"
+"FIZZICSINTRO_INTRO","Oh, hey Riley! This is Riley, one of our students. She's definitely an important person to know around here!","Ada"
+"FIZZICSINTRO_KEY","I'm giving you this key in case you want to dig deeper into Fizzics.
 
-We'll meet back at the Clubhouse.","Ada"
-"FIZZICS1_QUESTION","Hey! So I prepared this special challenge just for you in the Fizzics game. Think you can beat it?","Riley"
-"FIZZICS1_RESPONSE","Bring it on!",""
+See you back at the Clubhouse!",""
+"FIZZICSINTRO_ABORT","We can do it later. Come get me at the Clubhouse whenever you feel like it.",""
+"FIZZICS1_QUESTION","I bet you can't get to the level I'm on Fizzics.",""
+"FIZZICS1_REPONSE","Let's see",""
 "FIZZICS1_LAUNCH","All right. Let's try it. Launch the Fizzics game to get started.",""
-"FIZZICS1_LAUNCHHINT","See the Fizzics app on the desktop? Click it to launch. ","Played 20 seconds after quest start if they haven't launched it yet."
+"FIZZICS1_LAUNCHHINT","See the Fizzics app on the desktop? Click it to launch. ",""
 "FIZZICS1_ALREADY_RUNNING","Ah! I see you're already running Fizzics. Great. ",""
-"FIZZICS1_GOAL","Okay. See those 20 spiky balls? Your goal is to make it so they don't touch each other.",""
-"FIZZICS1_EXPLANATION","Just wanted to see if you were paying attention. It's actually impossible to do it that way! 
-
-You're gonna need to get in there and hack the game in order to get it to do what you want.",""
-"FIZZICS1_GIVE_KEY1","This key will get you into the Level 1 Hacking Panel. From there, there are loads of cool things you can do to solve this.",""
-"FIZZICS1_HINT","The spiky balls are constantly touching each other. What if they were smaller? Try to get them not to touch.",""
-"FIZZICS1_NOTENOUGH","Hey, wait! Nice try, but you need to keep at least 20 red balls, otherwise it doesn't count.",""
+"FIZZICS1_GOAL","OK, first get to Level 8. That's where the real challenge starts.",""
+"FIZZICS1_LEVEL8","Here we are. Think you can beat it?",""
+"FIZZICS1_HINT","You're gonna need to hack the game to beat it. Press the Flip to Hack button.",""
+"FIZZICS1_FLIPPED","Use the key that Ada gave you earlier. Click on that lock to access the hack panel.",""
+"FIZZICS1_HACK","Perfect. I'm sure you can beat the level if you make a few changes.",""
 "FIZZICS1_SUCCESS","Brilliant! I knew you'd ace that. 
 
 Since you're clearly such a natural at this, I'm going to let you in on a secret:",""
@@ -49,7 +39,7 @@ Since you're clearly such a natural at this, I'm going to let you in on a secret
 "FIZZICS1_GIVE_KEY2","Here, I'm entrusting this key to you. Keep it safe and don't let anyone lay eyes on it. 
 
 Gotta go! See you at the Clubhouse!",""
-"FIZZICS1_ABORT","Check ya later! Let's play again soon. You know where to find me! ","This should be one line. Don't want multiple steps when they've lost interest."
+"FIZZICS1_ABORT","Check ya later! Let's play again soon. You know where to find me! ",""
 "OSINTRO_QUESTION","The System is a super important place. Would you like to see it now?","Ada"
 "OSINTRO_RESPONSE","Absolutely!","Simple version for now. Later we can detect whether they tried to flip it or not and have alternate paths for the Archivist intro."
 "OSINTRO_LAUNCH","Okay, so now you'll see an icon for the System on the desktop. Go ahead and launch it.",""
@@ -87,11 +77,24 @@ Check it out. That one changes the cursor size. Try changing it all the way to 2
 "BREAK_SUCCESS","OMG we have to stop laughing or San will hear us. Uh-oh. Now we've made it so big it doesn't work! What's that noise?
 
 Oh, hi Dr. Rowe. We're just, er, studying!",""
-"BREAK_ARCHIVISTARRIVES","Good job restoring the settings! Glad you know about the reset button now. 
+"BREAK_ARCHIVISTARRIVES","I just told you this is no place for novices! Do you realize what you could do if you pressed the wrong buttons? 
 
-Keep it handy for when you need to clean up messes like this one! ","Archivist"
-"BREAK_WRAPUP","",""
+I know you want to learn how it all works. Ada's been giving me such glowing reports about you so I'll let it pass this time. 
+
+It's not too late to fix this. I'm enabling the Reset Button. When you press it, it will return you to the original settings.","Archivist"
+"BREAK_WRAPUP","Good job restoring the settings! Glad you know about the reset button now. 
+
+Keep it handy for when you need to clean up messes like this one! ",""
 "BREAK_ABORT","No prob! We can try again later. ","If player exits the OS app before completing the quest."
+"ROSTER_QUESTION","Want to check out the Roster?","Ada"
+"ROSTER_RESPONSE","Sure!",""
+"ROSTER_PRELAUNCH","You can always go back to the Clubhouse and find me and the rest of the crew there. 
+
+That's where I do my research – fighting rogue Artificial Intelligence. We call them AI's around here. ",""
+"ROSTER_LAUNCH","I'm giving you a new app called Roster. See it in the desktop? Go ahead and launch it.",""
+"ROSTER_EXPLANATION","You'll find alot of cool info about our crew here. Check it out!",""
+"ROSTER_CLOSED","Come get me in the Clubhouse and we'll continue your tour.","This happens when the player closes the app."
+"ROSTER_TIMEOUT","Have fun looking around. Come get me in the Clubhouse whenever you're ready and we'll continue your tour.","And this happens when the player spends more than 2 minutes in the app without closing it."
 "FIZZICS2_QUESTION","I'll give you a key I found if you beat a Fizzics challenge I prepared for you.",""
 "FIZZICS2_RESPONSE","Thanks! ",""
 "FIZZICS2_LAUNCH","Good. Launch the Fizzics app and let's play!",""
