@@ -8,13 +8,23 @@ from gi.repository import GLib, Gtk, GObject, GdkPixbuf
 class AnimationImage(Gtk.Image):
     def __init__(self, path):
         super().__init__()
+        self._animator = Animator(self)
+        self._animator.load(path)
+
+    def play(self, name):
+        self._animator.play(name)
+
+
+class Animator:
+
+    def __init__(self, target_image):
         self._animations = {}
-        self.load(path)
+        self._target_image = target_image
 
     def load(self, path):
         for sprite in glob.glob(os.path.join(path, '*png')):
             name, _ext = os.path.splitext(os.path.basename(sprite))
-            animation = Animation(sprite, self)
+            animation = Animation(sprite, self._target_image)
             self._animations[name] = animation
 
     def play(self, name):
