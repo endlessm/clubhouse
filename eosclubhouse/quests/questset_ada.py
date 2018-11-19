@@ -12,7 +12,7 @@ class AdaQuestSet(QuestSet):
 
     __character_id__ = 'ada'
     __position__ = (38, 211)
-    __quests__ = [FirstContact, Roster, FizzicsIntro, OSIntro, LostFiles]
+    __quests__ = [FirstContact, FizzicsIntro, OSIntro, Roster, LostFiles]
 
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('RickyQuestSet').is_active():
