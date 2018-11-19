@@ -95,14 +95,12 @@ That's where I do my research – fighting rogue Artificial Intelligence. We cal
 "ROSTER_EXPLANATION","You'll find alot of cool info about our crew here. Check it out!",""
 "ROSTER_CLOSED","Come get me in the Clubhouse and we'll continue your tour.","This happens when the player closes the app."
 "ROSTER_TIMEOUT","Have fun looking around. Come get me in the Clubhouse whenever you're ready and we'll continue your tour.","And this happens when the player spends more than 2 minutes in the app without closing it."
-"FIZZICS2_QUESTION","I'll give you a key I found if you beat a Fizzics challenge I prepared for you.",""
-"FIZZICS2_RESPONSE","Thanks! ",""
+"FIZZICS2_QUESTION","Hey! So I prepared this special challenge just for you in the Fizzics game. Think you can beat it?",""
+"FIZZICS2_RESPONSE","Sure",""
 "FIZZICS2_LAUNCH","Good. Launch the Fizzics app and let's play!",""
 "FIZZICS2_ALREADY_RUNNING","You're already running Fizzics. Bring it up and let's play!",""
-"FIZZICS2_GOAL","This time I prepared something a little bit more challenging for you. But I know you can do it!
-
-See those 10 green balls? You need to make sure they're touching that red ball at the same time.",""
-"FIZZICS2_NOTENOUGH","You need to have at least 10 green balls and exactly 1 red ball.",""
+"FIZZICS2_GOAL","Okay. See those 20 spiky balls? Your goal is to make it so they don't touch each other.",""
+"FIZZICS2_NOTENOUGH","Hey, wait! Nice try, but you need to keep at least 20 spiky balls, otherwise it doesn't count.",""
 "FIZZICS2_SUCCESS","Yay! That's a really cool solution. You've got a talent for this! I didn't think of that one.
 
 Here's the key I found. I think it must have fallen out of Saniel's pocket.",""

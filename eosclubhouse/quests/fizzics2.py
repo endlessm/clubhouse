@@ -45,7 +45,7 @@ class Fizzics2(Quest):
         try:
             if not self._initialized:
                 self._app.set_object_property('view.JSContext.globalParameters',
-                                              'preset', ('i', 12))
+                                              'preset', ('i', 11))
                 self._initialized = True
         except Exception as ex:
             print(ex)
@@ -58,7 +58,7 @@ class Fizzics2(Quest):
             self.show_message(QS('FIZZICS2_GOAL'))
 
         try:
-            if self._app.get_object_property('view.JSContext.globalParameters', 'quest1Success'):
+            if self._app.get_object_property('view.JSContext.globalParameters', 'quest0Success'):
                 return self.step_reward
         except Exception as ex:
             print(ex)
