@@ -6,6 +6,7 @@ from eosclubhouse.system import Desktop, App
 class Fizzics1(Quest):
 
     TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
+    APP_JS_PARAMS = 'view.JSContext.globalParameters'
 
     def __init__(self):
         super().__init__('Fizzics 1', 'ricky', QS('FIZZICS1_QUESTION'))
@@ -43,25 +44,13 @@ class Fizzics1(Quest):
 
     def step_delay1(self, time_in_step):
         if time_in_step > 2:
-            return self.step_set_level
+            return self.step_goal
 
     def step_alreadyrunning(self, time_in_step):
         if time_in_step == 0:
             self.show_question(QS('FIZZICS1_ALREADY_RUNNING'))
 
         if self.confirmed_step():
-            return self.step_set_level
-
-    def step_set_level(self, time_in_step):
-        try:
-            if not self._initialized:
-                self._app.set_object_property('view.JSContext.globalParameters',
-                                              'preset', ('i', 11))
-                self._initialized = True
-        except Exception as ex:
-            print(ex)
-
-        if self._initialized:
             return self.step_goal
 
     def step_goal(self, time_in_step):
@@ -71,49 +60,56 @@ class Fizzics1(Quest):
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
-        if time_in_step > 15:
-            return self.step_explanation
+        try:
+            if self._app.get_object_property(self.APP_JS_PARAMS,
+                                             'currentLevel') == 7:
+                return self.step_level8
+        except Exception as ex:
+            print(ex)
 
-    def step_explanation(self, time_in_step):
+    def step_level8(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('FIZZICS1_EXPLANATION'))
-
-        if self.confirmed_step():
-            return self.step_wait_score
-
-    def step_wait_score(self, time_in_step):
-        if time_in_step == 0:
-            self.show_message(QS('FIZZICS1_GIVE_KEY1'))
-            self.give_item('item.key.fizzics.1')
-            self._msg = QS('FIZZICS1_HINT')
+            self.show_message(QS('FIZZICS1_LEVEL8'))
 
         try:
-            if self._app.get_object_property('view.JSContext.globalParameters',
-                                             'quest0Success'):
-                return self.step_success
-
-            type1BallCount = self._app.get_object_property('view.JSContext.globalParameters',
-                                                           'type1BallCount')
-            if time_in_step > 5 and type1BallCount < 20 and not self._hintCount:
-                self.show_message(QS('FIZZICS1_NOTENOUGH'))
-                self._hintCount = True
-            elif type1BallCount >= 20 and self._hintCount:
-                self.show_message(self._msg)
-                self._hintCount = False
-            elif time_in_step > 60 and not self._hint1:
+            if self._app.get_object_property(self.APP_JS_PARAMS, 'flipped'):
+                return self.step_flipped
+            if time_in_step > 20 and not self._hint1:
                 self._msg = QS('FIZZICS1_HINT')
                 self.show_message(self._msg)
                 self._hint1 = True
         except Exception as ex:
             print(ex)
 
-        if self.debug_skip():
-            return self.step_success
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
+
+    def step_flipped(self, time_in_step):
+        if time_in_step == 0:
+            self.show_message(QS('FIZZICS1_FLIPPED'))
+
+        # Wait until they unlock the panel
+        item = self.gss.get('item.key.fizzics.1')
+        if item is not None and item.get('used', False):
+            return self.step_hack
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
-    # STEP 2
+    def step_hack(self, time_in_step):
+        if time_in_step == 0:
+            self.show_message(QS('FIZZICS1_HACK'))
+
+        try:
+            if self._app.get_object_property(self.APP_JS_PARAMS, 'currentLevel') == 8 or \
+               self._app.get_object_property(self.APP_JS_PARAMS, 'levelSuccess'):
+                return self.step_success
+        except Exception as ex:
+            print(ex)
+
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
+
     def step_success(self, time_in_step):
         if time_in_step == 0:
             self.show_question(QS('FIZZICS1_SUCCESS'))
