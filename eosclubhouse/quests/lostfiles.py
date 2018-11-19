@@ -1,5 +1,6 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
+from eosclubhouse.system import Desktop, App, Sound
 
 
 class LostFiles(Quest):
@@ -25,4 +26,5 @@ class LostFiles(Quest):
         if self.confirmed_step():
             self.conf['complete'] = True
             self.available = False
+            Sound.play('quests/quest-complete')
             self.stop()

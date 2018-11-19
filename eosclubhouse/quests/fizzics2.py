@@ -1,6 +1,6 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App
+from eosclubhouse.system import Desktop, App, Sound
 
 
 class Fizzics2(Quest):
@@ -77,6 +77,7 @@ class Fizzics2(Quest):
             self.conf['complete'] = True
             self.available = False
             self.give_item('item.key.hackdex1.1')
+            Sound.play('quests/quest-complete')
 
         if self.confirmed_step():
             self.stop()
