@@ -245,4 +245,4 @@ class GameStateService(GObject.GObject):
 
 
 # Allow to import the HackSoundServer from the system while using a more friendly name
-SoundPlayer = HackSoundServer
+Sound = HackSoundServer
