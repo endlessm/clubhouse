@@ -19,7 +19,8 @@ class HackdexCorruption(Quest):
     def update_availability(self, gss=None):
         if self.conf['complete']:
             return
-        if self.is_named_quest_complete("BreakSomething"):
+        if self.is_named_quest_complete("BreakSomething") and \
+           self.is_named_quest_complete("Roster"):
             self.available = True
 
     # STEP 0
