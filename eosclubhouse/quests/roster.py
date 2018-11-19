@@ -14,14 +14,6 @@ class Roster(Quest):
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('ROSTER_PRELAUNCH'))
-
-        if self.confirmed_step():
-            return self.step_launch
-
-    # STEP 1
-    def step_launch(self, time_in_step):
-        if time_in_step == 0:
             self.show_message(QS('ROSTER_LAUNCH'))
             Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
             Desktop.show_app_grid()
@@ -29,7 +21,6 @@ class Roster(Quest):
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_explanation
 
-    # STEP 2
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
             self.show_message(QS('ROSTER_EXPLANATION'))
