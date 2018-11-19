@@ -71,11 +71,17 @@ class BreakSomething(Quest):
         if time_in_step == 0:
             self.show_question(QS('BREAK_SUCCESS'))
         if self.confirmed_step():
+            return self.step_archivist
+
+    def step_archivist(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('BREAK_ARCHIVISTARRIVES'), character_id='archivist')
+        if self.confirmed_step():
             return self.step_reset
 
     def step_reset(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('BREAK_ARCHIVISTARRIVES'), character_id='archivist')
+            self.show_message(QS('BREAK_GIVERESET'), character_id='archivist')
             # Set reset button visible
             variant = GLib.Variant('a{sb}', {'visible': True})
             self.gss.set("app.hack_toolbox.reset_button", variant)
