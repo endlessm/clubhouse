@@ -21,11 +21,12 @@ class Animator:
         self._animations = {}
         self._target_image = target_image
 
-    def load(self, path):
+    def load(self, path, prefix=None):
         for sprite in glob.glob(os.path.join(path, '*png')):
             name, _ext = os.path.splitext(os.path.basename(sprite))
             animation = Animation(sprite, self._target_image)
-            self._animations[name] = animation
+            animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
+            self._animations[animation_name] = animation
 
     def play(self, name):
         AnimationSystem.animate(id(self), self._animations[name])
