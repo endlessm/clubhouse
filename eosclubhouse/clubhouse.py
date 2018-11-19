@@ -26,11 +26,11 @@ import sys
 import threading
 import uuid
 
-from gi.repository import Gdk, Gio, GLib, Gtk, GObject
+from gi.repository import Gdk, GdkPixbuf, Gio, GLib, Gtk, GObject
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import GameStateService
 from eosclubhouse.utils import Performance
-from eosclubhouse.animation import AnimationImage, AnimationSystem
+from eosclubhouse.animation import AnimationImage, AnimationSystem, Animator
 
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
@@ -78,20 +78,29 @@ class Character(GObject.GObject):
     def get_mood_image(self):
         return self._moods.get(self.mood)
 
-    def get_icon(self):
-        image_file = Gio.File.new_for_path(self.get_mood_image())
-        icon_bytes = image_file.load_bytes(None)
-        return Gio.BytesIcon.new(icon_bytes[0])
+    def get_moods_dir(self):
+        return os.path.join(config.CHARACTERS_DIR, self._id, 'moods')
+
+    def get_mood_pixbuf(self):
+        sprite_pixbuf = GdkPixbuf.Pixbuf.new_from_file(self.get_mood_image())
+        # @todo: For now this method returns only the first frame of
+        # the animation. The hardcoded values will be removed once
+        # this method reads them from the animation metadata.
+        pixbuf = GdkPixbuf.Pixbuf.new_subpixbuf(sprite_pixbuf,
+                                                0, 0,
+                                                175,
+                                                sprite_pixbuf.get_height())
+        return pixbuf
 
     def load(self):
         char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
 
         fullbody_path = os.path.join(char_dir, 'fullbody')
-        self._fullbody_image = AnimationImage(self._id, fullbody_path)
+        self._fullbody_image = AnimationImage(fullbody_path)
         self._fullbody_image.play('idle')
 
         self._moods = {}
-        moods_path = os.path.join(char_dir, 'moods')
+        moods_path = self.get_moods_dir()
         for image in os.listdir(moods_path):
             name, _ext = os.path.splitext(image)
             path = os.path.join(char_dir, 'moods', image)
@@ -119,6 +128,7 @@ class Message(Gtk.Bin):
         self._character = None
         self._character_mood_change_handler = 0
         self._setup_ui()
+        self._animator = Animator(self._character_image)
 
     def _setup_ui(self):
         builder = Gtk.Builder()
@@ -187,17 +197,15 @@ class Message(Gtk.Bin):
     def get_character(self):
         return self._character
 
-    def set_character_mood(self, mood):
-        if not self._character or mood is None:
-            return
-
-        self._character.mood = mood
-
     def _character_mood_changed_cb(self, character, prop=None):
-        image_path = character.get_mood_image()
-        logger.debug('Character mood changed: mood=%s image=%s',
-                     character.mood, image_path)
-        self._character_image.set_from_file(image_path)
+        logger.debug('Character mood changed: mood=%s',
+                     character.mood)
+
+        animation_id = '{}/{}'.format(character.id, character.mood)
+        if not self._animator.has_animation(animation_id):
+            self._animator.load(character.get_moods_dir(), character.id)
+
+        self._animator.play(animation_id)
 
 
 class QuestSetButton(Gtk.Button):
@@ -438,7 +446,7 @@ class ClubhousePage(Gtk.EventBox):
         notification.set_title('')
 
         if character:
-            notification.set_icon(character.get_icon())
+            notification.set_icon(character.get_mood_pixbuf())
 
         for key, action in self._actions.items():
             label = action[0]

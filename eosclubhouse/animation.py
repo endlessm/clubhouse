@@ -6,20 +6,33 @@ from gi.repository import GLib, Gtk, GObject, GdkPixbuf
 
 
 class AnimationImage(Gtk.Image):
-    def __init__(self, character_id, path):
+    def __init__(self, path):
         super().__init__()
-        self._character_id = character_id
-        self._animations = {}
-        self.load(path)
-
-    def load(self, path):
-        for sprite in glob.glob(os.path.join(path, '*png')):
-            name, _ext = os.path.splitext(os.path.basename(sprite))
-            animation = Animation(sprite, self)
-            self._animations[name] = animation
+        self._animator = Animator(self)
+        self._animator.load(path)
 
     def play(self, name):
-        AnimationSystem.animate(self._character_id, self._animations[name])
+        self._animator.play(name)
+
+
+class Animator:
+
+    def __init__(self, target_image):
+        self._animations = {}
+        self._target_image = target_image
+
+    def load(self, path, prefix=None):
+        for sprite in glob.glob(os.path.join(path, '*png')):
+            name, _ext = os.path.splitext(os.path.basename(sprite))
+            animation = Animation(sprite, self._target_image)
+            animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
+            self._animations[animation_name] = animation
+
+    def play(self, name):
+        AnimationSystem.animate(id(self), self._animations[name])
+
+    def has_animation(self, name):
+        return self._animations.get(name) is not None
 
 
 class Animation(GObject.GObject):
@@ -67,19 +80,18 @@ class Animation(GObject.GObject):
 
 
 class AnimationSystem:
-    _per_character_animations = {}
-    _current_animations = _per_character_animations.values()
+    _animations = {}
 
     @classmethod
-    def animate(class_, character_id, animation):
-        class_._per_character_animations[character_id] = animation
+    def animate(class_, id_, animation):
+        class_._animations[id_] = animation
         animation.update_image()
 
     @classmethod
     def step(class_, _widget, clock):
         timestamp = clock.get_frame_time()
 
-        for animation in class_._current_animations:
+        for animation in class_._animations.values():
             if animation.last_updated is None:
                 animation.last_updated = timestamp
 
