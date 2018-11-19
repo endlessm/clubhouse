@@ -46,7 +46,7 @@ ClubhouseIface = ('<node>'
                   '<arg type="u" direction="in" name="timestamp"/>'
                   '</method>'
                   '<property name="Visible" type="b" access="read"/>'
-                  '<signal name="SuggestOpen" />'
+                  '<property name="SuggestingOpen" type="b" access="read"/>'
                   '</interface>'
                   '</node>')
 
@@ -310,7 +310,7 @@ class ClubhousePage(Gtk.EventBox):
         self._main_characters_box.put(button, x, y)
 
     def _suggest_open(self):
-        self._app_window.get_application().send_suggest_open()
+        self._app_window.get_application().send_suggest_open(True)
 
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
@@ -724,6 +724,7 @@ class ClubhouseApplication(Gtk.Application):
         self._window = None
         self._debug_mode = False
         self._registry_loaded = False
+        self._suggesting_open = False
 
         # @todo: Move the resource to a different dir
         resource = Gio.resource_load(os.path.join(os.path.dirname(__file__),
@@ -815,12 +816,20 @@ class ClubhouseApplication(Gtk.Application):
     def close_quest_item_notification(self):
         self.withdraw_notification(self.QUEST_ITEM_NOTIFICATION_ID)
 
-    def send_suggest_open(self):
+    def send_suggest_open(self, suggest):
+        if suggest == self._suggesting_open:
+            return
+
+        self._suggesting_open = suggest
+        changed_props = {'SuggestingOpen': GLib.Variant('b', self._suggesting_open)}
+        variant = GLib.Variant.new_tuple(GLib.Variant('s', CLUBHOUSE_IFACE),
+                                         GLib.Variant('a{sv}', changed_props),
+                                         GLib.Variant('as', []))
         self.get_dbus_connection().emit_signal(None,
                                                CLUBHOUSE_PATH,
-                                               CLUBHOUSE_IFACE,
-                                               'SuggestOpen',
-                                               None)
+                                               'org.freedesktop.DBus.Properties',
+                                               'PropertiesChanged',
+                                               variant)
 
     def _stop_quest(self, *args):
         if (self._window):
@@ -857,6 +866,9 @@ class ClubhouseApplication(Gtk.Application):
             self._window.show()
 
     def _vibility_notify_cb(self, window, pspec):
+        if self._window.is_visible():
+            self.send_suggest_open(False)
+
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}
         variant = GLib.Variant.new_tuple(GLib.Variant('s', CLUBHOUSE_IFACE),
                                          GLib.Variant('a{sv}', changed_props),
@@ -889,6 +901,8 @@ class ClubhouseApplication(Gtk.Application):
                             interface, key):
         if key == 'Visible':
             return GLib.Variant('b', self._window.is_visible() if self._window else False)
+        elif key == 'SuggestingOpen':
+            return GLib.Variant('b', self._suggesting_open)
 
         return None
 
