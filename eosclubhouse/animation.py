@@ -31,6 +31,9 @@ class Animator:
     def play(self, name):
         AnimationSystem.animate(id(self), self._animations[name])
 
+    def has_animation(self, name):
+        return self._animations.get(name) is not None
+
 
 class Animation(GObject.GObject):
     def __init__(self, path, target_image):
