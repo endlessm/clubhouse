@@ -33,7 +33,7 @@ class Fizzics1(Quest):
                 self.show_message(QS('FIZZICS1_LAUNCH'))
                 Desktop.show_app_grid()
             else:
-                return self.step_alreadyrunning
+                return self.step_delay1
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_delay1
@@ -46,13 +46,6 @@ class Fizzics1(Quest):
         if time_in_step > 2:
             return self.step_goal
 
-    def step_alreadyrunning(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question(QS('FIZZICS1_ALREADY_RUNNING'))
-
-        if self.confirmed_step():
-            return self.step_goal
-
     def step_goal(self, time_in_step):
         if time_in_step == 0:
             self.show_message(QS('FIZZICS1_GOAL'))
@@ -60,6 +53,19 @@ class Fizzics1(Quest):
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
+        try:
+            if self._app.get_object_property(self.APP_JS_PARAMS,
+                                             'currentLevel') == 7:
+                return self.step_level8
+        except Exception as ex:
+            print(ex)
+
+    def step_backtolevel8(self, time_in_step):
+        if time_in_step == 0:
+            self.show_message(QS('FIZZICS1_BACKTOLEVEL8'))
+
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
         try:
             if self._app.get_object_property(self.APP_JS_PARAMS,
                                              'currentLevel') == 7:
@@ -78,6 +84,9 @@ class Fizzics1(Quest):
                 self._msg = QS('FIZZICS1_HINT')
                 self.show_message(self._msg)
                 self._hint1 = True
+            if self._app.get_object_property(self.APP_JS_PARAMS,
+                                             'currentLevel') != 7:
+                return self.step_backtolevel8
         except Exception as ex:
             print(ex)
 
@@ -93,6 +102,13 @@ class Fizzics1(Quest):
         if item is not None and item.get('used', False):
             return self.step_hack
 
+        try:
+            if self._app.get_object_property(self.APP_JS_PARAMS,
+                                             'currentLevel') != 7:
+                return self.step_backtolevel8
+        except Exception as ex:
+            print(ex)
+
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
@@ -104,6 +120,9 @@ class Fizzics1(Quest):
             if self._app.get_object_property(self.APP_JS_PARAMS, 'currentLevel') == 8 or \
                self._app.get_object_property(self.APP_JS_PARAMS, 'levelSuccess'):
                 return self.step_success
+            if self._app.get_object_property(self.APP_JS_PARAMS,
+                                             'currentLevel') < 7:
+                return self.step_backtolevel8
         except Exception as ex:
             print(ex)
 
@@ -112,30 +131,10 @@ class Fizzics1(Quest):
 
     def step_success(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('FIZZICS1_SUCCESS'))
-
-        if self.confirmed_step():
-            return self.step_prereward
-
-    def step_prereward(self, time_in_step):
-        if time_in_step == 0:
-            if self.is_named_quest_complete("OSIntro"):
-                msg = 'FIZZICS1_KEY_ALREADY_OS'
-            else:
-                msg = 'FIZZICS1_KEY_NO_OS'
-            self.show_question(QS(msg))
-
-        if self.confirmed_step():
-            return self.step_reward
-
-    # STEP 4
-    def step_reward(self, time_in_step):
-        if time_in_step == 0:
-            self.give_item('item.key.OperatingSystemApp.1')
-            self.show_question(QS('FIZZICS1_GIVE_KEY2'))
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
+            self.show_question(QS('FIZZICS1_SUCCESS'))
 
         if self.confirmed_step():
             self.stop()
