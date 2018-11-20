@@ -21,6 +21,7 @@
 import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
+import glob
 import os
 import sys
 import threading
@@ -101,10 +102,10 @@ class Character(GObject.GObject):
 
         self._moods = {}
         moods_path = self.get_moods_dir()
-        for image in os.listdir(moods_path):
+        for image in glob.glob(os.path.join(moods_path, '*.png')):
             name, _ext = os.path.splitext(image)
             path = os.path.join(char_dir, 'moods', image)
-            self._moods[name] = path
+            self._moods[os.path.basename(name)] = path
 
         assert('normal' in self._moods)
         self.mood = 'normal'
