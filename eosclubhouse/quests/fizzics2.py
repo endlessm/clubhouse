@@ -45,7 +45,7 @@ class Fizzics2(Quest):
         try:
             if not self._initialized:
                 self._app.set_object_property('view.JSContext.globalParameters',
-                                              'preset', ('i', 12))
+                                              'preset', ('i', 11))
                 self._initialized = True
         except Exception as ex:
             print(ex)
@@ -58,8 +58,8 @@ class Fizzics2(Quest):
             self.show_message(QS('FIZZICS2_GOAL'))
 
         try:
-            if self._app.get_object_property('view.JSContext.globalParameters', 'quest1Success'):
-                return self.step_reward
+            if self._app.get_object_property('view.JSContext.globalParameters', 'quest0Success'):
+                return self.step_success
         except Exception as ex:
             print(ex)
 
@@ -70,10 +70,16 @@ class Fizzics2(Quest):
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
-    # STEP 2
-    def step_reward(self, time_in_step):
+    def step_success(self, time_in_step):
         if time_in_step == 0:
             self.show_question(QS('FIZZICS2_SUCCESS'))
+
+        if self.confirmed_step():
+            return self.step_reward
+
+    def step_reward(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('FIZZICS2_REWARD'))
             self.conf['complete'] = True
             self.available = False
             self.give_item('item.key.hackdex1.1')

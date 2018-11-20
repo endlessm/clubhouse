@@ -8,7 +8,7 @@ To enter, you'll need to perform your first hack! See that button to the left? I
 "FIRSTCONTACT_HINT","Keep trying! Move the sliders until the gold wave fits into the groove. ",""
 "FIZZICSINTRO_QUESTION","Hello again! Welcome to the Clubhouse. Let me show you a game I'm making.","Ada"
 "FIZZICSINTRO_RESPONSE","Sounds fun!",""
-"FIZZICSINTRO_LAUNCH","You can learn so much about physics just by watching  how a ball bounces. Kinetic energy. Velocity. It's all there!
+"FIZZICSINTRO_LAUNCH","I'm doing some research fighting rogue Artificial Intelligence. We call them AI's around here. And I'm using this fun game to help me.
 
 See the Fizzics app on the desktop? Go ahead and launch it now.",""
 "FIZZICSINTRO_EXPLANATION","Fizzics helps me with my research but I'm also glad everyone just wants to play it!
@@ -42,7 +42,9 @@ Gotta go! See you at the Clubhouse!",""
 "FIZZICS1_ABORT","Check ya later! Let's play again soon. You know where to find me! ",""
 "OSINTRO_QUESTION","The System is a super important place. Would you like to see it now?","Ada"
 "OSINTRO_RESPONSE","Absolutely!","Simple version for now. Later we can detect whether they tried to flip it or not and have alternate paths for the Archivist intro."
-"OSINTRO_LAUNCH","Okay, so now you'll see an icon for the System on the desktop. Go ahead and launch it.",""
+"OSINTRO_LAUNCH","Wonderful. The Operating System is the engine that controls every little thing your computer can do. 
+
+It's all so intricate and connected. Can't wait to show you how beautiful it is back here! Let's launch it now. ",""
 "OSINTRO_EXPLANATION","The System keeps everything running smoothly. You have to be very careful back here. 
 
 But it's really cool to be able to adjust things and have some input in how your computer works. ",""
@@ -79,33 +81,26 @@ Check it out. That one changes the cursor size. Try changing it all the way to 2
 Oh, hi Dr. Rowe. We're just, er, studying!",""
 "BREAK_ARCHIVISTARRIVES","I just told you this is no place for novices! Do you realize what you could do if you pressed the wrong buttons? 
 
-I know you want to learn how it all works. Ada's been giving me such glowing reports about you so I'll let it pass this time. 
-
-It's not too late to fix this. I'm enabling the Reset Button. When you press it, it will return you to the original settings.","Archivist"
+I know you want to learn how it all works. Ada's been giving me such glowing reports about you so I'll let it pass this time. ","Archivist"
+"BREAK_GIVERESET","It's not too late to fix this. I'm enabling the Reset Button. When you press it, it will return you to the original settings.",""
 "BREAK_WRAPUP","Good job restoring the settings! Glad you know about the reset button now. 
 
 Keep it handy for when you need to clean up messes like this one! ",""
 "BREAK_ABORT","No prob! We can try again later. ","If player exits the OS app before completing the quest."
-"ROSTER_QUESTION","Want to check out the Roster?","Ada"
+"ROSTER_QUESTION","Let me show you the Roster.","Ada"
 "ROSTER_RESPONSE","Sure!",""
-"ROSTER_PRELAUNCH","You can always go back to the Clubhouse and find me and the rest of the crew there. 
-
-That's where I do my research – fighting rogue Artificial Intelligence. We call them AI's around here. ",""
 "ROSTER_LAUNCH","I'm giving you a new app called Roster. See it in the desktop? Go ahead and launch it.",""
-"ROSTER_EXPLANATION","You'll find alot of cool info about our crew here. Check it out!",""
+"ROSTER_EXPLANATION","You'll find alot of cool info about our crew here. Spend some time here, and come back to the Clubhouse when you're done.",""
 "ROSTER_CLOSED","Come get me in the Clubhouse and we'll continue your tour.","This happens when the player closes the app."
 "ROSTER_TIMEOUT","Have fun looking around. Come get me in the Clubhouse whenever you're ready and we'll continue your tour.","And this happens when the player spends more than 2 minutes in the app without closing it."
-"FIZZICS2_QUESTION","I'll give you a key I found if you beat a Fizzics challenge I prepared for you.",""
-"FIZZICS2_RESPONSE","Thanks! ",""
+"FIZZICS2_QUESTION","Hey! So I prepared this special challenge just for you in the Fizzics game. Think you can beat it?",""
+"FIZZICS2_RESPONSE","Sure",""
 "FIZZICS2_LAUNCH","Good. Launch the Fizzics app and let's play!",""
 "FIZZICS2_ALREADY_RUNNING","You're already running Fizzics. Bring it up and let's play!",""
-"FIZZICS2_GOAL","This time I prepared something a little bit more challenging for you. But I know you can do it!
-
-See those 10 green balls? You need to make sure they're touching that red ball at the same time.",""
-"FIZZICS2_NOTENOUGH","You need to have at least 10 green balls and exactly 1 red ball.",""
-"FIZZICS2_SUCCESS","Yay! That's a really cool solution. You've got a talent for this! I didn't think of that one.
-
-Here's the key I found. I think it must have fallen out of Saniel's pocket.",""
+"FIZZICS2_GOAL","Okay. See those 20 spiky balls? Your goal is to make it so they don't touch each other.",""
+"FIZZICS2_NOTENOUGH","Hey, wait! Nice try, but you need to keep at least 20 spiky balls, otherwise it doesn't count.",""
+"FIZZICS2_SUCCESS","Yay! That's a really cool solution. You've got a talent for this! I didn't think of that one.",""
+"FIZZICS2_REWARD","Here's the key I found. I think it must have fallen out of Saniel's pocket.",""
 "FIZZICS2_ABORT","No prob. We can try it some other time.",""
 "FIZZICS2_HINT1","Start by launching the Fizzics app on the desktop.",""
 "FIZZICS2_HINT2","Looks like stacking them up isn't going to work. Try going back in and hacking the app and changing the forces between ball types.",""
