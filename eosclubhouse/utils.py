@@ -97,8 +97,8 @@ class QuestItemDB(_DictFromCSV):
 
     @classmethod
     def set_key_value_from_csv_row(class_, csv_row, contents_dict):
-        item_id, icon, name = csv_row
-        contents_dict[item_id] = (icon, name)
+        item_id, *item_data = csv_row
+        contents_dict[item_id] = item_data
 
     @classmethod
     def get_icon_path(self, icon_name):
