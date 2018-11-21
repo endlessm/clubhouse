@@ -587,7 +587,7 @@ class InventoryPage(Gtk.EventBox):
         # For now there is no method in the GameStateService to retrieve items based
         # on a prefix, so every time there's a change in the service, we need to directly
         # verify all the items we're interested in.
-        for item_id, (icon, name) in self._items_db.get_all_items():
+        for item_id, (icon, icon_used, name) in self._items_db.get_all_items():
             item_state = self._gss.get(item_id)
             if item_state is None:
                 self._remove_item(item_id)
