@@ -1,6 +1,6 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import Sound
 
 
 class LostFiles(Quest):
