@@ -41,12 +41,28 @@ class BreakSomething(Quest):
 
         try:
             if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
-                return self.step_unlock
+                return self.step_givekey
         except Exception as e:
             print(e)
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
+
+    def step_givekey(self, time_in_step):
+        if time_in_step == 0:
+            item = self.gss.get('item.key.OperatingSystemApp.1')
+            # If we already have the key, skip this step.
+            if item is not None:
+                # If the panel is already unlocked, skip all that
+                if item.get('used', False):
+                    return self.step_unlocked
+                # Otherwise prompt player to unlock it
+                else:
+                    return self.step_unlock
+            self.show_question(QS('BREAK_GIVEKEY'))
+        if self.confirmed_step():
+            self.give_item('item.key.OperatingSystemApp.1')
+            return self.step_unlock
 
     def step_unlock(self, time_in_step):
         if time_in_step == 0:
