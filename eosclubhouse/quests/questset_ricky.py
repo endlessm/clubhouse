@@ -8,7 +8,7 @@ from eosclubhouse.quests.fizzics2 import Fizzics2
 class RickyQuestSet(QuestSet):
 
     __character_id__ = 'ricky'
-    __position__ = (279, 285)
+    __position__ = (279, 265)
     __quests__ = [Fizzics1, BreakSomething, Fizzics2]
 
     def __init__(self):
