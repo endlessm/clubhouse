@@ -92,6 +92,7 @@
 
 .clubhouse-button-box > button > label {
     color: white;
+    text-shadow: none;
 }
 
 .clubhouse-button-box > button {
@@ -99,6 +100,7 @@
     border: none;
     border-left: 1px solid black;
     border-radius: 0;
+    box-shadow: none;
 }
 
 .clubhouse-button-box > button:first-child {
