@@ -10,10 +10,17 @@ class FizzicsIntro(Quest):
     def __init__(self):
         super().__init__('Fizzics Intro', 'ada', QS('FIZZICSINTRO_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
+        self._hint = 0
+        self._show_next_hint = False
+
+    def show_hint(self):
+        self._show_next_hint = True
 
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
+            if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+                return self.step_explanation
             self.show_message(QS('FIZZICSINTRO_LAUNCH'))
             Desktop.show_app_grid()
 
@@ -26,7 +33,43 @@ class FizzicsIntro(Quest):
 
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('FIZZICSINTRO_EXPLANATION'))
+            self.show_question(QS('FIZZICSINTRO_EXPLANATION'))
+
+        if self.confirmed_step():
+                return self.step_level1
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
+
+    def step_level1(self, time_in_step):
+        if time_in_step == 0:
+            self._hint = 0
+            self.show_message(QS('FIZZICSINTRO_LEVEL1'), choices=[('Hint', self.show_hint)])
+
+        try:
+            if self._app.get_object_property('view.JSContext.globalParameters',
+                                             'currentLevel') >= 1:
+                return self.step_level2
+        except Exception as ex:
+            print(ex)
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
+        if self._show_next_hint:
+            self._show_next_hint = False
+            self._hint += 1
+            if (self._hint == 1):
+                self.show_message(QS('FIZZICSINTRO_LEVEL1_HINT1'),
+                                  choices=[('Hint', self.show_hint)])
+            elif (self._hint == 2):
+                self.show_message(QS('FIZZICSINTRO_LEVEL1_HINT2'),
+                                  choices=[('Show Goal', self.show_hint)])
+            else:
+                self._hint = 0
+                self.show_message(QS('FIZZICSINTRO_LEVEL1'), choices=[('Hint', self.show_hint)])
+
+    def step_level2(self, time_in_step):
+        if time_in_step == 0:
+            self._hint = 0
+            self.show_message(QS('FIZZICSINTRO_LEVEL2'), choices=[('Hint', self.show_hint)])
 
         try:
             if self._app.get_object_property('view.JSContext.globalParameters',
@@ -36,6 +79,15 @@ class FizzicsIntro(Quest):
             print(ex)
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
+        if self._show_next_hint:
+            self._show_next_hint = False
+            self._hint += 1
+            if (self._hint == 1):
+                self.show_message(QS('FIZZICSINTRO_LEVEL2_HINT1'),
+                                  choices=[('Show Goal', self.show_hint)])
+            else:
+                self._hint = 0
+                self.show_message(QS('FIZZICSINTRO_LEVEL2'), choices=[('Hint', self.show_hint)])
 
     def step_success(self, time_in_step):
         if time_in_step == 0:
