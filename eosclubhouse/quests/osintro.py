@@ -10,9 +10,17 @@ class OSIntro(Quest):
     def __init__(self):
         super().__init__('OS Intro', 'ada', QS('OSINTRO_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
+        self._current_step = None
 
     # STEP 0
     def step_first(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('OSINTRO_PRELAUNCH'))
+
+        if self.confirmed_step():
+            return self.step_launch
+
+    def step_launch(self, time_in_step):
         if time_in_step == 0:
             self.show_message(QS('OSINTRO_LAUNCH'))
             Sound.play('quests/new-icon')
@@ -33,8 +41,13 @@ class OSIntro(Quest):
         try:
             if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
                 return self.step_archivist_flip
+            if self._app.get_object_property('view.JSContext.globalParameters', 'clicked'):
+                self.show_question(QS('OSINTRO_CLICK'))
         except Exception as e:
             print(e)
+
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
 
     def step_archivist(self, time_in_step):
         if time_in_step == 0:
@@ -47,10 +60,13 @@ class OSIntro(Quest):
 
     def step_archivist_flip(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('OSINTRO_ARCHIVIST_FLIP'), character_id='archivist')
+            self.show_message(QS('OSINTRO_ARCHIVIST_FLIP'), character_id='archivist')
 
-        if self.confirmed_step():
-            return self.step_intro
+        try:
+            if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
+                return self.step_intro
+        except Exception as e:
+            print(e)
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
@@ -62,22 +78,36 @@ class OSIntro(Quest):
             return self.step_archivist2
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
+        try:
+            if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
+                self._current_step = self.step_intro
+                return self.step_flipped
+        except Exception as e:
+            print(e)
 
     def step_archivist2(self, time_in_step):
         if time_in_step == 0:
             self.show_question(QS('OSINTRO_ARCHIVIST2'), character_id='archivist')
 
         if self.confirmed_step():
+            # We're putting this here to avoid getting multiple sounds in the last step
+            # as they flip to the other side.
+            self.conf['complete'] = True
+            self.available = False
+            Sound.play('quests/quest-complete')
             return self.step_wrapup
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
+        try:
+            if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
+                self._current_step = self.step_archivist2
+                return self.step_flipped
+        except Exception as e:
+            print(e)
 
     def step_wrapup(self, time_in_step):
         if time_in_step == 0:
             self.show_question(QS('OSINTRO_WRAPUP'))
-            self.conf['complete'] = True
-            self.available = False
-            Sound.play('quests/quest-complete')
 
             # this is the quest that makes the Archivist appear
             archivist_questset = Registry.get_quest_set_by_name('ArchivistQuestSet')
@@ -85,8 +115,24 @@ class OSIntro(Quest):
                 archivist_questset.visible = True
                 archivist_questset.nudge()
 
+        try:
+            if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
+                self._current_step = self.step_wrapup
+                return self.step_flipped
+        except Exception as e:
+            print(e)
+
         if self.confirmed_step():
             self.stop()
+
+    def step_flipped(self, time_in_step):
+        if time_in_step == 0:
+            self.show_message(QS('OSINTRO_FLIPPED'), character_id='archivist')
+        try:
+            if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
+                return self._current_step
+        except Exception as e:
+            print(e)
 
     # STEP Abort
     def step_abort(self, time_in_step):

@@ -40,14 +40,16 @@ See you back at the Clubhouse!","",""
 "FIZZICS1_ABORT","Check ya later! Let's play again soon. You know where to find me! ","",""
 "OSINTRO_QUESTION","The System is a super important place. Would you like to see it now?","Ada",""
 "OSINTRO_RESPONSE","Absolutely!","","Simple version for now. Later we can detect whether they tried to flip it or not and have alternate paths for the Archivist intro."
-"OSINTRO_LAUNCH","Wonderful. The Operating System is the engine that controls every little thing your computer can do. 
+"OSINTRO_PRELAUNCH","Wonderful. The System is the engine that controls every little thing your computer can do. 
 
 It's all so intricate and connected. Can't wait to show you how beautiful it is back here! Let's launch it now. ","",""
+"OSINTRO_LAUNCH","Launch the System app.","",""
 "OSINTRO_EXPLANATION","The System keeps everything running smoothly. You have to be very careful back here. 
 
 But it's really cool to be able to adjust things and have some input in how your computer works. ","",""
+"OSINTRO_CLICK","Looks like there’s a lot going on. This looks very complicated.","","The player clicked on the app somewhere"
 "OSINTRO_ARCHIVIST","What's all this ruckus? Oh, it's you, Ada. Finding anything interesting while you're here? And who's this with you? ","Archivist",""
-"OSINTRO_ARCHIVIST_FLIP","What's this? Who let you in here? Don't you know you're not supposed to try to access this part?","Archivist","if player tried to flip panel"
+"OSINTRO_ARCHIVIST_FLIP","What's this? Who let you in here? Don't you know you're not supposed to try to access this part? Go back now.","Archivist","if player tried to flip panel"
 "OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel, the Archivist. He keeps things in order around here. 
 
 He's kind of scary at first, but no one knows more about the System than Saniel. 
@@ -61,6 +63,7 @@ But hear me when I say you must never come here alone. Only with an adult. Got i
 "OSINTRO_WRAPUP","See what I mean, he's a bit fierce! But so glad you could meet him. Well, I must bounce now! Gotta get back to my research.  
 
 Just come get me at the Clubhouse if you want to look around! ","Ada",""
+"OSINTRO_FLIPPED","WHAT ARE YOU DOING HERE? Didn't I make it clear you're not supposed to be here? Go back!","Archivist",""
 "OSINTRO_ABORT","Come back to the Clubhouse when you want to finish learning about the System.","",""
 "BREAK_QUESTION","Psssst! I was hoping I'd see you. Wanna go scope around in the System?","Riley",""
 "BREAK_RESPONSE","Definitely. ","",""
