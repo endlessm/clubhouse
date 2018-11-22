@@ -48,6 +48,8 @@ class BreakSomething(Quest):
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
+            if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+                return self.step_explanation
             self.set_hints('BREAK_LAUNCH')
             Desktop.show_app_grid()
 
