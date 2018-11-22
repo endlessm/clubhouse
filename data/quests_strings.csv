@@ -14,7 +14,7 @@ HINT when the player has not dragged any sliders in 5 seconds, or player clicks 
 "FIZZICSINTRO_EXPLANATION","Fizzics helps me with my research, but frankly the slingshot is just really fun.
 
 I can barely make levels fast enough for one of the students – she's already on level 10!","","Fizzics launched; prompt player to get to level 3."
-"FIZZICSINTRO_LEVEL1","Goal: Get to level 3.","",""
+"FIZZICSINTRO_LEVEL1","Try to get to level 3.","",""
 "FIZZICSINTRO_LEVEL1_HINT1","Click on the orange ball, drag on the slingshot, and release it!","",""
 "FIZZICSINTRO_LEVEL1_HINT2","You beat a level by flinging all orange balls against the goal.","",""
 "FIZZICSINTRO_LEVEL2","Good job! One more level to go.","",""
@@ -29,17 +29,21 @@ See you back at the Clubhouse!","",""
 "FIZZICS1_QUESTION","I bet you can't get to the level I'm on in Fizzics!","",""
 "FIZZICS1_REPONSE","Let's see","",""
 "FIZZICS1_LAUNCH","All right. Let's try it. Launch the Fizzics game to get started.","",""
-"FIZZICS1_LAUNCHHINT","See the Fizzics app on the desktop? Click it to launch. ","",""
+"FIZZICS1_LAUNCH_HINT1","See the Fizzics app on the desktop? Click it to launch. ","",""
 "FIZZICS1_GOAL","OK, first get to Level 8. That's where the real challenge starts.","",""
+"FIZZICS1_GOAL_HINT1","Beat the first 7 levels by flinging the orange balls against the goal. Just like you did before with Ada.","",""
 "FIZZICS1_LEVEL8","Here we are. Think you can beat it?","",""
-"FIZZICS1_HINT","You're gonna need to hack the game to beat it. Press the Flip to Hack button.","",""
+"FIZZICS1_LEVEL8_HINT1","You're gonna need to hack the game to beat it. Press the Flip to Hack button.","",""
 "FIZZICS1_BACKTOLEVEL8","No, wait, go back to level 8. That's the one you need to beat.","",""
 "FIZZICS1_FLIPPED","Use the key that Ada gave you earlier. Click on that lock to access the hack panel.","",""
+"FIZZICS1_FLIPPED_HINT1","Just click on the lock and you're all set.","",""
 "FIZZICS1_HACK","Perfect. I'm sure you can beat the level if you make a few changes.","",""
+"FIZZICS1_HACK_HINT1","You could try making some balls really small.","",""
+"FIZZICS1_HACK_HINT2","Or even turning gravity on and letting them fall!","",""
 "FIZZICS1_SUCCESS","Brilliant! I knew you'd ace that. See you at the Clubhouse!","",""
 "FIZZICS1_ABORT","Check ya later! Let's play again soon. You know where to find me! ","",""
 "OSINTRO_QUESTION","The System is a super important place. Would you like to see it now?","Ada",""
-"OSINTRO_RESPONSE","Absolutely!","","Simple version for now. Later we can detect whether they tried to flip it or not and have alternate paths for the Archivist intro."
+"OSINTRO_RESPONSE","Absolutely!","",""
 "OSINTRO_PRELAUNCH","Wonderful. The System is the engine that controls every little thing your computer can do. 
 
 It's all so intricate and connected. Can't wait to show you how beautiful it is back here! Let's launch it now. ","",""
@@ -63,21 +67,23 @@ But hear me when I say you must never come here alone. Only with an adult. Got i
 "OSINTRO_WRAPUP","See what I mean, he's a bit fierce! But so glad you could meet him. Well, I must bounce now! Gotta get back to my research.  
 
 Just come get me at the Clubhouse if you want to look around! ","Ada",""
-"OSINTRO_FLIPPED","WHAT ARE YOU DOING HERE? Didn't I make it clear you're not supposed to be here? Go back!","Archivist",""
-"OSINTRO_ABORT","Come back to the Clubhouse when you want to finish learning about the System.","",""
+"OSINTRO_FLIPPED","WHAT ARE YOU DOING HERE? Didn't I make it clear you're not supposed to be here? Go back!","Archivist","If the player tries to flip the app at any time after meeting the Archivist"
+"OSINTRO_ABORT","Come back to the Clubhouse when you want to finish learning about the System.","Ada",""
 "BREAK_QUESTION","Psssst! I was hoping I'd see you. Wanna go scope around in the System?","Riley",""
 "BREAK_RESPONSE","Definitely. ","",""
 "BREAK_LAUNCH","Ok. So you just need to launch the System app now and we're golden. ","",""
+"BREAK_LAUNCH_HINT1","Click on the System app icon on the desktop.","",""
 "BREAK_OSAPP","Awesome. This place is LIT. Okay we have to be extremely quiet. We don't want Saniel knowing we're here. 
 
-He seems to be able to hear everything that goes on here. Ssshhhh. I think I hear him.
-
-Ok, remember the Flip to Hack button? Now press it. ","",""
+He seems to be able to hear everything that goes on here. Ssshhhh. I think I hear him.","",""
+"BREAK_FLIP","Ok, remember the Flip to Hack button? Go ahead and press it.","",""
+"BREAK_FLIP_HINT1","Press that big button on the left to hack the System.","",""
 "BREAK_GIVEKEY","The other day I found this key and I think it fits here! I'm going to give it to you.","",""
-"BREAK_UNLOCK","Take it. Now click on that to unlock it. I wonder what's behind it?","",""
-"BREAK_UNLOCKED","Rad! We can have so much fun playing around with the settings.
-
-Check it out. Try changing the cursor size all the way to 200 to make it huge! LOLLZZ","",""
+"BREAK_UNLOCK","Now click on that to unlock it. I wonder what's behind it?","",""
+"BREAK_UNLOCK_HINT1","Click anywhere to unlock it.","",""
+"BREAK_UNLOCKED","Rad! We can have so much fun playing around with the settings.","",""
+"BREAK_MAKEITLARGE","Try changing the cursor size all the way to 200 to make it huge! LOLLZZ","",""
+"BREAK_MAKEITLARGE_HINT","Click the + next to size until it's 200!","",""
 "BREAK_SUCCESS","OMG we have to stop laughing or San will hear us. Uh-oh. Now we've made it too big! What's that noise?
 
 Oh, hi Dr. Rowe. We're just, er, studying!","",""
