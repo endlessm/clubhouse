@@ -41,6 +41,8 @@ class OSIntro(Quest):
         try:
             if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
                 return self.step_archivist_flip
+            if self._app.get_object_property('view.JSContext.globalParameters', 'clicked'):
+                self.show_question(QS('OSINTRO_CLICK'))
         except Exception as e:
             print(e)
 
@@ -82,13 +84,13 @@ class OSIntro(Quest):
                 return self.step_flipped
         except Exception as e:
             print(e)
-            
+
     def step_archivist2(self, time_in_step):
         if time_in_step == 0:
             self.show_question(QS('OSINTRO_ARCHIVIST2'), character_id='archivist')
 
         if self.confirmed_step():
-            # We're putting this here to avoid getting multiple sounds in the last step 
+            # We're putting this here to avoid getting multiple sounds in the last step
             # as they flip to the other side.
             self.conf['complete'] = True
             self.available = False
