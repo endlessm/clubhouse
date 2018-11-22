@@ -11,11 +11,8 @@ class Fizzics1(Quest):
     def __init__(self):
         super().__init__('Fizzics 1', 'ricky', QS('FIZZICS1_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._hint0 = False
-        self._hint1 = False
-        self._hintCount = False
-        self._initialized = False
-        self._msg = ""
+        self._hintIndex = 0
+        self._hints = []
         self.gss.connect('changed', self.update_availability)
         self.available = False
         self.update_availability()
@@ -26,11 +23,34 @@ class Fizzics1(Quest):
         if self.is_named_quest_complete("FizzicsIntro"):
             self.available = True
 
+    def set_hints(self, dialog_id):
+        self._hintIndex = -1
+        self._hints = [QS(dialog_id)]
+        hintIndex = 0
+        while True:
+            hintIndex += 1
+            hintId = dialog_id + '_HINT' + str(hintIndex)
+            hintStr = QS(hintId)
+            if hintStr is None:
+                break
+            self._hints.append(hintStr)
+        self.show_hint()
+
+    def show_hint(self):
+        label = 'Hint'
+        if self._hintIndex >= len(self._hints) - 1:
+            self._hintIndex = 0
+        else:
+            self._hintIndex += 1
+            if self._hintIndex == len(self._hints) - 1:
+                label = 'Goal'
+        self.show_message(self._hints[self._hintIndex], choices=[(label, self.show_hint)])
+
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
             if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-                self.show_message(QS('FIZZICS1_LAUNCH'))
+                self.set_hints('FIZZICS1_LAUNCH')
                 Desktop.show_app_grid()
             else:
                 return self.step_delay1
@@ -38,17 +58,13 @@ class Fizzics1(Quest):
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_delay1
 
-        if time_in_step > 20 and not self._hint0:
-            self.show_message(QS('FIZZICS1_LAUNCHHINT'))
-            self._hint0 = True
-
     def step_delay1(self, time_in_step):
         if time_in_step > 2:
             return self.step_goal
 
     def step_goal(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('FIZZICS1_GOAL'))
+            self.set_hints('FIZZICS1_GOAL')
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
@@ -75,48 +91,17 @@ class Fizzics1(Quest):
 
     def step_level8(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('FIZZICS1_LEVEL8'))
+            self.set_hints('FIZZICS1_LEVEL8')
 
         try:
+            # Check for flipping the app
             if self._app.get_object_property(self.APP_JS_PARAMS, 'flipped'):
                 return self.step_flipped
-            if time_in_step > 20 and not self._hint1:
-                self._msg = QS('FIZZICS1_HINT')
-                self.show_message(self._msg)
-                self._hint1 = True
+            # Check if they're going to another level
             if self._app.get_object_property(self.APP_JS_PARAMS,
                                              'currentLevel') != 7:
                 return self.step_backtolevel8
-        except Exception as ex:
-            print(ex)
-
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
-
-    def step_flipped(self, time_in_step):
-        if time_in_step == 0:
-            self.show_message(QS('FIZZICS1_FLIPPED'))
-
-        # Wait until they unlock the panel
-        item = self.gss.get('item.key.fizzics.1')
-        if item is not None and item.get('used', False):
-            return self.step_hack
-
-        try:
-            if self._app.get_object_property(self.APP_JS_PARAMS,
-                                             'currentLevel') != 7:
-                return self.step_backtolevel8
-        except Exception as ex:
-            print(ex)
-
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
-
-    def step_hack(self, time_in_step):
-        if time_in_step == 0:
-            self.show_message(QS('FIZZICS1_HACK'))
-
-        try:
+            # Check for success
             if self._app.get_object_property(self.APP_JS_PARAMS, 'currentLevel') == 8 or \
                self._app.get_object_property(self.APP_JS_PARAMS, 'levelSuccess'):
                 return self.step_success
@@ -126,6 +111,45 @@ class Fizzics1(Quest):
         except Exception as ex:
             print(ex)
 
+        # Check for abandoning the app
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
+
+    def step_flipped(self, time_in_step):
+        if time_in_step == 0:
+            self.set_hints('FIZZICS1_FLIPPED')
+
+        # Wait until they unlock the panel
+        try:
+            item = self.gss.get('item.key.fizzics.1')
+            if item is not None and item.get('used', False):
+                return self.step_hack
+            # Check for flipping back
+            if not self._app.get_object_property(self.APP_JS_PARAMS, 'flipped'):
+                return self.step_level8
+        except Exception as ex:
+            print(ex)
+
+        # Check for abandoning the app
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
+
+    def step_hack(self, time_in_step):
+        if time_in_step == 0:
+            self.set_hints('FIZZICS1_HACK')
+
+        try:
+            # Check for success
+            if self._app.get_object_property(self.APP_JS_PARAMS, 'currentLevel') == 8 or \
+               self._app.get_object_property(self.APP_JS_PARAMS, 'levelSuccess'):
+                return self.step_success
+            # Check for going to another level
+            if self._app.get_object_property(self.APP_JS_PARAMS,
+                                             'currentLevel') < 7:
+                return self.step_backtolevel8
+        except Exception as ex:
+            print(ex)
+        # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
