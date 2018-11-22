@@ -58,11 +58,7 @@ class Animation(GObject.GObject):
         self.target_image.set_from_pixbuf(pixbuf)
 
     def load(self, sprite_path):
-        metadata = None
-        metadata_path = sprite_path.replace('.png', '.json')
-        with open(metadata_path) as f:
-            metadata = json.load(f)
-
+        metadata = self.get_animation_metadata(sprite_path)
         sprite_pixbuf = GdkPixbuf.Pixbuf.new_from_file(sprite_path)
 
         offset_x = 0
@@ -77,6 +73,19 @@ class Animation(GObject.GObject):
             offset_x += metadata['width']
 
     current_frame = property(_get_current_frame)
+
+    @staticmethod
+    def get_animation_metadata(image_path, load_json=True):
+        metadata = None
+        image_name, _ext = os.path.splitext(image_path)
+        metadata_path = image_name + '.json'
+        with open(metadata_path) as f:
+            if load_json:
+                metadata = json.load(f)
+            else:
+                metadata = f.read()
+
+        return metadata
 
 
 class AnimationSystem:
