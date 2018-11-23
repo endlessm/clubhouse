@@ -31,7 +31,7 @@ class GEditHack(Quest):
     TARGET_APP_DBUS_NAME = 'org.gnome.gedit'
 
     def __init__(self):
-        super().__init__('GEdit Hacking', 'aggretsuko',
+        super().__init__('GEdit Hacking', 'sampledaemon',
                          ('Betcha cannot write anything in Gedit! '
                           'Wanna try it?'))
         if self.get_conf('complete'):
@@ -59,16 +59,14 @@ class GEditHack(Quest):
     def start(self):
         self.give_item('item.key.testkey')
 
-        self.show_message("I am the best GEdit teacher out there, ain't that right Ricky!?",
-                          mood='mad')
+        self.show_message("I am the best GEdit teacher out there, ain't that right Ricky!?")
         time.sleep(3)
         self.show_message("Not so sure… But okay…", character_id='ricky')
         time.sleep(3)
 
         self.give_item('item.reward.testreward', 'You have just gotten this awesome reward!')
 
-        self.show_message("So let me show you how it's done! Make sure that you open Gedit!",
-                          mood='mad')
+        self.show_message("So let me show you how it's done! Make sure that you open Gedit!")
         time.sleep(3)
 
         self.show_message("Hmm… I don't see Gedit running… Should open it for you?",
@@ -79,9 +77,8 @@ class GEditHack(Quest):
                 return
             time.sleep(1)
 
-        txt = 'I love Aggretsuko!'
-        self.show_message("Awesome! Now write '{}' in the editor. I'll wait…".format(txt),
-                          mood='in_love')
+        txt = 'I love Sampledaemon!'
+        self.show_message("Awesome! Now write '{}' in the editor. I'll wait…".format(txt))
 
         app = App(self.TARGET_APP_DBUS_NAME)
 
@@ -99,22 +96,22 @@ class GEditHack(Quest):
             elif len(current_text) == 0 and attempts == 3:
                 app.highlight_object('view')
             elif attempts == 10:
-                self.show_message("You just have to write: {}".format(txt), mood='angry_sad')
+                self.show_message("You just have to write: {}".format(txt))
             elif attempts > 20:
                 break
             attempts += 1
             time.sleep(1)
 
         if success:
-            self.show_message("Awesome! You're the best! A cookie for you!", mood='happy')
+            self.show_message("Awesome! You're the best! A cookie for you!")
             self.set_conf('complete', True)
         else:
-            self.show_message("Oh well… Maybe next time…", mood='disappointed')
+            self.show_message("Oh well… Maybe next time…")
 
 
-class Aggretsuko(QuestSet):
+class Sampledaemon(QuestSet):
 
-    __character_id__ = 'aggretsuko'
+    __character_id__ = 'sampledaemon'
     __position__ = (50, 400)
     __quests__ = [GEditHack]
 
@@ -124,4 +121,4 @@ class Aggretsuko(QuestSet):
 
 
 if 'CLUBHOUSE_SHOW_SAMPLE_QUESTS' in os.environ:
-    Registry.register_quest_set(Aggretsuko)
+    Registry.register_quest_set(Sampledaemon)
