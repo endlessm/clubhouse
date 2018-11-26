@@ -96,6 +96,7 @@ class Quest(GObject.GObject):
 
     available = GObject.Property(type=bool, default=True)
     skippable = GObject.Property(type=bool, default=False)
+    highlighted = GObject.Property(type=bool, default=False)
 
     def __init__(self, name, main_character_id, initial_msg):
         super().__init__()
@@ -301,6 +302,10 @@ class QuestSet(GObject.GObject):
             logger.info('Turning QuestSet "%s" visible from quest %s', self, quest)
             self.visible = True
             self.nudge()
+        elif prop_name == 'highlighted' and quest.get_property(prop_name) and self.visible:
+            if self.get_next_quest() == quest:
+                # Highlight the character if a quest becomes highlighted
+                self.nudge()
 
     def is_active(self):
         return self.visible and self.get_next_quest() is not None
