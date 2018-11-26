@@ -15,6 +15,9 @@ class BreakSomething(Quest):
         self.available = False
         self.update_availability()
         self.settings = Gio.Settings.new("org.gnome.desktop.interface")
+        self._hintIndex = -1
+        self._hints = []
+        self._hint_character_id = None
 
     def update_availability(self, gss=None):
         if self.conf['complete']:
@@ -22,9 +25,10 @@ class BreakSomething(Quest):
         if self.is_named_quest_complete("OSIntro"):
             self.available = True
 
-    def set_hints(self, dialog_id):
+    def set_hints(self, dialog_id, character_id=None):
         self._hintIndex = -1
         self._hints = [QS(dialog_id)]
+        self._hint_character_id = character_id
         hintIndex = 0
         while True:
             hintIndex += 1
@@ -43,7 +47,8 @@ class BreakSomething(Quest):
             self._hintIndex += 1
             if self._hintIndex == len(self._hints) - 1:
                 label = 'Goal'
-        self.show_message(self._hints[self._hintIndex], choices=[(label, self.show_hint)])
+        self.show_message(self._hints[self._hintIndex], choices=[(label, self.show_hint)],
+                          character_id=self._hint_character_id)
 
     # STEP 0
     def step_first(self, time_in_step):
@@ -157,7 +162,7 @@ class BreakSomething(Quest):
 
     def step_reset(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('BREAK_GIVERESET'), character_id='archivist')
+            self.set_hints('BREAK_GIVERESET', character_id='archivist')
             # Set reset button visible
             variant = GLib.Variant('a{sb}', {'visible': True})
             self.gss.set("app.hack_toolbox.reset_button", variant)
