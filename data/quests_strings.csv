@@ -83,12 +83,13 @@ He seems to be able to hear everything that goes on here. Ssshhhh. I think I hea
 "BREAK_UNLOCK_HINT1","Click anywhere to unlock it.","",""
 "BREAK_UNLOCKED","Rad! We can have so much fun playing around with the settings.","",""
 "BREAK_MAKEITLARGE","Try changing the cursor size all the way to 200 to make it huge! LOLLZZ","",""
-"BREAK_MAKEITLARGE_HINT","Click the + next to size until it's 200!","",""
+"BREAK_MAKEITLARGE_HINT1","Click the + next to size until it's 200!","",""
 "BREAK_SUCCESS","OMG we have to stop laughing or San will hear us. Uh-oh. Now we've made it too big! What's that noise?
 
 Oh, hi Dr. Rowe. We're just, er, studying!","",""
 "BREAK_ARCHIVISTARRIVES","I just told you this is no place for novices! I know you want to learn how it all works. so I'll let it slide this time. ","Archivist",""
 "BREAK_GIVERESET","It's not too late to fix this. I'm enabling the Reset Button. When you press it, it will return you to the original settings.","",""
+"BREAK_GIVERESET_HINT1","Press the button on the top right to reset the cursor size.","",""
 "BREAK_WRAPUP","Good job restoring the settings! Glad you know about the reset button now. 
 
 Keep it handy for when you need to clean up messes like this one! ","",""
