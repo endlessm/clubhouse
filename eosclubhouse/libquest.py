@@ -254,6 +254,7 @@ class QuestSet(GObject.GObject):
     }
 
     visible = GObject.Property(type=bool, default=True)
+    highlighted = GObject.Property(type=bool, default=False)
 
     def __init__(self):
         super().__init__()
@@ -265,6 +266,8 @@ class QuestSet(GObject.GObject):
             self._quest_objs.append(quest)
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
+
+        self._update_highlighted()
 
     @classmethod
     def get_character(class_):
@@ -294,7 +297,12 @@ class QuestSet(GObject.GObject):
         return self._position
 
     def nudge(self):
+        self.highlighted = True
         self.emit('nudge')
+
+    def _update_highlighted(self):
+        quest = self.get_next_quest()
+        self.highlighted = quest is not None and quest.highlighted
 
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s', quest, prop_name)
