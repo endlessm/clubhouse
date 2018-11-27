@@ -1,6 +1,6 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App
+from eosclubhouse.system import Desktop, App, Sound
 from gi.repository import Gio, GLib
 
 
@@ -166,6 +166,7 @@ class BreakSomething(Quest):
             # Set reset button visible
             variant = GLib.Variant('a{sb}', {'visible': True})
             self.gss.set("app.hack_toolbox.reset_button", variant)
+            Sound.play('quests/reset-given')
 
         if self.settings.get_int('cursor-size') == 24:
             return self.step_reward
@@ -175,6 +176,7 @@ class BreakSomething(Quest):
             self.show_question(QS('BREAK_WRAPUP'), character_id='archivist')
             self.conf['complete'] = True
             self.available = False
+            Sound.play('quests/quest-complete')
 
         if self.confirmed_step():
             self.stop()
