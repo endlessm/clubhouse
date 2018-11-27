@@ -125,14 +125,15 @@ class Quest(GObject.GObject):
         approach needed.
         '''
 
+        sleep_time = .1  # sec
         time_in_step = 0
         step_func = self.step_first
 
         while not self.is_cancelled():
             new_func = step_func(time_in_step)
             if new_func is None:
-                time.sleep(1)
-                time_in_step += 1
+                time.sleep(sleep_time)
+                time_in_step += sleep_time
             else:
                 step_func = new_func
                 time_in_step = 0
