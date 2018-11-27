@@ -247,12 +247,6 @@ class QuestSet(GObject.GObject):
     __position__ = (0, 0)
     __empty_message__ = 'Nothing to see here!'
 
-    __gsignals__ = {
-        'nudge': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
-        ),
-    }
-
     visible = GObject.Property(type=bool, default=True)
     highlighted = GObject.Property(type=bool, default=False)
 
@@ -298,7 +292,6 @@ class QuestSet(GObject.GObject):
 
     def nudge(self):
         self.highlighted = True
-        self.emit('nudge')
 
     def _update_highlighted(self):
         quest = self.get_next_quest()
