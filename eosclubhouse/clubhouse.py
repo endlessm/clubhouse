@@ -806,6 +806,13 @@ class ClubhouseApplication(Gtk.Application):
             libquest.Registry.load(os.path.dirname(__file__) + '/quests')
             self._registry_loaded = True
 
+            # Check if we need to set the SuggestingOpen property
+            quest_sets = libquest.Registry.get_quest_sets()
+            for quest_set in quest_sets:
+                if quest_set.highlighted:
+                    self.send_suggest_open(True)
+                    break
+
     def _ensure_window(self):
         if self._window:
             return
