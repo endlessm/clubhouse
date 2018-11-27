@@ -218,10 +218,13 @@ class QuestSetButton(Gtk.Button):
         self._quest_set = quest_set
         character = Character.get_or_create(self._quest_set.get_character())
 
+        self._set_highlighted(self._quest_set.highlighted)
+
         # Set the "highlighted" style on "nudge"
-        self._quest_set.connect('nudge', lambda _quest_set: self.set_highlighted(True))
+        self._quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
+
         # Reset the "highlighted" style
-        self.connect('clicked', lambda _button: self.set_highlighted(False))
+        self.connect('clicked', lambda _button: self._quest_set.set_property('highlighted', False))
 
         # The button should only be visible when the QuestSet is visible
         self._quest_set.bind_property('visible', self, 'visible',
@@ -238,7 +241,10 @@ class QuestSetButton(Gtk.Button):
     def get_position(self):
         return self._quest_set.get_position()
 
-    def set_highlighted(self, highlighted):
+    def _on_quest_set_highlighted_changed(self, _quest_set, _param):
+        self._set_highlighted(self._quest_set.highlighted)
+
+    def _set_highlighted(self, highlighted):
         highlighted_style = 'highlighted'
         style_context = self.get_style_context()
         if highlighted:
@@ -310,14 +316,14 @@ class ClubhousePage(Gtk.EventBox):
 
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set)
-        quest_set.connect('nudge', lambda _quest_set: self._suggest_open())
+        quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
         button.connect('clicked', self._button_clicked_cb)
 
         x, y = button.get_position()
         self._main_characters_box.put(button, x, y)
 
-    def _suggest_open(self):
-        self._app_window.get_application().send_suggest_open(True)
+    def _on_quest_set_highlighted_changed(self, quest_set, _param):
+        self._app_window.get_application().send_suggest_open(quest_set.highlighted)
 
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
