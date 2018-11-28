@@ -11,11 +11,12 @@ class Fizzics1(Quest):
     def __init__(self):
         super().__init__('Fizzics 1', 'ricky', QS('FIZZICS1_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._hintIndex = 0
-        self._hints = []
         self.gss.connect('changed', self.update_availability)
         self.available = False
         self.update_availability()
+        self._hintIndex = -1
+        self._hints = []
+        self._hint_character_id = None
 
     def update_availability(self, gss=None):
         if self.conf['complete']:
@@ -23,9 +24,10 @@ class Fizzics1(Quest):
         if self.is_named_quest_complete("FizzicsIntro"):
             self.available = True
 
-    def set_hints(self, dialog_id):
+    def set_hints(self, dialog_id, character_id=None):
         self._hintIndex = -1
         self._hints = [QS(dialog_id)]
+        self._hint_character_id = character_id
         hintIndex = 0
         while True:
             hintIndex += 1
@@ -34,17 +36,20 @@ class Fizzics1(Quest):
             if hintStr is None:
                 break
             self._hints.append(hintStr)
-        self.show_hint()
+        self.show_next_hint()
 
-    def show_hint(self):
-        label = 'Hint'
-        if self._hintIndex >= len(self._hints) - 1:
+    def show_next_hint(self):
+        if self._hintIndex >= len(self._hints) - 1 or self._hintIndex < 0:
             self._hintIndex = 0
+            label = "Give me a hint"
         else:
             self._hintIndex += 1
             if self._hintIndex == len(self._hints) - 1:
-                label = 'Goal'
-        self.show_message(self._hints[self._hintIndex], choices=[(label, self.show_hint)])
+                label = "What's my goal?"
+            else:
+                label = "I'd like another hint"
+        self.show_message(self._hints[self._hintIndex], choices=[(label, self.show_next_hint)],
+                          character_id=self._hint_character_id)
 
     # STEP 0
     def step_first(self, time_in_step):
