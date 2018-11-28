@@ -14,6 +14,9 @@ class FizzicsIntro(Quest):
         self._hints = []
         self._hint_character_id = None
 
+        if not self.conf.get('complete', False):
+            self.highlighted = True
+
     def set_hints(self, dialog_id, character_id=None):
         self._hintIndex = -1
         self._hints = [QS(dialog_id)]

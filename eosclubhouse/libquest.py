@@ -96,6 +96,7 @@ class Quest(GObject.GObject):
 
     available = GObject.Property(type=bool, default=True)
     skippable = GObject.Property(type=bool, default=False)
+    highlighted = GObject.Property(type=bool, default=False)
 
     def __init__(self, name, main_character_id, initial_msg):
         super().__init__()
@@ -246,13 +247,8 @@ class QuestSet(GObject.GObject):
     __position__ = (0, 0)
     __empty_message__ = 'Nothing to see here!'
 
-    __gsignals__ = {
-        'nudge': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
-        ),
-    }
-
     visible = GObject.Property(type=bool, default=True)
+    highlighted = GObject.Property(type=bool, default=False)
 
     def __init__(self):
         super().__init__()
@@ -264,6 +260,8 @@ class QuestSet(GObject.GObject):
             self._quest_objs.append(quest)
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
+
+        self._update_highlighted()
 
     @classmethod
     def get_character(class_):
@@ -293,7 +291,11 @@ class QuestSet(GObject.GObject):
         return self._position
 
     def nudge(self):
-        self.emit('nudge')
+        self.highlighted = True
+
+    def _update_highlighted(self):
+        quest = self.get_next_quest()
+        self.highlighted = quest is not None and quest.highlighted
 
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s', quest, prop_name)
@@ -301,6 +303,10 @@ class QuestSet(GObject.GObject):
             logger.info('Turning QuestSet "%s" visible from quest %s', self, quest)
             self.visible = True
             self.nudge()
+        elif prop_name == 'highlighted' and quest.get_property(prop_name) and self.visible:
+            if self.get_next_quest() == quest:
+                # Highlight the character if a quest becomes highlighted
+                self.nudge()
 
     def is_active(self):
         return self.visible and self.get_next_quest() is not None
