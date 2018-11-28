@@ -325,6 +325,14 @@ class ClubhousePage(Gtk.EventBox):
 
         self._message.reset()
 
+        # If a quest from this quest_set is already running, then just hide the window so the
+        # user focuses on the Shell's quest dialog
+        if self._quest_task:
+            quest = self._quest_task.get_source_object()
+            if quest in quest_set.get_quests():
+                self._app_window.hide()
+                return
+
         character = new_quest.get_main_character() if new_quest else quest_set.get_character()
         self._message.set_character(character)
 
