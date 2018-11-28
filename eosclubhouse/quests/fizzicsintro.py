@@ -69,6 +69,8 @@ class FizzicsIntro(Quest):
 
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
+            if self.get_current_level() >= 2:
+                return self.step_already_beat
             self.show_question(QS('FIZZICSINTRO_EXPLANATION'))
 
         if self.confirmed_step():
@@ -102,6 +104,12 @@ class FizzicsIntro(Quest):
         if self.confirmed_step():
             return self.step_ricky
 
+    def step_already_beat(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('FIZZICSINTRO_ALREADYBEAT'))
+        if self.confirmed_step():
+            return self.step_ricky
+
     def step_ricky(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/riley-intro')
@@ -117,7 +125,7 @@ class FizzicsIntro(Quest):
 
     def step_prekey(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('FIZZICSINTRO_KEY'))
+            self.show_message(QS('FIZZICSINTRO_KEY'), choices=[('OK', self._confirm_step)])
         if self.confirmed_step():
             return self.step_key
 
