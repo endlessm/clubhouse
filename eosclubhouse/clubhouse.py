@@ -589,9 +589,15 @@ class InventoryPage(Gtk.EventBox):
         builder.add_from_resource('/com/endlessm/Clubhouse/inventory-page.ui')
 
         self._inventory_box = builder.get_object('inventory_box')
+        self._inventory_box.set_sort_func(self._sort_items)
 
         scrolled_window = builder.get_object('inventory_scrolled_window')
         self.add(scrolled_window)
+
+    def _sort_items(self, child_1, child_2):
+        item_1 = child_1.get_children()[0]
+        item_2 = child_2.get_children()[0]
+        return int(item_1.is_used) - int(item_2.is_used)
 
     def _add_item(self, item_id, is_used, icon_name, icon_used_name, item_name):
         if item_id in self._loaded_items:
