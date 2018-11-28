@@ -1,4 +1,4 @@
-from eosclubhouse.utils import QS
+from eosclubhouse.utils import QS, QSH
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -10,39 +10,9 @@ class FizzicsIntro(Quest):
     def __init__(self):
         super().__init__('Fizzics Intro', 'ada', QS('FIZZICSINTRO_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._hintIndex = -1
-        self._hints = []
-        self._hint_character_id = None
 
         if not self.conf.get('complete', False):
             self.highlighted = True
-
-    def set_hints(self, dialog_id, character_id=None):
-        self._hintIndex = -1
-        self._hints = [QS(dialog_id)]
-        self._hint_character_id = character_id
-        hintIndex = 0
-        while True:
-            hintIndex += 1
-            hintId = dialog_id + '_HINT' + str(hintIndex)
-            hintStr = QS(hintId)
-            if hintStr is None:
-                break
-            self._hints.append(hintStr)
-        self.show_next_hint()
-
-    def show_next_hint(self):
-        if self._hintIndex >= len(self._hints) - 1 or self._hintIndex < 0:
-            self._hintIndex = 0
-            label = "Give me a hint"
-        else:
-            self._hintIndex += 1
-            if self._hintIndex == len(self._hints) - 1:
-                label = "What's my goal?"
-            else:
-                label = "I'd like another hint"
-        self.show_message(self._hints[self._hintIndex], choices=[(label, self.show_next_hint)],
-                          character_id=self._hint_character_id)
 
     def get_current_level(self):
         try:
@@ -57,7 +27,7 @@ class FizzicsIntro(Quest):
         if time_in_step == 0:
             if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
                 return self.step_explanation
-            self.set_hints('FIZZICSINTRO_LAUNCH')
+            self.show_hints_message(QSH('FIZZICSINTRO_LAUNCH'))
             Sound.play('quests/new-icon')
             Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
             Desktop.show_app_grid()
@@ -84,7 +54,7 @@ class FizzicsIntro(Quest):
 
     def step_level1(self, time_in_step):
         if time_in_step == 0:
-            self.set_hints('FIZZICSINTRO_LEVEL1')
+            self.show_hints_message(QSH('FIZZICSINTRO_LEVEL1'))
 
         if self.get_current_level() >= 1:
             return self.step_level2
@@ -93,7 +63,7 @@ class FizzicsIntro(Quest):
 
     def step_level2(self, time_in_step):
         if time_in_step == 0:
-            self.set_hints('FIZZICSINTRO_LEVEL2')
+            self.show_hints_message(QSH('FIZZICSINTRO_LEVEL2'))
 
         if self.get_current_level() >= 2:
             return self.step_success
