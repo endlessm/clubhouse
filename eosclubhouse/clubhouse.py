@@ -568,8 +568,7 @@ class InventoryPage(Gtk.EventBox):
         self.add(scrolled_window)
 
     def _add_item(self, item_id, icon_name, item_name):
-        if item_id in self._loaded_items.keys():
-            return
+        self._remove_item(item_id)
 
         new_item = InventoryItem(item_id, icon_name, item_name)
         self._loaded_items[item_id] = new_item
@@ -597,6 +596,9 @@ class InventoryPage(Gtk.EventBox):
                item_state.get('consume_after_use', True)):
                 self._remove_item(item_id)
                 continue
+
+            if item_state.get('used', False):
+                icon = icon_used
 
             self._add_item(item_id, icon, name)
 
