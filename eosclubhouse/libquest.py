@@ -18,6 +18,7 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
+import functools
 import pkgutil
 import sys
 import time
@@ -169,6 +170,22 @@ class Quest(GObject.GObject):
     def show_question(self, txt, character_id=None, mood=None):
         self.show_message(txt, character_id=character_id, mood=mood, choices=[],
                           use_confirm=True)
+
+    def _show_next_hint_message(self, txt_list, character_id, mood, txt_index=0):
+        label = "I'd like another hint"
+        if txt_index == 0:
+            label = "Give me a hint"
+        elif txt_index == len(txt_list) - 1:
+            label = "What's my goal?"
+
+        txt = txt_list[txt_index]
+        next_txt_index = (txt_index + 1) % len(txt_list)
+        next_hint = functools.partial(self._show_next_hint_message, txt_list, character_id,
+                                      mood, next_txt_index)
+        self.show_message(txt, character_id, mood, choices=[(label, next_hint)])
+
+    def show_hints_message(self, txt_list, character_id=None, mood=None):
+        self._show_next_hint_message(txt_list, character_id, mood)
 
     def get_initial_message(self):
         return self._initial_msg
