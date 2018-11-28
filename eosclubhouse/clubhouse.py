@@ -532,7 +532,7 @@ class ClubhousePage(Gtk.EventBox):
 
 class InventoryItem(Gtk.Box):
 
-    def __init__(self, item_id, icon_name, item_name):
+    def __init__(self, item_id, is_used, icon_name, icon_used_name, item_name):
         super().__init__(halign=Gtk.Align.CENTER,
                          orientation=Gtk.Orientation.VERTICAL,
                          visible=True,
@@ -540,18 +540,30 @@ class InventoryItem(Gtk.Box):
                          width_request=150)
 
         self.item_id = item_id
+        self.is_used = is_used
+        self._icon_name = icon_name
+        self._icon_used_name = icon_used_name
 
         self.get_style_context().add_class('inventory-item')
 
-        icon_path = utils.QuestItemDB.get_icon_path(icon_name)
-
-        image = Gtk.Image(width_request=150, height_request=150, yalign=1.0)
-        image.set_from_file(icon_path)
-        self.add(image)
+        self._image = Gtk.Image(width_request=150, height_request=150, yalign=1.0)
+        self.add(self._image)
 
         self.add(Gtk.Label.new(item_name))
-
+        self._update_icon()
         self.show_all()
+
+    def _update_icon(self):
+        icon_name = self._icon_name
+        if self.is_used:
+            icon_name = self._icon_used_name
+
+        icon_path = utils.QuestItemDB.get_icon_path(icon_name)
+        self._image.set_from_file(icon_path)
+
+    def set_used(self, is_used):
+        self.is_used = is_used
+        self._update_icon()
 
 
 class InventoryPage(Gtk.EventBox):
@@ -577,14 +589,23 @@ class InventoryPage(Gtk.EventBox):
         builder.add_from_resource('/com/endlessm/Clubhouse/inventory-page.ui')
 
         self._inventory_box = builder.get_object('inventory_box')
+        self._inventory_box.set_sort_func(self._sort_items)
 
         scrolled_window = builder.get_object('inventory_scrolled_window')
         self.add(scrolled_window)
 
-    def _add_item(self, item_id, icon_name, item_name):
-        self._remove_item(item_id)
+    def _sort_items(self, child_1, child_2):
+        item_1 = child_1.get_children()[0]
+        item_2 = child_2.get_children()[0]
+        return int(item_1.is_used) - int(item_2.is_used)
 
-        new_item = InventoryItem(item_id, icon_name, item_name)
+    def _add_item(self, item_id, is_used, icon_name, icon_used_name, item_name):
+        if item_id in self._loaded_items:
+            item = self._loaded_items[item_id]
+            item.set_used(is_used)
+            return
+
+        new_item = InventoryItem(item_id, is_used, icon_name, icon_used_name, item_name)
         self._loaded_items[item_id] = new_item
         self._inventory_box.add(new_item)
 
@@ -611,10 +632,8 @@ class InventoryPage(Gtk.EventBox):
                 self._remove_item(item_id)
                 continue
 
-            if item_state.get('used', False):
-                icon = icon_used
-
-            self._add_item(item_id, icon, name)
+            is_used = item_state.get('used', False)
+            self._add_item(item_id, is_used, icon, icon_used, name)
 
     def _item_is_key(self, item_id):
         return item_id.startswith('item.key.')
