@@ -69,6 +69,12 @@ class Fizzics1(Quest):
 
     def step_goal(self, time_in_step):
         if time_in_step == 0:
+            # Check to see if the goal is already beat
+            try:
+                if self._app.get_object_property(self.APP_JS_PARAMS, 'currentLevel') >= 8:
+                    return self.step_already_beat
+            except Exception as ex:
+                print(ex)
             self.set_hints('FIZZICS1_GOAL')
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
@@ -107,7 +113,7 @@ class Fizzics1(Quest):
                                              'currentLevel') != 7:
                 return self.step_backtolevel8
             # Check for success
-            if self._app.get_object_property(self.APP_JS_PARAMS, 'currentLevel') == 8 or \
+            if self._app.get_object_property(self.APP_JS_PARAMS, 'currentLevel') >= 8 or \
                self._app.get_object_property(self.APP_JS_PARAMS, 'levelSuccess'):
                 return self.step_success
             if self._app.get_object_property(self.APP_JS_PARAMS,
@@ -164,6 +170,16 @@ class Fizzics1(Quest):
             self.available = False
             Sound.play('quests/quest-complete')
             self.show_question(QS('FIZZICS1_SUCCESS'))
+
+        if self.confirmed_step():
+            self.stop()
+
+    def step_already_beat(self, time_in_step):
+        if time_in_step == 0:
+            self.conf['complete'] = True
+            self.available = False
+            Sound.play('quests/quest-complete')
+            self.show_question(QS('FIZZICS1_ALREADYBEAT'))
 
         if self.confirmed_step():
             self.stop()
