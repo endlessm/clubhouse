@@ -44,6 +44,14 @@ class FizzicsIntro(Quest):
         self.show_message(self._hints[self._hintIndex], choices=[(label, self.show_next_hint)],
                           character_id=self._hint_character_id)
 
+    def get_current_level(self):
+        try:
+            level = self._app.get_object_property('view.JSContext.globalParameters', 'currentLevel')
+            return level
+        except Exception as ex:
+            print(ex)
+        return -1
+
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
@@ -65,12 +73,8 @@ class FizzicsIntro(Quest):
 
         if self.confirmed_step():
                 return self.step_level1
-        try:
-            if self._app.get_object_property('view.JSContext.globalParameters',
-                                             'currentLevel') >= 1:
-                return self.step_level2
-        except Exception as ex:
-            print(ex)
+        if self.get_current_level() >= 1:
+            return self.step_level2
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
@@ -78,12 +82,8 @@ class FizzicsIntro(Quest):
         if time_in_step == 0:
             self.set_hints('FIZZICSINTRO_LEVEL1')
 
-        try:
-            if self._app.get_object_property('view.JSContext.globalParameters',
-                                             'currentLevel') >= 1:
-                return self.step_level2
-        except Exception as ex:
-            print(ex)
+        if self.get_current_level() >= 1:
+            return self.step_level2
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
@@ -91,12 +91,8 @@ class FizzicsIntro(Quest):
         if time_in_step == 0:
             self.set_hints('FIZZICSINTRO_LEVEL2')
 
-        try:
-            if self._app.get_object_property('view.JSContext.globalParameters',
-                                             'currentLevel') == 2:
-                return self.step_success
-        except Exception as ex:
-            print(ex)
+        if self.get_current_level() >= 2:
+            return self.step_success
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
