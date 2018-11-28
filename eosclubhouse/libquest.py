@@ -173,7 +173,7 @@ class Quest(GObject.GObject):
     def get_initial_message(self):
         return self._initial_msg
 
-    def give_item(self, item_name, notification_text=None, consume_after_use=True):
+    def give_item(self, item_name, notification_text=None, consume_after_use=False):
         variant = GLib.Variant('a{sb}', {
             'consume_after_use': consume_after_use,
             'used': False
