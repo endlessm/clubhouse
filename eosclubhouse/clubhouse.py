@@ -626,6 +626,8 @@ class EpisodesPage(Gtk.EventBox):
 
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
+    _MAIN_PAGE_RESET_TIMEOUT = 60  # sec
+
     def __init__(self, app):
         if os.environ.get('CLUBHOUSE_NO_SIDE_COMPONENT'):
             super().__init__(application=app, title='Clubhouse')
@@ -646,6 +648,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self.set_size_request(DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
+
+        self._page_reset_timeout = 0
+        self.connect('notify::visible', self._on_visibile_property_changed)
 
         display = Gdk.Display.get_default()
         display.connect('monitor-added',
@@ -718,6 +723,32 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self.move(geometry.x, geometry.y)
         self.resize(geometry.width, geometry.height)
+
+    def _select_main_page_on_timeout(self):
+        self._clubhouse_button.set_active(True)
+        self._page_reset_timeout = 0
+
+        return GLib.SOURCE_REMOVE
+
+    def _stop_page_reset_timeout(self):
+        if self._page_reset_timeout > 0:
+            GLib.source_remove(self._page_reset_timeout)
+            self._page_reset_timeout = 0
+
+    def _reset_selected_page_on_timeout(self):
+        self._stop_page_reset_timeout()
+
+        if self._clubhouse_button.get_active():
+            return
+
+        self._page_reset_timeout = GLib.timeout_add_seconds(self._MAIN_PAGE_RESET_TIMEOUT,
+                                                            self._select_main_page_on_timeout)
+
+    def _on_visibile_property_changed(self, _window, _param):
+        if self.props.visible:
+            self._stop_page_reset_timeout()
+        else:
+            self._reset_selected_page_on_timeout()
 
     def hide(self):
         super().hide()
