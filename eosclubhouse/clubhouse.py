@@ -21,17 +21,18 @@
 import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
+gi.require_version('Json', '1.0')
 import glob
 import os
 import sys
 import threading
 import uuid
 
-from gi.repository import Gdk, GdkPixbuf, Gio, GLib, Gtk, GObject
+from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import GameStateService
 from eosclubhouse.utils import Performance
-from eosclubhouse.animation import AnimationImage, AnimationSystem, Animator
+from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator
 
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
@@ -45,6 +46,10 @@ ClubhouseIface = ('<node>'
                   '</method>'
                   '<method name="hide">'
                   '<arg type="u" direction="in" name="timestamp"/>'
+                  '</method>'
+                  '<method name="getAnimationMetadata">'
+                  '<arg type="s" direction="in" name="uri"/>'
+                  '<arg type="v" direction="out" name="metadata"/>'
                   '</method>'
                   '<property name="Visible" type="b" access="read"/>'
                   '<property name="SuggestingOpen" type="b" access="read"/>'
@@ -82,16 +87,9 @@ class Character(GObject.GObject):
     def get_moods_dir(self):
         return os.path.join(config.CHARACTERS_DIR, self._id, 'moods')
 
-    def get_mood_pixbuf(self):
-        sprite_pixbuf = GdkPixbuf.Pixbuf.new_from_file(self.get_mood_image())
-        # @todo: For now this method returns only the first frame of
-        # the animation. The hardcoded values will be removed once
-        # this method reads them from the animation metadata.
-        pixbuf = GdkPixbuf.Pixbuf.new_subpixbuf(sprite_pixbuf,
-                                                0, 0,
-                                                175,
-                                                sprite_pixbuf.get_height())
-        return pixbuf
+    def get_mood_icon(self):
+        image_file = Gio.File.new_for_path(self.get_mood_image())
+        return Gio.FileIcon.new(image_file)
 
     def load(self):
         char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
@@ -447,7 +445,7 @@ class ClubhousePage(Gtk.EventBox):
         notification.set_title('')
 
         if character:
-            notification.set_icon(character.get_mood_pixbuf())
+            notification.set_icon(character.get_mood_icon())
 
         for key, action in self._actions.items():
             label = action[0]
@@ -928,6 +926,23 @@ class ClubhouseApplication(Gtk.Application):
             self._window.hide()
 
         return None
+
+    # D-Bus implementation
+    def getAnimationMetadata(self, uri):
+        metadata_str = ''
+        try:
+            metadata_str = Animation.get_animation_metadata(uri, load_json=False)
+        except Exception as e:
+            logger.warning('Could not read metadata for animation: %s', e)
+
+        metadata_variant = None
+        try:
+            metadata_variant = Json.gvariant_deserialize_data(metadata_str, -1, None)
+        except Exception as e:
+            logger.warning('Could not deserialize metadata for animation: %s', e)
+            return None
+
+        return GLib.Variant('(v)', (metadata_variant,))
 
     def _list_quests(self):
         self._ensure_registry_loaded()
