@@ -20,6 +20,7 @@
 #
 
 import csv
+import itertools
 import os
 import time
 
@@ -77,6 +78,20 @@ class QuestStringCatalog(_DictFromCSV):
         return class_.get_dict().get(key)
 
     @classmethod
+    def get_string_with_hints(class_, key):
+        string = class_.get_string(key)
+
+        hints = []
+        for hint_index in itertools.count(start=1):
+            hint_key = '{}_HINT{}'.format(key, hint_index)
+            hint = class_.get_string(hint_key)
+            if hint is None:
+                break
+            hints.append(hint)
+
+        return [string] + hints
+
+    @classmethod
     def set_key_value_from_csv_row(class_, csv_row, contents_dict):
         key, value = csv_row[0], csv_row[1]
         contents_dict[key] = value
@@ -107,6 +122,7 @@ class QuestItemDB(_DictFromCSV):
 
 # Convenience "QuestString" method to get a string from the catalog
 QS = QuestStringCatalog().get_string
+QSH = QuestStringCatalog().get_string_with_hints
 
 
 class Performance:
