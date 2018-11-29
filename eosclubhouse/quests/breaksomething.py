@@ -160,9 +160,11 @@ class BreakSomething(Quest):
         if time_in_step == 0:
             self.show_question(QS('BREAK_ARCHIVISTARRIVES'), character_id='archivist')
         if self.confirmed_step():
-            return self.step_reset
+            if self.settings.get_int('cursor-size') == 24:
+                return self.step_already_reset
+            return self.step_give_reset
 
-    def step_reset(self, time_in_step):
+    def step_give_reset(self, time_in_step):
         if time_in_step == 0:
             self.set_hints('BREAK_GIVERESET', character_id='archivist')
             # Set reset button visible
@@ -171,6 +173,23 @@ class BreakSomething(Quest):
             Sound.play('quests/reset-given')
 
         if self.settings.get_int('cursor-size') == 24:
+            return self.step_reset
+
+    def step_reset(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('BREAK_RESET'))
+        if self.confirmed_step():
+            return self.step_reward
+
+    def step_already_reset(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('BREAK_ALREADYRESET'), character_id='archivist')
+            # Set reset button visible
+            variant = GLib.Variant('a{sb}', {'visible': True})
+            self.gss.set("app.hack_toolbox.reset_button", variant)
+            Sound.play('quests/reset-given')
+
+        if self.confirmed_step():
             return self.step_reward
 
     def step_reward(self, time_in_step):
