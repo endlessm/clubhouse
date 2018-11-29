@@ -104,8 +104,8 @@ class Character(GObject.GObject):
             path = os.path.join(char_dir, 'moods', image)
             self._moods[os.path.basename(name)] = path
 
-        assert('normal' in self._moods)
-        self.mood = 'normal'
+        assert('talk' in self._moods)
+        self.mood = 'talk'
 
     id = property(_get_id)
     mood = GObject.Property(type=str)
