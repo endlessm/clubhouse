@@ -337,6 +337,8 @@ class ClubhousePage(Gtk.EventBox):
             quest = self._quest_task.get_source_object()
             if quest in quest_set.get_quests():
                 self._app_window.hide()
+                # Hide the message here because it may be showing from another quest set
+                self._overlay_msg_box.hide()
                 return
 
         character = new_quest.get_main_character() if new_quest else quest_set.get_character()
