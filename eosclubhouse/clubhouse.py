@@ -26,7 +26,6 @@ import glob
 import os
 import sys
 import threading
-import uuid
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
@@ -511,6 +510,9 @@ class ClubhousePage(Gtk.EventBox):
         self._actions = {}
 
     def _add_quest_action(self, action):
+        # Lazy import UUID module because it takes a while to do so, and we only need it here
+        import uuid
+
         key = str(uuid.uuid1())
         self._actions[key] = action
         return key
