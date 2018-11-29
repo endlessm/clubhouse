@@ -1,4 +1,4 @@
-from eosclubhouse.utils import QS
+from eosclubhouse.utils import QS, QSH
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -10,35 +10,6 @@ class Roster(Quest):
     def __init__(self):
         super().__init__('Roster', 'ada', QS('ROSTER_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._hintIndex = -1
-        self._hints = []
-        self._hint_character_id = None
-
-    # TODO: Fold all the hints stuff into the base class if we go with this
-    def set_hints(self, dialog_id, character_id=None):
-        self._hintIndex = -1
-        self._hints = [QS(dialog_id)]
-        self._hint_character_id = character_id
-        hintIndex = 0
-        while True:
-            hintIndex += 1
-            hintId = dialog_id + '_HINT' + str(hintIndex)
-            hintStr = QS(hintId)
-            if hintStr is None:
-                break
-            self._hints.append(hintStr)
-        self.show_hint()
-
-    def show_hint(self):
-        label = 'Hint'
-        if self._hintIndex >= len(self._hints) - 1:
-            self._hintIndex = 0
-        else:
-            self._hintIndex += 1
-            if self._hintIndex == len(self._hints) - 1:
-                label = 'Goal'
-        self.show_message(self._hints[self._hintIndex], choices=[(label, self.show_hint)],
-                          character_id=self._hint_character_id)
 
     def step_first(self, time_in_step):
         if time_in_step == 0:
@@ -50,7 +21,7 @@ class Roster(Quest):
 
     def step_launch(self, time_in_step):
         if time_in_step == 0:
-            self.set_hints('ROSTER_LAUNCH')
+            self.show_hints_message(QSH('ROSTER_LAUNCH'))
             Sound.play('quests/new-icon')
             Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
             Desktop.show_app_grid()
@@ -64,7 +35,7 @@ class Roster(Quest):
 
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
-            self.set_hints('ROSTER_EXPLANATION')
+            self.show_hints_message(QSH('ROSTER_EXPLANATION'))
 
         if time_in_step < 2:
             return

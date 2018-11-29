@@ -1,4 +1,4 @@
-from eosclubhouse.utils import QS
+from eosclubhouse.utils import QS, QSH
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 from gi.repository import Gio, GLib
@@ -15,9 +15,6 @@ class BreakSomething(Quest):
         self.available = False
         self.update_availability()
         self.settings = Gio.Settings.new("org.gnome.desktop.interface")
-        self._hintIndex = -1
-        self._hints = []
-        self._hint_character_id = None
 
     def update_availability(self, gss=None):
         if self.conf['complete']:
@@ -25,39 +22,12 @@ class BreakSomething(Quest):
         if self.is_named_quest_complete("OSIntro"):
             self.available = True
 
-    def set_hints(self, dialog_id, character_id=None):
-        self._hintIndex = -1
-        self._hints = [QS(dialog_id)]
-        self._hint_character_id = character_id
-        hintIndex = 0
-        while True:
-            hintIndex += 1
-            hintId = dialog_id + '_HINT' + str(hintIndex)
-            hintStr = QS(hintId)
-            if hintStr is None:
-                break
-            self._hints.append(hintStr)
-        self.show_next_hint()
-
-    def show_next_hint(self):
-        if self._hintIndex >= len(self._hints) - 1 or self._hintIndex < 0:
-            self._hintIndex = 0
-            label = "Give me a hint"
-        else:
-            self._hintIndex += 1
-            if self._hintIndex == len(self._hints) - 1:
-                label = "What's my goal?"
-            else:
-                label = "I'd like another hint"
-        self.show_message(self._hints[self._hintIndex], choices=[(label, self.show_next_hint)],
-                          character_id=self._hint_character_id)
-
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
             if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
                 return self.step_explanation
-            self.set_hints('BREAK_LAUNCH')
+            self.show_hints_message(QSH('BREAK_LAUNCH'))
             Desktop.show_app_grid()
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
@@ -83,7 +53,7 @@ class BreakSomething(Quest):
 
     def step_flip(self, time_in_step):
         if time_in_step == 0:
-            self.set_hints('BREAK_FLIP')
+            self.show_hints_message(QSH('BREAK_FLIP'))
 
         try:
             if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
@@ -119,7 +89,7 @@ class BreakSomething(Quest):
 
     def step_unlock(self, time_in_step):
         if time_in_step == 0:
-            self.set_hints('BREAK_UNLOCK')
+            self.show_hints_message(QSH('BREAK_UNLOCK'))
 
         item = self.gss.get('item.key.OperatingSystemApp.1')
         if item is not None and item.get('used', False):
@@ -142,7 +112,7 @@ class BreakSomething(Quest):
 
     def step_makeitlarge(self, time_in_step):
         if time_in_step == 0:
-            self.set_hints('BREAK_MAKEITLARGE')
+            self.show_hints_message(QSH('BREAK_MAKEITLARGE'))
 
         if self.settings.get_int('cursor-size') >= 200:
             return self.step_success
@@ -166,7 +136,7 @@ class BreakSomething(Quest):
 
     def step_give_reset(self, time_in_step):
         if time_in_step == 0:
-            self.set_hints('BREAK_GIVERESET', character_id='archivist')
+            self.show_hints_message(QSH('BREAK_GIVERESET'), character_id='archivist')
             # Set reset button visible
             variant = GLib.Variant('a{sb}', {'visible': True})
             self.gss.set("app.hack_toolbox.reset_button", variant)
@@ -177,7 +147,7 @@ class BreakSomething(Quest):
 
     def step_reset(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('BREAK_RESET'))
+            self.show_question(QS('BREAK_RESET'), character_id='archivist')
         if self.confirmed_step():
             return self.step_reward
 
