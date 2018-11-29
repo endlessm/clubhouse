@@ -10,12 +10,12 @@ HINT when the player has not dragged any sliders in 5 seconds, or player clicks 
 "FIRSTCONTACT_FLIPBACK_HINT1","I wonder if anything happened to the gate? Click the Flip to Hack button again.","","","When player has solved puzzle and hasn't flipped back to the front, and 3 seconds have passed."
 "FIZZICSINTRO_QUESTION","Oh hi again! By the way, I'm Ada. I'm working on my new game here in the Clubhouse. Want to see it?","Ada","Ada's theme song",""
 "FIZZICSINTRO_RESPONSE","Sounds fun!","","",""
-"FIZZICSINTRO_LAUNCH","Fab. I'm adding the game to your desktop. It's called Fizzics. Go ahead and launch it. ","","",""
+"FIZZICSINTRO_LAUNCH","Fab. It's called Fizzics. See it there now? Go ahead and launch it. ","","",""
 "FIZZICSINTRO_LAUNCH_HINT1","See the Fizzics app on the desktop? Click on it now to start the game.","","",""
-"FIZZICSINTRO_EXPLANATION","Fizzics helps me with my research, but frankly the slingshot is just really fun.
+"FIZZICSINTRO_EXPLANATION","Fizzics helps me with my research on how things bounce, but frankly the slingshot is just really fun.
 
 I can barely make levels fast enough for one of the students – she's already on level 10!","","Success sound","Fizzics launched; prompt player to get to level 3."
-"FIZZICSINTRO_LEVEL1","Let's start with getting to Level 3. See you there!","","",""
+"FIZZICSINTRO_LEVEL1","Let's start with getting to Level 3. ","","",""
 "FIZZICSINTRO_LEVEL1_HINT1","Click the orange ball to activate the slingshot. Pull back on it and then let it go. ","","",""
 "FIZZICSINTRO_LEVEL1_HINT2","To win the level you have to fling all the orange balls against the goal.","","",""
 "FIZZICSINTRO_LEVEL2","Clearly you've got the idea! Okay, so one more level to go.","","",""
@@ -24,18 +24,18 @@ I can barely make levels fast enough for one of the students – she's already o
 "FIZZICSINTRO_ALREADYBEAT","Oh, hey there! Well done, Einstein!","","","If the player gets to level 3 or higher when the quest starts."
 "FIZZICSINTRO_RICKY","OMG. Fizzics. I love this game. It's my total fave. ","Riley","Riley's theme song stinger",""
 "FIZZICSINTRO_INTRO","Oh, hey Riley! I hear you're already on level 10! ","Ada","",""
-"FIZZICSINTRO_KEY","To honor your quick progress, I'm giving you this reward. ","","",""
+"FIZZICSINTRO_KEY","Excellent progress so far! I'm going to give you a reward. ","","",""
 "FIZZICSINTRO_END","That key will come in handy later if you want to dig deeper into Fizzics.
 
 See you back at the Clubhouse!","","Super-success sound",""
-"FIZZICSINTRO_ABORT","We can do it later. Come get me at the Clubhouse whenever you feel like it.","","",""
-"FIZZICS1_QUESTION","I bet you can't get to the level I'm on in Fizzics!","","",""
-"FIZZICS1_REPONSE","Let's see","","",""
-"FIZZICS1_LAUNCH","All right. Let's try it. Launch the Fizzics game to get started.","","",""
+"FIZZICSINTRO_ABORT","We can do it later. Come get me at the Clubhouse whenever!","","",""
+"FIZZICS1_QUESTION","Can't wait to see if you can get to the level I'm on in Fizzics!","","",""
+"FIZZICS1_REPONSE","Let's go. ","","",""
+"FIZZICS1_LAUNCH","Excellent! Here goes! Launch the Fizzics game to get started.","","",""
 "FIZZICS1_LAUNCH_HINT1","See the Fizzics app on the desktop? Click it to launch. ","","",""
 "FIZZICS1_GOAL","OK, first get to Level 8. That's where the real challenge starts.","","",""
 "FIZZICS1_GOAL_HINT1","These work just like the others: fling the orange ball at the target. ","","",""
-"FIZZICS1_LEVEL8","Here we are. Think you can beat it?","","",""
+"FIZZICS1_LEVEL8","Level 8! You made it! Okay, so give it a shot ;) ","","",""
 "FIZZICS1_LEVEL8_HINT1","You're gonna need to hack the game to beat it. Press the Flip to Hack button.","","",""
 "FIZZICS1_BACKTOLEVEL8","No, wait, go back to level 8. You're going to need to get through that one before going further. ","","",""
 "FIZZICS1_FLIPPED","Use the key that Ada gave you earlier. Click on that lock to access the hack panel.","","",""
@@ -59,7 +59,7 @@ But it's really cool to be able to adjust things and have some input in how your
 "OSINTRO_CLICK","So much going on here! Isn't it all gorgeous? ","","","The player clicked on the app somewhere"
 "OSINTRO_ARCHIVIST","What's all this ruckus? Oh, it's you, Ada. You gave me a start! And who's this with you? ","Archivist","",""
 "OSINTRO_ARCHIVIST_FLIP","Who let you in here? Don't you know you're not supposed to try to access this part? Better get on back now. ","Archivist","Angry Archivist sound","if player tried to flip panel"
-"OSINTRO_ARCHIVIST_FLIP_HINT1","Go back the same way you came, pressing the Flip to Hack button on the left.","","",""
+"OSINTRO_ARCHIVIST_FLIP_HINT1","Go back the same way you got here: Press the Flip to Hack button on the left.","","",""
 "OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel Rowe, the Archivist. Everything you see here – Saniel keeps it all humming. 
 
 Saniel is scary at first, but no one knows more about the System than Saniel. And don't tell him I told you, but Saniel's quite the hero!","Ada","",""
@@ -67,11 +67,7 @@ Saniel is scary at first, but no one knows more about the System than Saniel. An
 
 It's true though. I do know a few things about keeping the systems clear of trouble.
 
-Hear me though when I say, Never come here alone! Got it? I'll be keeping my eye out for any shenanigans.","Archivist","","Hero schmero. Anyway, hello! Ada's brilliant, but I'm afraid she's filling your head with ancient history! 
-
-It's true though. I do know a few things about keeping the systems clear of trouble.
-
-But hear me when I say you must never come here alone. Got it? I'll be keeping my eye out for any shenanigans."
+Hear me though when I say, Never come here alone! Got it? I'll be keeping my eye out for any shenanigans.","Archivist","",""
 "OSINTRO_WRAPUP","See? He's a bit fierce! But so glad you could meet him. Well, time for me to bounce! My research is calling me!  
 
 But seriously, come get me at the Clubhouse anytime! There's always more to see around here.  ","Ada","",""
@@ -86,7 +82,7 @@ But seriously, come get me at the Clubhouse anytime! There's always more to see 
 
 He seems to be able to hear everything that goes on here. Ssshhhh. I think I hear him.","","",""
 "BREAK_FLIP","Ok, remember the Flip to Hack button? Go ahead and press it.","","",""
-"BREAK_FLIP_HINT1","Press that big button on the left to hack the System.","","",""
+"BREAK_FLIP_HINT1","See the big button on the left? Press it to hack the System.","","",""
 "BREAK_GIVEKEY","The other day I found this key and I think it fits here! I'm going to give it to you.","","",""
 "BREAK_UNLOCK","Now click on that to unlock it. I wonder what's behind it?","","",""
 "BREAK_UNLOCK_HINT1","Click anywhere to unlock it.","","",""
@@ -99,10 +95,9 @@ Oh, hi Dr. Rowe. We're just, er, studying!","","",""
 "BREAK_ARCHIVISTARRIVES","I just told you this is no place for novices! Hhmmph.","Archivist","",""
 "BREAK_GIVERESET","It's not too late to fix this. I'm enabling the Reset Button. When you press it, it will return you to the original settings.","","",""
 "BREAK_GIVERESET_HINT1","Press the button on the top right to reset the cursor size.","","",""
-"BREAK_ALREADYRESET","I see you already fixed it. Good. I'm also enabling the Reset Button, which will return things to the original settings.","","",""
-"BREAK_WRAPUP","Good job restoring the settings! Glad you know about the reset button now. 
-
-Keep it handy for when you need to clean up messes like this one! ","","",""
+"BREAK_RESET","Good job restoring the settings! Glad you know about the reset button now. ","","",""
+"BREAK_ALREADYRESET","I see you already fixed it. Very sensible. I'm also enabling the Reset Button, which will return things to the original settings.","","",""
+"BREAK_WRAPUP","Keep it handy for when you need to clean up messes like this one!","","",""
 "BREAK_ABORT","No prob! We can try again later. ","","","If player exits the OS app before completing the quest."
 "ROSTER_QUESTION","Okay, we have another important part of the tour. I'm going to give you some info you're going to need. ","Ada","",""
 "ROSTER_RESPONSE","I'm in. ","","",""
@@ -121,8 +116,8 @@ Check out the others too! Then come stop by the Clubhouse again.","","",""
 "FIZZICS2_LAUNCH_HINT1","Remember? Click that Fizzics icon and let's go.","","",""
 "FIZZICS2_ALREADY_RUNNING","You're already running Fizzics. Bring it up and let's play!","","",""
 "FIZZICS2_GOAL","Okay. See those 20 spiky balls? Your goal is to make it so they don't touch each other.","","",""
-"FIZZICS2_GOAL_HINT1","Just stacking them up isn't going to work. You're going to need to hack the app and change things.","","",""
-"FIZZICS2_GOAL_HINT2","Smaller balls have more room to move around.","","",""
+"FIZZICS2_GOAL_HINT1","You can't just stack them up. You're going to need to get in there and change some settings.","","",""
+"FIZZICS2_GOAL_HINT2","A smaller ball has more space to move around!","","",""
 "FIZZICS2_GOAL_HINT3","Also, when you freeze balls, they don't move anymore.","","",""
 "FIZZICS2_NOTENOUGH","Hey, wait! Nice try, but you need to keep at least 20 spiky balls, otherwise it doesn't count.","","",""
 "FIZZICS2_SUCCESS","Yay! That's a really cool solution. You've got a talent for this! I didn't think of that one.","","",""
