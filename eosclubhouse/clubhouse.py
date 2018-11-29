@@ -217,6 +217,10 @@ class QuestSetButton(Gtk.Button):
         self._quest_set = quest_set
         character = Character.get_or_create(self._quest_set.get_character())
 
+        self._image = character.get_fullbody_image()
+        self._image.show()
+        self.add(self._image)
+
         self._set_highlighted(self._quest_set.highlighted)
 
         # Set the "highlighted" style on "nudge"
@@ -229,10 +233,6 @@ class QuestSetButton(Gtk.Button):
         self._quest_set.bind_property('visible', self, 'visible',
                                       GObject.BindingFlags.BIDIRECTIONAL |
                                       GObject.BindingFlags.SYNC_CREATE)
-
-        self._image = character.get_fullbody_image()
-        self._image.show()
-        self.add(self._image)
 
     def get_quest_set(self):
         return self._quest_set
@@ -247,8 +247,10 @@ class QuestSetButton(Gtk.Button):
         highlighted_style = 'highlighted'
         style_context = self.get_style_context()
         if highlighted:
+            self._image.play('hi')
             style_context.add_class(highlighted_style)
         else:
+            self._image.play('idle')
             style_context.remove_class(highlighted_style)
 
 
