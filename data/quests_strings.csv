@@ -99,6 +99,7 @@ Oh, hi Dr. Rowe. We're just, er, studying!","","",""
 "BREAK_ARCHIVISTARRIVES","I just told you this is no place for novices! Hhmmph.","Archivist","",""
 "BREAK_GIVERESET","It's not too late to fix this. I'm enabling the Reset Button. When you press it, it will return you to the original settings.","","",""
 "BREAK_GIVERESET_HINT1","Press the button on the top right to reset the cursor size.","","",""
+"BREAK_ALREADYRESET","I see you already fixed it. Good. I'm also enabling the Reset Button, which will return things to the original settings.","","",""
 "BREAK_WRAPUP","Good job restoring the settings! Glad you know about the reset button now. 
 
 Keep it handy for when you need to clean up messes like this one! ","","",""
