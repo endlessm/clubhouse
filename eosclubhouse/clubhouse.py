@@ -844,7 +844,6 @@ class ClubhouseApplication(Gtk.Application):
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
-        self._ensure_registry_loaded()
         self._init_style()
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
@@ -882,9 +881,17 @@ class ClubhouseApplication(Gtk.Application):
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._vibility_notify_cb)
 
+        # Load the quests in idle so we don't delay showing the window
+        GLib.idle_add(self._load_quests_in_idle_cb)
+
+    def _load_quests_in_idle_cb(self):
+        self._ensure_registry_loaded()
+
         quest_sets = libquest.Registry.get_quest_sets()
         for quest_set in quest_sets:
             self._window.clubhouse_page.add_quest_set(quest_set)
+
+        return GLib.SOURCE_REMOVE
 
     def send_quest_msg_notification(self, notification):
         self.send_notification(self.QUEST_MSG_NOTIFICATION_ID, notification)
