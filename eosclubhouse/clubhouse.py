@@ -672,8 +672,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.set_keep_above(True)
 
         self.clubhouse_page = ClubhousePage(self)
-        self.inventory_page = InventoryPage(self)
-        self.episodes_page = EpisodesPage(self)
+        self.inventory_page = None
+        self.episodes_page = None
 
         self.set_size_request(DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
@@ -699,18 +699,30 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._main_window_stack = builder.get_object('main_window_stack')
 
         self._clubhouse_button = builder.get_object('main_window_button_clubhouse')
-        self._inventory_button = builder.get_object('main_window_button_inventory')
-        self._episodes_button = builder.get_object('main_window_button_episodes')
-
-        page_switcher_data = {self._clubhouse_button: self.clubhouse_page,
-                              self._inventory_button: self.inventory_page,
-                              self._episodes_button: self.episodes_page}
-
-        for button, page_widget in page_switcher_data.items():
-            self._main_window_stack.add(page_widget)
-            button.connect('clicked', self._page_switch_button_clicked_cb, page_widget)
+        self._add_page(self._clubhouse_button, self.clubhouse_page)
 
         self.add(builder.get_object('main_window_overlay'))
+
+        self._clubhouse_button.set_active(True)
+
+        GLib.idle_add(self._add_pages_on_idle, builder)
+
+    def _add_page(self, button, page):
+        self._main_window_stack.add(page)
+        button.connect('clicked', self._page_switch_button_clicked_cb, page)
+
+    def _add_pages_on_idle(self, builder):
+        self._inventory_button = builder.get_object('main_window_button_inventory')
+        self.inventory_page = InventoryPage(self)
+
+        self._add_page(self._inventory_button, self.inventory_page)
+
+        self._episodes_button = builder.get_object('main_window_button_episodes')
+        self.episodes_page = EpisodesPage(self)
+
+        self._add_page(self._episodes_button, self.episodes_page)
+
+        return GLib.SOURCE_REMOVE
 
     def _window_realize_cb(self, window):
         def _window_focus_out_event_cb(_window, _event):
