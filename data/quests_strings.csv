@@ -58,7 +58,7 @@ It's all so intricate and connected. Can't wait to show you how beautiful it is 
 But it's really cool to be able to adjust things and have some input in how your computer works. ","","",""
 "OSINTRO_CLICK","So much going on here! Isn't it all gorgeous? ","","","The player clicked on the app somewhere"
 "OSINTRO_ARCHIVIST","What's all this ruckus? Oh, it's you, Ada. You gave me a start! And who's this with you? ","Archivist","",""
-"OSINTRO_ARCHIVIST_FLIP","Who let you in here? Don't you know you're not supposed to try to access this part? Better get on back now. ","Archivist","","if player tried to flip panel"
+"OSINTRO_ARCHIVIST_FLIP","Who let you in here? Don't you know you're not supposed to try to access this part? Better get on back now. ","Archivist","Angry Archivist sound","if player tried to flip panel"
 "OSINTRO_ARCHIVIST_FLIP_HINT1","Go back the same way you came, pressing the Flip to Hack button on the left.","","",""
 "OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel Rowe, the Archivist. Everything you see here – Saniel keeps it all humming. 
 
@@ -75,7 +75,7 @@ But hear me when I say you must never come here alone. Got it? I'll be keeping m
 "OSINTRO_WRAPUP","See? He's a bit fierce! But so glad you could meet him. Well, time for me to bounce! My research is calling me!  
 
 But seriously, come get me at the Clubhouse anytime! There's always more to see around here.  ","Ada","",""
-"OSINTRO_FLIPPED","HOW DID YOU GET IN HERE? Let me spell it out: G-o  b-a-c-k!  NOW. ","Archivist","","If the player tries to flip the app at any time after meeting the Archivist"
+"OSINTRO_FLIPPED","HOW DID YOU GET IN HERE? Let me spell it out: G-o  b-a-c-k!  NOW. ","Archivist","Angry Archivist sound","If the player tries to flip the app at any time after meeting the Archivist"
 "OSINTRO_FLIPPED_HINT1","Press that same button on the left you pressed earlier to go back!","","",""
 "OSINTRO_ABORT","Come back to the Clubhouse when you want to finish learning about the System.","Ada","",""
 "BREAK_QUESTION","Psssst! I was hoping I'd see you. Wanna go scope around in the System?","Riley","",""
@@ -130,19 +130,22 @@ Check out the others too! Then come stop by the Clubhouse again.","","",""
 "FIZZICS2_ABORT","No prob. We can try it some other time.","","",""
 "HACKDEX1_QUESTION","Well Hello there. Something very peculiar is happening with the roster. Can you have a look at it with me?","Archivist","",""
 "HACKDEX1_RESPONSE","I'd love to. ","","",""
-"HACKDEX1_LAUNCH","My Roster is behaving strangely. I think something has gotten in and corrupted it. Check to see if yours is okay. 
-
-So let's see how this goes. Launch the Roster app.","","",""
+"HACKDEX1_PRELAUNCH","My Roster is behaving strangely. I think something has gotten in and corrupted it. Check to see if yours is okay.","","",""
+"HACKDEX1_LAUNCH","So let's see how this goes. Launch the Roster app.","","",""
+"HACKDEX1_LAUNCH_HINT1","Click the Roster app on the desktop.","","",""
 "HACKDEX1_GOAL","Curses! Yours too! That's very strange. I wonder what's causing this. See if you can hack in and fix yours so everything is readable again.","","",""
-"HACKDEX1_NEED_KEY","I wonder where that key is. ","","",""
+"HACKDEX1_GOAL_HINT1","You're going to need to hack the app to fix this. ","","",""
+"HACKDEX1_GOAL_HINT2","I wonder where that key is. I might have dropped it somewhere. Hmm....","","",""
 "HACKDEX1_UNLOCKED","Excellent! I see you've found the key! Good, good. Now, get in there and do your magic and fix this corruption.","","",""
-"HACKDEX1_SUCCESS","Ah, that's better. Your solution is acceptable. You've earned this. Take it.","","",""
+"HACKDEX1_UNLOCKED_HINT1","Why can't we see that text?","","",""
+"HACKDEX1_UNLOCKED_HINT2","Maybe some of the colors are transparent. Try changing them in the hack panel.","","",""
+"HACKDEX1_UNLOCKED_HINT3","Click the Flip to Hack button again to see your results.","","",""
+"HACKDEX1_SUCCESS","Ah, that's better. Your solution is acceptable. I'm going to give you a reward.","","",""
 "HACKDEX1_AFTERKEY","This key will let you start doing some actual coding to keep your skills sharp. See you at the Clubhouse.","","",""
-"HACKDEX1_RICKY","That was cool how you did that. Wait a sec, what's this?
+"HACKDEX1_RILEY","That was cool how you did that. Wait a sec, what's this? Some kind of item...
 
-How did this get into the Roster? Or did the Archivist drop it again? Weird. Keep it anyway. I'm sure we can use it!
-
-It's been fun to explore things with you! Hope you'll come back ;) ","Riley","",""
+How did this get into the Roster? Or did the Archivist drop it again? Weird. Anyway, take it.","Riley","",""
+"HACKDEX1_RILEY_BYE","It's been fun to explore things with you! Hope you'll come back ;)","","",""
 "HACKDEX1_ABORT","All done already? Okay then, Come back soon. We've got our work cut out for us!","Archivist","",""
 "LOSTFILES_QUESTION","Hey, I'm dealing with a serious situation here. Everything's gone. ","Ada","",""
 "LOSTFILES_ANSWER","Whoa. What happened? ","","",""

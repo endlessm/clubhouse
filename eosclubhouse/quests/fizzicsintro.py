@@ -58,6 +58,8 @@ class FizzicsIntro(Quest):
             if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
                 return self.step_explanation
             self.set_hints('FIZZICSINTRO_LAUNCH')
+            Sound.play('quests/new-icon')
+            Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
             Desktop.show_app_grid()
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
