@@ -6,6 +6,7 @@ from eosclubhouse.system import Desktop, App, Sound
 class Roster(Quest):
 
     TARGET_APP_DBUS_NAME = 'com.endlessm.Hackdex_chapter_one'
+    SANIEL_CLICKED_KEY = 'app.com_endlessm_Hackdex_chapter_one.saniel_clicked'
 
     def __init__(self):
         super().__init__('Roster', 'ada', QS('ROSTER_QUESTION'))
@@ -37,19 +38,24 @@ class Roster(Quest):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
             self.show_hints_message(QSH('ROSTER_EXPLANATION'))
-
-        if time_in_step < 2:
-            return
-
-        # TODO: Check for reading history visiting archivist. Right now moving on after 15 sec.
-        if time_in_step > 15:
-            return self.step_success
+            # We want to know if the key was clicked from this time forward
+            self.gss.set(self.SANIEL_CLICKED_KEY, {'clicked': False})
 
         if self.debug_skip():
             return self.step_success
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
+
+        data = self.gss.get(self.SANIEL_CLICKED_KEY)
+        if data is None:
+            return self.step_abort
+        if data['clicked']:
+            return self.step_delay2
+
+    def step_delay2(self, time_in_step):
+        if time_in_step >= 2:
+            return self.step_success
 
     def step_success(self, time_in_step):
         if time_in_step == 0:
