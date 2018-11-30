@@ -39,7 +39,7 @@ class Fizzics2(Quest):
         try:
             if not self._initialized:
                 self._app.set_object_property('view.JSContext.globalParameters',
-                                              'preset', ('i', 11))
+                                              'preset', ('i', 1000))
                 self._initialized = True
         except Exception as ex:
             print(ex)
