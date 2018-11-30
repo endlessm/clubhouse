@@ -15,7 +15,7 @@ HINT when the player has not dragged any sliders in 5 seconds, or player clicks 
 "FIZZICSINTRO_EXPLANATION","Fizzics helps me with my research on how things bounce, but frankly the slingshot is just really fun.
 
 I can barely make levels fast enough for one of the students – she's already on level 10!","","Success sound","Fizzics launched; prompt player to get to level 3."
-"FIZZICSINTRO_LEVEL1","Let's start with getting to Level 3. ","","",""
+"FIZZICSINTRO_LEVEL1","Okay, so first let's get to Level 3. Click around to check out how things work. ","","",""
 "FIZZICSINTRO_LEVEL1_HINT1","Click the orange ball to activate the slingshot. Pull back on it and then let it go. ","","",""
 "FIZZICSINTRO_LEVEL1_HINT2","To win the level you have to fling all the orange balls against the goal.","","",""
 "FIZZICSINTRO_LEVEL2","Clearly you've got the idea! Okay, so one more level to go.","","",""
@@ -33,7 +33,7 @@ See you back at the Clubhouse!","","Super-success sound",""
 "FIZZICS1_REPONSE","Let's go. ","","",""
 "FIZZICS1_LAUNCH","Excellent! Here goes! Launch the Fizzics game to get started.","","",""
 "FIZZICS1_LAUNCH_HINT1","See the Fizzics app on the desktop? Click it to launch. ","","",""
-"FIZZICS1_GOAL","OK, first get to Level 8. That's where the real challenge starts.","","",""
+"FIZZICS1_GOAL","Great. Now get to Level 8. That's where the real challenge starts.","","",""
 "FIZZICS1_GOAL_HINT1","These work just like the others: fling the orange ball at the target. ","","",""
 "FIZZICS1_LEVEL8","Level 8! You made it! Okay, so give it a shot ;) ","","",""
 "FIZZICS1_LEVEL8_HINT1","You're gonna need to hack the game to beat it. Press the Flip to Hack button.","","",""
@@ -45,12 +45,12 @@ See you back at the Clubhouse!","","Super-success sound",""
 "FIZZICS1_HACK_HINT2","Or even play around with the gravity on see what happens!","","",""
 "FIZZICS1_SUCCESS","Brilliant! I knew you'd ace that. See you at the Clubhouse!","","",""
 "FIZZICS1_ALREADYBEAT","Hold on! You already beat level 8? Excellent ;) See you at the Clubhouse.","","",""
-"FIZZICS1_ABORT","Check ya later! Let's play again soon. You know where to find me! ","","",""
+"FIZZICS1_ABORT","Check ya later! Holler at me if you want to play again soon! ","","",""
 "OSINTRO_QUESTION","The System is a super important place. Would you like to see it now?","Ada","",""
 "OSINTRO_RESPONSE","Absolutely!","","",""
 "OSINTRO_PRELAUNCH","Wonderful. The System is the engine that controls every little thing your computer can do. 
 
-It's all so intricate and connected. Can't wait to show you how beautiful it is back here! Let's launch it now. ","","",""
+It's all so intricate and connected. Let's launch it now. ","","",""
 "OSINTRO_LAUNCH","Launch the System app.","","",""
 "OSINTRO_LAUNCH_HINT1","Click on the System icon on the desktop.","","",""
 "OSINTRO_EXPLANATION","The System keeps everything running smoothly. You have to be very careful back here. 
@@ -59,21 +59,21 @@ But it's really cool to be able to adjust things and have some input in how your
 "OSINTRO_CLICK","So much going on here! Isn't it all gorgeous? ","","","The player clicked on the app somewhere"
 "OSINTRO_ARCHIVIST","What's all this ruckus? Oh, it's you, Ada. You gave me a start! And who's this with you? ","Archivist","",""
 "OSINTRO_ARCHIVIST_FLIP","Who let you in here? Don't you know you're not supposed to try to access this part? Better get on back now. ","Archivist","Angry Archivist sound","if player tried to flip panel"
-"OSINTRO_ARCHIVIST_FLIP_HINT1","Go back the same way you got here: Press the Flip to Hack button on the left.","","",""
+"OSINTRO_ARCHIVIST_FLIP_HINT1","Go back the same way you got here: press the Flip button on the left. ","","",""
 "OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel Rowe, the Archivist. Everything you see here – Saniel keeps it all humming. 
 
-Saniel is scary at first, but no one knows more about the System than Saniel. And don't tell him I told you, but Saniel's quite the hero!","Ada","",""
-"OSINTRO_ARCHIVIST2","Hero schmero. Anyway, hello! Ada's brilliant, but I'm afraid she's filling your head with ancient history! 
+Don't tell him I told you, but Saniel's quite the hero!","Ada","",""
+"OSINTRO_ARCHIVIST2","Hero schmero. I'm afraid Ada's filling your head with ancient history! Anyway, hello! 
 
-It's true though. I do know a few things about keeping the systems clear of trouble.
+I'll grant that I do know a few things about keeping the systems clear of trouble.
 
-Hear me though when I say, Never come here alone! Got it? I'll be keeping my eye out for any shenanigans.","Archivist","",""
-"OSINTRO_WRAPUP","See? He's a bit fierce! But so glad you could meet him. Well, time for me to bounce! My research is calling me!  
+Hear me though when I say, Never come here alone! Got it? ","Archivist","","I'll be keeping my eye out for any shenanigans."
+"OSINTRO_WRAPUP","He's a bit fierce at first, but his heart's definitely in the right place. I'm glad you could meet him. 
 
-But seriously, come get me at the Clubhouse anytime! There's always more to see around here.  ","Ada","",""
+Well, time for me to bounce! My research is calling me ;) ","Ada","",""
 "OSINTRO_FLIPPED","HOW DID YOU GET IN HERE? Let me spell it out: G-o  b-a-c-k!  NOW. ","Archivist","Angry Archivist sound","If the player tries to flip the app at any time after meeting the Archivist"
 "OSINTRO_FLIPPED_HINT1","Press that same button on the left you pressed earlier to go back!","","",""
-"OSINTRO_ABORT","Come back to the Clubhouse when you want to finish learning about the System.","Ada","",""
+"OSINTRO_ABORT","Come back to the Clubhouse when you want to learn some more about the System.","Ada","",""
 "BREAK_QUESTION","Psssst! I was hoping I'd see you. Wanna go scope around in the System?","Riley","",""
 "BREAK_RESPONSE","Definitely. ","","",""
 "BREAK_LAUNCH","Ok. So you just need to launch the System app now and we're golden. ","","",""
@@ -81,15 +81,15 @@ But seriously, come get me at the Clubhouse anytime! There's always more to see 
 "BREAK_OSAPP","Awesome. This place is LIT. Okay we have to be extremely quiet. We don't want Saniel knowing we're here. 
 
 He seems to be able to hear everything that goes on here. Ssshhhh. I think I hear him.","","",""
-"BREAK_FLIP","Ok, remember the Flip to Hack button? Go ahead and press it.","","",""
-"BREAK_FLIP_HINT1","See the big button on the left? Press it to hack the System.","","",""
+"BREAK_FLIP","Ok, remember the flip button? Go ahead and press it.","","",""
+"BREAK_FLIP_HINT1","See the button on the left? Press it to hack the System.","","",""
 "BREAK_GIVEKEY","The other day I found this key and I think it fits here! I'm going to give it to you.","","",""
 "BREAK_UNLOCK","Now click on that to unlock it. I wonder what's behind it?","","",""
 "BREAK_UNLOCK_HINT1","Click anywhere to unlock it.","","",""
 "BREAK_UNLOCKED","Rad! We can have so much fun playing around with the settings.","","",""
-"BREAK_MAKEITLARGE","Try changing the cursor size all the way to 200 to make it huge! LOLLZZ","","",""
+"BREAK_MAKEITLARGE","Try changing the cursor size all the way to 200 to make it huge! ","","",""
 "BREAK_MAKEITLARGE_HINT1","Click the + next to size until it's 200!","","",""
-"BREAK_SUCCESS","OMG we have to stop laughing or San will hear us. Uh-oh. Now we've made it too big! What's that noise?
+"BREAK_SUCCESS","LOLLZZ. OMG we have to stop laughing or San will hear us. Uh-oh! What's that noise?
 
 Oh, hi Dr. Rowe. We're just, er, studying!","","",""
 "BREAK_ARCHIVISTARRIVES","I just told you this is no place for novices! Hhmmph.","Archivist","",""
@@ -104,14 +104,14 @@ Oh, hi Dr. Rowe. We're just, er, studying!","","",""
 "ROSTER_PRELAUNCH","I'm going to give you the Roster.","","",""
 "ROSTER_LAUNCH","Go ahead and launch it.","","",""
 "ROSTER_LAUNCH_HINT1","Launch the Roster app from the desktop.","","",""
-"ROSTER_EXPLANATION","You'll find alot of cool info about our crew here. Check out the page about the Archivist.","","",""
+"ROSTER_EXPLANATION","You'll find alot of cool info about our crew here. Check out the page about Saniel.","","",""
 "ROSTER_EXPLANATION_HINT1","Click on Saniel's pic to read about him.","","",""
 "ROSTER_SUCCESS","You found it. Excellent. Quite fascinating, isn't he? 
 
 Check out the others too! Then come stop by the Clubhouse again.","","",""
 "ROSTER_ABORT","be in the Clubhouse. Just come get me whenever. ","","",""
-"FIZZICS2_QUESTION","Hey! So I prepared this special challenge just for you in the Fizzics game. Think you can beat it?","Riley","",""
-"FIZZICS2_RESPONSE","Sure.","","",""
+"FIZZICS2_QUESTION","Hey! So I prepared this special challenge just for you in Fizzics. Think you can beat it?","Riley","",""
+"FIZZICS2_RESPONSE","Definitely up to try!","","",""
 "FIZZICS2_LAUNCH","Good. Launch the Fizzics app and let's play!","","",""
 "FIZZICS2_LAUNCH_HINT1","Remember? Click that Fizzics icon and let's go.","","",""
 "FIZZICS2_ALREADY_RUNNING","You're already running Fizzics. Bring it up and let's play!","","",""
@@ -121,22 +121,22 @@ Check out the others too! Then come stop by the Clubhouse again.","","",""
 "FIZZICS2_GOAL_HINT3","Also, when you freeze balls, they don't move anymore.","","",""
 "FIZZICS2_NOTENOUGH","Hey, wait! Nice try, but you need to keep at least 20 spiky balls, otherwise it doesn't count.","","",""
 "FIZZICS2_SUCCESS","Yay! That's a really cool solution. You've got a talent for this! I didn't think of that one.","","",""
-"FIZZICS2_REWARD","I think this key must have fallen out of Saniel's pocket. Hang onto it. I think we're going to need it. ","","",""
+"FIZZICS2_REWARD","I think this key must have fallen out of Saniel's pocket. Hang onto it. I think we're gonna need it. ","","",""
 "FIZZICS2_END","Props! Come find me at the Clubhouse whenever!","","",""
-"FIZZICS2_ABORT","No prob. We can try it some other time.","","",""
-"HACKDEX1_QUESTION","Well Hello there. Something very peculiar is happening with the roster. Can you have a look at it with me?","Archivist","",""
+"FIZZICS2_ABORT","No prob. We can try it some other time. You know where to find me!","","",""
+"HACKDEX1_QUESTION","Well hello there. Something very peculiar is happening with the roster. Can you have a look at it with me?","Archivist","",""
 "HACKDEX1_RESPONSE","I'd love to. ","","",""
 "HACKDEX1_PRELAUNCH","My Roster is behaving strangely. I think something has gotten in and corrupted it. Check to see if yours is okay.","","",""
 "HACKDEX1_LAUNCH","So let's see how this goes. Launch the Roster app.","","",""
 "HACKDEX1_LAUNCH_HINT1","Click the Roster app on the desktop.","","",""
-"HACKDEX1_GOAL","Curses! Yours too! That's very strange. I wonder what's causing this. See if you can hack in and fix yours so everything is readable again.","","",""
+"HACKDEX1_GOAL","Curses! Yours too! Very strange. I wonder what's causing this. See if you can hack in and fix yours so everything's readable again.","","",""
 "HACKDEX1_GOAL_HINT1","You're going to need to hack the app to bring back that text. ","","",""
 "HACKDEX1_GOAL_HINT2","Where is that key? Must have dropped it somehow. Gotta fix this pocket.","","",""
 "HACKDEX1_UNLOCKED","Excellent! I see you've found the key! Good, good. Now, get in there and do your magic and fix this corruption.","","",""
 "HACKDEX1_UNLOCKED_HINT1","What might be going on with that text to make it invisible?","","",""
 "HACKDEX1_UNLOCKED_HINT2","Maybe some of the colors are transparent. Try changing them in the hack panel.","","",""
 "HACKDEX1_UNLOCKED_HINT3","Flip the screen back again to see your results.","","",""
-"HACKDEX1_SUCCESS","Ah, much better! I see you've got a knack for hacking! I'm going to give you a reward.","","",""
+"HACKDEX1_SUCCESS","Ah, much better! I see you've got a knack for hacking! For that, I'm giving you a reward.","","",""
 "HACKDEX1_AFTERKEY","This key will let you start doing some actual coding to keep your skills sharp. See you at the Clubhouse.","","",""
 "HACKDEX1_RILEY","That was cool how you did that. Wait a sec, what's this? Some kind of item...
 
@@ -147,7 +147,7 @@ How did this get into the Roster? Or did Saniel drop it again? Weird. Anyway, ta
 "LOSTFILES_ANSWER","Whoa. What happened? ","","",""
 "LOSTFILES_EXPLANATION","I've been studying these rogue AI's and now they've gotten loose. And all my daily logs. Gone!
 
-I'm the only one with access to those tanks. What's more troubling is that there's no sign of how anyone got in. Or out! ","","",""
+What's more troubling is that there's no sign of how anyone got in. Or out! ","","",""
 "NOQUEST_ADA_RICKY","I think Riley was looking for you earlier.","","","These are the comments characters make when they don't have a quest to give you. For now they just tell you to go talk to another character (if there is one)."
 "NOQUEST_ADA_ARCHIVIST","Dr. Rowe wants to talk to you.","","",""
 "NOQUEST_ADA_NOTHING","Are you enjoying yourself?","","",""
