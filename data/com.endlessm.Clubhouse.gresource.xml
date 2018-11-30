@@ -11,5 +11,6 @@
     <file>clubhouse_bg.png</file>
     <file>inventory_bg.png</file>
     <file>episodes_bg.png</file>
+    <file>inventory_empty_bg.png</file>
   </gresource>
 </gresources>

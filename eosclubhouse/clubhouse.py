@@ -601,14 +601,31 @@ class InventoryPage(Gtk.EventBox):
 
         self._inventory_box = builder.get_object('inventory_box')
         self._inventory_box.set_sort_func(self._sort_items)
+        self._inventory_box.connect('add', self._inventory_size_changed_cb)
+        self._inventory_box.connect('remove', self._inventory_size_changed_cb)
 
         scrolled_window = builder.get_object('inventory_scrolled_window')
+        self._scrolled_window_context = scrolled_window.get_style_context()
         self.add(scrolled_window)
+
+        self._update_inventory_background()
 
     def _sort_items(self, child_1, child_2):
         item_1 = child_1.get_children()[0]
         item_2 = child_2.get_children()[0]
         return int(item_1.is_used) - int(item_2.is_used)
+
+    def _update_inventory_background(self):
+        is_inventory_empty = len(self._inventory_box.get_children()) == 0
+        if is_inventory_empty:
+            if not self._scrolled_window_context.has_class('empty'):
+                self._scrolled_window_context.add_class('empty')
+        else:
+            if self._scrolled_window_context.has_class('empty'):
+                self._scrolled_window_context.remove_class('empty')
+
+    def _inventory_size_changed_cb(self, widget, event):
+        self._update_inventory_background()
 
     def _add_item(self, item_id, is_used, icon_name, icon_used_name, item_name):
         if item_id in self._loaded_items:

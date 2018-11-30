@@ -137,7 +137,13 @@
 }
 
 .inventory-scrolled-window {
-    margin-bottom: 85px
+    margin-bottom: 85px;
+}
+
+.inventory-scrolled-window.empty {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/inventory_empty_bg.png');
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .inventory-scrolled-window > scrollbar {
