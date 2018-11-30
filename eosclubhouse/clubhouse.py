@@ -436,8 +436,6 @@ class ClubhousePage(Gtk.EventBox):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
         quest.save_conf()
-        self._overlay_msg_box.hide()
-
         self._shell_close_popup_message()
 
     def _key_press_event_cb(self, window, event):
