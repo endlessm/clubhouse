@@ -41,6 +41,7 @@ class FizzicsIntro(Quest):
 
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             if self.get_current_level() >= 2:
                 return self.step_already_beat
             self.show_question(QS('FIZZICSINTRO_EXPLANATION'))
@@ -63,6 +64,7 @@ class FizzicsIntro(Quest):
 
     def step_level2(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_hints_message(QSH('FIZZICSINTRO_LEVEL2'))
 
         if self.get_current_level() >= 2:
@@ -114,6 +116,7 @@ class FizzicsIntro(Quest):
     # STEP Abort
     def step_abort(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/quest-aborted')
             self.show_message(QS('FIZZICSINTRO_ABORT'))
 
         if time_in_step > 5:

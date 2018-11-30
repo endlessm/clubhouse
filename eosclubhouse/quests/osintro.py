@@ -32,6 +32,7 @@ class OSIntro(Quest):
 
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_question(QS('OSINTRO_EXPLANATION'))
 
         if self.confirmed_step():
@@ -51,6 +52,7 @@ class OSIntro(Quest):
 
     def step_archivist(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/archivist-intro')
             self.show_question(QS('OSINTRO_ARCHIVIST'), character_id='archivist')
 
         if self.confirmed_step():
@@ -66,6 +68,7 @@ class OSIntro(Quest):
 
     def step_archivist_flip(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/archivist-angry')
             self.show_hints_message(QSH('OSINTRO_ARCHIVIST_FLIP'), character_id='archivist')
 
         try:
@@ -133,6 +136,7 @@ class OSIntro(Quest):
 
     def step_flipped(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/archivist-angry')
             self.show_hints_message(QSH('OSINTRO_FLIPPED'), character_id='archivist')
         try:
             if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
@@ -143,6 +147,7 @@ class OSIntro(Quest):
     # STEP Abort
     def step_abort(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/quest-aborted')
             self.show_message(QS('OSINTRO_ABORT'))
 
         if time_in_step > 5:

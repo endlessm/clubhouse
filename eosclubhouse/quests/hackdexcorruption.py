@@ -45,6 +45,7 @@ class HackdexCorruption(Quest):
 
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_hints_message(QSH('HACKDEX1_GOAL'))
 
         # Check unlock level 1
@@ -57,6 +58,7 @@ class HackdexCorruption(Quest):
 
     def step_check_goal(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_hints_message(QSH('HACKDEX1_UNLOCKED'))
 
         # Check for color change
@@ -76,6 +78,7 @@ class HackdexCorruption(Quest):
 
     def step_success(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_message(QS('HACKDEX1_SUCCESS'), choices=[('OK', self._confirm_step)])
 
         if self.confirmed_step():
@@ -110,6 +113,7 @@ class HackdexCorruption(Quest):
     # STEP Abort
     def step_abort(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/quest-aborted')
             self.show_message(QS('HACKDEX1_ABORT'))
 
         if time_in_step > 5:
