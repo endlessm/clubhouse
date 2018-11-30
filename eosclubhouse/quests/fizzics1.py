@@ -6,7 +6,6 @@ from eosclubhouse.system import Desktop, App, Sound
 class Fizzics1(Quest):
 
     TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
-    APP_JS_PARAMS = 'view.JSContext.globalParameters'
 
     def __init__(self):
         super().__init__('Fizzics 1', 'ricky', QS('FIZZICS1_QUESTION'))
@@ -41,7 +40,7 @@ class Fizzics1(Quest):
         if time_in_step == 0:
             # Check to see if the goal is already beat
             try:
-                if self._app.get_object_property(self.APP_JS_PARAMS, 'currentLevel') >= 8:
+                if self._app.get_js_property('currentLevel') >= 8:
                     return self.step_already_beat
             except Exception as ex:
                 print(ex)
@@ -52,8 +51,7 @@ class Fizzics1(Quest):
             return self.step_abort
 
         try:
-            if self._app.get_object_property(self.APP_JS_PARAMS,
-                                             'currentLevel') == 7:
+            if self._app.get_js_property('currentLevel') == 7:
                 return self.step_level8
         except Exception as ex:
             print(ex)
@@ -65,8 +63,7 @@ class Fizzics1(Quest):
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
         try:
-            if self._app.get_object_property(self.APP_JS_PARAMS,
-                                             'currentLevel') == 7:
+            if self._app.get_js_property('currentLevel') == 7:
                 return self.step_level8
         except Exception as ex:
             print(ex)
@@ -78,18 +75,16 @@ class Fizzics1(Quest):
 
         try:
             # Check for flipping the app
-            if self._app.get_object_property(self.APP_JS_PARAMS, 'flipped'):
+            if self._app.get_js_property('flipped'):
                 return self.step_flipped
             # Check if they're going to another level
-            if self._app.get_object_property(self.APP_JS_PARAMS,
-                                             'currentLevel') != 7:
+            if self._app.get_js_property('currentLevel') != 7:
                 return self.step_backtolevel8
             # Check for success
-            if self._app.get_object_property(self.APP_JS_PARAMS, 'currentLevel') >= 8 or \
-               self._app.get_object_property(self.APP_JS_PARAMS, 'levelSuccess'):
+            if self._app.get_js_property('currentLevel') >= 8 or \
+               self._app.get_js_property('levelSuccess'):
                 return self.step_success
-            if self._app.get_object_property(self.APP_JS_PARAMS,
-                                             'currentLevel') < 7:
+            if self._app.get_js_property('currentLevel') < 7:
                 return self.step_backtolevel8
         except Exception as ex:
             print(ex)
@@ -109,7 +104,7 @@ class Fizzics1(Quest):
             if item is not None and item.get('used', False):
                 return self.step_hack
             # Check for flipping back
-            if not self._app.get_object_property(self.APP_JS_PARAMS, 'flipped'):
+            if not self._app.get_js_property('flipped'):
                 return self.step_level8
         except Exception as ex:
             print(ex)
@@ -125,12 +120,11 @@ class Fizzics1(Quest):
 
         try:
             # Check for success
-            if self._app.get_object_property(self.APP_JS_PARAMS, 'currentLevel') == 8 or \
-               self._app.get_object_property(self.APP_JS_PARAMS, 'levelSuccess'):
+            if self._app.get_js_property('currentLevel') == 8 or \
+               self._app.get_js_property('levelSuccess'):
                 return self.step_success
             # Check for going to another level
-            if self._app.get_object_property(self.APP_JS_PARAMS,
-                                             'currentLevel') < 7:
+            if self._app.get_js_property('currentLevel') < 7:
                 return self.step_backtolevel8
         except Exception as ex:
             print(ex)
