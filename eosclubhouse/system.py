@@ -139,6 +139,8 @@ class Desktop:
 
 class App:
 
+    APP_JS_PARAMS = 'view.JSContext.globalParameters'
+
     def __init__(self, app_dbus_name):
         self._clippy = None
         self._app_dbus_name = app_dbus_name
@@ -188,6 +190,12 @@ class App:
             variant = value
 
         return self.get_clippy_proxy().Set('(ssv)', obj, prop, variant)
+
+    def get_js_property(self, prop):
+        return self.get_object_property(self.APP_JS_PARAMS, prop)
+
+    def set_js_property(self, prop, value):
+        return self.set_object_property(self.APP_JS_PARAMS, prop, value)
 
     def highlight_object(self, obj, timestamp=None):
         stamp = timestamp or int(time.time())

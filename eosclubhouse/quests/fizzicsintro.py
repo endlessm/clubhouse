@@ -16,7 +16,7 @@ class FizzicsIntro(Quest):
 
     def get_current_level(self):
         try:
-            level = self._app.get_object_property('view.JSContext.globalParameters', 'currentLevel')
+            level = self._app.get_js_property('currentLevel')
             return level
         except Exception as ex:
             print(ex)

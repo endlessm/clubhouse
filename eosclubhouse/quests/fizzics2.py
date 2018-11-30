@@ -38,8 +38,7 @@ class Fizzics2(Quest):
     def step_set_level(self, time_in_step):
         try:
             if not self._initialized:
-                self._app.set_object_property('view.JSContext.globalParameters',
-                                              'preset', ('i', 1000))
+                self._app.set_js_property('preset', ('i', 1000))
                 self._initialized = True
         except Exception as ex:
             print(ex)
@@ -53,7 +52,7 @@ class Fizzics2(Quest):
             self.show_hints_message(QSH('FIZZICS2_GOAL'))
 
         try:
-            if self._app.get_object_property('view.JSContext.globalParameters', 'quest0Success'):
+            if self._app.get_js_property('quest0Success'):
                 return self.step_success
         except Exception as ex:
             print(ex)
