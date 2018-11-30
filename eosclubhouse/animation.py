@@ -1,6 +1,7 @@
 import glob
 import json
 import os
+import random
 
 from gi.repository import GLib, Gtk, GObject, GdkPixbuf
 
@@ -43,6 +44,7 @@ class Animation(GObject.GObject):
         self.last_updated = None
         self.target_image = target_image
         self.load(path)
+        self._set_current_frame_delay()
 
     def advance_frame(self):
         # The animations play in loop for now
@@ -50,8 +52,19 @@ class Animation(GObject.GObject):
         if self.frame_index >= len(self.frames):
             self.frame_index = 0
 
+        self._set_current_frame_delay()
+
     def _get_current_frame(self):
         return self.frames[self.frame_index]
+
+    def _set_current_frame_delay(self):
+        delay = self.current_frame['delay']
+        if not isinstance(delay, str):
+            return
+
+        delay_a, delay_b = delay.split('-')
+        new_delay = random.randint(int(delay_a), int(delay_b))
+        self.current_frame['delay'] = new_delay
 
     def update_image(self):
         pixbuf = self.current_frame['pixbuf']
@@ -69,10 +82,18 @@ class Animation(GObject.GObject):
                                                     metadata['height'])
 
             # GTK needs the delay in microseconds:
-            self.frames.append({'pixbuf': pixbuf, 'delay': delay * 1000})
+            delay = self._convert_delay_to_microseconds(delay)
+            self.frames.append({'pixbuf': pixbuf, 'delay': delay})
             offset_x += metadata['width']
 
     current_frame = property(_get_current_frame)
+
+    @staticmethod
+    def _convert_delay_to_microseconds(delay):
+        if isinstance(delay, str):
+            delay_a, delay_b = delay.split('-')
+            return ('{}-{}'.format(int(delay_a) * 1000, int(delay_b) * 1000))
+        return delay * 1000
 
     @staticmethod
     def get_animation_metadata(image_path, load_json=True):
