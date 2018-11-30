@@ -399,7 +399,7 @@ class ClubhousePage(Gtk.EventBox):
             logger.warning('No quest with name "%s" found!', quest_name)
             return
 
-        if self._quest_task is not None and quest == self._quest_task.get_source_object():
+        if self._is_current_quest(quest):
             logger.warning('Quest "%s" is already being run!', quest_name)
             return
 
@@ -408,6 +408,9 @@ class ClubhousePage(Gtk.EventBox):
         if use_shell_quest_view:
             self._app_window.hide()
         self.run_quest(quest)
+
+    def _is_current_quest(self, quest):
+        return self._quest_task is not None and self._quest_task.get_source_object() == quest
 
     def _quest_item_given_cb(self, quest, item_id, text):
         self._shell_popup_item(item_id, text)
@@ -437,6 +440,7 @@ class ClubhousePage(Gtk.EventBox):
         self.disconnect_quest(quest)
         quest.save_conf()
         self._shell_close_popup_message()
+
 
     def _key_press_event_cb(self, window, event):
         # Allow to fully quit the Clubhouse on Ctrl+Escape
