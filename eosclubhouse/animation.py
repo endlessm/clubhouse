@@ -5,6 +5,9 @@ import random
 
 from gi.repository import GLib, Gtk, GObject, GdkPixbuf
 
+# The default delay if not provided in the animation metadata:
+DEFAULT_DELAY = 100
+
 
 class AnimationImage(Gtk.Image):
     def __init__(self, path):
@@ -83,12 +86,18 @@ class Animation(GObject.GObject):
                                                     metadata['height'])
             subpixbufs.append(pixbuf)
 
-        # @todo: Add 'frames' metadata to the format, to repeat frames
-        # with a different delay.
+        # @todo: Remove this once all animations are ported to the
+        # 'frames' format.
         if 'delays' in metadata:
             for pixbuf, delay in zip(subpixbufs, metadata['delays']):
-                # GTK needs the delay in microseconds:
                 delay = self._convert_delay_to_microseconds(delay)
+                self.frames.append({'pixbuf': pixbuf, 'delay': delay})
+
+        elif 'frames' in metadata:
+            default_delay = metadata.get('default-delay', DEFAULT_DELAY)
+            for frame in metadata['frames']:
+                frame_index, delay = self._parse_frame(frame, default_delay)
+                pixbuf = subpixbufs[frame_index]
                 self.frames.append({'pixbuf': pixbuf, 'delay': delay})
 
     current_frame = property(_get_current_frame)
@@ -96,9 +105,23 @@ class Animation(GObject.GObject):
     @staticmethod
     def _convert_delay_to_microseconds(delay):
         if isinstance(delay, str):
+            if not '-' in delay:
+                return int(delay) * 1000
+
             delay_a, delay_b = delay.split('-')
             return ('{}-{}'.format(int(delay_a) * 1000, int(delay_b) * 1000))
+
         return delay * 1000
+
+    @staticmethod
+    def _parse_frame(frame, default_delay):
+        if isinstance(frame, str):
+            frame, delay = frame.split(' ')
+            delay = Animation._convert_delay_to_microseconds(delay)
+            return int(frame), delay
+
+        delay = Animation._convert_delay_to_microseconds(default_delay)
+        return frame, delay
 
     @staticmethod
     def get_animation_metadata(image_path, load_json=True):
