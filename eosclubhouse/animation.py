@@ -73,18 +73,23 @@ class Animation(GObject.GObject):
     def load(self, sprite_path):
         metadata = self.get_animation_metadata(sprite_path)
         sprite_pixbuf = GdkPixbuf.Pixbuf.new_from_file(sprite_path)
+        sprite_width = sprite_pixbuf.get_width()
 
-        offset_x = 0
-        for delay in metadata['delays']:
+        subpixbufs = []
+        for offset_x in range(0, sprite_width, metadata['width']):
             pixbuf = GdkPixbuf.Pixbuf.new_subpixbuf(sprite_pixbuf,
                                                     offset_x, 0,
                                                     metadata['width'],
                                                     metadata['height'])
+            subpixbufs.append(pixbuf)
 
-            # GTK needs the delay in microseconds:
-            delay = self._convert_delay_to_microseconds(delay)
-            self.frames.append({'pixbuf': pixbuf, 'delay': delay})
-            offset_x += metadata['width']
+        # @todo: Add 'frames' metadata to the format, to repeat frames
+        # with a different delay.
+        if 'delays' in metadata:
+            for pixbuf, delay in zip(subpixbufs, metadata['delays']):
+                # GTK needs the delay in microseconds:
+                delay = self._convert_delay_to_microseconds(delay)
+                self.frames.append({'pixbuf': pixbuf, 'delay': delay})
 
     current_frame = property(_get_current_frame)
 
