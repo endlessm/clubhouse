@@ -45,6 +45,7 @@ class Fizzics1(Quest):
                     return self.step_already_beat
             except Exception as ex:
                 print(ex)
+            Sound.play('quests/step-forward')
             self.show_hints_message(QSH('FIZZICS1_GOAL'))
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
@@ -72,6 +73,7 @@ class Fizzics1(Quest):
 
     def step_level8(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_hints_message(QSH('FIZZICS1_LEVEL8'))
 
         try:
@@ -98,6 +100,7 @@ class Fizzics1(Quest):
 
     def step_flipped(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_hints_message(QSH('FIZZICS1_FLIPPED'))
 
         # Wait until they unlock the panel
@@ -117,6 +120,7 @@ class Fizzics1(Quest):
 
     def step_hack(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_hints_message(QSH('FIZZICS1_HACK'))
 
         try:
@@ -157,6 +161,7 @@ class Fizzics1(Quest):
     # STEP Abort
     def step_abort(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/quest-aborted')
             self.show_message(QS('FIZZICS1_ABORT'))
 
         if time_in_step > 5:

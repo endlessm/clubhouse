@@ -39,6 +39,7 @@ class BreakSomething(Quest):
 
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_question(QS('BREAK_OSAPP'))
         if self.confirmed_step():
             return self.step_flip
@@ -78,6 +79,7 @@ class BreakSomething(Quest):
                         return self.step_unlock
             except Exception as e:
                 print(e)
+            Sound.play('quests/step-forward')
             self.show_question(QS('BREAK_GIVEKEY'))
 
         if self.confirmed_step():
@@ -100,6 +102,7 @@ class BreakSomething(Quest):
 
     def step_unlocked(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_question(QS('BREAK_UNLOCKED'))
 
         if self.confirmed_step():
@@ -122,6 +125,7 @@ class BreakSomething(Quest):
 
     def step_success(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_question(QS('BREAK_SUCCESS'))
         if self.confirmed_step():
             return self.step_archivist
@@ -147,6 +151,7 @@ class BreakSomething(Quest):
 
     def step_reset(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_question(QS('BREAK_RESET'), character_id='archivist')
         if self.confirmed_step():
             return self.step_reward
@@ -175,6 +180,7 @@ class BreakSomething(Quest):
     # STEP Abort
     def step_abort(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/quest-aborted')
             self.show_message(QS('BREAK_ABORT'))
 
         if time_in_step > 5:

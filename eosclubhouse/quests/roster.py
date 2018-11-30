@@ -35,6 +35,7 @@ class Roster(Quest):
 
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_hints_message(QSH('ROSTER_EXPLANATION'))
 
         if time_in_step < 2:
@@ -62,6 +63,7 @@ class Roster(Quest):
 
     def step_abort(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/quest-aborted')
             self.show_message(QS('ROSTER_ABORT'))
 
         if time_in_step > 5:

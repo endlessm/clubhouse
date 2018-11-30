@@ -49,6 +49,7 @@ class Fizzics2(Quest):
 
     def step_goal(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/step-forward')
             self.show_hints_message(QSH('FIZZICS2_GOAL'))
 
         try:
@@ -86,6 +87,7 @@ class Fizzics2(Quest):
     # STEP Abort
     def step_abort(self, time_in_step):
         if time_in_step == 0:
+            Sound.play('quests/quest-aborted')
             self.show_message(QS('FIZZICS2_ABORT'))
 
         if time_in_step > 5:
