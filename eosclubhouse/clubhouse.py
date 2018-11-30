@@ -439,8 +439,11 @@ class ClubhousePage(Gtk.EventBox):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
         quest.save_conf()
-        self._shell_close_popup_message()
 
+        # Ensure we close any eventual message popups but only if we haven't started a
+        # different quest in the meanwhile
+        if self._quest_task is None or self._is_current_quest(quest):
+            self._shell_close_popup_message()
 
     def _key_press_event_cb(self, window, event):
         # Allow to fully quit the Clubhouse on Ctrl+Escape
