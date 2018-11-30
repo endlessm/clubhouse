@@ -24,7 +24,7 @@ import sys
 import time
 
 from eosclubhouse import logger
-from eosclubhouse.system import GameStateService
+from eosclubhouse.system import GameStateService, Sound
 from eosclubhouse.utils import Performance
 from gi.repository import GObject, GLib
 
@@ -130,6 +130,8 @@ class Quest(GObject.GObject):
         sleep_time = .1  # sec
         time_in_step = 0
         step_func = self.step_first
+
+        Sound.play('quests/quest-given')
 
         while not self.is_cancelled():
             new_func = step_func(time_in_step)
