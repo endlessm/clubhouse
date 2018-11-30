@@ -57,6 +57,12 @@ class HackSoundServer:
             _logger.error("Error playing sound '%s': %s", sound_event_id, err.message)
 
     @classmethod
+    def update_properties(class_, sound_event_id, time_ms, props):
+        class_.get_proxy().UpdateProperties(
+            "(sia{sv})", sound_event_id, time_ms, props,
+            result_handler=class_._black_hole, user_data=None)
+
+    @classmethod
     def stop(class_, uuid, result_handler=None, user_data=None):
         """
         Stops a sound asynchronously.
