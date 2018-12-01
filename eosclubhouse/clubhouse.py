@@ -127,6 +127,7 @@ class Message(Gtk.Bin):
         self._character_mood_change_handler = 0
         self._setup_ui()
         self._animator = Animator(self._character_image)
+        self.connect("show", lambda _: Sound.play('clubhouse/dialog/open'))
 
     def _setup_ui(self):
         builder = Gtk.Builder()
@@ -141,6 +142,8 @@ class Message(Gtk.Bin):
         self._label.set_size_request(self.LABEL_WIDTH, -1)
 
         self.close_button = builder.get_object('character_message_close_button')
+        self.close_button.connect(
+            "clicked", lambda _: Sound.play('clubhouse/dialog/close'))
 
         self._character_image = builder.get_object('character_image')
         overlay.set_overlay_pass_through(self._character_image, True)
