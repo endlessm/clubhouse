@@ -1,8 +1,12 @@
 import glob
 import json
 import os
+import random
 
 from gi.repository import GLib, Gtk, GObject, GdkPixbuf
+
+# The default delay if not provided in the animation metadata:
+DEFAULT_DELAY = 100
 
 
 class AnimationImage(Gtk.Image):
@@ -43,6 +47,7 @@ class Animation(GObject.GObject):
         self.last_updated = None
         self.target_image = target_image
         self.load(path)
+        self._set_current_frame_delay()
 
     def advance_frame(self):
         # The animations play in loop for now
@@ -50,8 +55,19 @@ class Animation(GObject.GObject):
         if self.frame_index >= len(self.frames):
             self.frame_index = 0
 
+        self._set_current_frame_delay()
+
     def _get_current_frame(self):
         return self.frames[self.frame_index]
+
+    def _set_current_frame_delay(self):
+        delay = self.current_frame['delay']
+        if not isinstance(delay, str):
+            return
+
+        delay_a, delay_b = delay.split('-')
+        new_delay = random.randint(int(delay_a), int(delay_b))
+        self.current_frame['delay'] = new_delay
 
     def update_image(self):
         pixbuf = self.current_frame['pixbuf']
@@ -60,19 +76,52 @@ class Animation(GObject.GObject):
     def load(self, sprite_path):
         metadata = self.get_animation_metadata(sprite_path)
         sprite_pixbuf = GdkPixbuf.Pixbuf.new_from_file(sprite_path)
+        sprite_width = sprite_pixbuf.get_width()
 
-        offset_x = 0
-        for delay in metadata['delays']:
+        subpixbufs = []
+        for offset_x in range(0, sprite_width, metadata['width']):
             pixbuf = GdkPixbuf.Pixbuf.new_subpixbuf(sprite_pixbuf,
                                                     offset_x, 0,
                                                     metadata['width'],
                                                     metadata['height'])
+            subpixbufs.append(pixbuf)
 
-            # GTK needs the delay in microseconds:
-            self.frames.append({'pixbuf': pixbuf, 'delay': delay * 1000})
-            offset_x += metadata['width']
+        # @todo: Remove this once all animations are ported to the
+        # 'frames' format.
+        if 'delays' in metadata:
+            for pixbuf, delay in zip(subpixbufs, metadata['delays']):
+                delay = self._convert_delay_to_microseconds(delay)
+                self.frames.append({'pixbuf': pixbuf, 'delay': delay})
+
+        elif 'frames' in metadata:
+            default_delay = metadata.get('default-delay', DEFAULT_DELAY)
+            for frame in metadata['frames']:
+                frame_index, delay = self._parse_frame(frame, default_delay)
+                pixbuf = subpixbufs[frame_index]
+                self.frames.append({'pixbuf': pixbuf, 'delay': delay})
 
     current_frame = property(_get_current_frame)
+
+    @staticmethod
+    def _convert_delay_to_microseconds(delay):
+        if isinstance(delay, str):
+            if not '-' in delay:
+                return int(delay) * 1000
+
+            delay_a, delay_b = delay.split('-')
+            return ('{}-{}'.format(int(delay_a) * 1000, int(delay_b) * 1000))
+
+        return delay * 1000
+
+    @staticmethod
+    def _parse_frame(frame, default_delay):
+        if isinstance(frame, str):
+            frame, delay = frame.split(' ')
+            delay = Animation._convert_delay_to_microseconds(delay)
+            return int(frame), delay
+
+        delay = Animation._convert_delay_to_microseconds(default_delay)
+        return frame, delay
 
     @staticmethod
     def get_animation_metadata(image_path, load_json=True):

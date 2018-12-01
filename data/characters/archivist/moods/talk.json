@@ -1,8 +1,14 @@
 {
+  "default-delay": 100,
   "delays": [
     1000,
     100,
     100
+  ],
+  "frames": [
+    "0 1000",
+    1,
+    2
   ],
   "height": 161,
   "width": 175
