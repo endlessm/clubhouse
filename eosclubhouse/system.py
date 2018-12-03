@@ -246,7 +246,7 @@ class GameStateService(GObject.GObject):
             try:
                 json_str = json.dumps(variant)
                 variant = Json.gvariant_deserialize_data(json_str, -1, None)
-            except Exception as e:
+            except Exception:
                 raise TypeError('Error setting GSS entry: value is not a variant nor can it be '
                                 'converted to json')
 
