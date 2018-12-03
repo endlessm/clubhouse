@@ -241,7 +241,6 @@ class GameStateService(GObject.GObject):
 
     def set(self, key, variant):
         # If we're passing a dictionary instead, then we just convert it from json
-        print(variant, str(variant))
         if isinstance(variant, dict):
             try:
                 json_str = json.dumps(variant)
