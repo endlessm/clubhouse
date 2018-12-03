@@ -1,6 +1,7 @@
 from eosclubhouse.utils import QS, QSH
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
+from gi.repository import GLib
 
 
 class Roster(Quest):
@@ -39,7 +40,8 @@ class Roster(Quest):
             Sound.play('quests/step-forward')
             self.show_hints_message(QSH('ROSTER_EXPLANATION'))
             # We want to know if the key was clicked from this time forward
-            self.gss.set(self.SANIEL_CLICKED_KEY, {'clicked': False})
+            variant = GLib.Variant('a{sb}', {'clicked': False})
+            self.gss.set(self.SANIEL_CLICKED_KEY, variant)
 
         if self.debug_skip():
             return self.step_success
