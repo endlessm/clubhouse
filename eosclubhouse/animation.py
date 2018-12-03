@@ -86,14 +86,7 @@ class Animation(GObject.GObject):
                                                     metadata['height'])
             subpixbufs.append(pixbuf)
 
-        # @todo: Remove this once all animations are ported to the
-        # 'frames' format.
-        if 'delays' in metadata:
-            for pixbuf, delay in zip(subpixbufs, metadata['delays']):
-                delay = self._convert_delay_to_microseconds(delay)
-                self.frames.append({'pixbuf': pixbuf, 'delay': delay})
-
-        elif 'frames' in metadata:
+        if 'frames' in metadata:
             default_delay = metadata.get('default-delay', DEFAULT_DELAY)
             for frame in metadata['frames']:
                 frame_index, delay = self._parse_frame(frame, default_delay)
