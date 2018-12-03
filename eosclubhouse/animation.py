@@ -105,7 +105,7 @@ class Animation(GObject.GObject):
     @staticmethod
     def _convert_delay_to_microseconds(delay):
         if isinstance(delay, str):
-            if not '-' in delay:
+            if '-' not in delay:
                 return int(delay) * 1000
 
             delay_a, delay_b = delay.split('-')

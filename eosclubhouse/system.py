@@ -23,6 +23,7 @@ import json
 gi.require_version('Json', '1.0')
 import time
 
+from eosclubhouse import logger
 from eosclubhouse.soundserver import HackSoundServer
 from gi.repository import GLib, GObject, Gio, Json
 
@@ -92,7 +93,7 @@ class Desktop:
         try:
             klass.get_dbus_proxy().GetNameOwner('(s)', name)
         except GLib.Error as e:
-            print(e)
+            logger.error(e)
             return False
         return True
 
@@ -101,7 +102,7 @@ class Desktop:
         try:
             klass.get_app_launcher_proxy().Launch('(su)', name, int(time.time()))
         except GLib.Error as e:
-            print(e)
+            logger.error(e)
             return False
         return True
 
@@ -111,7 +112,7 @@ class Desktop:
             # @todo: Call a direct method in the Shell interface when that's available
             klass.get_shell_proxy().Eval('(s)', 'Main.overview.showApps();')
         except GLib.Error as e:
-            print(e)
+            logger.error(e)
             return False
         return True
 
@@ -123,7 +124,7 @@ class Desktop:
         try:
             klass.get_shell_app_store_proxy().AddApplication('(s)', app_name)
         except GLib.Error as e:
-            print(e)
+            logger.error(e)
             return False
         return True
 
@@ -135,7 +136,7 @@ class Desktop:
         try:
             klass.get_shell_app_store_proxy().RemoveApplication('(s)', app_name)
         except GLib.Error as e:
-            print(e)
+            logger.error(e)
             return False
         return True
 
@@ -241,12 +242,11 @@ class GameStateService(GObject.GObject):
 
     def set(self, key, variant):
         # If we're passing a dictionary instead, then we just convert it from json
-        print(variant, str(variant))
         if isinstance(variant, dict):
             try:
                 json_str = json.dumps(variant)
                 variant = Json.gvariant_deserialize_data(json_str, -1, None)
-            except Exception as e:
+            except Exception:
                 raise TypeError('Error setting GSS entry: value is not a variant nor can it be '
                                 'converted to json')
 

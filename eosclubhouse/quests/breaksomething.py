@@ -1,7 +1,7 @@
 from eosclubhouse.utils import QS, QSH
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
-from gi.repository import Gio, GLib
+from gi.repository import Gio
 
 
 class BreakSomething(Quest):
@@ -142,8 +142,7 @@ class BreakSomething(Quest):
         if time_in_step == 0:
             self.show_hints_message(QSH('BREAK_GIVERESET'), character_id='archivist')
             # Set reset button visible
-            variant = GLib.Variant('a{sb}', {'visible': True})
-            self.gss.set("app.hack_toolbox.reset_button", variant)
+            self.gss.set("app.hack_toolbox.reset_button", {'visible': True})
             Sound.play('quests/reset-given')
 
         if self.settings.get_int('cursor-size') == 24:
@@ -160,8 +159,7 @@ class BreakSomething(Quest):
         if time_in_step == 0:
             self.show_question(QS('BREAK_ALREADYRESET'), character_id='archivist')
             # Set reset button visible
-            variant = GLib.Variant('a{sb}', {'visible': True})
-            self.gss.set("app.hack_toolbox.reset_button", variant)
+            self.gss.set("app.hack_toolbox.reset_button", {'visible': True})
             Sound.play('quests/reset-given')
 
         if self.confirmed_step():
