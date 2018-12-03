@@ -22,7 +22,7 @@ import os
 import time
 
 from eosclubhouse.libquest import Registry, Quest, QuestSet
-from eosclubhouse.system import Desktop, App
+from eosclubhouse.system import Desktop, App, GameStateService
 from gi.repository import GLib
 
 
@@ -39,6 +39,10 @@ class GEditHack(Quest):
 
         self.available = False
         GLib.timeout_add_seconds(10, self._available_on_timeout)
+
+        self.gss = GameStateService()
+        self.gss.set('sample-quest-test', {'number': 123, 'boolean': True})
+        print('Testing GSS', self.gss.get('sample-quest-test'))
 
     def _available_on_timeout(self):
         self.available = True
