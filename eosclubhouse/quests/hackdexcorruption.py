@@ -1,7 +1,6 @@
 from eosclubhouse.utils import QS, QSH
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
-from gi.repository import GLib
 
 
 class HackdexCorruption(Quest):
@@ -25,8 +24,8 @@ class HackdexCorruption(Quest):
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
-            variant = GLib.Variant('a{ss}', {'state': 'corrupted', 'color': ''})
-            self.gss.set('app.com_endlessm_Hackdex_chapter_one.corruption', variant)
+            self.gss.set('app.com_endlessm_Hackdex_chapter_one.corruption',
+                         {'state': 'corrupted', 'color': ''})
             self.show_question(QS('HACKDEX1_PRELAUNCH'))
         if self.confirmed_step():
             return self.step_launch
