@@ -591,6 +591,8 @@ class InventoryPage(Gtk.EventBox):
         self._items_db = utils.QuestItemDB()
 
         self._loaded_items = {}
+        self._update_state()
+
         self._load_items()
 
     def _setup_ui(self):
@@ -598,6 +600,10 @@ class InventoryPage(Gtk.EventBox):
 
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/inventory-page.ui')
+
+        self._inventory_stack = builder.get_object('inventory_stack')
+
+        self._inventory_empty_state_box = builder.get_object('inventory_empty_state_box')
 
         self._inventory_box = builder.get_object('inventory_box')
         self._inventory_box.set_sort_func(self._sort_items)
@@ -645,6 +651,14 @@ class InventoryPage(Gtk.EventBox):
 
             is_used = item_state.get('used', False)
             self._add_item(item_id, is_used, icon, icon_used, name)
+
+        self._update_state()
+
+    def _update_state(self):
+        if len(self._loaded_items) > 0:
+            self._inventory_stack.set_visible_child(self._inventory_box)
+        else:
+            self._inventory_stack.set_visible_child(self._inventory_empty_state_box)
 
     def _item_is_key(self, item_id):
         return item_id.startswith('item.key.')

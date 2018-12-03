@@ -161,3 +161,14 @@
 .inventory-scrolled-window > scrollbar slider:hover {
     background: rgba(223, 166, 106, .8);
 }
+
+.clubhouse-empty-inventory-title {
+    font: 18px "Metropolis Bold, Sans-Serif";
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+.clubhouse-empty-inventory-subtitle {
+    font: 15px "Metropolis Medium, Sans-Serif";
+    margin-top: 40px;
+}
