@@ -18,10 +18,13 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
+import gi
+import json
+gi.require_version('Json', '1.0')
 import time
 
 from eosclubhouse.soundserver import HackSoundServer
-from gi.repository import GLib, GObject, Gio
+from gi.repository import GLib, GObject, Gio, Json
 
 
 class Desktop:
@@ -237,6 +240,16 @@ class GameStateService(GObject.GObject):
             self.emit('changed')
 
     def set(self, key, variant):
+        # If we're passing a dictionary instead, then we just convert it from json
+        print(variant, str(variant))
+        if isinstance(variant, dict):
+            try:
+                json_str = json.dumps(variant)
+                variant = Json.gvariant_deserialize_data(json_str, -1, None)
+            except Exception as e:
+                raise TypeError('Error setting GSS entry: value is not a variant nor can it be '
+                                'converted to json')
+
         self._get_gss_proxy().Set('(sv)', key, variant)
 
     def get(self, key):
