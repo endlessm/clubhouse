@@ -48,10 +48,13 @@ class HackdexCorruption(Quest):
             Sound.play('quests/step-forward')
             self.show_hints_message(QSH('HACKDEX1_GOAL'))
 
-        # Check unlock level 1
-        item = self.gss.get('item.key.hackdex1.1')
-        if item is not None and item.get('used', False):
-            return self.step_check_goal
+        try:
+            # Check unlock level 1
+            item = self.gss.get('item.key.hackdex1.1')
+            if item is not None and item.get('used', False):
+                return self.step_check_goal
+        except Exception as ex:
+            print(ex)
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
