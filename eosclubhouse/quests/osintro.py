@@ -11,6 +11,7 @@ class OSIntro(Quest):
         super().__init__('OS Intro', 'ada', QS('OSINTRO_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self._current_step = None
+        self._clicked = False
 
     # STEP 0
     def step_first(self, time_in_step):
@@ -37,16 +38,17 @@ class OSIntro(Quest):
 
         if self.confirmed_step():
             return self.step_archivist
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
         try:
-            if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
+            if self._app.get_js_property('flipped'):
                 return self.step_archivist_flip
-            if self._app.get_object_property('view.JSContext.globalParameters', 'clicked'):
+            if not self._clicked and self._app.get_js_property('clicked'):
                 self.show_question(QS('OSINTRO_CLICK'))
+                self._clicked = True
+            elif self._clicked and not self._app.get_js_property('clicked'):
+                self.show_question(QS('OSINTRO_EXPLANATION'))
+                self._clicked = False
         except Exception as e:
             print(e)
-
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
