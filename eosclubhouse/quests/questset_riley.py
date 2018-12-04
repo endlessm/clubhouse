@@ -19,7 +19,7 @@ class RileyQuestSet(QuestSet):
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('AdaQuestSet').is_active():
             return QS('NOQUEST_RICKY_ADA')
-        if Registry.get_quest_set_by_name('ArchivistQuestSet').is_active():
+        if Registry.get_quest_set_by_name('SanielQuestSet').is_active():
             return QS('NOQUEST_RICKY_ARCHIVIST')
 
         quest = self.get_quests()[0]

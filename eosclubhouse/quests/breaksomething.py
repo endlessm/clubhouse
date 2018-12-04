@@ -125,11 +125,11 @@ class BreakSomething(Quest):
             Sound.play('quests/step-forward')
             self.show_question(QS('BREAK_SUCCESS'))
         if self.confirmed_step():
-            return self.step_archivist
+            return self.step_saniel
 
-    def step_archivist(self, time_in_step):
+    def step_saniel(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('BREAK_ARCHIVISTARRIVES'), character_id='archivist')
+            self.show_question(QS('BREAK_ARCHIVISTARRIVES'), character_id='saniel')
         if self.confirmed_step():
             if self.settings.get_int('cursor-size') == 24:
                 return self.step_already_reset
@@ -137,7 +137,7 @@ class BreakSomething(Quest):
 
     def step_give_reset(self, time_in_step):
         if time_in_step == 0:
-            self.show_hints_message(QSH('BREAK_GIVERESET'), character_id='archivist')
+            self.show_hints_message(QSH('BREAK_GIVERESET'), character_id='saniel')
             # Set reset button visible
             self.gss.set("app.hack_toolbox.reset_button", {'visible': True})
             Sound.play('quests/reset-given')
@@ -148,13 +148,13 @@ class BreakSomething(Quest):
     def step_reset(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_question(QS('BREAK_RESET'), character_id='archivist')
+            self.show_question(QS('BREAK_RESET'), character_id='saniel')
         if self.confirmed_step():
             return self.step_reward
 
     def step_already_reset(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('BREAK_ALREADYRESET'), character_id='archivist')
+            self.show_question(QS('BREAK_ALREADYRESET'), character_id='saniel')
             # Set reset button visible
             self.gss.set("app.hack_toolbox.reset_button", {'visible': True})
             Sound.play('quests/reset-given')
@@ -164,7 +164,7 @@ class BreakSomething(Quest):
 
     def step_reward(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('BREAK_WRAPUP'), character_id='archivist')
+            self.show_question(QS('BREAK_WRAPUP'), character_id='saniel')
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')

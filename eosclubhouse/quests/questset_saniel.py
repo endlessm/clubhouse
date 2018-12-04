@@ -4,9 +4,9 @@ from eosclubhouse.libquest import Registry, QuestSet
 from eosclubhouse.quests.hackdexcorruption import HackdexCorruption
 
 
-class ArchivistQuestSet(QuestSet):
+class SanielQuestSet(QuestSet):
 
-    __character_id__ = 'archivist'
+    __character_id__ = 'saniel'
     __position__ = (72, 664)
     __quests__ = [HackdexCorruption]
 
@@ -29,4 +29,4 @@ class ArchivistQuestSet(QuestSet):
         return QS('NOQUEST_ARCHIVIST_NOTHING')
 
 
-Registry.register_quest_set(ArchivistQuestSet)
+Registry.register_quest_set(SanielQuestSet)

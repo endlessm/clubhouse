@@ -8,7 +8,7 @@ class HackdexCorruption(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Hackdex_chapter_one'
 
     def __init__(self):
-        super().__init__('Hackdex Corruption', 'archivist', QS('HACKDEX1_QUESTION'))
+        super().__init__('Hackdex Corruption', 'saniel', QS('HACKDEX1_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self.gss.connect('changed', self.update_availability)
         self.available = False
