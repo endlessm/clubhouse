@@ -19,7 +19,7 @@ class ArchivistQuestSet(QuestSet):
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('AdaQuestSet').is_active():
             return QS('NOQUEST_ARCHIVIST_ADA')
-        if Registry.get_quest_set_by_name('RickyQuestSet').is_active():
+        if Registry.get_quest_set_by_name('RileyQuestSet').is_active():
             return QS('NOQUEST_ARCHIVIST_RICKY')
 
         quest = self.get_quests()[0]

@@ -5,9 +5,9 @@ from eosclubhouse.quests.breaksomething import BreakSomething
 from eosclubhouse.quests.fizzics2 import Fizzics2
 
 
-class RickyQuestSet(QuestSet):
+class RileyQuestSet(QuestSet):
 
-    __character_id__ = 'ricky'
+    __character_id__ = 'riley'
     __position__ = (279, 265)
     __quests__ = [Fizzics1, BreakSomething, Fizzics2]
 
@@ -29,4 +29,4 @@ class RickyQuestSet(QuestSet):
         return QS('NOQUEST_RICKY_NOTHING')
 
 
-Registry.register_quest_set(RickyQuestSet)
+Registry.register_quest_set(RileyQuestSet)

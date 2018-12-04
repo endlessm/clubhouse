@@ -9,7 +9,7 @@ class BreakSomething(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.OperatingSystemApp'
 
     def __init__(self):
-        super().__init__('Break Something', 'ricky', QS('BREAK_QUESTION'))
+        super().__init__('Break Something', 'riley', QS('BREAK_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self.gss.connect('changed', self.update_availability)
         self.available = False

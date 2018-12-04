@@ -65,7 +65,7 @@ class GEditHack(Quest):
 
         self.show_message("I am the best GEdit teacher out there, ain't that right Ricky!?")
         time.sleep(3)
-        self.show_message("Not so sure… But okay…", character_id='ricky')
+        self.show_message("Not so sure… But okay…", character_id='riley')
         time.sleep(3)
 
         self.give_item('item.reward.testreward', 'You have just gotten this awesome reward!')

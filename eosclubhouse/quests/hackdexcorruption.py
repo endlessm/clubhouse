@@ -93,14 +93,14 @@ class HackdexCorruption(Quest):
 
     def step_riley(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('HACKDEX1_RILEY'), character_id='ricky',
+            self.show_message(QS('HACKDEX1_RILEY'), character_id='riley',
                               choices=[('OK', self._confirm_step)])
         if self.confirmed_step():
             return self.step_riley_bye
 
     def step_riley_bye(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('HACKDEX1_RILEY_BYE'), character_id='ricky')
+            self.show_question(QS('HACKDEX1_RILEY_BYE'), character_id='riley')
             self.give_item('item.mysterious_object')
             self.conf['complete'] = True
             self.available = False
