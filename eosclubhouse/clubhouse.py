@@ -29,7 +29,7 @@ import threading
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
-from eosclubhouse.system import GameStateService
+from eosclubhouse.system import GameStateService, Sound
 from eosclubhouse.utils import Performance
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator
 
@@ -127,6 +127,7 @@ class Message(Gtk.Bin):
         self._character_mood_change_handler = 0
         self._setup_ui()
         self._animator = Animator(self._character_image)
+        self.connect("show", lambda _: Sound.play('clubhouse/dialog/open'))
 
     def _setup_ui(self):
         builder = Gtk.Builder()
@@ -141,6 +142,8 @@ class Message(Gtk.Bin):
         self._label.set_size_request(self.LABEL_WIDTH, -1)
 
         self.close_button = builder.get_object('character_message_close_button')
+        self.close_button.connect(
+            "clicked", lambda _: Sound.play('clubhouse/dialog/close'))
 
         self._character_image = builder.get_object('character_image')
         overlay.set_overlay_pass_through(self._character_image, True)
@@ -802,8 +805,18 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _on_visibile_property_changed(self, _window, _param):
         if self.props.visible:
             self._stop_page_reset_timeout()
+            Sound.play('clubhouse/ambient', self._ambient_sound_uuid_cb)
         else:
             self._reset_selected_page_on_timeout()
+            self.stop_ambient_sound()
+
+    def _ambient_sound_uuid_cb(self, _proxy, uuid, _data):
+        self._ambient_sound_uuid = uuid
+
+    def stop_ambient_sound(self):
+        if self._ambient_sound_uuid:
+            Sound.stop(self._ambient_sound_uuid)
+            self._ambient_sound_uuid = None
 
     def hide(self):
         super().hide()
@@ -826,6 +839,8 @@ class ClubhouseApplication(Gtk.Application):
         self._debug_mode = False
         self._registry_loaded = False
         self._suggesting_open = False
+
+        self._ambient_sound_uuid = None
 
         # @todo: Move the resource to a different dir
         resource = Gio.resource_load(os.path.join(os.path.dirname(__file__),
