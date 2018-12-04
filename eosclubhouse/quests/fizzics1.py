@@ -99,15 +99,12 @@ class Fizzics1(Quest):
             self.show_hints_message(QSH('FIZZICS1_FLIPPED'))
 
         # Wait until they unlock the panel
-        try:
-            item = self.gss.get('item.key.fizzics.1')
-            if item is not None and item.get('used', False):
-                return self.step_hack
-            # Check for flipping back
-            if not self._app.get_js_property('flipped'):
-                return self.step_level8
-        except Exception as ex:
-            print(ex)
+        item = self.gss.get('item.key.fizzics.1')
+        if item is not None and item.get('used', False):
+            return self.step_hack
+        # Check for flipping back
+        if not self._app.get_js_property('flipped'):
+            return self.step_level8
 
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):

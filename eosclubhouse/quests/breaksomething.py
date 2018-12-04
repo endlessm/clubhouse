@@ -67,18 +67,15 @@ class BreakSomething(Quest):
 
     def step_givekey(self, time_in_step):
         if time_in_step == 0:
-            try:
-                item = self.gss.get('item.key.OperatingSystemApp.1')
-                # If we already have the key, skip this step.
-                if item is not None:
-                    # If the panel is already unlocked, skip all that
-                    if item.get('used', False):
-                        return self.step_unlocked
-                    # Otherwise prompt player to unlock it
-                    else:
-                        return self.step_unlock
-            except Exception as e:
-                print(e)
+            item = self.gss.get('item.key.OperatingSystemApp.1')
+            # If we already have the key, skip this step.
+            if item is not None:
+                # If the panel is already unlocked, skip all that
+                if item.get('used', False):
+                    return self.step_unlocked
+                # Otherwise prompt player to unlock it
+                else:
+                    return self.step_unlock
             Sound.play('quests/step-forward')
             self.show_question(QS('BREAK_GIVEKEY'))
 
