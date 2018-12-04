@@ -418,7 +418,8 @@ class ClubhousePage(Gtk.EventBox):
     def _quest_item_given_cb(self, quest, item_id, text):
         self._shell_popup_item(item_id, text)
 
-    def _quest_message_cb(self, quest, message_txt, answer_choices, character_id, character_mood):
+    def _quest_message_cb(self, quest, message_txt, answer_choices, character_id, character_mood,
+                          open_dialog_sound):
         logger.debug('Message: %s character_id=%s mood=%s choices=[%s]', message_txt, character_id,
                      character_mood, '|'.join([answer for answer, _cb in answer_choices]))
 
@@ -431,7 +432,7 @@ class ClubhousePage(Gtk.EventBox):
         if character_mood is not None:
             character.mood = character_mood
 
-        self._shell_popup_message(message_txt, character)
+        self._shell_popup_message(message_txt, character, open_dialog_sound)
 
     def _run_task_in_thread(self, task):
         quest = task.get_source_object()
@@ -467,13 +468,17 @@ class ClubhousePage(Gtk.EventBox):
     def _shell_close_popup_message(self):
         self._app_window.get_application().close_quest_msg_notification()
 
-    def _shell_popup_message(self, text, character):
+    def _shell_popup_message(self, text, character, open_dialog_sound):
         notification = Gio.Notification()
         notification.set_body(text)
         notification.set_title('')
 
+        if open_dialog_sound:
+            Sound.play(open_dialog_sound)
         if character:
             notification.set_icon(character.get_mood_icon())
+            Sound.play('clubhouse/{}/mood/{}'.format(character.id,
+                                                     character.mood))
 
         for key, action in self._actions.items():
             label = action[0]
