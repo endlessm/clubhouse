@@ -38,8 +38,6 @@ class OSIntro(Quest):
 
         if self.confirmed_step():
             return self.step_archivist
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
         try:
             if self._app.get_js_property('flipped'):
                 return self.step_archivist_flip
@@ -51,7 +49,6 @@ class OSIntro(Quest):
                 self._clicked = False
         except Exception as e:
             print(e)
-
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
