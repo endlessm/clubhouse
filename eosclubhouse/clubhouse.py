@@ -440,9 +440,12 @@ class ClubhousePage(Gtk.EventBox):
         self.disconnect_quest(quest)
         quest.save_conf()
 
-        # Ensure we close any eventual message popups but only if we haven't started a
-        # different quest in the meanwhile
-        if self._quest_task is None or self._is_current_quest(quest):
+        # Ensure we reset the running quest (only if we haven't started a different quest in the
+        # meanwhile) quest and close any eventual message popups
+        if self._is_current_quest(quest):
+            self._quest_task = None
+
+        if self._quest_task is None:
             self._shell_close_popup_message()
 
     def _key_press_event_cb(self, window, event):
