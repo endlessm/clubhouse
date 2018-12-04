@@ -75,7 +75,8 @@ class FizzicsIntro(Quest):
             self.show_hints_message(QSH('FIZZICSINTRO_LEVEL2'))
 
         current_level = self.get_current_level()
-        if current_level >= 2 or (current_level == 1 and self._app.get_js_property('levelSuccess')):
+        if current_level >= 2 or \
+           (current_level == 1 and self._app.get_js_property('levelSuccess')):
             return self.step_success
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
