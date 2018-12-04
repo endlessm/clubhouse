@@ -122,7 +122,6 @@ class OSIntro(Quest):
             archivist_questset = Registry.get_quest_set_by_name('ArchivistQuestSet')
             if archivist_questset is not None:
                 archivist_questset.visible = True
-                archivist_questset.nudge()
 
         try:
             if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
