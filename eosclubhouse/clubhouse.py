@@ -812,6 +812,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.stop_ambient_sound()
 
     def _ambient_sound_uuid_cb(self, _proxy, uuid, _data):
+        if isinstance(uuid, GLib.Error):
+            logger.warning('Error when attempting to play sound: %s', uuid.message)
+            self._ambient_sound_uuid = None
+            return
+
         self._ambient_sound_uuid = uuid
 
     def stop_ambient_sound(self):
