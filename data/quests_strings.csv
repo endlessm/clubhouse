@@ -24,7 +24,7 @@ I can barely make levels fast enough for one of the students – she's already o
 "FIZZICSINTRO_ALREADYBEAT","Oh, hey there! Well done, Einstein!","","","If the player gets to level 3 or higher when the quest starts."
 "FIZZICSINTRO_KEY","Excellent progress so far! I'm going to give you a reward. ","","",""
 "FIZZICSINTRO_KEYAFTER","That key will come in handy later if you want to dig deeper into Fizzics.","","",""
-"FIZZICSINTRO_RICKY","OMG. Fizzics. I love this game. It's my total fave. ","Riley","Riley's theme song stinger",""
+"FIZZICSINTRO_RILEY","OMG. Fizzics. I love this game. It's my total fave. ","Riley","Riley's theme song stinger",""
 "FIZZICSINTRO_END","Oh, hey Riley! I hear you're already on level 10!
 
 See you back at the Clubhouse!","Ada","Super-success sound",""
@@ -57,21 +57,21 @@ It's all so intricate and connected. Let's launch it now. ","","",""
 
 But it's really cool to be able to adjust things and have some input in how your computer works. ","","",""
 "OSINTRO_CLICK","So much going on here! Isn't it all gorgeous? ","","","The player clicked on the app somewhere"
-"OSINTRO_ARCHIVIST","What's all this ruckus? Oh, it's you, Ada. You gave me a start! And who's this with you? ","Archivist","",""
-"OSINTRO_ARCHIVIST_FLIP","Who let you in here? Don't you know you're not supposed to try to access this part? Better get on back now. ","Archivist","Angry Archivist sound","if player tried to flip panel"
-"OSINTRO_ARCHIVIST_FLIP_HINT1","Go back the same way you got here: press the Flip button on the left. ","","",""
+"OSINTRO_SANIEL","What's all this ruckus? Oh, it's you, Ada. You gave me a start! And who's this with you? ","Saniel","",""
+"OSINTRO_SANIEL_FLIP","Who let you in here? Don't you know you're not supposed to try to access this part? Better get on back now. ","Saniel","Angry Archivist sound","if player tried to flip panel"
+"OSINTRO_SANIEL_FLIP_HINT1","Go back the same way you got here: press the Flip button on the left. ","","",""
 "OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel Rowe, the Archivist. Everything you see here – Saniel keeps it all humming. 
 
 I know he'll deny it, Saniel's quite a hero around here!","Ada","",""
-"OSINTRO_ARCHIVIST2","Hero schmero. I'm afraid Ada's filling your head with ancient history! Anyway, hello! 
+"OSINTRO_SANIEL2","Hero schmero. I'm afraid Ada's filling your head with ancient history! Anyway, hello! 
 
 I'll grant that I do know a few things about keeping the systems clear of trouble.
 
-Hear me though when I say, Never come here alone! Got it? ","Archivist","","I'll be keeping my eye out for any shenanigans."
+Hear me though when I say, Never come here alone! Got it? ","Saniel","","I'll be keeping my eye out for any shenanigans."
 "OSINTRO_WRAPUP","He's a bit fierce at first, but his heart's definitely in the right place. I'm glad you could meet him. 
 
 Well, time for me to bounce! My research is calling me ;) ","Ada","",""
-"OSINTRO_FLIPPED","HOW DID YOU GET IN HERE? Let me spell it out: G-o  b-a-c-k!  NOW. ","Archivist","Angry Archivist sound","If the player tries to flip the app at any time after meeting the Archivist"
+"OSINTRO_FLIPPED","HOW DID YOU GET IN HERE? Let me spell it out: G-o  b-a-c-k!  NOW. ","Saniel","Angry Archivist sound","If the player tries to flip the app at any time after meeting the Archivist"
 "OSINTRO_FLIPPED_HINT1","Press that same button on the left you pressed earlier to go back!","","",""
 "OSINTRO_ABORT","Come back to the Clubhouse when you want to learn some more about the System.","Ada","",""
 "BREAK_QUESTION","Psssst! I was hoping I'd see you. Wanna go scope around in the System?","Riley","",""
@@ -92,7 +92,7 @@ He seems to be able to hear everything that goes on here. Ssshhhh. ","","",""
 "BREAK_SUCCESS","LOLLZZ. OMG that is so epic! We have to stop laughing or San will hear us. 
 
 Uh-oh! What's that noise? Oh, hi Dr. Rowe. We're just, er, studying!","","",""
-"BREAK_ARCHIVISTARRIVES","I just told you this is no place for novices! Hhmmph.","Archivist","",""
+"BREAK_SANIELARRIVES","I just told you this is no place for novices! Hhmmph.","Saniel","",""
 "BREAK_GIVERESET","It's not too late to fix this. I'm enabling the Reset Button. When you press it, it will return you to the original settings.","","",""
 "BREAK_GIVERESET_HINT1","Press the button on the top right to reset the cursor size.","","",""
 "BREAK_RESET","Good job restoring the settings! Glad you know about the reset button now. ","","",""
@@ -124,7 +124,7 @@ Check out the others too! Then come stop by the Clubhouse again.","","",""
 "FIZZICS2_REWARD","I think this key must have fallen out of Saniel's pocket. Hang onto it. I think we're gonna need it. ","","",""
 "FIZZICS2_END","Props! Come find me at the Clubhouse whenever!","","",""
 "FIZZICS2_ABORT","No prob. We can try it some other time. You know where to find me!","","",""
-"HACKDEX1_QUESTION","Well hello there. Something very peculiar is happening with the roster. Can you have a look at it with me?","Archivist","",""
+"HACKDEX1_QUESTION","Well hello there. Something very peculiar is happening with the roster. Can you have a look at it with me?","Saniel","",""
 "HACKDEX1_RESPONSE","I'd love to. ","","",""
 "HACKDEX1_PRELAUNCH","My Roster is behaving strangely. I think something has gotten in and corrupted it. Check to see if yours is okay.","","",""
 "HACKDEX1_LAUNCH","So let's see how this goes. Launch the Roster app.","","",""
@@ -142,22 +142,22 @@ Check out the others too! Then come stop by the Clubhouse again.","","",""
 
 How did this get into the Roster? Or did Saniel drop it again? Weird. Anyway, take it.","Riley","",""
 "HACKDEX1_RILEY_BYE","It's been fun to explore things with you! Hope you'll come back ;)","","",""
-"HACKDEX1_ABORT","All done already? Okay then, Come back soon. We've got our work cut out for us!","Archivist","",""
+"HACKDEX1_ABORT","All done already? Okay then, Come back soon. We've got our work cut out for us!","Saniel","",""
 "LOSTFILES_QUESTION","Hey, I'm dealing with a serious situation here. Everything's gone. ","Ada","",""
 "LOSTFILES_ANSWER","Whoa. What happened? ","","",""
 "LOSTFILES_EXPLANATION","I've been studying these rogue AI's and now they've gotten loose. And all my daily logs. Gone!
 
 What's more troubling is that there's no sign of how anyone got in. Or out! ","","",""
-"NOQUEST_ADA_RICKY","I think Riley was looking for you earlier.","","","These are the comments characters make when they don't have a quest to give you. For now they just tell you to go talk to another character (if there is one)."
-"NOQUEST_ADA_ARCHIVIST","Dr. Rowe wants to talk to you.","","",""
+"NOQUEST_ADA_RILEY","I think Riley was looking for you earlier.","","","These are the comments characters make when they don't have a quest to give you. For now they just tell you to go talk to another character (if there is one)."
+"NOQUEST_ADA_SANIEL","Dr. Rowe wants to talk to you.","","",""
 "NOQUEST_ADA_NOTHING","Are you enjoying yourself?","","",""
 "NOQUEST_ADA_CHAPTER1END","We're still trying to get to the bottom of what's happening with Ada's data!","","","This is what the characters say when the whole chapter is over and there's nothing to do."
-"NOQUEST_RICKY_ADA","Hey, I think Ada wants to tell you something.","","",""
-"NOQUEST_RICKY_ARCHIVIST","Psss... The Archivist is looking for you.","","",""
-"NOQUEST_RICKY_NOTHING","What are you up to?","","",""
-"NOQUEST_RICKY_CHAPTER1END","It looks like everybody's wrapped up in recovering Ada's missing packets. That's no fun.","","",""
-"NOQUEST_ARCHIVIST_ADA","Perhaps you should inquire with Ada.","","",""
-"NOQUEST_ARCHIVIST_RICKY","That friend of yours is probably up to no good.","","",""
-"NOQUEST_ARCHIVIST_NOTHING","Stay out of trouble!","","",""
-"NOQUEST_ARCHIVIST_CHAPTER1END","Shhhh!... We're busy right now.","","",""
+"NOQUEST_RILEY_ADA","Hey, I think Ada wants to tell you something.","","",""
+"NOQUEST_RILEY_SANIEL","Psss... The Archivist is looking for you.","","",""
+"NOQUEST_RILEY_NOTHING","What are you up to?","","",""
+"NOQUEST_RILEY_CHAPTER1END","It looks like everybody's wrapped up in recovering Ada's missing packets. That's no fun.","","",""
+"NOQUEST_SANIEL_ADA","Perhaps you should inquire with Ada.","","",""
+"NOQUEST_SANIEL_RILEY","That friend of yours is probably up to no good.","","",""
+"NOQUEST_SANIEL_NOTHING","Stay out of trouble!","","",""
+"NOQUEST_SANIEL_CHAPTER1END","Shhhh!... We're busy right now.","","",""
 "","Yellow: I had to add/modify the text. Needs to be looked at by Genine.","","",""
