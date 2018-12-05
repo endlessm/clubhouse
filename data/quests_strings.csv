@@ -8,26 +8,26 @@ HINT when the player has not dragged any sliders in 5 seconds, or player clicks 
 "FIRSTCONTACT_GOAL_HINT2","Keep trying! Move the sliders until the gold wave fits into the groove. ","","",""
 "FIRSTCONTACT_FLIPBACK","Nice hack!","","","Player has solved the wave puzzle."
 "FIRSTCONTACT_FLIPBACK_HINT1","I wonder if anything happened to the gate? Click the Flip to Hack button again.","","","When player has solved puzzle and hasn't flipped back to the front, and 3 seconds have passed."
-"FIZZICSINTRO_QUESTION","Oh hi again! By the way, I'm Ada. I'm working on my new game here in the Clubhouse. Want to see it?","Ada","Ada's theme song",""
+"FIZZICSINTRO_QUESTION","Oh hi again! By the way, I'm Ada. I'm working on my new game here in the Clubhouse. It's called Fizzics. Want to see it?","Ada","Ada's theme song",""
 "FIZZICSINTRO_RESPONSE","Sounds fun!","","",""
-"FIZZICSINTRO_LAUNCH","Fab. It's called Fizzics. See it there now? Go ahead and launch it. ","","",""
+"FIZZICSINTRO_LAUNCH","Fab, Go ahead and launch Fizzics now. ","","",""
 "FIZZICSINTRO_LAUNCH_HINT1","See the Fizzics app on the desktop? Click on it now to start the game.","","",""
 "FIZZICSINTRO_EXPLANATION","Fizzics helps me with my research on how things bounce, but frankly the slingshot is just really fun.
 
 I can barely make levels fast enough for one of the students – she's already on level 10!","","Success sound","Fizzics launched; prompt player to get to level 3."
-"FIZZICSINTRO_LEVEL1","Okay, so first let's get to Level 3. Click around to check out how things work. ","","",""
+"FIZZICSINTRO_LEVEL1","Okay, so first try to beat Level 2. Click around to check out how things work. ","","",""
 "FIZZICSINTRO_LEVEL1_HINT1","Click the orange ball to activate the slingshot. Pull back on it and then let it go. ","","",""
 "FIZZICSINTRO_LEVEL1_HINT2","To win the level you have to fling all the orange balls against the goal.","","",""
 "FIZZICSINTRO_LEVEL2","Clearly you've got the idea! Okay, so one more level to go.","","",""
 "FIZZICSINTRO_LEVEL2_HINT1","This works just like the others: get all the orange balls to the goal.","","",""
-"FIZZICSINTRO_SUCCESS","Well done! I knew you'd get the hang of it.","Ada","Success sound","Player got to level 3."
+"FIZZICSINTRO_SUCCESS","Well done! I knew you could do it!","Ada","Success sound","Player got to level 3."
 "FIZZICSINTRO_ALREADYBEAT","Oh, hey there! Well done, Einstein!","","","If the player gets to level 3 or higher when the quest starts."
-"FIZZICSINTRO_RICKY","OMG. Fizzics. I love this game. It's my total fave. ","Riley","Riley's theme song stinger",""
-"FIZZICSINTRO_INTRO","Oh, hey Riley! I hear you're already on level 10! ","Ada","",""
 "FIZZICSINTRO_KEY","Excellent progress so far! I'm going to give you a reward. ","","",""
-"FIZZICSINTRO_END","That key will come in handy later if you want to dig deeper into Fizzics.
+"FIZZICSINTRO_KEYAFTER","That key will come in handy later if you want to dig deeper into Fizzics.","","",""
+"FIZZICSINTRO_RICKY","OMG. Fizzics. I love this game. It's my total fave. ","Riley","Riley's theme song stinger",""
+"FIZZICSINTRO_END","Oh, hey Riley! I hear you're already on level 10!
 
-See you back at the Clubhouse!","","Super-success sound",""
+See you back at the Clubhouse!","Ada","Super-success sound",""
 "FIZZICSINTRO_ABORT","We can do it later. Come get me at the Clubhouse whenever!","","",""
 "FIZZICS1_QUESTION","Can't wait to see if you can get to the level I'm on in Fizzics!","","",""
 "FIZZICS1_REPONSE","Let's go. ","","",""
@@ -36,7 +36,7 @@ See you back at the Clubhouse!","","Super-success sound",""
 "FIZZICS1_GOAL","Great. Now get to Level 8. That's where the real challenge starts.","","",""
 "FIZZICS1_GOAL_HINT1","These work just like the others: fling the orange ball at the target. ","","",""
 "FIZZICS1_LEVEL8","Level 8! You made it! Okay, so give it a shot ;) ","","",""
-"FIZZICS1_LEVEL8_HINT1","You're gonna need to hack the game to beat it. Press the Flip to Hack button.","","",""
+"FIZZICS1_LEVEL8_HINT1","You're gonna need to hack the game to beat it. Press the Flip button.","","",""
 "FIZZICS1_BACKTOLEVEL8","No, wait, go back to level 8. You're going to need to get through that one before going further. ","","",""
 "FIZZICS1_FLIPPED","Use the key that Ada gave you earlier. Click on that lock to access the hack panel.","","",""
 "FIZZICS1_FLIPPED_HINT1","Just click on the lock and you're golden. ","","",""
@@ -62,7 +62,7 @@ But it's really cool to be able to adjust things and have some input in how your
 "OSINTRO_ARCHIVIST_FLIP_HINT1","Go back the same way you got here: press the Flip button on the left. ","","",""
 "OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel Rowe, the Archivist. Everything you see here – Saniel keeps it all humming. 
 
-Don't tell him I told you, but Saniel's quite the hero!","Ada","",""
+I know he'll deny it, Saniel's quite a hero around here!","Ada","",""
 "OSINTRO_ARCHIVIST2","Hero schmero. I'm afraid Ada's filling your head with ancient history! Anyway, hello! 
 
 I'll grant that I do know a few things about keeping the systems clear of trouble.
@@ -78,20 +78,20 @@ Well, time for me to bounce! My research is calling me ;) ","Ada","",""
 "BREAK_RESPONSE","Definitely. ","","",""
 "BREAK_LAUNCH","Ok. So you just need to launch the System app now and we're golden. ","","",""
 "BREAK_LAUNCH_HINT1","Click on the System app icon on the desktop.","","",""
-"BREAK_OSAPP","Awesome. This place is LIT. Okay we have to be extremely quiet. We don't want Saniel knowing we're here. 
+"BREAK_OSAPP","Awesome. This place is LIT. We have to be beyond quiet. We don't want Saniel knowing we're here. 
 
-He seems to be able to hear everything that goes on here. Ssshhhh. I think I hear him.","","",""
+He seems to be able to hear everything that goes on here. Ssshhhh. ","","",""
 "BREAK_FLIP","Ok, remember the flip button? Go ahead and press it.","","",""
 "BREAK_FLIP_HINT1","See the button on the left? Press it to hack the System.","","",""
 "BREAK_GIVEKEY","The other day I found this key and I think it fits here! I'm going to give it to you.","","",""
 "BREAK_UNLOCK","Now click on that to unlock it. I wonder what's behind it?","","",""
 "BREAK_UNLOCK_HINT1","Click anywhere to unlock it.","","",""
 "BREAK_UNLOCKED","Rad! We can have so much fun playing around with the settings.","","",""
-"BREAK_MAKEITLARGE","Try changing the cursor size all the way to 200 to make it huge! ","","",""
-"BREAK_MAKEITLARGE_HINT1","Click the + next to size until it's 200!","","",""
-"BREAK_SUCCESS","LOLLZZ. OMG we have to stop laughing or San will hear us. Uh-oh! What's that noise?
+"BREAK_MAKEITLARGE","Try changing the cursor size to something larger than 200 to make it huge! ","","",""
+"BREAK_MAKEITLARGE_HINT1","Click the + next to size until it's more than 200!","","",""
+"BREAK_SUCCESS","LOLLZZ. OMG that is so epic! We have to stop laughing or San will hear us. 
 
-Oh, hi Dr. Rowe. We're just, er, studying!","","",""
+Uh-oh! What's that noise? Oh, hi Dr. Rowe. We're just, er, studying!","","",""
 "BREAK_ARCHIVISTARRIVES","I just told you this is no place for novices! Hhmmph.","Archivist","",""
 "BREAK_GIVERESET","It's not too late to fix this. I'm enabling the Reset Button. When you press it, it will return you to the original settings.","","",""
 "BREAK_GIVERESET_HINT1","Press the button on the top right to reset the cursor size.","","",""
@@ -101,7 +101,7 @@ Oh, hi Dr. Rowe. We're just, er, studying!","","",""
 "BREAK_ABORT","No prob! We can try again later. ","","","If player exits the OS app before completing the quest."
 "ROSTER_QUESTION","Okay, we have another important part of the tour. I'm going to give you some info you're going to need. ","Ada","",""
 "ROSTER_RESPONSE","I'm in. ","","",""
-"ROSTER_PRELAUNCH","I'm going to give you the Roster.","","",""
+"ROSTER_PRELAUNCH","We're going to visit the Roster.","","",""
 "ROSTER_LAUNCH","Go ahead and launch it.","","",""
 "ROSTER_LAUNCH_HINT1","Launch the Roster app from the desktop.","","",""
 "ROSTER_EXPLANATION","You'll find alot of cool info about our crew here. Check out the page about Saniel.","","",""
@@ -109,7 +109,7 @@ Oh, hi Dr. Rowe. We're just, er, studying!","","",""
 "ROSTER_SUCCESS","You found it. Excellent. Quite fascinating, isn't he? 
 
 Check out the others too! Then come stop by the Clubhouse again.","","",""
-"ROSTER_ABORT","be in the Clubhouse. Just come get me whenever. ","","",""
+"ROSTER_ABORT","I'll be in the Clubhouse. Just come get me whenever. ","","",""
 "FIZZICS2_QUESTION","Hey! So I prepared this special challenge just for you in Fizzics. Think you can beat it?","Riley","",""
 "FIZZICS2_RESPONSE","Definitely up to try!","","",""
 "FIZZICS2_LAUNCH","Good. Launch the Fizzics app and let's play!","","",""
