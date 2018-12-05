@@ -63,7 +63,7 @@ class GEditHack(Quest):
     def start(self):
         self.give_item('item.key.testkey')
 
-        self.show_message("I am the best GEdit teacher out there, ain't that right Ricky!?")
+        self.show_message("I am the best GEdit teacher out there, ain't that right Riley!?")
         time.sleep(3)
         self.show_message("Not so sure… But okay…", character_id='riley')
         time.sleep(3)
