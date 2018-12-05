@@ -55,7 +55,7 @@ class OSIntro(Quest):
     def step_saniel(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/archivist-intro')
-            self.show_question(QS('OSINTRO_ARCHIVIST'), character_id='saniel')
+            self.show_question(QS('OSINTRO_SANIEL'), character_id='saniel')
 
         if self.confirmed_step():
             return self.step_intro
@@ -71,7 +71,7 @@ class OSIntro(Quest):
     def step_saniel_flip(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/archivist-angry')
-            self.show_hints_message(QSH('OSINTRO_ARCHIVIST_FLIP'), character_id='saniel')
+            self.show_hints_message(QSH('OSINTRO_SANIEL_FLIP'), character_id='saniel')
 
         try:
             if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
@@ -98,7 +98,7 @@ class OSIntro(Quest):
 
     def step_saniel2(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('OSINTRO_ARCHIVIST2'), character_id='saniel')
+            self.show_question(QS('OSINTRO_SANIEL2'), character_id='saniel')
 
         if self.confirmed_step():
             # We're putting this here to avoid getting multiple sounds in the last step
