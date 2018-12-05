@@ -508,7 +508,7 @@ class ClubhousePage(Gtk.EventBox):
         notification.set_icon(icon)
 
         notification.add_button('OK', 'app.item-accept-answer')
-        notification.add_button('Show me!', "app.show-page('{}')".format('inventory'))
+        notification.add_button('Show me', "app.show-page('{}')".format('inventory'))
 
         self._app_window.get_application().send_quest_item_notification(notification)
 
