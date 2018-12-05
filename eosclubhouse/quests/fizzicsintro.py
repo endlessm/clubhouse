@@ -33,10 +33,17 @@ class FizzicsIntro(Quest):
             Desktop.show_app_grid()
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
+            return self.step_delay_until_ready
+
+    # Wait until the app is up and running
+    def step_delay_until_ready(self, time_in_step):
+        if self.get_current_level() >= 0:
             return self.step_delay1
 
+    # And now give it 1 more second to initialize its current level
+    # That way we can check at the beginning of the next step and not print multiple messages
     def step_delay1(self, time_in_step):
-        if time_in_step > 2:
+        if time_in_step >= 1:
             return self.step_explanation
 
     def step_explanation(self, time_in_step):
@@ -47,7 +54,7 @@ class FizzicsIntro(Quest):
             self.show_question(QS('FIZZICSINTRO_EXPLANATION'))
 
         if self.confirmed_step():
-                return self.step_level1
+            return self.step_level1
         if self.get_current_level() >= 1:
             return self.step_level2
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
@@ -67,7 +74,9 @@ class FizzicsIntro(Quest):
             Sound.play('quests/step-forward')
             self.show_hints_message(QSH('FIZZICSINTRO_LEVEL2'))
 
-        if self.get_current_level() >= 2:
+        current_level = self.get_current_level()
+        if current_level >= 2 or \
+           (current_level == 1 and self._app.get_js_property('levelSuccess')):
             return self.step_success
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
@@ -76,11 +85,25 @@ class FizzicsIntro(Quest):
         if time_in_step == 0:
             self.show_question(QS('FIZZICSINTRO_SUCCESS'))
         if self.confirmed_step():
-            return self.step_riley
+            return self.step_prekey
 
     def step_already_beat(self, time_in_step):
         if time_in_step == 0:
             self.show_question(QS('FIZZICSINTRO_ALREADYBEAT'))
+        if self.confirmed_step():
+            return self.step_prekey
+
+    def step_prekey(self, time_in_step):
+        if time_in_step == 0:
+            Sound.play('quests/riley-intro')
+            self.show_message(QS('FIZZICSINTRO_KEY'), choices=[('OK', self._confirm_step)])
+        if self.confirmed_step():
+            return self.step_key
+
+    def step_key(self, time_in_step):
+        if time_in_step == 0:
+            self.give_item('item.key.fizzics.1')
+            self.show_question(QS('FIZZICSINTRO_KEYAFTER'))
         if self.confirmed_step():
             return self.step_riley
 
@@ -89,26 +112,13 @@ class FizzicsIntro(Quest):
             Sound.play('quests/riley-intro')
             self.show_question(QS('FIZZICSINTRO_RILEY'), character_id='riley')
         if self.confirmed_step():
-            return self.step_intro
+            return self.step_end
 
-    def step_intro(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question(QS('FIZZICSINTRO_INTRO'))
-        if self.confirmed_step():
-            return self.step_prekey
-
-    def step_prekey(self, time_in_step):
-        if time_in_step == 0:
-            self.show_message(QS('FIZZICSINTRO_KEY'), choices=[('OK', self._confirm_step)])
-        if self.confirmed_step():
-            return self.step_key
-
-    def step_key(self, time_in_step):
+    def step_end(self, time_in_step):
         if time_in_step == 0:
             self.conf['complete'] = True
             self.available = False
-            self.give_item('item.key.fizzics.1')
-            self.show_question(QS('FIZZICSINTRO_END'))
+            self.show_message(QS('FIZZICSINTRO_END'), choices=[('Bye', self._confirm_step)])
             Sound.play('quests/quest-complete')
         if self.confirmed_step():
             self.stop()
