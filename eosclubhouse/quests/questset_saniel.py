@@ -4,9 +4,9 @@ from eosclubhouse.libquest import Registry, QuestSet
 from eosclubhouse.quests.hackdexcorruption import HackdexCorruption
 
 
-class ArchivistQuestSet(QuestSet):
+class SanielQuestSet(QuestSet):
 
-    __character_id__ = 'archivist'
+    __character_id__ = 'saniel'
     __position__ = (72, 664)
     __quests__ = [HackdexCorruption]
 
@@ -18,15 +18,15 @@ class ArchivistQuestSet(QuestSet):
 
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('AdaQuestSet').is_active():
-            return QS('NOQUEST_ARCHIVIST_ADA')
-        if Registry.get_quest_set_by_name('RickyQuestSet').is_active():
-            return QS('NOQUEST_ARCHIVIST_RICKY')
+            return QS('NOQUEST_SANIEL_ADA')
+        if Registry.get_quest_set_by_name('RileyQuestSet').is_active():
+            return QS('NOQUEST_SANIEL_RILEY')
 
         quest = self.get_quests()[0]
         if (quest.is_named_quest_complete("LostFiles")):
-            return QS('NOQUEST_ARCHIVIST_CHAPTER1END')
+            return QS('NOQUEST_SANIEL_CHAPTER1END')
 
-        return QS('NOQUEST_ARCHIVIST_NOTHING')
+        return QS('NOQUEST_SANIEL_NOTHING')
 
 
-Registry.register_quest_set(ArchivistQuestSet)
+Registry.register_quest_set(SanielQuestSet)

@@ -8,7 +8,7 @@ class HackdexCorruption(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Hackdex_chapter_one'
 
     def __init__(self):
-        super().__init__('Hackdex Corruption', 'archivist', QS('HACKDEX1_QUESTION'))
+        super().__init__('Hackdex Corruption', 'saniel', QS('HACKDEX1_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self.gss.connect('changed', self.update_availability)
         self.available = False
@@ -93,14 +93,14 @@ class HackdexCorruption(Quest):
 
     def step_riley(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('HACKDEX1_RILEY'), character_id='ricky',
+            self.show_message(QS('HACKDEX1_RILEY'), character_id='riley',
                               choices=[('OK', self._confirm_step)])
         if self.confirmed_step():
             return self.step_riley_bye
 
     def step_riley_bye(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('HACKDEX1_RILEY_BYE'), character_id='ricky')
+            self.show_question(QS('HACKDEX1_RILEY_BYE'), character_id='riley')
             self.give_item('item.mysterious_object')
             self.conf['complete'] = True
             self.available = False

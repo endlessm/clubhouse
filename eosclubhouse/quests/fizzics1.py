@@ -8,7 +8,7 @@ class Fizzics1(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
 
     def __init__(self):
-        super().__init__('Fizzics 1', 'ricky', QS('FIZZICS1_QUESTION'))
+        super().__init__('Fizzics 1', 'riley', QS('FIZZICS1_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self.gss.connect('changed', self.update_availability)
         self.available = False

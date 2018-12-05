@@ -8,7 +8,7 @@ class Fizzics2(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
 
     def __init__(self):
-        super().__init__('Fizzics 2', 'ricky', QS('FIZZICS2_QUESTION'))
+        super().__init__('Fizzics 2', 'riley', QS('FIZZICS2_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self._initialized = False
 

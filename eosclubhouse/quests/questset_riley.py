@@ -5,9 +5,9 @@ from eosclubhouse.quests.breaksomething import BreakSomething
 from eosclubhouse.quests.fizzics2 import Fizzics2
 
 
-class RickyQuestSet(QuestSet):
+class RileyQuestSet(QuestSet):
 
-    __character_id__ = 'ricky'
+    __character_id__ = 'riley'
     __position__ = (279, 265)
     __quests__ = [Fizzics1, BreakSomething, Fizzics2]
 
@@ -18,15 +18,15 @@ class RickyQuestSet(QuestSet):
 
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('AdaQuestSet').is_active():
-            return QS('NOQUEST_RICKY_ADA')
-        if Registry.get_quest_set_by_name('ArchivistQuestSet').is_active():
-            return QS('NOQUEST_RICKY_ARCHIVIST')
+            return QS('NOQUEST_RILEY_ADA')
+        if Registry.get_quest_set_by_name('SanielQuestSet').is_active():
+            return QS('NOQUEST_RILEY_SANIEL')
 
         quest = self.get_quests()[0]
         if (quest.is_named_quest_complete("LostFiles")):
-            return QS('NOQUEST_RICKY_CHAPTER1END')
+            return QS('NOQUEST_RILEY_CHAPTER1END')
 
-        return QS('NOQUEST_RICKY_NOTHING')
+        return QS('NOQUEST_RILEY_NOTHING')
 
 
-Registry.register_quest_set(RickyQuestSet)
+Registry.register_quest_set(RileyQuestSet)

@@ -76,18 +76,18 @@ class FizzicsIntro(Quest):
         if time_in_step == 0:
             self.show_question(QS('FIZZICSINTRO_SUCCESS'))
         if self.confirmed_step():
-            return self.step_ricky
+            return self.step_riley
 
     def step_already_beat(self, time_in_step):
         if time_in_step == 0:
             self.show_question(QS('FIZZICSINTRO_ALREADYBEAT'))
         if self.confirmed_step():
-            return self.step_ricky
+            return self.step_riley
 
-    def step_ricky(self, time_in_step):
+    def step_riley(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/riley-intro')
-            self.show_question(QS('FIZZICSINTRO_RICKY'), character_id='ricky')
+            self.show_question(QS('FIZZICSINTRO_RILEY'), character_id='riley')
         if self.confirmed_step():
             return self.step_intro
 

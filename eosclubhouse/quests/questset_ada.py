@@ -15,10 +15,10 @@ class AdaQuestSet(QuestSet):
     __quests__ = [FirstContact, FizzicsIntro, OSIntro, Roster, LostFiles]
 
     def get_empty_message(self):
-        if Registry.get_quest_set_by_name('RickyQuestSet').is_active():
-            return QS('NOQUEST_ADA_RICKY')
-        if Registry.get_quest_set_by_name('ArchivistQuestSet').is_active():
-            return QS('NOQUEST_ADA_ARCHIVIST')
+        if Registry.get_quest_set_by_name('RileyQuestSet').is_active():
+            return QS('NOQUEST_ADA_RILEY')
+        if Registry.get_quest_set_by_name('SanielQuestSet').is_active():
+            return QS('NOQUEST_ADA_SANIEL')
 
         quest = self.get_quests()[0]
         if (quest.is_named_quest_complete("LostFiles")):

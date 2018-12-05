@@ -37,10 +37,10 @@ class OSIntro(Quest):
             self.show_question(QS('OSINTRO_EXPLANATION'))
 
         if self.confirmed_step():
-            return self.step_archivist
+            return self.step_saniel
         try:
             if self._app.get_js_property('flipped'):
-                return self.step_archivist_flip
+                return self.step_saniel_flip
             if not self._clicked and self._app.get_js_property('clicked'):
                 self.show_question(QS('OSINTRO_CLICK'))
                 self._clicked = True
@@ -52,10 +52,10 @@ class OSIntro(Quest):
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
-    def step_archivist(self, time_in_step):
+    def step_saniel(self, time_in_step):
         if time_in_step == 0:
-            Sound.play('quests/archivist-intro')
-            self.show_question(QS('OSINTRO_ARCHIVIST'), character_id='archivist')
+            Sound.play('quests/saniel-intro')
+            self.show_question(QS('OSINTRO_SANIEL'), character_id='saniel')
 
         if self.confirmed_step():
             return self.step_intro
@@ -63,15 +63,15 @@ class OSIntro(Quest):
             return self.step_abort
         try:
             if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
-                self._current_step = self.step_archivist
+                self._current_step = self.step_saniel
                 return self.step_flipped
         except Exception as e:
             print(e)
 
-    def step_archivist_flip(self, time_in_step):
+    def step_saniel_flip(self, time_in_step):
         if time_in_step == 0:
-            Sound.play('quests/archivist-angry')
-            self.show_hints_message(QSH('OSINTRO_ARCHIVIST_FLIP'), character_id='archivist')
+            Sound.play('quests/saniel-angry')
+            self.show_hints_message(QSH('OSINTRO_SANIEL_FLIP'), character_id='saniel')
 
         try:
             if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
@@ -86,7 +86,7 @@ class OSIntro(Quest):
             self.show_question(QS('OSINTRO_INTRO'))
 
         if self.confirmed_step():
-            return self.step_archivist2
+            return self.step_saniel2
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
         try:
@@ -96,9 +96,9 @@ class OSIntro(Quest):
         except Exception as e:
             print(e)
 
-    def step_archivist2(self, time_in_step):
+    def step_saniel2(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('OSINTRO_ARCHIVIST2'), character_id='archivist')
+            self.show_question(QS('OSINTRO_SANIEL2'), character_id='saniel')
 
         if self.confirmed_step():
             # We're putting this here to avoid getting multiple sounds in the last step
@@ -111,7 +111,7 @@ class OSIntro(Quest):
             return self.step_abort
         try:
             if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
-                self._current_step = self.step_archivist2
+                self._current_step = self.step_saniel2
                 return self.step_flipped
         except Exception as e:
             print(e)
@@ -120,10 +120,10 @@ class OSIntro(Quest):
         if time_in_step == 0:
             self.show_question(QS('OSINTRO_WRAPUP'))
 
-            # this is the quest that makes the Archivist appear
-            archivist_questset = Registry.get_quest_set_by_name('ArchivistQuestSet')
-            if archivist_questset is not None:
-                archivist_questset.visible = True
+            # this is the quest that makes Saniel appear
+            saniel_questset = Registry.get_quest_set_by_name('SanielQuestSet')
+            if saniel_questset is not None:
+                saniel_questset.visible = True
 
         try:
             if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
@@ -137,8 +137,8 @@ class OSIntro(Quest):
 
     def step_flipped(self, time_in_step):
         if time_in_step == 0:
-            Sound.play('quests/archivist-angry')
-            self.show_hints_message(QSH('OSINTRO_FLIPPED'), character_id='archivist')
+            Sound.play('quests/saniel-angry')
+            self.show_hints_message(QSH('OSINTRO_FLIPPED'), character_id='saniel')
         try:
             if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
                 return self._current_step
