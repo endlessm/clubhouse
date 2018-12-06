@@ -20,6 +20,14 @@ class Fizzics1(Quest):
         if self.is_named_quest_complete("FizzicsIntro"):
             self.available = True
 
+    def get_current_level(self):
+        try:
+            level = self._app.get_js_property('currentLevel')
+            return level
+        except Exception as ex:
+            print(ex)
+        return -1
+
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
@@ -39,34 +47,26 @@ class Fizzics1(Quest):
     def step_goal(self, time_in_step):
         if time_in_step == 0:
             # Check to see if the goal is already beat
-            try:
-                if self._app.get_js_property('currentLevel') >= 8:
-                    return self.step_already_beat
-            except Exception as ex:
-                print(ex)
+            if self.get_current_level() >= 8:
+                return self.step_already_beat
             Sound.play('quests/step-forward')
             self.show_hints_message(QSH('FIZZICS1_GOAL'))
 
+        if self.get_current_level() == 7:
+            return self.step_level8
+        # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
-
-        try:
-            if self._app.get_js_property('currentLevel') == 7:
-                return self.step_level8
-        except Exception as ex:
-            print(ex)
 
     def step_backtolevel8(self, time_in_step):
         if time_in_step == 0:
             self.show_message(QS('FIZZICS1_BACKTOLEVEL8'))
 
+        if self.get_current_level() == 7:
+            return self.step_level8
+        # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
-        try:
-            if self._app.get_js_property('currentLevel') == 7:
-                return self.step_level8
-        except Exception as ex:
-            print(ex)
 
     def step_level8(self, time_in_step):
         if time_in_step == 0:
@@ -77,18 +77,14 @@ class Fizzics1(Quest):
             # Check for flipping the app
             if self._app.get_js_property('flipped'):
                 return self.step_flipped
-            # Check if they're going to another level
-            if self._app.get_js_property('currentLevel') != 7:
-                return self.step_backtolevel8
             # Check for success
-            if self._app.get_js_property('currentLevel') >= 8 or \
-               self._app.get_js_property('levelSuccess'):
+            if self.get_current_level() >= 8 or self._app.get_js_property('levelSuccess'):
                 return self.step_success
-            if self._app.get_js_property('currentLevel') < 7:
-                return self.step_backtolevel8
         except Exception as ex:
             print(ex)
-
+        # Check if they're going to another level
+        if self.get_current_level() < 7:
+            return self.step_backtolevel8
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
@@ -105,7 +101,6 @@ class Fizzics1(Quest):
         # Check for flipping back
         if not self._app.get_js_property('flipped'):
             return self.step_level8
-
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
@@ -117,14 +112,13 @@ class Fizzics1(Quest):
 
         try:
             # Check for success
-            if self._app.get_js_property('currentLevel') == 8 or \
-               self._app.get_js_property('levelSuccess'):
+            if self.get_current_level() == 8 or self._app.get_js_property('levelSuccess'):
                 return self.step_success
-            # Check for going to another level
-            if self._app.get_js_property('currentLevel') < 7:
-                return self.step_backtolevel8
         except Exception as ex:
             print(ex)
+        # Check for going to another level
+        if self.get_current_level() < 7:
+            return self.step_backtolevel8
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
