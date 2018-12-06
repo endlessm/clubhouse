@@ -29,45 +29,47 @@ I can barely make levels fast enough for one of the students – she's already o
 
 See you back at the Clubhouse!","Ada","Super-success sound",""
 "FIZZICSINTRO_ABORT","We can do it later. Come get me at the Clubhouse whenever!","","",""
-"FIZZICS1_QUESTION","Can't wait to see if you can get to the level I'm on in Fizzics!","","",""
+"FIZZICS1_QUESTION","Can't wait to see if someone can finally get to my level I'm in Fizzics!","","",""
 "FIZZICS1_REPONSE","Let's go. ","","",""
 "FIZZICS1_LAUNCH","Excellent! Here goes! Launch the Fizzics game to get started.","","",""
 "FIZZICS1_LAUNCH_HINT1","See the Fizzics app on the desktop? Click it to launch. ","","",""
-"FIZZICS1_GOAL","Great. Now get to Level 8. That's where the real challenge starts.","","",""
+"FIZZICS1_GOAL","Great. Now get to Level 8. That's where it really gets fun. ","","",""
 "FIZZICS1_GOAL_HINT1","These work just like the others: fling the orange ball at the target. ","","",""
 "FIZZICS1_LEVEL8","Level 8! You made it! Okay, so give it a shot ;) ","","",""
 "FIZZICS1_LEVEL8_HINT1","You're gonna need to hack the game to beat it. Press the Flip button.","","",""
+"FIZZICS1_BALLDIED","Oops! One of your balls exploded. You can't beat the level this way, so press the reset button.","","",""
+"FIZZICS1_BALLDIED_HINT1","See that button at the top with an arrow? That's the reset button.","","",""
 "FIZZICS1_BACKTOLEVEL8","No, wait, go back to level 8. You're going to need to get through that one before going further. ","","",""
 "FIZZICS1_FLIPPED","Use the key that Ada gave you earlier. Click on that lock to access the hack panel.","","",""
 "FIZZICS1_FLIPPED_HINT1","Just click on the lock and you're golden. ","","",""
-"FIZZICS1_HACK","Perfect. I have no doubt you can beat the level if you just make a few changes!","","",""
-"FIZZICS1_HACK_HINT1","You could try making the radius really small.","","",""
-"FIZZICS1_HACK_HINT2","Or even play around with the gravity on see what happens!","","",""
-"FIZZICS1_SUCCESS","Brilliant! I knew you'd ace that. See you at the Clubhouse!","","",""
-"FIZZICS1_ALREADYBEAT","Hold on! You already beat level 8? Excellent ;) See you at the Clubhouse.","","",""
+"FIZZICS1_HACK","Amazing! You're in. Now just see what changes you need to make to beat the level.","","",""
+"FIZZICS1_HACK_HINT1","Try making the radius really small.","","",""
+"FIZZICS1_HACK_HINT2","Play around with the gravity and see what happens!","","",""
+"FIZZICS1_SUCCESS","Slayyy! I knew you'd ace that. See you at the Clubhouse!","","",""
+"FIZZICS1_ALREADYBEAT","Hold on! You already beat level 8? Brilliant ;) See you at the Clubhouse.","","",""
 "FIZZICS1_ABORT","Check ya later! Holler at me if you want to play again soon! ","","",""
-"OSINTRO_QUESTION","The System is a super important place. Would you like to see it now?","Ada","",""
+"OSINTRO_QUESTION","The System is a seriously magical place. Want to go there with me now?","Ada","",""
 "OSINTRO_RESPONSE","Absolutely!","","",""
-"OSINTRO_PRELAUNCH","Wonderful. The System is the engine that controls every little thing your computer can do. 
+"OSINTRO_PRELAUNCH","Excellent. The System controls everything that goes into how your computer operates. 
 
-It's all so intricate and connected. Let's launch it now. ","","",""
+Let's launch it now. ","","",""
 "OSINTRO_LAUNCH","Launch the System app.","","",""
 "OSINTRO_LAUNCH_HINT1","Click on the System icon on the desktop.","","",""
-"OSINTRO_EXPLANATION","The System keeps everything running smoothly. You have to be very careful back here. 
+"OSINTRO_EXPLANATION","See what I mean? It's all so intricate and connected. You've got to be super careful back here. 
 
-But it's really cool to be able to adjust things and have some input in how your computer works. ","","",""
+Now that you're here you can play with the settings. It's cool to have a say in how your computer works. ","","",""
 "OSINTRO_CLICK","So much going on here! Isn't it all gorgeous? ","","","The player clicked on the app somewhere"
 "OSINTRO_SANIEL","What's all this ruckus? Oh, it's you, Ada. You gave me a start! And who's this with you? ","Saniel","",""
 "OSINTRO_SANIEL_FLIP","Who let you in here? Don't you know you're not supposed to try to access this part? Better get on back now. ","Saniel","Angry Archivist sound","if player tried to flip panel"
 "OSINTRO_SANIEL_FLIP_HINT1","Go back the same way you got here: press the Flip button on the left. ","","",""
-"OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel Rowe, the Archivist. Everything you see here – Saniel keeps it all humming. 
+"OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel Rowe, the Archivist. 
 
-I know he'll deny it, Saniel's quite a hero around here!","Ada","",""
+Saniel keeps everything here humming. And he's quite a hero, and not just around here! Right Dr. Rowe? ","Ada","",""
 "OSINTRO_SANIEL2","Hero schmero. I'm afraid Ada's filling your head with ancient history! Anyway, hello! 
 
-I'll grant that I do know a few things about keeping the systems clear of trouble.
+I'll grant that I do know a few things about keeping the System clear of trouble.
 
-Hear me though when I say, Never come here alone! Got it? ","Saniel","","I'll be keeping my eye out for any shenanigans."
+Hear me though when I say, never come here alone! Got it? ","Saniel","","I'll be keeping my eye out for any shenanigans."
 "OSINTRO_WRAPUP","He's a bit fierce at first, but his heart's definitely in the right place. I'm glad you could meet him. 
 
 Well, time for me to bounce! My research is calling me ;) ","Ada","",""
@@ -80,7 +82,7 @@ Well, time for me to bounce! My research is calling me ;) ","Ada","",""
 "BREAK_LAUNCH_HINT1","Click on the System app icon on the desktop.","","",""
 "BREAK_OSAPP","Awesome. This place is LIT. We have to be beyond quiet. We don't want Saniel knowing we're here. 
 
-He seems to be able to hear everything that goes on here. Ssshhhh. ","","",""
+He seems to be able to hear everything! Sometimes I think he even hears what I'm thinking! Ssshhhhh.","","",""
 "BREAK_FLIP","Ok, remember the flip button? Go ahead and press it.","","",""
 "BREAK_FLIP_HINT1","See the button on the left? Press it to hack the System.","","",""
 "BREAK_GIVEKEY","The other day I found this key and I think it fits here! I'm going to give it to you.","","",""
@@ -89,7 +91,7 @@ He seems to be able to hear everything that goes on here. Ssshhhh. ","","",""
 "BREAK_UNLOCKED","Rad! We can have so much fun playing around with the settings.","","",""
 "BREAK_MAKEITLARGE","Try changing the cursor size to something larger than 200 to make it huge! ","","",""
 "BREAK_MAKEITLARGE_HINT1","Click the + next to size until it's more than 200!","","",""
-"BREAK_SUCCESS","LOLLZZ. OMG that is so epic! We have to stop laughing or San will hear us. 
+"BREAK_SUCCESS","LOLLZZ. OMG that is so epic! We have to stop laughing or San will hear us. He's like a bat! 
 
 Uh-oh! What's that noise? Oh, hi Dr. Rowe. We're just, er, studying!","","",""
 "BREAK_SANIELARRIVES","I just told you this is no place for novices! Hhmmph.","Saniel","",""
@@ -104,7 +106,7 @@ Uh-oh! What's that noise? Oh, hi Dr. Rowe. We're just, er, studying!","","",""
 "ROSTER_PRELAUNCH","We're going to visit the Roster.","","",""
 "ROSTER_LAUNCH","Go ahead and launch it.","","",""
 "ROSTER_LAUNCH_HINT1","Launch the Roster app from the desktop.","","",""
-"ROSTER_EXPLANATION","You'll find alot of cool info about our crew here. Check out the page about Saniel.","","",""
+"ROSTER_EXPLANATION","You'll find a lot of cool info about our crew here. Check out the page about Saniel.","","",""
 "ROSTER_EXPLANATION_HINT1","Click on Saniel's pic to read about him.","","",""
 "ROSTER_SUCCESS","You found it. Excellent. Quite fascinating, isn't he? 
 
@@ -121,7 +123,7 @@ Check out the others too! Then come stop by the Clubhouse again.","","",""
 "FIZZICS2_GOAL_HINT3","Also, when you freeze balls, they don't move anymore.","","",""
 "FIZZICS2_NOTENOUGH","Hey, wait! Nice try, but you need to keep at least 20 spiky balls, otherwise it doesn't count.","","",""
 "FIZZICS2_SUCCESS","Yay! That's a really cool solution. You've got a talent for this! I didn't think of that one.","","",""
-"FIZZICS2_REWARD","I think this key must have fallen out of Saniel's pocket. Hang onto it. I think we're gonna need it. ","","",""
+"FIZZICS2_REWARD","Wait! I think this key must have fallen out of Saniel's pocket. Hang onto it. I think we're gonna need it. ","","",""
 "FIZZICS2_END","Props! Come find me at the Clubhouse whenever!","","",""
 "FIZZICS2_ABORT","No prob. We can try it some other time. You know where to find me!","","",""
 "HACKDEX1_QUESTION","Well hello there. Something very peculiar is happening with the roster. Can you have a look at it with me?","Saniel","",""
@@ -138,7 +140,7 @@ Check out the others too! Then come stop by the Clubhouse again.","","",""
 "HACKDEX1_UNLOCKED_HINT3","Flip the screen back again to see your results.","","",""
 "HACKDEX1_SUCCESS","Ah, much better! I see you've got a knack for hacking! For that, I'm giving you a reward.","","",""
 "HACKDEX1_AFTERKEY","This key will let you start doing some actual coding to keep your skills sharp. See you at the Clubhouse.","","",""
-"HACKDEX1_RILEY","That was cool how you did that. Wait a sec, what's this? Some kind of item...
+"HACKDEX1_RILEY","Smart solution! Wait a sec, what's this strange item?
 
 How did this get into the Roster? Or did Saniel drop it again? Weird. Anyway, take it.","Riley","",""
 "HACKDEX1_RILEY_BYE","It's been fun to explore things with you! Hope you'll come back ;)","","",""
