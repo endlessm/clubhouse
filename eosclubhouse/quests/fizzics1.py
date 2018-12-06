@@ -10,6 +10,7 @@ class Fizzics1(Quest):
     def __init__(self):
         super().__init__('Fizzics 1', 'riley', QS('FIZZICS1_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
+        self._current_step = None
         self.gss.connect('changed', self.update_availability)
         self.available = False
         self.update_availability()
@@ -54,6 +55,26 @@ class Fizzics1(Quest):
 
         if self.get_current_level() == 7:
             return self.step_level8
+        try:
+            # Check for popping ball
+            if self._app.get_js_property('ballDied'):
+                self._current_step = self.step_goal
+                return self.step_ball_died
+        except Exception as ex:
+            print(ex)
+        # Check for abandoning the app
+        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_abort
+
+    def step_ball_died(self, time_in_step):
+        if time_in_step == 0:
+            self.show_hints_message(QSH('FIZZICS1_BALLDIED'))
+        try:
+            # Check for popping ball
+            if not self._app.get_js_property('ballDied'):
+                return self._current_step
+        except Exception as ex:
+            print(ex)
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
@@ -64,6 +85,13 @@ class Fizzics1(Quest):
 
         if self.get_current_level() == 7:
             return self.step_level8
+        try:
+            # Check for popping ball
+            if self._app.get_js_property('ballDied'):
+                self._current_step = self.step_backtolevel8
+                return self.step_ball_died
+        except Exception as ex:
+            print(ex)
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
@@ -80,6 +108,10 @@ class Fizzics1(Quest):
             # Check for success
             if self.get_current_level() >= 8 or self._app.get_js_property('levelSuccess'):
                 return self.step_success
+            # Check for popping ball
+            if self._app.get_js_property('ballDied'):
+                self._current_step = self.step_level8
+                return self.step_ball_died
         except Exception as ex:
             print(ex)
         # Check if they're going to another level
