@@ -997,7 +997,7 @@ class ClubhouseApplication(Gtk.Application):
         page_name = arg_variant.unpack()
         if self._window:
             self._window.set_page(page_name)
-            self._window.show()
+            self._show_and_focus_window()
 
     def _vibility_notify_cb(self, window, pspec):
         if self._window.is_visible():
@@ -1043,7 +1043,7 @@ class ClubhouseApplication(Gtk.Application):
     # D-Bus implementation
     def show(self, timestamp):
         self._ensure_window()
-        self._window.present_with_time(int(timestamp))
+        self._show_and_focus_window(int(timestamp))
 
         return None
 
@@ -1053,6 +1053,12 @@ class ClubhouseApplication(Gtk.Application):
             self._window.hide()
 
         return None
+
+    def _show_and_focus_window(self, timestamp=None):
+        # We deliberately show + present the window here to ensure it gets focused
+        # when showing it after it's been hidden.
+        self._window.show()
+        self._window.present_with_time(timestamp if timestamp is not None else Gdk.CURRENT_TIME)
 
     # D-Bus implementation
     def getAnimationMetadata(self, uri):
