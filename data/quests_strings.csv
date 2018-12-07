@@ -128,7 +128,7 @@ Check out the others too! Then come stop by the Clubhouse again.","","",""
 "FIZZICS2_REWARD","Wait! I think this key must have fallen out of Saniel's pocket. Hang onto it. I think we're gonna need it. ","","",""
 "FIZZICS2_END","Props! Come find me at the Clubhouse whenever. ","","",""
 "FIZZICS2_ABORT","No prob. Holler at me in the Clubhouse and we can try it some other time!","","",""
-"HACKDEX1_QUESTION","Well hello there. Something very peculiar is happening with the Roster. Can you have a look at it with me?","Saniel","",""
+"HACKDEX1_QUESTION","Well hello there. Something very peculiar is happening with Roster. Can you have a look at it with me?","Saniel","",""
 "HACKDEX1_RESPONSE","I'd love to. ","","",""
 "HACKDEX1_PRELAUNCH","My Roster is behaving strangely. I think something has gotten in and corrupted it. Check to see if yours is okay.","","",""
 "HACKDEX1_LAUNCH","So let's see how this goes. Launch the Roster app.","","",""
@@ -144,24 +144,31 @@ Check out the others too! Then come stop by the Clubhouse again.","","",""
 "HACKDEX1_AFTERKEY","This key will let you start doing some actual coding to keep your skills sharp. See you at the Clubhouse.","","",""
 "HACKDEX1_RILEY","Smart solution! Wait a sec, what's this strange item?
 
-How did this get into the Roster? Or did Saniel drop it again? Weird. Anyway, take it.","Riley","",""
+How did this get into Roster? Or did Saniel drop it again? Weird. Anyway, take it.","Riley","",""
 "HACKDEX1_RILEY_BYE","It's been fun to explore things with you! Hope you'll come back ;)","","",""
 "HACKDEX1_ABORT","All done already? Okay then, Come back soon. We've got our work cut out for us!","Saniel","",""
-"LOSTFILES_QUESTION","Hey, I'm dealing with a serious situation here. Everything's gone. ","Ada","",""
+"LOSTFILES_QUESTION","Hey, I'm dealing with a serious situation here. Everything's gone. All my research data. ","Ada","",""
 "LOSTFILES_ANSWER","Whoa. What happened? ","","",""
-"LOSTFILES_EXPLANATION","I've been studying these rogue AI's and now they've gotten loose. And all my daily logs. Gone!
+"LOSTFILES_EXPLANATION","All my encrypted daily logs. Gone!
 
-What's more troubling is that there's no sign of how anyone got in. Or out! ","","",""
+Only one other person knows the protocol to access to this research. 
+
+What's more troubling is that there's no trace of how anyone got in. Or out! ","","","I came back in and found my secret cabinet open.. The glass is unbreakable. 
+It appears totally untouched but all the packets have disappeared. 
+"
+"LOSTFILES_EXPLANATION2","I'm not liking this one bit, one bit. Data's vanished. No sign of a breach. This is starting to look all too familiar.","Saniel","",""
+"LOSTFILES_EXPLANATION3","Hey, guys? I was ""looking around"" and I noticed an freaky pattern in the System log. I've never seen anything like it.","Riley","",""
+"LOSTFILES_EXPLANATION4","Wait, Riley, tell me exactly, what did you see? ","Ada","",""
 "NOQUEST_ADA_RILEY","I think Riley was looking for you earlier.","","","These are the comments characters make when they don't have a quest to give you. For now they just tell you to go talk to another character (if there is one)."
 "NOQUEST_ADA_SANIEL","Dr. Rowe wants to talk to you.","","",""
 "NOQUEST_ADA_NOTHING","Are you enjoying yourself?","","",""
-"NOQUEST_ADA_CHAPTER1END","We're still trying to get to the bottom of what happened to my research!","","","This is what the characters say when the whole chapter is over and there's nothing to do."
+"NOQUEST_ADA_CHAPTER1END","Oh, hey there! We're all dealing with this data disaster. I'll check back with you as soon as I can!","","","This is what the characters say when the whole chapter is over and there's nothing to do."
 "NOQUEST_RILEY_ADA","Hey, I think Ada wants to tell you something.","","",""
 "NOQUEST_RILEY_SANIEL","Psssst! Saniel is looking for you.","","",""
 "NOQUEST_RILEY_NOTHING","What are you up to?","","",""
-"NOQUEST_RILEY_CHAPTER1END","It looks like everybody's wrapped up in recovering Ada's missing packets. At least we can write some code in Fizzics.","","",""
+"NOQUEST_RILEY_CHAPTER1END","Everyone's wrapped up in recovering Ada's missing packets. This is a good time for us to go experiment with some code in Fizzics!","","",""
 "NOQUEST_SANIEL_ADA","Perhaps you should inquire with Ada.","","",""
 "NOQUEST_SANIEL_RILEY","That friend of yours is probably up to no good.","","",""
 "NOQUEST_SANIEL_NOTHING","I'm keeping my eye out for any shenanigans!","","",""
-"NOQUEST_SANIEL_CHAPTER1END","Shhhh! We're busy right now. Go practice your coding skills with Fizzics.","","",""
+"NOQUEST_SANIEL_CHAPTER1END","Best thing you could do now is to sharpen your coding skills. We might be needing your help! Try out that last Fizzics key. ","","",""
 "","Yellow: I had to add/modify the text. Needs to be looked at by Genine.","","",""
