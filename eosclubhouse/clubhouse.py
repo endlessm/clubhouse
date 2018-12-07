@@ -997,7 +997,7 @@ class ClubhouseApplication(Gtk.Application):
         page_name = arg_variant.unpack()
         if self._window:
             self._window.set_page(page_name)
-            self._window.show()
+            self._show_and_focus_window()
 
     def _vibility_notify_cb(self, window, pspec):
         if self._window.is_visible():
