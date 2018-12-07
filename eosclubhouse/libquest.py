@@ -88,7 +88,7 @@ class Quest(GObject.GObject):
 
     __gsignals__ = {
         'message': (
-            GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str, str)
+            GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str, str, str)
         ),
         'item-given': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str)
@@ -146,6 +146,7 @@ class Quest(GObject.GObject):
         raise NotImplementedError
 
     def _confirm_step(self):
+        Sound.play('clubhouse/dialog/next')
         self._confirmed_step = True
 
     def confirmed_step(self):
@@ -160,14 +161,16 @@ class Quest(GObject.GObject):
     def get_main_character(self):
         return self._main_character_id
 
-    def show_message(self, txt, character_id=None, mood=None, choices=[], use_confirm=False):
+    def show_message(self, txt, character_id=None, mood=None, choices=[], use_confirm=False,
+                     open_dialog_sound='clubhouse/dialog/open'):
         possible_answers = [(text, callback) for text, callback in choices]
 
         if use_confirm:
             possible_answers = [('>', self._confirm_step)] + possible_answers
 
         self._emit_signal('message', txt, possible_answers,
-                          character_id or self._main_character_id, mood)
+                          character_id or self._main_character_id, mood,
+                          open_dialog_sound)
 
     def show_question(self, txt, character_id=None, mood=None):
         self.show_message(txt, character_id=character_id, mood=mood, choices=[],
