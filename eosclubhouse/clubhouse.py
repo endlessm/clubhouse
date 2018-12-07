@@ -60,6 +60,7 @@ DEFAULT_WINDOW_WIDTH = 484
 
 class Character(GObject.GObject):
     _characters = {}
+    DEFAULT_MOOD = 'talk'
 
     @classmethod
     def get_or_create(class_, character_id):
@@ -90,6 +91,12 @@ class Character(GObject.GObject):
         image_file = Gio.File.new_for_path(self.get_mood_image())
         return Gio.FileIcon.new(image_file)
 
+    def set_mood(self, mood):
+        if mood is None:
+            mood = self.DEFAULT_MOOD
+
+        self.mood = mood
+
     def load(self):
         char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
 
@@ -104,8 +111,8 @@ class Character(GObject.GObject):
             path = os.path.join(char_dir, 'moods', image)
             self._moods[os.path.basename(name)] = path
 
-        assert('talk' in self._moods)
-        self.mood = 'talk'
+        assert(self.DEFAULT_MOOD in self._moods)
+        self.mood = self.DEFAULT_MOOD
 
     id = property(_get_id)
     mood = GObject.Property(type=str)
@@ -428,8 +435,7 @@ class ClubhousePage(Gtk.EventBox):
             self._add_quest_action(answer)
 
         character = Character.get_or_create(character_id)
-        if character_mood is not None:
-            character.mood = character_mood
+        character.set_mood(character_mood)
 
         self._shell_popup_message(message_txt, character)
 
