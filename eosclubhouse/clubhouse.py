@@ -60,6 +60,7 @@ DEFAULT_WINDOW_WIDTH = 484
 
 class Character(GObject.GObject):
     _characters = {}
+    DEFAULT_MOOD = 'talk'
 
     @classmethod
     def get_or_create(class_, character_id):
@@ -71,11 +72,20 @@ class Character(GObject.GObject):
     def __init__(self, id_):
         super().__init__()
         self._id = id_
+        self._mood = self.DEFAULT_MOOD
         self._fullbody_image = None
         self.load()
 
     def _get_id(self):
         return self._id
+
+    def _get_mood(self):
+        return self._mood
+
+    def _set_mood(self, mood):
+        if mood is None:
+            mood = self.DEFAULT_MOOD
+        self._mood = mood
 
     def get_fullbody_image(self):
         return self._fullbody_image
@@ -104,11 +114,10 @@ class Character(GObject.GObject):
             path = os.path.join(char_dir, 'moods', image)
             self._moods[os.path.basename(name)] = path
 
-        assert('talk' in self._moods)
-        self.mood = 'talk'
+        assert(self.DEFAULT_MOOD in self._moods)
 
     id = property(_get_id)
-    mood = GObject.Property(type=str)
+    mood = GObject.Property(_get_mood, _set_mood, type=str)
 
 
 class Message(Gtk.Bin):
@@ -429,8 +438,7 @@ class ClubhousePage(Gtk.EventBox):
             self._add_quest_action(answer)
 
         character = Character.get_or_create(character_id)
-        if character_mood is not None:
-            character.mood = character_mood
+        character.mood = character_mood
 
         self._shell_popup_message(message_txt, character, open_dialog_sound)
 
