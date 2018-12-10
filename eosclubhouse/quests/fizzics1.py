@@ -12,6 +12,7 @@ class Fizzics1(Quest):
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self._current_step = None
         self.gss.connect('changed', self.update_availability)
+        self.already_in_level_8 = False
         self.available = False
         self.update_availability()
 
@@ -32,6 +33,7 @@ class Fizzics1(Quest):
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
+            self.already_in_level_8 = False
             if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
                 self.show_hints_message(QSH('FIZZICS1_LAUNCH'))
                 Desktop.show_app_grid()
@@ -98,8 +100,12 @@ class Fizzics1(Quest):
 
     def step_level8(self, time_in_step):
         if time_in_step == 0:
-            Sound.play('quests/step-forward')
-            self.show_hints_message(QSH('FIZZICS1_LEVEL8'))
+            if self.already_in_level_8:
+                self.show_hints_message(QSH('FIZZICS1_LEVEL8AGAIN'))
+            else:
+                Sound.play('quests/step-forward')
+                self.show_hints_message(QSH('FIZZICS1_LEVEL8'))
+                self.already_in_level_8 = True
 
         try:
             # Check for flipping the app
@@ -160,7 +166,7 @@ class Fizzics1(Quest):
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
-            self.show_question(QS('FIZZICS1_SUCCESS'))
+            self.show_message(QS('FIZZICS1_SUCCESS'), choices=[('Bye', self._confirm_step)])
 
         if self.confirmed_step():
             self.stop()
@@ -170,7 +176,7 @@ class Fizzics1(Quest):
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
-            self.show_question(QS('FIZZICS1_ALREADYBEAT'))
+            self.show_message(QS('FIZZICS1_ALREADYBEAT'), choices=[('Bye', self._confirm_step)])
 
         if self.confirmed_step():
             self.stop()
