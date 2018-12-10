@@ -93,6 +93,9 @@ class Quest(GObject.GObject):
         'item-given': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str)
         ),
+        'dismissed': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
     }
 
     available = GObject.Property(type=bool, default=True)
@@ -279,6 +282,9 @@ class Quest(GObject.GObject):
     def get_conf(self, key):
         return self.conf.get(key)
 
+    def dismiss(self):
+        self._emit_signal('dismissed')
+
     def is_named_quest_complete(self, class_name):
         key = self._get_quest_conf_prefix() + class_name
         data = self.gss.get(key)
@@ -310,6 +316,7 @@ class QuestSet(GObject.GObject):
             self._quest_objs.append(quest)
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
+            quest.connect('dismissed', self._on_quest_dismissed)
 
         self._update_highlighted()
 
@@ -357,6 +364,11 @@ class QuestSet(GObject.GObject):
             if self.get_next_quest() == quest:
                 # Highlight the character if a quest becomes highlighted
                 self.nudge()
+
+    def _on_quest_dismissed(self, quest):
+        next_quest = self.get_next_quest()
+        if next_quest and next_quest.available:
+            self.nudge()
 
     def is_active(self):
         return self.visible and self.get_next_quest() is not None

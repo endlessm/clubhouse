@@ -451,6 +451,7 @@ class ClubhousePage(Gtk.EventBox):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
         quest.save_conf()
+        quest.dismiss()
 
         # Ensure we reset the running quest (only if we haven't started a different quest in the
         # meanwhile) quest and close any eventual message popups
