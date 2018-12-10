@@ -709,6 +709,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._setup_ui()
 
         self._page_reset_timeout = 0
+        self._ambient_sound_uuid = None
         self.connect('notify::visible', self._on_visibile_property_changed)
 
         display = Gdk.Display.get_default()
@@ -845,8 +846,6 @@ class ClubhouseApplication(Gtk.Application):
         self._debug_mode = False
         self._registry_loaded = False
         self._suggesting_open = False
-
-        self._ambient_sound_uuid = None
 
         # @todo: Move the resource to a different dir
         resource = Gio.resource_load(os.path.join(os.path.dirname(__file__),
