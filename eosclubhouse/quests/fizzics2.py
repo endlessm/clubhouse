@@ -15,6 +15,7 @@ class Fizzics2(Quest):
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
+            self._initialized = False
             if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
                 self.show_hints_message(QSH('FIZZICS2_LAUNCH'))
                 Desktop.show_app_grid()
