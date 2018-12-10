@@ -12,6 +12,12 @@ class Roster(Quest):
         super().__init__('Roster', 'ada', QS('ROSTER_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
 
+    def is_saniel_page_read(self):
+        data = self.gss.get(self.SANIEL_CLICKED_KEY)
+        if data is not None and data['clicked']:
+            return True
+        return False
+
     def step_first(self, time_in_step):
         if time_in_step == 0:
             if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
@@ -36,10 +42,10 @@ class Roster(Quest):
 
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
+            if self.is_saniel_page_read():
+                return self.step_already_read
             Sound.play('quests/step-forward')
             self.show_hints_message(QSH('ROSTER_EXPLANATION'))
-            # We want to know if the key was clicked from this time forward
-            self.gss.set(self.SANIEL_CLICKED_KEY, {'clicked': False})
 
         if self.debug_skip():
             return self.step_success
@@ -47,10 +53,7 @@ class Roster(Quest):
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
-        data = self.gss.get(self.SANIEL_CLICKED_KEY)
-        if data is None:
-            return self.step_abort
-        if data['clicked']:
+        if self.is_saniel_page_read():
             return self.step_delay2
 
     def step_delay2(self, time_in_step):
@@ -59,10 +62,22 @@ class Roster(Quest):
 
     def step_success(self, time_in_step):
         if time_in_step == 0:
+            self.show_question(QS('ROSTER_SUCCESS'))
+        if self.confirmed_step():
+            return self.step_end
+
+    def step_already_read(self, time_in_step):
+        if time_in_step == 0:
+            self.show_question(QS('ROSTER_ALREADYREAD'))
+        if self.confirmed_step():
+            return self.step_end
+
+    def step_end(self, time_in_step):
+        if time_in_step == 0:
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
-            self.show_question(QS('ROSTER_SUCCESS'))
+            self.show_message(QS('ROSTER_END'), choices=[('Bye', self._confirm_step)])
 
         if self.confirmed_step():
             self.stop()
