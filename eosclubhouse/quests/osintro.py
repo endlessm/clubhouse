@@ -16,6 +16,8 @@ class OSIntro(Quest):
     # STEP 0
     def step_first(self, time_in_step):
         if time_in_step == 0:
+            self._current_step = None
+            self._clicked = False
             self.show_question(QS('OSINTRO_PRELAUNCH'))
 
         if self.confirmed_step():
