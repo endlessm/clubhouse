@@ -39,7 +39,13 @@ class LostFiles(Quest):
 
     def step_explanation4(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('LOSTFILES_EXPLANATION4'),
+            self.show_question(QS('LOSTFILES_EXPLANATION4'), character_id='saniel')
+        if self.confirmed_step():
+            return self.step_explanation5
+
+    def step_explanation5(self, time_in_step):
+        if time_in_step == 0:
+            self.show_message(QS('LOSTFILES_EXPLANATION5'),
                               choices=[('End of Episode 1', self._confirm_step)])
             self.conf['complete'] = True
             self.available = False
