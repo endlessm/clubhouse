@@ -356,7 +356,6 @@ class ClubhousePage(Gtk.EventBox):
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
         new_quest = quest_set.get_next_quest()
-
         self._message.reset()
 
         # If a quest from this quest_set is already running, then just hide the window so the
@@ -379,21 +378,19 @@ class ClubhousePage(Gtk.EventBox):
             if msg_text is None:
                 return
 
-            self.show_message(msg_text, [('Ok', self._replied_to_message, None)])
+            self.show_message(msg_text, [('Ok', self._message.close)])
         else:
             self.show_message(new_quest.get_initial_message(),
-                              [('Sure!', self._replied_to_message, new_quest),
-                               ('Not now…', self._replied_to_message, None)])
+                              [('Sure!', self._accept_quest_message, new_quest),
+                               ('Not now…', self._message.close)])
 
         self._overlay_msg_box.show_all()
 
-    def _replied_to_message(self, quest_to_start):
+    def _accept_quest_message(self, new_quest):
         self._message.hide()
         self._overlay_msg_box.hide()
-
-        if quest_to_start is not None:
-            logger.info('Start quest {}'.format(quest_to_start))
-            self.run_quest(quest_to_start)
+        logger.info('Start quest {}'.format(new_quest))
+        self.run_quest(new_quest)
 
     def connect_quest(self, quest):
         quest.connect('message', self._quest_message_cb)
