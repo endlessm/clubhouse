@@ -131,10 +131,38 @@ class Quest(GObject.GObject):
         time_in_step = 0
         step_func = self.step_first
 
+        times_failed = 0
+        last_exception = None
+
         Sound.play('quests/quest-given')
 
         while not self.is_cancelled():
-            new_func = step_func(time_in_step)
+            try:
+                new_func = step_func(time_in_step)
+            except Exception as e:
+                if (type(e) is type(last_exception) and
+                        e.args == last_exception.args):
+                    times_failed += 1
+                    if times_failed > 10:
+                        logger.critical('Quest step failed 10 times, bailing',
+                                        exc_info=sys.exc_info())
+                        self.stop()
+                        return
+                else:
+                    last_exception = e
+                    times_failed = 1
+
+                logger.warning('Quest step failed, retrying',
+                               exc_info=sys.exc_info())
+
+                time.sleep(sleep_time)
+                time_in_step += sleep_time
+
+                continue
+
+            times_failed = 0
+            last_exception = None
+
             if new_func is None:
                 time.sleep(sleep_time)
                 time_in_step += sleep_time
