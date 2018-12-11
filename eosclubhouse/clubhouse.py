@@ -254,9 +254,6 @@ class QuestSetButton(Gtk.Button):
         # Set the "highlighted" style on "nudge"
         self._quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
 
-        # Reset the "highlighted" style
-        self.connect('clicked', lambda _button: self._quest_set.set_property('highlighted', False))
-
         # The button should only be visible when the QuestSet is visible
         self._quest_set.bind_property('visible', self, 'visible',
                                       GObject.BindingFlags.BIDIRECTIONAL |
@@ -380,15 +377,16 @@ class ClubhousePage(Gtk.EventBox):
             self.show_message(msg_text, [('Ok', self._message.close)])
         else:
             self.show_message(new_quest.get_initial_message(),
-                              [('Sure!', self._accept_quest_message, new_quest),
+                              [('Sure!', self._accept_quest_message, quest_set, new_quest),
                                ('Not now…', self._message.close)])
 
         self._overlay_msg_box.show_all()
 
-    def _accept_quest_message(self, new_quest):
+    def _accept_quest_message(self, quest_set, new_quest):
         self._message.hide()
         self._overlay_msg_box.hide()
         logger.info('Start quest {}'.format(new_quest))
+        quest_set.set_property('highlighted', False)
         self.run_quest(new_quest)
 
     def connect_quest(self, quest):
