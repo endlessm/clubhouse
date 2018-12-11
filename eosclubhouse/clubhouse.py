@@ -346,7 +346,11 @@ class ClubhousePage(Gtk.EventBox):
         self._main_characters_box.put(button, x, y)
 
     def _on_quest_set_highlighted_changed(self, quest_set, _param):
-        self._app_window.get_application().send_suggest_open(quest_set.highlighted)
+        if self._app_window.is_visible():
+            return
+
+        self._app_window.get_application().send_suggest_open(
+            libquest.Registry.has_quest_sets_highlighted())
 
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()

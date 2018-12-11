@@ -64,6 +64,10 @@ class Registry:
         return None
 
     @classmethod
+    def has_quest_sets_highlighted(class_):
+        return any(qs.highlighted for qs in class_._quest_sets)
+
+    @classmethod
     def get_quest_by_name(class_, name):
         quest_set_name = None
         name_split = name.split('.', 1)
