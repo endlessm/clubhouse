@@ -352,7 +352,7 @@ class QuestSet(GObject.GObject):
 
     def _update_highlighted(self):
         quest = self.get_next_quest()
-        self.highlighted = quest is not None and quest.highlighted
+        self.highlighted = quest is not None and (quest.highlighted or quest.available)
 
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s', quest, prop_name)
