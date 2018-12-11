@@ -157,8 +157,6 @@ class Message(Gtk.Bin):
         self._label.set_size_request(self.LABEL_WIDTH, -1)
 
         self.close_button = builder.get_object('character_message_close_button')
-        self.close_button.connect(
-            "clicked", lambda _: Sound.play('clubhouse/dialog/close'))
         self.close_button.connect('clicked', self._close_button_clicked_cb)
 
         self._character_image = builder.get_object('character_image')
@@ -202,6 +200,7 @@ class Message(Gtk.Bin):
             return
 
         self.hide()
+        Sound.play('clubhouse/dialog/close')
         self.emit('closed')
 
     def set_character(self, character_id):
