@@ -69,7 +69,7 @@ class HackdexCorruption(Quest):
             return self.step_delay2
 
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
+            return self.step_check_abort
 
     def step_delay2(self, time_in_step):
         if time_in_step > 2:
@@ -93,6 +93,12 @@ class HackdexCorruption(Quest):
 
         if self.confirmed_step():
             self.stop()
+
+    def step_check_abort(self, time_in_step):
+        if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
+            return self.step_check_goal
+        if time_in_step > 2:
+            return self.step_abort
 
     # STEP Abort
     def step_abort(self, time_in_step):
