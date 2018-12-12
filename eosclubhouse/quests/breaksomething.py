@@ -129,7 +129,7 @@ class BreakSomething(Quest):
 
     def step_saniel(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('BREAK_SANIELARRIVES'), character_id='saniel')
+            self.show_question(QS('BREAK_SANIELARRIVES'), character_id='saniel', mood='talk_anger')
         if self.confirmed_step():
             if self.settings.get_int('cursor-size') == 24:
                 return self.step_already_reset

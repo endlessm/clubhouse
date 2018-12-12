@@ -73,7 +73,8 @@ class OSIntro(Quest):
     def step_saniel_flip(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/saniel-angry')
-            self.show_hints_message(QSH('OSINTRO_SANIEL_FLIP'), character_id='saniel')
+            self.show_hints_message(QSH('OSINTRO_SANIEL_FLIP'), character_id='saniel',
+                                    mood='talk_anger')
 
         try:
             if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
@@ -140,7 +141,8 @@ class OSIntro(Quest):
     def step_flipped(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/saniel-angry')
-            self.show_hints_message(QSH('OSINTRO_FLIPPED'), character_id='saniel')
+            self.show_hints_message(QSH('OSINTRO_FLIPPED'), character_id='saniel',
+                                    mood='talk_anger')
         try:
             if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
                 return self._current_step
