@@ -11,6 +11,15 @@ class Roster(Quest):
     def __init__(self):
         super().__init__('Roster', 'ada', QS('ROSTER_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
+        self.gss.connect('changed', self.update_availability)
+        self.available = False
+        self.update_availability()
+
+    def update_availability(self, gss=None):
+        if self.conf['complete']:
+            return
+        if self.is_named_quest_complete("OSIntro"):
+            self.available = True
 
     def is_saniel_page_read(self):
         data = self.gss.get(self.SANIEL_CLICKED_KEY)

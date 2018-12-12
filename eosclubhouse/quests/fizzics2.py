@@ -10,7 +10,16 @@ class Fizzics2(Quest):
     def __init__(self):
         super().__init__('Fizzics 2', 'riley', QS('FIZZICS2_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
+        self.gss.connect('changed', self.update_availability)
+        self.available = False
+        self.update_availability()
         self._initialized = False
+
+    def update_availability(self, gss=None):
+        if self.conf['complete']:
+            return
+        if self.is_named_quest_complete("BreakSomething"):
+            self.available = True
 
     # STEP 0
     def step_first(self, time_in_step):
