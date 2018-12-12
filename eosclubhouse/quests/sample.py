@@ -54,7 +54,7 @@ class GEditHack(Quest):
     def _add_app_to_desktop(self):
         Desktop.remove_app_from_grid(self.TARGET_APP_DBUS_NAME)
         Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
-        Desktop.show_app_grid()
+        Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
         self.show_message('There you go! Now click the GEdit icon!')
 
     def on_key_event(self, event):

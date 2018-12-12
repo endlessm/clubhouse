@@ -30,7 +30,7 @@ class FizzicsIntro(Quest):
             self.show_hints_message(QSH('FIZZICSINTRO_LAUNCH'))
             Sound.play('quests/new-icon')
             Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
-            Desktop.show_app_grid()
+            Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
             return self.step_delay_until_ready

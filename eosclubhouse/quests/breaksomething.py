@@ -28,7 +28,7 @@ class BreakSomething(Quest):
             if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
                 return self.step_explanation
             self.show_hints_message(QSH('BREAK_LAUNCH'))
-            Desktop.show_app_grid()
+            Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
             return self.step_delay1
