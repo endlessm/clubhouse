@@ -100,7 +100,6 @@ class Quest(GObject.GObject):
 
     available = GObject.Property(type=bool, default=True)
     skippable = GObject.Property(type=bool, default=False)
-    highlighted = GObject.Property(type=bool, default=False)
 
     def __init__(self, name, main_character_id, initial_msg):
         super().__init__()
@@ -316,7 +315,7 @@ class QuestSet(GObject.GObject):
             self._quest_objs.append(quest)
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
-            quest.connect('dismissed', self._on_quest_dismissed)
+            quest.connect('dismissed', self._update_highlighted)
 
         self._update_highlighted()
 
@@ -331,11 +330,13 @@ class QuestSet(GObject.GObject):
     def get_id(class_):
         return class_.__name__
 
+    def __repr__(self):
+        return self.get_id()
+
     def get_next_quest(self):
         for quest in self.get_quests():
             if not quest.conf['complete']:
                 if quest.available:
-                    logger.info("Quest available: %s", quest)
                     return quest
                 if not quest.skippable:
                     break
@@ -347,25 +348,23 @@ class QuestSet(GObject.GObject):
     def get_position(self):
         return self._position
 
-    def _update_highlighted(self):
-        quest = self.get_next_quest()
-        self.highlighted = quest is not None and (quest.highlighted or quest.available)
+    def _update_highlighted(self, _current_quest=None):
+        next_quest = self.get_next_quest()
+        self.highlighted = next_quest is not None and next_quest.available
+        if self.highlighted:
+            logger.info('QuestSet "%s" highlighted by quest %s', self, next_quest)
+        else:
+            logger.info('QuestSet "%s" highlight removed', self)
 
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s', quest, prop_name)
         if prop_name == 'available' and quest.get_property(prop_name):
-            logger.info('Turning QuestSet "%s" visible from quest %s', self, quest)
-            self.visible = True
-            self.highlighted = True
-        elif prop_name == 'highlighted' and quest.get_property(prop_name) and self.visible:
+            if not self.visible:
+                logger.info('Turning QuestSet "%s" visible from quest %s', self, quest)
+                self.visible = True
             if self.get_next_quest() == quest:
-                # Highlight the character if a quest becomes highlighted
+                logger.info('QuestSet "%s" highlighted by new available quest %s', self, quest)
                 self.highlighted = True
-
-    def _on_quest_dismissed(self, quest):
-        next_quest = self.get_next_quest()
-        if next_quest and next_quest.available:
-            self.highlighted = True
 
     def is_active(self):
         return self.visible and self.get_next_quest() is not None

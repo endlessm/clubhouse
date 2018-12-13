@@ -11,9 +11,6 @@ class FizzicsIntro(Quest):
         super().__init__('Fizzics Intro', 'ada', QS('FIZZICSINTRO_QUESTION'))
         self._app = App(self.TARGET_APP_DBUS_NAME)
 
-        if not self.conf.get('complete', False):
-            self.highlighted = True
-
     def get_current_level(self):
         try:
             level = self._app.get_js_property('currentLevel')
