@@ -102,7 +102,6 @@ class Quest(GObject.GObject):
         ),
     }
 
-    available = GObject.Property(type=bool, default=True)
     skippable = GObject.Property(type=bool, default=False)
 
     def __init__(self, name, main_character_id, initial_msg):
@@ -111,6 +110,7 @@ class Quest(GObject.GObject):
         self._initial_msg = initial_msg
         self._characters = {}
         self._main_character_id = main_character_id
+        self._available = True
         self._cancellable = None
 
         self.gss = GameStateService()
@@ -293,9 +293,22 @@ class Quest(GObject.GObject):
         data = self.gss.get(key)
         return data is not None and data['complete']
 
+    def _get_available(self):
+        return self._available
+
+    def _set_available(self, value):
+        if self._available == value:
+            return
+        self._available = value
+        self.notify('available')
+
     @classmethod
     def get_id(class_):
         return class_.__name__
+
+    available = GObject.Property(_get_available, _set_available, type=bool, default=True,
+                                 flags=GObject.ParamFlags.READWRITE |
+                                 GObject.ParamFlags.EXPLICIT_NOTIFY)
 
 
 class QuestSet(GObject.GObject):
