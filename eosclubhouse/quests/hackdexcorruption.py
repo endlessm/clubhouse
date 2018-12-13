@@ -33,7 +33,7 @@ class HackdexCorruption(Quest):
     def step_launch(self, time_in_step):
         if time_in_step == 0:
             self.show_hints_message(QSH('HACKDEX1_LAUNCH'))
-            Desktop.show_app_grid()
+            Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_delay1

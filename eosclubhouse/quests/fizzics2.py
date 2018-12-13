@@ -18,7 +18,7 @@ class Fizzics2(Quest):
             self._initialized = False
             if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
                 self.show_hints_message(QSH('FIZZICS2_LAUNCH'))
-                Desktop.show_app_grid()
+                Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
             else:
                 return self.step_alreadyrunning
 

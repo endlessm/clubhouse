@@ -36,7 +36,7 @@ class Fizzics1(Quest):
             self.already_in_level_8 = False
             if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
                 self.show_hints_message(QSH('FIZZICS1_LAUNCH'))
-                Desktop.show_app_grid()
+                Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
             else:
                 return self.step_delay1
 

@@ -107,10 +107,12 @@ class Desktop:
         return True
 
     @classmethod
-    def show_app_grid(klass):
+    def focus_app(klass, app_name):
+        if not app_name.endswith('.desktop'):
+            app_name += '.desktop'
+
         try:
-            # @todo: Call a direct method in the Shell interface when that's available
-            klass.get_shell_proxy().Eval('(s)', 'Main.overview.showApps();')
+            klass.get_shell_proxy().FocusApp('(s)', app_name)
         except GLib.Error as e:
             logger.error(e)
             return False
