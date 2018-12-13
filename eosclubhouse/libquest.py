@@ -347,9 +347,6 @@ class QuestSet(GObject.GObject):
     def get_position(self):
         return self._position
 
-    def nudge(self):
-        self.highlighted = True
-
     def _update_highlighted(self):
         quest = self.get_next_quest()
         self.highlighted = quest is not None and (quest.highlighted or quest.available)
@@ -359,16 +356,16 @@ class QuestSet(GObject.GObject):
         if prop_name == 'available' and quest.get_property(prop_name):
             logger.info('Turning QuestSet "%s" visible from quest %s', self, quest)
             self.visible = True
-            self.nudge()
+            self.highlighted = True
         elif prop_name == 'highlighted' and quest.get_property(prop_name) and self.visible:
             if self.get_next_quest() == quest:
                 # Highlight the character if a quest becomes highlighted
-                self.nudge()
+                self.highlighted = True
 
     def _on_quest_dismissed(self, quest):
         next_quest = self.get_next_quest()
         if next_quest and next_quest.available:
-            self.nudge()
+            self.highlighted = True
 
     def is_active(self):
         return self.visible and self.get_next_quest() is not None

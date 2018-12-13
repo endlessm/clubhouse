@@ -251,7 +251,6 @@ class QuestSetButton(Gtk.Button):
 
         self._set_highlighted(self._quest_set.highlighted)
 
-        # Set the "highlighted" style on "nudge"
         self._quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
 
         # The button should only be visible when the QuestSet is visible
