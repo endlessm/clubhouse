@@ -37,7 +37,7 @@ See you back at the Clubhouse!","Ada","Super-success sound",""
 "FIZZICS1_GOAL_HINT1","These work just like the others: fling the orange ball at the target. ","","",""
 "FIZZICS1_LEVEL8","Level 8! You made it! Okay, so give it a shot ;) ","","",""
 "FIZZICS1_LEVEL8_HINT1","You're gonna need to hack the game to beat it. Press the Flip button.","","",""
-"FIZZICS1_LEVEL8AGAIN","Okay, see if you can beat it. Give it another try.","","",""
+"FIZZICS1_LEVEL8AGAIN","Okay, see if you can beat the level now that you've seen into how it works!","","",""
 "FIZZICS1_LEVEL8AGAIN_HINT1","You're gonna need to hack the game to beat it. Press the Flip button.","","",""
 "FIZZICS1_BALLDIED","Oh no! One of your balls exploded. You're not going to be able to beat the level now, so press the Reset button.","","",""
 "FIZZICS1_BALLDIED_HINT1","See that button at the top with an arrow? That's the Reset button.","","",""
@@ -66,7 +66,7 @@ Now that you're here, you can play with the settings. It's cool to have a say in
 "OSINTRO_SANIEL_FLIP_HINT1","Go back the same way you got here: press the Flip button on the left. ","","",""
 "OSINTRO_INTRO","Hello Dr. Rowe. This is our new student. This is Saniel Rowe, the Archivist. 
 
-Saniel keeps everything humming around here. And he's quite a hero–and not just around here! Right Dr. Rowe? ","Ada","",""
+Saniel keeps everything humming around here. And he's quite a hero! Right Dr. Rowe? ","Ada","",""
 "OSINTRO_SANIEL2","Hero schmero. I'm afraid Ada's filling your head with ancient history! Anyway, hello! 
 
 I'll grant that I do know a few things about keeping the System clear of trouble.
@@ -99,7 +99,7 @@ He seems to be able to hear everything! Sometimes I think he even hears what I'm
 
 Uh-oh! Yep, too late–he's coming! Hi there, Dr. Rowe. We're just, er, studying!","","",""
 "BREAK_SANIELARRIVES","I just told you this is no place for novices! Hhmmph.","Saniel","",""
-"BREAK_GIVERESET","All's not lost yet. There's still a fix this. I'm enabling the Reset button. Press it and it brings back the original settings.","","",""
+"BREAK_GIVERESET","All's not lost yet. There's still a fix for this. I'm enabling the Reset button. Press it and it brings back the original settings.","","",""
 "BREAK_GIVERESET_HINT1","Press the button on the top right to reset the cursor size.","","",""
 "BREAK_RESET","Good job restoring the settings! Glad you know about the Reset button now. ","","",""
 "BREAK_ALREADYRESET","I see you already fixed it. Very sensible. I'm also enabling the Reset button, which returns things to the original settings.","","",""
@@ -112,7 +112,7 @@ Uh-oh! Yep, too late–he's coming! Hi there, Dr. Rowe. We're just, er, studying
 "ROSTER_LAUNCH_HINT1","Launch the Roster app from the desktop.","","",""
 "ROSTER_EXPLANATION","You'll find a lot of cool info about our crew here. Check out the page about Saniel.","","",""
 "ROSTER_EXPLANATION_HINT1","Click on Saniel's pic to read about him.","","",""
-"ROSTER_ALREADYREAD","I see you already read all about Saniel. Good job.","","",""
+"ROSTER_ALREADYREAD","Oh Snap! You've already read all about Saniel. Awesome. ","","",""
 "ROSTER_SUCCESS","You found it. Excellent. Quite fascinating, isn't he?","","",""
 "ROSTER_END","Check out the others too! Then come stop by the Clubhouse again.","","",""
 "ROSTER_ABORT","I'll be in the Clubhouse. Just come get me whenever. ","","",""
@@ -132,10 +132,10 @@ Uh-oh! Yep, too late–he's coming! Hi there, Dr. Rowe. We're just, er, studying
 "FIZZICS2_ABORT","No prob. Holler at me in the Clubhouse and we can try it some other time!","","",""
 "HACKDEX1_QUESTION","Well hello there. Something very peculiar is happening with Roster. Can you have a look at it with me?","Saniel","",""
 "HACKDEX1_RESPONSE","I'd love to. ","","",""
-"HACKDEX1_PRELAUNCH","My Roster is behaving strangely. I think something has gotten in and corrupted it. Check to see if yours is okay.","","",""
+"HACKDEX1_PRELAUNCH","Roster is behaving strangely. I think something has gotten in and corrupted it. ","","",""
 "HACKDEX1_LAUNCH","So let's see how this goes. Launch the Roster app.","","",""
 "HACKDEX1_LAUNCH_HINT1","Click the Roster app on the desktop.","","",""
-"HACKDEX1_GOAL","Curses! Yours too! Very strange. I wonder what's causing this. See if you can hack in and fix yours so everything's readable again.","","",""
+"HACKDEX1_GOAL","Curses! You're seeing it too! Very strange. I wonder what's causing this. See if you can hack in and fix the text so everything's readable again.","","",""
 "HACKDEX1_GOAL_HINT1","You're going to need to hack the app to bring back that text. ","","",""
 "HACKDEX1_GOAL_HINT2","Where is that key? Must have dropped it somehow. Gotta fix this pocket.","","",""
 "HACKDEX1_UNLOCKED","Excellent! I see you've found the key! Good, good. Now, get in there and do your magic and fix this corruption.","","",""
@@ -149,19 +149,37 @@ Uh-oh! Yep, too late–he's coming! Hi there, Dr. Rowe. We're just, er, studying
 How did this get into Roster? Or did Saniel drop it again? Weird. Anyway, take it.","Riley","",""
 "HACKDEX1_RILEY_BYE","It's been fun to explore things with you! Hope you'll come back ;)","","",""
 "HACKDEX1_ABORT","All done already? Okay then, Come back soon. We've got our work cut out for us!","Saniel","",""
-"LOSTFILES_QUESTION","Hey, I'm dealing with a serious situation here. All my research data is gone. Backups, all of it. The files are totally empty. ","Ada","",""
+"LOSTFILES_QUESTION","Hey, I'm dealing with a serious situation here. All my research data is gone. Backups, all of it.  ","Ada","",""
 "LOSTFILES_ANSWER","Whoa. What happened? ","","",""
-"LOSTFILES_EXPLANATION","All my encrypted daily logs. Gone!
-
-Only one other person knows the protocol to access this research.
-
-What's more troubling is that there's no trace of how anyone got in. Or out! ","","","I came back in and found my secret cabinet open.. The glass is unbreakable. 
+"LOSTFILES_EXPLANATION","Hey, guys? I was ""looking around"" and I noticed a super weird pattern in the System journal. I've never seen anything like it.","","","I came back in and found my secret cabinet open.. The glass is unbreakable. 
 It appears totally untouched but all the packets have disappeared. 
 "
-"LOSTFILES_EXPLANATION2","I'm not liking this one bit, one bit. Data's vanished. No sign of a breach. This is starting to look all too familiar.","Saniel","",""
-"LOSTFILES_EXPLANATION3","Hey, guys? I was ""looking around"" and I noticed a super weird pattern in the System journal. I've never seen anything like it.","Riley","",""
+"LOSTFILES_EXPLANATION2","I'm not liking this one bit, not one bit. Data's vanished. No sign of a breach. This is starting to look all too familiar.","Saniel","",""
+"LOSTFILES_EXPLANATION3","","Riley","",""
 "LOSTFILES_EXPLANATION4","Hold on Riley, what did I say about staying out of the Sys––oh never mind. What was it? What did you see?","Saniel","",""
 "LOSTFILES_EXPLANATION5","Yes, thank you so much for coming to us now, Riley! Let's go into my research vault and you can tell us exactly what you saw. ","Ada","",""
+"FIZZICSCODE1_QUESTION","Ready to do some real coding?","Ada","",""
+"FIZZICSCODE1_ANSWER","Sounds great","","",""
+"FIZZICSCODE1_LAUNCH","We're going to do some coding in Fizzics. Go ahead and launch it.","","",""
+"FIZZICSCODE1_LAUNCH_HINT1","Click on the Fizzics icon on the desktop.","","",""
+"FIZZICSCODE1_FLIP","Now click on the Flip to Hack button to get to the hacking panel. You know the drill.","","",""
+"FIZZICSCODE1_FLIP_HINT1","Click the Flip to Hack button on the left of the screen.","","",""
+"FIZZICSCODE1_UNLOCK","You've seen this before, but now we're going to go deeper. Click on the lock screen to unlock the code section.","","",""
+"FIZZICSCODE1_UNLOCK_HINT1","Click on the lock.","","",""
+"FIZZICSCODE1_EXPLANATION1","Here we are! Coding directly takes some practice, but it's very powerful. Let's check it out.
+
+The coding panel shows all the variables involved in Fizzics. It's another way of showing what you see in the user interface.
+
+Try changing the radius for species 0 clicking on the + button. See how the code changes to reflect that?","","",""
+"FIZZICSCODE1_EXPLANATION1_HINT1","Change the radius for the orange ball pressing on the + button next to Radius.","","",""
+"FIZZICSCODE1_EXPLANATION2","Great. Now go in the coding panel and change that radius variable to something different. You'll see it change in the user interface too.","","",""
+"FIZZICSCODE1_EXPLANATION2_HINT1","In the coding panel, change the value of the variable species[0].radius.","","",""
+"FIZZICSCODE1_END","You're getting the hang of it. The parameters for each species are in an array: species[0], species[1], etc.
+
+Feel free to change any value and see how they behave. And rememer you always have the reset button if you need it.
+
+I need to go. We're still investigating what happened to my research. Bye!","","",""
+"FIZZICSCODE1_ABORT","We can continue later.","","",""
 "NOQUEST_ADA_RILEY","I think Riley was looking for you earlier.","","","These are the comments characters make when they don't have a quest to give you. For now they just tell you to go talk to another character (if there is one)."
 "NOQUEST_ADA_SANIEL","Dr. Rowe wants to talk to you.","","",""
 "NOQUEST_ADA_NOTHING","Discovering anything interesting?","","","Are you enjoying yourself? "
@@ -174,5 +192,4 @@ It appears totally untouched but all the packets have disappeared.
 "NOQUEST_SANIEL_RILEY","That friend of yours is probably up to no good.","","",""
 "NOQUEST_SANIEL_NOTHING","I'm keeping my eye out for any shenanigans!","","",""
 "NOQUEST_SANIEL_CHAPTER1END","Best thing you could do now is to sharpen your coding skills. We might be needing your help! Try out that last Fizzics key. ","","",""
-"","s","","",""
 "","Yellow: I had to add/modify the text. Needs to be looked at by Genine.","","",""
