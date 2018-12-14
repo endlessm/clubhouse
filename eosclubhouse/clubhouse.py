@@ -122,6 +122,12 @@ class Character(GObject.GObject):
 
 class Message(Gtk.Bin):
 
+    __gsignals__ = {
+        'closed': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
+
     _MARGIN = 20
     _LABEL_MARGIN = 30
 
@@ -151,13 +157,15 @@ class Message(Gtk.Bin):
         self._label.set_size_request(self.LABEL_WIDTH, -1)
 
         self.close_button = builder.get_object('character_message_close_button')
-        self.close_button.connect(
-            "clicked", lambda _: Sound.play('clubhouse/dialog/close'))
+        self.close_button.connect('clicked', self._close_button_clicked_cb)
 
         self._character_image = builder.get_object('character_image')
         overlay.set_overlay_pass_through(self._character_image, True)
 
         self._button_box = builder.get_object('message_button_box')
+
+    def _close_button_clicked_cb(self, button):
+        self.close()
 
     def set_text(self, txt):
         self._label.set_label(txt)
@@ -186,6 +194,14 @@ class Message(Gtk.Bin):
         for child in self._button_box:
             child.destroy()
         self._button_box.hide()
+
+    def close(self):
+        if not self.is_visible():
+            return
+
+        self.hide()
+        Sound.play('clubhouse/dialog/close')
+        self.emit('closed')
 
     def set_character(self, character_id):
         if self._character:
@@ -235,11 +251,7 @@ class QuestSetButton(Gtk.Button):
 
         self._set_highlighted(self._quest_set.highlighted)
 
-        # Set the "highlighted" style on "nudge"
         self._quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
-
-        # Reset the "highlighted" style
-        self.connect('clicked', lambda _button: self._quest_set.set_property('highlighted', False))
 
         # The button should only be visible when the QuestSet is visible
         self._quest_set.bind_property('visible', self, 'visible',
@@ -286,27 +298,25 @@ class ClubhousePage(Gtk.EventBox):
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/clubhouse-page.ui')
         self._message = Message()
+        self._message.connect('closed', self._hide_message_overlay_cb)
         self._overlay_msg_box = builder.get_object('clubhouse_overlay_msg_box')
         self._main_characters_box = builder.get_object('clubhouse_main_characters_box')
         self._overlay_msg_box.add(self._message)
 
         self.add(builder.get_object('clubhouse_overlay'))
 
-        self._message.close_button.connect('clicked', self._quest_close_button_clicked_cb)
-
         self._main_box = builder.get_object('clubhouse_main_box')
         self._main_box.connect('button-press-event', self._on_button_press_event_cb)
 
+    def _hide_message_overlay_cb(self, message):
+        self._overlay_msg_box.hide()
+
     def _on_button_press_event_cb(self, main_box, event):
         if event.get_button().button == 1:
-            self._overlay_msg_box.hide()
+            self._message.close()
             return True
 
         return False
-
-    def _quest_close_button_clicked_cb(self, button):
-        # Dismiss the dialog
-        self._replied_to_message(None)
 
     def stop_quest(self):
         self._cancel_ongoing_task()
@@ -336,12 +346,15 @@ class ClubhousePage(Gtk.EventBox):
         self._main_characters_box.put(button, x, y)
 
     def _on_quest_set_highlighted_changed(self, quest_set, _param):
-        self._app_window.get_application().send_suggest_open(quest_set.highlighted)
+        if self._app_window.is_visible():
+            return
+
+        self._app_window.get_application().send_suggest_open(
+            libquest.Registry.has_quest_sets_highlighted())
 
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
         new_quest = quest_set.get_next_quest()
-
         self._message.reset()
 
         # If a quest from this quest_set is already running, then just hide the window so the
@@ -364,21 +377,20 @@ class ClubhousePage(Gtk.EventBox):
             if msg_text is None:
                 return
 
-            self.show_message(msg_text, [('Ok', self._replied_to_message, None)])
+            self.show_message(msg_text, [('Ok', self._message.close)])
         else:
             self.show_message(new_quest.get_initial_message(),
-                              [('Sure!', self._replied_to_message, new_quest),
-                               ('Not now…', self._replied_to_message, None)])
+                              [('Sure!', self._accept_quest_message, quest_set, new_quest),
+                               ('Not now…', self._message.close)])
 
         self._overlay_msg_box.show_all()
 
-    def _replied_to_message(self, quest_to_start):
+    def _accept_quest_message(self, quest_set, new_quest):
         self._message.hide()
         self._overlay_msg_box.hide()
-
-        if quest_to_start is not None:
-            logger.info('Start quest {}'.format(quest_to_start))
-            self.run_quest(quest_to_start)
+        logger.info('Start quest {}'.format(new_quest))
+        quest_set.set_property('highlighted', False)
+        self.run_quest(new_quest)
 
     def connect_quest(self, quest):
         quest.connect('message', self._quest_message_cb)
@@ -451,6 +463,7 @@ class ClubhousePage(Gtk.EventBox):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
         quest.save_conf()
+        quest.dismiss()
 
         # Ensure we reset the running quest (only if we haven't started a different quest in the
         # meanwhile) quest and close any eventual message popups
