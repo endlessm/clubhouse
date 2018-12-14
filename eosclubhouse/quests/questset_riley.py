@@ -3,13 +3,14 @@ from eosclubhouse.libquest import Registry, QuestSet
 from eosclubhouse.quests.fizzics1 import Fizzics1
 from eosclubhouse.quests.breaksomething import BreakSomething
 from eosclubhouse.quests.fizzics2 import Fizzics2
+from eosclubhouse.quests.fizzicscode2 import FizzicsCode2
 
 
 class RileyQuestSet(QuestSet):
 
     __character_id__ = 'riley'
     __position__ = (279, 265)
-    __quests__ = [Fizzics1, BreakSomething, Fizzics2]
+    __quests__ = [Fizzics1, BreakSomething, Fizzics2, FizzicsCode2]
 
     def __init__(self):
         super().__init__()
@@ -23,7 +24,7 @@ class RileyQuestSet(QuestSet):
             return QS('NOQUEST_RILEY_SANIEL')
 
         quest = self.get_quests()[0]
-        if (quest.is_named_quest_complete("LostFiles")):
+        if (quest.is_named_quest_complete("FizzicsCode2")):
             return QS('NOQUEST_RILEY_CHAPTER1END')
 
         return QS('NOQUEST_RILEY_NOTHING')

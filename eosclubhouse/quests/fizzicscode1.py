@@ -19,7 +19,6 @@ class FizzicsCode1(Quest):
                 self.show_hints_message(QSH('FIZZICSCODE1_LAUNCH'))
                 Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
             else:
-                Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
                 return self.step_flip
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
@@ -83,7 +82,7 @@ class FizzicsCode1(Quest):
         if time_in_step < 4:
             return
         if self._prev_radius == -10000:
-            self._prev_radius = self._app.get_js_property('radius_0')        
+            self._prev_radius = self._app.get_js_property('radius_0')
         try:
             if self._app.get_js_property('radius_0') != self._prev_radius:
                 return self.step_end
