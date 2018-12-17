@@ -29,26 +29,21 @@ class FizzicsCode1(Quest):
             return self.step_flip
 
     def step_flip(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/step-forward')
-            self.show_hints_message(QSH('FIZZICSCODE1_FLIP'))
-
         try:
             # Check for flipping the app
             if self._app.get_js_property('flipped'):
                 return self.step_unlock
         except Exception as ex:
             print(ex)
-
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
-
-    def step_unlock(self, time_in_step):
+        # Step dialog at the end so we can move forward without flashing dialogs
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_hints_message(QSH('FIZZICSCODE1_UNLOCK'))
+            self.show_hints_message(QSH('FIZZICSCODE1_FLIP'))
 
+    def step_unlock(self, time_in_step):
         # Wait until they unlock the panel
         item = self.gss.get('item.key.fizzics.2')
         if item is not None and item.get('used', False):
@@ -56,6 +51,10 @@ class FizzicsCode1(Quest):
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
+        # Step dialog at the end so we can move forward without flashing dialogs
+        if time_in_step == 0:
+            Sound.play('quests/step-forward')
+            self.show_hints_message(QSH('FIZZICSCODE1_UNLOCK'))
 
     def step_explanation1(self, time_in_step):
         if time_in_step == 0:
