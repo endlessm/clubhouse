@@ -1,0 +1,15 @@
+FIZZICSCODE2_QUESTION,Isn't the coding panel in Fizzics cool? Let's go do some stuff with it!,Ada,,
+FIZZICSCODE2_ANSWER,Let's do it!,,,
+FIZZICSCODE2_LAUNCH,I bet you know how to launch Fizzics by now.,,,
+FIZZICSCODE2_LAUNCH_HINT1,Go to the desktop and click on Fizzics.,,,
+FIZZICSCODE2_FLIP,Let's get in there. Press the Flip to Hack button.,,,
+FIZZICSCODE2_FLIP_HINT1,Psss... press the big button on the left.,,,
+FIZZICSCODE2_EXPLANATION,"One of the really cool things about code is that you're not tied to what someone thought about. You can let your imagination run wild.
+
+For example, we know that if you set some gravity on an object, it falls down. But what happens if you set the gravity negative? Try it!",,,
+FIZZICSCODE2_EXPLANATION_HINT1,Set the gravity for the orange ball negative.,,,
+FIZZICSCODE2_EXPLANATION_HINT2,Set species[0].gravity = -30.,,,
+FIZZICSCODE2_END,"The fall upwards!! Did you expect that? There are lots of other cool things to play with. See if you find any other neat tricks.
+
+See you at the Clubhouse!",,,
+FIZZICSCODE2_ABORT,That's cool. Drop by whenever you want to try again.,,,
