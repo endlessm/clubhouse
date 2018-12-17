@@ -25,7 +25,7 @@ import time
 
 from eosclubhouse import logger
 from eosclubhouse.system import GameStateService, Sound
-from eosclubhouse.utils import Performance
+from eosclubhouse.utils import Performance, QuestStringCatalog
 from gi.repository import GObject, GLib
 
 
@@ -109,7 +109,11 @@ class Quest(GObject.GObject):
         self._name = name
         self._initial_msg = initial_msg
         self._characters = {}
+
         self._main_character_id = main_character_id
+        self._main_mood = 'talk'
+        self._main_open_dialog_sound = 'clubhouse/dialog/open'
+
         self._available = True
         self._cancellable = None
 
@@ -195,36 +199,40 @@ class Quest(GObject.GObject):
     def get_main_character(self):
         return self._main_character_id
 
-    def show_message(self, txt, character_id=None, mood=None, choices=[], use_confirm=False,
-                     open_dialog_sound='clubhouse/dialog/open'):
-        possible_answers = [(text, callback) for text, callback in choices]
+    def show_message(self, info_id=None, **options):
+        if info_id is not None:
+            info = QuestStringCatalog.get_info(info_id)
+            options.update(info)
 
-        if use_confirm:
+        possible_answers = [(text, callback) for text, callback in options['choices']]
+
+        if options.get('use_confirm'):
             possible_answers = [('>', self._confirm_step)] + possible_answers
 
-        self._emit_signal('message', txt, possible_answers,
-                          character_id or self._main_character_id, mood,
-                          open_dialog_sound)
+        self._emit_signal('message', options['txt'], possible_answers,
+                          options.get('character_id') or self._main_character_id,
+                          options.get('mood') or self._main_mood,
+                          options.get('open_dialog_sound') or self._main_open_dialog_sound)
 
-    def show_question(self, txt, character_id=None, mood=None):
-        self.show_message(txt, character_id=character_id, mood=mood, choices=[],
-                          use_confirm=True)
+    def show_question(self, info_id=None, **options):
+        options.update({'choices': [], 'use_confirm': True})
+        self.show_message(info_id, **options)
 
-    def _show_next_hint_message(self, txt_list, character_id, mood, txt_index=0):
+    def _show_next_hint_message(self, info_list, index=0):
         label = "I'd like another hint"
-        if txt_index == 0:
+        if index == 0:
             label = "Give me a hint"
-        elif txt_index == len(txt_list) - 1:
+        elif index == len(info_list) - 1:
             label = "What's my goal?"
 
-        txt = txt_list[txt_index]
-        next_txt_index = (txt_index + 1) % len(txt_list)
-        next_hint = functools.partial(self._show_next_hint_message, txt_list, character_id,
-                                      mood, next_txt_index)
-        self.show_message(txt, character_id, mood, choices=[(label, next_hint)])
+        info_id = info_list[index]
+        next_index = (index + 1) % len(info_list)
+        next_hint = functools.partial(self._show_next_hint_message, info_list, next_index)
+        self.show_message(info_id=info_id, choices=[(label, next_hint)])
 
-    def show_hints_message(self, txt_list, character_id=None, mood=None):
-        self._show_next_hint_message(txt_list, character_id, mood)
+    def show_hints_message(self, info_id):
+        info_id_list = QuestStringCatalog.get_hint_keys(info_id)
+        self._show_next_hint_message(info_id_list)
 
     def get_initial_message(self):
         return self._initial_msg

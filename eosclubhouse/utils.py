@@ -84,27 +84,35 @@ class QuestStringCatalog(_DictFromCSV):
         super().__init__(config.QUESTS_STRINGS_CSV)
 
     @classmethod
-    def get_string(class_, key):
+    def get_info(class_, key):
         return class_.get_dict().get(key)
 
     @classmethod
-    def get_string_with_hints(class_, key):
-        string = class_.get_string(key)
+    def get_string(class_, key):
+        info = class_.get_info(key)
+        if info is not None:
+            return info['txt']
 
-        hints = []
+    @classmethod
+    def get_hint_keys(class_, key):
+        hint_keys = [key]
         for hint_index in itertools.count(start=1):
             hint_key = '{}_HINT{}'.format(key, hint_index)
-            hint = class_.get_string(hint_key)
-            if hint is None:
+            if class_.get_info(hint_key) is None:
                 break
-            hints.append(hint)
+            hint_keys.append(hint_key)
 
-        return [string] + hints
+        return hint_keys
 
     @classmethod
     def set_key_value_from_csv_row(class_, csv_row, contents_dict):
-        key, value = csv_row[0], csv_row[1]
-        contents_dict[key] = value
+        key, txt, character_id, mood, open_dialog_sound = csv_row
+        contents_dict[key] = {
+            'txt': txt,
+            'character_id': character_id.lower(),
+            'mood': mood.lower(),
+            'open_dialog_sound': open_dialog_sound.lower(),
+        }
 
 
 class QuestItemDB(_DictFromCSV):
@@ -132,7 +140,6 @@ class QuestItemDB(_DictFromCSV):
 
 # Convenience "QuestString" method to get a string from the catalog
 QS = QuestStringCatalog().get_string
-QSH = QuestStringCatalog().get_string_with_hints
 
 
 class Performance:
