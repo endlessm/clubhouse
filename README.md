@@ -66,7 +66,7 @@ use Python's `virtual-env` to install it locally.
 
 The quests use strings that are edited in a spreadsheet and used as a CSV
 file. For quickly fetching the latest spreadsheet and save it directly into
-CSV, we have the `get-strings-file.sh` script.
+CSV, we have the `get-strings-file` script.
 
 ### Quests/Strings Alternative Location
 
