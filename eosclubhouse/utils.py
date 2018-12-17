@@ -20,6 +20,7 @@
 #
 
 import csv
+import glob
 import itertools
 import os
 import time
@@ -43,19 +44,28 @@ class _DictFromCSV:
         self.load_csv(csv_path)
 
     @classmethod
+    def _do_load_csv(class_, csv_path, contents):
+        with open(csv_path, 'r') as csv_file:
+            for row in csv.reader(csv_file):
+                class_.set_key_value_from_csv_row(row, contents)
+
+    @classmethod
     def load_csv(class_, csv_original_path):
         contents = {}
 
         file_name = os.path.basename(csv_original_path)
         dirs = [csv_original_path, os.path.join(get_alternative_quests_dir(), file_name)]
 
-        for csv_path in dirs:
-            if not os.path.exists(csv_path):
+        for csv_or_dir_path in dirs:
+            if not os.path.exists(csv_or_dir_path):
                 continue
 
-            with open(csv_path, 'r') as csv_file:
-                for row in csv.reader(csv_file):
-                    class_.set_key_value_from_csv_row(row, contents)
+            if not os.path.isdir(csv_or_dir_path):
+                class_._do_load_csv(csv_or_dir_path, contents)
+                continue
+
+            for csv_path in glob.glob(os.path.join(csv_or_dir_path, '*csv')):
+                class_._do_load_csv(csv_path, contents)
 
         class_._csv_dict = contents
 
