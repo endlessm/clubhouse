@@ -151,13 +151,13 @@ How did this get into Roster? Or did Saniel drop it again? Weird. Anyway, take i
 "HACKDEX1_ABORT","All done already? Okay then, Come back soon. We've got our work cut out for us!","Saniel","",""
 "LOSTFILES_QUESTION","Hey, I'm dealing with a serious situation here. All my research data is gone. Backups, all of it.  ","Ada","",""
 "LOSTFILES_ANSWER","Whoa. What happened? ","","",""
-"LOSTFILES_EXPLANATION","Hey, guys? I was ""looking around"" and I noticed a super weird pattern in the System journal. I've never seen anything like it.","","","I came back in and found my secret cabinet open.. The glass is unbreakable. 
+"LOSTFILES_EXPLANATION","Hey, guys? I was ""looking around"" and I noticed a super weird pattern in the System journal. I've never seen anything like it.","Riley","","I came back in and found my secret cabinet open.. The glass is unbreakable. 
 It appears totally untouched but all the packets have disappeared. 
 "
-"LOSTFILES_EXPLANATION2","I'm not liking this one bit, not one bit. Data's vanished. No sign of a breach. This is starting to look all too familiar.","Saniel","",""
-"LOSTFILES_EXPLANATION3","","Riley","",""
-"LOSTFILES_EXPLANATION4","Hold on Riley, what did I say about staying out of the Sys––oh never mind. What was it? What did you see?","Saniel","",""
-"LOSTFILES_EXPLANATION5","Yes, thank you so much for coming to us now, Riley! Let's go into my research vault and you can tell us exactly what you saw. ","Ada","",""
+"LOSTFILES_EXPLANATION1","I'm not liking this one bit, not one bit. Data's vanished. No sign of a breach. This is starting to look all too familiar.
+
+Hold on Riley, what did I say about staying out of the Sys––oh never mind. What was it? What did you see?","Saniel","",""
+"LOSTFILES_EXPLANATION2","Yes, thank you so much for coming to us now, Riley! Let's go into my research vault and you can tell us exactly what you saw. ","Ada","",""
 "FIZZICSCODE1_QUESTION","Ready to do some real coding?","Ada","",""
 "FIZZICSCODE1_ANSWER","Sounds great","","",""
 "FIZZICSCODE1_LAUNCH","We're going to do some coding in Fizzics. Go ahead and launch it.","","",""
@@ -166,7 +166,7 @@ It appears totally untouched but all the packets have disappeared.
 "FIZZICSCODE1_FLIP_HINT1","Click the Flip to Hack button on the left of the screen.","","",""
 "FIZZICSCODE1_UNLOCK","You've seen this before, but now we're going to go deeper. Click on the lock screen to unlock the code section.","","",""
 "FIZZICSCODE1_UNLOCK_HINT1","Click on the lock.","","",""
-"FIZZICSCODE1_EXPLANATION1","Here we are! Coding directly takes some practice, but it's very powerful. Let's check it out.
+"FIZZICSCODE1_EXPLANATION1","Here we are! Coding takes some practice, but it's very powerful. Let's check it out.
 
 The coding panel shows all the variables involved in Fizzics. It's another way of showing what you see in the user interface.
 
@@ -180,7 +180,7 @@ Feel free to change any value and see how they behave. And rememer you always ha
 
 I need to go. We're still investigating what happened to my research. Bye!","","",""
 "FIZZICSCODE1_ABORT","We can continue later.","","",""
-"FIZZICSCODE2_QUESTION","Isn't the coding pannel in Fizzics cool? Let's go do some stuff with it!","","",""
+"FIZZICSCODE2_QUESTION","Isn't the coding panel in Fizzics cool? Let's go do some stuff with it!","Ada","",""
 "FIZZICSCODE2_ANSWER","Let's do it!","","",""
 "FIZZICSCODE2_LAUNCH","I bet you know how to launch Fizzics by now.","","",""
 "FIZZICSCODE2_LAUNCH_HINT1","Go to the desktop and click on Fizzics.","","",""
