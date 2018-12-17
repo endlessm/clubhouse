@@ -1,4 +1,4 @@
-from eosclubhouse.utils import QS, QSH
+from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -17,7 +17,7 @@ class Fizzics2(Quest):
         if time_in_step == 0:
             self._initialized = False
             if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-                self.show_hints_message(QSH('FIZZICS2_LAUNCH'))
+                self.show_hints_message('FIZZICS2_LAUNCH')
                 Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
             else:
                 return self.step_alreadyrunning
@@ -31,7 +31,7 @@ class Fizzics2(Quest):
 
     def step_alreadyrunning(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('FIZZICS2_ALREADY_RUNNING'))
+            self.show_question('FIZZICS2_ALREADY_RUNNING')
 
         if self.confirmed_step():
             return self.step_set_level
@@ -50,7 +50,7 @@ class Fizzics2(Quest):
     def step_goal(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_hints_message(QSH('FIZZICS2_GOAL'))
+            self.show_hints_message('FIZZICS2_GOAL')
 
         try:
             if self._app.get_js_property('quest0Success'):
@@ -62,20 +62,20 @@ class Fizzics2(Quest):
 
     def step_success(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('FIZZICS2_SUCCESS'))
+            self.show_question('FIZZICS2_SUCCESS')
 
         if self.confirmed_step():
             return self.step_reward
 
     def step_reward(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('FIZZICS2_REWARD'))
+            self.show_question('FIZZICS2_REWARD')
         if self.confirmed_step():
             return self.step_end
 
     def step_end(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('FIZZICS2_END'))
+            self.show_question('FIZZICS2_END')
             self.conf['complete'] = True
             self.available = False
             self.give_item('item.key.hackdex1.1')
@@ -88,7 +88,7 @@ class Fizzics2(Quest):
     def step_abort(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/quest-aborted')
-            self.show_message(QS('FIZZICS2_ABORT'))
+            self.show_message('FIZZICS2_ABORT')
 
         if time_in_step > 5:
             self.stop()

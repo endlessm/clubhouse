@@ -21,13 +21,13 @@ class LostFiles(Quest):
 
     def step_first(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('LOSTFILES_EXPLANATION'), character_id='riley')
+            self.show_question('LOSTFILES_EXPLANATION')
         if self.confirmed_step():
             return self.step_explanation2
 
     def step_explanation2(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('LOSTFILES_EXPLANATION1'), character_id='saniel')
+            self.show_question('LOSTFILES_EXPLANATION1')
         if self.confirmed_step():
             return self.step_explanation3
 
@@ -36,7 +36,7 @@ class LostFiles(Quest):
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
-            self.show_message(QS('LOSTFILES_EXPLANATION2'), character_id='ada',
+            self.show_message('LOSTFILES_EXPLANATION2',
                               choices=[('End of Episode 1', self._confirm_step)])
         if self.confirmed_step():
             self.stop()

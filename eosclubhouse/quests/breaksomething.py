@@ -1,4 +1,4 @@
-from eosclubhouse.utils import QS, QSH
+from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 from gi.repository import Gio
@@ -27,7 +27,7 @@ class BreakSomething(Quest):
         if time_in_step == 0:
             if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
                 return self.step_explanation
-            self.show_hints_message(QSH('BREAKSOMETHING_LAUNCH'))
+            self.show_hints_message('BREAKSOMETHING_LAUNCH')
             Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME) or self.debug_skip():
@@ -40,7 +40,7 @@ class BreakSomething(Quest):
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_question(QS('BREAKSOMETHING_OSAPP'))
+            self.show_question('BREAKSOMETHING_OSAPP')
         if self.confirmed_step():
             return self.step_flip
         try:
@@ -54,7 +54,7 @@ class BreakSomething(Quest):
 
     def step_flip(self, time_in_step):
         if time_in_step == 0:
-            self.show_hints_message(QSH('BREAKSOMETHING_FLIP'))
+            self.show_hints_message('BREAKSOMETHING_FLIP')
 
         try:
             if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
@@ -77,7 +77,7 @@ class BreakSomething(Quest):
                 else:
                     return self.step_unlock
             Sound.play('quests/step-forward')
-            self.show_question(QS('BREAKSOMETHING_GIVEKEY'))
+            self.show_question('BREAKSOMETHING_GIVEKEY')
 
         if self.confirmed_step():
             self.give_item('item.key.OperatingSystemApp.1')
@@ -88,7 +88,7 @@ class BreakSomething(Quest):
 
     def step_unlock(self, time_in_step):
         if time_in_step == 0:
-            self.show_hints_message(QSH('BREAKSOMETHING_UNLOCK'))
+            self.show_hints_message('BREAKSOMETHING_UNLOCK')
 
         item = self.gss.get('item.key.OperatingSystemApp.1')
         if item is not None and item.get('used', False):
@@ -100,7 +100,7 @@ class BreakSomething(Quest):
     def step_unlocked(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_question(QS('BREAKSOMETHING_UNLOCKED'))
+            self.show_question('BREAKSOMETHING_UNLOCKED')
 
         if self.confirmed_step():
             return self.step_makeitlarge
@@ -112,7 +112,7 @@ class BreakSomething(Quest):
 
     def step_makeitlarge(self, time_in_step):
         if time_in_step == 0:
-            self.show_hints_message(QSH('BREAKSOMETHING_MAKEITLARGE'))
+            self.show_hints_message('BREAKSOMETHING_MAKEITLARGE')
 
         if self.settings.get_int('cursor-size') >= 200:
             return self.step_success
@@ -123,14 +123,13 @@ class BreakSomething(Quest):
     def step_success(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_question(QS('BREAKSOMETHING_SUCCESS'))
+            self.show_question('BREAKSOMETHING_SUCCESS')
         if self.confirmed_step():
             return self.step_saniel
 
     def step_saniel(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('BREAKSOMETHING_SANIELARRIVES'), character_id='saniel',
-                               mood='talk_anger')
+            self.show_question('BREAKSOMETHING_SANIELARRIVES')
         if self.confirmed_step():
             if self.settings.get_int('cursor-size') == 24:
                 return self.step_already_reset
@@ -138,7 +137,7 @@ class BreakSomething(Quest):
 
     def step_give_reset(self, time_in_step):
         if time_in_step == 0:
-            self.show_hints_message(QSH('BREAKSOMETHING_GIVERESET'), character_id='saniel')
+            self.show_hints_message('BREAKSOMETHING_GIVERESET')
             # Set reset button visible
             self.gss.set("app.hack_toolbox.reset_button", {'visible': True})
             Sound.play('quests/reset-given')
@@ -149,13 +148,13 @@ class BreakSomething(Quest):
     def step_reset(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_question(QS('BREAKSOMETHING_RESET'), character_id='saniel')
+            self.show_question('BREAKSOMETHING_RESET')
         if self.confirmed_step():
             return self.step_reward
 
     def step_already_reset(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('BREAKSOMETHING_ALREADYRESET'), character_id='saniel')
+            self.show_question('BREAKSOMETHING_ALREADYRESET')
             # Set reset button visible
             self.gss.set("app.hack_toolbox.reset_button", {'visible': True})
             Sound.play('quests/reset-given')
@@ -165,7 +164,7 @@ class BreakSomething(Quest):
 
     def step_reward(self, time_in_step):
         if time_in_step == 0:
-            self.show_question(QS('BREAKSOMETHING_WRAPUP'), character_id='saniel')
+            self.show_question('BREAKSOMETHING_WRAPUP')
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
@@ -177,7 +176,7 @@ class BreakSomething(Quest):
     def step_abort(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/quest-aborted')
-            self.show_message(QS('BREAKSOMETHING_ABORT'))
+            self.show_message('BREAKSOMETHING_ABORT')
 
         if time_in_step > 5:
             self.stop()

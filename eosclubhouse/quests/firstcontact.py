@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App
 
@@ -45,16 +44,16 @@ class FirstContact(Quest):
             return self.step_dohack
 
         if time_in_step >= 10 and not self._hint1:
-            self.show_message(QS('FIRSTCONTACT_WELCOME_HINT1'))
+            self.show_message('FIRSTCONTACT_WELCOME_HINT1')
             self._hint1 = True
         elif time_in_step >= 20 and not self._hint2:
-            self.show_message(QS('FIRSTCONTACT_WELCOME_HINT2'))
+            self.show_message('FIRSTCONTACT_WELCOME_HINT2')
             self._hint2 = True
 
     # App has been flipped
     def step_dohack(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('FIRSTCONTACT_GOAL'))
+            self.show_message('FIRSTCONTACT_GOAL')
 
         if self.get_hackunlock_mode() >= 2:
             self._hint1 = False
@@ -63,22 +62,22 @@ class FirstContact(Quest):
 
         if time_in_step > 20 and not self._hint1:
             self._hint1 = True
-            self.show_message(QS('FIRSTCONTACT_GOAL_HINT1'))
+            self.show_message('FIRSTCONTACT_GOAL_HINT1')
         if time_in_step > 40 and not self._hint2:
             self._hint2 = True
-            self.show_message(QS('FIRSTCONTACT_GOAL_HINT2'))
+            self.show_message('FIRSTCONTACT_GOAL_HINT2')
 
     # Hack is done. Waiting for player to flip back
     def step_flipback(self, time_in_step):
         if time_in_step == 0:
-            self.show_message(QS('FIRSTCONTACT_FLIPBACK'))
+            self.show_message('FIRSTCONTACT_FLIPBACK')
 
         if self.get_hackunlock_mode() >= 4 or self.debug_skip():
             return self.step_reward
 
         if time_in_step > 8 and not self._hint1:
             self._hint1 = True
-            self.show_message(QS('FIRSTCONTACT_FLIPBACK_HINT1'))
+            self.show_message('FIRSTCONTACT_FLIPBACK_HINT1')
 
     def step_reward(self, time_in_step):
         self.conf['complete'] = True
