@@ -9,7 +9,7 @@ from eosclubhouse.quests.fizzicscode2 import FizzicsCode2
 class RileyQuestSet(QuestSet):
 
     __character_id__ = 'riley'
-    __position__ = (279, 265)
+    __position__ = (279, 260)
     __quests__ = [Fizzics1, BreakSomething, Fizzics2, FizzicsCode2]
 
     def __init__(self):
