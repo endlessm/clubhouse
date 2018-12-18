@@ -5,15 +5,26 @@ import random
 
 from gi.repository import GLib, Gtk, GObject, GdkPixbuf
 
+from eosclubhouse import config
+
 # The default delay if not provided in the animation metadata:
 DEFAULT_DELAY = 100
 
 
+def _get_alternative_characters_dir():
+    return os.path.join(GLib.get_user_data_dir(), 'characters')
+
+
+def get_character_animation_dirs(subpath):
+    return [os.path.join(config.CHARACTERS_DIR, subpath),
+            os.path.join(_get_alternative_characters_dir(), subpath)]
+
+
 class AnimationImage(Gtk.Image):
-    def __init__(self, path):
+    def __init__(self, subpath):
         super().__init__()
         self._animator = Animator(self)
-        self._animator.load(path)
+        self._animator.load(subpath)
 
     def play(self, name):
         self._animator.play(name)
@@ -25,12 +36,13 @@ class Animator:
         self._animations = {}
         self._target_image = target_image
 
-    def load(self, path, prefix=None):
-        for sprite in glob.glob(os.path.join(path, '*png')):
-            name, _ext = os.path.splitext(os.path.basename(sprite))
-            animation = Animation(sprite, self._target_image)
-            animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
-            self._animations[animation_name] = animation
+    def load(self, subpath, prefix=None):
+        for sprites_path in get_character_animation_dirs(subpath):
+            for sprite in glob.glob(os.path.join(sprites_path, '*png')):
+                name, _ext = os.path.splitext(os.path.basename(sprite))
+                animation = Animation(sprite, self._target_image)
+                animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
+                self._animations[animation_name] = animation
 
     def play(self, name):
         AnimationSystem.animate(id(self), self._animations[name])
