@@ -22,16 +22,16 @@ import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
-import glob
 import os
 import sys
 import threading
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
-from eosclubhouse import config, logger, libquest, utils
+from eosclubhouse import logger, libquest, utils
 from eosclubhouse.system import GameStateService, Sound
 from eosclubhouse.utils import Performance
-from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator
+from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
+    get_character_animation_dirs
 
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
@@ -90,31 +90,26 @@ class Character(GObject.GObject):
     def get_fullbody_image(self):
         return self._fullbody_image
 
-    def get_mood_image(self):
-        return self._moods.get(self.mood)
-
-    def get_moods_dir(self):
-        return os.path.join(config.CHARACTERS_DIR, self._id, 'moods')
+    def get_moods_path(self):
+        return os.path.join(self._id, 'moods')
 
     def get_mood_icon(self):
-        image_file = Gio.File.new_for_path(self.get_mood_image())
+        mood_path = self.get_moods_path()
+
+        mood_image = None
+        for sprites_path in get_character_animation_dirs(mood_path):
+            test_image = os.path.join(sprites_path, self._mood + '.png')
+            if not os.path.exists(test_image):
+                continue
+            mood_image = test_image
+
+        image_file = Gio.File.new_for_path(mood_image)
         return Gio.FileIcon.new(image_file)
 
     def load(self):
-        char_dir = os.path.join(config.CHARACTERS_DIR, self._id)
-
-        fullbody_path = os.path.join(char_dir, 'fullbody')
+        fullbody_path = os.path.join(self._id, 'fullbody')
         self._fullbody_image = AnimationImage(fullbody_path)
         self._fullbody_image.play('idle')
-
-        self._moods = {}
-        moods_path = self.get_moods_dir()
-        for image in glob.glob(os.path.join(moods_path, '*.png')):
-            name, _ext = os.path.splitext(image)
-            path = os.path.join(char_dir, 'moods', image)
-            self._moods[os.path.basename(name)] = path
-
-        assert(self.DEFAULT_MOOD in self._moods)
 
     id = property(_get_id)
     mood = GObject.Property(_get_mood, _set_mood, type=str)
@@ -229,7 +224,7 @@ class Message(Gtk.Bin):
 
         animation_id = '{}/{}'.format(character.id, character.mood)
         if not self._animator.has_animation(animation_id):
-            self._animator.load(character.get_moods_dir(), character.id)
+            self._animator.load(character.get_moods_path(), character.id)
 
         self._animator.play(animation_id)
 
