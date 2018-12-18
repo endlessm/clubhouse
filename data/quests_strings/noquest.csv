@@ -1,0 +1,13 @@
+ID,Text,Speaker,Animation,Sound
+NOQUEST_ADA_CHAPTER1END,"Oh, hey there! We're all dealing with this data disaster. I'll check back with you as soon as I can!",,,
+NOQUEST_ADA_NOTHING,Discovering anything interesting?,,,
+NOQUEST_ADA_RILEY,I think Riley was looking for you earlier.,,,
+NOQUEST_ADA_SANIEL,Dr. Rowe wants to talk to you.,,,
+NOQUEST_RILEY_ADA,"Hey, I think Ada wants to tell you something.",,,
+NOQUEST_RILEY_CHAPTER1END,Everyone's wrapped up in recovering Ada's missing packets. Looks like a good time for us to go experiment with some code in Fizzics!,,,
+NOQUEST_RILEY_NOTHING,What are you up to?,,,
+NOQUEST_RILEY_SANIEL,Psssst! Saniel is looking for you.,,,
+NOQUEST_SANIEL_ADA,Perhaps you should inquire with Ada.,,,
+NOQUEST_SANIEL_CHAPTER1END,Best thing you could do now is to sharpen your coding skills. We might be needing your help! Try out that last Fizzics key. ,,,
+NOQUEST_SANIEL_NOTHING,I'm keeping my eye out for any shenanigans!,,,
+NOQUEST_SANIEL_RILEY,That friend of yours is probably up to no good.,,,

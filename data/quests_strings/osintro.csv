@@ -1,0 +1,28 @@
+OSINTRO_QUESTION,The System is a seriously magical place. Want to go there with me now?,Ada,,
+OSINTRO_RESPONSE,Absolutely!,,,
+OSINTRO_PRELAUNCH,"Excellent. The System controls everything that goes into how your computer operates. 
+
+Let's launch it now. ",,,
+OSINTRO_LAUNCH,Launch the System app.,,,
+OSINTRO_LAUNCH_HINT1,Click on the System icon on the desktop.,,,
+OSINTRO_EXPLANATION,"See what I mean? It's all so intricate and connected. You've got to be super careful back here. 
+
+Now that you're here, you can play with the settings. It's cool to have a say in how your computer works. ",,,
+OSINTRO_CLICK,So much going on here! Isn't it all gorgeous? ,,,
+OSINTRO_SANIEL,"What's all this ruckus? Oh, it's you, Ada. You gave me a start! And who's this with you? ",Saniel,,
+OSINTRO_SANIEL_FLIP,Who let you in here? Don't you know you're not supposed to try to access this part? Better get on back now. ,Saniel,,
+OSINTRO_SANIEL_FLIP_HINT1,Go back the same way you got here: press the Flip button on the left. ,,,
+OSINTRO_INTRO,"Hello Dr. Rowe. This is our new student. This is Saniel Rowe, the Archivist. 
+
+Saniel keeps everything humming around here. And he's quite a hero! Right Dr. Rowe? ",Ada,,
+OSINTRO_SANIEL2,"Hero schmero. I'm afraid Ada's filling your head with ancient history! Anyway, hello! 
+
+I'll grant that I do know a few things about keeping the System clear of trouble.
+
+Hear me though when I say, Never come here alone! Got it? ",Saniel,,
+OSINTRO_WRAPUP,"He's a bit fierce at first, but his heart's definitely in the right place. I'm glad you could meet him. 
+
+Well, time for me to bounce! My research is calling me ;) ",Ada,,
+OSINTRO_FLIPPED,HOW DID YOU GET IN HERE? Let me spell it out for you: G-o  b-a-c-k!  NOW. ,Saniel,,
+OSINTRO_FLIPPED_HINT1,Press that same button on the left you pressed earlier to go back!,,,
+OSINTRO_ABORT,Come back to the Clubhouse when you want to learn some more about the System.,Ada,,

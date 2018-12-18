@@ -20,6 +20,7 @@
 #
 
 import csv
+import glob
 import itertools
 import os
 import time
@@ -43,19 +44,28 @@ class _DictFromCSV:
         self.load_csv(csv_path)
 
     @classmethod
+    def _do_load_csv(class_, csv_path, contents):
+        with open(csv_path, 'r') as csv_file:
+            for row in csv.reader(csv_file):
+                class_.set_key_value_from_csv_row(row, contents)
+
+    @classmethod
     def load_csv(class_, csv_original_path):
         contents = {}
 
         file_name = os.path.basename(csv_original_path)
         dirs = [csv_original_path, os.path.join(get_alternative_quests_dir(), file_name)]
 
-        for csv_path in dirs:
-            if not os.path.exists(csv_path):
+        for csv_or_dir_path in dirs:
+            if not os.path.exists(csv_or_dir_path):
                 continue
 
-            with open(csv_path, 'r') as csv_file:
-                for row in csv.reader(csv_file):
-                    class_.set_key_value_from_csv_row(row, contents)
+            if not os.path.isdir(csv_or_dir_path):
+                class_._do_load_csv(csv_or_dir_path, contents)
+                continue
+
+            for csv_path in glob.glob(os.path.join(csv_or_dir_path, '*csv')):
+                class_._do_load_csv(csv_path, contents)
 
         class_._csv_dict = contents
 
@@ -74,27 +84,35 @@ class QuestStringCatalog(_DictFromCSV):
         super().__init__(config.QUESTS_STRINGS_CSV)
 
     @classmethod
-    def get_string(class_, key):
+    def get_info(class_, key):
         return class_.get_dict().get(key)
 
     @classmethod
-    def get_string_with_hints(class_, key):
-        string = class_.get_string(key)
+    def get_string(class_, key):
+        info = class_.get_info(key)
+        if info is not None:
+            return info['txt']
 
-        hints = []
+    @classmethod
+    def get_hint_keys(class_, key):
+        hint_keys = [key]
         for hint_index in itertools.count(start=1):
             hint_key = '{}_HINT{}'.format(key, hint_index)
-            hint = class_.get_string(hint_key)
-            if hint is None:
+            if class_.get_info(hint_key) is None:
                 break
-            hints.append(hint)
+            hint_keys.append(hint_key)
 
-        return [string] + hints
+        return hint_keys
 
     @classmethod
     def set_key_value_from_csv_row(class_, csv_row, contents_dict):
-        key, value = csv_row[0], csv_row[1]
-        contents_dict[key] = value
+        key, txt, character_id, mood, open_dialog_sound = csv_row
+        contents_dict[key] = {
+            'txt': txt,
+            'character_id': character_id.lower(),
+            'mood': mood.lower(),
+            'open_dialog_sound': open_dialog_sound.lower(),
+        }
 
 
 class QuestItemDB(_DictFromCSV):
@@ -122,7 +140,6 @@ class QuestItemDB(_DictFromCSV):
 
 # Convenience "QuestString" method to get a string from the catalog
 QS = QuestStringCatalog().get_string
-QSH = QuestStringCatalog().get_string_with_hints
 
 
 class Performance:

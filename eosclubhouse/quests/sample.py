@@ -55,7 +55,7 @@ class GEditHack(Quest):
         Desktop.remove_app_from_grid(self.TARGET_APP_DBUS_NAME)
         Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
         Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
-        self.show_message('There you go! Now click the GEdit icon!')
+        self.show_message(txt='There you go! Now click the GEdit icon!')
 
     def on_key_event(self, event):
         print(event.keyval)
@@ -63,17 +63,17 @@ class GEditHack(Quest):
     def start(self):
         self.give_item('item.key.testkey')
 
-        self.show_message("I am the best GEdit teacher out there, ain't that right Riley!?")
+        self.show_message(txt="I am the best GEdit teacher out there, ain't that right Riley!?")
         time.sleep(3)
-        self.show_message("Not so sure… But okay…", character_id='riley')
+        self.show_message(txt="Not so sure… But okay…", character_id='riley')
         time.sleep(3)
 
         self.give_item('item.reward.testreward', 'You have just gotten this awesome reward!')
 
-        self.show_message("So let me show you how it's done! Make sure that you open Gedit!")
+        self.show_message(txt="So let me show you how it's done! Make sure that you open Gedit!")
         time.sleep(3)
 
-        self.show_message("Hmm… I don't see Gedit running… Should open it for you?",
+        self.show_message(txt="Hmm… I don't see Gedit running… Should open it for you?",
                           choices=[('Please do!', self._open_app),
                                    ('Give me the app!', self._add_app_to_desktop)])
         while not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
@@ -82,7 +82,7 @@ class GEditHack(Quest):
             time.sleep(1)
 
         txt = 'I love Sampledaemon!'
-        self.show_message("Awesome! Now write '{}' in the editor. I'll wait…".format(txt))
+        self.show_message(txt="Awesome! Now write '{}' in the editor. I'll wait…".format(txt))
 
         app = App(self.TARGET_APP_DBUS_NAME)
 
@@ -100,17 +100,17 @@ class GEditHack(Quest):
             elif len(current_text) == 0 and attempts == 3:
                 app.highlight_object('view')
             elif attempts == 10:
-                self.show_message("You just have to write: {}".format(txt))
+                self.show_message(txt="You just have to write: {}".format(txt))
             elif attempts > 20:
                 break
             attempts += 1
             time.sleep(1)
 
         if success:
-            self.show_message("Awesome! You're the best! A cookie for you!")
+            self.show_message(txt="Awesome! You're the best! A cookie for you!")
             self.set_conf('complete', True)
         else:
-            self.show_message("Oh well… Maybe next time…")
+            self.show_message(txt="Oh well… Maybe next time…")
 
 
 class Sampledaemon(QuestSet):
