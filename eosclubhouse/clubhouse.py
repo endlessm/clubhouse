@@ -170,6 +170,13 @@ class Message(Gtk.Bin):
 
     def add_button(self, label, click_cb, *user_data):
         button = Gtk.Button(label=label)
+
+        if len(self._button_box.get_children()) == 0:
+            image = Gtk.Image.new_from_resource(
+                '/com/endlessm/Clubhouse/images/icon_check-in-circle.svg')
+            button.set_image(image)
+            button.set_property('always-show-image', True)
+
         button.connect('clicked', self._button_clicked_cb, click_cb, *user_data)
         button.show()
 
