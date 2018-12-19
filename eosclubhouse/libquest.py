@@ -180,6 +180,12 @@ class Quest(GObject.GObject):
                 step_func = new_func
                 time_in_step = 0
 
+    def set_to_background(self):
+        pass
+
+    def set_to_foreground(self):
+        pass
+
     def step_first(self, time_in_step):
         raise NotImplementedError
 
