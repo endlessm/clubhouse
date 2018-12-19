@@ -925,6 +925,7 @@ class ClubhouseApplication(Gtk.Application):
                           ('item-accept-answer', self._item_accept_action_cb, None),
                           ('quest-debug-skip', self._quest_debug_skip, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
+                          ('quest-view-close', self._quest_view_close_action_cb, None),
                           ('quit', self._quit_action_cb, None),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
                           ('show-page', self._show_page_action_cb, GLib.VariantType.new('s')),
@@ -1003,6 +1004,10 @@ class ClubhouseApplication(Gtk.Application):
     def _quest_user_answer(self, action, action_id):
         if self._window:
             self._window.clubhouse_page.quest_action(action_id.unpack())
+
+    def _quest_view_close_action_cb(self, _action, _action_id):
+        # no-op ATM
+        logger.debug('Shell quest view closed')
 
     def _quest_debug_skip(self, action, action_id):
         if self._window:
