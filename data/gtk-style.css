@@ -14,8 +14,9 @@
     background-color: rgba(255, 255, 255, .96);
     border-radius: 12px;
     border: 1px solid #8A6A45;
-    box-shadow: 0 2px 8px 8px alpha(black,0.4);
+    box-shadow: 0 2px 8px 8px alpha(black,0.2);
     margin: 0 20px 37.5px 20px;
+    min-height: 110px;
 }
 
 .clubhouse-message-label {
@@ -33,19 +34,23 @@
 }
 
 .clubhouse-message-button-box button {
-    background: linear-gradient(to right, #E97C28, #CE5611);
+    background: #CE5611;
     border-radius: 17.5px;
     border: none;
-    padding: 5px 0;
+    padding: 5px;
     margin: 0 12px 0 0;
     font: 15px "Metropolis Medium, Sans-Serif";
     box-shadow: 0 2px 4px 4px alpha(black,0.2);
 }
 
-.clubhouse-message-button-box button > label {
+.clubhouse-message-button-box button label {
     color: white;
     text-shadow: 0 0.5px 2px alpha(black,0.4);
     font-size: 15px;
+    margin: 0 10px 0 5px;
+}
+
+.clubhouse-message-button-box button.text-button label {
     margin: 0 10px;
 }
 
@@ -81,6 +86,7 @@
 
 .character-message-side-button {
     background: transparent;
+    color: #8A6A45;
     border: none;
     border-radius: 0;
     margin: 0;
