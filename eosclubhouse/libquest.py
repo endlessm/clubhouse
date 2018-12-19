@@ -102,7 +102,10 @@ class Quest(GObject.GObject):
         ),
     }
 
+    _DEFAULT_TIMEOUT = 2 * 3600  # secs
+
     skippable = GObject.Property(type=bool, default=False)
+    stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
 
     def __init__(self, name, main_character_id, initial_msg):
         super().__init__()
@@ -126,6 +129,9 @@ class Quest(GObject.GObject):
         self._debug_skip = False
 
         self._confirmed_step = False
+
+        self._timeout_start = -1
+        self._check_timeout = False
 
     def start(self):
         '''Start the quest's main function
@@ -180,11 +186,31 @@ class Quest(GObject.GObject):
                 step_func = new_func
                 time_in_step = 0
 
+            self._check_timed_out(time_in_step)
+
+        self._reset_timeout()
+
+    def _check_timed_out(self, current_time_secs):
+        if not self._check_timeout:
+            return
+
+        timeout_start = self._timeout_start
+        if timeout_start == -1:
+            self._timeout_start = current_time_secs
+            return
+
+        if self.stop_timeout != -1 and (current_time_secs - timeout_start) > self.stop_timeout:
+            self.stop()
+
+    def _reset_timeout(self):
+        self._check_timeout = False
+        self._timeout_start = -1
+
     def set_to_background(self):
-        pass
+        self._check_timeout = True
 
     def set_to_foreground(self):
-        pass
+        self._reset_timeout()
 
     def step_first(self, time_in_step):
         raise NotImplementedError
