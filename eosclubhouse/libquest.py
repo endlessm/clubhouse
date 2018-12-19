@@ -204,7 +204,9 @@ class Quest(GObject.GObject):
             info = QuestStringCatalog.get_info(info_id)
             options.update(info)
 
-        possible_answers = [(text, callback) for text, callback in options['choices']]
+        possible_answers = []
+        if options.get('choices'):
+            possible_answers = [(text, callback) for text, callback in options['choices']]
 
         if options.get('use_confirm'):
             possible_answers = [('>', self._confirm_step)] + possible_answers
@@ -215,7 +217,7 @@ class Quest(GObject.GObject):
                           options.get('open_dialog_sound') or self._main_open_dialog_sound)
 
     def show_question(self, info_id=None, **options):
-        options.update({'choices': [], 'use_confirm': True})
+        options.update({'use_confirm': True})
         self.show_message(info_id, **options)
 
     def _show_next_hint_message(self, info_list, index=0):
