@@ -389,7 +389,6 @@ class ClubhousePage(Gtk.EventBox):
 
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
-        new_quest = quest_set.get_next_quest()
         self._message.reset()
 
         # If a quest from this quest_set is already running, then just hide the window so the
@@ -400,6 +399,7 @@ class ClubhousePage(Gtk.EventBox):
                 self._show_quest_continue_confirmation()
                 return
 
+        new_quest = quest_set.get_next_quest()
         character = new_quest.get_main_character() if new_quest else quest_set.get_character()
         self._message.set_character(character)
 
