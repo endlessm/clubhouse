@@ -888,6 +888,7 @@ class ClubhouseApplication(Gtk.Application):
 
     QUEST_MSG_NOTIFICATION_ID = 'quest-message'
     QUEST_ITEM_NOTIFICATION_ID = 'quest-item'
+    DEFAULT_EPISODE_NAME = 'episode1'
 
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
@@ -964,7 +965,16 @@ class ClubhouseApplication(Gtk.Application):
         if not self._registry_loaded:
             # @todo: Use a location from config
             libquest.Registry.load(utils.get_alternative_quests_dir())
-            libquest.Registry.load(os.path.dirname(__file__) + '/quests')
+
+            # Try to read the episode from the game state:
+            current_episode_name = self.DEFAULT_EPISODE_NAME
+            current_episode = GameStateService().get('clubhouse.CurrentEpisode')
+            if current_episode is not None:
+                current_episode_name = current_episode.get('name', self.DEFAULT_EPISODE_NAME)
+
+            libquest.Registry.load(os.path.join(os.path.dirname(__file__),
+                                                'quests',
+                                                current_episode_name))
             self._registry_loaded = True
 
             # Check if we need to set the SuggestingOpen property
