@@ -1,12 +1,12 @@
 
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse.quests.firstcontact import FirstContact
-from eosclubhouse.quests.roster import Roster
-from eosclubhouse.quests.fizzicsintro import FizzicsIntro
-from eosclubhouse.quests.osintro import OSIntro
-from eosclubhouse.quests.lostfiles import LostFiles
-from eosclubhouse.quests.fizzicscode1 import FizzicsCode1
+from eosclubhouse.quests.episode1.firstcontact import FirstContact
+from eosclubhouse.quests.episode1.roster import Roster
+from eosclubhouse.quests.episode1.fizzicsintro import FizzicsIntro
+from eosclubhouse.quests.episode1.osintro import OSIntro
+from eosclubhouse.quests.episode1.lostfiles import LostFiles
+from eosclubhouse.quests.episode1.fizzicscode1 import FizzicsCode1
 
 
 class AdaQuestSet(QuestSet):

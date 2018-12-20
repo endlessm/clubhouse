@@ -1,9 +1,9 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse.quests.fizzics1 import Fizzics1
-from eosclubhouse.quests.breaksomething import BreakSomething
-from eosclubhouse.quests.fizzics2 import Fizzics2
-from eosclubhouse.quests.fizzicscode2 import FizzicsCode2
+from eosclubhouse.quests.episode1.fizzics1 import Fizzics1
+from eosclubhouse.quests.episode1.breaksomething import BreakSomething
+from eosclubhouse.quests.episode1.fizzics2 import Fizzics2
+from eosclubhouse.quests.episode1.fizzicscode2 import FizzicsCode2
 
 
 class RileyQuestSet(QuestSet):
