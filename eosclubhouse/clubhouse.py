@@ -563,8 +563,7 @@ class ClubhousePage(Gtk.EventBox):
         self._message.set_text(txt)
 
         for answer in answer_choices:
-            action_key = self._add_quest_action(answer)
-            self._message.add_button(answer[0], self.quest_action, action_key)
+            self._message.add_button(answer[0], *answer[1:])
 
         return self._message
 
