@@ -106,6 +106,7 @@ class Quest(GObject.GObject):
 
     skippable = GObject.Property(type=bool, default=False)
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
+    continue_message = GObject.Property(type=str, default="You haven't completed my challenge yet!")
 
     def __init__(self, name, main_character_id, initial_msg):
         super().__init__()
@@ -214,6 +215,9 @@ class Quest(GObject.GObject):
 
     def step_first(self, time_in_step):
         raise NotImplementedError
+
+    def get_continue_info(self):
+        return (self.continue_message, 'Continue', 'Stop')
 
     def _confirm_step(self):
         Sound.play('clubhouse/dialog/next')
