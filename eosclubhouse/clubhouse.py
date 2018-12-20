@@ -294,6 +294,8 @@ class ClubhousePage(Gtk.EventBox):
         self.get_style_context().add_class('clubhouse-page')
         self._reset_quest_actions()
 
+        self._current_quest_notification = None
+
         self.add_tick_callback(AnimationSystem.step)
 
     def _setup_ui(self):
@@ -364,6 +366,7 @@ class ClubhousePage(Gtk.EventBox):
         if self._quest_task:
             quest = self._quest_task.get_source_object()
             if quest in quest_set.get_quests():
+                self._shell_show_current_popup_message()
                 self._app_window.hide()
                 # Hide the message here because it may be showing from another quest set
                 self._overlay_msg_box.hide()
@@ -475,6 +478,8 @@ class ClubhousePage(Gtk.EventBox):
         if self._quest_task is None:
             self._shell_close_popup_message()
 
+        self._current_quest_notification = None
+
     def _key_press_event_cb(self, window, event):
         # Allow to fully quit the Clubhouse on Ctrl+Escape
         if event.keyval == Gdk.KEY_Escape and (event.state & Gdk.ModifierType.CONTROL_MASK):
@@ -511,6 +516,18 @@ class ClubhousePage(Gtk.EventBox):
         # Add debug button (e.g. to quickly skip steps)
         if self._app_window.get_application().has_debug_mode():
             notification.add_button('🐞', 'app.quest-debug-skip')
+
+        self._app_window.get_application().send_quest_msg_notification(notification)
+        self._current_quest_notification = (notification, open_dialog_sound)
+
+    def _shell_show_current_popup_message(self):
+        if self._current_quest_notification is None:
+            return
+
+        notification, sound = self._current_quest_notification
+
+        if sound:
+            Sound.play(sound)
 
         self._app_window.get_application().send_quest_msg_notification(notification)
 
@@ -925,6 +942,7 @@ class ClubhouseApplication(Gtk.Application):
                           ('item-accept-answer', self._item_accept_action_cb, None),
                           ('quest-debug-skip', self._quest_debug_skip, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
+                          ('quest-view-close', self._quest_view_close_action_cb, None),
                           ('quit', self._quit_action_cb, None),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
                           ('show-page', self._show_page_action_cb, GLib.VariantType.new('s')),
@@ -1003,6 +1021,10 @@ class ClubhouseApplication(Gtk.Application):
     def _quest_user_answer(self, action, action_id):
         if self._window:
             self._window.clubhouse_page.quest_action(action_id.unpack())
+
+    def _quest_view_close_action_cb(self, _action, _action_id):
+        # no-op ATM
+        logger.debug('Shell quest view closed')
 
     def _quest_debug_skip(self, action, action_id):
         if self._window:
