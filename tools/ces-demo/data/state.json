@@ -1,0 +1,20 @@
+{
+  "clubhouse.CurrentEpisode" : {
+    "name" : "cesdemo"
+  },
+  "item.key.fizzics.1" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
+  "item.key.OperatingSystemApp.1" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
+  "item.key.hackdex1.1" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
+  "quest.Fizzics2" : {
+    "complete" : false
+  }
+}
