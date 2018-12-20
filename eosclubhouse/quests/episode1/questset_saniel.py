@@ -1,7 +1,7 @@
 
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse.quests.hackdex1 import HackdexCorruption
+from eosclubhouse.quests.episode1.hackdex1 import HackdexCorruption
 
 
 class SanielQuestSet(QuestSet):
