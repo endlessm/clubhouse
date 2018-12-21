@@ -25,7 +25,7 @@ gnome.compile_resources(
     ],
     gresource_bundle: true,
     install: true,
-    install_dir: install_dir
+    install_dir: clubhouse_data_dir
 )
 
 install_data(

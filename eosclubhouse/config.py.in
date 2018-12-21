@@ -2,3 +2,4 @@ QUESTS_STRINGS_CSV=@quests_strings_csv@
 QUESTS_ITEMS_CSV=@quests_items_csv@
 CHARACTERS_DIR=@characters_dir@
 ITEM_ICONS_DIR=@item_icons_dir@
+DATA_DIR=@data_dir@

@@ -22,6 +22,7 @@ libexec_dir = join_paths(prefix, get_option('libexecdir'))
 source_root = join_paths(meson.source_root(), 'gnome-initial-setup')
 pkgdata_dir = join_paths(prefix, meson.project_name())
 pythondir = join_paths(prefix, python3.sysconfig_path('purelib'))
+clubhouse_data_dir = join_paths(data_dir, meson.project_name())
 
 install_dir = join_paths(pythondir, 'eosclubhouse')
 sources = []
