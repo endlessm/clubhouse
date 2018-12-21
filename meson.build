@@ -28,9 +28,12 @@ install_dir = join_paths(pythondir, 'eosclubhouse')
 sources = []
 
 subdir('data')
+
 subdir('eosclubhouse')
 
 install_data(
     'eos-clubhouse',
     install_dir: get_option('bindir')
 )
+
+meson.add_install_script('meson-postinstall.sh', install_dir)
