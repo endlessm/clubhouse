@@ -367,6 +367,7 @@ class ClubhousePage(Gtk.EventBox):
             quest = self._quest_task.get_source_object()
             if quest in quest_set.get_quests():
                 self._shell_show_current_popup_message()
+                quest.set_to_foreground()
                 self._app_window.hide()
                 # Hide the message here because it may be showing from another quest set
                 self._overlay_msg_box.hide()
@@ -591,6 +592,11 @@ class ClubhousePage(Gtk.EventBox):
         callback(*args)
 
         self._reset_quest_actions()
+
+    def set_quest_to_background(self):
+        if self._quest_task:
+            quest = self._quest_task.get_source_object()
+            quest.set_to_background()
 
 
 class InventoryItem(Gtk.Box):
@@ -1023,8 +1029,9 @@ class ClubhouseApplication(Gtk.Application):
             self._window.clubhouse_page.quest_action(action_id.unpack())
 
     def _quest_view_close_action_cb(self, _action, _action_id):
-        # no-op ATM
         logger.debug('Shell quest view closed')
+        if self._window:
+            self._window.clubhouse_page.set_quest_to_background()
 
     def _quest_debug_skip(self, action, action_id):
         if self._window:
