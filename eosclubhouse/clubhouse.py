@@ -176,6 +176,8 @@ class Message(Gtk.Bin):
                 '/com/endlessm/Clubhouse/images/icon_check-in-circle.svg')
             button.set_image(image)
             button.set_property('always-show-image', True)
+            label_widget = button.get_children()[0].get_children()[0].get_children()[1]
+            label_widget.set_property('valign', Gtk.Align.CENTER)
 
         button.connect('clicked', self._button_clicked_cb, click_cb, *user_data)
         button.show()
