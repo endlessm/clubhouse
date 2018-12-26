@@ -25,7 +25,7 @@ gnome.compile_resources(
     ],
     gresource_bundle: true,
     install: true,
-    install_dir: install_dir
+    install_dir: clubhouse_data_dir
 )
 
 install_data(
@@ -33,34 +33,19 @@ install_data(
     install_dir: join_paths(data_dir, 'applications')
 )
 
-install_subdir(
-    'characters',
-    install_dir: join_paths(data_dir, meson.project_name())
-)
-
-characters_dir = join_paths(data_dir, meson.project_name(), 'characters')
-
+characters_dir_name = 'characters'
+items_dir_name = 'items'
 quests_strings_csv_name = 'quests_strings'
-
-install_subdir(
-    quests_strings_csv_name,
-    install_dir: join_paths(data_dir, meson.project_name())
-)
-
-quests_strings_csv = join_paths(data_dir, meson.project_name(), quests_strings_csv_name)
-
 quests_items_csv_name = 'quests_items.csv'
 
-install_data(
-    quests_items_csv_name,
-    install_dir: join_paths(data_dir, meson.project_name())
-)
+data_paths = [characters_dir_name, items_dir_name, quests_strings_csv_name, quests_items_csv_name]
 
-quests_items_csv = join_paths(data_dir, meson.project_name(), quests_items_csv_name)
+foreach path : data_paths
+    install_subdir(path, install_dir: clubhouse_data_dir)
+endforeach
 
-install_subdir(
-    'items',
-    install_dir: join_paths(data_dir, meson.project_name())
-)
-
-item_icons_dir = join_paths(data_dir, meson.project_name(), 'items')
+# For later substitution in the config file
+characters_dir = join_paths(clubhouse_data_dir, characters_dir_name)
+item_icons_dir = join_paths(clubhouse_data_dir, items_dir_name)
+quests_strings_csv = join_paths(clubhouse_data_dir, quests_strings_csv_name)
+quests_items_csv = join_paths(clubhouse_data_dir, quests_items_csv_name)

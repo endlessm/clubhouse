@@ -27,7 +27,7 @@ import sys
 import threading
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
-from eosclubhouse import logger, libquest, utils
+from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import GameStateService, Sound
 from eosclubhouse.utils import Performance
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
@@ -898,9 +898,7 @@ class ClubhouseApplication(Gtk.Application):
         self._registry_loaded = False
         self._suggesting_open = False
 
-        # @todo: Move the resource to a different dir
-        resource = Gio.resource_load(os.path.join(os.path.dirname(__file__),
-                                                  'eos-clubhouse.gresource'))
+        resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
         Gio.Resource._register(resource)
 
         self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
