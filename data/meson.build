@@ -33,6 +33,11 @@ install_data(
     install_dir: join_paths(data_dir, 'applications')
 )
 
+install_data(
+    'com.endlessm.Clubhouse.appdata.xml',
+    install_dir: join_paths(data_dir, 'appdata')
+)
+
 characters_dir_name = 'characters'
 items_dir_name = 'items'
 quests_strings_csv_name = 'quests_strings'
