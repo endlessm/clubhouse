@@ -890,6 +890,7 @@ class ClubhouseApplication(Gtk.Application):
 
     QUEST_MSG_NOTIFICATION_ID = 'quest-message'
     QUEST_ITEM_NOTIFICATION_ID = 'quest-item'
+    DEFAULT_EPISODE_NAME = 'episode1'
 
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
@@ -924,17 +925,19 @@ class ClubhouseApplication(Gtk.Application):
         self.show(Gdk.CURRENT_TIME)
 
     def do_handle_local_options(self, options):
+        self.register(None)
+
         if options.contains('list-quests'):
             self._list_quests()
             return 0
 
         if options.contains('debug'):
-            self.register(None)
             self.activate_action('debug-mode', GLib.Variant('b', True))
+            return 0
 
         if options.contains('quit'):
-            self.register(None)
             self.activate_action('quit', None)
+            return 0
 
         return -1
 
@@ -942,6 +945,7 @@ class ClubhouseApplication(Gtk.Application):
         Gtk.Application.do_startup(self)
 
         self._ensure_registry_loaded()
+        self._ensure_suggesting_open()
         self._init_style()
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
@@ -964,15 +968,24 @@ class ClubhouseApplication(Gtk.Application):
         if not self._registry_loaded:
             # @todo: Use a location from config
             libquest.Registry.load(utils.get_alternative_quests_dir())
-            libquest.Registry.load(os.path.dirname(__file__) + '/quests')
+
+            # Try to read the episode from the game state:
+            current_episode_name = self.DEFAULT_EPISODE_NAME
+            current_episode = GameStateService().get('clubhouse.CurrentEpisode')
+            if current_episode is not None:
+                current_episode_name = current_episode.get('name', self.DEFAULT_EPISODE_NAME)
+
+            libquest.Registry.load(os.path.join(os.path.dirname(__file__),
+                                                'quests',
+                                                current_episode_name))
             self._registry_loaded = True
 
-            # Check if we need to set the SuggestingOpen property
-            quest_sets = libquest.Registry.get_quest_sets()
-            for quest_set in quest_sets:
-                if quest_set.highlighted:
-                    self.send_suggest_open(True)
-                    break
+    def _ensure_suggesting_open(self):
+        quest_sets = libquest.Registry.get_quest_sets()
+        for quest_set in quest_sets:
+            if quest_set.highlighted:
+                self.send_suggest_open(True)
+                break
 
     def _ensure_window(self):
         if self._window:
@@ -1134,7 +1147,6 @@ class ClubhouseApplication(Gtk.Application):
         return GLib.Variant('(v)', (metadata_variant,))
 
     def _list_quests(self):
-        self._ensure_registry_loaded()
         for quest_set in libquest.Registry.get_quest_sets():
             print(quest_set.get_id())
             for quest in quest_set.get_quests():

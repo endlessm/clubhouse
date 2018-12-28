@@ -1,0 +1,27 @@
+#!/bin/bash -e
+#
+# Reset the demo.
+
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+
+echo "---DEMO RESET --- Calling factory reset"
+eos-hack-reset-clubhouse
+
+echo "---DEMO RESET --- Setting custom game state"
+mkdir -p ~/.var/app/com.endlessm.GameStateService/data/
+cp "${SCRIPTPATH}/state.json" ~/.var/app/com.endlessm.GameStateService/data/state.json
+
+echo "---DEMO RESET --- Setting custom state for Fizzics"
+mkdir -p ~/.var/app/com.endlessm.Fizzics/data/webkitgtk/localstorage/
+cp "${SCRIPTPATH}/fizzics_localstorage" \
+    ~/.var/app/com.endlessm.Fizzics/data/webkitgtk/localstorage/file__0.localstorage
+
+echo "---DEMO RESET --- Adding icons to Desktop"
+eos-add-to-desktop com.endlessm.Fizzics
+eos-add-to-desktop com.endlessm.OperatingSystemApp
+eos-add-to-desktop com.endlessm.Hackdex_chapter_one
+
+echo "---DEMO RESET --- Restarting Clubhouse"
+com.endlessm.Clubhouse --quit
+
+echo "---DEMO RESET --- DONE"
