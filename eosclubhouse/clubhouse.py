@@ -55,7 +55,7 @@ ClubhouseIface = ('<node>'
                   '</interface>'
                   '</node>')
 
-DEFAULT_WINDOW_WIDTH = 484
+DEFAULT_WINDOW_WIDTH = 480
 
 
 class Character(GObject.GObject):
