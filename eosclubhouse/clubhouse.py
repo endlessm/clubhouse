@@ -544,7 +544,7 @@ class ClubhousePage(Gtk.EventBox):
 
         notification = Gio.Notification()
         if text is None:
-            text = 'Got new item!! {}'.format(item_name)
+            text = 'You got a new item! {}'.format(item_name)
 
         notification.set_body(text)
         notification.set_title('')
