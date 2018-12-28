@@ -943,6 +943,7 @@ class ClubhouseApplication(Gtk.Application):
         Gtk.Application.do_startup(self)
 
         self._ensure_registry_loaded()
+        self._ensure_suggesting_open()
         self._init_style()
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
@@ -977,12 +978,12 @@ class ClubhouseApplication(Gtk.Application):
                                                 current_episode_name))
             self._registry_loaded = True
 
-            # Check if we need to set the SuggestingOpen property
-            quest_sets = libquest.Registry.get_quest_sets()
-            for quest_set in quest_sets:
-                if quest_set.highlighted:
-                    self.send_suggest_open(True)
-                    break
+    def _ensure_suggesting_open(self):
+        quest_sets = libquest.Registry.get_quest_sets()
+        for quest_set in quest_sets:
+            if quest_set.highlighted:
+                self.send_suggest_open(True)
+                break
 
     def _ensure_window(self):
         if self._window:
