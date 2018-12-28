@@ -925,17 +925,19 @@ class ClubhouseApplication(Gtk.Application):
         self.show(Gdk.CURRENT_TIME)
 
     def do_handle_local_options(self, options):
+        self.register(None)
+
         if options.contains('list-quests'):
             self._list_quests()
             return 0
 
         if options.contains('debug'):
-            self.register(None)
             self.activate_action('debug-mode', GLib.Variant('b', True))
+            return 0
 
         if options.contains('quit'):
-            self.register(None)
             self.activate_action('quit', None)
+            return 0
 
         return -1
 
@@ -1145,7 +1147,6 @@ class ClubhouseApplication(Gtk.Application):
         return GLib.Variant('(v)', (metadata_variant,))
 
     def _list_quests(self):
-        self._ensure_registry_loaded()
         for quest_set in libquest.Registry.get_quest_sets():
             print(quest_set.get_id())
             for quest in quest_set.get_quests():
