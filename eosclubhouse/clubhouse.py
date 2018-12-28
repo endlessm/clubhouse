@@ -123,13 +123,13 @@ class Message(Gtk.Bin):
         ),
     }
 
-    _MARGIN = 20
-    _LABEL_MARGIN = 30
+    _LABEL_MARGIN = 70
+    _MESSAGE_MARGIN = 49
 
     CHARACTER_HEIGHT = 155
     BUTTON_HEIGHT = 35
-    LABEL_WIDTH = DEFAULT_WINDOW_WIDTH - _MARGIN * 2 - _LABEL_MARGIN
-    MESSAGE_HEIGHT = CHARACTER_HEIGHT + _MARGIN * 2 + BUTTON_HEIGHT / 2
+    LABEL_WIDTH = DEFAULT_WINDOW_WIDTH - _LABEL_MARGIN
+    MESSAGE_HEIGHT = CHARACTER_HEIGHT + BUTTON_HEIGHT / 2 + _MESSAGE_MARGIN
 
     def __init__(self):
         super().__init__()
@@ -176,6 +176,8 @@ class Message(Gtk.Bin):
                 '/com/endlessm/Clubhouse/images/icon_check-in-circle.svg')
             button.set_image(image)
             button.set_property('always-show-image', True)
+            label_widget = button.get_children()[0].get_children()[0].get_children()[1]
+            label_widget.set_property('valign', Gtk.Align.CENTER)
 
         button.connect('clicked', self._button_clicked_cb, click_cb, *user_data)
         button.show()
