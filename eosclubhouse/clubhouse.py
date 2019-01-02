@@ -358,9 +358,39 @@ class ClubhousePage(Gtk.EventBox):
         self._app_window.get_application().send_suggest_open(
             libquest.Registry.has_quest_sets_highlighted())
 
+    def _show_quest_continue_confirmation(self):
+        if self._quest_task is None:
+            return
+
+        quest = self._quest_task.get_source_object()
+
+        self._message.reset()
+        self._message.set_character(quest.get_main_character())
+
+        msg, continue_label, stop_label = quest.get_continue_info()
+        self.show_message(msg,
+                          [(continue_label, self._continue_quest, quest),
+                           (stop_label, self._stop_quest_from_message, quest)])
+
+        self._overlay_msg_box.show_all()
+
+    def _stop_quest_from_message(self, quest):
+        if self._is_current_quest(quest):
+            self.stop_quest()
+            self._overlay_msg_box.hide()
+
+    def _continue_quest(self, quest):
+        if not self._is_current_quest(quest):
+            return
+
+        quest.set_to_foreground()
+        self._shell_show_current_popup_message()
+        self._app_window.hide()
+        # Hide the message here because it may be showing from another quest set
+        self._overlay_msg_box.hide()
+
     def _button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
-        new_quest = quest_set.get_next_quest()
         self._message.reset()
 
         # If a quest from this quest_set is already running, then just hide the window so the
@@ -368,13 +398,10 @@ class ClubhousePage(Gtk.EventBox):
         if self._quest_task:
             quest = self._quest_task.get_source_object()
             if quest in quest_set.get_quests():
-                self._shell_show_current_popup_message()
-                quest.set_to_foreground()
-                self._app_window.hide()
-                # Hide the message here because it may be showing from another quest set
-                self._overlay_msg_box.hide()
+                self._show_quest_continue_confirmation()
                 return
 
+        new_quest = quest_set.get_next_quest()
         character = new_quest.get_main_character() if new_quest else quest_set.get_character()
         self._message.set_character(character)
 
@@ -565,8 +592,7 @@ class ClubhousePage(Gtk.EventBox):
         self._message.set_text(txt)
 
         for answer in answer_choices:
-            action_key = self._add_quest_action(answer)
-            self._message.add_button(answer[0], self.quest_action, action_key)
+            self._message.add_button(answer[0], *answer[1:])
 
         return self._message
 
