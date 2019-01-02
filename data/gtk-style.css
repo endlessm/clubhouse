@@ -6,8 +6,12 @@
     background-image: url('resource:///com/endlessm/Clubhouse/images/inventory_bg.png');
 }
 
-.episodes-page {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episodes_bg.png');
+.episodes-page.episode1, .episodes-page.cesdemo {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/episode1_bg.png');
+}
+
+.episodes-page.completed {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/episodes_completed_bg.png');
 }
 
 .clubhouse-message-box {
@@ -175,13 +179,32 @@
     background: rgba(223, 166, 106, .8);
 }
 
-.clubhouse-empty-inventory-title {
+.clubhouse-completed-episode-headline {
+    font: 34px "Metropolis ExtraBold, Sans-Serif";
+    font-weight: bold;
+    color: #1c7c77;
+    margin: 0 10px 164px 170px;
+}
+
+.clubhouse-empty-inventory-title,
+.clubhouse-completed-episode-title {
     font: 18px "Metropolis, Sans-Serif";
     font-weight: bold;
+}
+
+.clubhouse-empty-inventory-title {
     margin-bottom: 50px;
 }
 
-.clubhouse-empty-inventory-subtitle {
+.clubhouse-completed-episode-title {
+    margin: 0 40px 20px 40px;
+}
+
+.clubhouse-empty-inventory-subtitle,
+.clubhouse-completed-episode-subtitle {
     font: 15px "Metropolis Medium, Sans-Serif";
-    margin-top: 40px;
+}
+
+.clubhouse-completed-episode-subtitle {
+    margin: 0 40px 140px 40px;
 }

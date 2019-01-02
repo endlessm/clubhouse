@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkOverlay" id="episode_overlay">
+    <property name="visible">True</property>
+    <property name="halign">fill</property>
+    <property name="valign">fill</property>
+    <child type="overlay">
+      <object class="GtkBox" id="episode_labels_box">
+        <property name="visible">True</property>
+        <property name="halign">fill</property>
+        <property name="valign">end</property>
+        <property name="orientation">vertical</property>
+        <property name="homogeneous">False</property>
+        <property name="spacing">0</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">center</property>
+            <property name="justify">left</property>
+            <property name="wrap">True</property>
+            <property name="label" translatable="yes">New episodes are under construction</property>
+            <style>
+              <class name="clubhouse-completed-episode-headline"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">center</property>
+            <property name="justify">center</property>
+            <property name="wrap">True</property>
+            <property name="label" translatable="yes">Thank you for being a beta customer!</property>
+            <style>
+              <class name="clubhouse-completed-episode-title"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">center</property>
+            <property name="justify">center</property>
+            <property name="wrap">True</property>
+            <property name="label" translatable="yes">Because you joined us early, you have a free year subscription to Hack.</property>
+            <style>
+              <class name="clubhouse-completed-episode-subtitle"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkFixed" id="episode_characters_box">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="valign">start</property>
+      </object>
+    </child>
+  </object>
+</interface>
