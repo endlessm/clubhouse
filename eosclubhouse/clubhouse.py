@@ -992,18 +992,7 @@ class ClubhouseApplication(Gtk.Application):
 
     def _ensure_registry_loaded(self):
         if not self._registry_loaded:
-            # @todo: Use a location from config
-            libquest.Registry.load(utils.get_alternative_quests_dir())
-
-            # Try to read the episode from the game state:
-            current_episode_name = config.DEFAULT_EPISODE_NAME
-            current_episode = GameStateService().get('clubhouse.CurrentEpisode')
-            if current_episode is not None:
-                current_episode_name = current_episode.get('name', config.DEFAULT_EPISODE_NAME)
-
-            libquest.Registry.load(os.path.join(os.path.dirname(__file__),
-                                                'quests',
-                                                current_episode_name))
+            libquest.Registry.load_current_episode()
             self._registry_loaded = True
 
     def _ensure_suggesting_open(self):
