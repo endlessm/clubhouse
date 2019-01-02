@@ -26,6 +26,7 @@ class HackdexCorruption(Quest):
         if time_in_step == 0:
             self.gss.set('app.com_endlessm_Hackdex_chapter_one.corruption',
                          {'state': 'corrupted', 'color': ''})
+            Sound.play('quests/hackdex/corrupted')
             self.show_question('HACKDEX1_PRELAUNCH')
         if self.confirmed_step():
             return self.step_launch
