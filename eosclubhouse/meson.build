@@ -6,7 +6,7 @@ install_subdir(
 
 conf = configuration_data()
 conf.set_quoted('characters_dir', characters_dir)
-conf.set_quoted('quests_strings_csv', quests_strings_csv)
+conf.set_quoted('quests_strings_dir', quests_strings_dir)
 conf.set_quoted('quests_items_csv', quests_items_csv)
 conf.set_quoted('item_icons_dir', item_icons_dir)
 conf.set_quoted('data_dir', clubhouse_data_dir)
