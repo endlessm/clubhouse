@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Killing com.endlessm.Clubhouse"
+gdbus call --session \
+    --dest com.endlessm.Clubhouse \
+    --object-path /com/endlessm/Clubhouse \
+    --method org.gtk.Actions.Activate quit [] []
+
+echo "Resetting com.endlessm.GameStateService"
+gdbus call --session \
+    --dest com.endlessm.GameStateService \
+    --object-path /com/endlessm/GameStateService \
+    --method com.endlessm.GameStateService.Reset
+
+echo "Removing com.endlessm.Fizzics state"
+flatpak-spawn --host rm -rf ~/.var/app/com.endlessm.Fizzics/data/webkitgtk/localstorage/
+
+echo "Resetting desktop icons"
+flatpak-spawn --host eos-reset-desktop
+
+echo "Resetting cursor"
+gsettings reset org.gnome.desktop.interface cursor-size
+gsettings reset org.gnome.desktop.interface cursor-theme
+
+echo "Done"
