@@ -43,9 +43,9 @@ items_dir_name = 'items'
 quests_strings_csv_name = 'quests_strings'
 tools_dir_name = 'tools'
 
-data_paths = [characters_dir_name, items_dir_name, quests_strings_csv_name, tools_dir_name]
+data_dir_paths = [characters_dir_name, items_dir_name, quests_strings_csv_name, tools_dir_name]
 
-foreach path : data_paths
+foreach path : data_dir_paths
     install_subdir(path, install_dir: clubhouse_data_dir)
 endforeach
 
