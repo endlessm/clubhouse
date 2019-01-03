@@ -6,11 +6,43 @@
     "consume_after_use" : false,
     "used" : false
   },
+  "item.key.fizzics.2" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
   "item.key.OperatingSystemApp.1" : {
     "consume_after_use" : false,
     "used" : false
   },
+  "item.key.OperatingSystemApp.2" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
+  "item.key.OperatingSystemApp.3" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
   "item.key.hackdex1.1" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
+  "item.key.hackdex1.2" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
+  "item.key.hackdex1.3" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
+  "item.key.framework.1" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
+  "item.key.framework.2" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
+  "item.key.framework.3" : {
     "consume_after_use" : false,
     "used" : false
   },
