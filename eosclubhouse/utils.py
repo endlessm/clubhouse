@@ -81,7 +81,7 @@ class _DictFromCSV:
 class QuestStringCatalog(_DictFromCSV):
 
     def __init__(self):
-        super().__init__(config.QUESTS_STRINGS_CSV)
+        super().__init__(config.QUESTS_STRINGS_DIR)
 
     @classmethod
     def get_info(class_, key):

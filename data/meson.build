@@ -40,10 +40,10 @@ install_data(
 
 characters_dir_name = 'characters'
 items_dir_name = 'items'
-quests_strings_csv_name = 'quests_strings'
+quests_strings_dir_name = 'quests_strings'
 tools_dir_name = 'tools'
 
-data_dir_paths = [characters_dir_name, items_dir_name, quests_strings_csv_name, tools_dir_name]
+data_dir_paths = [characters_dir_name, items_dir_name, quests_strings_dir_name, tools_dir_name]
 
 foreach path : data_dir_paths
     install_subdir(path, install_dir: clubhouse_data_dir)
@@ -60,5 +60,5 @@ endforeach
 # For later substitution in the config file
 characters_dir = join_paths(clubhouse_data_dir, characters_dir_name)
 item_icons_dir = join_paths(clubhouse_data_dir, items_dir_name)
-quests_strings_csv = join_paths(clubhouse_data_dir, quests_strings_csv_name)
+quests_strings_dir = join_paths(clubhouse_data_dir, quests_strings_dir_name)
 quests_items_csv = join_paths(clubhouse_data_dir, quests_items_csv_name)
