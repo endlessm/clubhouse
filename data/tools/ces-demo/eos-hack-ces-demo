@@ -7,6 +7,12 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 echo "---DEMO RESET --- Calling factory reset"
 eos-hack-reset-clubhouse
 
+echo "---DEMO RESET --- Closing Fizzics"
+gdbus call --session \
+    --dest com.endlessm.Fizzics \
+    --object-path /com/endlessm/Fizzics \
+    --method org.gtk.Actions.Activate quit [] []
+
 echo "---DEMO RESET --- Setting custom game state"
 mkdir -p ~/.var/app/com.endlessm.GameStateService/data/
 cp "${SCRIPTPATH}/state.json" ~/.var/app/com.endlessm.GameStateService/data/state.json
