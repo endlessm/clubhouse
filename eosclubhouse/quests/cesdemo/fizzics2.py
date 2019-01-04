@@ -79,6 +79,7 @@ class Fizzics2(Quest):
             self.conf['complete'] = True
             self.available = False
             self.give_item('item.key.fizzics.2')
+            self.complete_current_episode()
             Sound.play('quests/quest-complete')
 
         if self.confirmed_step():

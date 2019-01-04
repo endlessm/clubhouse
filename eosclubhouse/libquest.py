@@ -19,13 +19,15 @@
 #
 
 import functools
+import os
 import pkgutil
 import sys
 import time
 
+from eosclubhouse import config
 from eosclubhouse import logger
 from eosclubhouse.system import GameStateService, Sound
-from eosclubhouse.utils import Performance, QuestStringCatalog
+from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog
 from gi.repository import GObject, GLib
 
 
@@ -86,6 +88,24 @@ class Registry:
                     return quest
 
         return None
+
+    @classmethod
+    def load_current_episode(class_):
+        class_.load(get_alternative_quests_dir())
+        current_episode = class_.get_current_episode()
+        class_.load(os.path.join(os.path.dirname(__file__),
+                                 'quests',
+                                 current_episode['name']))
+
+    @classmethod
+    def get_current_episode(class_):
+        current_episode_name = config.DEFAULT_EPISODE_NAME
+        current_episode_completed = False
+        current_episode = GameStateService().get('clubhouse.CurrentEpisode')
+        if current_episode is not None:
+            current_episode_name = current_episode.get('name', config.DEFAULT_EPISODE_NAME)
+            current_episode_completed = current_episode.get('completed', False)
+        return {'name': current_episode_name, 'completed': current_episode_completed}
 
 
 class Quest(GObject.GObject):
@@ -282,6 +302,14 @@ class Quest(GObject.GObject):
         })
         self.gss.set(item_name, variant)
         self._emit_signal('item-given', item_name, notification_text)
+
+    def complete_current_episode(self):
+        current_episode_info = Registry.get_current_episode()
+        if current_episode_info['completed']:
+            return
+
+        current_episode_info.update({'completed': True})
+        self.gss.set('clubhouse.CurrentEpisode', current_episode_info)
 
     def on_key_event(self, event):
         self.key_event = True

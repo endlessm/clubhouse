@@ -4,6 +4,7 @@
     <file>gtk-style.css</file>
     <file preprocess="xml-stripblanks">clubhouse-page.ui</file>
     <file preprocess="xml-stripblanks">inventory-page.ui</file>
+    <file preprocess="xml-stripblanks">episodes-page.ui</file>
     <file preprocess="xml-stripblanks">main-window.ui</file>
     <file preprocess="xml-stripblanks">message.ui</file>
   </gresource>
@@ -11,7 +12,8 @@
     <file>clubhouse_bg.png</file>
     <file>inventory_bg.png</file>
     <file>inventory-empty-image.png</file>
-    <file>episodes_bg.png</file>
+    <file>episode1_bg.png</file>
+    <file>episodes_completed_bg.png</file>
     <file>icon_check-in-circle.svg</file>
   </gresource>
 </gresources>

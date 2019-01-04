@@ -752,14 +752,58 @@ class InventoryPage(Gtk.EventBox):
 
 class EpisodesPage(Gtk.EventBox):
 
+    _COMPLETED = 'completed'
+
     def __init__(self, app_window):
         super().__init__(visible=True)
 
         self._app_window = app_window
+        self._current_page = None
         self._setup_ui()
+        GameStateService().connect('changed', self.update_episode_view)
+        self.update_episode_view()
 
     def _setup_ui(self):
         self.get_style_context().add_class('episodes-page')
+
+        builder = Gtk.Builder()
+        builder.add_from_resource('/com/endlessm/Clubhouse/episodes-page.ui')
+
+        self._labels_box = builder.get_object('episode_labels_box')
+        self._characters_box = builder.get_object('episode_characters_box')
+
+        self.add(builder.get_object('episode_overlay'))
+
+    def _update_ui(self, new_page):
+        if new_page == self._current_page:
+            return
+
+        # @todo: perhaps we should always add the characters and hide/show
+        # them accordingly to the state, instead of creating/removing them
+        for child in self._characters_box.get_children():
+            self._characters_box.remove(child)
+
+        if self._current_page is not None:
+            self.get_style_context().remove_class(self._current_page)
+        self._current_page = new_page
+        self.get_style_context().add_class(self._current_page)
+
+        if new_page == self._COMPLETED:
+            self._labels_box.set_visible(True)
+
+            img = AnimationImage('daemon')
+            img.play('idle')
+            self._characters_box.put(img, 21, 538)
+            img.show()
+        else:
+            self._labels_box.set_visible(False)
+
+    def update_episode_view(self, *args, **kwargs):
+        current_episode = libquest.Registry.get_current_episode()
+        if current_episode[self._COMPLETED]:
+            self._update_ui(self._COMPLETED)
+        else:
+            self._update_ui(current_episode['name'])
 
 
 class ClubhouseWindow(Gtk.ApplicationWindow):
@@ -917,7 +961,6 @@ class ClubhouseApplication(Gtk.Application):
 
     QUEST_MSG_NOTIFICATION_ID = 'quest-message'
     QUEST_ITEM_NOTIFICATION_ID = 'quest-item'
-    DEFAULT_EPISODE_NAME = 'episode1'
 
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
@@ -993,18 +1036,7 @@ class ClubhouseApplication(Gtk.Application):
 
     def _ensure_registry_loaded(self):
         if not self._registry_loaded:
-            # @todo: Use a location from config
-            libquest.Registry.load(utils.get_alternative_quests_dir())
-
-            # Try to read the episode from the game state:
-            current_episode_name = self.DEFAULT_EPISODE_NAME
-            current_episode = GameStateService().get('clubhouse.CurrentEpisode')
-            if current_episode is not None:
-                current_episode_name = current_episode.get('name', self.DEFAULT_EPISODE_NAME)
-
-            libquest.Registry.load(os.path.join(os.path.dirname(__file__),
-                                                'quests',
-                                                current_episode_name))
+            libquest.Registry.load_current_episode()
             self._registry_loaded = True
 
     def _ensure_suggesting_open(self):
