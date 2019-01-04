@@ -1,10 +1,7 @@
 #!/bin/bash
 
 echo "Killing com.endlessm.Clubhouse"
-gdbus call --session \
-    --dest com.endlessm.Clubhouse \
-    --object-path /com/endlessm/Clubhouse \
-    --method org.gtk.Actions.Activate quit [] []
+eos-clubhouse --quit
 
 echo "Resetting com.endlessm.GameStateService"
 gdbus call --session \
