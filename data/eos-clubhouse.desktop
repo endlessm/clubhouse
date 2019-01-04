@@ -6,3 +6,4 @@ Comment=Clubhouse application
 Exec=eos-clubhouse
 Terminal=false
 StartupNotify=true
+NoDisplay=true
