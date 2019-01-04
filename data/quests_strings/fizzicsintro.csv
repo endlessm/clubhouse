@@ -10,10 +10,10 @@ FIZZICSINTRO_LEVEL1_HINT1,Click the orange ball to activate the slingshot. Pull 
 FIZZICSINTRO_LEVEL1_HINT2,To win the level you have to fling all the orange balls against the goal.,,,
 FIZZICSINTRO_LEVEL2,"Clearly you've got the idea! Okay, so one more level to go.",,,
 FIZZICSINTRO_LEVEL2_HINT1,This works just like the others: get all the orange balls to the goal.,,,
-FIZZICSINTRO_SUCCESS,Well done! I knew you'd catch on quickly!,Ada,,
+FIZZICSINTRO_SUCCESS,"Whoa, I knew you'd catch on quickly! Here's a reward for your swift progress!",Ada,,
 FIZZICSINTRO_ALREADYBEAT,"Oh, hey there! Quick work, Einstein!",,,
-FIZZICSINTRO_KEY,Excellent progress so far! I'm going to give you a reward. ,,,
-FIZZICSINTRO_KEYAFTER,That key will come in handy later if you want to dig deeper into Fizzics.,,,
+FIZZICSINTRO_KEY,,,,
+FIZZICSINTRO_KEYAFTER,Your first key! This will come in handy later if you want to dig deeper into Fizzics.,,,
 FIZZICSINTRO_RILEY,OMG. Fizzics. I love this game. It's my total fave. ,Riley,,
 FIZZICSINTRO_END,"Oh, hey Riley! I hear you're already on Level 10!
 
