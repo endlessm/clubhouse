@@ -303,6 +303,14 @@ class Quest(GObject.GObject):
         self.gss.set(item_name, variant)
         self._emit_signal('item-given', item_name, notification_text)
 
+    def complete_current_episode(self):
+        current_episode_info = Registry.get_current_episode()
+        if current_episode_info['completed']:
+            return
+
+        current_episode_info.update({'completed': True})
+        self.gss.set('clubhouse.CurrentEpisode', current_episode_info)
+
     def on_key_event(self, event):
         self.key_event = True
 
