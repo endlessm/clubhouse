@@ -26,13 +26,18 @@ def get_quest_codes():
     if quest_codes is not None:
         return quest_codes
 
-    quest_codes = []
-    for filename in os.listdir(QUESTS_PATH):
-        if filename == '__init__.py' or filename.startswith('questset_'):
+    quest_codes = set()
+    for episode in os.listdir(QUESTS_PATH):
+        episode_path = os.path.join(QUESTS_PATH, episode)
+        if not os.path.isdir(episode_path):
             continue
-        code, _ext = os.path.splitext(filename)
-        quest_codes.append(code)
+        for filename in os.listdir(episode_path):
+            if filename == '__init__.py' or filename.startswith('questset_'):
+                continue
+            code, _ext = os.path.splitext(filename)
+            quest_codes.add(code)
 
+    quest_codes = list(quest_codes)
     return quest_codes
 
 
