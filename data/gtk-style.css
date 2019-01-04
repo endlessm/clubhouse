@@ -52,6 +52,14 @@
     -gtk-icon-shadow: none;
 }
 
+.clubhouse-message-button-box button:hover {
+    background: #D56F34;
+}
+
+.clubhouse-message-button-box button:active {
+    background: #Af490E;
+}
+
 .clubhouse-message-button-box button label {
     color: white;
     text-shadow: 0 0.5px 2px alpha(black,0.4);
