@@ -11,6 +11,11 @@ echo "---DEMO RESET --- Setting custom game state"
 mkdir -p ~/.var/app/com.endlessm.GameStateService/data/
 cp "${SCRIPTPATH}/state.json" ~/.var/app/com.endlessm.GameStateService/data/state.json
 
+gdbus call --session \
+    --dest com.endlessm.GameStateService \
+    --object-path /com/endlessm/GameStateService \
+    --method com.endlessm.GameStateService.Reload
+
 echo "---DEMO RESET --- Setting custom state for Fizzics"
 mkdir -p ~/.var/app/com.endlessm.Fizzics/data/webkitgtk/localstorage/
 cp "${SCRIPTPATH}/fizzics_localstorage" \
