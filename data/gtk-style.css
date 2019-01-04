@@ -43,6 +43,11 @@
     box-shadow: 0 2px 4px 4px alpha(black,0.2);
 }
 
+.clubhouse-message-button-box button image,
+.clubhouse-message-button-box button:hover image {
+    -gtk-icon-shadow: none;
+}
+
 .clubhouse-message-button-box button label {
     color: white;
     text-shadow: 0 0.5px 2px alpha(black,0.4);
