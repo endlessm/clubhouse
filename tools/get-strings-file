@@ -64,6 +64,9 @@ def _write_csv_file(filename, rows):
     with open(filename, 'w') as out_file:
         writer = csv.writer(out_file)
         for r in rows:
+            # @todo: This empties the sound cells. Remove this when
+            # importing sounds again.
+            r = r[:-1] + ['']
             writer.writerow(r)
 
 
