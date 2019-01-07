@@ -18,7 +18,7 @@ BREAKSOMETHING_SUCCESS,"LOLLZZ. OMG. So epic! We have to stop laughing or San wi
 Uh-oh! Yep, too late–he's coming! Hi there, Dr. Rowe. We're just, er, studying!",,,
 BREAKSOMETHING_SANIELARRIVES,I just told you this is no place for novices! Hhmmph.,Saniel,talk_anger,
 BREAKSOMETHING_GIVERESET,All's not lost yet. There's still a fix for this. I'm enabling the Reset button. Press it and it brings back the original settings.,Saniel,,
-BREAKSOMETHING_GIVERESET_HINT1,Press the button on the top right to reset the cursor size.,,,
+BREAKSOMETHING_GIVERESET_HINT1,Press the button on the top right to reset the cursor size.,Saniel,,
 BREAKSOMETHING_RESET,Good job restoring the settings! Glad you know about the Reset button now. ,Saniel,,
 BREAKSOMETHING_ALREADYRESET,"I see you already fixed it. Very sensible. I'm also enabling the Reset button, which returns things to the original settings.",Saniel,,
 BREAKSOMETHING_WRAPUP,Keep it handy for when you need to clean up messes like this one!,Saniel,,
