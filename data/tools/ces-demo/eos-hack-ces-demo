@@ -4,6 +4,9 @@
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
+echo "---DEMO RESET --- Killing the Clubhouse"
+eos-clubhouse --quit
+
 echo "---DEMO RESET --- Calling factory reset"
 flatpak run --command=/app/share/eos-clubhouse/tools/eos-hack-reset-clubhouse com.endlessm.Clubhouse
 

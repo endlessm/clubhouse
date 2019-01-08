@@ -1,8 +1,5 @@
 #!/bin/bash
 
-echo "Killing com.endlessm.Clubhouse"
-eos-clubhouse --quit
-
 echo "Resetting com.endlessm.GameStateService"
 gdbus call --session \
     --dest com.endlessm.GameStateService \
