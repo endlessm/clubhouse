@@ -1,8 +1,6 @@
 OSINTRO_QUESTION,The System is a seriously magical place. Want to go there with me now?,Ada,,
 OSINTRO_RESPONSE,Absolutely!,,,
-OSINTRO_PRELAUNCH,"Excellent. The System controls everything that goes into how your computer operates. 
-
-Let's launch it now. ",,,
+OSINTRO_PRELAUNCH,Excellent. The System controls everything that goes into how your computer operates.,,,
 OSINTRO_LAUNCH,Launch the System app.,,,
 OSINTRO_LAUNCH_HINT1,Click on the System icon on the desktop.,,,
 OSINTRO_EXPLANATION,"See what I mean? It's all so intricate and connected. You've got to be super careful back here. 
