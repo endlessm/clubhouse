@@ -10,6 +10,10 @@ conf.set_quoted('quests_strings_dir', quests_strings_dir)
 conf.set_quoted('quests_items_csv', quests_items_csv)
 conf.set_quoted('item_icons_dir', item_icons_dir)
 conf.set_quoted('data_dir', clubhouse_data_dir)
+conf.set_quoted(
+    'reset_script_path',
+    join_paths(clubhouse_data_dir, 'tools', 'eos-hack-reset-clubhouse')
+)
 
 configure_file(
     input: 'config.py.in',

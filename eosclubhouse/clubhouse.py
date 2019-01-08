@@ -23,6 +23,7 @@ gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
 import os
+import subprocess
 import sys
 import threading
 
@@ -976,6 +977,8 @@ class ClubhouseApplication(Gtk.Application):
 
         self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'List existing quest sets and quests', None)
+        self.add_main_option('reset', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             'Reset all quests state and game progress', None)
         self.add_main_option('debug', ord('d'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Turn on debug mode', None)
         self.add_main_option('quit', ord('x'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
@@ -1000,6 +1003,10 @@ class ClubhouseApplication(Gtk.Application):
         if options.contains('list-quests'):
             self._list_quests()
             return 0
+
+        if options.contains('reset'):
+            self.activate_action('quit', None)
+            return self._reset()
 
         if options.contains('debug'):
             self.activate_action('debug-mode', GLib.Variant('b', True))
@@ -1210,6 +1217,14 @@ class ClubhouseApplication(Gtk.Application):
             print(quest_set.get_id())
             for quest in quest_set.get_quests():
                 print('\t{}'.format(quest.get_id()))
+
+    def _reset(self):
+        try:
+            subprocess.run(config.RESET_SCRIPT_PATH, check=True)
+            return 0
+        except subprocess.CalledProcessError as e:
+            logger.warning('Could not reset the Clubhouse: %s', e)
+            return 1
 
     def has_debug_mode(self):
         return self._debug_mode
