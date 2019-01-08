@@ -82,18 +82,11 @@ class FizzicsIntro(Quest):
         if time_in_step == 0:
             self.show_question('FIZZICSINTRO_SUCCESS')
         if self.confirmed_step():
-            return self.step_prekey
+            return self.step_key
 
     def step_already_beat(self, time_in_step):
         if time_in_step == 0:
             self.show_question('FIZZICSINTRO_ALREADYBEAT')
-        if self.confirmed_step():
-            return self.step_prekey
-
-    def step_prekey(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/riley-intro')
-            self.show_message('FIZZICSINTRO_KEY', choices=[('OK', self._confirm_step)])
         if self.confirmed_step():
             return self.step_key
 

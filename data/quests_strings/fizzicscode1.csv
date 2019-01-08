@@ -1,22 +1,22 @@
-FIZZICSCODE1_QUESTION,Ready to do some real coding?,Ada,,
-FIZZICSCODE1_ANSWER,Sounds great,,,
-FIZZICSCODE1_LAUNCH,We're going to do some coding in Fizzics. Go ahead and launch it.,,,
+FIZZICSCODE1_QUESTION,"Okay, so are you ready to do some real coding?",Ada,,
+FIZZICSCODE1_ANSWER,Ready! ,,,
+FIZZICSCODE1_LAUNCH,Great. Go ahead and launch Fizzics and we'll try out some cool new skills. ,,,
 FIZZICSCODE1_LAUNCH_HINT1,Click on the Fizzics icon on the desktop.,,,
-FIZZICSCODE1_FLIP,Now click on the Flip to Hack button to get to the hacking panel. You know the drill.,,,
-FIZZICSCODE1_FLIP_HINT1,Click the Flip to Hack button on the left of the screen.,,,
-FIZZICSCODE1_UNLOCK,"You've seen this before, but now we're going to go deeper. Click on the lock screen to unlock the code section.",,,
+FIZZICSCODE1_FLIP,"Okay, remember the Flip button? Click it to get to the hacking panel. You know the drill.",,,
+FIZZICSCODE1_FLIP_HINT1,Click the Flip button on the left side of the screen.,,,
+FIZZICSCODE1_UNLOCK,"Look familiar?  Well, now we're going to explore some new possibilitites. Click on the lock screen and the code section will open.",,,
 FIZZICSCODE1_UNLOCK_HINT1,Click on the lock.,,,
-FIZZICSCODE1_EXPLANATION1,"Here we are! Coding takes some practice, but it's very powerful. Let's check it out.
+FIZZICSCODE1_EXPLANATION1,"Okay, so we're in! Don't worry if it looks strange at first! Take your time to get more familiar with what you see here. 
 
-The coding panel shows all the variables involved in Fizzics. It's another way of showing what you see in the user interface.
+The coding panel shows variables you can set in Fizzics. When you make a change in the user interface, the code changes too. 
 
-Try changing the radius for species 0 clicking on the + button. See how the code changes to reflect that?",,,
-FIZZICSCODE1_EXPLANATION1_HINT1,Change the radius for the orange ball pressing on the + button next to Radius.,,,
-FIZZICSCODE1_EXPLANATION2,Great. Now go in the coding panel and change that radius variable to something different. You'll see it change in the user interface too.,,,
-FIZZICSCODE1_EXPLANATION2_HINT1,"In the coding panel, change the value of the variable species[0].radius.",,,
+Try increasing the radius for ""species 0"" by clicking on the + button. Did you catch how the code changed when you did that? ",,,
+FIZZICSCODE1_EXPLANATION1_HINT1,"Okay, now change the radius for the orange ball pressing on the + button next to Radius.",,,
+FIZZICSCODE1_EXPLANATION2,Great. Now let's try it the other way. Go to the coding panel and change the radius. See how it changes in the user interface too? ,,,
+FIZZICSCODE1_EXPLANATION2_HINT1,"In the coding panel, change the number value for the species[0]"" radius.",,,
 FIZZICSCODE1_END,"You're getting the hang of it. The parameters for each species are in an array: species[0], species[1], etc.
 
-Feel free to change any value and see how they behave. And rememer you always have the reset button if you need it.
+Feel free to change any value and see how they behave. And remember, the reset button is always there when you need it!
 
-I need to go. We're still investigating what happened to my research. Bye!",,,
-FIZZICSCODE1_ABORT,We can continue later.,,,
+I'm gonna have to get back to figuring out what's going on with my research. Hope you have fun exploring! ",,,
+FIZZICSCODE1_ABORT,Gotta go now? Let's try this again soon! ,,,

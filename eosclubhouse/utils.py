@@ -109,9 +109,9 @@ class QuestStringCatalog(_DictFromCSV):
         key, txt, character_id, mood, open_dialog_sound = csv_row
         contents_dict[key] = {
             'txt': txt,
-            'character_id': character_id.lower(),
-            'mood': mood.lower(),
-            'open_dialog_sound': open_dialog_sound.lower(),
+            'character_id': character_id.lower().strip(),
+            'mood': mood.lower().strip(),
+            'open_dialog_sound': open_dialog_sound.lower().strip(),
         }
 
 
