@@ -3,4 +3,5 @@ QUESTS_ITEMS_CSV=@quests_items_csv@
 CHARACTERS_DIR=@characters_dir@
 ITEM_ICONS_DIR=@item_icons_dir@
 DATA_DIR=@data_dir@
+RESET_SCRIPT_PATH=@reset_script_path@
 DEFAULT_EPISODE_NAME='episode1'

@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash -e
+
 echo "Compiling Python files"
 python3 -m compileall $1 -b
 
