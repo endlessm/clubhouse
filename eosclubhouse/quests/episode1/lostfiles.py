@@ -21,22 +21,28 @@ class LostFiles(Quest):
 
     def step_first(self, time_in_step):
         if time_in_step == 0:
-            self.show_question('LOSTFILES_EXPLANATION')
+            self.show_question('LOSTFILES_EXPLANATION1')
         if self.confirmed_step():
             return self.step_explanation2
 
     def step_explanation2(self, time_in_step):
         if time_in_step == 0:
-            self.show_question('LOSTFILES_EXPLANATION1')
+            self.show_question('LOSTFILES_EXPLANATION2')
         if self.confirmed_step():
             return self.step_explanation3
 
     def step_explanation3(self, time_in_step):
         if time_in_step == 0:
+            self.show_question('LOSTFILES_EXPLANATION3')
+        if self.confirmed_step():
+            return self.step_explanation4
+
+    def step_explanation4(self, time_in_step):
+        if time_in_step == 0:
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
-            self.show_message('LOSTFILES_EXPLANATION2',
+            self.show_message('LOSTFILES_EXPLANATION4',
                               choices=[('End of Episode 1', self._confirm_step)])
         if self.confirmed_step():
             self.stop()
