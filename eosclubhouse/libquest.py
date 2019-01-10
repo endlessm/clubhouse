@@ -127,6 +127,8 @@ class Quest(GObject.GObject):
     skippable = GObject.Property(type=bool, default=False)
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
     continue_message = GObject.Property(type=str, default="You haven't completed my challenge yet!")
+    accept_label = GObject.Property(type=str, default="Sure!")
+    reject_label = GObject.Property(type=str, default="Not now…")
 
     def __init__(self, name, main_character_id, initial_msg=None):
         super().__init__()
@@ -137,6 +139,14 @@ class Quest(GObject.GObject):
 
         if self._initial_msg is None:
             self._initial_msg = self._get_initial_msg_from_qs()
+
+            label = self._get_accept_label_from_qs()
+            if label:
+                self.accept_label = label
+
+            label = self._get_reject_label_from_qs()
+            if label:
+                self.reject_label = label
 
         self._characters = {}
 
@@ -165,6 +175,12 @@ class Quest(GObject.GObject):
 
     def _get_initial_msg_from_qs(self):
         return QS('{}_QUESTION'.format(self._qs_base_id))
+
+    def _get_accept_label_from_qs(self):
+        return QS('{}_QUEST_ACCEPT'.format(self._qs_base_id))
+
+    def _get_reject_label_from_qs(self):
+        return QS('{}_QUEST_REJECT'.format(self._qs_base_id))
 
     def start(self):
         '''Start the quest's main function
