@@ -17,14 +17,14 @@ class OSIntro(Quest):
         if time_in_step == 0:
             self._current_step = None
             self._clicked = False
-            self.show_question('OSINTRO_PRELAUNCH')
+            self.show_question('PRELAUNCH')
 
         if self.confirmed_step():
             return self.step_launch
 
     def step_launch(self, time_in_step):
         if time_in_step == 0:
-            self.show_hints_message('OSINTRO_LAUNCH')
+            self.show_hints_message('LAUNCH')
             Sound.play('quests/new-icon')
             Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
             Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
@@ -35,7 +35,7 @@ class OSIntro(Quest):
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_question('OSINTRO_EXPLANATION')
+            self.show_question('EXPLANATION')
 
         if self.confirmed_step():
             return self.step_saniel
@@ -43,10 +43,10 @@ class OSIntro(Quest):
             if self._app.get_js_property('flipped'):
                 return self.step_saniel_flip
             if not self._clicked and self._app.get_js_property('clicked'):
-                self.show_question('OSINTRO_CLICK')
+                self.show_question('CLICK')
                 self._clicked = True
             elif self._clicked and not self._app.get_js_property('clicked'):
-                self.show_question('OSINTRO_EXPLANATION')
+                self.show_question('EXPLANATION')
                 self._clicked = False
         except Exception as e:
             print(e)
@@ -56,7 +56,7 @@ class OSIntro(Quest):
     def step_saniel(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/saniel-intro')
-            self.show_question('OSINTRO_SANIEL')
+            self.show_question('SANIEL')
 
         if self.confirmed_step():
             return self.step_intro
@@ -72,7 +72,7 @@ class OSIntro(Quest):
     def step_saniel_flip(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/saniel-angry')
-            self.show_hints_message('OSINTRO_SANIEL_FLIP')
+            self.show_hints_message('SANIEL_FLIP')
 
         try:
             if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
@@ -84,7 +84,7 @@ class OSIntro(Quest):
 
     def step_intro(self, time_in_step):
         if time_in_step == 0:
-            self.show_question('OSINTRO_INTRO')
+            self.show_question('INTRO')
 
         if self.confirmed_step():
             return self.step_saniel2
@@ -99,7 +99,7 @@ class OSIntro(Quest):
 
     def step_saniel2(self, time_in_step):
         if time_in_step == 0:
-            self.show_question('OSINTRO_SANIEL2')
+            self.show_question('SANIEL2')
 
         if self.confirmed_step():
             # We're putting this here to avoid getting multiple sounds in the last step
@@ -119,7 +119,7 @@ class OSIntro(Quest):
 
     def step_wrapup(self, time_in_step):
         if time_in_step == 0:
-            self.show_question('OSINTRO_WRAPUP')
+            self.show_question('WRAPUP')
 
             # this is the quest that makes Saniel appear
             saniel_questset = Registry.get_quest_set_by_name('SanielQuestSet')
@@ -139,7 +139,7 @@ class OSIntro(Quest):
     def step_flipped(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/saniel-angry')
-            self.show_hints_message('OSINTRO_FLIPPED')
+            self.show_hints_message('FLIPPED')
         try:
             if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
                 return self._current_step
@@ -150,7 +150,7 @@ class OSIntro(Quest):
     def step_abort(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/quest-aborted')
-            self.show_message('OSINTRO_ABORT')
+            self.show_message('ABORT')
 
         if time_in_step > 5:
             self.stop()

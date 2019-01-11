@@ -15,7 +15,7 @@ class FizzicsCode1(Quest):
     def step_first(self, time_in_step):
         if time_in_step == 0:
             if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-                self.show_hints_message('FIZZICSCODE1_LAUNCH')
+                self.show_hints_message('LAUNCH')
                 Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
             else:
                 return self.step_flip
@@ -40,7 +40,7 @@ class FizzicsCode1(Quest):
         # Step dialog at the end so we can move forward without flashing dialogs
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_hints_message('FIZZICSCODE1_FLIP')
+            self.show_hints_message('FLIP')
 
     def step_unlock(self, time_in_step):
         # Wait until they unlock the panel
@@ -53,13 +53,13 @@ class FizzicsCode1(Quest):
         # Step dialog at the end so we can move forward without flashing dialogs
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_hints_message('FIZZICSCODE1_UNLOCK')
+            self.show_hints_message('UNLOCK')
 
     def step_explanation1(self, time_in_step):
         if time_in_step == 0:
             self._prev_radius = self._app.get_js_property('radius_0')
             Sound.play('quests/step-forward')
-            self.show_hints_message('FIZZICSCODE1_EXPLANATION1')
+            self.show_hints_message('EXPLANATION1')
 
         try:
             if self._app.get_js_property('radius_0') != self._prev_radius:
@@ -74,7 +74,7 @@ class FizzicsCode1(Quest):
         if time_in_step == 0:
             self._prev_radius = -10000
             Sound.play('quests/step-forward')
-            self.show_hints_message('FIZZICSCODE1_EXPLANATION2')
+            self.show_hints_message('EXPLANATION2')
 
         # Add a delay, otherwise this would get triggered by clicking on the + multiple times
         if time_in_step < 4:
@@ -96,7 +96,7 @@ class FizzicsCode1(Quest):
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
-            self.show_message('FIZZICSCODE1_END', choices=[('Bye', self._confirm_step)])
+            self.show_message('END', choices=[('Bye', self._confirm_step)])
         if self.confirmed_step():
             self.stop()
 
@@ -104,7 +104,7 @@ class FizzicsCode1(Quest):
     def step_abort(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/quest-aborted')
-            self.show_message('FIZZICSCODE1_ABORT')
+            self.show_message('ABORT')
 
         if time_in_step > 5:
             self.stop()
