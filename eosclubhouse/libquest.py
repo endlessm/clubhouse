@@ -27,7 +27,7 @@ import time
 from eosclubhouse import config
 from eosclubhouse import logger
 from eosclubhouse.system import GameStateService, Sound
-from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog
+from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog, QS
 from gi.repository import GObject, GLib
 
 
@@ -128,12 +128,15 @@ class Quest(GObject.GObject):
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
     continue_message = GObject.Property(type=str, default="You haven't completed my challenge yet!")
 
-    def __init__(self, name, main_character_id, initial_msg):
+    def __init__(self, name, main_character_id, initial_msg=None):
         super().__init__()
         self._name = name
 
         self._qs_base_id = self.get_default_qs_base_id()
         self._initial_msg = initial_msg
+
+        if self._initial_msg is None:
+            self._initial_msg = self._get_initial_msg_from_qs()
 
         self._characters = {}
 
@@ -159,6 +162,9 @@ class Quest(GObject.GObject):
 
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
+
+    def _get_initial_msg_from_qs(self):
+        return QS('{}_QUESTION'.format(self._qs_base_id))
 
     def start(self):
         '''Start the quest's main function
