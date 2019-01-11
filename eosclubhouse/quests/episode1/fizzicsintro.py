@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -8,7 +7,7 @@ class FizzicsIntro(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
 
     def __init__(self):
-        super().__init__('Fizzics Intro', 'ada', QS('FIZZICSINTRO_QUESTION'))
+        super().__init__('Fizzics Intro', 'ada')
         self._app = App(self.TARGET_APP_DBUS_NAME)
 
     def get_current_level(self):
