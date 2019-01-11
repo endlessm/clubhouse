@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -8,7 +7,7 @@ class HackdexCorruption(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Hackdex_chapter_one'
 
     def __init__(self):
-        super().__init__('Hackdex Corruption', 'saniel', QS('HACKDEX1_QUESTION'))
+        super().__init__('Hackdex Corruption', 'saniel')
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self.gss.connect('changed', self.update_availability)
         self.available = False

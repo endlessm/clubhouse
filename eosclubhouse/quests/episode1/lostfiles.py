@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
 
@@ -6,7 +5,7 @@ from eosclubhouse.system import Sound
 class LostFiles(Quest):
 
     def __init__(self):
-        super().__init__('Lost Files', 'ada', QS('LOSTFILES_QUESTION'))
+        super().__init__('Lost Files', 'ada')
         self.available = False
         self.gss.connect('changed', self.update_availability)
         self.update_availability()

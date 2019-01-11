@@ -1,6 +1,5 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App, Desktop, Sound
-from eosclubhouse.utils import QS
 
 
 class Fizzics2(Quest):
@@ -8,7 +7,7 @@ class Fizzics2(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
 
     def __init__(self):
-        super().__init__('Fizzics 2', 'riley', QS('FIZZICS2_QUESTION'))
+        super().__init__('Fizzics 2', 'riley')
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self._initialized = False
 

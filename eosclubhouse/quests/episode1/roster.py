@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -9,7 +8,7 @@ class Roster(Quest):
     SANIEL_CLICKED_KEY = 'app.com_endlessm_Hackdex_chapter_one.saniel_clicked'
 
     def __init__(self):
-        super().__init__('Roster', 'ada', QS('ROSTER_QUESTION'))
+        super().__init__('Roster', 'ada')
         self._app = App(self.TARGET_APP_DBUS_NAME)
 
     def is_saniel_page_read(self):

@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -8,7 +7,7 @@ class OSIntro(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.OperatingSystemApp'
 
     def __init__(self):
-        super().__init__('OS Intro', 'ada', QS('OSINTRO_QUESTION'))
+        super().__init__('OS Intro', 'ada')
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self._current_step = None
         self._clicked = False

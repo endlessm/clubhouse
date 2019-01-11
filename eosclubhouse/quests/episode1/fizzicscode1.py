@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -8,7 +7,7 @@ class FizzicsCode1(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
 
     def __init__(self):
-        super().__init__('Fizzics Code 1', 'ada', QS('FIZZICSCODE1_QUESTION'))
+        super().__init__('Fizzics Code 1', 'ada')
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self._prev_radius = 0
 

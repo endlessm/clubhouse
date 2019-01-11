@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 from gi.repository import Gio
@@ -9,7 +8,7 @@ class BreakSomething(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.OperatingSystemApp'
 
     def __init__(self):
-        super().__init__('Break Something', 'riley', QS('BREAKSOMETHING_QUESTION'))
+        super().__init__('Break Something', 'riley')
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self.gss.connect('changed', self.update_availability)
         self.available = False
