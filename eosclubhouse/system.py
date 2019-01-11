@@ -92,8 +92,7 @@ class Desktop:
     def app_is_running(klass, name):
         try:
             klass.get_dbus_proxy().GetNameOwner('(s)', name)
-        except GLib.Error as e:
-            logger.error(e)
+        except GLib.Error:
             return False
         return True
 
