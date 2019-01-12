@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -8,7 +7,7 @@ class FizzicsIntro(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
 
     def __init__(self):
-        super().__init__('Fizzics Intro', 'ada', QS('FIZZICSINTRO_QUESTION'))
+        super().__init__('Fizzics Intro', 'ada')
         self._app = App(self.TARGET_APP_DBUS_NAME)
 
     def get_current_level(self):
@@ -24,7 +23,7 @@ class FizzicsIntro(Quest):
         if time_in_step == 0:
             if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
                 return self.step_explanation
-            self.show_hints_message('FIZZICSINTRO_LAUNCH')
+            self.show_hints_message('LAUNCH')
             Sound.play('quests/new-icon')
             Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
             Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
@@ -48,7 +47,7 @@ class FizzicsIntro(Quest):
             Sound.play('quests/step-forward')
             if self.get_current_level() >= 2:
                 return self.step_already_beat
-            self.show_question('FIZZICSINTRO_EXPLANATION')
+            self.show_question('EXPLANATION')
 
         if self.confirmed_step():
             return self.step_level1
@@ -59,7 +58,7 @@ class FizzicsIntro(Quest):
 
     def step_level1(self, time_in_step):
         if time_in_step == 0:
-            self.show_hints_message('FIZZICSINTRO_LEVEL1')
+            self.show_hints_message('LEVEL1')
 
         if self.get_current_level() >= 1:
             return self.step_level2
@@ -69,7 +68,7 @@ class FizzicsIntro(Quest):
     def step_level2(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_hints_message('FIZZICSINTRO_LEVEL2')
+            self.show_hints_message('LEVEL2')
 
         current_level = self.get_current_level()
         if current_level >= 2 or \
@@ -80,27 +79,27 @@ class FizzicsIntro(Quest):
 
     def step_success(self, time_in_step):
         if time_in_step == 0:
-            self.show_question('FIZZICSINTRO_SUCCESS')
+            self.show_question('SUCCESS')
         if self.confirmed_step():
             return self.step_key
 
     def step_already_beat(self, time_in_step):
         if time_in_step == 0:
-            self.show_question('FIZZICSINTRO_ALREADYBEAT')
+            self.show_question('ALREADYBEAT')
         if self.confirmed_step():
             return self.step_key
 
     def step_key(self, time_in_step):
         if time_in_step == 0:
             self.give_item('item.key.fizzics.1')
-            self.show_question('FIZZICSINTRO_KEYAFTER')
+            self.show_question('KEYAFTER')
         if self.confirmed_step():
             return self.step_riley
 
     def step_riley(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/riley-intro')
-            self.show_question('FIZZICSINTRO_RILEY')
+            self.show_question('RILEY')
         if self.confirmed_step():
             return self.step_end
 
@@ -108,7 +107,7 @@ class FizzicsIntro(Quest):
         if time_in_step == 0:
             self.conf['complete'] = True
             self.available = False
-            self.show_message('FIZZICSINTRO_END', choices=[('Bye', self._confirm_step)])
+            self.show_message('END', choices=[('Bye', self._confirm_step)])
             Sound.play('quests/quest-complete')
         if self.confirmed_step():
             self.stop()
@@ -117,7 +116,7 @@ class FizzicsIntro(Quest):
     def step_abort(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/quest-aborted')
-            self.show_message('FIZZICSINTRO_ABORT')
+            self.show_message('ABORT')
 
         if time_in_step > 5:
             self.stop()

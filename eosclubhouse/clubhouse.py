@@ -416,8 +416,9 @@ class ClubhousePage(Gtk.EventBox):
             self.show_message(msg_text, [('Ok', self._message.close)])
         else:
             self.show_message(new_quest.get_initial_message(),
-                              [('Sure!', self._accept_quest_message, quest_set, new_quest),
-                               ('Not now…', self._message.close)])
+                              [(new_quest.accept_label, self._accept_quest_message, quest_set,
+                                new_quest),
+                               (new_quest.reject_label, self._message.close)])
 
         self._overlay_msg_box.show_all()
 

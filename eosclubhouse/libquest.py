@@ -27,7 +27,7 @@ import time
 from eosclubhouse import config
 from eosclubhouse import logger
 from eosclubhouse.system import GameStateService, Sound
-from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog
+from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog, QS
 from gi.repository import GObject, GLib
 
 
@@ -127,11 +127,27 @@ class Quest(GObject.GObject):
     skippable = GObject.Property(type=bool, default=False)
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
     continue_message = GObject.Property(type=str, default="You haven't completed my challenge yet!")
+    accept_label = GObject.Property(type=str, default="Sure!")
+    reject_label = GObject.Property(type=str, default="Not now…")
 
-    def __init__(self, name, main_character_id, initial_msg):
+    def __init__(self, name, main_character_id, initial_msg=None):
         super().__init__()
         self._name = name
+
+        self._qs_base_id = self.get_default_qs_base_id()
         self._initial_msg = initial_msg
+
+        if self._initial_msg is None:
+            self._initial_msg = self._get_initial_msg_from_qs()
+
+            label = self._get_accept_label_from_qs()
+            if label:
+                self.accept_label = label
+
+            label = self._get_reject_label_from_qs()
+            if label:
+                self.reject_label = label
+
         self._characters = {}
 
         self._main_character_id = main_character_id
@@ -153,6 +169,18 @@ class Quest(GObject.GObject):
 
         self._timeout_start = -1
         self._check_timeout = False
+
+    def get_default_qs_base_id(self):
+        return str(self.__class__.__name__).upper()
+
+    def _get_initial_msg_from_qs(self):
+        return QS('{}_QUESTION'.format(self._qs_base_id))
+
+    def _get_accept_label_from_qs(self):
+        return QS('{}_QUEST_ACCEPT'.format(self._qs_base_id))
+
+    def _get_reject_label_from_qs(self):
+        return QS('{}_QUEST_REJECT'.format(self._qs_base_id))
 
     def start(self):
         '''Start the quest's main function
@@ -257,7 +285,13 @@ class Quest(GObject.GObject):
 
     def show_message(self, info_id=None, **options):
         if info_id is not None:
-            info = QuestStringCatalog.get_info(info_id)
+            full_info_id = self._qs_base_id + '_' + info_id
+            info = QuestStringCatalog.get_info(full_info_id)
+
+            # Fallback to the given info_id if no string was found
+            if info is None:
+                info = QuestStringCatalog.get_info(info_id)
+
             options.update(info)
 
         possible_answers = []
