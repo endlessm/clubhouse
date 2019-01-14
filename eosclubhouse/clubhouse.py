@@ -293,6 +293,9 @@ class ClubhousePage(Gtk.EventBox):
         self._app_window = app_window
         self._app_window.connect('key-press-event', self._key_press_event_cb)
 
+        self._app = self._app_window.get_application()
+        assert self._app is not None
+
         self._setup_ui()
         self.get_style_context().add_class('clubhouse-page')
         self._reset_quest_actions()
@@ -356,8 +359,7 @@ class ClubhousePage(Gtk.EventBox):
         if self._app_window.is_visible():
             return
 
-        self._app_window.get_application().send_suggest_open(
-            libquest.Registry.has_quest_sets_highlighted())
+        self._app.send_suggest_open(libquest.Registry.has_quest_sets_highlighted())
 
     def _show_quest_continue_confirmation(self):
         if self._quest_task is None:
@@ -526,7 +528,7 @@ class ClubhousePage(Gtk.EventBox):
         return False
 
     def _shell_close_popup_message(self):
-        self._app_window.get_application().close_quest_msg_notification()
+        self._app.close_quest_msg_notification()
 
     def _shell_popup_message(self, text, character, open_dialog_sound):
         notification = Gio.Notification()
@@ -546,10 +548,10 @@ class ClubhousePage(Gtk.EventBox):
             notification.add_button(label, button_target)
 
         # Add debug button (e.g. to quickly skip steps)
-        if self._app_window.get_application().has_debug_mode():
+        if self._app.has_debug_mode():
             notification.add_button('🐞', 'app.quest-debug-skip')
 
-        self._app_window.get_application().send_quest_msg_notification(notification)
+        self._app.send_quest_msg_notification(notification)
         self._current_quest_notification = (notification, open_dialog_sound)
 
     def _shell_show_current_popup_message(self):
@@ -561,7 +563,7 @@ class ClubhousePage(Gtk.EventBox):
         if sound:
             Sound.play(sound)
 
-        self._app_window.get_application().send_quest_msg_notification(notification)
+        self._app.send_quest_msg_notification(notification)
 
     def _shell_popup_item(self, item_id, text):
         item = utils.QuestItemDB.get_item(item_id)
@@ -587,7 +589,7 @@ class ClubhousePage(Gtk.EventBox):
         notification.add_button('OK', 'app.item-accept-answer')
         notification.add_button('Show me', "app.show-page('{}')".format('inventory'))
 
-        self._app_window.get_application().send_quest_item_notification(notification)
+        self._app.send_quest_item_notification(notification)
 
     def show_message(self, txt, answer_choices=[]):
         self._message.clear_buttons()
