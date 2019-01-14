@@ -293,6 +293,9 @@ class ClubhousePage(Gtk.EventBox):
         self._app_window = app_window
         self._app_window.connect('key-press-event', self._key_press_event_cb)
 
+        self._app = self._app_window.get_application()
+        assert self._app is not None
+
         self._setup_ui()
         self.get_style_context().add_class('clubhouse-page')
         self._reset_quest_actions()
@@ -356,8 +359,7 @@ class ClubhousePage(Gtk.EventBox):
         if self._app_window.is_visible():
             return
 
-        self._app_window.get_application().send_suggest_open(
-            libquest.Registry.has_quest_sets_highlighted())
+        self._app.send_suggest_open(libquest.Registry.has_quest_sets_highlighted())
 
     def _show_quest_continue_confirmation(self):
         if self._quest_task is None:
@@ -438,6 +440,9 @@ class ClubhousePage(Gtk.EventBox):
         quest.disconnect_by_func(self._quest_item_given_cb)
 
     def run_quest(self, quest):
+        # Ensure the app stays alive at least for as long as we're running the quest
+        self._app.hold()
+
         logger.info('Running quest "%s"', quest)
 
         self._cancel_ongoing_task()
@@ -512,6 +517,9 @@ class ClubhousePage(Gtk.EventBox):
 
         self._current_quest_notification = None
 
+        # Ensure the app can be quit if inactive now
+        self._app.release()
+
     def _key_press_event_cb(self, window, event):
         # Allow to fully quit the Clubhouse on Ctrl+Escape
         if event.keyval == Gdk.KEY_Escape and (event.state & Gdk.ModifierType.CONTROL_MASK):
@@ -526,7 +534,7 @@ class ClubhousePage(Gtk.EventBox):
         return False
 
     def _shell_close_popup_message(self):
-        self._app_window.get_application().close_quest_msg_notification()
+        self._app.close_quest_msg_notification()
 
     def _shell_popup_message(self, text, character, open_dialog_sound):
         notification = Gio.Notification()
@@ -546,10 +554,10 @@ class ClubhousePage(Gtk.EventBox):
             notification.add_button(label, button_target)
 
         # Add debug button (e.g. to quickly skip steps)
-        if self._app_window.get_application().has_debug_mode():
+        if self._app.has_debug_mode():
             notification.add_button('🐞', 'app.quest-debug-skip')
 
-        self._app_window.get_application().send_quest_msg_notification(notification)
+        self._app.send_quest_msg_notification(notification)
         self._current_quest_notification = (notification, open_dialog_sound)
 
     def _shell_show_current_popup_message(self):
@@ -561,7 +569,7 @@ class ClubhousePage(Gtk.EventBox):
         if sound:
             Sound.play(sound)
 
-        self._app_window.get_application().send_quest_msg_notification(notification)
+        self._app.send_quest_msg_notification(notification)
 
     def _shell_popup_item(self, item_id, text):
         item = utils.QuestItemDB.get_item(item_id)
@@ -587,7 +595,7 @@ class ClubhousePage(Gtk.EventBox):
         notification.add_button('OK', 'app.item-accept-answer')
         notification.add_button('Show me', "app.show-page('{}')".format('inventory'))
 
-        self._app_window.get_application().send_quest_item_notification(notification)
+        self._app.send_quest_item_notification(notification)
 
     def show_message(self, txt, answer_choices=[]):
         self._message.clear_buttons()
@@ -964,8 +972,11 @@ class ClubhouseApplication(Gtk.Application):
     QUEST_MSG_NOTIFICATION_ID = 'quest-message'
     QUEST_ITEM_NOTIFICATION_ID = 'quest-item'
 
+    _INACTIVITY_TIMEOUT = 5 * 60 * 1000  # millisecs
+
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
+                         inactivity_timeout=self._INACTIVITY_TIMEOUT,
                          resource_base_path='/com/endlessm/Clubhouse')
 
         self._window = None
@@ -1059,7 +1070,7 @@ class ClubhouseApplication(Gtk.Application):
             return
 
         self._window = ClubhouseWindow(self)
-        self._window.connect('notify::visible', self._vibility_notify_cb)
+        self._window.connect('notify::visible', self._visibility_notify_cb)
 
         quest_sets = libquest.Registry.get_quest_sets()
         for quest_set in quest_sets:
@@ -1135,9 +1146,15 @@ class ClubhouseApplication(Gtk.Application):
             self._window.set_page(page_name)
             self._show_and_focus_window()
 
-    def _vibility_notify_cb(self, window, pspec):
+    def _visibility_notify_cb(self, window, pspec):
         if self._window.is_visible():
+            # Manage the application's inactivity manually
+            self.add_window(self._window)
+
             self.send_suggest_open(False)
+        else:
+            # Manage the application's inactivity manually
+            self.remove_window(self._window)
 
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}
         variant = GLib.Variant.new_tuple(GLib.Variant('s', CLUBHOUSE_IFACE),
