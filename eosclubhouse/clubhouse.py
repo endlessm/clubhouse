@@ -440,6 +440,9 @@ class ClubhousePage(Gtk.EventBox):
         quest.disconnect_by_func(self._quest_item_given_cb)
 
     def run_quest(self, quest):
+        # Ensure the app stays alive at least for as long as we're running the quest
+        self._app.hold()
+
         logger.info('Running quest "%s"', quest)
 
         self._cancel_ongoing_task()
@@ -513,6 +516,9 @@ class ClubhousePage(Gtk.EventBox):
             self._shell_close_popup_message()
 
         self._current_quest_notification = None
+
+        # Ensure the app can be quit if inactive now
+        self._app.release()
 
     def _key_press_event_cb(self, window, event):
         # Allow to fully quit the Clubhouse on Ctrl+Escape
@@ -1139,7 +1145,13 @@ class ClubhouseApplication(Gtk.Application):
 
     def _visibility_notify_cb(self, window, pspec):
         if self._window.is_visible():
+            # Manage the application's inactivity manually
+            self.add_window(self._window)
+
             self.send_suggest_open(False)
+        else:
+            # Manage the application's inactivity manually
+            self.remove_window(self._window)
 
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}
         variant = GLib.Variant.new_tuple(GLib.Variant('s', CLUBHOUSE_IFACE),
