@@ -88,7 +88,6 @@ class Fizzics2(Quest):
     # STEP Abort
     def step_abort(self, time_in_step):
         if time_in_step == 0:
-            Sound.play('quests/quest-aborted')
             self.show_message('FIZZICS2_ABORT')
 
         if time_in_step > 5:

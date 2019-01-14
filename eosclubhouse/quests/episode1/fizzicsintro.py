@@ -98,7 +98,6 @@ class FizzicsIntro(Quest):
 
     def step_riley(self, time_in_step):
         if time_in_step == 0:
-            Sound.play('quests/riley-intro')
             self.show_question('RILEY')
         if self.confirmed_step():
             return self.step_end
@@ -115,7 +114,6 @@ class FizzicsIntro(Quest):
     # STEP Abort
     def step_abort(self, time_in_step):
         if time_in_step == 0:
-            Sound.play('quests/quest-aborted')
             self.show_message('ABORT')
 
         if time_in_step > 5:
