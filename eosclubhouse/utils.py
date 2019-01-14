@@ -109,12 +109,17 @@ class QuestStringCatalog(_DictFromCSV):
 
     @classmethod
     def set_key_value_from_csv_row(class_, csv_row, contents_dict):
-        key, txt, character_id, mood, open_dialog_sound = csv_row
+        if len(csv_row) == 6:
+            # TODO: Remove this when all the CSV files have 6 columns.
+            key, txt, character_id, mood, sfx_sound, bg_sound = csv_row
+        else:
+            key, txt, character_id, mood, sfx_sound, bg_sound = (*csv_row, '')
         contents_dict[key] = {
             'txt': txt.strip(),
             'character_id': character_id.lower().strip(),
             'mood': mood.lower().strip(),
-            'open_dialog_sound': open_dialog_sound.lower().strip(),
+            'sfx_sound': sfx_sound.lower().strip(),
+            'bg_sound': bg_sound.lower().strip()
         }
 
 

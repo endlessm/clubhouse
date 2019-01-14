@@ -391,7 +391,7 @@ class Quest(GObject.GObject):
 
     __gsignals__ = {
         'message': (
-            GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str, str, str)
+            GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str, str, str, str)
         ),
         'item-given': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str)
@@ -415,6 +415,9 @@ class Quest(GObject.GObject):
 
         self._qs_base_id = self.get_default_qs_base_id()
         self._initial_msg = initial_msg
+
+        self._last_bg_sound_uuid = None
+        self._last_bg_sound_event_id = None
 
         if self._initial_msg is None:
             self._initial_msg = self._get_initial_msg_from_qs()
@@ -744,11 +747,15 @@ class Quest(GObject.GObject):
 
     def set_to_background(self):
         if self._run_context is not None:
+            if self._last_bg_sound_uuid:
+                Sound.stop(self._last_bg_sound_uuid)
+                self._last_bg_sound_uuid = None
             self._run_context.run_stop_timeout(self.stop_timeout)
 
     def set_to_foreground(self):
         if self._run_context is not None:
             self._run_context.reset_stop_timeout()
+            self.play_stop_bg_sound(self._last_bg_sound_event_id)
 
     def step_first(self, time_in_step):
         raise NotImplementedError
@@ -777,10 +784,36 @@ class Quest(GObject.GObject):
 
     def stop(self):
         if not self.is_cancelled() and self._cancellable is not None:
+            self.play_stop_bg_sound(sound_event_id=None)
             self._cancellable.cancel()
 
     def get_main_character(self):
         return self._main_character_id
+
+    def play_stop_bg_sound(self, sound_event_id=None):
+        """
+        Plays an ambient 'bg' sound taking care of stopping the previous sound.
+
+        Warning: If the given sound event id is already playing it will be
+        stopped and played back again.
+        Args:
+            sound_event_id (str): The sound event id of the 'bg' sound.
+                                  If `None`, then stop the last bg sound.
+        """
+        if self._last_bg_sound_uuid:
+            Sound.stop(self._last_bg_sound_uuid)
+            self._last_bg_sound_uuid = None
+            self._last_bg_sound_event_id = None
+        if sound_event_id:
+            Sound.play(sound_event_id, self._update_last_bg_sound_uuid, sound_event_id)
+
+    def _update_last_bg_sound_uuid(self, _proxy, uuid, sound_event_id):
+        if isinstance(uuid, GLib.Error):
+            logger.warning('Error when attempting to play sound: %s', uuid.message)
+            self._last_bg_sound_uuid = None
+            return
+        self._last_bg_sound_uuid = uuid
+        self._last_bg_sound_event_id = sound_event_id
 
     def show_message(self, info_id=None, **options):
         if info_id is not None:
@@ -801,17 +834,18 @@ class Quest(GObject.GObject):
             confirm_label = options.get('confirm_label', '>')
             possible_answers = [(confirm_label, self._confirm_step)] + possible_answers
 
-        sound_id = options.get('open_dialog_sound')
-        if not sound_id:
+        sfx_sound = options.get('sfx_sound')
+        if not sfx_sound:
             if info_id == 'ABORT':
-                sound_id = self._default_abort_sound
+                sfx_sound = self._default_abort_sound
             else:
-                sound_id = self._main_open_dialog_sound
+                sfx_sound = self._main_open_dialog_sound
+        bg_sound = options.get('bg_sound')
 
         self._emit_signal('message', options['txt'], possible_answers,
                           options.get('character_id') or self._main_character_id,
                           options.get('mood') or self._main_mood,
-                          sound_id)
+                          sfx_sound, bg_sound)
 
     def _show_next_hint_message(self, info_list, index=0):
         label = "I'd like another hint"
@@ -843,6 +877,9 @@ class Quest(GObject.GObject):
 
     def get_initial_message(self):
         return self._initial_msg
+
+    def get_last_bg_sound_event_id(self):
+        return self._last_bg_sound_uuid
 
     def give_item(self, item_name, notification_text=None, consume_after_use=False):
         variant = GLib.Variant('a{sb}', {
