@@ -972,8 +972,11 @@ class ClubhouseApplication(Gtk.Application):
     QUEST_MSG_NOTIFICATION_ID = 'quest-message'
     QUEST_ITEM_NOTIFICATION_ID = 'quest-item'
 
+    _INACTIVITY_TIMEOUT = 5 * 60 * 1000  # millisecs
+
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
+                         inactivity_timeout=self._INACTIVITY_TIMEOUT,
                          resource_base_path='/com/endlessm/Clubhouse')
 
         self._window = None
