@@ -1059,7 +1059,7 @@ class ClubhouseApplication(Gtk.Application):
             return
 
         self._window = ClubhouseWindow(self)
-        self._window.connect('notify::visible', self._vibility_notify_cb)
+        self._window.connect('notify::visible', self._visibility_notify_cb)
 
         quest_sets = libquest.Registry.get_quest_sets()
         for quest_set in quest_sets:
@@ -1135,7 +1135,7 @@ class ClubhouseApplication(Gtk.Application):
             self._window.set_page(page_name)
             self._show_and_focus_window()
 
-    def _vibility_notify_cb(self, window, pspec):
+    def _visibility_notify_cb(self, window, pspec):
         if self._window.is_visible():
             self.send_suggest_open(False)
 
