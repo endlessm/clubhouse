@@ -112,7 +112,7 @@ class Quest(GObject.GObject):
 
     __gsignals__ = {
         'message': (
-            GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str, str, str)
+            GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str, str, str, str)
         ),
         'item-given': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str)
@@ -304,7 +304,8 @@ class Quest(GObject.GObject):
         self._emit_signal('message', options['txt'], possible_answers,
                           options.get('character_id') or self._main_character_id,
                           options.get('mood') or self._main_mood,
-                          options.get('open_dialog_sound') or self._main_open_dialog_sound)
+                          options.get('open_dialog_sound') or self._main_open_dialog_sound,
+                          options.get('stop_dialog_sound'))
 
     def show_question(self, info_id=None, **options):
         options.update({'use_confirm': True})
