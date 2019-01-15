@@ -1,5 +1,5 @@
 HACKDEX1_QUESTION,Well hello there. Something very peculiar is happening with Roster. Can you have a look at it with me?,Saniel,,
-HACKDEX1_RESPONSE,I'd love to. ,,,
+HACKDEX1_QUEST_ACCEPT,I'd love to,,,
 HACKDEX1_PRELAUNCH,Roster is behaving strangely. I think something has gotten in and corrupted it. ,,,
 HACKDEX1_LAUNCH,So let's see how this goes. Launch the Roster app.,,,
 HACKDEX1_LAUNCH_HINT1,Click the Roster app on the desktop.,,,

@@ -1,5 +1,5 @@
 ROSTER_QUESTION,"Okay, we have another important part of the tour. I'm going to give you some info you're going to need. ",Ada,,
-ROSTER_RESPONSE,I'm in. ,,,
+ROSTER_QUEST_ACCEPT,I'm in,,,
 ROSTER_PRELAUNCH,We're going to visit the Roster.,,,
 ROSTER_LAUNCH,Go ahead and launch it.,,,
 ROSTER_LAUNCH_HINT1,Launch the Roster app from the desktop.,,,

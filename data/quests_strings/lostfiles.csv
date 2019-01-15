@@ -1,6 +1,6 @@
 LOSTFILES_QUESTION,"Hey, I'm dealing with a serious situation here. All my research data is gone. Backups, all of it.  ",Ada,,
-LOSTFILES_ANSWER,Whoa. What happened? ,,,
-LOSTFILES_EXPLANATION1,"Only one other person knows the protocol to access this.
+LOSTFILES_QUEST_ACCEPT,Whoa. What happened? ,,,
+LOSTFILES_EXPLANATION1,"The files are just empty. Only one other person knows the protocol to access this.
 
 What's more troubling is that there's no trace of how anyone got in. Or out!",Ada,,
 LOSTFILES_EXPLANATION2,"Hey, guys? I was ""looking around"" and I noticed a super weird pattern in the System journal.",Riley,,
