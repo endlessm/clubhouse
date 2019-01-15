@@ -1,5 +1,5 @@
-BREAKSOMETHING_QUESTION,Psssst! I was hoping I'd see you. Wanna go scope around in the System?,Riley,,
-BREAKSOMETHING_RESPONSE,Definitely. ,,,
+BREAKSOMETHING_QUESTION,Psssst! I was hoping I'd see you. Wanna go scope around in the System?,Riley,,quests/quest-proposed
+BREAKSOMETHING_QUEST_ACCEPT,Definitely,,,
 BREAKSOMETHING_LAUNCH,Ok. So you just need to launch the System app now and we're golden. ,,,
 BREAKSOMETHING_LAUNCH_HINT1,Click on the System app icon on the desktop.,,,
 BREAKSOMETHING_OSAPP,"Awesome. This place is LIT. We have to be beyond quiet. We don't want Saniel knowing we're here. 
@@ -7,7 +7,7 @@ BREAKSOMETHING_OSAPP,"Awesome. This place is LIT. We have to be beyond quiet. We
 He seems to be able to hear everything! Sometimes I think he even hears what I'm thinking! Ssshhhhh.",,,
 BREAKSOMETHING_FLIP,"Ok, remember the Flip button? Go ahead and press it.",,,
 BREAKSOMETHING_FLIP_HINT1,See the button on the left? Press it to hack the System.,,,
-BREAKSOMETHING_GIVEKEY,The other day I found this key and I think it fits here! I'm going to give it to you.,,,
+BREAKSOMETHING_GIVEKEY,The other day I found this key and I think it fits here! I'm going to give it to you.,,,quests/key-given
 BREAKSOMETHING_UNLOCK,Now click on that to unlock it. I wonder what's behind it?,,,
 BREAKSOMETHING_UNLOCK_HINT1,Click anywhere to unlock it.,,,
 BREAKSOMETHING_UNLOCKED,Rad! We can have so much fun playing around with the settings.,,,
@@ -22,4 +22,4 @@ BREAKSOMETHING_GIVERESET_HINT1,Press the button on the top right to reset the cu
 BREAKSOMETHING_RESET,Good job restoring the settings! Glad you know about the Reset button now. ,Saniel,,
 BREAKSOMETHING_ALREADYRESET,"I see you already fixed it. Very sensible. I'm also enabling the Reset button, which returns things to the original settings.",Saniel,,
 BREAKSOMETHING_WRAPUP,Keep it handy for when you need to clean up messes like this one!,Saniel,,
-BREAKSOMETHING_ABORT,No prob! We can try again later. ,,,
+BREAKSOMETHING_ABORT,No prob! We can try again later. ,,,quests/quest-aborted

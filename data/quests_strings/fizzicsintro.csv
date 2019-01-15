@@ -1,5 +1,5 @@
-FIZZICSINTRO_QUESTION,"Oh hi again! By the way, I'm Ada. I'm working on my new game here in the Clubhouse. It's called Fizzics. Want to see it?",Ada,,
-FIZZICSINTRO_RESPONSE,Sounds fun!,,,
+FIZZICSINTRO_QUESTION,"Oh hi again! By the way, I'm Ada. I'm working on my new game here in the Clubhouse. It's called Fizzics. Want to see it?",Ada,,quests/quest-proposed
+FIZZICSINTRO_QUEST_ACCEPT,Sounds fun!,,,
 FIZZICSINTRO_LAUNCH,"Fab, Go ahead and launch Fizzics now. ",,,
 FIZZICSINTRO_LAUNCH_HINT1,See the Fizzics app on the desktop? Click on it now to start the game.,,,
 FIZZICSINTRO_EXPLANATION,"Fizzics helps me with my research on how things bounce, but frankly the slingshot is just really fun.
@@ -12,10 +12,10 @@ FIZZICSINTRO_LEVEL2,"Clearly you've got the idea! Okay, so one more level to go.
 FIZZICSINTRO_LEVEL2_HINT1,This works just like the others: get all the orange balls to the goal.,,,
 FIZZICSINTRO_SUCCESS,"Whoa, I knew you'd catch on quickly! Here's a reward for your swift progress!",Ada,,
 FIZZICSINTRO_ALREADYBEAT,"Oh, hey there! Quick work, Einstein!",,,
-FIZZICSINTRO_KEY,,,,
+FIZZICSINTRO_KEY,,,,quests/key-given
 FIZZICSINTRO_KEYAFTER,Your first key! This will come in handy later if you want to dig deeper into Fizzics.,,,
 FIZZICSINTRO_RILEY,OMG. Fizzics. I love this game. It's my total fave. ,Riley,,
 FIZZICSINTRO_END,"Oh, hey Riley! I hear you're already on Level 10!
 
 See you back at the Clubhouse!",Ada,,
-FIZZICSINTRO_ABORT,We can do it later. Come find me at the Clubhouse whenever!,,,
+FIZZICSINTRO_ABORT,We can do it later. Come find me at the Clubhouse whenever!,,,quests/quest-aborted
