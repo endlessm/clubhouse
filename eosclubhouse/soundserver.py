@@ -65,7 +65,13 @@ class HackSoundServer:
     @classmethod
     def stop(class_, uuid, result_handler=None, user_data=None):
         """
-        Stops a sound asynchronously.
+        Decreases the refcount of a sound by one asynchronously.
+
+        A call for this method only means that one of the calls for playing no
+        longer wants it to keep playing, i.e. for the sound to effectively be
+        stopped, this method needs to be called as many times as the `play`
+        one. Alternatively, use the `terminate` method to promptly stop the
+        sound regardless of how many references there are.
 
         Args:
             uuid (str): The sound uuid to stop playing.
@@ -76,14 +82,38 @@ class HackSoundServer:
                 proxy_object, result and user_data.
             data: The user data passed to the result_handler function.
         """
+        class_._stop(uuid, "StopSound", result_handler, user_data)
+
+    @classmethod
+    def terminate(class_, uuid, result_handler=None, user_data=None):
+        """
+        Sets the refcount of a sound to zero asynchronously.
+
+        A single call to this method will stop the sound regardless of how many
+        references (calls for play) there are for it. Use this method if you
+        need to make sure that the sound is really stopped.
+
+        Args:
+            uuid (str): The sound uuid to stop playing.
+
+        Optional keyword arguments:
+            result_handler: A function that is invoked when the async call
+                finishes. The function's arguments are the following:
+                proxy_object, result and user_data.
+            data: The user data passed to the result_handler function.
+        """
+        class_._stop(uuid, "TerminateSound", result_handler, user_data)
+
+    @classmethod
+    def _stop(class_, uuid, method_name, result_handler=None, user_data=None):
         if result_handler is None:
             result_handler = class_._black_hole
         try:
-            class_.get_proxy().StopSound("(s)", uuid,
-                                         result_handler=result_handler,
-                                         user_data=user_data)
+            method = getattr(class_.get_proxy(), method_name)
+            method("(s)", uuid, result_handler=result_handler, user_data=user_data)
         except GLib.Error as err:
-            _logger.error("Error stopping sound '%s': %s", uuid, err.message)
+            _logger.error("%s: Error stopping sound '%s': %s", method_name,
+                          uuid, err.message)
 
     @classmethod
     def _black_hole(_class, _proxy, _result, user_data=None):
