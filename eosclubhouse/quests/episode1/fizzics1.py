@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -8,7 +7,7 @@ class Fizzics1(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
 
     def __init__(self):
-        super().__init__('Fizzics 1', 'riley', QS('FIZZICS1_QUESTION'))
+        super().__init__('Fizzics 1', 'riley')
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self._current_step = None
         self.gss.connect('changed', self.update_availability)
@@ -35,7 +34,7 @@ class Fizzics1(Quest):
         if time_in_step == 0:
             self.already_in_level_8 = False
             if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-                self.show_hints_message('FIZZICS1_LAUNCH')
+                self.show_hints_message('LAUNCH')
                 Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
             else:
                 return self.step_delay1
@@ -53,7 +52,7 @@ class Fizzics1(Quest):
             if self.get_current_level() >= 8:
                 return self.step_already_beat
             Sound.play('quests/step-forward')
-            self.show_hints_message('FIZZICS1_GOAL')
+            self.show_hints_message('GOAL')
 
         if self.get_current_level() == 7:
             return self.step_level8
@@ -70,7 +69,7 @@ class Fizzics1(Quest):
 
     def step_ball_died(self, time_in_step):
         if time_in_step == 0:
-            self.show_hints_message('FIZZICS1_BALLDIED')
+            self.show_hints_message('BALLDIED')
         try:
             # Check for popping ball
             if not self._app.get_js_property('ballDied'):
@@ -83,7 +82,7 @@ class Fizzics1(Quest):
 
     def step_backtolevel8(self, time_in_step):
         if time_in_step == 0:
-            self.show_message('FIZZICS1_BACKTOLEVEL8')
+            self.show_message('BACKTOLEVEL8')
 
         if self.get_current_level() == 7:
             return self.step_level8
@@ -101,10 +100,10 @@ class Fizzics1(Quest):
     def step_level8(self, time_in_step):
         if time_in_step == 0:
             if self.already_in_level_8:
-                self.show_hints_message('FIZZICS1_LEVEL8AGAIN')
+                self.show_hints_message('LEVEL8AGAIN')
             else:
                 Sound.play('quests/step-forward')
-                self.show_hints_message('FIZZICS1_LEVEL8')
+                self.show_hints_message('LEVEL8')
                 self.already_in_level_8 = True
 
         try:
@@ -130,7 +129,7 @@ class Fizzics1(Quest):
     def step_flipped(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_hints_message('FIZZICS1_FLIPPED')
+            self.show_hints_message('FLIPPED')
 
         # Wait until they unlock the panel
         item = self.gss.get('item.key.fizzics.1')
@@ -146,7 +145,7 @@ class Fizzics1(Quest):
     def step_hack(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_hints_message('FIZZICS1_HACK')
+            self.show_hints_message('HACK')
 
         try:
             # Check for success
@@ -166,7 +165,7 @@ class Fizzics1(Quest):
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
-            self.show_message('FIZZICS1_SUCCESS', choices=[('Bye', self._confirm_step)])
+            self.show_message('SUCCESS', choices=[('Bye', self._confirm_step)])
 
         if self.confirmed_step():
             self.stop()
@@ -176,7 +175,7 @@ class Fizzics1(Quest):
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
-            self.show_message('FIZZICS1_ALREADYBEAT', choices=[('Bye', self._confirm_step)])
+            self.show_message('ALREADYBEAT', choices=[('Bye', self._confirm_step)])
 
         if self.confirmed_step():
             self.stop()
@@ -185,7 +184,7 @@ class Fizzics1(Quest):
     def step_abort(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/quest-aborted')
-            self.show_message('FIZZICS1_ABORT')
+            self.show_message('ABORT')
 
         if time_in_step > 5:
             self.stop()

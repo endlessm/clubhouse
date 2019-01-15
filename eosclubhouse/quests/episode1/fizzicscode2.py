@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -8,7 +7,7 @@ class FizzicsCode2(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
 
     def __init__(self):
-        super().__init__('Fizzics Code 2', 'riley', QS('FIZZICSCODE2_QUESTION'))
+        super().__init__('Fizzics Code 2', 'riley')
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self.available = False
         self.update_availability()
@@ -23,7 +22,7 @@ class FizzicsCode2(Quest):
     def step_first(self, time_in_step):
         if time_in_step == 0:
             if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-                self.show_hints_message('FIZZICSCODE2_LAUNCH')
+                self.show_hints_message('LAUNCH')
                 Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
             else:
                 return self.step_flip
@@ -48,12 +47,12 @@ class FizzicsCode2(Quest):
         # Step dialog at the end so we can move forward without flashing dialogs
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_hints_message('FIZZICSCODE2_FLIP')
+            self.show_hints_message('FLIP')
 
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_hints_message('FIZZICSCODE2_EXPLANATION')
+            self.show_hints_message('EXPLANATION')
 
         try:
             if self._app.get_js_property('gravity_0') < 0:
@@ -71,7 +70,7 @@ class FizzicsCode2(Quest):
             self.available = False
             self.complete_current_episode()
             Sound.play('quests/quest-complete')
-            self.show_message('FIZZICSCODE2_END', choices=[('Bye', self._confirm_step)])
+            self.show_message('END', choices=[('Bye', self._confirm_step)])
         if self.confirmed_step():
             self.stop()
 
@@ -79,7 +78,7 @@ class FizzicsCode2(Quest):
     def step_abort(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/quest-aborted')
-            self.show_message('FIZZICSCODE2_ABORT')
+            self.show_message('ABORT')
 
         if time_in_step > 5:
             self.stop()

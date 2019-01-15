@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
 
@@ -6,7 +5,7 @@ from eosclubhouse.system import Sound
 class LostFiles(Quest):
 
     def __init__(self):
-        super().__init__('Lost Files', 'ada', QS('LOSTFILES_QUESTION'))
+        super().__init__('Lost Files', 'ada')
         self.available = False
         self.gss.connect('changed', self.update_availability)
         self.update_availability()
@@ -21,19 +20,19 @@ class LostFiles(Quest):
 
     def step_first(self, time_in_step):
         if time_in_step == 0:
-            self.show_question('LOSTFILES_EXPLANATION1')
+            self.show_question('EXPLANATION1')
         if self.confirmed_step():
             return self.step_explanation2
 
     def step_explanation2(self, time_in_step):
         if time_in_step == 0:
-            self.show_question('LOSTFILES_EXPLANATION2')
+            self.show_question('EXPLANATION2')
         if self.confirmed_step():
             return self.step_explanation3
 
     def step_explanation3(self, time_in_step):
         if time_in_step == 0:
-            self.show_question('LOSTFILES_EXPLANATION3')
+            self.show_question('EXPLANATION3')
         if self.confirmed_step():
             return self.step_explanation4
 
@@ -42,7 +41,7 @@ class LostFiles(Quest):
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
-            self.show_message('LOSTFILES_EXPLANATION4',
+            self.show_message('EXPLANATION4',
                               choices=[('End of Episode 1', self._confirm_step)])
         if self.confirmed_step():
             self.stop()

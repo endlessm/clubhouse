@@ -1,4 +1,3 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
@@ -8,7 +7,7 @@ class HackdexCorruption(Quest):
     TARGET_APP_DBUS_NAME = 'com.endlessm.Hackdex_chapter_one'
 
     def __init__(self):
-        super().__init__('Hackdex Corruption', 'saniel', QS('HACKDEX1_QUESTION'))
+        super().__init__('Hackdex Corruption', 'saniel')
         self._app = App(self.TARGET_APP_DBUS_NAME)
         self.gss.connect('changed', self.update_availability)
         self.available = False
@@ -26,13 +25,13 @@ class HackdexCorruption(Quest):
         if time_in_step == 0:
             self.gss.set('app.com_endlessm_Hackdex_chapter_one.corruption',
                          {'state': 'corrupted', 'color': ''})
-            self.show_question('HACKDEX1_PRELAUNCH')
+            self.show_question('PRELAUNCH')
         if self.confirmed_step():
             return self.step_launch
 
     def step_launch(self, time_in_step):
         if time_in_step == 0:
-            self.show_hints_message('HACKDEX1_LAUNCH')
+            self.show_hints_message('LAUNCH')
             Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
 
         if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
@@ -45,7 +44,7 @@ class HackdexCorruption(Quest):
     def step_explanation(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_hints_message('HACKDEX1_GOAL')
+            self.show_hints_message('GOAL')
 
         # Check unlock level 1
         item = self.gss.get('item.key.hackdex1.1')
@@ -58,7 +57,7 @@ class HackdexCorruption(Quest):
     def step_check_goal(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_hints_message('HACKDEX1_UNLOCKED')
+            self.show_hints_message('UNLOCKED')
 
         # Check for color change
         data = self.gss.get('app.com_endlessm_Hackdex_chapter_one.corruption')
@@ -78,7 +77,7 @@ class HackdexCorruption(Quest):
     def step_success(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/step-forward')
-            self.show_message('HACKDEX1_SUCCESS', choices=[('OK', self._confirm_step)])
+            self.show_message('SUCCESS', choices=[('OK', self._confirm_step)])
 
         if self.confirmed_step():
             return self.step_afterkey
@@ -86,7 +85,7 @@ class HackdexCorruption(Quest):
     def step_afterkey(self, time_in_step):
         if time_in_step == 0:
             self.give_item('item.key.fizzics.2')
-            self.show_question('HACKDEX1_AFTERKEY')
+            self.show_question('AFTERKEY')
             self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
@@ -104,7 +103,7 @@ class HackdexCorruption(Quest):
     def step_abort(self, time_in_step):
         if time_in_step == 0:
             Sound.play('quests/quest-aborted')
-            self.show_message('HACKDEX1_ABORT')
+            self.show_message('ABORT')
 
         if time_in_step > 5:
             self.stop()
