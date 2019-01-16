@@ -1114,6 +1114,7 @@ class ClubhouseApplication(Gtk.Application):
 
     def _debug_mode_action_cb(self, action, arg_variant):
         self._debug_mode = arg_variant.unpack()
+        self._ensure_window()
 
     def _quest_user_answer(self, action, action_id):
         if self._window:
