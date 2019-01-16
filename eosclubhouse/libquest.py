@@ -323,8 +323,20 @@ class Quest(GObject.GObject):
         self.show_message(info_id=info_id, choices=[(label, next_hint)])
 
     def show_hints_message(self, info_id):
-        info_id_list = QuestStringCatalog.get_hint_keys(info_id)
-        self._show_next_hint_message(info_id_list)
+        full_info_id = self._qs_base_id + '_' + info_id
+        info_id_list = QuestStringCatalog.get_hint_keys(full_info_id)
+
+        # Fallback to the given info_id if no string was found
+        if info_id_list is None:
+            full_info_id = info_id
+            info_id_list = QuestStringCatalog.get_hint_keys(full_info_id)
+
+        if len(info_id_list) == 1:
+            logger.warning('Asked for messages hints, but no hints were found for ID %s; '
+                           'not showing the hints button.', info_id)
+            self.show_message(info_id)
+        else:
+            self._show_next_hint_message(info_id_list)
 
     def get_initial_message(self):
         return self._initial_msg
