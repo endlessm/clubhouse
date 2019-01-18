@@ -107,6 +107,11 @@ class Registry:
             current_episode_completed = current_episode.get('completed', False)
         return {'name': current_episode_name, 'completed': current_episode_completed}
 
+    @classmethod
+    def set_current_episode(class_, episode_name):
+        episode_info = {'name': episode_name, 'completed': False}
+        GameStateService().set('clubhouse.CurrentEpisode', episode_info)
+
 
 class Quest(GObject.GObject):
 

@@ -989,6 +989,10 @@ class ClubhouseApplication(Gtk.Application):
 
         self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'List existing quest sets and quests', None)
+        self.add_main_option('get-episode', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             'Print the current episode', None)
+        self.add_main_option('set-episode', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
+                             'Switch to this episode, marking it as not complete', 'EPISODE_NAME')
         self.add_main_option('reset', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Reset all quests state and game progress', None)
         self.add_main_option('debug', ord('d'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
@@ -1014,6 +1018,18 @@ class ClubhouseApplication(Gtk.Application):
 
         if options.contains('list-quests'):
             self._list_quests()
+            return 0
+
+        if options.contains('get-episode'):
+            current_episode = libquest.Registry.get_current_episode()
+            print(current_episode['name'])
+            return 0
+
+        if options.contains('set-episode'):
+            self.activate_action('quit', None)
+            episode_name = options.lookup_value('set-episode', GLib.VariantType('s'))
+            logger.info('Setting episode: %s', episode_name)
+            libquest.Registry.set_current_episode(episode_name)
             return 0
 
         if options.contains('reset'):
