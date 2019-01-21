@@ -98,6 +98,12 @@ class Registry:
                                  current_episode['name']))
 
     @classmethod
+    def get_available_episodes(class_):
+        episodes_path = os.path.join(os.path.dirname(__file__), 'quests')
+        episodes = os.listdir(episodes_path)
+        return (e for e in episodes if os.path.isdir(os.path.join(episodes_path, e)))
+
+    @classmethod
     def get_current_episode(class_):
         current_episode_name = config.DEFAULT_EPISODE_NAME
         current_episode_completed = False
@@ -106,6 +112,17 @@ class Registry:
             current_episode_name = current_episode.get('name', config.DEFAULT_EPISODE_NAME)
             current_episode_completed = current_episode.get('completed', False)
         return {'name': current_episode_name, 'completed': current_episode_completed}
+
+    @classmethod
+    def set_current_episode(class_, episode_name):
+        if episode_name not in class_.get_available_episodes():
+            raise KeyError
+        if episode_name == class_.get_current_episode()['name']:
+            return
+
+        logger.info('Setting episode: %s', episode_name)
+        episode_info = {'name': episode_name, 'completed': False}
+        GameStateService().set('clubhouse.CurrentEpisode', episode_info)
 
 
 class Quest(GObject.GObject):
