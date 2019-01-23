@@ -151,14 +151,36 @@
 
 .clubhouse-button-box > button:hover:not(:checked) {
     background: rgba(40, 40, 40, .6);
-
 }
 
-.inventory-item > label {
+.inventory-item {
+    background-color: transparent;
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+    text-shadow: none;
+    -gtk-icon-shadow: none;
+}
+
+.inventory-item > box > label {
     color: #fff;
-    background: rgba(100, 100, 100, .8);
+    background: rgba(60, 60, 60, .6);
     border-radius: 16px;
-    padding: 5px;
+    padding: 5px 10px;
+    transition-duration: 0.2s;
+}
+
+.inventory-item:hover {
+    -gtk-icon-effect: none;
+}
+
+.inventory-item:hover > box > label,
+.inventory-item.active > box > label {
+    background: rgba(60, 60, 60, .8);
+}
+
+.inventory-item.active {
+    -gtk-icon-effect: dim;
 }
 
 .inventory-scrolled-window {
