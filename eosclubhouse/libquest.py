@@ -776,6 +776,20 @@ class Quest(GObject.GObject):
         self._available = value
         self.notify('available')
 
+    def with_app_launched(app_name, otherwise):
+        def wrapper(func):
+            nonlocal app_name
+            app = App(app_name)
+
+            def wrapped_func(*args):
+                if app.is_running():
+                    return func(*args)
+                return otherwise(*args)
+
+            return wrapped_func
+
+        return wrapper
+
     @classmethod
     def get_id(class_):
         return class_.__name__
