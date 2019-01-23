@@ -151,14 +151,26 @@
 
 .clubhouse-button-box > button:hover:not(:checked) {
     background: rgba(40, 40, 40, .6);
-
 }
 
-.inventory-item > label {
+.inventory-item {
+    background-color: transparent;
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+    text-shadow: none;
+    -gtk-icon-shadow: none;
+}
+
+.inventory-item > box > label {
     color: #fff;
     background: rgba(100, 100, 100, .8);
     border-radius: 16px;
     padding: 5px;
+}
+
+.inventory-item:hover {
+    -gtk-icon-effect: none;
 }
 
 .inventory-scrolled-window {

@@ -637,14 +637,13 @@ class ClubhousePage(Gtk.EventBox):
             quest.set_to_background()
 
 
-class InventoryItem(Gtk.Box):
+class InventoryItem(Gtk.Button):
+
+    _ITEM_WIDTH = 150
+    _ITEM_HEIGHT = 150
 
     def __init__(self, item_id, is_used, icon_name, icon_used_name, item_name):
-        super().__init__(halign=Gtk.Align.CENTER,
-                         orientation=Gtk.Orientation.VERTICAL,
-                         visible=True,
-                         spacing=16,
-                         width_request=150)
+        super().__init__(height_request=self._ITEM_HEIGHT)
 
         self.item_id = item_id
         self.is_used = is_used
@@ -653,10 +652,16 @@ class InventoryItem(Gtk.Box):
 
         self.get_style_context().add_class('inventory-item')
 
-        self._image = Gtk.Image(width_request=150, height_request=150, yalign=1.0)
-        self.add(self._image)
+        vbox = Gtk.Box(width_request=self._ITEM_WIDTH,
+                       halign=Gtk.Align.FILL,
+                       orientation=Gtk.Orientation.VERTICAL,
+                       spacing=16)
+        self.add(vbox)
 
-        self.add(Gtk.Label.new(item_name))
+        self._image = Gtk.Image()
+        vbox.add(self._image)
+
+        vbox.add(Gtk.Label.new(item_name))
         self._update_icon()
         self.show_all()
 
