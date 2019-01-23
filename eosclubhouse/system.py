@@ -241,6 +241,17 @@ class App:
     def disconnect_js_props_change(self, handler_id):
         self.get_clippy_proxy().disconnect(handler_id)
 
+    def connect_running_change(self, app_running_changed_cb, *args):
+        def _name_owner_changed(proxy, _pspec, app_running_changed_cb, *args):
+            app_running_changed_cb(*args)
+
+        proxy = self.get_gtk_app_proxy()
+        return proxy.connect('notify::g-name-owner', _name_owner_changed, app_running_changed_cb,
+                             *args)
+
+    def disconnect_running_change(self, handler_id):
+        self.get_gtk_app_proxy().disconnect(handler_id)
+
     def highlight_object(self, obj, timestamp=None):
         stamp = timestamp or int(time.time())
         self.get_clippy_proxy().Highlight('(su)', obj, stamp)
