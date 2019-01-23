@@ -142,6 +142,7 @@ class _QuestRunContext:
         self._step_loop = asyncio.new_event_loop()
         self._timeout_handle = None
         self._cancellable = cancellable
+        self._debug_actions = set()
 
         self.step_timeout = step_timeout
 
@@ -290,6 +291,8 @@ class _QuestRunContext:
 
         async_action.state = AsyncAction.State.PENDING
 
+        self._debug_actions.add(async_action)
+
         if not loop.is_closed():
             loop.run_until_complete(wait_or_timeout(future, timeout))
             loop.stop()
@@ -297,12 +300,22 @@ class _QuestRunContext:
         else:
             future.cancel()
 
+        if async_action in self._debug_actions:
+            self._debug_actions.remove(async_action)
+
         if future.cancelled():
             async_action.state = AsyncAction.State.CANCELLED
         elif future.done():
             async_action.state = AsyncAction.State.DONE
 
         return async_action
+
+    def debug_dispatch(self):
+        if not self._cancellable.is_cancelled():
+            for action in self._debug_actions:
+                action.resolve()
+
+        self._debug_actions = set()
 
 
 class AsyncAction:
@@ -704,6 +717,8 @@ class Quest(GObject.GObject):
 
     def set_debug_skip(self, debug_skip):
         self._debug_skip = debug_skip
+        if self._run_context is not None:
+            self._run_context.debug_dispatch()
 
     def __repr__(self):
         return self._name
