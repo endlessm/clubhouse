@@ -29,7 +29,7 @@ import time
 
 from enum import Enum
 from eosclubhouse import config, logger
-from eosclubhouse.system import GameStateService, Sound
+from eosclubhouse.system import App, GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog, QS
 from gi.repository import GObject, GLib, Gio
 
@@ -510,6 +510,29 @@ class Quest(GObject.GObject):
         self._run_context.step_timeout = self.stop_timeout
 
         self._run_context.set_next_step(step_func, delay, args)
+
+    def wait_for_app_launch(self, app, timeout=None):
+        assert self._run_context is not None
+
+        async_action = self._run_context.new_async_action()
+        if async_action.is_cancelled():
+            return async_action
+
+        if app.is_running():
+            async_action.state = AsyncAction.State.DONE
+            return async_action
+
+        def _on_app_running_changed(app, async_action):
+            if app.is_running() and not async_action.is_resolved():
+                async_action.resolve()
+
+        handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
+
+        self._run_context.wait_for_action(async_action, timeout)
+
+        app.disconnect_running_change(handler_id)
+
+        return async_action
 
     def pause(self, secs):
         assert self._run_context is not None
