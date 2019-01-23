@@ -19,6 +19,22 @@
     ],
     "modules": [
         {
+            "name": "glibcoro",
+            "buildsystem": "simple",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/endlessm/glibcoro.git"
+                }
+            ],
+            "build-options": [
+
+            ],
+            "build-commands": [
+                "python3 ./setup.py install --prefix=/app"
+            ]
+        },
+        {
             "name": "clubhouse",
             "buildsystem": "meson",
             "config-opts" : [

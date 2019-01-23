@@ -18,18 +18,25 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
+import asyncio
 import functools
+import glibcoro
 import os
 import pkgutil
 import sys
 import threading
 import time
 
+from enum import Enum
 from eosclubhouse import config
 from eosclubhouse import logger
 from eosclubhouse.system import GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog, QS
 from gi.repository import GObject, GLib, Gio
+
+
+# Set up the asyncio loop implementation
+glibcoro.install()
 
 
 class Registry:
@@ -126,6 +133,215 @@ class Registry:
         GameStateService().set('clubhouse.CurrentEpisode', episode_info)
 
 
+class _QuestRunContext:
+
+    def __init__(self, cancellable, step_timeout):
+        self._confirm_action = None
+
+        asyncio.set_event_loop(asyncio.new_event_loop())
+
+        self._step_loop = asyncio.new_event_loop()
+        self._timeout_handle = None
+        self._cancellable = cancellable
+
+        self.step_timeout = step_timeout
+
+    def _cancel_and_close_loop(self, loop):
+        if not loop.is_closed():
+            for task in asyncio.Task.all_tasks(loop=loop):
+                task.cancel()
+
+            loop.stop()
+            loop.close()
+
+    def _cancel_all(self):
+        self.reset_step_timeout()
+
+        self._cancel_and_close_loop(self._step_loop)
+
+        # Cancel also any ongoing actions
+        self._cancel_and_close_loop(asyncio.get_event_loop())
+
+    def user_confirmed(self):
+        if self._confirm_action is not None:
+            self._confirm_action.resolve()
+            self._confirm_action = None
+
+    def get_confirm_action(self):
+        if self._confirm_action is None:
+            self._confirm_action = self.new_async_action()
+
+        return self._confirm_action
+
+    def cancel(self):
+        self._cancellable.cancel()
+
+    def reset_step_timeout(self):
+        if self._timeout_handle is not None:
+            self._timeout_handle.cancel()
+            self._timeout_handle = None
+
+    def run_step_timeout(self):
+        self.reset_step_timeout()
+        self._timeout_handle = self._step_loop.call_later(self.step_timeout, self.cancel)
+
+    def set_next_step(self, step_func, delay=0, args=()):
+        def _run_step(step_func_data):
+            step_func, args_ = step_func_data
+
+            # Execute the step
+            result = step_func(*args_)
+
+            self.reset_step_timeout()
+
+            if result is None or self._cancellable.is_cancelled():
+                return
+
+            # Set the next step according to the result
+            next_step_func = result
+            next_step_delay = 0
+            next_step_args = ()
+
+            if isinstance(result, tuple):
+                if len(result) > 1:
+                    next_step_delay = result[1]
+                if len(result) > 2:
+                    next_step_args = result[2:]
+
+            self.set_next_step(next_step_func, next_step_delay, next_step_args)
+
+        if self._cancellable.is_cancelled() or self._step_loop.is_closed():
+            return
+
+        self.reset_step_timeout()
+
+        self._step_loop.call_later(self.step_timeout, self.cancel)
+        self._step_loop.call_later(delay, functools.partial(_run_step, (step_func, args)))
+
+    def run(self, first_step=None):
+        if self._cancellable.is_cancelled():
+            return
+
+        self._cancellable.connect(self._cancel_all)
+
+        if first_step is not None:
+            self.set_next_step(first_step)
+
+        self._step_loop.run_forever()
+
+    def new_async_action(self, future=None):
+        async_action = AsyncAction()
+
+        if self._cancellable.is_cancelled():
+            async_action.state = AsyncAction.State.CANCELLED
+            return async_action
+
+        async_action.future = future or self._new_future()
+
+        return async_action
+
+    def _new_future(self):
+        # Renew the event loop if needed
+        if asyncio.get_event_loop().is_closed():
+            asyncio.set_event_loop(asyncio.new_event_loop())
+
+        return asyncio.get_event_loop().create_future()
+
+    def _future_get_loop(self, future):
+        # @todo: when we have Python 3.7 we can use the loop from the future's get_loop function
+        # directly; for now, we have to check what's the best way
+        if hasattr(future, 'get_loop'):
+            return future.get_loop()
+
+        return future._loop
+
+    def pause(self, secs):
+        async_action = self.new_async_action()
+
+        if async_action.is_cancelled():
+            return async_action
+
+        loop = self._future_get_loop(async_action.future)
+        loop.call_later(secs, functools.partial(async_action.resolve))
+
+        return self.wait_for_action(async_action)
+
+    def wait_for_action(self, async_action, timeout=None):
+        if async_action.is_cancelled():
+            return async_action
+
+        future = async_action.future
+
+        if future is None:
+            return async_action
+
+        loop = self._future_get_loop(future)
+
+        async def wait_or_timeout(future, timeout=None):
+            logger.debug('Waiting for action...')
+
+            try:
+                await asyncio.wait_for(future, timeout)
+            except asyncio.TimeoutError:
+                logger.debug('Wait for action timed out.')
+            except asyncio.CancelledError:
+                logger.debug('Wait for action cancelled.')
+            else:
+                logger.debug('Wait for action finished.')
+
+        async_action.state = AsyncAction.State.PENDING
+
+        if not loop.is_closed():
+            loop.run_until_complete(wait_or_timeout(future, timeout))
+            loop.stop()
+            loop.close()
+        else:
+            future.cancel()
+
+        if future.cancelled():
+            async_action.state = AsyncAction.State.CANCELLED
+        elif future.done():
+            async_action.state = AsyncAction.State.DONE
+
+        return async_action
+
+
+class AsyncAction:
+
+    State = Enum('State', ['UNKNOWN', 'DONE', 'CANCELLED', 'PENDING'])
+
+    def __init__(self):
+        self._state = self.State.UNKNOWN
+        self.future = None
+
+    def is_done(self):
+        return self._state == self.State.DONE
+
+    def is_cancelled(self):
+        return self._state == self.State.CANCELLED
+
+    def is_pending(self):
+        return self._state == self.State.PENDING
+
+    def resolve(self):
+        if self.future is not None and not self.future.done():
+            self.future.set_result(True)
+
+    def is_resolved(self):
+        if self.future is not None:
+            return self.future.done()
+
+        return self._state != self.State.PENDING and self._state != self.State.UNKNOWN
+
+    @property
+    def state(self):
+        return self._state
+
+    @state.setter
+    def state(self, state):
+        self._state = state
+
+
 class Quest(GObject.GObject):
 
     __gsignals__ = {
@@ -188,6 +404,8 @@ class Quest(GObject.GObject):
         self._timeout_start = -1
         self._check_timeout = False
 
+        self._run_context = None
+
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
 
@@ -201,6 +419,12 @@ class Quest(GObject.GObject):
         return QS('{}_QUEST_REJECT'.format(self._qs_base_id))
 
     def run(self, on_quest_finished):
+        if hasattr(self, 'step_begin'):
+            self.run_in_context(on_quest_finished)
+        else:
+            self.run_in_thread(on_quest_finished)
+
+    def run_in_thread(self, on_quest_finished):
         def _on_task_finished(quest, result):
             nonlocal on_quest_finished
             on_quest_finished(quest)
@@ -213,6 +437,15 @@ class Quest(GObject.GObject):
         quest_task = Gio.Task.new(self, self.get_cancellable(), _on_task_finished)
         threading.Thread(target=_run_task_in_thread, args=(quest_task,),
                          name='quest-thread').start()
+
+    def run_in_context(self, quest_finished_cb):
+        Sound.play('quests/quest-given')
+
+        self._run_context = _QuestRunContext(self._cancellable, self.stop_timeout)
+        self._run_context.run(self.step_begin)
+        self._run_context = None
+
+        quest_finished_cb(self)
 
     def start(self):
         '''Start the quest's main function
@@ -271,6 +504,30 @@ class Quest(GObject.GObject):
 
         self._reset_timeout()
 
+    def set_next_step(self, step_func, delay=0, args=()):
+        assert self._run_context is not None
+
+        # Update the step stop timeout before every step runs
+        self._run_context.step_timeout = self.stop_timeout
+
+        self._run_context.set_next_step(step_func, delay, args)
+
+    def pause(self, secs):
+        assert self._run_context is not None
+        return self._run_context.pause(secs)
+
+    def wait_confirm(self, msg_id=None, timeout=None):
+        assert self._run_context is not None
+
+        async_action = self._run_context.get_confirm_action()
+        if async_action is None or async_action.is_cancelled():
+            return async_action
+
+        if msg_id is not None:
+            self.show_question(msg_id)
+
+        return self._run_context.wait_for_action(async_action, timeout)
+
     def _check_timed_out(self, current_time_secs):
         if not self._check_timeout:
             return
@@ -302,6 +559,8 @@ class Quest(GObject.GObject):
     def _confirm_step(self):
         Sound.play('clubhouse/dialog/next')
         self._confirmed_step = True
+        if self._run_context is not None:
+            self._run_context.user_confirmed()
 
     def confirmed_step(self):
         confirmed = self._confirmed_step
