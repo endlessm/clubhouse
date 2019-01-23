@@ -146,9 +146,11 @@ class App:
 
     APP_JS_PARAMS = 'view.JSContext.globalParameters'
 
-    def __init__(self, app_dbus_name):
+    def __init__(self, app_dbus_name, app_dbus_path=None):
         self._clippy = None
+        self._gtk_app_proxy = None
         self._app_dbus_name = app_dbus_name
+        self._app_dbus_path = app_dbus_path or ('/' + app_dbus_name.replace('.', '/'))
 
     def get_clippy_proxy(self):
         if self._clippy is None:
@@ -161,6 +163,20 @@ class App:
                                                           None)
 
         return self._clippy
+
+    def get_gtk_app_proxy(self):
+        if self._gtk_app_proxy is None:
+            self._gtk_app_proxy = \
+                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                               Gio.DBusProxyFlags.DO_NOT_AUTO_START |
+                                               Gio.DBusProxyFlags.DO_NOT_AUTO_START_AT_CONSTRUCTION,
+                                               None,
+                                               self._app_dbus_name,
+                                               self._app_dbus_path,
+                                               'org.gtk.Application',
+                                               None)
+
+        return self._gtk_app_proxy
 
     def get_object_property(self, obj, prop):
         return self.get_clippy_proxy().Get('(ss)', obj, prop)
