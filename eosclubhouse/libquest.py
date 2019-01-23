@@ -28,8 +28,7 @@ import threading
 import time
 
 from enum import Enum
-from eosclubhouse import config
-from eosclubhouse import logger
+from eosclubhouse import config, logger
 from eosclubhouse.system import GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog, QS
 from gi.repository import GObject, GLib, Gio
