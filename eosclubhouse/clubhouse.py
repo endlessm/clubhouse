@@ -25,7 +25,6 @@ gi.require_version('Json', '1.0')
 import os
 import subprocess
 import sys
-import threading
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
@@ -288,7 +287,7 @@ class ClubhousePage(Gtk.EventBox):
     def __init__(self, app_window):
         super().__init__(visible=True)
 
-        self._quest_task = None
+        self._current_quest = None
 
         self._app_window = app_window
         self._app_window.connect('key-press-event', self._key_press_event_cb)
@@ -332,20 +331,19 @@ class ClubhousePage(Gtk.EventBox):
         self._cancel_ongoing_task()
 
     def quest_debug_skip(self):
-        if self._quest_task is not None:
-            quest = self._quest_task.get_source_object()
-            quest.set_debug_skip(True)
+        if self._current_quest is not None:
+            self._current_quest.set_debug_skip(True)
 
     def _cancel_ongoing_task(self):
-        if self._quest_task is None:
+        if self._current_quest is None:
             return
 
-        cancellable = self._quest_task.get_cancellable()
+        cancellable = self._current_quest.get_cancellable()
         if not cancellable.is_cancelled():
-            logger.debug('Stopping quest %s', self._quest_task.get_source_object())
+            logger.debug('Stopping quest %s', self._current_quest)
             cancellable.cancel()
 
-        self._quest_task = None
+        self._current_quest = None
 
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set)
@@ -362,18 +360,16 @@ class ClubhousePage(Gtk.EventBox):
         self._app.send_suggest_open(libquest.Registry.has_quest_sets_highlighted())
 
     def _show_quest_continue_confirmation(self):
-        if self._quest_task is None:
+        if self._current_quest is None:
             return
 
-        quest = self._quest_task.get_source_object()
-
         self._message.reset()
-        self._message.set_character(quest.get_main_character())
+        self._message.set_character(self._current_quest.get_main_character())
 
-        msg, continue_label, stop_label = quest.get_continue_info()
+        msg, continue_label, stop_label = self._current_quest.get_continue_info()
         self.show_message(msg,
-                          [(continue_label, self._continue_quest, quest),
-                           (stop_label, self._stop_quest_from_message, quest)])
+                          [(continue_label, self._continue_quest, self._current_quest),
+                           (stop_label, self._stop_quest_from_message, self._current_quest)])
 
         self._overlay_msg_box.show_all()
 
@@ -398,9 +394,8 @@ class ClubhousePage(Gtk.EventBox):
 
         # If a quest from this quest_set is already running, then just hide the window so the
         # user focuses on the Shell's quest dialog
-        if self._quest_task:
-            quest = self._quest_task.get_source_object()
-            if quest in quest_set.get_quests():
+        if self._current_quest:
+            if self._current_quest in quest_set.get_quests():
                 self._show_quest_continue_confirmation()
                 return
 
@@ -449,15 +444,14 @@ class ClubhousePage(Gtk.EventBox):
 
         self.connect_quest(quest)
 
-        cancellable = Gio.Cancellable()
-        self._quest_task = Gio.Task.new(quest, cancellable, self.on_quest_finished)
-        quest.set_cancellable(cancellable)
+        quest.set_cancellable(Gio.Cancellable())
+
+        self._current_quest = quest
 
         # Hide the window so the user focuses on the Shell Quest View
         self._app_window.hide()
 
-        threading.Thread(target=self._run_task_in_thread, args=(self._quest_task,),
-                         name='quest-thread').start()
+        self._current_quest.run(self.on_quest_finished)
 
     def run_quest_by_name(self, quest_name, use_shell_quest_view):
         quest = libquest.Registry.get_quest_by_name(quest_name)
@@ -476,7 +470,7 @@ class ClubhousePage(Gtk.EventBox):
         self.run_quest(quest)
 
     def _is_current_quest(self, quest):
-        return self._quest_task is not None and self._quest_task.get_source_object() == quest
+        return self._current_quest is not None and self._current_quest == quest
 
     def _quest_item_given_cb(self, quest, item_id, text):
         self._shell_popup_item(item_id, text)
@@ -496,12 +490,7 @@ class ClubhousePage(Gtk.EventBox):
 
         self._shell_popup_message(message_txt, character, open_dialog_sound)
 
-    def _run_task_in_thread(self, task):
-        quest = task.get_source_object()
-        quest.start()
-        task.return_boolean(True)
-
-    def on_quest_finished(self, quest, result):
+    def on_quest_finished(self, quest):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
         quest.save_conf()
@@ -510,9 +499,9 @@ class ClubhousePage(Gtk.EventBox):
         # Ensure we reset the running quest (only if we haven't started a different quest in the
         # meanwhile) quest and close any eventual message popups
         if self._is_current_quest(quest):
-            self._quest_task = None
+            self._current_quest = None
 
-        if self._quest_task is None:
+        if self._current_quest is None:
             self._shell_close_popup_message()
 
         self._current_quest_notification = None
@@ -526,10 +515,9 @@ class ClubhousePage(Gtk.EventBox):
             self._app_window.destroy()
             return True
 
-        if self._quest_task:
+        if self._current_quest:
             event_copy = event.copy()
-            quest = self._quest_task.get_source_object()
-            quest.on_key_event(event_copy)
+            self._current_quest.on_key_event(event_copy)
 
         return False
 
@@ -632,9 +620,8 @@ class ClubhousePage(Gtk.EventBox):
         self._reset_quest_actions()
 
     def set_quest_to_background(self):
-        if self._quest_task:
-            quest = self._quest_task.get_source_object()
-            quest.set_to_background()
+        if self._current_quest:
+            self._current_quest.set_to_background()
 
 
 class InventoryItem(Gtk.Button):

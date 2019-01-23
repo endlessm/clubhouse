@@ -22,13 +22,14 @@ import functools
 import os
 import pkgutil
 import sys
+import threading
 import time
 
 from eosclubhouse import config
 from eosclubhouse import logger
 from eosclubhouse.system import GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog, QS
-from gi.repository import GObject, GLib
+from gi.repository import GObject, GLib, Gio
 
 
 class Registry:
@@ -198,6 +199,20 @@ class Quest(GObject.GObject):
 
     def _get_reject_label_from_qs(self):
         return QS('{}_QUEST_REJECT'.format(self._qs_base_id))
+
+    def run(self, on_quest_finished):
+        def _on_task_finished(quest, result):
+            nonlocal on_quest_finished
+            on_quest_finished(quest)
+
+        def _run_task_in_thread(task):
+            quest = task.get_source_object()
+            quest.start()
+            task.return_boolean(True)
+
+        quest_task = Gio.Task.new(self, self.get_cancellable(), _on_task_finished)
+        threading.Thread(target=_run_task_in_thread, args=(quest_task,),
+                         name='quest-thread').start()
 
     def start(self):
         '''Start the quest's main function
@@ -396,6 +411,9 @@ class Quest(GObject.GObject):
 
     def set_cancellable(self, cancellable):
         self._cancellable = cancellable
+
+    def get_cancellable(self):
+        return self._cancellable
 
     def is_cancelled(self):
         return self._cancellable is not None and self._cancellable.is_cancelled()
