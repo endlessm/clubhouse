@@ -174,8 +174,13 @@
     -gtk-icon-effect: none;
 }
 
-.inventory-item:hover > box > label {
+.inventory-item:hover > box > label,
+.inventory-item.active > box > label {
     background: rgba(60, 60, 60, .8);
+}
+
+.inventory-item.active {
+    -gtk-icon-effect: dim;
 }
 
 .inventory-scrolled-window {

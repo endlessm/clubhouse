@@ -640,17 +640,20 @@ class ClubhousePage(Gtk.EventBox):
 class InventoryItem(Gtk.Button):
 
     _ITEM_WIDTH = 150
-    _ITEM_HEIGHT = 150
+    _ITEM_HEIGHT = 265
 
     def __init__(self, item_id, is_used, icon_name, icon_used_name, item_name):
         super().__init__(height_request=self._ITEM_HEIGHT)
 
         self.item_id = item_id
+        self.item_name = item_name
         self.is_used = is_used
         self._icon_name = icon_name
         self._icon_used_name = icon_used_name
 
         self.get_style_context().add_class('inventory-item')
+
+        self.connect('clicked', self._on_item_clicked_cb)
 
         vbox = Gtk.Box(width_request=self._ITEM_WIDTH,
                        halign=Gtk.Align.FILL,
@@ -661,7 +664,14 @@ class InventoryItem(Gtk.Button):
         self._image = Gtk.Image()
         vbox.add(self._image)
 
-        vbox.add(Gtk.Label.new(item_name))
+        self._label = Gtk.Label(wrap=True,
+                                max_width_chars=15,
+                                hexpand=False,
+                                halign=Gtk.Align.CENTER,
+                                justify=Gtk.Justification.CENTER)
+        self._label.set_text(item_name)
+
+        vbox.add(self._label)
         self._update_icon()
         self.show_all()
 
@@ -676,6 +686,20 @@ class InventoryItem(Gtk.Button):
     def set_used(self, is_used):
         self.is_used = is_used
         self._update_icon()
+
+    def _on_item_clicked_cb(self, *_args):
+        self.get_style_context().add_class('active')
+        text = None
+        if self.is_used:
+            text = 'This key has already been used.'
+        else:
+            text = 'To use this key click on the matching lock.'
+        self._label.set_text(text)
+        GLib.timeout_add_seconds(5, self._deactivate_on_timeout)
+
+    def _deactivate_on_timeout(self):
+        self.get_style_context().remove_class('active')
+        self._label.set_text(self.item_name)
 
 
 class InventoryPage(Gtk.EventBox):
