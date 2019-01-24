@@ -9,29 +9,13 @@
 
 # Pre-commit hook with flake8
 
-virtualenv_python_exec=python3
-source_dir="$(git rev-parse --show-toplevel)"
-virtualenv_dir="${source_dir}/.python-virtual-env"
+script_path=$0
+source_dir="$(dirname "$script_path")/.."
+precommit_hook_file="$source_dir/.git/hooks/pre-commit"
 
-virtualenv_cmd="$(command -v virtualenv || command -v virtualenv-3 )" || true
-precommit_hook_file="${source_dir}/.git/hooks/pre-commit"
-
-if [ -z $virtualenv_cmd ]; then
-    echo "Please install Python's virtualenv"
-    exit 1
-fi
-
-if [ -f $precommit_hook_file ]; then
-    echo "A pre-commit hook already exists! Delete it if you want to generate a new one!"
-    exit 1
-fi
-
-if [ ! -d $virtualenv_dir ]; then
-    $virtualenv_cmd -p"$virtualenv_python_exec" "$virtualenv_dir"
-    source "$virtualenv_dir/bin/activate"
-    pip install flake8
-    deactivate
-fi
+source "$source_dir/tools/setup-lint"
+setup_lint || true
+echo "Installing git pre-commit hook"
 
 ACTIVATE_CMD="$virtualenv_dir/bin/activate"
 RUN_LINT_CMD="$source_dir/tools/run_lint"
