@@ -146,9 +146,10 @@ class App:
 
     APP_JS_PARAMS = 'view.JSContext.globalParameters'
 
+    _clippy = None
+    _gtk_app_proxy = None
+
     def __init__(self, app_dbus_name, app_dbus_path=None):
-        self._clippy = None
-        self._gtk_app_proxy = None
         self._app_dbus_name = app_dbus_name
         self._app_dbus_path = app_dbus_path or ('/' + app_dbus_name.replace('.', '/'))
 
