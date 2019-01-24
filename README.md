@@ -52,14 +52,14 @@ and install it in the user installation base, you can do:
 
 ### Coding Style
 
-The `run_lint` script can be used to verify the codebase's coding style.
+The `run-lint` script can be used to verify the codebase's coding style.
 Before sending a PR on Github, please verify the coding style with this tool.
 In the future we will be running it as part of the Continuous Integration for
 PRs.
 
 Since it's easy to forget to run it, there's also a convenience script to set
 up a git commit hook that runs the mentioned lint script: `setup-git-hooks`.
-If `flake8` (the lint tool that `run_lint` uses) is not in installed, it will
+If `flake8` (the lint tool that `run-lint` uses) is not in installed, it will
 use Python's `virtual-env` to install it locally.
 
 ### Quest Dialog Strings
