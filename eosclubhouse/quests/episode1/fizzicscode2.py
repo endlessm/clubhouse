@@ -9,6 +9,7 @@ class FizzicsCode2(Quest):
     def __init__(self):
         super().__init__('Fizzics Code 2', 'riley')
         self._app = App(self.TARGET_APP_DBUS_NAME)
+        self.gss.connect('changed', self.update_availability)
         self.available = False
         self.update_availability()
 
