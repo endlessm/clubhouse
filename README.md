@@ -76,6 +76,81 @@ strings CSV file can be added to a secondary location and will be loaded
 directly by the Clubhouse (overriding any quest/string-id with the same name).
 this alternative location is: `~/.var/app/com.endlessm.Clubhouse/data/quests`
 
+### Sprite Animations Format
+
+Character animations in the Clubhouse are implemented with
+sprites. Each sprite is composed of two files:
+
+- A PNG file that contains all the animation frames, in sequence.
+
+- A JSON file with the metadata required to load and play the frames
+  in the PNG as an animation.
+
+This is the format of the JSON file:
+
+```json
+{
+  "default-delay": 100,
+  "frames": [
+    "0 750",
+    1,
+    2,
+    3,
+    "4 2000-3000",
+    3,
+    2,
+    1,
+    "0 2250-6250"
+  ],
+  "height": 306,
+  "width": 147
+}
+```
+
+All frames are the same size, and is defined by "width" and "height"
+in the metadata.
+
+The sequence of frames and timings are defined by "frames" in the
+metadata. The frame numbers are zero-based. The sequence has the frame
+number, optionally accompanied by a delay. If a delay is not provided,
+"default-delay" in the metadata will be used. The delay can be a
+number in milliseconds, or it can be a range like `2000-3000`
+above. If a range is provided, a random delay will be picked from the
+range each time the animation is played. Thus, the same frame can be
+reused with different timing in the sequence. The example above
+defines an animation using 5 frames. It will:
+
+- Display frame 0 for 750 milliseconds.
+- Display frames 1 to 3 in sequence, for the default delay of 100 milliseconds.
+- Display frame 4 for a random delay between 2 and 3 seconds.
+- Display frames 3 to 1 in reverse sequence, with default delay as before.
+- Display frame 0 for a random delay between 2250 and 6250 milliseconds.
+
+The Clubhouse plays the animations in loop.
+
+### Character Animations Alternative Location
+
+There is an alternative path where a designer/developer can place a
+character animation that is used instead of the default one. Animators
+can use this to test new character animations and edit the current
+ones without re-installing the clubhouse. This alternative location
+is: `~/.var/app/com.endlessm.Clubhouse/data/characters`
+
+Example:
+
+```
+mkdir -p ~/.var/app/com.endlessm.Clubhouse/data/characters/ada/fullbody
+(git clone https://github.com/endlessm/clubhouse)
+(cd clubhouse)
+cp data/characters/ada/fullbody/hi.* ~/.var/app/com.endlessm.Clubhouse/data/characters/ada/fullbody
+
+# Change the animation format here and make Ada go crazy. Example: "frames": [0,8,0,8]
+gedit ~/.var/app/com.endlessm.Clubhouse/data/characters/ada/fullbody/hi.json
+
+# Restart the clubhouse:
+com.endlessm.Clubhouse -x && com.endlessm.Clubhouse -d
+```
+
 ## Reloading the Clubhouse
 
 The Clubhouse may still be running even when its window is closed, thus, for
