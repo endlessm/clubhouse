@@ -1,0 +1,62 @@
+#!/bin/bash -e
+#
+# Setup Python VirtualEnv.
+#
+# Copyright (c) 2019 Endless Mobile Inc.
+#
+# Author: Joaquim Rocha <jrocha@endlessm.com>
+#
+
+# install or upgrade flake8 from Flatpak's GNOME Runtime
+
+source_dir="$(git rev-parse --show-toplevel)"
+virtualenv_dir="${source_dir}/.python-virtual-env"
+
+runtime="org.gnome.Platform//3.30"
+flatpak_shell="flatpak run --filesystem=$source_dir --share=network --command=bash $runtime"
+
+function run_in_python_venv {
+    return $($flatpak_shell <<EOF
+    source "$virtualenv_dir/bin/activate"
+    eval $@ >&2
+    ret=\$?
+    deactivate
+    exit \$ret
+EOF
+            )
+}
+
+function setup_lint {
+    if [ ! -d $virtualenv_dir ]; then
+        echo "Setting up virtual env"
+        $flatpak_shell <<EOF
+            python3 -mvenv "$virtualenv_dir"
+EOF
+        echo "Upgrading pip"
+	run_in_python_venv pip install --upgrade pip
+        echo "Installing flake8"
+	run_in_python_venv pip install flake8
+        return 0
+    fi
+
+    return 1
+}
+
+function upgrade_lint {
+    if [ -d $virtualenv_dir ]; then
+        echo "Upgrading pip"
+	run_in_python_venv pip install --upgrade pip
+        echo "Upgrading flake8"
+	run_in_python_venv pip install flake8 --upgrade
+        return 0
+    fi
+
+    return 1
+}
+
+# Only upgrade
+if [ "$0" = "$BASH_SOURCE" ]; then
+    setup_lint || upgrade_lint
+fi
+
+# end: install or upgrade flake8 from Flatpak's GNOME Runtime

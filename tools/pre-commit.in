@@ -7,11 +7,7 @@
 # Author: Joaquim Rocha <jrocha@endlessm.com>
 #
 
-source @@virtualenv_activate@@
-
 @@run_lint_command@@
 ret=$?
-
-deactivate
 
 exit $ret
