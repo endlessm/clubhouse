@@ -1,5 +1,6 @@
 {
     "app-id": "com.endlessm.Clubhouse",
+    "branch": "@BRANCH@",
     "runtime": "com.endlessm.apps.Platform",
     "runtime-version": "5",
     "sdk": "com.endlessm.apps.Sdk",
