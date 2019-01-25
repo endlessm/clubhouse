@@ -13,7 +13,7 @@ The coding panel shows variables you can set in Fizzics. When you make a change 
 Try increasing the radius for ""species 0"" by clicking on the + button. Did you catch how the code changed when you did that? ",,,
 FIZZICSCODE1_EXPLANATION1_HINT1,"Okay, now change the radius for the orange ball pressing on the + button next to Radius.",,,
 FIZZICSCODE1_EXPLANATION2,Great. Now let's try it the other way. Go to the coding panel and change the radius. See how it changes in the user interface too? ,,,
-FIZZICSCODE1_EXPLANATION2_HINT1,"In the coding panel, change the number value for the variable species[0].radius.",,,
+FIZZICSCODE1_EXPLANATION2_HINT1,"In the coding panel, change the number value for the species[0]"" radius.",,,
 FIZZICSCODE1_END,"You're getting the hang of it. The parameters for each species are in an array: species[0], species[1], etc.
 
 Feel free to change any value and see how they behave. And remember, the reset button is always there when you need it!
