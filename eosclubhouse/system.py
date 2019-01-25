@@ -146,9 +146,12 @@ class App:
 
     APP_JS_PARAMS = 'view.JSContext.globalParameters'
 
-    def __init__(self, app_dbus_name):
-        self._clippy = None
+    _clippy = None
+    _gtk_app_proxy = None
+
+    def __init__(self, app_dbus_name, app_dbus_path=None):
         self._app_dbus_name = app_dbus_name
+        self._app_dbus_path = app_dbus_path or ('/' + app_dbus_name.replace('.', '/'))
 
     def get_clippy_proxy(self):
         if self._clippy is None:
@@ -161,6 +164,23 @@ class App:
                                                           None)
 
         return self._clippy
+
+    def get_gtk_app_proxy(self):
+        if self._gtk_app_proxy is None:
+            self._gtk_app_proxy = \
+                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                               Gio.DBusProxyFlags.DO_NOT_AUTO_START |
+                                               Gio.DBusProxyFlags.DO_NOT_AUTO_START_AT_CONSTRUCTION,
+                                               None,
+                                               self._app_dbus_name,
+                                               self._app_dbus_path,
+                                               'org.gtk.Application',
+                                               None)
+
+        return self._gtk_app_proxy
+
+    def is_running(self):
+        return self.get_gtk_app_proxy().props.g_name_owner is not None
 
     def get_object_property(self, obj, prop):
         return self.get_clippy_proxy().Get('(ss)', obj, prop)
@@ -201,6 +221,37 @@ class App:
 
     def set_js_property(self, prop, value):
         return self.set_object_property(self.APP_JS_PARAMS, prop, value)
+
+    def connect_js_props_change(self, props, js_property_changed_cb, *args):
+        def _props_changed_cb(_proxy, _owner, signal_name, params, props, js_property_changed_cb,
+                              *args):
+            if signal_name != 'ObjectNotify':
+                return
+
+            _notify_obj, notify_prop, _value = params.unpack()
+
+            if notify_prop in props:
+                js_property_changed_cb(*args)
+
+        for prop in props:
+            self.get_clippy_proxy().Connect('(sss)', self.APP_JS_PARAMS, 'notify', prop)
+
+        proxy = self.get_clippy_proxy()
+        return proxy.connect('g-signal', _props_changed_cb, props, js_property_changed_cb, *args)
+
+    def disconnect_js_props_change(self, handler_id):
+        self.get_clippy_proxy().disconnect(handler_id)
+
+    def connect_running_change(self, app_running_changed_cb, *args):
+        def _name_owner_changed(proxy, _pspec, app_running_changed_cb, *args):
+            app_running_changed_cb(*args)
+
+        proxy = self.get_gtk_app_proxy()
+        return proxy.connect('notify::g-name-owner', _name_owner_changed, app_running_changed_cb,
+                             *args)
+
+    def disconnect_running_change(self, handler_id):
+        self.get_gtk_app_proxy().disconnect(handler_id)
 
     def highlight_object(self, obj, timestamp=None):
         stamp = timestamp or int(time.time())
