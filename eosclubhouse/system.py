@@ -89,6 +89,12 @@ class Desktop:
         return klass._shell_proxy
 
     @classmethod
+    def get_app_desktop_name(_klass, app_name):
+        if app_name.endswith('.desktop'):
+            return app_name
+        return app_name + '.desktop'
+
+    @classmethod
     def app_is_running(klass, name):
         try:
             klass.get_dbus_proxy().GetNameOwner('(s)', name)
@@ -107,8 +113,7 @@ class Desktop:
 
     @classmethod
     def focus_app(klass, app_name):
-        if not app_name.endswith('.desktop'):
-            app_name += '.desktop'
+        app_name = klass.get_app_desktop_name(app_name)
 
         try:
             klass.get_shell_proxy().FocusApp('(s)', app_name)
@@ -119,8 +124,7 @@ class Desktop:
 
     @classmethod
     def add_app_to_grid(klass, app_name):
-        if not app_name.endswith('.desktop'):
-            app_name += '.desktop'
+        app_name = klass.get_app_desktop_name(app_name)
 
         try:
             klass.get_shell_app_store_proxy().AddApplication('(s)', app_name)
@@ -131,8 +135,7 @@ class Desktop:
 
     @classmethod
     def remove_app_from_grid(klass, app_name):
-        if not app_name.endswith('.desktop'):
-            app_name += '.desktop'
+        app_name = klass.get_app_desktop_name(app_name)
 
         try:
             klass.get_shell_app_store_proxy().RemoveApplication('(s)', app_name)
@@ -143,8 +146,7 @@ class Desktop:
 
     @classmethod
     def is_app_in_foreground(klass, app_name):
-        if not app_name.endswith('.desktop'):
-            app_name += '.desktop'
+        app_name = klass.get_app_desktop_name(app_name)
 
         try:
             prop = klass.get_shell_proxy().get_cached_property('FocusedApp')

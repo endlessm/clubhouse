@@ -583,6 +583,7 @@ class Quest(GObject.GObject):
                 async_action.resolve()
 
         def _on_app_in_foreground_changed(app_in_foreground_name, app_name, async_action):
+            app_name = Desktop.get_app_desktop_name(app_name)
             if app_in_foreground_name == app_name and not async_action.is_resolved():
                 async_action.resolve()
 
