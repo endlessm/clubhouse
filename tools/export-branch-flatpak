@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# Convenience script to build an installable Flatpak bundle using a "custom"
+# branch so that progress can be shared.
+#
+# Copyright (c) 2019 Endless Mobile Inc.
+#
+# Author: Philip Chimento <philip@endlessm.com>
+#
+
+set -e
+script_path=$0
+source_dir="$(dirname "$script_path")/.."
+app_id=com.endlessm.Clubhouse
+manifest="$app_id.json"
+
+pushd "$source_dir"
+
+REPO=${REPO:-repo}
+
+# build current branch if not specified
+branch=$1
+test -z "$branch" && branch=HEAD
+
+sed -e "s|@GIT_CLONE_BRANCH@|$branch|g" \
+    -e "s|@BRANCH@|custom|g" \
+    "$manifest.in" > "$manifest"
+
+unique_branch=$(git rev-parse --abbrev-ref "$branch")
+
+# Add any extra options from the user to the flatpak-builder command (e.g. --install)
+flatpak-builder build --force-clean "$manifest" --repo="$REPO"
+flatpak build-bundle "$REPO" "Clubhouse-$unique_branch.flatpak-bundle" "$app_id" custom
+popd
+
+exit $ret

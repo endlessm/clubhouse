@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# Convenience script to switch between com.endlessm.Clubhouse branches.
+#
+# Copyright (c) 2019 Endless Mobile Inc.
+#
+# Author: Philip Chimento <philip@endlessm.com>
+#
+
+branch=$1
+app_id=com.endlessm.Clubhouse
+
+if test -z "$branch"; then
+    echo "* $(flatpak list -d | grep "$app_id" | grep current | cut -f1 | cut -d/ -f3)"
+    flatpak list -d | grep "$app_id" | grep -v current | cut -f1 | cut -d/ -f3 | sed -e 's/^/  /'
+    exit 0
+fi
+
+sudo flatpak make-current "$app_id" "$branch"
