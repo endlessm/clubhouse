@@ -20,4 +20,8 @@ run_in_python_venv flake8 --config=flake8.cfg $@ || ret=$?
 
 popd
 
+if [ ! -z "$ret" ] && [ $ret -ne 0 ]; then
+    message="There are lint errors. Please fix the errors above and try to commit again."
+    echo -e "\e[01;31m$message\e[0m"
+fi
 exit $ret
