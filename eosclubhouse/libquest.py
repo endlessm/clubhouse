@@ -29,7 +29,7 @@ import time
 
 from enum import Enum
 from eosclubhouse import config, logger
-from eosclubhouse.system import App, GameStateService, Sound
+from eosclubhouse.system import App, Desktop, GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog, QS
 from gi.repository import GObject, GLib, Gio
 
@@ -566,6 +566,37 @@ class Quest(GObject.GObject):
         self._run_context.wait_for_action(async_action, timeout)
 
         app.disconnect_js_props_change(js_props_handler_id)
+        app.disconnect_running_change(running_handler_id)
+
+        return async_action
+
+    def wait_for_app_in_foreground(self, app, timeout=None):
+        assert self._run_context is not None
+        async_action = self._run_context.new_async_action()
+
+        if Desktop.is_app_in_foreground(app.dbus_name):
+            async_action.state = AsyncAction.State.DONE
+            return async_action
+
+        def _on_app_running_changed(app, async_action):
+            if not app.is_running() and not async_action.is_resolved():
+                async_action.resolve()
+
+        def _on_app_in_foreground_changed(app_in_foreground_name, app_name, async_action):
+            app_name = Desktop.get_app_desktop_name(app_name)
+            if app_in_foreground_name == app_name and not async_action.is_resolved():
+                async_action.resolve()
+
+        if async_action.is_cancelled():
+            return async_action
+
+        in_foreground_handler_id = Desktop.connect_app_in_foreground_change(
+            _on_app_in_foreground_changed, app.dbus_name, async_action)
+        running_handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
+
+        self._run_context.wait_for_action(async_action, timeout)
+
+        Desktop.disconnect_app_in_foreground_change(in_foreground_handler_id)
         app.disconnect_running_change(running_handler_id)
 
         return async_action

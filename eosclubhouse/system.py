@@ -89,6 +89,12 @@ class Desktop:
         return klass._shell_proxy
 
     @classmethod
+    def get_app_desktop_name(_klass, app_name):
+        if app_name.endswith('.desktop'):
+            return app_name
+        return app_name + '.desktop'
+
+    @classmethod
     def app_is_running(klass, name):
         try:
             klass.get_dbus_proxy().GetNameOwner('(s)', name)
@@ -107,8 +113,7 @@ class Desktop:
 
     @classmethod
     def focus_app(klass, app_name):
-        if not app_name.endswith('.desktop'):
-            app_name += '.desktop'
+        app_name = klass.get_app_desktop_name(app_name)
 
         try:
             klass.get_shell_proxy().FocusApp('(s)', app_name)
@@ -119,8 +124,7 @@ class Desktop:
 
     @classmethod
     def add_app_to_grid(klass, app_name):
-        if not app_name.endswith('.desktop'):
-            app_name += '.desktop'
+        app_name = klass.get_app_desktop_name(app_name)
 
         try:
             klass.get_shell_app_store_proxy().AddApplication('(s)', app_name)
@@ -131,8 +135,7 @@ class Desktop:
 
     @classmethod
     def remove_app_from_grid(klass, app_name):
-        if not app_name.endswith('.desktop'):
-            app_name += '.desktop'
+        app_name = klass.get_app_desktop_name(app_name)
 
         try:
             klass.get_shell_app_store_proxy().RemoveApplication('(s)', app_name)
@@ -140,6 +143,36 @@ class Desktop:
             logger.error(e)
             return False
         return True
+
+    @classmethod
+    def is_app_in_foreground(klass, app_name):
+        app_name = klass.get_app_desktop_name(app_name)
+
+        try:
+            prop = klass.get_shell_proxy().get_cached_property('FocusedApp')
+            if prop is not None:
+                return prop.unpack() == app_name
+        except GLib.Error as e:
+            logger.error(e)
+        return False
+
+    @classmethod
+    def connect_app_in_foreground_change(klass, app_in_foreground_cb, *args):
+        def _props_changed_cb(_proxy, changed_properties,
+                              _invalidated, app_in_foreground_cb, *args):
+            changed_properties_dict = changed_properties.unpack()
+            app_in_foreground = changed_properties_dict.get('FocusedApp')
+            if app_in_foreground is not None:
+                app_in_foreground_cb(app_in_foreground, *args)
+
+        shell_proxy = klass.get_shell_proxy()
+        return shell_proxy.connect('g-properties-changed', _props_changed_cb,
+                                   app_in_foreground_cb, *args)
+
+    @classmethod
+    def disconnect_app_in_foreground_change(klass, handler_id):
+        shell_proxy = klass.get_shell_proxy()
+        return shell_proxy.disconnect(handler_id)
 
 
 class App:
@@ -152,6 +185,10 @@ class App:
     def __init__(self, app_dbus_name, app_dbus_path=None):
         self._app_dbus_name = app_dbus_name
         self._app_dbus_path = app_dbus_path or ('/' + app_dbus_name.replace('.', '/'))
+
+    @property
+    def dbus_name(self):
+        return self._app_dbus_name
 
     def get_clippy_proxy(self):
         if self._clippy is None:
