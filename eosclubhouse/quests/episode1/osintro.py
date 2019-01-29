@@ -58,7 +58,7 @@ class OSIntro(Quest):
         app_changes_action = self.connect_app_js_props_changes(self._app, ['flipped'])
 
         self.wait_for_one([confirm_action, app_changes_action])
-        if confirm_action.is_done():
+        if self.confirmed_step():
             return self.step_intro
 
         return self.step_saniel
@@ -80,7 +80,7 @@ class OSIntro(Quest):
 
         self.wait_for_one([confirm_action, app_changes_action])
 
-        if confirm_action.is_done():
+        if self.confirmed_step():
             return self.step_saniel2
 
         if self._app.get_js_property('flipped'):
@@ -95,7 +95,7 @@ class OSIntro(Quest):
 
         self.wait_for_one([confirm_action, app_changes_action])
 
-        if confirm_action.is_done():
+        if self.confirmed_step():
             self.available = False
             Sound.play('quests/quest-complete')
             return self.step_wrapup
@@ -112,7 +112,7 @@ class OSIntro(Quest):
 
         self.wait_for_one([confirm_action, app_changes_action])
 
-        if confirm_action.is_done():
+        if self.confirmed_step():
             # this is the quest that makes Saniel appear
             saniel_questset = Registry.get_quest_set_by_name('SanielQuestSet')
             if saniel_questset is not None:
