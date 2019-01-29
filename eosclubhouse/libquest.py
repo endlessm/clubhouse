@@ -689,6 +689,7 @@ class Quest(GObject.GObject):
                           options.get('open_dialog_sound') or self._main_open_dialog_sound)
 
     def show_question(self, info_id=None, **options):
+        self._confirmed_step = False
         options.update({'use_confirm': True})
         self.show_message(info_id, **options)
 
