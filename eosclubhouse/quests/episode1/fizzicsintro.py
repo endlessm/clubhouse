@@ -46,13 +46,15 @@ class FizzicsIntro(Quest):
         self.wait_for_app_launch(self._app)
 
         # And delay the next step to let the game initialize its current level
-        self.set_next_step(self.step_launched, delay=1)
+        self.pause(1)
+        return self.step_launched
 
     def step_abort(self):
         Sound.play('quests/quest-aborted')
         self.show_message('ABORT')
 
-        self.set_next_step(self.stop, delay=5)
+        self.pause(5)
+        self.stop()
 
     @Quest.with_app_launched(APP_NAME, step_abort)
     def step_launched(self):
