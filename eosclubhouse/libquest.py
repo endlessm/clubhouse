@@ -266,21 +266,24 @@ class _QuestRunContext:
         return self.wait_for_action(async_action)
 
     def wait_for_action(self, async_action, timeout=None):
-        if async_action.is_cancelled():
-            return async_action
+        return self.wait_for_one([async_action], timeout)[0]
 
-        future = async_action.future
+    def wait_for_one(self, action_list, timeout=None):
+        futures = []
 
-        if future is None:
-            return async_action
+        if len(action_list) == 0:
+            return action_list
 
-        loop = self._future_get_loop(future)
+        for async_action in action_list:
+            async_action.state = AsyncAction.State.PENDING
+            futures.append(async_action.future)
 
-        async def wait_or_timeout(future, timeout=None):
-            logger.debug('Waiting for action...')
+        async def wait_or_timeout(futures, timeout=None):
+            pending = []
 
             try:
-                await asyncio.wait_for(future, timeout)
+                _done, pending = await asyncio.wait(futures, timeout=timeout,
+                                                    return_when=asyncio.FIRST_COMPLETED)
             except asyncio.TimeoutError:
                 logger.debug('Wait for action timed out.')
             except asyncio.CancelledError:
@@ -288,26 +291,38 @@ class _QuestRunContext:
             else:
                 logger.debug('Wait for action finished.')
 
-        async_action.state = AsyncAction.State.PENDING
+            for future in pending:
+                future.cancel()
 
-        self._debug_actions.add(async_action)
+        self._debug_actions = set(action_list)
+
+        loop = asyncio.get_event_loop()
 
         if not loop.is_closed():
-            loop.run_until_complete(wait_or_timeout(future, timeout))
+            loop.run_until_complete(wait_or_timeout(futures, timeout))
             loop.stop()
             loop.close()
-        else:
-            future.cancel()
 
-        if async_action in self._debug_actions:
-            self._debug_actions.remove(async_action)
+        self._debug_actions.clear()
 
-        if future.cancelled():
-            async_action.state = AsyncAction.State.CANCELLED
-        elif future.done():
-            async_action.state = AsyncAction.State.DONE
+        # Cancel any pending actions
+        for future in filter(lambda future: not future.done(), futures):
+            try:
+                future.cancel()
+            except asyncio.InvalidStateError:
+                # It may happen that the loop is already closed at this moment, but we just
+                # ignore this issue since the future is still correctly cancelled.
+                pass
 
-        return async_action
+        # Update the AsyncActions' states accordingly
+        for async_action in action_list:
+            future = async_action.future
+            if future.cancelled():
+                async_action.state = AsyncAction.State.CANCELLED
+            elif future.done():
+                async_action.state = AsyncAction.State.DONE
+
+        return action_list
 
     def debug_dispatch(self):
         if not self._cancellable.is_cancelled():
@@ -618,6 +633,9 @@ class Quest(GObject.GObject):
             self.show_question(msg_id)
 
         return self._run_context.wait_for_action(async_action, timeout)
+
+    def wait_for_one(self, action_list):
+        self._run_context.wait_for_one(action_list)
 
     def _check_timed_out(self, current_time_secs):
         if not self._check_timeout:
