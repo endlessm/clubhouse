@@ -168,7 +168,7 @@ class _QuestRunContext:
             self._confirm_action = None
 
     def get_confirm_action(self):
-        if self._confirm_action is None:
+        if self._confirm_action is None or self._confirm_action.future.done():
             self._confirm_action = self.new_async_action()
 
         return self._confirm_action
