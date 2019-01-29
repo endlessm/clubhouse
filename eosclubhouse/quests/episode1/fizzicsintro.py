@@ -35,7 +35,7 @@ class FizzicsIntro(Quest):
         self._level = -1
 
         if self._app.is_running():
-            return self.step_launched
+            return self.step_explanation
 
         self.show_hints_message('LAUNCH')
 
@@ -47,7 +47,7 @@ class FizzicsIntro(Quest):
 
         # And delay the next step to let the game initialize its current level
         self.pause(1)
-        return self.step_launched
+        return self.step_explanation
 
     def step_abort(self):
         Sound.play('quests/quest-aborted')
@@ -55,10 +55,6 @@ class FizzicsIntro(Quest):
 
         self.pause(5)
         self.stop()
-
-    @Quest.with_app_launched(APP_NAME, step_abort)
-    def step_launched(self):
-        self.set_next_step(self.step_explanation)
 
     @Quest.with_app_launched(APP_NAME, step_abort)
     def step_check_level(self):
