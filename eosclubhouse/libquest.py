@@ -618,6 +618,31 @@ class Quest(GObject.GObject):
 
         return async_action
 
+    def connect_app_js_props_changes(self, app, props):
+        assert self._run_context is not None
+
+        async_action = self._run_context.new_async_action()
+
+        def _on_app_running_changed(app, async_action):
+            if not app.is_running() and not async_action.is_resolved():
+                async_action.resolve()
+
+        js_props_handler_id = running_handler_id = 0
+
+        def _disconnect_app(_future):
+            app.disconnect_js_props_change(js_props_handler_id)
+            app.disconnect_running_change(running_handler_id)
+
+        if async_action.is_cancelled():
+            return async_action
+
+        async_action.future.add_done_callback(_disconnect_app)
+
+        js_props_handler_id = app.connect_js_props_change(props, lambda: async_action.resolve())
+        running_handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
+
+        return async_action
+
     def pause(self, secs):
         assert self._run_context is not None
         return self._run_context.pause(secs)
