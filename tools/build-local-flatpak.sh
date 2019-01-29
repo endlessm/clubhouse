@@ -19,8 +19,10 @@ pushd "$source_dir"
 # This is hacky but until we need to keep git as the source type, then it's the less intrusive.
 GIT_CLONE_BRANCH=${GIT_CLONE_BRANCH:-'", "type": "dir'}
 REPO=${REPO:-repo}
+BRANCH=${BRANCH:-master}
 
 sed -e "s|@GIT_CLONE_BRANCH@|${GIT_CLONE_BRANCH}|g" \
+    -e "s|@BRANCH@|${BRANCH}|g" \
   com.endlessm.Clubhouse.json.in > com.endlessm.Clubhouse.json
 
 # Add any extra options from the user to the flatpak-builder command (e.g. --install)
