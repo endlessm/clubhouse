@@ -185,7 +185,7 @@ class _QuestRunContext:
         self.reset_step_timeout()
         self._timeout_handle = self._step_loop.call_later(self.step_timeout, self.cancel)
 
-    def set_next_step(self, step_func, delay=0, args=()):
+    def set_next_step(self, step_func, *args):
         def _run_step(step_func_data):
             step_func, args_ = step_func_data
 
@@ -199,16 +199,15 @@ class _QuestRunContext:
 
             # Set the next step according to the result
             next_step_func = result
-            next_step_delay = 0
             next_step_args = ()
 
             if isinstance(result, tuple):
                 if len(result) > 1:
-                    next_step_delay = result[1]
-                if len(result) > 2:
-                    next_step_args = result[2:]
+                    next_step_func = result[0]
 
-            self.set_next_step(next_step_func, next_step_delay, next_step_args)
+                next_step_args = result[1:]
+
+            self.set_next_step(next_step_func, *next_step_args)
 
         if self._cancellable.is_cancelled() or self._step_loop.is_closed():
             return
@@ -216,7 +215,7 @@ class _QuestRunContext:
         self.reset_step_timeout()
 
         self._step_loop.call_later(self.step_timeout, self.cancel)
-        self._step_loop.call_later(delay, functools.partial(_run_step, (step_func, args)))
+        self._step_loop.call_soon(functools.partial(_run_step, (step_func, args)))
 
     def run(self, first_step=None):
         if self._cancellable.is_cancelled():
