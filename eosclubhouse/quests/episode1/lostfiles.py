@@ -15,7 +15,7 @@ class LostFiles(Quest):
             return
         # TODO: Add delay before offering this quest. Maybe 10-30
         # minutes after the Hackdex Corruption one?
-        if self.is_named_quest_complete("HackdexCorruption"):
+        if self.is_named_quest_complete("Hackdex1"):
             self.available = True
 
     def step_first(self, time_in_step):

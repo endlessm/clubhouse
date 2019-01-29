@@ -2,7 +2,7 @@ from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Desktop, App, Sound
 
 
-class HackdexCorruption(Quest):
+class Hackdex1(Quest):
 
     TARGET_APP_DBUS_NAME = 'com.endlessm.Hackdex_chapter_one'
 
