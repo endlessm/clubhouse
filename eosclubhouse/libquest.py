@@ -394,6 +394,9 @@ class Quest(GObject.GObject):
             if label:
                 self.reject_label = label
 
+        if self._initial_msg is None:
+            logger.critical('Initial message is missing for quest %r', self._qs_base_id)
+
         self._characters = {}
 
         self._main_character_id = main_character_id
