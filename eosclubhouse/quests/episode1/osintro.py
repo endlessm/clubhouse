@@ -4,153 +4,129 @@ from eosclubhouse.system import Desktop, App, Sound
 
 class OSIntro(Quest):
 
-    TARGET_APP_DBUS_NAME = 'com.endlessm.OperatingSystemApp'
+    APP_NAME = 'com.endlessm.OperatingSystemApp'
 
     def __init__(self):
         super().__init__('OS Intro', 'ada')
-        self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._current_step = None
-        self._clicked = False
+        self._app = App(self.APP_NAME)
 
-    # STEP 0
-    def step_first(self, time_in_step):
-        if time_in_step == 0:
-            self._current_step = None
-            self._clicked = False
-            self.show_question('PRELAUNCH')
+    def step_begin(self):
+        self.wait_confirm('PRELAUNCH')
+        return self.step_launch
 
-        if self.confirmed_step():
-            return self.step_launch
+    def step_launch(self):
+        self.show_hints_message('LAUNCH')
 
-    def step_launch(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('LAUNCH')
+        if not self._app.is_running():
             Sound.play('quests/new-icon')
-            Desktop.add_app_to_grid(self.TARGET_APP_DBUS_NAME)
-            Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
+            Desktop.add_app_to_grid(self.APP_NAME)
+            Desktop.focus_app(self.APP_NAME)
+            self.wait_for_app_launch(self._app)
 
-        if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_explanation
+        return self.step_explanation
 
-    def step_explanation(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/step-forward')
-            self.show_question('EXPLANATION')
+    def step_abort(self):
+        Sound.play('quests/quest-aborted')
+        self.show_message('ABORT')
+
+        self.pause(5)
+        self.stop()
+
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_explanation(self):
+        if self._app.get_js_property('flipped'):
+            return self.step_saniel_flip
+
+        msg_id = 'CLICK' if self._app.get_js_property('clicked') else 'EXPLANATION'
+        confirm_action = self.show_confirm_message(msg_id)
+        app_changes_action = self.connect_app_js_props_changes(self._app, ['flipped', 'clicked'])
+
+        self.wait_for_one([confirm_action, app_changes_action])
 
         if self.confirmed_step():
             return self.step_saniel
-        try:
-            if self._app.get_js_property('flipped'):
-                return self.step_saniel_flip
-            if not self._clicked and self._app.get_js_property('clicked'):
-                self.show_question('CLICK')
-                self._clicked = True
-            elif self._clicked and not self._app.get_js_property('clicked'):
-                self.show_question('EXPLANATION')
-                self._clicked = False
-        except Exception as e:
-            print(e)
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
 
-    def step_saniel(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/saniel-intro')
-            self.show_question('SANIEL')
+        return self.step_explanation
 
-        if self.confirmed_step():
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_saniel(self):
+        if self._app.get_js_property('flipped'):
+            return self.step_flipped, self.step_saniel
+
+        Sound.play('quests/saniel-intro')
+        confirm_action = self.show_confirm_message('SANIEL')
+        app_changes_action = self.connect_app_js_props_changes(self._app, ['flipped'])
+
+        self.wait_for_one([confirm_action, app_changes_action])
+        if confirm_action.is_done():
             return self.step_intro
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
-        try:
-            if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
-                self._current_step = self.step_saniel
-                return self.step_flipped
-        except Exception as e:
-            print(e)
 
-    def step_saniel_flip(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/saniel-angry')
-            self.show_hints_message('SANIEL_FLIP')
+        return self.step_saniel
 
-        try:
-            if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
-                return self.step_intro
-        except Exception as e:
-            print(e)
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_saniel_flip(self):
+        if not self._app.get_js_property('flipped'):
+            return self.step_intro
 
-    def step_intro(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('INTRO')
+        Sound.play('quests/saniel-angry')
+        self.show_hints_message('SANIEL_FLIP')
+        self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_saniel_flip
 
-        if self.confirmed_step():
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_intro(self):
+        confirm_action = self.show_confirm_message('INTRO')
+        app_changes_action = self.connect_app_js_props_changes(self._app, ['flipped'])
+
+        self.wait_for_one([confirm_action, app_changes_action])
+
+        if confirm_action.is_done():
             return self.step_saniel2
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
-        try:
-            if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
-                self._current_step = self.step_intro
-                return self.step_flipped
-        except Exception as e:
-            print(e)
 
-    def step_saniel2(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('SANIEL2')
+        if self._app.get_js_property('flipped'):
+            return self.step_flipped, self.step_intro
 
-        if self.confirmed_step():
-            # We're putting this here to avoid getting multiple sounds in the last step
-            # as they flip to the other side.
-            self.conf['complete'] = True
+        return self.step_intro
+
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_saniel2(self):
+        confirm_action = self.show_confirm_message('SANIEL2')
+        app_changes_action = self.connect_app_js_props_changes(self._app, ['flipped'])
+
+        self.wait_for_one([confirm_action, app_changes_action])
+
+        if confirm_action.is_done():
             self.available = False
             Sound.play('quests/quest-complete')
             return self.step_wrapup
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
-        try:
-            if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
-                self._current_step = self.step_saniel2
-                return self.step_flipped
-        except Exception as e:
-            print(e)
 
-    def step_wrapup(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('WRAPUP')
+        if self._app.get_js_property('flipped'):
+            return self.step_flipped, self.step_saniel2
 
+        return self.step_saniel2
+
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_wrapup(self):
+        confirm_action = self.show_confirm_message('WRAPUP')
+        app_changes_action = self.connect_app_js_props_changes(self._app, ['flipped'])
+
+        self.wait_for_one([confirm_action, app_changes_action])
+
+        if confirm_action.is_done():
             # this is the quest that makes Saniel appear
             saniel_questset = Registry.get_quest_set_by_name('SanielQuestSet')
             if saniel_questset is not None:
                 saniel_questset.visible = True
+            return self.stop
 
-        try:
-            if self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
-                self._current_step = self.step_wrapup
-                return self.step_flipped
-        except Exception as e:
-            print(e)
+        if self._app.get_js_property('flipped'):
+            return self.step_flipped, self.step_wrapup
 
-        if self.confirmed_step():
-            self.stop()
+        return self.step_saniel2
 
-    def step_flipped(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/saniel-angry')
-            self.show_hints_message('FLIPPED')
-        try:
-            if not self._app.get_object_property('view.JSContext.globalParameters', 'flipped'):
-                return self._current_step
-        except Exception as e:
-            print(e)
-
-    # STEP Abort
-    def step_abort(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/quest-aborted')
-            self.show_message('ABORT')
-
-        if time_in_step > 5:
-            self.stop()
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_flipped(self, next_step):
+        Sound.play('quests/saniel-angry')
+        self.show_hints_message('FLIPPED')
+        self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return next_step
