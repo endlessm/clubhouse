@@ -62,16 +62,16 @@ class FizzicsIntro(Quest):
     def step_check_level(self):
         level = self.get_current_level()
 
-        if level <= 1:
+        if level < 1:
             self.show_hints_message('LEVEL1')
-        elif level == 2:
+        elif level == 1:
             Sound.play('quests/step-forward')
             self.show_hints_message('LEVEL2')
         else:
             self.wait_confirm('SUCCESS')
             return self.step_key
 
-        self.wait_for_app_js_props_changed(self._app, ['levelSuccess'])
+        self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'currentLevel'])
         return self.step_check_level
 
     @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
