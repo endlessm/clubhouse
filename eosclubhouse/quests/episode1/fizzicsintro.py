@@ -62,9 +62,9 @@ class FizzicsIntro(Quest):
     def step_check_level(self):
         level = self.get_current_level()
 
-        if level <= 1:
+        if level < 1:
             self.show_hints_message('LEVEL1')
-        elif level == 2:
+        elif level == 1:
             Sound.play('quests/step-forward')
             self.show_hints_message('LEVEL2')
         else:
