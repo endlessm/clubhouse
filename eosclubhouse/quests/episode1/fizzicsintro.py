@@ -71,7 +71,7 @@ class FizzicsIntro(Quest):
             self.wait_confirm('SUCCESS')
             return self.step_key
 
-        self.wait_for_app_js_props_changed(self._app, ['levelSuccess'])
+        self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'currentLevel'])
         return self.step_check_level
 
     @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
