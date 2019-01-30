@@ -403,6 +403,7 @@ class Quest(GObject.GObject):
 
         self._qs_base_id = self.get_default_qs_base_id()
         self._initial_msg = initial_msg
+        self._last_msg = None
 
         if self._initial_msg is None:
             self._initial_msg = self._get_initial_msg_from_qs()
@@ -668,6 +669,7 @@ class Quest(GObject.GObject):
         self._timeout_start = -1
 
     def set_to_background(self):
+        self._last_msg = None
         self._check_timeout = True
 
     def set_to_foreground(self):
@@ -698,8 +700,12 @@ class Quest(GObject.GObject):
         return self._main_character_id
 
     def show_message(self, info_id=None, **options):
+        if info_id == self._last_msg:
+            return
+
         if info_id is not None:
             full_info_id = self._qs_base_id + '_' + info_id
+            self._last_msg = info_id
             info = QuestStringCatalog.get_info(full_info_id)
 
             # Fallback to the given info_id if no string was found
