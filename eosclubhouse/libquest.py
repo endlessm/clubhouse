@@ -168,7 +168,7 @@ class _QuestRunContext:
             self._confirm_action = None
 
     def get_confirm_action(self):
-        if self._confirm_action is None:
+        if self._confirm_action is None or self._confirm_action.future.done():
             self._confirm_action = self.new_async_action()
 
         return self._confirm_action
@@ -185,7 +185,7 @@ class _QuestRunContext:
         self.reset_step_timeout()
         self._timeout_handle = self._step_loop.call_later(self.step_timeout, self.cancel)
 
-    def set_next_step(self, step_func, delay=0, args=()):
+    def set_next_step(self, step_func, *args):
         def _run_step(step_func_data):
             step_func, args_ = step_func_data
 
@@ -199,16 +199,15 @@ class _QuestRunContext:
 
             # Set the next step according to the result
             next_step_func = result
-            next_step_delay = 0
             next_step_args = ()
 
             if isinstance(result, tuple):
                 if len(result) > 1:
-                    next_step_delay = result[1]
-                if len(result) > 2:
-                    next_step_args = result[2:]
+                    next_step_func = result[0]
 
-            self.set_next_step(next_step_func, next_step_delay, next_step_args)
+                next_step_args = result[1:]
+
+            self.set_next_step(next_step_func, *next_step_args)
 
         if self._cancellable.is_cancelled() or self._step_loop.is_closed():
             return
@@ -216,7 +215,7 @@ class _QuestRunContext:
         self.reset_step_timeout()
 
         self._step_loop.call_later(self.step_timeout, self.cancel)
-        self._step_loop.call_later(delay, functools.partial(_run_step, (step_func, args)))
+        self._step_loop.call_soon(functools.partial(_run_step, (step_func, args)))
 
     def run(self, first_step=None):
         if self._cancellable.is_cancelled():
@@ -236,6 +235,7 @@ class _QuestRunContext:
             async_action.state = AsyncAction.State.CANCELLED
             return async_action
 
+        async_action.run_context = self
         async_action.future = future or self._new_future()
 
         return async_action
@@ -267,21 +267,24 @@ class _QuestRunContext:
         return self.wait_for_action(async_action)
 
     def wait_for_action(self, async_action, timeout=None):
-        if async_action.is_cancelled():
-            return async_action
+        return self.wait_for_one([async_action], timeout)[0]
 
-        future = async_action.future
+    def wait_for_one(self, action_list, timeout=None):
+        futures = []
 
-        if future is None:
-            return async_action
+        if len(action_list) == 0:
+            return action_list
 
-        loop = self._future_get_loop(future)
+        for async_action in action_list:
+            async_action.state = AsyncAction.State.PENDING
+            futures.append(async_action.future)
 
-        async def wait_or_timeout(future, timeout=None):
-            logger.debug('Waiting for action...')
+        async def wait_or_timeout(futures, timeout=None):
+            pending = []
 
             try:
-                await asyncio.wait_for(future, timeout)
+                _done, pending = await asyncio.wait(futures, timeout=timeout,
+                                                    return_when=asyncio.FIRST_COMPLETED)
             except asyncio.TimeoutError:
                 logger.debug('Wait for action timed out.')
             except asyncio.CancelledError:
@@ -289,26 +292,38 @@ class _QuestRunContext:
             else:
                 logger.debug('Wait for action finished.')
 
-        async_action.state = AsyncAction.State.PENDING
+            for future in pending:
+                future.cancel()
 
-        self._debug_actions.add(async_action)
+        self._debug_actions = set(action_list)
+
+        loop = asyncio.get_event_loop()
 
         if not loop.is_closed():
-            loop.run_until_complete(wait_or_timeout(future, timeout))
+            loop.run_until_complete(wait_or_timeout(futures, timeout))
             loop.stop()
             loop.close()
-        else:
-            future.cancel()
 
-        if async_action in self._debug_actions:
-            self._debug_actions.remove(async_action)
+        self._debug_actions.clear()
 
-        if future.cancelled():
-            async_action.state = AsyncAction.State.CANCELLED
-        elif future.done():
-            async_action.state = AsyncAction.State.DONE
+        # Cancel any pending actions
+        for future in filter(lambda future: not future.done(), futures):
+            try:
+                future.cancel()
+            except asyncio.InvalidStateError:
+                # It may happen that the loop is already closed at this moment, but we just
+                # ignore this issue since the future is still correctly cancelled.
+                pass
 
-        return async_action
+        # Update the AsyncActions' states accordingly
+        for async_action in action_list:
+            future = async_action.future
+            if future.cancelled():
+                async_action.state = AsyncAction.State.CANCELLED
+            elif future.done():
+                async_action.state = AsyncAction.State.DONE
+
+        return action_list
 
     def debug_dispatch(self):
         if not self._cancellable.is_cancelled():
@@ -324,6 +339,7 @@ class AsyncAction:
 
     def __init__(self):
         self._state = self.State.UNKNOWN
+        self.run_context = None
         self.future = None
 
     def is_done(self):
@@ -344,6 +360,11 @@ class AsyncAction:
             return self.future.done()
 
         return self._state != self.State.PENDING and self._state != self.State.UNKNOWN
+
+    def wait(self, timeout=None):
+        assert self.run_context is not None
+        self.run_context.wait_for_action(self, timeout)
+        return self
 
     @property
     def state(self):
@@ -551,27 +572,7 @@ class Quest(GObject.GObject):
         return async_action
 
     def wait_for_app_js_props_changed(self, app, props, timeout=None):
-        assert self._run_context is not None
-
-        async_action = self._run_context.new_async_action()
-
-        def _on_app_running_changed(app, async_action):
-
-            if not app.is_running() and not async_action.is_resolved():
-                async_action.resolve()
-
-        if async_action.is_cancelled():
-            return async_action
-
-        js_props_handler_id = app.connect_js_props_change(props, lambda: async_action.resolve())
-        running_handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
-
-        self._run_context.wait_for_action(async_action, timeout)
-
-        app.disconnect_js_props_change(js_props_handler_id)
-        app.disconnect_running_change(running_handler_id)
-
-        return async_action
+        return self.connect_app_js_props_changes(app, props).wait(timeout)
 
     def wait_for_app_in_foreground(self, app, timeout=None):
         assert self._run_context is not None
@@ -604,21 +605,51 @@ class Quest(GObject.GObject):
 
         return async_action
 
+    def connect_app_js_props_changes(self, app, props):
+        assert self._run_context is not None
+
+        async_action = self._run_context.new_async_action()
+
+        def _on_app_running_changed(app, async_action):
+            if not app.is_running() and not async_action.is_resolved():
+                async_action.resolve()
+
+        js_props_handler_id = running_handler_id = 0
+
+        def _disconnect_app(_future):
+            app.disconnect_js_props_change(js_props_handler_id)
+            app.disconnect_running_change(running_handler_id)
+
+        if async_action.is_cancelled():
+            return async_action
+
+        async_action.future.add_done_callback(_disconnect_app)
+
+        js_props_handler_id = app.connect_js_props_change(props, lambda: async_action.resolve())
+        running_handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
+
+        return async_action
+
     def pause(self, secs):
         assert self._run_context is not None
         return self._run_context.pause(secs)
 
     def wait_confirm(self, msg_id=None, timeout=None):
+        return self.show_confirm_message(msg_id).wait(timeout)
+
+    def show_confirm_message(self, msg_id):
         assert self._run_context is not None
 
         async_action = self._run_context.get_confirm_action()
         if async_action is None or async_action.is_cancelled():
             return async_action
 
-        if msg_id is not None:
-            self.show_question(msg_id)
+        self.show_question(msg_id)
 
-        return self._run_context.wait_for_action(async_action, timeout)
+        return async_action
+
+    def wait_for_one(self, action_list):
+        self._run_context.wait_for_one(action_list)
 
     def _check_timed_out(self, current_time_secs):
         if not self._check_timeout:
@@ -690,6 +721,7 @@ class Quest(GObject.GObject):
                           options.get('open_dialog_sound') or self._main_open_dialog_sound)
 
     def show_question(self, info_id=None, **options):
+        self._confirmed_step = False
         options.update({'use_confirm': True})
         self.show_message(info_id, **options)
 

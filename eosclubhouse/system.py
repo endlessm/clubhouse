@@ -220,6 +220,8 @@ class App:
         return self.get_gtk_app_proxy().props.g_name_owner is not None
 
     def get_object_property(self, obj, prop):
+        if not self.is_running():
+            return None
         return self.get_clippy_proxy().Get('(ss)', obj, prop)
 
     def set_object_property(self, obj, prop, value):
