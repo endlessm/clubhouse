@@ -23,6 +23,7 @@ import csv
 import glob
 import itertools
 import os
+import re
 import time
 
 from collections import OrderedDict
@@ -229,3 +230,20 @@ class EpisodesDB(_DictFromCSV):
         episode = class_.get_episode(current_episode)
         return [v for k, v in class_.get_all_episodes()
                 if v.season == episode.season and v.number > episode.number]
+
+
+class SimpleMarkupParser:
+
+    _convertions = [
+        [re.compile(r'(\*)(?=\S)(.+?)(?<=\S)\1', re.S), r'<b>\2</b>'],  # bold
+        [re.compile(r'(_)(?=\S)(.+?)(?<=\S)\1', re.S), r'<i>\2</i>'],  # italics
+        [re.compile(r'(~)(?=\S)(.+?)(?<=\S)\1', re.S), r'<s>\2</s>'],  # strikethrough
+        [re.compile(r'(`)(?=\S)(.+?)(?<=\S)\1', re.S),  # inline code
+         r'<tt><span foreground="#E01E5A" background="#E9E9EB" size="small">\2</span></tt>'],
+    ]
+
+    @classmethod
+    def parse(class_, text):
+        for regex, replacement in class_._convertions:
+            text = regex.sub(replacement, text)
+        return text
