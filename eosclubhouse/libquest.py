@@ -404,6 +404,7 @@ class Quest(GObject.GObject):
         self._qs_base_id = self.get_default_qs_base_id()
         self._initial_msg = initial_msg
         self._last_msg = None
+        self._last_hint_msg = None
 
         if self._initial_msg is None:
             self._initial_msg = self._get_initial_msg_from_qs()
@@ -670,6 +671,7 @@ class Quest(GObject.GObject):
 
     def set_to_background(self):
         self._last_msg = None
+        self._last_hint_msg = None
         self._check_timeout = True
 
     def set_to_foreground(self):
@@ -751,6 +753,10 @@ class Quest(GObject.GObject):
         if info_id_list is None:
             full_info_id = info_id
             info_id_list = QuestStringCatalog.get_hint_keys(full_info_id)
+
+        if full_info_id == self._last_hint_msg:
+            return
+        self._last_hint_msg = full_info_id
 
         if len(info_id_list) == 1:
             logger.warning('Asked for messages hints, but no hints were found for ID %s; '
