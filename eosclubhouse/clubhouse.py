@@ -583,6 +583,8 @@ class ClubhousePage(Gtk.EventBox):
         notification.add_button('OK', 'app.item-accept-answer')
         notification.add_button('Show me', "app.show-page('{}')".format('inventory'))
 
+        Sound.play('quests/key-given')
+
         self._app.send_quest_item_notification(notification)
 
     def show_message(self, txt, answer_choices=[]):
