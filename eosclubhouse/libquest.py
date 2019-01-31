@@ -847,10 +847,10 @@ class Quest(GObject.GObject):
             nonlocal app_name
             app = App(app_name)
 
-            def wrapped_func(*args):
+            def wrapped_func(instance, *args):
                 if app.is_running():
-                    return func(*args)
-                return otherwise(*args)
+                    return func(instance, *args)
+                return otherwise(instance)
 
             return wrapped_func
 
