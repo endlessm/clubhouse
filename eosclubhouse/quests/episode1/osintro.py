@@ -96,6 +96,7 @@ class OSIntro(Quest):
         self.wait_for_one([confirm_action, app_changes_action])
 
         if self.confirmed_step():
+            self.conf['complete'] = True
             self.available = False
             Sound.play('quests/quest-complete')
             return self.step_wrapup
