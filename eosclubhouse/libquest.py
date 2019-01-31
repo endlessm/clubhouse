@@ -630,6 +630,25 @@ class Quest(GObject.GObject):
 
         return async_action
 
+    def connect_gss_changes(self):
+        assert self._run_context is not None
+
+        async_action = self._run_context.new_async_action()
+
+        gss_changes_handler_id = 0
+
+        def _disconnect_gss(_future):
+            self.gss.disconnect(gss_changes_handler_id)
+
+        if async_action.is_cancelled():
+            return async_action
+
+        async_action.future.add_done_callback(_disconnect_gss)
+
+        gss_changes_handler_id = self.gss.connect('changed', lambda _gss: async_action.resolve())
+
+        return async_action
+
     def pause(self, secs):
         assert self._run_context is not None
         return self._run_context.pause(secs)
