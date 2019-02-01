@@ -625,6 +625,9 @@ class Quest(GObject.GObject):
             app.disconnect_js_props_change(js_props_handler_id)
             app.disconnect_running_change(running_handler_id)
 
+        if not app.is_running():
+            async_action.cancel()
+
         if async_action.is_cancelled():
             return async_action
 
