@@ -36,12 +36,10 @@ class FizzicsCode2(Quest):
             return self.step_flip
 
     def step_flip(self, time_in_step):
-        try:
-            # Check for flipping the app
-            if self._app.get_js_property('flipped'):
-                return self.step_explanation
-        except Exception as ex:
-            print(ex)
+        # Check for flipping the app
+        if self._app.get_js_property('flipped'):
+            return self.step_explanation
+
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
@@ -55,11 +53,9 @@ class FizzicsCode2(Quest):
             Sound.play('quests/step-forward')
             self.show_hints_message('EXPLANATION')
 
-        try:
-            if self._app.get_js_property('gravity_0') < 0:
-                return self.step_end
-        except Exception as ex:
-            print(ex)
+        if self._app.get_js_property('gravity_0', 0) < 0:
+            return self.step_end
+
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort

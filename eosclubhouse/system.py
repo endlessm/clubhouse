@@ -220,8 +220,6 @@ class App:
         return self.get_gtk_app_proxy().props.g_name_owner is not None
 
     def get_object_property(self, obj, prop):
-        if not self.is_running():
-            return None
         return self.get_clippy_proxy().Get('(ss)', obj, prop)
 
     def set_object_property(self, obj, prop, value):
@@ -255,8 +253,15 @@ class App:
 
         return self.get_clippy_proxy().Set('(ssv)', obj, prop, variant)
 
-    def get_js_property(self, prop):
-        return self.get_object_property(self.APP_JS_PARAMS, prop)
+    def get_js_property(self, prop, default_value=None):
+        value = default_value
+
+        try:
+            value = self.get_object_property(self.APP_JS_PARAMS, prop)
+        except Exception as e:
+            logger.debug(e)
+
+        return value
 
     def set_js_property(self, prop, value):
         return self.set_object_property(self.APP_JS_PARAMS, prop, value)

@@ -51,11 +51,9 @@ class Fizzics2(Quest):
             Sound.play('quests/step-forward')
             self.show_hints_message('GOAL')
 
-        try:
-            if self._app.get_js_property('quest0Success'):
-                return self.step_success
-        except Exception as ex:
-            print(ex)
+        if self._app.get_js_property('quest0Success'):
+            return self.step_success
+
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
 
