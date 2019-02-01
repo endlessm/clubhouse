@@ -633,7 +633,16 @@ class Quest(GObject.GObject):
 
         async_action.future.add_done_callback(_disconnect_app)
 
-        js_props_handler_id = app.connect_js_props_change(props, lambda: async_action.resolve())
+        try:
+            js_props_handler_id = app.connect_js_props_change(props, lambda: async_action.resolve())
+        except GLib.Error as e:
+            # Prevent any D-Bus errors (like ServiceUnknown when the app has been quit)
+            logger.debug('Could not connect to app "%s" js property changes: %s',
+                         app.dbus_name, e.get_message())
+
+            async_action.cancel()
+            return async_action
+
         running_handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
 
         return async_action
