@@ -355,6 +355,11 @@ class AsyncAction:
         if self.future is not None and not self.future.done():
             self.future.set_result(True)
 
+    def cancel(self):
+        if self.future is not None and not self.future.done():
+            self.future.cancel()
+        self._state = self.State.CANCELLED
+
     def is_resolved(self):
         if self.future is not None:
             return self.future.done()
