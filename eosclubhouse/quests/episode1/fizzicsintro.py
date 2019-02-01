@@ -16,13 +16,13 @@ class FizzicsIntro(Quest):
             self._level += 1
             return self._level
 
-        level = -1
         success = False
-        try:
-            level = self._app.get_js_property('currentLevel')
+        level = self._app.get_js_property('currentLevel')
+
+        if level is None:
+            level = -1
+        else:
             success = self._app.get_js_property('levelSuccess')
-        except Exception as ex:
-            print(ex)
 
         self._level = level
 
@@ -69,7 +69,11 @@ class FizzicsIntro(Quest):
             self.wait_confirm('SUCCESS')
             return self.step_key
 
-        self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'currentLevel'])
+        async_action = self.wait_for_app_js_props_changed(self._app,
+                                                          ['levelSuccess', 'currentLevel'])
+        if async_action.is_cancelled():
+            return self.step_abort
+
         return self.step_check_level
 
     @Quest.with_app_launched(APP_NAME, otherwise=step_abort)

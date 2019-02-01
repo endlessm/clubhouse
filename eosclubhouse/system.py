@@ -220,8 +220,6 @@ class App:
         return self.get_gtk_app_proxy().props.g_name_owner is not None
 
     def get_object_property(self, obj, prop):
-        if not self.is_running():
-            return None
         return self.get_clippy_proxy().Get('(ss)', obj, prop)
 
     def set_object_property(self, obj, prop, value):
@@ -255,21 +253,38 @@ class App:
 
         return self.get_clippy_proxy().Set('(ssv)', obj, prop, variant)
 
-    def get_js_property(self, prop):
-        return self.get_object_property(self.APP_JS_PARAMS, prop)
+    def get_js_property(self, prop, default_value=None):
+        value = default_value
+
+        try:
+            value = self.get_object_property(self.APP_JS_PARAMS, prop)
+        except Exception as e:
+            logger.debug(e)
+
+        return value
 
     def set_js_property(self, prop, value):
         return self.set_object_property(self.APP_JS_PARAMS, prop, value)
 
     def connect_js_props_change(self, props, js_property_changed_cb, *args):
+        # Check if the properties really changed, because in older versions of
+        # Clippy, it was notifying always, instead of only if the value of the
+        # property had changed.
+        # @todo: Remove once it's safe for our users to use this logic without this
+        # safeguard.
+        values = {}
+        for prop in props:
+            values[prop] = self.get_js_property(prop)
+
         def _props_changed_cb(_proxy, _owner, signal_name, params, props, js_property_changed_cb,
                               *args):
             if signal_name != 'ObjectNotify':
                 return
 
-            _notify_obj, notify_prop, _value = params.unpack()
+            _notify_obj, notify_prop, value = params.unpack()
 
-            if notify_prop in props:
+            if notify_prop in props and value != values[notify_prop]:
+                values[notify_prop] = value
                 js_property_changed_cb(*args)
 
         for prop in props:

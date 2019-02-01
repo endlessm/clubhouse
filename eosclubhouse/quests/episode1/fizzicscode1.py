@@ -57,15 +57,12 @@ class FizzicsCode1(Quest):
 
     def step_explanation1(self, time_in_step):
         if time_in_step == 0:
-            self._prev_radius = self._app.get_js_property('radius_0')
+            self._prev_radius = self._app.get_js_property('radius_0', 0)
             Sound.play('quests/step-forward')
             self.show_hints_message('EXPLANATION1')
 
-        try:
-            if self._app.get_js_property('radius_0') != self._prev_radius:
-                return self.step_explanation2
-        except Exception as ex:
-            print(ex)
+        if self._app.get_js_property('radius_0', self._prev_radius) != self._prev_radius:
+            return self.step_explanation2
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort
@@ -80,12 +77,10 @@ class FizzicsCode1(Quest):
         if time_in_step < 4:
             return
         if self._prev_radius == -10000:
-            self._prev_radius = self._app.get_js_property('radius_0')
-        try:
-            if self._app.get_js_property('radius_0') != self._prev_radius:
-                return self.step_end
-        except Exception as ex:
-            print(ex)
+            self._prev_radius = self._app.get_js_property('radius_0', 0)
+
+        if self._app.get_js_property('radius_0', self._prev_radius) != self._prev_radius:
+            return self.step_end
         # Check for abandoning the app
         if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
             return self.step_abort

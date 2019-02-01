@@ -355,6 +355,11 @@ class AsyncAction:
         if self.future is not None and not self.future.done():
             self.future.set_result(True)
 
+    def cancel(self):
+        if self.future is not None and not self.future.done():
+            self.future.cancel()
+        self._state = self.State.CANCELLED
+
     def is_resolved(self):
         if self.future is not None:
             return self.future.done()
@@ -620,12 +625,24 @@ class Quest(GObject.GObject):
             app.disconnect_js_props_change(js_props_handler_id)
             app.disconnect_running_change(running_handler_id)
 
+        if not app.is_running():
+            async_action.cancel()
+
         if async_action.is_cancelled():
             return async_action
 
         async_action.future.add_done_callback(_disconnect_app)
 
-        js_props_handler_id = app.connect_js_props_change(props, lambda: async_action.resolve())
+        try:
+            js_props_handler_id = app.connect_js_props_change(props, lambda: async_action.resolve())
+        except GLib.Error as e:
+            # Prevent any D-Bus errors (like ServiceUnknown when the app has been quit)
+            logger.debug('Could not connect to app "%s" js property changes: %s',
+                         app.dbus_name, e.get_message())
+
+            async_action.cancel()
+            return async_action
+
         running_handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
 
         return async_action
