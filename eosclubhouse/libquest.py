@@ -666,6 +666,34 @@ class Quest(GObject.GObject):
 
         return async_action
 
+    def connect_settings_changes(self, settings, keys_list):
+        assert self._run_context is not None
+
+        async_action = self._run_context.new_async_action()
+
+        if async_action.is_cancelled():
+            return async_action
+
+        settings_changes_handler_id = 0
+
+        def _disconnect_settings(_future=None):
+            nonlocal settings_changes_handler_id
+            nonlocal settings
+            if settings_changes_handler_id > 0:
+                settings.disconnect(settings_changes_handler_id)
+                settings_changes_handler_id = 0
+
+        def _on_settings_changed(_settings, key, keys_list):
+            _disconnect_settings()
+            if key in keys_list:
+                async_action.resolve()
+
+        async_action.future.add_done_callback(_disconnect_settings)
+
+        settings_changes_handler_id = settings.connect('changed', _on_settings_changed, keys_list)
+
+        return async_action
+
     def pause(self, secs):
         assert self._run_context is not None
         return self._run_context.pause(secs)
