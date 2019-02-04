@@ -701,11 +701,17 @@ class Quest(GObject.GObject):
     def wait_confirm(self, msg_id=None, timeout=None):
         return self.show_confirm_message(msg_id).wait(timeout)
 
-    def show_confirm_message(self, msg_id):
+    def get_confirm_action(self):
         assert self._run_context is not None
 
         async_action = self._run_context.get_confirm_action()
-        if async_action is None or async_action.is_cancelled():
+        return async_action
+
+    def show_confirm_message(self, msg_id):
+        assert self._run_context is not None
+
+        async_action = self.get_confirm_action()
+        if async_action.is_cancelled():
             return async_action
 
         self.show_question(msg_id)
