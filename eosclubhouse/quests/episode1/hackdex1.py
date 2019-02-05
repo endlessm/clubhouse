@@ -4,11 +4,11 @@ from eosclubhouse.system import Desktop, App, Sound
 
 class Hackdex1(Quest):
 
-    TARGET_APP_DBUS_NAME = 'com.endlessm.Hackdex_chapter_one'
+    APP_NAME = 'com.endlessm.Hackdex_chapter_one'
 
     def __init__(self):
         super().__init__('Hackdex Corruption', 'saniel')
-        self._app = App(self.TARGET_APP_DBUS_NAME)
+        self._app = App(self.APP_NAME)
         self.gss.connect('changed', self.update_availability)
         self.available = False
         self.update_availability()
@@ -20,44 +20,53 @@ class Hackdex1(Quest):
            self.is_named_quest_complete("Roster"):
             self.available = True
 
-    # STEP 0
-    def step_first(self, time_in_step):
-        if time_in_step == 0:
-            self.gss.set('app.com_endlessm_Hackdex_chapter_one.corruption',
-                         {'state': 'corrupted', 'color': ''})
-            self.show_question('PRELAUNCH')
-        if self.confirmed_step():
+    def step_begin(self):
+        self.gss.set('app.com_endlessm_Hackdex_chapter_one.corruption',
+                     {'state': 'corrupted', 'color': ''})
+        self.wait_confirm('PRELAUNCH')
+
+        if not self._app.is_running():
             return self.step_launch
 
-    def step_launch(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('LAUNCH')
-            Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
+        return self.step_explanation
 
-        if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_delay1
+    def step_launch(self):
+        self.show_hints_message('LAUNCH')
+        Desktop.focus_app(self.APP_NAME)
 
-    def step_delay1(self, time_in_step):
-        if time_in_step > 2:
-            return self.step_explanation
+        self.wait_for_app_launch(self._app)
+        self.pause(2)
 
-    def step_explanation(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/step-forward')
-            self.show_hints_message('GOAL')
+        return self.step_explanation
 
+    def step_abort(self):
+        Sound.play('quests/quest-aborted')
+        self.show_message('ABORT')
+
+        self.pause(5)
+        self.stop()
+
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_explanation(self):
+        Sound.play('quests/step-forward')
+        self.show_hints_message('GOAL')
+        return self.step_check_unlock
+
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_check_unlock(self):
         # Check unlock level 1
         item = self.gss.get('item.key.hackdex1.1')
         if item is not None and item.get('used', False):
-            return self.step_check_goal
-
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
-
-    def step_check_goal(self, time_in_step):
-        if time_in_step == 0:
             Sound.play('quests/step-forward')
             self.show_hints_message('UNLOCKED')
+            return self.step_check_goal
+
+        self.connect_gss_changes().wait()
+        return self.step_check_unlock
+
+    def step_check_goal(self):
+        if not self._app.is_running():
+            return self.step_abort
 
         # Check for color change
         data = self.gss.get('app.com_endlessm_Hackdex_chapter_one.corruption')
@@ -65,45 +74,25 @@ class Hackdex1(Quest):
             return self.step_abort
 
         if data['state'] == 'fixed' or self.debug_skip():
-            return self.step_delay2
-
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_check_abort
-
-    def step_delay2(self, time_in_step):
-        if time_in_step > 2:
+            self.pause(2)
             return self.step_success
 
-    def step_success(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/step-forward')
-            self.show_message('SUCCESS', choices=[('OK', self._confirm_step)])
+        # The HackDex app is restarted when its parameters are changed and the app is flipped
+        # back, so we check that and give it time before considering it has stopped running.
+        self.connect_app_quit(self._app).wait()
+        self.wait_for_app_launch(self._app, timeout=2)
 
-        if self.confirmed_step():
-            return self.step_afterkey
+        return self.step_check_goal
 
-    def step_afterkey(self, time_in_step):
-        if time_in_step == 0:
-            self.give_item('item.key.fizzics.2')
-            self.show_question('AFTERKEY')
-            self.conf['complete'] = True
-            self.available = False
-            Sound.play('quests/quest-complete')
+    def step_success(self):
+        Sound.play('quests/step-forward')
+        self.show_confirm_message('SUCCESS', confirm_label='OK').wait()
 
-        if self.confirmed_step():
-            self.stop()
+        self.give_item('item.key.fizzics.2')
+        self.conf['complete'] = True
+        self.available = False
 
-    def step_check_abort(self, time_in_step):
-        if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_check_goal
-        if time_in_step > 2:
-            return self.step_abort
+        Sound.play('quests/quest-complete')
+        self.wait_confirm('AFTERKEY')
 
-    # STEP Abort
-    def step_abort(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/quest-aborted')
-            self.show_message('ABORT')
-
-        if time_in_step > 5:
-            self.stop()
+        self.stop()
