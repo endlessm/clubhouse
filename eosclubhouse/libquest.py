@@ -611,6 +611,13 @@ class Quest(GObject.GObject):
         return async_action
 
     def connect_app_js_props_changes(self, app, props):
+        assert len(props) > 0
+        return self._connect_app_changes(app, props)
+
+    def connect_app_quit(self, app):
+        return self._connect_app_changes(app, [])
+
+    def _connect_app_changes(self, app, props):
         assert self._run_context is not None
 
         async_action = self._run_context.new_async_action()
@@ -639,15 +646,17 @@ class Quest(GObject.GObject):
 
         async_action.future.add_done_callback(_disconnect_app)
 
-        try:
-            js_props_handler_id = app.connect_js_props_change(props, lambda: async_action.resolve())
-        except GLib.Error as e:
-            # Prevent any D-Bus errors (like ServiceUnknown when the app has been quit)
-            logger.debug('Could not connect to app "%s" js property changes: %s',
-                         app.dbus_name, e.get_message())
+        if len(props) > 0:
+            try:
+                js_props_handler_id = app.connect_js_props_change(props,
+                                                                  lambda: async_action.resolve())
+            except GLib.Error as e:
+                # Prevent any D-Bus errors (like ServiceUnknown when the app has been quit)
+                logger.debug('Could not connect to app "%s" js property changes: %s',
+                             app.dbus_name, e.get_message())
 
-            async_action.cancel()
-            return async_action
+                async_action.cancel()
+                return async_action
 
         running_handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
 
