@@ -622,7 +622,13 @@ class Quest(GObject.GObject):
         js_props_handler_id = running_handler_id = 0
 
         def _disconnect_app(_future):
-            app.disconnect_js_props_change(js_props_handler_id)
+            nonlocal js_props_handler_id
+            nonlocal running_handler_id
+
+            if js_props_handler_id > 0:
+                app.disconnect_js_props_change(js_props_handler_id)
+                js_props_handler_id = 0
+
             app.disconnect_running_change(running_handler_id)
 
         if not app.is_running():
