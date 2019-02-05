@@ -611,6 +611,13 @@ class Quest(GObject.GObject):
         return async_action
 
     def connect_app_js_props_changes(self, app, props):
+        assert len(props) > 0
+        return self._connect_app_changes(app, props)
+
+    def connect_app_quit(self, app):
+        return self._connect_app_changes(app, [])
+
+    def _connect_app_changes(self, app, props):
         assert self._run_context is not None
 
         async_action = self._run_context.new_async_action()
@@ -622,7 +629,13 @@ class Quest(GObject.GObject):
         js_props_handler_id = running_handler_id = 0
 
         def _disconnect_app(_future):
-            app.disconnect_js_props_change(js_props_handler_id)
+            nonlocal js_props_handler_id
+            nonlocal running_handler_id
+
+            if js_props_handler_id > 0:
+                app.disconnect_js_props_change(js_props_handler_id)
+                js_props_handler_id = 0
+
             app.disconnect_running_change(running_handler_id)
 
         if not app.is_running():
@@ -633,15 +646,17 @@ class Quest(GObject.GObject):
 
         async_action.future.add_done_callback(_disconnect_app)
 
-        try:
-            js_props_handler_id = app.connect_js_props_change(props, lambda: async_action.resolve())
-        except GLib.Error as e:
-            # Prevent any D-Bus errors (like ServiceUnknown when the app has been quit)
-            logger.debug('Could not connect to app "%s" js property changes: %s',
-                         app.dbus_name, e.get_message())
+        if len(props) > 0:
+            try:
+                js_props_handler_id = app.connect_js_props_change(props,
+                                                                  lambda: async_action.resolve())
+            except GLib.Error as e:
+                # Prevent any D-Bus errors (like ServiceUnknown when the app has been quit)
+                logger.debug('Could not connect to app "%s" js property changes: %s',
+                             app.dbus_name, e.get_message())
 
-            async_action.cancel()
-            return async_action
+                async_action.cancel()
+                return async_action
 
         running_handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
 
@@ -707,14 +722,14 @@ class Quest(GObject.GObject):
         async_action = self._run_context.get_confirm_action()
         return async_action
 
-    def show_confirm_message(self, msg_id):
+    def show_confirm_message(self, msg_id, **options):
         assert self._run_context is not None
 
         async_action = self.get_confirm_action()
         if async_action.is_cancelled():
             return async_action
 
-        self.show_question(msg_id)
+        self.show_question(msg_id, **options)
 
         return async_action
 
@@ -783,7 +798,8 @@ class Quest(GObject.GObject):
             possible_answers = [(text, callback) for text, callback in options['choices']]
 
         if options.get('use_confirm'):
-            possible_answers = [('>', self._confirm_step)] + possible_answers
+            confirm_label = options.get('confirm_label', '>')
+            possible_answers = [(confirm_label, self._confirm_step)] + possible_answers
 
         self._emit_signal('message', options['txt'], possible_answers,
                           options.get('character_id') or self._main_character_id,
