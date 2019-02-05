@@ -33,6 +33,8 @@ from eosclubhouse.utils import Performance
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 
+from eosclubhouse.episodes import BadgeButton
+
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
 CLUBHOUSE_PATH = '/com/endlessm/Clubhouse'
@@ -785,6 +787,8 @@ class EpisodesPage(Gtk.EventBox):
     def __init__(self, app_window):
         super().__init__(visible=True)
 
+        self._episodes_db = utils.EpisodesDB()
+
         self._app_window = app_window
         self._current_page = None
         self._setup_ui()
@@ -797,34 +801,46 @@ class EpisodesPage(Gtk.EventBox):
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/episodes-page.ui')
 
-        self._labels_box = builder.get_object('episode_labels_box')
-        self._characters_box = builder.get_object('episode_characters_box')
+        self._badges_box = builder.get_object('badges_box')
 
-        self.add(builder.get_object('episode_overlay'))
+        self.add(self._badges_box)
 
     def _update_ui(self, new_page):
         if new_page == self._current_page:
             return
 
-        # @todo: perhaps we should always add the characters and hide/show
-        # them accordingly to the state, instead of creating/removing them
-        for child in self._characters_box.get_children():
-            self._characters_box.remove(child)
+        for child in self._badges_box.get_children():
+            self._badges_box.remove(child)
 
         if self._current_page is not None:
             self.get_style_context().remove_class(self._current_page)
         self._current_page = new_page
         self.get_style_context().add_class(self._current_page)
 
-        if new_page == self._COMPLETED:
-            self._labels_box.set_visible(True)
+        current_episode = libquest.Registry.get_current_episode()
+        episode = self._episodes_db.get_episode(current_episode['name'])
 
-            img = AnimationImage('daemon')
-            img.play('idle')
-            self._characters_box.put(img, 21, 538)
-            img.show()
-        else:
-            self._labels_box.set_visible(False)
+        # draw completed episodes
+        completed_episodes = self._episodes_db.get_previous_episodes(episode.id)
+        for completed in completed_episodes:
+            self._add_badge_button(completed,
+                                   completed.badge_x,
+                                   completed.badge_y)
+
+        if new_page == self._COMPLETED:
+            x, y = episode.badge_x, episode.badge_y
+            if not completed_episodes:
+                x = DEFAULT_WINDOW_WIDTH / 2
+            self._add_badge_button(episode, x, y)
+
+    def _add_badge_button(self, episode, x, y):
+        badge = BadgeButton(episode)
+
+        w, _h = badge.get_size()
+        x -= w / 2
+
+        self._badges_box.put(badge, x, y)
+        badge.show()
 
     def update_episode_view(self, *args, **kwargs):
         current_episode = libquest.Registry.get_current_episode()
