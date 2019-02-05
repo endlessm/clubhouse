@@ -722,14 +722,14 @@ class Quest(GObject.GObject):
         async_action = self._run_context.get_confirm_action()
         return async_action
 
-    def show_confirm_message(self, msg_id):
+    def show_confirm_message(self, msg_id, **options):
         assert self._run_context is not None
 
         async_action = self.get_confirm_action()
         if async_action.is_cancelled():
             return async_action
 
-        self.show_question(msg_id)
+        self.show_question(msg_id, **options)
 
         return async_action
 
@@ -798,7 +798,8 @@ class Quest(GObject.GObject):
             possible_answers = [(text, callback) for text, callback in options['choices']]
 
         if options.get('use_confirm'):
-            possible_answers = [('>', self._confirm_step)] + possible_answers
+            confirm_label = options.get('confirm_label', '>')
+            possible_answers = [(confirm_label, self._confirm_step)] + possible_answers
 
         self._emit_signal('message', options['txt'], possible_answers,
                           options.get('character_id') or self._main_character_id,
