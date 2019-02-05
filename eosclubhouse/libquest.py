@@ -114,11 +114,17 @@ class Registry:
     def get_current_episode(class_):
         current_episode_name = config.DEFAULT_EPISODE_NAME
         current_episode_completed = False
+        current_episode_teaser_viewed = False
         current_episode = GameStateService().get('clubhouse.CurrentEpisode')
         if current_episode is not None:
             current_episode_name = current_episode.get('name', config.DEFAULT_EPISODE_NAME)
             current_episode_completed = current_episode.get('completed', False)
-        return {'name': current_episode_name, 'completed': current_episode_completed}
+            current_episode_teaser_viewed = current_episode.get('teaser-viewed', False)
+        return {
+            'name': current_episode_name,
+            'completed': current_episode_completed,
+            'teaser-viewed': current_episode_teaser_viewed,
+        }
 
     @classmethod
     def set_current_episode(class_, episode_name):
@@ -128,8 +134,17 @@ class Registry:
             return
 
         logger.info('Setting episode: %s', episode_name)
-        episode_info = {'name': episode_name, 'completed': False}
+        episode_info = {'name': episode_name, 'completed': False, 'teaser-viewed': False}
         GameStateService().set('clubhouse.CurrentEpisode', episode_info)
+
+    @classmethod
+    def set_current_episode_teaser_viewed(class_, viewed):
+        current_episode_info = class_.get_current_episode()
+        if not current_episode_info['completed']:
+            return
+
+        current_episode_info.update({'teaser-viewed': viewed})
+        GameStateService().set('clubhouse.CurrentEpisode', current_episode_info)
 
 
 class _QuestRunContext:
