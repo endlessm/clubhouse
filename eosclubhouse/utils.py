@@ -25,6 +25,8 @@ import itertools
 import os
 import time
 
+from collections import OrderedDict
+
 from gi.repository import GLib
 
 from eosclubhouse import config, logger
@@ -159,3 +161,71 @@ class Performance:
             return result
 
         return _report_time_func if class_._enabled else func
+
+
+class Episode:
+    def __init__(self, id_, number=1, season=None, name=None, badge_x=None, badge_y=None):
+        self.id = id_
+        self.number = number
+        self.season = season
+        self.name = name if name is not None else id_
+        self.badge_x = badge_x if badge_x is None else 240
+        self.badge_y = badge_y if badge_y is None else 540
+
+
+class EpisodesDB(_DictFromCSV):
+
+    def __init__(self):
+        super().__init__(config.EPISODES_CSV)
+
+    @classmethod
+    def load_csv(class_, csv_path):
+        contents = OrderedDict()
+
+        class_._do_load_csv(csv_path, contents)
+        class_._csv_dict = contents
+
+    @classmethod
+    def get_episode(class_, key):
+        return class_.get_dict().get(key, Episode(key))
+
+    @classmethod
+    def get_all_episodes(class_):
+        return class_.get_dict().items()
+
+    @classmethod
+    def _do_load_csv(class_, csv_path, contents):
+        with open(csv_path, 'r') as csv_file:
+            number = 0
+            prev_season = None
+            for row in csv.reader(csv_file):
+                episode_id, season, name, badge_x, badge_y = row
+                # using appearance order in the same session to number episodes
+                if season != prev_season:
+                    prev_season = season
+                    number = 0
+                number += 1
+
+                try:
+                    badge_x = int(badge_x)
+                except ValueError:
+                    badge_x = None
+
+                try:
+                    badge_y = int(badge_y)
+                except ValueError:
+                    badge_y = None
+
+                contents[episode_id] = Episode(episode_id, number, season, name, badge_x, badge_y)
+
+    @classmethod
+    def get_previous_episodes(class_, current_episode):
+        episode = class_.get_episode(current_episode)
+        return [v for k, v in class_.get_all_episodes()
+                if v.season == episode.season and v.number < episode.number]
+
+    @classmethod
+    def get_next_episodes(class_, current_episode):
+        episode = class_.get_episode(current_episode)
+        return [v for k, v in class_.get_all_episodes()
+                if v.season == episode.season and v.number > episode.number]
