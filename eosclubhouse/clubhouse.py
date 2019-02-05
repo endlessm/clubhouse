@@ -791,6 +791,7 @@ class EpisodesPage(Gtk.EventBox):
 
         self._app_window = app_window
         self._current_page = None
+        self._current_episode = None
         self._badges = {}
         self._setup_ui()
         GameStateService().connect('changed', self.update_episode_view)
@@ -851,12 +852,30 @@ class EpisodesPage(Gtk.EventBox):
         else:
             self._update_ui(current_episode['name'])
 
+        self._update_episode_badges()
+
     def click_badge(self, episode):
         button = self._badges.get(episode)
+
         if not button:
             return
 
         button.clicked()
+
+    def _update_episode_badges(self, _gss=None):
+        current_episode = libquest.Registry.get_current_episode()
+
+        if self._current_episode == current_episode:
+            return
+
+        self._current_episode = current_episode
+        show = current_episode["completed"] and not current_episode["teaser-viewed"]
+
+        if not show:
+            return
+
+        self.click_badge(current_episode["name"])
+        libquest.Registry.set_current_episode_teaser_viewed(True)
 
 
 class ClubhouseWindow(Gtk.ApplicationWindow):
@@ -1008,9 +1027,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         # the second time it's opened (for some reason, without this it will slide all the way to
         # the left of the screen)
         self._update_geometry()
-
-    def show_teaser_poster(self, episode):
-        self.episodes_page.click_badge(episode)
 
 
 class ClubhouseApplication(Gtk.Application):
