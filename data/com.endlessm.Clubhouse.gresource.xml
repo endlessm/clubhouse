@@ -7,6 +7,7 @@
     <file preprocess="xml-stripblanks">episodes-page.ui</file>
     <file preprocess="xml-stripblanks">main-window.ui</file>
     <file preprocess="xml-stripblanks">message.ui</file>
+    <file preprocess="xml-stripblanks">posterwindow.ui</file>
   </gresource>
   <gresource prefix="/com/endlessm/Clubhouse/images">
     <file>clubhouse_bg.png</file>
