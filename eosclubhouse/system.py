@@ -259,7 +259,7 @@ class App:
         try:
             value = self.get_object_property(self.APP_JS_PARAMS, prop)
         except Exception as e:
-            logger.debug(e)
+            logger.error(e)
 
         return value
 
