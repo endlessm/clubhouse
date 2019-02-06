@@ -7,7 +7,6 @@
 # Author: Joaquim Rocha <jrocha@endlessm.com>
 #
 
-@@run_lint_command@@
-ret=$?
+@@run_lint_command@@ || exit
 
-exit $ret
+@@check_strings_command@@ || exit
