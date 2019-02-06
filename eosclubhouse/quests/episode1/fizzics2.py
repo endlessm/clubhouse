@@ -36,12 +36,8 @@ class Fizzics2(Quest):
             return self.step_set_level
 
     def step_set_level(self, time_in_step):
-        try:
-            if not self._initialized:
-                self._app.set_js_property('preset', ('i', 1000))
-                self._initialized = True
-        except Exception as ex:
-            print(ex)
+        if not self._initialized:
+            self._initialized = self._app.set_js_property('preset', ('i', 1000))
 
         if self._initialized:
             return self.step_goal
