@@ -367,8 +367,9 @@ class AsyncAction:
         return self._state != self.State.PENDING and self._state != self.State.UNKNOWN
 
     def wait(self, timeout=None):
-        assert self.run_context is not None
-        self.run_context.wait_for_action(self, timeout)
+        if not self.is_resolved():
+            assert self.run_context is not None
+            self.run_context.wait_for_action(self, timeout)
         return self
 
     @property
