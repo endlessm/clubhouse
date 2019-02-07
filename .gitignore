@@ -1,1 +1,11 @@
-.python-virtual-env
+# Ignore files used for building local flatpak:
+/.flatpak-builder
+/com.endlessm.Clubhouse.json
+
+# Ignore files used for building custom flatpak bundles:
+/repo
+/build
+/*.flatpak-bundle
+
+# Ignore virtualenv directory used by the lint checker:
+/.python-virtual-env
