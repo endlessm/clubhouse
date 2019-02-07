@@ -4,88 +4,62 @@ from eosclubhouse.system import Desktop, App, Sound
 
 class Fizzics2(Quest):
 
-    TARGET_APP_DBUS_NAME = 'com.endlessm.Fizzics'
+    APP_NAME = 'com.endlessm.Fizzics'
+    GAME_PRESET = 1000
 
     def __init__(self):
         super().__init__('Fizzics 2', 'riley')
-        self._app = App(self.TARGET_APP_DBUS_NAME)
-        self._initialized = False
+        self._app = App(self.APP_NAME)
 
-    # STEP 0
-    def step_first(self, time_in_step):
-        if time_in_step == 0:
-            self._initialized = False
-            if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-                self.show_hints_message('LAUNCH')
-                Desktop.focus_app(self.TARGET_APP_DBUS_NAME)
-            else:
-                return self.step_alreadyrunning
+    def step_begin(self):
+        if self._app.is_running():
+            return self.step_alreadyrunning
 
-        if Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_delay1
+        self.show_hints_message('LAUNCH')
+        Desktop.focus_app(self.APP_NAME)
 
-    def step_delay1(self, time_in_step):
-        if time_in_step > 2:
-            return self.step_set_level
+        self.wait_for_app_launch(self._app)
+        self.pause(2)
+        return self.step_set_level
 
-    def step_alreadyrunning(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('ALREADY_RUNNING')
+    def step_abort(self):
+        Sound.play('quests/quest-aborted')
+        self.show_message('ABORT')
 
-        if self.confirmed_step():
-            return self.step_set_level
+        self.pause(5)
+        self.stop()
 
-    def step_set_level(self, time_in_step):
-        try:
-            if not self._initialized:
-                self._app.set_js_property('preset', ('i', 1000))
-                self._initialized = True
-        except Exception as ex:
-            print(ex)
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_alreadyrunning(self):
+        self.wait_confirm('ALREADY_RUNNING')
+        return self.step_set_level
 
-        if self._initialized:
-            return self.step_goal
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_set_level(self):
+        self._app.set_js_property('preset', ('i', self.GAME_PRESET))
 
-    def step_goal(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/step-forward')
-            self.show_hints_message('GOAL')
+        Sound.play('quests/step-forward')
+        self.show_hints_message('GOAL')
+        return self.step_wait_for_success
 
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_wait_for_success(self):
         if self._app.get_js_property('quest0Success'):
             return self.step_success
 
-        if not Desktop.app_is_running(self.TARGET_APP_DBUS_NAME):
-            return self.step_abort
+        self.wait_for_app_js_props_changed(self._app, ['quest0Success'])
+        return self.step_wait_for_success
 
-    def step_success(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('SUCCESS')
+    def step_success(self):
+        self.wait_confirm('SUCCESS')
+        self.wait_confirm('REWARD')
+        return self.step_end
 
-        if self.confirmed_step():
-            return self.step_reward
+    def step_end(self):
+        self.conf['complete'] = True
+        self.available = False
+        self.give_item('item.key.hackdex1.1')
+        Sound.play('quests/quest-complete')
 
-    def step_reward(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('REWARD')
-        if self.confirmed_step():
-            return self.step_end
-
-    def step_end(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('END')
-            self.conf['complete'] = True
-            self.available = False
-            self.give_item('item.key.hackdex1.1')
-            Sound.play('quests/quest-complete')
-
-        if self.confirmed_step():
-            self.stop()
-
-    # STEP Abort
-    def step_abort(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/quest-aborted')
-            self.show_message('ABORT')
-
-        if time_in_step > 5:
-            self.stop()
+        self.wait_confirm('END')
+        self.stop()

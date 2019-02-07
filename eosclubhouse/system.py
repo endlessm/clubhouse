@@ -259,12 +259,18 @@ class App:
         try:
             value = self.get_object_property(self.APP_JS_PARAMS, prop)
         except Exception as e:
-            logger.debug(e)
+            logger.error(e)
 
         return value
 
     def set_js_property(self, prop, value):
-        return self.set_object_property(self.APP_JS_PARAMS, prop, value)
+        try:
+            self.set_object_property(self.APP_JS_PARAMS, prop, value)
+        except Exception as e:
+            logger.error(e)
+            return False
+
+        return True
 
     def connect_js_props_change(self, props, js_property_changed_cb, *args):
         # Check if the properties really changed, because in older versions of
