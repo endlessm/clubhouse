@@ -231,12 +231,12 @@ class _QuestRunContext:
     def new_async_action(self, future=None):
         async_action = AsyncAction()
 
-        if self._cancellable.is_cancelled():
-            async_action.state = AsyncAction.State.CANCELLED
-            return async_action
-
         async_action.run_context = self
         async_action.future = future or self._new_future()
+
+        if self._cancellable.is_cancelled():
+            async_action.cancel()
+            return async_action
 
         return async_action
 
@@ -367,8 +367,9 @@ class AsyncAction:
         return self._state != self.State.PENDING and self._state != self.State.UNKNOWN
 
     def wait(self, timeout=None):
-        assert self.run_context is not None
-        self.run_context.wait_for_action(self, timeout)
+        if not self.is_resolved():
+            assert self.run_context is not None
+            self.run_context.wait_for_action(self, timeout)
         return self
 
     @property
