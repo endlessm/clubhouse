@@ -231,12 +231,12 @@ class _QuestRunContext:
     def new_async_action(self, future=None):
         async_action = AsyncAction()
 
-        if self._cancellable.is_cancelled():
-            async_action.state = AsyncAction.State.CANCELLED
-            return async_action
-
         async_action.run_context = self
         async_action.future = future or self._new_future()
+
+        if self._cancellable.is_cancelled():
+            async_action.cancel()
+            return async_action
 
         return async_action
 
