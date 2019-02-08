@@ -38,6 +38,11 @@ install_data(
     install_dir: join_paths(data_dir, 'appdata')
 )
 
+install_data(
+    'com.endlessm.Clubhouse.png',
+    install_dir: 'share/icons/hicolor/64x64/apps'
+)
+
 characters_dir_name = 'characters'
 items_dir_name = 'items'
 episodes_dir_name = 'episodes'
