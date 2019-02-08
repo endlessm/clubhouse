@@ -9,8 +9,7 @@
 
 # Pre-commit hook
 
-script_path=$0
-source_dir="$(dirname "$script_path")/.."
+source_dir="$(git rev-parse --show-toplevel)"
 precommit_hook_file="$source_dir/.git/hooks/pre-commit"
 
 source "$source_dir/tools/setup-lint"

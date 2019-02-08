@@ -9,8 +9,7 @@
 #
 
 set -e
-script_path=$0
-source_dir="$(dirname "$script_path")/.."
+source_dir="$(git rev-parse --show-toplevel)"
 
 pushd "$source_dir"
 
