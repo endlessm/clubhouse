@@ -17,15 +17,7 @@ source "$source_dir/tools/setup-lint"
 setup_lint || true
 echo "Installing git pre-commit hook"
 
-ACTIVATE_CMD="$virtualenv_dir/bin/activate"
-RUN_LINT_CMD="$source_dir/tools/run-lint"
-CHECK_STRINGS_CMD="$source_dir/tools/check-strings"
-
-sed -e "s+@@virtualenv_activate@@+$ACTIVATE_CMD+g" \
-    -e "s+@@run_lint_command@@+$RUN_LINT_CMD+g" \
-    -e "s+@@check_strings_command@@+$CHECK_STRINGS_CMD+g" \
-    "$source_dir/tools/pre-commit.in" > "$precommit_hook_file"
-
+cp "$source_dir/tools/pre-commit.in" "$precommit_hook_file"
 chmod +x "$precommit_hook_file"
 
 # End pre-commit hook

@@ -7,6 +7,7 @@
 # Author: Joaquim Rocha <jrocha@endlessm.com>
 #
 
-@@run_lint_command@@ || exit
+source_dir="$(git rev-parse --show-toplevel)"
 
-@@check_strings_command@@ || exit
+$source_dir/tools/run-lint || exit
+$source_dir/tools/check-strings || exit
