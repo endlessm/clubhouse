@@ -580,8 +580,8 @@ class ClubhousePage(Gtk.EventBox):
 
         notification.set_icon(icon)
 
-        notification.add_button('OK', 'app.item-accept-answer')
-        notification.add_button('Show me', "app.show-page('{}')".format('inventory'))
+        notification.add_button('OK', 'app.item-accept-answer(false)')
+        notification.add_button('Show me', 'app.item-accept-answer(true)')
 
         Sound.play('quests/key-given')
 
@@ -1084,7 +1084,7 @@ class ClubhouseApplication(Gtk.Application):
         self._init_style()
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
-                          ('item-accept-answer', self._item_accept_action_cb, None),
+                          ('item-accept-answer', self._item_accept_action_cb, GLib.VariantType.new('b')),
                           ('quest-debug-skip', self._quest_debug_skip, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('quest-view-close', self._quest_view_close_action_cb, None),
@@ -1155,8 +1155,11 @@ class ClubhouseApplication(Gtk.Application):
         self.close_quest_msg_notification()
 
     def _item_accept_action_cb(self, action, arg_variant):
-        # This is a no-op
-        logger.debug('Item accept button clicked')
+        Sound.play('quests/key-confirm')
+        show_inventory = arg_variant.unpack()
+        if show_inventory and self._window:
+            self._window.set_page('inventory')
+            self._show_and_focus_window()
 
     def _debug_mode_action_cb(self, action, arg_variant):
         self._debug_mode = arg_variant.unpack()
