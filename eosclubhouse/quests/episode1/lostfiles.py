@@ -38,11 +38,15 @@ class LostFiles(Quest):
 
     def step_explanation4(self, time_in_step):
         if time_in_step == 0:
+            self.show_message('EXPLANATION4',
+                              choices=[('End of Episode 1', self._confirm_step)])
+        if self.confirmed_step():
+            self.step_finish_episode()
+
+    def step_finish_episode(self, time_in_step):
+        if time_in_step == 0:
             self.conf['complete'] = True
             self.available = False
             self.complete_current_episode()
             Sound.play('quests/quest-complete')
-            self.show_message('EXPLANATION4',
-                              choices=[('End of Episode 1', self._confirm_step)])
-        if self.confirmed_step():
             self.stop()
