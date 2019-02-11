@@ -7,21 +7,16 @@
 # Author: Joaquim Rocha <jrocha@endlessm.com>
 #
 
-# Pre-commit hook with flake8
+# Pre-commit hook
 
-script_path=$0
-source_dir="$(dirname "$script_path")/.."
+source_dir="$(git rev-parse --show-toplevel)"
 precommit_hook_file="$source_dir/.git/hooks/pre-commit"
 
 source "$source_dir/tools/setup-lint"
 setup_lint || true
 echo "Installing git pre-commit hook"
 
-ACTIVATE_CMD="$virtualenv_dir/bin/activate"
-RUN_LINT_CMD="$source_dir/tools/run-lint"
-
-sed -e "s+@@virtualenv_activate@@+$ACTIVATE_CMD+g" -e "s+@@run_lint_command@@+$RUN_LINT_CMD+g" "$source_dir/tools/pre-commit.in" > "$precommit_hook_file"
-
+cp "$source_dir/tools/pre-commit.in" "$precommit_hook_file"
 chmod +x "$precommit_hook_file"
 
-# End pre-commit hook with flake8
+# End pre-commit hook

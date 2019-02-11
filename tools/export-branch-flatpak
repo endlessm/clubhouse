@@ -9,8 +9,7 @@
 #
 
 set -e
-script_path=$0
-source_dir="$(dirname "$script_path")/.."
+source_dir="$(git rev-parse --show-toplevel)"
 app_id=com.endlessm.Clubhouse
 manifest="$app_id.json"
 

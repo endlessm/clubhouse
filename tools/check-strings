@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Convience script to check if the strings CSV are in sync with the
+# strings in the spreadsheet.
+#
+# Copyright (c) 2019 Endless Mobile Inc.
+#
+
+./tools/get-strings-file
+git diff --exit-code data/quests_strings/ || ret=$?
+
+if [ ! -z "$ret" ] && [ $ret -ne 0 ]; then
+    message="The strings are not in sync. Please import them before commiting. Or to ignore this check, run: git commit --no-verify"
+    echo -e "\e[01;31m$message\e[0m"
+fi
+exit $ret
