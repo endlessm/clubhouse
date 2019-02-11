@@ -2,6 +2,7 @@ FIZZICSINTRO_QUESTION,"Oh hi again! By the way, I'm Ada. I'm working on my new g
 FIZZICSINTRO_QUEST_ACCEPT,Sounds fun!,,,
 FIZZICSINTRO_LAUNCH,"Fab, Go ahead and launch Fizzics now. ",,,
 FIZZICSINTRO_LAUNCH_HINT1,See the Fizzics app on the desktop? Click on it now to start the game.,,,
+FIZZICSINTRO_RAISEAPP,Bring up the Fizzics app. It's already running.,,,
 FIZZICSINTRO_EXPLANATION,"Fizzics helps me with my research on how things bounce, but frankly the slingshot is just really fun.
 
 I can barely make levels fast enough for one of the students – she's already on Level 10!",,,
