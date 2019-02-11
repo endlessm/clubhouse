@@ -44,10 +44,10 @@ class FirstContact(Quest):
             return self.step_dohack
 
         if time_in_step >= 10 and not self._hint1:
-            self.show_message('FIRSTCONTACT_WELCOME_HINT1')
+            self.show_message('FIRSTCONTACT_WELCOME')
             self._hint1 = True
         elif time_in_step >= 20 and not self._hint2:
-            self.show_message('FIRSTCONTACT_WELCOME_HINT2')
+            self.show_message('FIRSTCONTACT_WELCOME_HINT1')
             self._hint2 = True
 
     # App has been flipped
