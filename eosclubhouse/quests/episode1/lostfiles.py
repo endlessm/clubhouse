@@ -23,9 +23,10 @@ class LostFiles(Quest):
         self.wait_confirm('EXPLANATION2')
         self.wait_confirm('EXPLANATION3')
 
-        self.conf['complete'] = True
-        self.available = False
-        self.complete_current_episode()
-        Sound.play('quests/quest-complete')
+        self.show_message('EXPLANATION4', choices=[('End of Episode 1', self.finish_episode)])
 
-        self.show_message('EXPLANATION4', choices=[('End of Episode 1', self.stop)])
+    def finish_episode(self):
+        Sound.play('quests/quest-complete')
+        self.conf['complete'] = True
+        self.complete_current_episode()
+        self.stop()
