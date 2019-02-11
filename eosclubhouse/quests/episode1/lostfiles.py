@@ -41,7 +41,7 @@ class LostFiles(Quest):
             self.show_message('EXPLANATION4',
                               choices=[('End of Episode 1', self._confirm_step)])
         if self.confirmed_step():
-            self.step_finish_episode()
+            self.step_finish_episode
 
     def step_finish_episode(self, time_in_step):
         if time_in_step == 0:
