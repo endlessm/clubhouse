@@ -238,3 +238,46 @@
 .clubhouse-completed-episode-subtitle {
     margin: 0 40px 140px 40px;
 }
+
+.badge label {
+    text-shadow: 0 0.5px 2px alpha(black,0.4);
+    color: white;
+    margin-bottom: -10px;
+}
+
+.badge image {
+    -gtk-icon-shadow: 0 5px 5px alpha(black,0.4);
+}
+
+window.poster {
+    background: rgba(0,0,0,0.4) radial-gradient(1920px 1080px ellipse at center, alpha(black,0.2), alpha(black,0.8));
+}
+
+.poster .title,
+.poster .subtitle {
+    color: white;
+    font: 15px "Metropolis, Sans-Serif";
+}
+
+.poster .title {
+    font-size: 40px;
+}
+
+.poster .subtitle {
+    font-size: 25px;
+}
+
+.badge {
+    border: none;
+    box-shadow: none;
+    -gtk-icon-shadow: none;
+    padding-bottom: 20px;
+}
+
+.badge:hover {
+    background-image: none;
+}
+
+.badge:hover image {
+    -gtk-icon-shadow: 0 10px 10px alpha(black,0.4);
+}

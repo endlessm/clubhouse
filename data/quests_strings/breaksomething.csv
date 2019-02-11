@@ -1,7 +1,7 @@
 BREAKSOMETHING_QUESTION,Psssst! I was hoping I'd see you. Wanna go scope around in the System?,Riley,,
 BREAKSOMETHING_QUEST_ACCEPT,Definitely,,,
 BREAKSOMETHING_LAUNCH,Ok. So you just need to launch the System app now and we're golden. ,,,
-BREAKSOMETHING_LAUNCH_HINT1,Click on the System app icon on the desktop.,,,
+BREAKSOMETHING_LAUNCH_HINT1,,,,
 BREAKSOMETHING_OSAPP,"Awesome. This place is LIT. We have to be beyond quiet. We don't want Saniel knowing we're here. 
 
 He seems to be able to hear everything! Sometimes I think he even hears what I'm thinking! Ssshhhhh.",,,
@@ -11,7 +11,7 @@ BREAKSOMETHING_GIVEKEY,The other day I found this key and I think it fits here! 
 BREAKSOMETHING_UNLOCK,Now click on that to unlock it. I wonder what's behind it?,,,
 BREAKSOMETHING_UNLOCK_HINT1,Click anywhere to unlock it.,,,
 BREAKSOMETHING_UNLOCKED,Rad! We can have so much fun playing around with the settings.,,,
-BREAKSOMETHING_MAKEITLARGE,Try maxing out the cursor size to to make it huge! ,,,
+BREAKSOMETHING_MAKEITLARGE,Try maxing out the cursor size to make it huge! ,,,
 BREAKSOMETHING_MAKEITLARGE_HINT1,"Click the + next to ""Size"" until it's more than 200!",,,
 BREAKSOMETHING_SUCCESS,"LOLLZZ. OMG. So epic! We have to stop laughing or San will hear us. He's like a bat! 
 

@@ -3,6 +3,7 @@ Type=Application
 Name=Clubhouse
 GenericName=eos-clubhouse
 Comment=Clubhouse application
+Icon=com.endlessm.Clubhouse
 Exec=eos-clubhouse
 Terminal=false
 StartupNotify=true
