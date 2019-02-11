@@ -117,13 +117,19 @@ class PosterWindow(Gtk.Window):
         self._modal.set_destroy_with_parent(True)
         self._modal.set_position(Gtk.WindowPosition.CENTER)
 
-        self._modal.realize()
-        window = self._modal.get_window()
-        window.set_functions(Gdk.WMFunction.CLOSE)
-
+        # We have to call maximize before setting the GdkWindow functions in the
+        # realize callback, otherwise the size of the window will not change.
+        self.maximize()
+        self._modal.connect('realize', self._window_realized_cb)
         self._modal.connect('delete-event', self._hide)
+
         self.connect('delete-event', self._hide)
         self.connect('show', self._show)
+        self.connect('realize', self._window_realized_cb)
+
+    def _window_realized_cb(self, window):
+        gdk_window = window.get_window()
+        gdk_window.set_functions(Gdk.WMFunction.CLOSE)
 
     def _hide(self, _widget, _event):
         self._modal.hide()
@@ -131,6 +137,5 @@ class PosterWindow(Gtk.Window):
         return True
 
     def _show(self, _window):
-        self.maximize()
         self._modal.present()
         self.set_keep_above(True)
