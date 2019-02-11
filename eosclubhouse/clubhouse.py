@@ -22,6 +22,7 @@ import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
+import logging
 import os
 import subprocess
 import sys
@@ -1207,8 +1208,12 @@ class ClubhouseApplication(Gtk.Application):
             self._show_and_focus_window()
 
     def _debug_mode_action_cb(self, action, arg_variant):
+        # Add debugging information in the Application UI:
         self._debug_mode = arg_variant.unpack()
         self._ensure_window()
+
+        # Also set the logging level:
+        logger.setLevel(logging.DEBUG)
 
     def _quest_user_answer(self, action, action_id):
         if self._window:
