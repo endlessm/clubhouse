@@ -40,6 +40,7 @@ class LostFiles(Quest):
         if time_in_step == 0:
             self.conf['complete'] = True
             self.available = False
+            self.complete_current_episode()
             Sound.play('quests/quest-complete')
             self.show_message('EXPLANATION4',
                               choices=[('End of Episode 1', self._confirm_step)])
