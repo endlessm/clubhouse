@@ -69,7 +69,6 @@ class FizzicsCode2(Quest):
             Sound.play('quests/step-forward')
             self.conf['complete'] = True
             self.available = False
-            self.complete_current_episode()
             Sound.play('quests/quest-complete')
             self.show_message('END', choices=[('Bye', self._confirm_step)])
         if self.confirmed_step():
