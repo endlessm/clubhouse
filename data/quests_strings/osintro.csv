@@ -7,7 +7,7 @@ OSINTRO_EXPLANATION,"See what I mean? It's all so intricate and connected. You'v
 
 Now that you're here, you can play with the settings. It's cool to have a say in how your computer works. ",,,
 OSINTRO_CLICK,So much going on here! Isn't it all gorgeous? ,,,
-OSINTRO_SANIEL,"What's all this ruckus? Oh, it's you, Ada. Whew, I must've dozed off. And who's this with you? ",Saniel,,
+OSINTRO_SANIEL,"What's all this ruckus? Oh, it's you, Ada. Well, I was just waking up anyway. And who's this with you? ",Saniel,,
 OSINTRO_SANIEL_FLIP,Who let you in here? Don't you know you're not supposed to try to access this part? Better get on back now. ,Saniel,talk_anger,
 OSINTRO_SANIEL_FLIP_HINT1,Go back the same way you got here: press the Flip button on the left. ,Saniel,talk_anger,
 OSINTRO_INTRO,"Hello Dr. Rowe. This is our new student. This is Saniel Rowe, the Archivist. 
