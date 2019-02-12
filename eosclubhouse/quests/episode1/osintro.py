@@ -46,7 +46,6 @@ class OSIntro(Quest):
         if self._app.get_js_property('flipped'):
             return self.step_flipped, self.step_saniel
 
-        Sound.play('quests/saniel-intro')
         confirm_action = self.show_confirm_message('SANIEL')
         app_changes_action = self.connect_app_js_props_changes(self._app, ['flipped'])
 
