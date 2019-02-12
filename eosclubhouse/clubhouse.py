@@ -1234,6 +1234,8 @@ class ClubhouseApplication(Gtk.Application):
         self._window.clubhouse_page.run_quest_by_name(quest_name, run_in_shell)
 
     def _quit_action_cb(self, action, arg_variant):
+        self._stop_quest()
+
         if self._window:
             self._window.destroy()
             self._window = None
