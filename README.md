@@ -158,3 +158,21 @@ forcing it to quit (in order to e.g. re-run it after adding new content to the
 alternative quests' location), you can simply press Ctrl+Escape in its window
 (you may have to close and re-open it for the focus to be properly set and the
 keyboard shortcut to work).
+
+## Debug Mode
+
+The Clubohouse has a debug mode for developers. It will:
+
+ 1. Add debug lines to the logs.
+ 2. Add a **🐞** button in the quest messages.
+
+Quest authors can check if the **🐞** button was pressed with
+`debug_skip()` and use it for debugging purposes, like skipping a step
+of the quest. Also, pressing this button will unblock any blocking
+operation like waiting for a property to be changed in a toy app.
+
+To set debug mode in the Clubhouse, call:
+
+``` bash
+com.endlessm.Clubhouse --debug
+```
