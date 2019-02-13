@@ -176,3 +176,14 @@ To set debug mode in the Clubhouse, call:
 ``` bash
 com.endlessm.Clubhouse --debug
 ```
+
+Logs are directed to the main instance of the Clubhouse. So if the
+Clubhouse was running when you called `--debug`, you won't see any
+logs in the Terminal, and the command will exit immediately. If you
+want to see debug logs in the Terminal, you will have to first quit
+and then start with debug mode again, like this:
+
+``` bash
+com.endlessm.Clubhouse --quit
+com.endlessm.Clubhouse --debug
+```
