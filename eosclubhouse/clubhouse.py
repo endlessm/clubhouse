@@ -1128,7 +1128,8 @@ class ClubhouseApplication(Gtk.Application):
         self._init_style()
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
-                          ('item-accept-answer', self._item_accept_action_cb, GLib.VariantType.new('b')),
+                          ('item-accept-answer', self._item_accept_action_cb,
+                           GLib.VariantType.new('b')),
                           ('quest-debug-skip', self._quest_debug_skip, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('quest-view-close', self._quest_view_close_action_cb, None),
