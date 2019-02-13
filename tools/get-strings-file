@@ -14,9 +14,10 @@ URL_TEMPLATE = ('https://docs.google.com/spreadsheets/d/{key}/' +
                 'gviz/tq?tqx=out:csv&sheet={sheet}&range={range}')
 URL_PARAMS = {
     'key': '162yiw_kW3lgLEIUwBq3PgiZxWTtcVBUHqpZKUXtF8qY',
-    'sheet': 'Dialog',
     'range': 'A:E',
 }
+
+ALL_SHEETS = ['Dialog', 'Episode2']
 
 quest_codes = None
 
@@ -41,10 +42,9 @@ def get_quest_codes():
     return quest_codes
 
 
-def get_rows_from_sheet(sheet=None):
-    url_params = URL_PARAMS
-    if sheet is not None:
-        url_params['sheet'] = sheet
+def get_rows_from_sheet(sheet):
+    url_params = URL_PARAMS.copy()
+    url_params['sheet'] = sheet
 
     url = URL_TEMPLATE.format(**url_params)
     response = requests.get(url)
@@ -92,23 +92,19 @@ def write_quests(quests, rows):
         _write_csv_file(filename, remaining_rows)
 
 
-def _build_commit_message(sheet, quests=None):
-    if sheet is None:
-        sheet = URL_PARAMS['sheet']
-
-    quests_string = 'all'
-    if quests is not None:
-        quests_string = ', '.join(quests)
+def _build_commit_message(sheets=None, quests=None):
+    sheets_string = ', '.join(sheets or ['all'])
+    quests_string = ', '.join(quests or ['all'])
 
     head = 'data: Update quests strings CSV'
-    body = 'From sheet {}.'.format(sheet)
+    body = 'From sheets: {}.'.format(sheets_string)
     body += '\n\n'
-    body += 'Quests requested for import: {}'.format(quests_string)
+    body += 'Quests requested for import: {}.'.format(quests_string)
     return head + '\n\n' + body
 
 
-def make_commit(sheet, quests):
-    message = _build_commit_message(sheet, quests)
+def make_commit(sheets, quests):
+    message = _build_commit_message(sheets, quests)
 
     # Ensure we don't include previously added things in this commit
     subprocess.call(['git', 'reset', 'HEAD'])
@@ -118,17 +114,24 @@ def make_commit(sheet, quests):
     subprocess.call(['git', 'commit', '--no-verify', '-m', message])
 
 
-def main(sheet, quests=None, commit=False):
-    rows = get_rows_from_sheet(sheet)
-    write_quests(quests, rows)
+def main(sheets=None, quests=None, commit=False):
+    sheets_to_import = sheets or ALL_SHEETS
+
+    for sheet in sheets_to_import:
+        rows = get_rows_from_sheet(sheet)
+        write_quests(quests, rows)
+
     if not commit:
         return
-    make_commit(sheet, quests)
+    make_commit(sheets, quests)
 
 
 parser = argparse.ArgumentParser(description='Obtain the strings to be used in quest messages.')
-parser.add_argument('--sheet', type=str,
-                    help='Obtain strings from this sheet.')
+parser.add_argument('--sheets', type=str,
+                    metavar='SHEET',
+                    nargs='+',
+                    help=('Obtain strings from the specified sheets. ' +
+                          'If this parameter is not passed, all known sheets will be imported.'))
 parser.add_argument('--quests', type=str,
                     metavar='QUEST',
                     nargs='+',
