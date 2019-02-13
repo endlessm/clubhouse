@@ -9,6 +9,8 @@ import subprocess
 
 QUESTS_PATH = os.path.join('eosclubhouse', 'quests')
 CSV_PATH = os.path.join('data', 'quests_strings')
+CSV_ALTERNATIVE_PATH = os.path.expanduser('~/.var/app/com.endlessm.Clubhouse' +
+                                          '/data/quests/quests_strings')
 
 URL_TEMPLATE = ('https://docs.google.com/spreadsheets/d/{key}/' +
                 'gviz/tq?tqx=out:csv&sheet={sheet}&range={range}')
@@ -70,25 +72,26 @@ def _write_csv_file(filename, rows):
             writer.writerow(r)
 
 
-def write_quests(quests, rows):
+def write_quests(quests, rows, use_alternative_path=False):
+    csv_path = CSV_PATH if not use_alternative_path else CSV_ALTERNATIVE_PATH
     remaining_rows = None
     if quests is None:
         quests = get_quest_codes()
         remaining_rows = {r[0]: r for r in rows}
 
-    os.makedirs(CSV_PATH, exist_ok=True)
+    os.makedirs(csv_path, exist_ok=True)
     for quest in quests:
         quest_rows = list(_get_rows_for_quest(quest, rows))
         if remaining_rows is not None:
             for r in quest_rows:
                 del remaining_rows[r[0]]
-        filename = os.path.join(CSV_PATH, quest + '.csv')
+        filename = os.path.join(csv_path, quest + '.csv')
         _write_csv_file(filename, quest_rows)
 
     if remaining_rows is not None:
         remaining_rows = list(remaining_rows.values())
         remaining_rows.sort()
-        filename = os.path.join(CSV_PATH, 'noquest.csv')
+        filename = os.path.join(csv_path, 'noquest.csv')
         _write_csv_file(filename, remaining_rows)
 
 
@@ -114,14 +117,14 @@ def make_commit(sheets, quests):
     subprocess.call(['git', 'commit', '--no-verify', '-m', message])
 
 
-def main(sheets=None, quests=None, commit=False):
+def main(sheets=None, quests=None, commit=False, use_alternative_path=False):
     sheets_to_import = sheets or ALL_SHEETS
 
     for sheet in sheets_to_import:
         rows = get_rows_from_sheet(sheet)
-        write_quests(quests, rows)
+        write_quests(quests, rows, use_alternative_path)
 
-    if not commit:
+    if not commit or use_alternative_path:
         return
     make_commit(sheets, quests)
 
@@ -140,6 +143,8 @@ parser.add_argument('--quests', type=str,
                           'if this parameter is not passed.'))
 parser.add_argument('--commit', action='store_true',
                     help='Make a commit with the updated strings.')
+parser.add_argument('--use-alternative-path', action='store_true',
+                    help='Import the strings into the alternative path.')
 
 args = parser.parse_args()
 available_quests = get_quest_codes()
