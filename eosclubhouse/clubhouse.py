@@ -1104,7 +1104,7 @@ class ClubhouseApplication(Gtk.Application):
                 libquest.Registry.set_current_episode(episode_name)
             except KeyError:
                 logger.error('Episode %s is not available.', episode_name)
-                return -1
+                return 1
             return 0
 
         if options.contains('reset'):
