@@ -6,3 +6,10 @@ item.key.hackdex1.1,hackdex-key-level-1-blue.png,hackdex-key-level-1-orange.png,
 item.mysterious_object,frameworks-key-level-1-blue.png,frameworks-key-level-1-orange.png,Unknown Item
 item.key.testkey,fizzics-key-level-1-blue.png,fizzics-key-level-1-orange.png,Test key
 item.reward.testreward,frameworks-key-level-1-blue.png,frameworks-key-level-1-orange.png,Test reward
+item.key.gobble.1,gobble-key-level-1-blue.png,gobble-key-level-1-orange.png,Gobble Level 1 Key
+item.key.gobble.2,gobble-key-level-2-blue.png,gobble-key-level-2-orange.png,Gobble Level 2 Key
+item.stealth.1,stealth-part-1.png,,Stealth Device Part 1
+item.stealth.2,stealth-part-2.png,,Stealth Device Part 2
+item.stealth.3,stealth-part-3.png,,Stealth Device Part 3
+item.stealth.4,stealth-part-4.png,,Stealth Device Part 4
+item.stealth_device,stealth-device.png,,Stealth Device
