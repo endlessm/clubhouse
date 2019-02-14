@@ -29,7 +29,7 @@ def get_quest_codes():
     if quest_codes is not None:
         return quest_codes
 
-    quest_codes = set()
+    quest_codes = set(['noquest'])
     for episode in os.listdir(QUESTS_PATH):
         episode_path = os.path.join(QUESTS_PATH, episode)
         if not os.path.isdir(episode_path):
@@ -91,7 +91,7 @@ def write_quests(quests, rows, use_alternative_path=False):
     if remaining_rows is not None:
         remaining_rows = list(remaining_rows.values())
         remaining_rows.sort()
-        filename = os.path.join(csv_path, 'noquest.csv')
+        filename = os.path.join(csv_path, 'remaining.csv')
         _write_csv_file(filename, remaining_rows)
 
 
