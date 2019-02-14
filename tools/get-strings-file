@@ -60,9 +60,6 @@ def _get_rows_for_quest(quest, rows):
 
 
 def _write_csv_file(filename, rows):
-    if not rows:
-        return
-
     with open(filename, 'w') as out_file:
         writer = csv.writer(out_file)
         for r in rows:
@@ -82,6 +79,10 @@ def write_quests(quests, rows, use_alternative_path=False):
     os.makedirs(csv_path, exist_ok=True)
     for quest in quests:
         quest_rows = list(_get_rows_for_quest(quest, rows))
+        if not quest_rows:
+            print('Quest "{}" has no rows to import.'.format(quest))
+            continue
+
         if remaining_rows is not None:
             for r in quest_rows:
                 del remaining_rows[r[0]]
@@ -120,9 +121,11 @@ def make_commit(sheets, quests):
 def main(sheets=None, quests=None, commit=False, use_alternative_path=False):
     sheets_to_import = sheets or ALL_SHEETS
 
+    rows = []
     for sheet in sheets_to_import:
-        rows = get_rows_from_sheet(sheet)
-        write_quests(quests, rows, use_alternative_path)
+        rows.extend(get_rows_from_sheet(sheet))
+
+    write_quests(quests, rows, use_alternative_path)
 
     if not commit or use_alternative_path:
         return
