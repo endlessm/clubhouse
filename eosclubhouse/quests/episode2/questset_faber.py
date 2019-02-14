@@ -1,13 +1,14 @@
 
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
+from eosclubhouse.quests.episode2.makerintro import MakerIntro
 
 
 class FaberQuestSet(QuestSet):
 
     __character_id__ = 'faber'
     __position__ = (200, 680)
-    __quests__ = []
+    __quests__ = [MakerIntro]
 
     def __init__(self):
         super().__init__()
