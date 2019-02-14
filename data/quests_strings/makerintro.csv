@@ -1,0 +1,22 @@
+MAKERINTRO_QUESTION,"Hey there, I hear you're pretty good with Fizzics. Want to try one of my puzzles?",Faber,,
+MAKERINTRO_QUEST_ACCEPT,Sure!,,,
+MAKERINTRO_LAUNCH,"Hi, I'm Faber. I've heard of you but I haven't had a chance to say hi yet. Nice to meet you!
+
+I hear you're quite the Fizzics pro. Let's see if you can resolve this puzzle I just put together.
+
+Go ahead and launch Fizzics.",,,
+MAKERINTRO_EXPLANATION,Here's your challenge: Make it so all 10 of these green balls are touching the red spiky ball at the same time.,,,
+MAKERINTRO_EXPLANATION_HINT1,Clearly you'll need to hack into Fizzics to do this.,,,
+MAKERINTRO_EXPLANATION_HINT2,Look at the attraction and repulsion forces.,,,
+MAKERINTRO_EXPLANATION_HINT3,What if you make the green balls smaller?,,,
+MAKERINTRO_SUCCESS,That's what I'm talking about! Way to go! Riley was right about you.,,,
+MAKERINTRO_WHATISIT,"Hey Faber, since we're here, any idea what this item I found earlier might be?",Riley,,
+MAKERINTRO_ANOTHERONE,"Hmmm, not sure. It reminds me of another one I saw somewhere. Let me see.
+
+Oh here it is! Look, it looks very similar to yours. Here, take it, Riley.",,,
+MAKERINTRO_THANKS,"Thanks Faber!
+
+Hold up! Not only is this very similar to the one we have, they actually fit together!
+
+It looks like a key! Do you think it might let us deeper into the System? We def need to check this out later.",Riley,,
+MAKERINTRO_ABORT,"Okay, see ya later!",,,
