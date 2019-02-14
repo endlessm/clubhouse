@@ -1,0 +1,15 @@
+LIGHTSPEEDINTRO_QUESTION,Hey there! We're working on a new game. Would you like to check it out? ,Ada,,
+LIGHTSPEEDINTRO_QUEST_ACCEPT,Of course!,,,
+LIGHTSPEEDINTRO_LAUNCH,Great. Go ahead and launch it from the desktop. Do you see it there? It's called LightSpeed.,,,
+LIGHTSPEEDINTRO_EXPLANATION,"LightSpeed is currently under development. We're hoping you can help us finish it.
+
+The goal of LightSpeed is very simple: Pick up 5 astronauts with your ship without crashing into anything.
+
+Give it a try. Beat the first level by rescuing 5 astronauts.",,,
+LIGHTSPEEDINTRO_GOAL,Beat the first level by rescuing 5 astronauts.,,,
+LIGHTSPEEDINTRO_ONE,That's it. Grab 4 more astronauts to beat the level.,,,
+LIGHTSPEEDINTRO_THREE,2 more to go!,,,
+LIGHTSPEEDINTRO_SUCCESS,"Nice job! You made quick work of that! Now we'll need your help with the other levels.
+
+Come get me in the Clubhouse and we'll go over the next steps. ",,,
+LIGHTSPEEDINTRO_ABORT,"No prob, we'll try again later. ",,,
