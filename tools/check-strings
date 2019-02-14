@@ -6,8 +6,11 @@
 # Copyright (c) 2019 Endless Mobile Inc.
 #
 
+quests_strings_dir="data/quests_strings/"
+
 ./tools/get-strings-file
-git diff --exit-code data/quests_strings/ || ret=$?
+git diff --exit-code "$quests_strings_dir" || ret=$?
+git checkout "$quests_strings_dir"
 
 if [ ! -z "$ret" ] && [ $ret -ne 0 ]; then
     message="The strings are not in sync. Please import them before commiting. Or to ignore this check, run: git commit --no-verify"
