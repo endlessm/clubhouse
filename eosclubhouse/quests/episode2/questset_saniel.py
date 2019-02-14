@@ -1,13 +1,14 @@
 
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
+from eosclubhouse.quests.episode2.chore import Chore
 
 
 class SanielQuestSet(QuestSet):
 
     __character_id__ = 'saniel'
     __position__ = (72, 659)
-    __quests__ = []
+    __quests__ = [Chore]
 
     def __init__(self):
         super().__init__()
