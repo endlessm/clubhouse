@@ -29,7 +29,7 @@ import sys
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import GameStateService, Sound
-from eosclubhouse.utils import Performance
+from eosclubhouse.utils import Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 
@@ -528,7 +528,7 @@ class ClubhousePage(Gtk.EventBox):
 
     def _shell_popup_message(self, text, character, open_dialog_sound):
         notification = Gio.Notification()
-        notification.set_body(text)
+        notification.set_body(SimpleMarkupParser.parse(text))
         notification.set_title('')
 
         if open_dialog_sound:
@@ -573,7 +573,7 @@ class ClubhousePage(Gtk.EventBox):
         if text is None:
             text = 'You got a new item! {}'.format(item_name)
 
-        notification.set_body(text)
+        notification.set_body(SimpleMarkupParser.parse(text))
         notification.set_title('')
 
         icon_file = Gio.File.new_for_path(utils.QuestItemDB.get_icon_path(icon_name))
