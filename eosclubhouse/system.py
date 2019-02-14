@@ -28,6 +28,10 @@ from eosclubhouse.soundserver import HackSoundServer
 from gi.repository import GLib, GObject, Gio, Json
 
 
+# Allow to import the HackSoundServer from the system while using a more friendly name
+Sound = HackSoundServer
+
+
 class Desktop:
 
     _dbus_proxy = None
@@ -123,7 +127,35 @@ class Desktop:
         return True
 
     @classmethod
-    def add_app_to_grid(klass, app_name):
+    def is_app_in_grid(klass, app_name):
+        app_name = klass.get_app_desktop_name(app_name)
+        try:
+            apps = klass.get_shell_app_store_proxy().ListApplications('()')
+            return app_name in apps
+        except GLib.Error as e:
+            logger.error(e)
+            return False
+
+    @classmethod
+    def add_app_to_grid(klass, app_name, delay=0):
+        """
+        Adds an application to the desktop grid if it does not exist.
+
+        Args:
+            - app_name (str): The dbus name of the application or the desktop
+                              file name.
+            - delay_sound (int): The time in seconds to wait until the icon is
+                                 added to the desktop grid.
+
+        Returns:
+            bool: `True` if the application was added successfully or `False`
+                  in case of errorr or if the application already existed in the
+                  desktop grid.
+        """
+        if not klass.is_app_in_grid(app_name):
+            if delay > 0:
+                time.sleep(delay)
+            Sound.play('quests/new-icon')
         app_name = klass.get_app_desktop_name(app_name)
 
         try:
@@ -375,7 +407,3 @@ class GameStateService(GObject.GObject):
     @staticmethod
     def _is_key_error(error):
         return Gio.DBusError.get_remote_error(error) == 'com.endlessm.GameStateService.KeyError'
-
-
-# Allow to import the HackSoundServer from the system while using a more friendly name
-Sound = HackSoundServer

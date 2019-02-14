@@ -39,8 +39,9 @@ class FizzicsIntro(Quest):
 
         self.show_hints_message('LAUNCH')
 
-        Sound.play('quests/new-icon')
-        Desktop.add_app_to_grid(self.APP_NAME)
+        # If no delay were added, step-begin sound would overlap shadow
+        # the 'new icon' sound.
+        Desktop.add_app_to_grid(self.APP_NAME, delay=3)
         Desktop.focus_app(self.APP_NAME)
 
         self.wait_for_app_launch(self._app)

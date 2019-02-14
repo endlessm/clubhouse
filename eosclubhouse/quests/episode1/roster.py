@@ -33,7 +33,6 @@ class Roster(Quest):
 
     def step_launch(self):
         self.show_hints_message('LAUNCH')
-        Sound.play('quests/new-icon')
         Desktop.add_app_to_grid(self.APP_NAME)
         Desktop.focus_app(self.APP_NAME)
 

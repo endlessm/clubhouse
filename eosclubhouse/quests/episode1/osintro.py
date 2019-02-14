@@ -18,7 +18,6 @@ class OSIntro(Quest):
         self.show_hints_message('LAUNCH')
 
         if not self._app.is_running():
-            Sound.play('quests/new-icon')
             Desktop.add_app_to_grid(self.APP_NAME)
             Desktop.focus_app(self.APP_NAME)
             self.wait_for_app_launch(self._app)
