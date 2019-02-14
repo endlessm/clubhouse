@@ -2,13 +2,14 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
 from eosclubhouse.quests.episode2.lightspeedintro import LightSpeedIntro
+from eosclubhouse.quests.episode2.lightspeedtweak import LightSpeedTweak
 
 
 class AdaQuestSet(QuestSet):
 
     __character_id__ = 'ada'
     __position__ = (38, 206)
-    __quests__ = [LightSpeedIntro]
+    __quests__ = [LightSpeedIntro, LightSpeedTweak]
 
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('RileyQuestSet').is_active():
