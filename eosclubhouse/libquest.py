@@ -874,6 +874,14 @@ class Quest(GObject.GObject):
         current_episode_info.update({'completed': True})
         self.gss.set('clubhouse.CurrentEpisode', current_episode_info)
 
+    @classmethod
+    def give_app_icon(class_, app_name):
+        if not Desktop.is_app_in_grid(app_name):
+            Sound.play('quests/new-icon')
+            Desktop.add_app_to_grid(app_name)
+
+        Desktop.focus_app(app_name)
+
     def on_key_event(self, event):
         self.key_event = True
 

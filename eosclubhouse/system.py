@@ -123,6 +123,16 @@ class Desktop:
         return True
 
     @classmethod
+    def is_app_in_grid(klass, app_name):
+        app_name = klass.get_app_desktop_name(app_name)
+        try:
+            apps = klass.get_shell_app_store_proxy().ListApplications()
+            return app_name in apps
+        except GLib.Error as e:
+            logger.error(e)
+        return False
+
+    @classmethod
     def add_app_to_grid(klass, app_name):
         app_name = klass.get_app_desktop_name(app_name)
 
