@@ -1,0 +1,17 @@
+LIGHTSPEEDENEMYA3_QUESTION,Let's keep working on that LightSpeed enemy you made.,Ada,,
+LIGHTSPEEDENEMYA3_QUEST_ACCEPT,Sure,,,
+LIGHTSPEEDENEMYA3_LAUNCH,You know the drill: Launch LightSpeed.,,,
+LIGHTSPEEDENEMYA3_EXPLANATION,"Now that spinning enemy moves in a diagonal and goes off screen. Let's make sure it stays on screen.
+
+Let's go to the coding panel again.",,,
+LIGHTSPEEDENEMYA3_CODE,"Select the spinning enemy and look for the update_enemy() function.
+
+That's where we keep making y a bit smaller every time. Let's stop doing that when it gets to 0.
+
+We can use an 'if' statement. if (enemy.y > 0) enemy.y = enemy.y - 10;",,,
+LIGHTSPEEDENEMYA3_CODE_HINT1,Prevent y from going below 0 with an if statement. Then run the game.,,,
+LIGHTSPEEDENEMYA3_PLAYING,Let's see how you did...,,,
+LIGHTSPEEDENEMYA3_NOTMOVING,Something went wrong and now the enemies aren't moving. Go back to the coding panel and let's fix it.,,,
+LIGHTSPEEDENEMYA3_GOINGDOWN,Hmm... they're still going below the screen. Go back and make sure you don't update the y position if they go below 0.,,,
+LIGHTSPEEDENEMYA3_SUCCESS,Perfect. Now they aren't going anywhere. Good job. Let's continue with this later.,,,
+LIGHTSPEEDENEMYA3_ABORT,Abort,,,
