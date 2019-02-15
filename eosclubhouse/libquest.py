@@ -569,7 +569,7 @@ class Quest(GObject.GObject):
 
         self._run_context.set_next_step(step_func, delay, args)
 
-    def wait_for_app_launch(self, app, timeout=None):
+    def wait_for_app_launch(self, app, timeout=None, pause_after_launch=0):
         assert self._run_context is not None
 
         async_action = self._run_context.new_async_action()
@@ -589,6 +589,9 @@ class Quest(GObject.GObject):
         self._run_context.wait_for_action(async_action, timeout)
 
         app.disconnect_running_change(handler_id)
+
+        if async_action.is_done() and pause_after_launch > 0:
+            self.pause(pause_after_launch)
 
         return async_action
 
