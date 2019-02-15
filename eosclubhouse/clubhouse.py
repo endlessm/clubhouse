@@ -22,6 +22,7 @@ import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
+import logging
 import os
 import subprocess
 import sys
@@ -1103,7 +1104,7 @@ class ClubhouseApplication(Gtk.Application):
                 libquest.Registry.set_current_episode(episode_name)
             except KeyError:
                 logger.error('Episode %s is not available.', episode_name)
-                return -1
+                return 1
             return 0
 
         if options.contains('reset'):
@@ -1207,8 +1208,12 @@ class ClubhouseApplication(Gtk.Application):
             self._show_and_focus_window()
 
     def _debug_mode_action_cb(self, action, arg_variant):
+        # Add debugging information in the Application UI:
         self._debug_mode = arg_variant.unpack()
         self._ensure_window()
+
+        # Also set the logging level:
+        logger.setLevel(logging.DEBUG)
 
     def _quest_user_answer(self, action, action_id):
         if self._window:
@@ -1229,6 +1234,8 @@ class ClubhouseApplication(Gtk.Application):
         self._window.clubhouse_page.run_quest_by_name(quest_name, run_in_shell)
 
     def _quit_action_cb(self, action, arg_variant):
+        self._stop_quest()
+
         if self._window:
             self._window.destroy()
             self._window = None
