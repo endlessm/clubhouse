@@ -1,0 +1,18 @@
+LIGHTSPEEDFIX1_QUESTION,Ready for some more coding? ,Saniel,,
+LIGHTSPEEDFIX1_QUEST_ACCEPT,Sounds good,,,
+LIGHTSPEEDFIX1_LAUNCH,"You've already seen the LightSpeed game. We'll want you to add more levels, but for now I need you to fix level 3.
+
+Launch LightSpeed now, please.",,,
+LIGHTSPEEDFIX1_EXPLANATION,Play level 3 and be on the lookout for anything unusual.,,,
+LIGHTSPEEDFIX1_EXPLANATION2,"Someone made those asteroids way too big! You'll need to get in there and adjust that. 
+
+Just like before, you'll have to hack the app to fix it. But this time you'll be using code to do it.",,,
+LIGHTSPEEDFIX1_EXPLANATION2_HINT1,Press the Flip button.,,,
+LIGHTSPEEDFIX1_GIVEKEY,I'm going to give you the level 2 key for LightSpeed. Remember: With great power comes great responsibility!,,,
+LIGHTSPEEDFIX1_UNLOCK,Now unlock the level 2 panel and let's do some coding.,,,
+LIGHTSPEEDFIX1_CODE,"See the function called spawn_obstacle_code()? That's where we set the scale for the asteroids.
+
+Change the scale to something smaller so the level becomes playable again.",,,
+LIGHTSPEEDFIX1_CODE_HINT1,Make sure to play level 3 and beat it to make sure your solution works correctly.,,,
+LIGHTSPEEDFIX1_SUCCESS,Excellent. That'll do it. We've got a few more things to fix. Come find me when you're ready for more coding!,,,
+LIGHTSPEEDFIX1_ABORT,Stop by again sometime soon!,,,
