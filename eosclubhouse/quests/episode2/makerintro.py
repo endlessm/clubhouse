@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import App, Sound
 
 
 class MakerIntro(Quest):
@@ -9,80 +9,51 @@ class MakerIntro(Quest):
 
     def __init__(self):
         super().__init__('MakerIntro', 'faber')
-        self._app = App(self.APP_NAME)
-        self.gss.connect('changed', self.update_availability)
         self.available = False
+        self._app = App(self.APP_NAME)
+
+        self.gss.connect('changed', self.update_availability)
         self.update_availability()
 
     def update_availability(self, gss=None):
         if self.conf['complete']:
             return
-        if self.is_named_quest_complete("Chore"):
+        if self.is_named_quest_complete('Chore'):
             self.available = True
 
-    def step_first(self, time_in_step):
-        if time_in_step == 0:
-            if Desktop.app_is_running(self.APP_NAME):
-                return self.step_explanation
+    def step_begin(self):
+        if not self._app.is_running():
             self.show_hints_message('LAUNCH')
-            Desktop.add_app_to_grid(self.APP_NAME)
-            Desktop.focus_app(self.APP_NAME)
+            self.give_app_icon(self.APP_NAME)
+            self.wait_for_app_launch(self._app, pause_after_launch=2)
 
-        if Desktop.app_is_running(self.APP_NAME) or self.debug_skip():
-            return self.step_delay
+        self.show_hints_message('EXPLANATION')
+        self._app.set_js_property('preset', ('i', self.GAME_PRESET))
+        return self.step_explanation
 
-    # Delay to hope that the Clippy interface is ready by the time we're done
-    def step_delay(self, time_in_step):
-        if time_in_step >= 2:
-            return self.step_explanation
+    def step_abort(self):
+        Sound.play('quests/quest-aborted')
+        self.show_message('ABORT')
 
-    def step_explanation(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('EXPLANATION')
-            self._app.set_js_property('preset', ('i', self.GAME_PRESET))
+        self.pause(5)
+        self.stop()
 
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_explanation(self):
         if self._app.get_js_property('quest1Success') or self.debug_skip():
-            return self.step_success
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
-
-    def step_success(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('SUCCESS')
-        if self.confirmed_step():
-            return self.step_whatisit
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
-
-    def step_whatisit(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('WHATISIT')
-        if self.confirmed_step():
-            return self.step_anotherone
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
-
-    def step_anotherone(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('ANOTHERONE')
-        if self.confirmed_step():
+            self.wait_confirm('SUCCESS')
+            self.wait_confirm('WHATISIT')
+            self.wait_confirm('ANOTHERONE')
             return self.step_thanks
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
 
-    def step_thanks(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('THANKS', confirm_label='Bye')
-        if self.confirmed_step():
-            self.conf['complete'] = True
-            self.available = False
-            Sound.play('quests/quest-complete')
-            self.stop()
+        self.wait_for_app_js_props_changed(self._app, ['quest1Success'])
+        return self.step_explanation
 
-    def step_abort(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/quest-aborted')
-            self.show_message('ABORT')
+    def step_thanks(self):
+        Sound.play('quests/quest-complete')
+        self.show_confirm_message('THANKS', confirm_label='Bye').wait()
 
-        if time_in_step > 5:
-            self.stop()
+        self.conf['complete'] = True
+        self.available = False
+
+        self.stop()
