@@ -1,15 +1,13 @@
 LOSTFILES_QUESTION,"Hey, I'm dealing with a serious situation here. All my research data is gone. Backups, all of it.  ",Ada,,
 LOSTFILES_QUEST_ACCEPT,Whoa. What happened? ,,,
-LOSTFILES_EXPLANATION1,"The files are just empty. Only one other person knows the protocol to access this.
-
-What's more troubling is that there's no trace of how anyone got in. Or out!",Ada,,
+LOSTFILES_EXPLANATION1,The files are just empty. Only one other person knows the protocol to access this. ,Ada,,
 LOSTFILES_EXPLANATION2,"Hey, guys? I was ""looking around"" and I noticed a super weird pattern in the System journal.",Riley,,
-LOSTFILES_EXPLANATION3,"I'm not liking this one bit, not one bit. Data's vanished. No sign of a breach. This is starting to look all too familiar.
+LOSTFILES_EXPLANATION3,"I'm not liking this one bit. First, Roster. Now Ada's data has vanished. No sign of a breach. This is starting to look all too familiar.
 
-Hold on Riley, what did I say about staying out of the Sys––oh never mind. What was it? What did you see?",Saniel,,
-LOSTFILES_EXPLANATION4,"Yes, thank you so much for coming to us now, Riley! Let's go into my research vault and you can tell us what you saw.
+",Saniel,,
+LOSTFILES_EXPLANATION4,"
 
-Oh hey there! Whew. I've got some major data corruption to deal, with but just wanted to say thanks for joining our work here!
+Oh hey there! Whew. I've got some major data corruption to deal, with but I just wanted to say thanks for joining our work here!
 
 We all look forward to more adventures with you! 
 
