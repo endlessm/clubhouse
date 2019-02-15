@@ -1,5 +1,6 @@
+from eosclubhouse.apps import LightSpeed
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App, Sound
+from eosclubhouse.system import Sound
 
 
 class LightSpeedFix1(Quest):
@@ -8,7 +9,7 @@ class LightSpeedFix1(Quest):
 
     def __init__(self):
         super().__init__('LightSpeedFix1', 'saniel')
-        self._app = App(self.APP_NAME)
+        self._app = LightSpeed()
 
         self.available = False
 
@@ -40,12 +41,9 @@ class LightSpeedFix1(Quest):
     @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
     def step_explanation(self):
         self.show_hints_message('EXPLANATION')
-        levelCount = self._app.get_js_property('availableLevels')
 
-        if levelCount < 3:
-            self._app.set_js_property('availableLevels', ('i', 3))
-
-        self._app.set_js_property('currentLevel', ('i', 2))
+        # @todo: Alert the user something was wrong is the level couldn't be set
+        self._app.set_level(3)
 
         if not self._app.get_js_property('playing'):
             self.wait_for_app_js_props_changed(self._app, ['playing'])

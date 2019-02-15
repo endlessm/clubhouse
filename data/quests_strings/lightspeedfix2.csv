@@ -1,0 +1,26 @@
+LIGHTSPEEDFIX2_QUESTION,We've got our work cut out for us on LightSpeed.,Saniel,,
+LIGHTSPEEDFIX2_QUEST_ACCEPT,Let's do it,,,
+LIGHTSPEEDFIX2_LAUNCH,All right. Let's go to LightSpeed again.,,,
+LIGHTSPEEDFIX2_EXPLANATION,"Level 4 was left rather sparse. We need some asteroids!
+
+Go ahead and flip to hack just as we did before.",,,
+LIGHTSPEEDFIX2_CODE,"There. See the spawn_obstacle() function? Someone left it empty. No wonder there are no asteroids.
+
+Try adding return ""asteroid""; and running level 4. What do you think will happen?",,,
+LIGHTSPEEDFIX2_TOOMANY,"Leaping Antelopes! That's a LOT of asteroids. So many in fact that you blew up the limit.
+
+It turns out the spawn_obstacle() function gets called every frame (about 30 times per second!).
+
+So you're creating 30 asteroids per second! Let's go back and fix it.",,,
+LIGHTSPEEDFIX2_NOENEMIES,"No, I don't see any enemies yet. Let's go back and look at the spawn code again.",,,
+LIGHTSPEEDFIX2_CODE2,"What we want is more like an asteroid every second.
+
+Notice that we have the variable tick, which goes up once every frame. Let's spawn it every 30 ticks.
+
+We know 30 ticks have passed when tick mod 30 is 0 (when tick is a multiple of 30). In code it's tick%30.
+
+And we can use an if statement to tie it all together: if (condition) return ""asteroid""; return null;",,,
+LIGHTSPEEDFIX2_CODE2_HINT1,The condition would be tick%50.,,,
+LIGHTSPEEDFIX2_CODE2_HINT2,"if (tick%50) return ""asteroid""; return null;",,,
+LIGHTSPEEDFIX2_SUCCESS,Smart work there! Clearly you're ready for something more challenging. Ada will give you the details. ,,,
+LIGHTSPEEDFIX2_ABORT,Abort,,,
