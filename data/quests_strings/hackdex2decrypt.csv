@@ -1,0 +1,11 @@
+HACKDEX2DECRYPT_QUESTION,Ready to have a go at decrypting that booklet?,Riley,,
+HACKDEX2DECRYPT_QUEST_ACCEPT,Born ready!,,,
+HACKDEX2DECRYPT_LAUNCH,"Okay Ace, go ahead and launch Leviathan",,,
+HACKDEX2DECRYPT_EXPLANATION,Did you figure out how to decrypt it? I'm sure we need to go in the hacking panel first.,,,
+HACKDEX2DECRYPT_HACK,"Here we are! Alright, so what do we need to do to crack this wide open?",,,
+HACKDEX2DECRYPT_SUCCESS,"Sweet! You did it! Now we can read it.
+
+OMG it's about Leviathan! Total. Genius. Hacker. 
+
+I wonder why it was encrypted. We should scan it all for hints. See you at the Clubhouse.",,,
+HACKDEX2DECRYPT_ABORT,See you around!,,,
