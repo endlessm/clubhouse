@@ -1,6 +1,6 @@
 from eosclubhouse.apps import LightSpeed
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, Sound
+from eosclubhouse.system import Sound
 
 
 class LightSpeedEnemyA1(Quest):
@@ -10,8 +10,8 @@ class LightSpeedEnemyA1(Quest):
     def __init__(self):
         super().__init__('LightSpeedEnemyA1', 'ada')
         self._app = LightSpeed()
-        self.gss.connect('changed', self.update_availability)
         self.available = False
+        self.gss.connect('changed', self.update_availability)
         self.update_availability()
 
     def update_availability(self, gss=None):
@@ -20,70 +20,59 @@ class LightSpeedEnemyA1(Quest):
         if self.is_named_quest_complete("LightSpeedFix2"):
             self.available = True
 
-    def step_first(self, time_in_step):
-        if time_in_step == 0:
-            if Desktop.app_is_running(self.APP_NAME):
-                return self.step_newlevel
+    def step_begin(self):
+        if not self._app.is_running():
             self.show_hints_message('LAUNCH')
             self.give_app_icon(self.APP_NAME)
+            self.wait_for_app_launch(self._app, pause_after_launch=2)
 
-        if Desktop.app_is_running(self.APP_NAME) or self.debug_skip():
-            return self.step_delay
+        return self.step_newlevel
 
-    def step_delay(self, time_in_step):
-        if time_in_step >= 2:
-            return self.step_newlevel
+    def step_abort(self):
+        Sound.play('quests/quest-aborted')
+        self.show_message('ABORT')
 
-    def step_newlevel(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('NEWLEVEL')
-            available_levels = max(self._app.get_js_property('availableLevels'), 5)
-            self._app.set_js_property('availableLevels', ('i', available_levels))
-            self._app.set_js_property('currentLevel', ('i', 4))
+        self.pause(5)
+        self.stop()
 
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_newlevel(self):
         if self._app.get_js_property('flipped') or self.debug_skip():
             return self.step_changeenemy
 
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+        self.show_hints_message('NEWLEVEL')
+        self._app.set_level(5)
 
-    def step_changeenemy(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('CHANGEENEMY')
+        self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_newlevel
 
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_changeenemy(self):
         if not self._app.get_js_property('flipped') or self.debug_skip():
+            self.show_hints_message('PLAY')
             return self.step_play
 
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+        self.show_hints_message('CHANGEENEMY')
 
-    def step_play(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('PLAY')
+        self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_newlevel
 
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_play(self):
         enemy_count = self._app.get_js_property('obstacleType1SpawnedCount')
-        if enemy_count >= 2 or self.debug_skip():
+        if (enemy_count is not None and enemy_count >= 2) or self.debug_skip():
             # @todo: Check if they spawned asteroids and go back
             # @todo: Timeout if nothing spawned in 5 seconds
             return self.step_success
 
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+        self.wait_for_app_js_props_changed(self._app, ['obstacleType1SpawnedCount'])
+        return self.step_play
 
-    def step_success(self, time_in_step):
-        if time_in_step == 0:
-            self.conf['complete'] = True
-            self.available = False
-            self.show_question('SUCCESS', confirm_label='Bye')
-            Sound.play('quests/quest-complete')
+    def step_success(self):
+        self.conf['complete'] = True
+        self.available = False
 
-        if self.confirmed_step():
-            self.stop()
+        Sound.play('quests/quest-complete')
+        self.show_confirm_message('SUCCESS', confirm_label='Bye').wait()
 
-    def step_abort(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/quest-aborted')
-            self.show_message('ABORT')
-
-        if time_in_step > 5:
-            self.stop()
+        self.stop()
