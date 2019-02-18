@@ -51,7 +51,7 @@ class LightSpeedFix2(Quest):
     def step_playing(self):
         self.pause(5)
 
-        enemyCount = self._app.get_js_property('obstacleSpawnedCount') or 0
+        enemyCount = self._app.get_js_property('obstacleType0SpawnedCount') or 0
 
         if enemyCount > 10:
             self.show_hints_message('TOOMANY')
