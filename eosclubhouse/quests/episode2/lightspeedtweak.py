@@ -1,5 +1,6 @@
+from eosclubhouse.apps import LightSpeed
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import Sound
 
 
 class LightSpeedTweak(Quest):
@@ -8,7 +9,7 @@ class LightSpeedTweak(Quest):
 
     def __init__(self):
         super().__init__('LightSpeed Tweak', 'ada')
-        self._app = App(self.APP_NAME)
+        self._app = LightSpeed()
 
     def get_current_score(self):
         if self.debug_skip():
@@ -35,12 +36,7 @@ class LightSpeedTweak(Quest):
     @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
     def step_explanation(self):
         self.show_hints_message('EXPLANATION')
-
-        levelCount = self._app.get_js_property('availableLevels')
-        if levelCount < 2:
-            self._app.set_js_property('availableLevels', ('i', 2))
-
-        self._app.set_js_property('currentLevel', ('i', 1))
+        self._app.set_level(2)
 
         return self.step_check_state
 
