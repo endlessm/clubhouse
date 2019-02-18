@@ -1,0 +1,11 @@
+STEALTHDEVICE_QUESTION,Riley said you had some questions.,Faber,,
+STEALTHDEVICE_QUEST_ACCEPT,Yeah,,,
+STEALTHDEVICE_RILEYQUESTION,"Faber, we're looking for a Stealth Device, like the one Leviathan used back in the day.",Riley,,
+STEALTHDEVICE_EXPLANATION,"Ah, right! I remember following that. He was amazing. Anyway, as for the Stealth Device, I can make one for you.
+
+You're not going to use it to get in any kind of trouble, are you?",,,
+STEALTHDEVICE_RILEYTROUBLE,Who? Us? Of course not! ,Riley,,
+STEALTHDEVICE_EXPLANATION2,"OK, just making sure. The only thing is that I don't have all the necessary components to make it right now.
+
+I'm going to need you two to get me XXXXX, XXXXXX, XXXXX, and XXXX. Do you think you can do that?",,,
+STEALTHDEVICE_END,"Sure. We're on it. Thanks, Faber!",Riley,,
