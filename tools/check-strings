@@ -6,8 +6,13 @@
 # Copyright (c) 2019 Endless Mobile Inc.
 #
 
+quest_string_files=(data/quests_strings/*)
+ignored_files=(data/quests_strings/remaining.csv)
+check_files="${quest_string_files[@]/$ignored_files}"
+
 ./tools/get-strings-file
-git diff --exit-code data/quests_strings/ || ret=$?
+git diff --exit-code -- $check_files || ret=$?
+git checkout -- $check_files
 
 if [ ! -z "$ret" ] && [ $ret -ne 0 ]; then
     message="The strings are not in sync. Please import them before commiting. Or to ignore this check, run: git commit --no-verify"
