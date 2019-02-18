@@ -55,7 +55,7 @@ class LightSpeedEnemyA1(Quest):
         self.show_hints_message('CHANGEENEMY')
 
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
-        return self.step_newlevel
+        return self.step_changeenemy
 
     @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
     def step_play(self):
