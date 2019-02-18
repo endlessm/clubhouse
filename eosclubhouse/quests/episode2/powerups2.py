@@ -1,6 +1,6 @@
 from eosclubhouse.apps import LightSpeed
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, Sound
+from eosclubhouse.system import Sound
 
 
 class PowerUps2(Quest):
@@ -11,95 +11,76 @@ class PowerUps2(Quest):
         super().__init__('PowerUps2', 'ada')
         self._app = LightSpeed()
 
-    def step_first(self, time_in_step):
-        if time_in_step == 0:
-            if Desktop.app_is_running(self.APP_NAME):
-                return self.step_explanation
+    def step_begin(self):
+        if not self._app.is_running():
             self.show_hints_message('LAUNCH')
             self.give_app_icon(self.APP_NAME)
+            self.wait_for_app_launch(self._app, pause_after_launch=2)
 
-        if Desktop.app_is_running(self.APP_NAME) or self.debug_skip():
-            return self.step_delay
+        self.show_hints_message('EXPLAIN')
+        return self.step_code
 
-    def step_delay(self, time_in_step):
-        if time_in_step >= 2:
-            return self.step_explanation
+    def step_abort(self):
+        Sound.play('quests/quest-aborted')
+        self.show_message('ABORT')
 
-    def step_explanation(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('EXPLAIN')
+        self.pause(5)
+        self.stop()
 
-        if self.debug_skip():
-            return self.step_code
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_code(self):
+        if not self._app.get_js_property('flipped') or self.debug_skip():
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
 
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+        self.show_hints_message('CODE')
 
-    def step_code(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('CODE')
+        while not (self.debug_skip() or self.is_cancelled()):
+            self.wait_for_app_js_props_changed(self._app, ['DummyProperty'])
 
-        if self.debug_skip():
-            return self.step_code2
+        return self.step_code2
 
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_code2(self):
+        self.show_hints_message('CODE2')
 
-    def step_code2(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('CODE2')
+        while not (self.debug_skip() or self.is_cancelled()):
+            self.wait_for_app_js_props_changed(self._app, ['DummyProperty'])
 
-        if self.debug_skip():
-            return self.step_spawn
+        return self.step_spawn
 
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_spawn(self):
+        self.show_hints_message('SPAWN')
 
-    def step_spawn(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('SPAWN')
+        while not (self.debug_skip() or self.is_cancelled()):
+            self.wait_for_app_js_props_changed(self._app, ['DummyProperty'])
 
-        if self.debug_skip():
-            return self.step_play
+        return self.step_play
 
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_play(self):
+        self.show_hints_message('PLAY')
 
-    def step_play(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('PLAY')
+        while not (self.debug_skip() or self.is_cancelled()):
+            self.wait_for_app_js_props_changed(self._app, ['DummyProperty'])
 
-        if self.debug_skip():
-            return self.step_success
+        return self.step_success
 
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_success(self):
+        self.show_hints_message('SUCCESS')
 
-    def step_success(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('SUCCESS')
+        while not (self.debug_skip() or self.is_cancelled()):
+            self.wait_for_app_js_props_changed(self._app, ['DummyProperty'])
 
-        if self.debug_skip():
-            return self.step_end
+        return self.step_end
 
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+    def step_end(self):
+        self.give_item('item.stealth.4')
+        self.conf['complete'] = True
+        self.available = False
 
-    def step_end(self, time_in_step):
-        if time_in_step == 0:
-            self.give_item('item.stealth.4')
-            self.conf['complete'] = True
-            self.available = False
-            self.show_question('END', confirm_label='Bye')
-            Sound.play('quests/quest-complete')
+        Sound.play('quests/quest-complete')
+        self.show_confirm_message('END', confirm_label='Bye').wait()
 
-        if self.confirmed_step():
-            self.stop()
-
-    def step_abort(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/quest-aborted')
-            self.show_message('ABORT')
-
-        if time_in_step > 5:
-            self.stop()
+        self.stop()
