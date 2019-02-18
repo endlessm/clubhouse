@@ -1,0 +1,14 @@
+INVESTIGATION_QUESTION,The time has come for us to do some investigating on our own!,Riley,,
+INVESTIGATION_QUEST_ACCEPT,I'm with you!,,,
+INVESTIGATION_LAUNCH,"There's something fishy going on with Saniel. All the evidence points his way:
+
+The Roster got corrupted when he touched it. He dropped that inactive key.  AND he doesn't even want us in the system!
+
+Let's go to the System now and see what we can learn. ",,,
+INVESTIGATION_FLIP,"OK, quiet now. Click the Flip button and let's get in there.",,,
+INVESTIGATION_UNLOCK,Here we are. Let's see what's hiding in that level 2 that nobody wanted us to see!,,,
+INVESTIGATION_STOP,"STOP! Stop right now! What are you doing here? I told you never to come here. There's nothing for you to see.
+
+Leave right now! Don't even think of coming back again.",Saniel,,
+INVESTIGATION_END,"Wow, that didn't work. How did he know we were here?? We'll have to figure out a way to come in undetected.",,,
+INVESTIGATION_ABORT,"Sure, we can put off the investigation a bit.",,,
