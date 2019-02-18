@@ -27,8 +27,7 @@ class LightSpeedTweak(Quest):
     def step_begin(self):
         if not self._app.is_running():
             self.show_hints_message('LAUNCH')
-            Desktop.add_app_to_grid(self.APP_NAME)
-            Desktop.focus_app(self.APP_NAME)
+            self.give_app_icon(self.APP_NAME)
             self.wait_for_app_launch(self._app)
 
         return self.step_explanation
