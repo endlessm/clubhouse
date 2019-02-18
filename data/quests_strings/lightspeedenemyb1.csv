@@ -1,0 +1,26 @@
+LIGHTSPEEDENEMYB1_QUESTION,Perhaps you're ready to code a whole new enemy on your own?,Saniel,,
+LIGHTSPEEDENEMYB1_QUEST_ACCEPT,Yes,,,
+LIGHTSPEEDENEMYB1_LAUNCH,Start by launching LightSpeed.,,,
+LIGHTSPEEDENEMYB1_EXPLANATION,We'll add this enemy to level 6. Press the Flip button to go to the coding panel.,,,
+LIGHTSPEEDENEMYB1_CODE1,Here we are. Start by spawning 'squid' in the spawn_enemy() function. Then play the level to test it.,,,
+LIGHTSPEEDENEMYB1_PLAYTEST,Let's see if that worked...,,,
+LIGHTSPEEDENEMYB1_NEWENEMY,"Perfect. That's the new enemy type, although it's not doing anything interesting yet. Let's fix that.",,,
+LIGHTSPEEDENEMYB1_NEWENEMY_HINT1,Go to the coding panel. Press flip to hack.,,,
+LIGHTSPEEDENEMYB1_NOENEMY,Hmm... not quite. We don't have any of that enemy in the level. Go back and try to fix it.,,,
+LIGHTSPEEDENEMYB1_CODE2,"Excellent. Now go to the update_enemy() function. If we leave it blank, it'll do nothing, like an asteroid.
+
+Let's have it move up and down like the other enemy, but smoothly, using the sine function.
+
+sin() is a function that creates a smooth wave over time. So set y = sin(this.time); and try it.",,,
+LIGHTSPEEDENEMYB1_PLAY2,"Hmm... that enemy isn't moving much, is it? That's because sin() returns a number between -1 and 1!
+
+So right now it's just moving a pixel up and down. Go back to the code and let's change it.",,,
+LIGHTSPEEDENEMYB1_CODE3,"How can we make it move more but still use the sin() function? Multiplying it of course!
+
+Multiply sin(this.time) by some number to make it larger. Go ahead and try it.",,,
+LIGHTSPEEDENEMYB1_PLAY3,"Much better! That number you chose is the amplitude of the sine wave.
+
+Now let's have it move with that amplitude, but slower. Go back to the code.",,,
+LIGHTSPEEDENEMYB1_CODE4,"The sine wave will depend on the parameter we pass it. In this case it's this.time. So if we multiply time by 0.5, we'll slow it down.",,,
+LIGHTSPEEDENEMYB1_SUCCESS,Excellent! Great job coding your first enemy from scratch!,,,
+LIGHTSPEEDENEMYB1_ABORT,Abort,,,
