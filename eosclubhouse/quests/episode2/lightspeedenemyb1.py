@@ -1,5 +1,10 @@
+from eosclubhouse.apps import LightSpeed
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import Sound
+
+# @todo: This quest only changes a few lines from the LightSpeedEnemyA2 quest, so we should make
+# sure that we use a common base but only after both quests' development is finished (otherwise,
+# optimizing ATM may end up making things more complicated).
 
 
 class LightSpeedEnemyB1(Quest):
@@ -9,123 +14,87 @@ class LightSpeedEnemyB1(Quest):
 
     def __init__(self):
         super().__init__('LightSpeedEnemyB1', 'saniel')
-        self._app = App(self.APP_NAME)
+        self._app = LightSpeed()
 
-    def step_first(self, time_in_step):
-        if time_in_step == 0:
-            if Desktop.app_is_running(self.APP_NAME):
-                return self.step_explanation
+    def step_begin(self):
+        if not self._app.is_running():
             self.show_hints_message('LAUNCH')
             self.give_app_icon(self.APP_NAME)
+            self.wait_for_app_launch(self._app, pause_after_launch=2)
 
-        if Desktop.app_is_running(self.APP_NAME) or self.debug_skip():
-            return self.step_delay
+        self.show_hints_message('EXPLANATION')
+        self._app.set_level(6)
+        return self.step_wait_for_flip, 'CODE1'
 
-    def step_delay(self, time_in_step):
-        if time_in_step >= 2:
-            return self.step_explanation
+    def step_abort(self):
+        Sound.play('quests/quest-aborted')
+        self.show_message('ABORT')
 
-    def step_explanation(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('EXPLANATION')
-            levelCount = self._app.get_js_property('availableLevels')
-            levelCount = max(levelCount, 6)
-            self._app.set_js_property('availableLevels', ('i', levelCount))
-            self._app.set_js_property('currentLevel', ('i', 6))
-        if self._app.get_js_property('flipped') or self.debug_skip():
-            return self.step_code1
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+        self.pause(5)
+        self.stop()
 
-    def step_code1(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('CODE1')
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_wait_for_flip(self, code_msg_id):
+        if not self._app.get_js_property('flipped') or self.debug_skip():
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_code, code_msg_id
+
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_code(self, code_msg_id):
         if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
-                or self.debug_skip():
-            return self.step_playtest
+           or self.debug_skip():
+            return self.step_play
 
-    def step_playtest(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('PLAYTEST')
-        if time_in_step > 10:
-            enemyCount = self._app.get_js_property('obstacleType2SpawnedCount')
-            if enemyCount == 0:
-                return self.step_noenemy
-            minY = self._app.get_js_property('obstacleType2MinY')
-            maxY = self._app.get_js_property('obstacleType2MaxY')
-            if (minY == maxY):
-                return self.step_notmoving
-            if (minY < -100 or maxY > self.SCREEN_HEIGHT + 100):
-                return self.step_offscreen
-            if (maxY - minY <= 2.1):
-                return self.step_smallmovement
-            return self.step_success
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+        self.show_hints_message(code_msg_id)
 
-    def step_noenemy(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('NOENEMY')
-        if self._app.get_js_property('flipped') or self.debug_skip():
-            return self.step_code1
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+        self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
+        return self.step_code, code_msg_id
 
-    def step_notmoving(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('NOTMOVING')
-        if self._app.get_js_property('flipped') or self.debug_skip():
-            return self.step_code2
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_play(self):
+        self.show_hints_message('PLAYTEST')
+        self.pause(10)
 
-    def step_offscreen(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('OFFSCREEN')
-        if self._app.get_js_property('flipped') or self.debug_skip():
-            return self.step_code2
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+        min_property = 'obstacleType2MinY'
+        max_property = 'obstacleType2MaxY'
+        code_msg_id = 'CODE1'
 
-    def step_smallmovement(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('SMALLMOVEMENT')
-        if self._app.get_js_property('flipped') or self.debug_skip():
-            return self.step_code3
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+        while not self.is_cancelled():
+            min_y = self._app.get_js_property(min_property)
+            max_y = self._app.get_js_property(max_property)
 
-    def step_code2(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('CODE2')
-        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
-                or self.debug_skip():
-            return self.step_playtest
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+            if self.debug_skip():
+                return self.step_success
 
-    def step_code3(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('CODE3')
-        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
-                or self.debug_skip():
-            return self.step_playtest
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+            if self._app.get_js_property('obstacleType2SpawnedCount') == 0:
+                self.show_hints_message('NOENEMY')
+                break
 
-    def step_success(self, time_in_step):
-        if time_in_step == 0:
-            self.conf['complete'] = True
-            self.available = False
-            self.show_question('SUCCESS', confirm_label='Bye')
-            Sound.play('quests/quest-complete')
-        if self.confirmed_step():
-            self.stop()
+            if min_y is not None and max_y is not None:
+                if min_y == max_y:
+                    self.show_hints_message('NOTMOVING')
+                    code_msg_id = 'CODE2'
+                    break
+                if min_y < -100 or max_y > self.SCREEN_HEIGHT + 100:
+                    self.show_hints_message('OFFSCREEN')
+                    code_msg_id = 'CODE2'
+                    break
+                if max_y - min_y <= 2.1:
+                    self.show_hints_message('SMALLMOVEMENT')
+                    code_msg_id = 'CODE3'
+                    break
 
-    def step_abort(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/quest-aborted')
-            self.show_message('ABORT')
+                return self.step_success
 
-        if time_in_step > 5:
-            self.stop()
+            self.wait_for_app_js_props_changed(self._app, [min_property, max_property])
+
+        return self.step_wait_for_flip, code_msg_id
+
+    def step_success(self):
+        self.conf['complete'] = True
+        self.available = False
+
+        Sound.play('quests/quest-complete')
+        self.show_confirm_message('SUCCESS', confirm_label='Bye').wait()
+
+        self.stop()
