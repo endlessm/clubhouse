@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import App, Sound
 
 
 class Hackdex2Find(Quest):
@@ -10,31 +10,21 @@ class Hackdex2Find(Quest):
         super().__init__('Hackdex2Find', 'riley')
         self._app = App(self.APP_NAME)
 
-    def step_first(self, time_in_step):
-        if time_in_step == 0:
-            if Desktop.app_is_running(self.APP_NAME):
-                return self.step_explanation
+    def step_begin(self):
+        if not self._app.is_running():
             self.show_hints_message('LAUNCH')
-            Desktop.add_app_to_grid(self.APP_NAME)
-            Desktop.focus_app(self.APP_NAME)
+            self.give_app_icon(self.APP_NAME)
+            self.wait_for_app_launch(self._app, pause_after_launch=2)
 
-        if Desktop.app_is_running(self.APP_NAME) or self.debug_skip():
-            return self.step_explanation
+        return self.step_explanation
 
-    def step_explanation(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('EXPLANATION', confirm_label='Bye')
+    # @todo: Set as needing the app to be running (we cannot add it yet since the app doesn't exist)
+    def step_explanation(self):
+        self.show_confirm_message('EXPLANATION', confirm_label='Bye').wait()
 
         if self.confirmed_step():
+            Sound.play('quests/quest-complete')
             self.conf['complete'] = True
             self.available = False
-            Sound.play('quests/quest-complete')
-            self.stop()
 
-    def step_abort(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/quest-aborted')
-            self.show_message('ABORT')
-
-        if time_in_step > 5:
-            self.stop()
+        self.stop()
