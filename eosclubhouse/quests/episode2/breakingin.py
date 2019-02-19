@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import App, Sound
 
 
 class BreakingIn(Quest):
@@ -9,8 +9,8 @@ class BreakingIn(Quest):
     def __init__(self):
         super().__init__('BreakingIn', 'riley')
         self._app = App(self.APP_NAME)
-        self.gss.connect('changed', self.update_availability)
         self.available = False
+        self.gss.connect('changed', self.update_availability)
         self.update_availability()
 
     def update_availability(self, gss=None):
@@ -19,55 +19,55 @@ class BreakingIn(Quest):
         if self.is_named_quest_complete("MakeDevice"):
             self.available = True
 
-    def step_first(self, time_in_step):
-        if time_in_step == 0:
-            if Desktop.app_is_running(self.APP_NAME):
-                return self.step_explanation
+    def step_begin(self):
+        if not self._app.is_running():
             self.show_hints_message('LAUNCH')
             self.give_app_icon(self.APP_NAME)
+            self.wait_for_app_launch(self._app, pause_after_launch=2)
 
-        if Desktop.app_is_running(self.APP_NAME) or self.debug_skip():
-            return self.step_delay
+        return self.step_explanation
 
-    def step_delay(self, time_in_step):
-        if time_in_step >= 2:
-            return self.step_explanation
+    def step_abort(self):
+        Sound.play('quests/quest-aborted')
+        self.show_message('ABORT')
 
-    def step_explanation(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('EXPLAIN')
-        if self.debug_skip():
-            return self.step_flipped
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+        self.pause(5)
+        self.stop()
 
-    def step_flipped(self, time_in_step):
-        if time_in_step == 0:
-            self.show_hints_message('FLIPPED')
-        if self.debug_skip():
-            return self.step_unlocked
-        if not Desktop.app_is_running(self.APP_NAME):
-            return self.step_abort
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_explanation(self):
+        self.show_hints_message('EXPLAIN')
 
-    def step_unlocked(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('UNLOCKED')
-        if self.confirmed_step():
-            return self.step_archivist
+        if not self._app.get_js_property('flipped') or self.debug_skip():
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
 
-    def step_archivist(self, time_in_step):
-        if time_in_step == 0:
-            self.show_question('ARCHIVIST', confirm_label='End of Episode 2')
-        if self.confirmed_step():
-            self.conf['complete'] = True
-            self.available = False
-            Sound.play('quests/quest-complete')
-            self.stop()
+        return self.step_flipped
 
-    def step_abort(self, time_in_step):
-        if time_in_step == 0:
-            Sound.play('quests/quest-aborted')
-            self.show_message('ABORT')
+    def level2_is_unlocked(self):
+        # @todo: Check if the needed panel is unlocked
+        return self.debug_skip()
 
-        if time_in_step > 5:
-            self.stop()
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_flipped(self):
+        self.show_hints_message('FLIPPED')
+
+        while not (self.level2_is_unlocked() or self.is_cancelled()):
+            self.wait_for_app_js_props_changed(self._app, ['DummyProperty'])
+
+        return self.step_unlocked
+
+    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    def step_unlocked(self):
+        self.wait_confirm('UNLOCKED')
+        return self.step_archivist
+
+    def step_archivist(self):
+        self.show_confirm_message('ARCHIVIST', confirm_label='End of Episode 2').wait()
+        if not self.confirmed_step():
+            return
+
+        Sound.play('quests/quest-complete')
+        self.conf['complete'] = True
+        self.available = False
+
+        self.stop()
