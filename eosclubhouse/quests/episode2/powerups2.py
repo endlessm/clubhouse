@@ -20,14 +20,7 @@ class PowerUps2(Quest):
         self.show_hints_message('EXPLAIN')
         return self.step_code
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_code(self):
         if not self._app.get_js_property('flipped') or self.debug_skip():
             self.wait_for_app_js_props_changed(self._app, ['flipped'])
@@ -39,7 +32,7 @@ class PowerUps2(Quest):
 
         return self.step_code2
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_code2(self):
         self.show_hints_message('CODE2')
 
@@ -48,7 +41,7 @@ class PowerUps2(Quest):
 
         return self.step_spawn
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_spawn(self):
         self.show_hints_message('SPAWN')
 
@@ -57,7 +50,7 @@ class PowerUps2(Quest):
 
         return self.step_play
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_play(self):
         self.show_hints_message('PLAY')
 
@@ -66,7 +59,7 @@ class PowerUps2(Quest):
 
         return self.step_success
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_success(self):
         self.show_hints_message('SUCCESS')
 

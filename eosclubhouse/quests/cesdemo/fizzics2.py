@@ -22,19 +22,12 @@ class Fizzics2(Quest):
         self.pause(2)
         return self.step_set_level
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_alreadyrunning(self):
         self.wait_confirm('ALREADY_RUNNING')
         return self.step_set_level
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_set_level(self):
         self._app.set_js_property('preset', ('i', self.GAME_PRESET))
 
@@ -42,7 +35,7 @@ class Fizzics2(Quest):
         self.show_hints_message('GOAL')
         return self.step_wait_for_success
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_wait_for_success(self):
         if self._app.get_js_property('quest0Success'):
             return self.step_success

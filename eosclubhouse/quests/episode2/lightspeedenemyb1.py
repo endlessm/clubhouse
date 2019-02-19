@@ -26,20 +26,13 @@ class LightSpeedEnemyB1(Quest):
         self._app.set_level(6)
         return self.step_wait_for_flip, 'CODE1'
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_wait_for_flip(self, code_msg_id):
         if not self._app.get_js_property('flipped') or self.debug_skip():
             self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_code, code_msg_id
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_code(self, code_msg_id):
         if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
            or self.debug_skip():
@@ -50,7 +43,7 @@ class LightSpeedEnemyB1(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
         return self.step_code, code_msg_id
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_play(self):
         self.show_hints_message('PLAYTEST')
         self.pause(10)

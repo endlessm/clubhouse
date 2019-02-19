@@ -28,14 +28,7 @@ class FizzicsCode2(Quest):
 
         return self.step_flip
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_flip(self):
         if self._app.get_js_property('flipped'):
             return self.step_explanation
@@ -47,7 +40,7 @@ class FizzicsCode2(Quest):
 
         return self.step_explanation
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         if self._app.get_js_property('gravity_0', 0) < 0:
             return self.step_end

@@ -18,13 +18,6 @@ class LightSpeedTweak(Quest):
             self._level = self._app.get_js_property('score', 0)
         return self._level
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
     def step_begin(self):
         if not self._app.is_running():
             self.show_hints_message('LAUNCH')
@@ -33,14 +26,14 @@ class LightSpeedTweak(Quest):
 
         return self.step_explanation
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         self.show_hints_message('EXPLANATION')
         self._app.set_level(2)
 
         return self.step_check_state
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_check_state(self):
         if self._app.get_js_property('playing') or self.debug_skip():
             return self.step_playing
@@ -48,14 +41,14 @@ class LightSpeedTweak(Quest):
         self.wait_for_app_js_props_changed(self._app, ['playing'])
         return self.step_check_state
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_playing(self):
         if self._app.get_js_property('playing'):
             self.wait_for_app_js_props_changed(self._app, ['playing'], timeout=10)
 
         return self.step_fliptohack
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_fliptohack(self):
         if self._app.get_js_property('flipped'):
             return self.step_givekey
@@ -65,7 +58,7 @@ class LightSpeedTweak(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_fliptohack
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_givekey(self):
         self.wait_confirm('GIVEKEY')
 
@@ -76,7 +69,7 @@ class LightSpeedTweak(Quest):
         item = self.gss.get('item.key.lightspeed.1')
         return item is not None and item.get('used', False)
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_unlock(self):
         self.show_hints_message('UNLOCK')
 
@@ -85,7 +78,7 @@ class LightSpeedTweak(Quest):
 
         return self.step_hack
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_hack(self):
         self.show_hints_message('HACK')
 

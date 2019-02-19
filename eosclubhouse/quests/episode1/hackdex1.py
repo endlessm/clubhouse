@@ -39,20 +39,13 @@ class Hackdex1(Quest):
 
         return self.step_explanation
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         Sound.play('quests/step-forward')
         self.show_hints_message('GOAL')
         return self.step_check_unlock
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_check_unlock(self):
         # Check unlock level 1
         item = self.gss.get('item.key.hackdex1.1')
@@ -66,12 +59,12 @@ class Hackdex1(Quest):
 
     def step_check_goal(self):
         if not self._app.is_running():
-            return self.step_abort
+            return self.abort
 
         # Check for color change
         data = self.gss.get('app.com_endlessm_Hackdex_chapter_one.corruption')
         if data is None:
-            return self.step_abort
+            return self.abort
 
         if data['state'] == 'fixed' or self.debug_skip():
             self.pause(2)

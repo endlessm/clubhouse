@@ -19,14 +19,7 @@ class LightSpeedEnemyC2(Quest):
 
         return self.step_explanation
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         self.show_hints_message('EXPLAIN')
 
@@ -35,7 +28,7 @@ class LightSpeedEnemyC2(Quest):
 
         return self.step_code
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_code(self):
         self.show_hints_message('CODE')
 

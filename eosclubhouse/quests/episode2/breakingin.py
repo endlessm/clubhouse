@@ -27,14 +27,7 @@ class BreakingIn(Quest):
 
         return self.step_explanation
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         self.show_hints_message('EXPLAIN')
 
@@ -47,7 +40,7 @@ class BreakingIn(Quest):
         # @todo: Check if the needed panel is unlocked
         return self.debug_skip()
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_flipped(self):
         self.show_hints_message('FLIPPED')
 
@@ -56,7 +49,7 @@ class BreakingIn(Quest):
 
         return self.step_unlocked
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_unlocked(self):
         self.wait_confirm('UNLOCKED')
         return self.step_archivist

@@ -35,14 +35,7 @@ class BreakSomething(Quest):
         self.pause(1)
         return self.step_explanation
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         if self._app.get_js_property('flipped'):
             return self.step_givekey
@@ -61,7 +54,7 @@ class BreakSomething(Quest):
 
         return self.step_givekey
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_givekey(self):
         item = self.gss.get('item.key.OperatingSystemApp.1')
         # If we already have the key, skip this step.
@@ -80,12 +73,12 @@ class BreakSomething(Quest):
             self.give_item('item.key.OperatingSystemApp.1')
             return self.step_unlock
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_unlock(self):
         self.show_hints_message('UNLOCK')
         return self.step_wait_for_unlock
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_wait_for_unlock(self):
         item = self.gss.get('item.key.OperatingSystemApp.1')
         if item is not None and item.get('used', False):
@@ -96,7 +89,7 @@ class BreakSomething(Quest):
         # been changed, so we keep trying until we get the result we need.
         return self.step_wait_for_unlock
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_unlocked(self):
         Sound.play('quests/step-forward')
         self.show_confirm_message('UNLOCKED')
@@ -112,13 +105,13 @@ class BreakSomething(Quest):
 
         return self.step_success
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_success(self):
         Sound.play('quests/step-forward')
         self.wait_confirm('SUCCESS')
         return self.step_saniel
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_saniel(self):
         self.wait_confirm('SANIELARRIVES')
         if self.settings.get_int('cursor-size') == self.CURSOR_NORMAL_SIZE:
@@ -126,7 +119,7 @@ class BreakSomething(Quest):
 
         return self.step_give_reset
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_give_reset(self):
         self.show_hints_message('GIVERESET')
 
@@ -143,14 +136,14 @@ class BreakSomething(Quest):
 
         return self.step_reset
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_reset(self):
         Sound.play('quests/step-forward')
         self.wait_confirm('RESET')
 
         return self.step_reward
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_already_reset(self):
         # Set reset button visible
         self.gss.set("app.hack_toolbox.reset_button", {'visible': True})

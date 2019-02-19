@@ -19,14 +19,7 @@ class FizzicsCode1(Quest):
 
         return self.step_flip
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_flip(self):
         if self._app.get_js_property('flipped'):
             return self.step_unlock
@@ -42,7 +35,7 @@ class FizzicsCode1(Quest):
         item = self.gss.get('item.key.fizzics.2')
         return item is not None and item.get('used', False)
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_unlock(self):
         if self._is_panel_unlocked():
             return self.step_explanation1
@@ -57,7 +50,7 @@ class FizzicsCode1(Quest):
     def _has_radius_changed(self, prev_radius):
         return self._app.get_js_property('radius_0', prev_radius) != prev_radius
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation1(self):
         Sound.play('quests/step-forward')
         self.show_hints_message('EXPLANATION1')
@@ -71,7 +64,7 @@ class FizzicsCode1(Quest):
 
         return self.step_explanation2
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation2(self):
         Sound.play('quests/step-forward')
         self.show_hints_message('EXPLANATION2')

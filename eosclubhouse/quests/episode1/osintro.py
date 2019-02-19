@@ -25,14 +25,7 @@ class OSIntro(Quest):
 
         return self.step_explanation
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         if self._app.get_js_property('flipped'):
             return self.step_saniel_flip
@@ -48,7 +41,7 @@ class OSIntro(Quest):
 
         return self.step_explanation
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_saniel(self):
         if self._app.get_js_property('flipped'):
             return self.step_flipped, self.step_saniel
@@ -63,7 +56,7 @@ class OSIntro(Quest):
 
         return self.step_saniel
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_saniel_flip(self):
         if not self._app.get_js_property('flipped'):
             return self.step_intro
@@ -73,7 +66,7 @@ class OSIntro(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_saniel_flip
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_intro(self):
         confirm_action = self.show_confirm_message('INTRO')
         app_changes_action = self.connect_app_js_props_changes(self._app, ['flipped'])
@@ -88,7 +81,7 @@ class OSIntro(Quest):
 
         return self.step_intro
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_saniel2(self):
         confirm_action = self.show_confirm_message('SANIEL2')
         app_changes_action = self.connect_app_js_props_changes(self._app, ['flipped'])
@@ -106,7 +99,7 @@ class OSIntro(Quest):
 
         return self.step_saniel2
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_wrapup(self):
         confirm_action = self.show_confirm_message('WRAPUP')
         app_changes_action = self.connect_app_js_props_changes(self._app, ['flipped'])
@@ -125,7 +118,7 @@ class OSIntro(Quest):
 
         return self.step_saniel2
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_flipped(self, next_step):
         Sound.play('quests/saniel-angry')
         self.show_hints_message('FLIPPED')
