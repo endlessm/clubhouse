@@ -956,25 +956,23 @@ class Quest(GObject.GObject):
         self.notify('available')
 
     def with_app_launched(app_name, otherwise):
-        app_was_quit = False
-        handler_id = 0
-
-        def _app_running_changed(app, instance, app_quit_callback):
-            nonlocal app_was_quit
-            if not app.is_running():
-                app.disconnect_running_change(handler_id)
-                app_was_quit = True
-                app_quit_callback(instance)
-
         def wrapper(func):
             app = App(app_name)
 
             def wrapped_func(instance, *args):
-                nonlocal app_was_quit
-                nonlocal handler_id
+                app_was_quit = False
+                handler_id = 0
 
                 if not app.is_running():
                     return otherwise(instance)
+
+                def _app_running_changed(app, instance, app_quit_callback):
+                    nonlocal app_was_quit
+
+                    if not app.is_running():
+                        app.disconnect_running_change(handler_id)
+                        app_was_quit = True
+                        app_quit_callback(instance)
 
                 # Check if the app is quit while the wrapped function is being run
                 # if so, we run the alternative callback instead
