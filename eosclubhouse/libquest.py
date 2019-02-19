@@ -695,6 +695,20 @@ class Quest(GObject.GObject):
         self._confirmed_step = False
         return confirmed
 
+    def abort(self):
+        abort_info = QuestStringCatalog.get_info('{}_ABORT'.format(self._qs_base_id))
+        sound_id = abort_info.get('open_dialog_sound') if abort_info else None
+        if sound_id is None:
+            sound_id = 'quests/quest-aborted'
+
+        Sound.play(sound_id)
+
+        if abort_info:
+            self.show_message('ABORT')
+
+        self.pause(5)
+        self.stop()
+
     def stop(self):
         if not self.is_cancelled() and self._cancellable is not None:
             self._cancellable.cancel()
