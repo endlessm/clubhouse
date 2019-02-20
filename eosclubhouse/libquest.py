@@ -312,12 +312,10 @@ class _QuestRunContext:
 
         self._debug_actions = set(action_list)
 
-        loop = asyncio.get_event_loop()
-
-        if not loop.is_closed():
-            loop.run_until_complete(wait_or_timeout(futures, timeout))
-            loop.stop()
-            loop.close()
+        loop = asyncio.new_event_loop()
+        loop.run_until_complete(wait_or_timeout(futures, timeout))
+        loop.stop()
+        loop.close()
 
         self._debug_actions.clear()
 
