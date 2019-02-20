@@ -147,7 +147,7 @@ class Registry:
 
 class _QuestRunContext:
 
-    def __init__(self, cancellable, step_timeout):
+    def __init__(self, cancellable):
         self._confirm_action = None
 
         asyncio.set_event_loop(asyncio.new_event_loop())
@@ -156,8 +156,6 @@ class _QuestRunContext:
         self._timeout_handle = None
         self._cancellable = cancellable
         self._debug_actions = set()
-
-        self.step_timeout = step_timeout
 
     def _cancel_and_close_loop(self, loop):
         if not loop.is_closed():
@@ -194,9 +192,9 @@ class _QuestRunContext:
             self._timeout_handle.cancel()
             self._timeout_handle = None
 
-    def run_step_timeout(self):
+    def run_step_timeout(self, timeout):
         self.reset_step_timeout()
-        self._timeout_handle = self._step_loop.call_later(self.step_timeout, self.cancel)
+        self._timeout_handle = self._step_loop.call_later(timeout, self.cancel)
 
     def set_next_step(self, step_func, *args):
         def _run_step(step_func_data):
@@ -204,8 +202,6 @@ class _QuestRunContext:
 
             # Execute the step
             result = step_func(*args_)
-
-            self.reset_step_timeout()
 
             if result is None or self._cancellable.is_cancelled():
                 return
@@ -225,9 +221,6 @@ class _QuestRunContext:
         if self._cancellable.is_cancelled() or self._step_loop.is_closed():
             return
 
-        self.reset_step_timeout()
-
-        self._step_loop.call_later(self.step_timeout, self.cancel)
         self._step_loop.call_soon(functools.partial(_run_step, (step_func, args)))
 
     def run(self, first_step=None):
@@ -473,7 +466,7 @@ class Quest(GObject.GObject):
     def run(self, quest_finished_cb):
         Sound.play('quests/quest-given')
 
-        self._run_context = _QuestRunContext(self._cancellable, self.stop_timeout)
+        self._run_context = _QuestRunContext(self._cancellable)
         self._run_context.run(self.step_begin)
         self._run_context = None
 
@@ -481,10 +474,6 @@ class Quest(GObject.GObject):
 
     def set_next_step(self, step_func, delay=0, args=()):
         assert self._run_context is not None
-
-        # Update the step stop timeout before every step runs
-        self._run_context.step_timeout = self.stop_timeout
-
         self._run_context.set_next_step(step_func, delay, args)
 
     def wait_for_app_launch(self, app, timeout=None, pause_after_launch=0):
@@ -676,12 +665,12 @@ class Quest(GObject.GObject):
         self._run_context.wait_for_one(action_list)
 
     def set_to_background(self):
-        # @todo: Start timeout check
-        pass
+        if self._run_context is not None:
+            self._run_context.run_step_timeout(self.stop_timeout)
 
     def set_to_foreground(self):
-        # @todo: Stop timeout check
-        pass
+        if self._run_context is not None:
+            self._run_context.reset_step_timeout()
 
     def get_continue_info(self):
         return (self.continue_message, 'Continue', 'Stop')
