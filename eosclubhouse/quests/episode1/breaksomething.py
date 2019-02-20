@@ -99,7 +99,7 @@ class BreakSomething(Quest):
     @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
     def step_unlocked(self):
         Sound.play('quests/step-forward')
-        self.show_question('UNLOCKED')
+        self.show_confirm_message('UNLOCKED')
 
         while self.settings.get_int('cursor-size') < self.CURSOR_HUGE_SIZE:
             if self.confirmed_step():
