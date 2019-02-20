@@ -53,14 +53,7 @@ class Fizzics1(Quest):
         self.pause(2)
         return self.step_goal
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_goal(self):
         level = self.get_current_level()
         # Check to see if the goal is already beat
@@ -86,13 +79,13 @@ class Fizzics1(Quest):
 
         return self.step_goal
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_ball_died(self, next_step):
         self.show_hints_message('BALLDIED')
         self.wait_for_app_js_props_changed(self._app, ['ballDied'])
         return next_step
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_level8(self):
         if self._app_is_flipped():
             return self.step_flipped
@@ -123,13 +116,13 @@ class Fizzics1(Quest):
 
         return self.step_level8
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_flipped(self):
         Sound.play('quests/step-forward')
         self.show_hints_message('FLIPPED')
         return self.step_check_unlocked
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_check_unlocked(self):
         if not self._app_is_flipped():
             return self.step_level8
@@ -146,7 +139,7 @@ class Fizzics1(Quest):
 
         return self.step_check_unlocked
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_hack(self):
         level = self.get_current_level()
         if level == 8:

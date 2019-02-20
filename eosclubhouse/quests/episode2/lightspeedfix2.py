@@ -20,13 +20,7 @@ class LightSpeedFix2(Quest):
 
         return self.step_explanation
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         self.show_hints_message('EXPLANATION')
 
@@ -35,7 +29,7 @@ class LightSpeedFix2(Quest):
 
         return self.step_fliptohack, 'CODE'
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_fliptohack(self, msg_id_on_flipped):
         if self._app.get_js_property('flipped'):
             self.show_hints_message(msg_id_on_flipped)
@@ -47,7 +41,7 @@ class LightSpeedFix2(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_fliptohack, msg_id_on_flipped
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_playing(self):
         self.pause(5)
 

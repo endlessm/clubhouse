@@ -24,13 +24,6 @@ class Roster(Quest):
         self.wait_confirm('PRELAUNCH')
         return self.step_launch
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
     def step_launch(self):
         self.show_hints_message('LAUNCH')
         Sound.play('quests/new-icon')
@@ -41,7 +34,7 @@ class Roster(Quest):
         self.pause(2)
         return self.step_explanation
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         if self.is_saniel_page_read():
             return self.step_success, True
@@ -50,7 +43,7 @@ class Roster(Quest):
         self.show_hints_message('EXPLANATION')
         return self.step_wait_on_page_read
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_wait_on_page_read(self):
         if self.is_saniel_page_read():
             self.pause(2)

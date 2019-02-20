@@ -28,14 +28,7 @@ class LightSpeedEnemyA1(Quest):
 
         return self.step_newlevel
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_newlevel(self):
         if self._app.get_js_property('flipped') or self.debug_skip():
             return self.step_changeenemy
@@ -46,7 +39,7 @@ class LightSpeedEnemyA1(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_newlevel
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_changeenemy(self):
         if not self._app.get_js_property('flipped') or self.debug_skip():
             self.show_hints_message('PLAY')
@@ -57,7 +50,7 @@ class LightSpeedEnemyA1(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_changeenemy
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_play(self):
         enemy_count = self._app.get_js_property('obstacleType1SpawnedCount')
         if (enemy_count is not None and enemy_count >= 2) or self.debug_skip():

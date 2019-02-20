@@ -49,14 +49,7 @@ class FizzicsIntro(Quest):
         self.pause(1)
         return self.step_explanation
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_check_level(self):
         level = self.get_current_level()
 
@@ -72,11 +65,11 @@ class FizzicsIntro(Quest):
         async_action = self.wait_for_app_js_props_changed(self._app,
                                                           ['levelSuccess', 'currentLevel'])
         if async_action.is_cancelled():
-            return self.step_abort
+            return self.abort
 
         return self.step_check_level
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         Sound.play('quests/step-forward')
 

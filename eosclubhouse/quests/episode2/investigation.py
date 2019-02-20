@@ -28,14 +28,7 @@ class Investigation(Quest):
         self.show_hints_message('FLIP')
         return self.step_wait_for_flip
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_wait_for_flip(self):
         if self._app.get_js_property('flipped') or self.debug_skip():
             return self.step_unlock
@@ -43,7 +36,7 @@ class Investigation(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_wait_for_flip
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_unlock(self):
         self.show_hints_message('UNLOCK')
 
@@ -52,7 +45,7 @@ class Investigation(Quest):
 
         return self.step_stop
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_stop(self):
         self.show_hints_message('STOP')
 

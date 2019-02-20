@@ -35,7 +35,7 @@ class FirstContact(Quest):
         self.pause(3)
         return self.step_one
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_reward)
+    @Quest.with_app_launched(APP_NAME, otherwise='step_reward')
     def step_one(self):
         if self._is_app_flipped():
             return self.step_dohack
@@ -46,7 +46,7 @@ class FirstContact(Quest):
 
         return self.step_dohack
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_reward)
+    @Quest.with_app_launched(APP_NAME, otherwise='step_reward')
     def step_dohack(self):
         if self._is_app_hacked():
             return self.step_flipback
@@ -57,7 +57,7 @@ class FirstContact(Quest):
 
         return self.step_flipback
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_reward)
+    @Quest.with_app_launched(APP_NAME, otherwise='step_reward')
     def step_flipback(self):
         if self._is_app_flipped_back():
             return self.step_reward

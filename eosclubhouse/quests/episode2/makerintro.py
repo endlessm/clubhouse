@@ -31,14 +31,7 @@ class MakerIntro(Quest):
         self._app.set_js_property('preset', ('i', self.GAME_PRESET))
         return self.step_explanation
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         if self._app.get_js_property('quest1Success') or self.debug_skip():
             self.wait_confirm('SUCCESS')

@@ -31,14 +31,7 @@ class LightSpeedFix1(Quest):
 
         return self.step_explanation
 
-    def step_abort(self):
-        Sound.play('quests/quest-aborted')
-        self.show_message('ABORT')
-
-        self.pause(5)
-        self.stop()
-
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         self.show_hints_message('EXPLANATION')
 
@@ -49,14 +42,14 @@ class LightSpeedFix1(Quest):
             self.wait_for_app_js_props_changed(self._app, ['playing'])
         return self.step_playing
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_playing(self):
         if self._app.get_js_property('playing'):
             self.wait_for_app_js_props_changed(self._app, ['playing'], timeout=10)
 
         return self.step_fliptohack
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_fliptohack(self):
         if self._app.get_js_property('flipped'):
             return self.step_givekey
@@ -66,7 +59,7 @@ class LightSpeedFix1(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_fliptohack
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_givekey(self):
         self.wait_confirm('GIVEKEY')
         self.give_item('item.key.lightspeed.2')
@@ -76,7 +69,7 @@ class LightSpeedFix1(Quest):
         item = self.gss.get('item.key.lightspeed.2')
         return item is not None and item.get('used', False)
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_unlock(self):
         self.show_hints_message('UNLOCK')
 
@@ -85,7 +78,7 @@ class LightSpeedFix1(Quest):
 
         return self.step_code
 
-    @Quest.with_app_launched(APP_NAME, otherwise=step_abort)
+    @Quest.with_app_launched(APP_NAME)
     def step_code(self):
         if self._app.get_js_property('success') or self.debug_skip():
             return self.step_success
