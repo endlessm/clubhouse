@@ -282,7 +282,7 @@ class App:
 
         return True
 
-    def connect_js_props_change(self, props, js_property_changed_cb, *args):
+    def connect_object_props_change(self, obj, props, js_property_changed_cb, *args):
         # Check if the properties really changed, because in older versions of
         # Clippy, it was notifying always, instead of only if the value of the
         # property had changed.
@@ -304,12 +304,12 @@ class App:
                 js_property_changed_cb(*args)
 
         for prop in props:
-            self.get_clippy_proxy().Connect('(sss)', self.APP_JS_PARAMS, 'notify', prop)
+            self.get_clippy_proxy().Connect('(sss)', obj, 'notify', prop)
 
         proxy = self.get_clippy_proxy()
         return proxy.connect('g-signal', _props_changed_cb, props, js_property_changed_cb, *args)
 
-    def disconnect_js_props_change(self, handler_id):
+    def disconnect_object_props_change(self, handler_id):
         self.get_clippy_proxy().disconnect(handler_id)
 
     def connect_running_change(self, app_running_changed_cb, *args):

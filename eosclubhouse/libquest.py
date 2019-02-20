@@ -683,14 +683,17 @@ class Quest(GObject.GObject):
 
         return async_action
 
-    def connect_app_js_props_changes(self, app, props):
+    def connect_app_object_props_changes(self, app, obj, props):
         assert len(props) > 0
-        return self._connect_app_changes(app, props)
+        return self._connect_app_changes(app, obj, props)
+
+    def connect_app_js_props_changes(self, app, props):
+        return self.connect_app_object_props_changes(app, app.APP_JS_PARAMS, props)
 
     def connect_app_quit(self, app):
-        return self._connect_app_changes(app, [])
+        return self._connect_app_changes(app, None, [])
 
-    def _connect_app_changes(self, app, props):
+    def _connect_app_changes(self, app, obj, props):
         assert self._run_context is not None
 
         async_action = self._run_context.new_async_action()
@@ -699,15 +702,15 @@ class Quest(GObject.GObject):
             if not app.is_running() and not async_action.is_resolved():
                 async_action.resolve()
 
-        js_props_handler_id = running_handler_id = 0
+        obj_props_handler_id = running_handler_id = 0
 
         def _disconnect_app(_future):
-            nonlocal js_props_handler_id
+            nonlocal obj_props_handler_id
             nonlocal running_handler_id
 
-            if js_props_handler_id > 0:
-                app.disconnect_js_props_change(js_props_handler_id)
-                js_props_handler_id = 0
+            if obj_props_handler_id > 0:
+                app.disconnect_object_props_change(obj_props_handler_id)
+                obj_props_handler_id = 0
 
             app.disconnect_running_change(running_handler_id)
 
@@ -721,11 +724,12 @@ class Quest(GObject.GObject):
 
         if len(props) > 0:
             try:
-                js_props_handler_id = app.connect_js_props_change(props,
-                                                                  lambda: async_action.resolve())
+                obj_props_handler_id = app.connect_object_props_change(
+                    obj, props,
+                    lambda: async_action.resolve())
             except GLib.Error as e:
                 # Prevent any D-Bus errors (like ServiceUnknown when the app has been quit)
-                logger.debug('Could not connect to app "%s" js property changes: %s',
+                logger.debug('Could not connect to app "%s" object property changes: %s',
                              app.dbus_name, e.get_message())
 
                 async_action.cancel()
