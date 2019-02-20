@@ -669,7 +669,9 @@ class Quest(GObject.GObject):
         if async_action.is_cancelled():
             return async_action
 
-        self.show_question(msg_id, **options)
+        self._confirmed_step = False
+        options.update({'use_confirm': True})
+        self.show_message(msg_id, **options)
 
         return async_action
 
@@ -742,11 +744,6 @@ class Quest(GObject.GObject):
                   options.get('character_id') or self._main_character_id,
                   options.get('mood') or self._main_mood,
                   options.get('open_dialog_sound') or self._main_open_dialog_sound)
-
-    def show_question(self, info_id=None, **options):
-        self._confirmed_step = False
-        options.update({'use_confirm': True})
-        self.show_message(info_id, **options)
 
     def _show_next_hint_message(self, info_list, index=0):
         label = "I'd like another hint"
