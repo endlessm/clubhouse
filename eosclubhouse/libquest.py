@@ -166,7 +166,7 @@ class _QuestRunContext:
             loop.close()
 
     def _cancel_all(self):
-        self.reset_step_timeout()
+        self.reset_stop_timeout()
 
         self._cancel_and_close_loop(self._step_loop)
 
@@ -187,13 +187,13 @@ class _QuestRunContext:
     def cancel(self):
         self._cancellable.cancel()
 
-    def reset_step_timeout(self):
+    def reset_stop_timeout(self):
         if self._timeout_handle is not None:
             self._timeout_handle.cancel()
             self._timeout_handle = None
 
-    def run_step_timeout(self, timeout):
-        self.reset_step_timeout()
+    def run_stop_timeout(self, timeout):
+        self.reset_stop_timeout()
         self._timeout_handle = self._step_loop.call_later(timeout, self.cancel)
 
     def set_next_step(self, step_func, *args):
@@ -666,11 +666,11 @@ class Quest(GObject.GObject):
 
     def set_to_background(self):
         if self._run_context is not None:
-            self._run_context.run_step_timeout(self.stop_timeout)
+            self._run_context.run_stop_timeout(self.stop_timeout)
 
     def set_to_foreground(self):
         if self._run_context is not None:
-            self._run_context.reset_step_timeout()
+            self._run_context.reset_stop_timeout()
 
     def get_continue_info(self):
         return (self.continue_message, 'Continue', 'Stop')
