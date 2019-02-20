@@ -456,9 +456,6 @@ class Quest(GObject.GObject):
 
         self._confirmed_step = False
 
-        self._timeout_start = -1
-        self._check_timeout = False
-
         self._run_context = None
 
     def get_default_qs_base_id(self):
@@ -678,27 +675,13 @@ class Quest(GObject.GObject):
     def wait_for_one(self, action_list):
         self._run_context.wait_for_one(action_list)
 
-    def _check_timed_out(self, current_time_secs):
-        if not self._check_timeout:
-            return
-
-        timeout_start = self._timeout_start
-        if timeout_start == -1:
-            self._timeout_start = current_time_secs
-            return
-
-        if self.stop_timeout != -1 and (current_time_secs - timeout_start) > self.stop_timeout:
-            self.stop()
-
-    def _reset_timeout(self):
-        self._check_timeout = False
-        self._timeout_start = -1
-
     def set_to_background(self):
-        self._check_timeout = True
+        # @todo: Start timeout check
+        pass
 
     def set_to_foreground(self):
-        self._reset_timeout()
+        # @todo: Stop timeout check
+        pass
 
     def get_continue_info(self):
         return (self.continue_message, 'Continue', 'Stop')
