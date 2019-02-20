@@ -433,6 +433,7 @@ class Quest(GObject.GObject):
         self._main_character_id = main_character_id
         self._main_mood = 'talk'
         self._main_open_dialog_sound = 'clubhouse/dialog/open'
+        self._default_abort_sound = 'quests/quest-aborted'
 
         self._available = True
         self._cancellable = None
@@ -686,12 +687,6 @@ class Quest(GObject.GObject):
 
     def abort(self):
         abort_info = QuestStringCatalog.get_info('{}_ABORT'.format(self._qs_base_id))
-        sound_id = abort_info.get('open_dialog_sound') if abort_info else None
-        if sound_id is None:
-            sound_id = 'quests/quest-aborted'
-
-        Sound.play(sound_id)
-
         if abort_info:
             self.show_message('ABORT')
 
@@ -724,10 +719,17 @@ class Quest(GObject.GObject):
             confirm_label = options.get('confirm_label', '>')
             possible_answers = [(confirm_label, self._confirm_step)] + possible_answers
 
+        sound_id = options.get('open_dialog_sound')
+        if not sound_id:
+            if info_id == 'ABORT':
+                sound_id = self._default_abort_sound
+            else:
+                sound_id = self._main_open_dialog_sound
+
         self.emit('message', options['txt'], possible_answers,
                   options.get('character_id') or self._main_character_id,
                   options.get('mood') or self._main_mood,
-                  options.get('open_dialog_sound') or self._main_open_dialog_sound)
+                  sound_id)
 
     def _show_next_hint_message(self, info_list, index=0):
         label = "I'd like another hint"
