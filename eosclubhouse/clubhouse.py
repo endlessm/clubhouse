@@ -611,18 +611,19 @@ class ClubhousePage(Gtk.EventBox):
         return key
 
     def quest_action(self, action_key):
+        actions = self._actions
         action = self._actions.get(action_key)
+
+        self._reset_quest_actions()
 
         if action is None:
             logger.debug('Failed to get action for key %s', action_key)
-            logger.debug('Current actions: %s', self._actions)
+            logger.debug('Current actions: %s', actions)
             return
 
         # Call the action
         callback, args = action[1], action[2:]
         callback(*args)
-
-        self._reset_quest_actions()
 
     def set_quest_to_background(self):
         if self._current_quest:
