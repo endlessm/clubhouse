@@ -76,6 +76,15 @@ strings CSV file can be added to a secondary location and will be loaded
 directly by the Clubhouse (overriding any quest/string-id with the same name).
 this alternative location is: `~/.var/app/com.endlessm.Clubhouse/data/quests`
 
+### Quest Sound Overrides
+
+In the spreadsheet, per-message sounds can be defined. There are
+special cases where the sounds override default sounds.
+
+- `ABORT`: Override the default sound played when the quest is
+  aborted. Quests are usually aborted when the external app they are
+  using is closed by the user.
+
 ### Sprite Animations Format
 
 Character animations in the Clubhouse are implemented with
