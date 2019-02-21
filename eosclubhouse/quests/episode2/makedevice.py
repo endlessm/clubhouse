@@ -1,5 +1,7 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
+from gi.repository import GObject
+from eosclubhouse.utils import QS
 
 
 class MakeDevice(Quest):
@@ -13,6 +15,13 @@ class MakeDevice(Quest):
             if self.gss.get('item.stealth.1') is None:
                 return False
         return True
+
+    @GObject.Property(type=str)
+    def accept_label(self):
+        if self.has_all_stealth_items():
+            return QS('{}_QUEST_ACCEPT'.format(self._qs_base_id))
+        else:
+            return QS('{}_QUEST_NOTYET'.format(self._qs_base_id))
 
     def step_begin(self):
         if not self.has_all_stealth_items():
