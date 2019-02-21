@@ -7,9 +7,9 @@ Ready! Let's flip to hack and let's go in.",,,
 BREAKINGIN_FLIPPED,"The moment of truth!  Okay, go ahead and Unlock that Level 2. Let's hope Faber knew his stuff and this device really works.",,,
 BREAKINGIN_UNLOCKED,"Whoa! It worked! We're in. I wonder what wonders there are here.
 
-All there is here is this weird box? Why does it have the Leviathan sign on the side? And why didn't Saniel want us to see it?
-
-Something is super weird here. Let's see what's inside the box. AHHHGGHHHHHHHGGHHH!!!!",,,
+All there is here is this weird box? Why does it have the Leviathan sign on the side? And why didn't Saniel want us to see it?",,,
+BREAKINGIN_STARTTRAP,Something is super weird here. Let's see what's inside the box. AHHHGGHHHHHHHGGHHH!!!!,,glitching,
+BREAKINGIN_TRAPPED,Help! I'm stuck here! Help!,,talk_glitched,
 BREAKINGIN_ARCHIVIST,"What's going on here? Didn't I tell you – What happened to the trap? Why is it active?
 
 What? Riley was sucked into the AI trap? What have you done? This is one of my old traps, but it was supposed to be disabled.
