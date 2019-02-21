@@ -1,7 +1,7 @@
 LIGHTSPEEDENEMYC2_QUESTION,Hey! Want to make that new LightSpeed enemy be smarter?,Riley,,
 LIGHTSPEEDENEMYC2_QUEST_ACCEPT,Yes!,,,
 LIGHTSPEEDENEMYC2_LAUNCH,"OK, guess which app to launch.",,,
-LIGHTSPEEDENEMYC2_LAUNCH_HINT1,LightSpeed! Doh!,,,
+LIGHTSPEEDENEMYC2_LAUNCH_HINT1,Lightspeed! Doh!,,,
 LIGHTSPEEDENEMYC2_EXPLAIN,"All right. So right now this new enemy sits there like a lump. We want it to move, but not mindlessly like the other enemies.
 
 We want it to move TOWARDS the player! Let's flip to hack and write some code.",,,
@@ -14,5 +14,8 @@ LIGHTSPEEDENEMYC2_CODE_HINT1,First you should check if the player ship is higher
 LIGHTSPEEDENEMYC2_CODE_HINT2,"In that case, you can increase the enemy position: enemy.pos.y += 1;",,,
 LIGHTSPEEDENEMYC2_CODE_HINT3,"If it's lower, we can use the else keyword (if (...) { } else { }",,,
 LIGHTSPEEDENEMYC2_CODE_HINT4,"And in that case, we can lower the enemy: enemy.pos.y -= 1;",,,
-LIGHTSPEEDENEMYC2_SUCCESS,Wow! Look how this enemy chases us! It's a lot harder now! Very cool.,,,
+LIGHTSPEEDENEMYC2_PLAYTEST,Move the ship up and down in front of the enemies to see if they track us...,,,
+LIGHTSPEEDENEMYC2_NOENEMIES,Weird. I don't see any enemies anymore. Did you change something? Let's fix it.,,,
+LIGHTSPEEDENEMYC2_NOTMOVING,It's not moving at all. Something must be wrong. Let's check.,,,
+LIGHTSPEEDENEMYC2_SUCCESS,That's what I'm talking about! Look how this enemy chases us! It's a lot harder now! Very cool.,,,
 LIGHTSPEEDENEMYC2_ABORT,Abort,,,
