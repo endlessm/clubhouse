@@ -17,16 +17,45 @@ class LightSpeedEnemyB2(Quest):
             self.give_app_icon(self.APP_NAME)
             self.wait_for_app_launch(self._app, pause_after_launch=2)
 
-        return self.step_explanation
+        self._app.set_level(7)
+        self.show_hints_message('EXPLAIN')
+        return self.step_wait_for_flip
 
     @Quest.with_app_launched(APP_NAME)
-    def step_explanation(self):
-        self.show_hints_message('EXPLAIN')
+    def step_code(self):
+        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
+           or self.debug_skip():
+            return self.step_play
 
-        while not (self.debug_skip() or self.is_cancelled()):
-            self.wait_for_app_js_props_changed(self._app, ['DummyProperty'])
+        self.show_hints_message('CODE')
 
-        return self.step_success
+        self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
+        return self.step_code
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_play(self):
+        self.show_hints_message('PLAYING')
+        self.pause(12)
+
+        enemy0_count = self._app.get_js_property('obstacleType0SpawnedCount', -1)
+        enemy1_count = self._app.get_js_property('obstacleType1SpawnedCount', -1)
+        enemy2_count = self._app.get_js_property('obstacleType2SpawnedCount', -1)
+
+        if (enemy0_count > 0 and enemy1_count > 0 and enemy2_count > 0) or self.debug_skip():
+            return self.step_success
+
+        if enemy0_count == 0 and enemy1_count == 0 and enemy2_count == 0:
+            self.show_hints_message('NOENEMIES')
+            return self.step_wait_for_flip
+
+        self.show_hints_message('SOMENEMIES')
+        return self.step_wait_for_flip
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_wait_for_flip(self):
+        if not self._app.get_js_property('flipped') or self.debug_skip():
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_code
 
     @Quest.with_app_launched(APP_NAME)
     def step_success(self):
