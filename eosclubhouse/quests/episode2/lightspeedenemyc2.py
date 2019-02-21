@@ -17,31 +17,47 @@ class LightSpeedEnemyC2(Quest):
             self.give_app_icon(self.APP_NAME)
             self.wait_for_app_launch(self._app, pause_after_launch=2)
 
-        return self.step_explanation
-
-    @Quest.with_app_launched(APP_NAME)
-    def step_explanation(self):
+        self._app.set_level(8)
         self.show_hints_message('EXPLAIN')
-
-        while not (self.debug_skip() or self.is_cancelled()):
-            self.wait_for_app_js_props_changed(self._app, ['DummyProperty'])
-
-        return self.step_code
+        return self.step_wait_for_flip
 
     @Quest.with_app_launched(APP_NAME)
     def step_code(self):
+        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
+           or self.debug_skip():
+            return self.step_play
+
         self.show_hints_message('CODE')
 
-        while not (self.debug_skip() or self.is_cancelled()):
-            self.wait_for_app_js_props_changed(self._app, ['DummyProperty'])
+        self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
+        return self.step_code
 
+    @Quest.with_app_launched(APP_NAME)
+    def step_play(self):
+        self.show_hints_message('PLAYTEST')
+        self.pause(10)
+
+        min_y = self._app.get_js_property('obstacleType2MinY', +10000)
+        max_y = self._app.get_js_property('obstacleType2MaxY', -10000)
+        print("Min " + str(min_y) + " Max " + str(max_y))
+        if min_y > max_y:
+            self.show_hints_message('NOENEMIES')
+            return self.step_wait_for_flip
+        if min_y == max_y:
+            self.show_hints_message('NOTMOVING')
+            return self.step_wait_for_flip
         return self.step_success
 
+    @Quest.with_app_launched(APP_NAME)
+    def step_wait_for_flip(self):
+        if not self._app.get_js_property('flipped') or self.debug_skip():
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_code
+
+    @Quest.with_app_launched(APP_NAME)
     def step_success(self):
         self.conf['complete'] = True
         self.available = False
-
         Sound.play('quests/quest-complete')
         self.show_confirm_message('SUCCESS', confirm_label='Bye').wait()
-
         self.stop()
