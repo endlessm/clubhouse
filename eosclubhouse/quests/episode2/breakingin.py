@@ -52,6 +52,15 @@ class BreakingIn(Quest):
     @Quest.with_app_launched(APP_NAME)
     def step_unlocked(self):
         self.wait_confirm('UNLOCKED')
+        return self.step_starttrap
+
+    # Not aborting quest even if app exits
+    def step_starttrap(self):
+        self.wait_confirm('STARTTRAP')
+        return self.step_trapped
+
+    def step_trapped(self):
+        self.wait_confirm('TRAPPED')
         return self.step_archivist
 
     def step_archivist(self):
