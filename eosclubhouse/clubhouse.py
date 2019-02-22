@@ -479,7 +479,7 @@ class ClubhousePage(Gtk.EventBox):
         self._shell_popup_item(item_id, text)
 
     def _quest_message_cb(self, quest, message_txt, answer_choices, character_id, character_mood,
-                          open_dialog_sound):
+                          sfx_sound, bg_sound):
         logger.debug('Message: %s character_id=%s mood=%s choices=[%s]', message_txt, character_id,
                      character_mood, '|'.join([answer for answer, _cb in answer_choices]))
 
@@ -491,7 +491,7 @@ class ClubhousePage(Gtk.EventBox):
         character = Character.get_or_create(character_id)
         character.mood = character_mood
 
-        self._shell_popup_message(message_txt, character, open_dialog_sound)
+        self._shell_popup_message(message_txt, character, sfx_sound, bg_sound)
 
     def on_quest_finished(self, quest):
         logger.debug('Quest {} finished'.format(quest))
@@ -527,13 +527,16 @@ class ClubhousePage(Gtk.EventBox):
     def _shell_close_popup_message(self):
         self._app.close_quest_msg_notification()
 
-    def _shell_popup_message(self, text, character, open_dialog_sound):
+    def _shell_popup_message(self, text, character, sfx_sound, bg_sound):
         notification = Gio.Notification()
         notification.set_body(SimpleMarkupParser.parse(text))
         notification.set_title('')
 
-        if open_dialog_sound:
-            Sound.play(open_dialog_sound)
+        if sfx_sound:
+            Sound.play(sfx_sound)
+        if self._current_quest and bg_sound != self._current_quest.get_last_bg_sound_event_id():
+            self._current_quest.play_stop_bg_sound(bg_sound)
+
         if character:
             notification.set_icon(character.get_mood_icon())
             Sound.play('clubhouse/{}/mood/{}'.format(character.id,
@@ -549,7 +552,7 @@ class ClubhousePage(Gtk.EventBox):
             notification.add_button('🐞', 'app.quest-debug-skip')
 
         self._app.send_quest_msg_notification(notification)
-        self._current_quest_notification = (notification, open_dialog_sound)
+        self._current_quest_notification = (notification, sfx_sound)
 
     def _shell_show_current_popup_message(self):
         if self._current_quest_notification is None:

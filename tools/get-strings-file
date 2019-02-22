@@ -16,7 +16,7 @@ URL_TEMPLATE = ('https://docs.google.com/spreadsheets/d/{key}/' +
                 'gviz/tq?tqx=out:csv&sheet={sheet}&range={range}')
 URL_PARAMS = {
     'key': '162yiw_kW3lgLEIUwBq3PgiZxWTtcVBUHqpZKUXtF8qY',
-    'range': 'A:E',
+    'range': 'A:F'
 }
 
 ALL_SHEETS = ['Dialog', 'Episode2']
@@ -63,9 +63,9 @@ def _write_csv_file(filename, rows):
     with open(filename, 'w') as out_file:
         writer = csv.writer(out_file)
         for r in rows:
-            # @todo: This empties the sound cells. Remove this when
-            # importing sounds again.
-            r = r[:-1] + ['']
+            sfx_sound = r[-2] if r[-2].startswith('quests/') else ''
+            bg_sound = r[-1] if r[-1].startswith('quests/') else ''
+            r = r[:-2] + [sfx_sound, bg_sound]
             writer.writerow(r)
 
 
