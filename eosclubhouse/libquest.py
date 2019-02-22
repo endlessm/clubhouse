@@ -24,12 +24,14 @@ import glibcoro
 import os
 import pkgutil
 import sys
+import threading
+import time
 
 from enum import Enum
 from eosclubhouse import config, logger
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog, QS
-from gi.repository import GObject, GLib
+from gi.repository import GObject, GLib, Gio
 
 
 # Set up the asyncio loop implementation
@@ -462,7 +464,27 @@ class Quest(GObject.GObject):
     def _get_reject_label_from_qs(self):
         return QS('{}_QUEST_REJECT'.format(self._qs_base_id))
 
-    def run(self, quest_finished_cb):
+    def run(self, on_quest_finished):
+        if hasattr(self, 'step_begin'):
+            self.run_in_context(on_quest_finished)
+        else:
+            self.run_in_thread(on_quest_finished)
+
+    def run_in_thread(self, on_quest_finished):
+        def _on_task_finished(quest, result):
+            nonlocal on_quest_finished
+            on_quest_finished(quest)
+
+        def _run_task_in_thread(task):
+            quest = task.get_source_object()
+            quest.start()
+            task.return_boolean(True)
+
+        quest_task = Gio.Task.new(self, self.get_cancellable(), _on_task_finished)
+        threading.Thread(target=_run_task_in_thread, args=(quest_task,),
+                         name='quest-thread').start()
+
+    def run_in_context(self, quest_finished_cb):
         Sound.play('quests/quest-given')
 
         self._run_context = _QuestRunContext(self._cancellable)
@@ -470,6 +492,63 @@ class Quest(GObject.GObject):
         self._run_context = None
 
         quest_finished_cb(self)
+
+    def start(self):
+        '''Start the quest's main function
+
+        This method runs the quest as a step-by-step approach, so a method called 'step_first'
+        needs to be defined in any Quest subclasses that want to follow this approach.
+
+        As an alternative, subclasses can override this very method in order to follow any
+        approach needed.
+        '''
+
+        sleep_time = .1  # sec
+        time_in_step = 0
+        step_func = self.step_first
+
+        times_failed = 0
+        last_exception = None
+
+        Sound.play('quests/quest-given')
+
+        while not self.is_cancelled():
+            try:
+                new_func = step_func(time_in_step)
+            except Exception as e:
+                if (type(e) is type(last_exception) and
+                        e.args == last_exception.args):
+                    times_failed += 1
+                    if times_failed > 10:
+                        logger.critical('Quest step failed 10 times, bailing',
+                                        exc_info=sys.exc_info())
+                        self.stop()
+                        return
+                else:
+                    last_exception = e
+                    times_failed = 1
+
+                logger.warning('Quest step failed, retrying',
+                               exc_info=sys.exc_info())
+
+                time.sleep(sleep_time)
+                time_in_step += sleep_time
+
+                continue
+
+            times_failed = 0
+            last_exception = None
+
+            if new_func is None:
+                time.sleep(sleep_time)
+                time_in_step += sleep_time
+            else:
+                step_func = new_func
+                time_in_step = 0
+
+            self._check_timed_out(time_in_step)
+
+        self._reset_timeout()
 
     def set_next_step(self, step_func, delay=0, args=()):
         assert self._run_context is not None
@@ -671,6 +750,9 @@ class Quest(GObject.GObject):
         if self._run_context is not None:
             self._run_context.reset_stop_timeout()
 
+    def step_first(self, time_in_step):
+        raise NotImplementedError
+
     def get_continue_info(self):
         return (self.continue_message, 'Continue', 'Stop')
 
@@ -726,10 +808,10 @@ class Quest(GObject.GObject):
             else:
                 sound_id = self._main_open_dialog_sound
 
-        self.emit('message', options['txt'], possible_answers,
-                  options.get('character_id') or self._main_character_id,
-                  options.get('mood') or self._main_mood,
-                  sound_id)
+        self._emit_signal('message', options['txt'], possible_answers,
+                          options.get('character_id') or self._main_character_id,
+                          options.get('mood') or self._main_mood,
+                          sound_id)
 
     def _show_next_hint_message(self, info_list, index=0):
         label = "I'd like another hint"
@@ -768,7 +850,7 @@ class Quest(GObject.GObject):
             'used': False
         })
         self.gss.set(item_name, variant)
-        self.emit('item-given', item_name, notification_text)
+        self._emit_signal('item-given', item_name, notification_text)
 
     def complete_current_episode(self):
         current_episode_info = Registry.get_current_episode()
@@ -803,6 +885,11 @@ class Quest(GObject.GObject):
     def __repr__(self):
         return self._name
 
+    def _emit_signal(self, signal_name, *args):
+        # The quest runs in a separate thread, but we need to emit the
+        # signal from the main one
+        GLib.idle_add(self.emit, signal_name, *args)
+
     def set_cancellable(self, cancellable):
         self._cancellable = cancellable
 
@@ -835,7 +922,7 @@ class Quest(GObject.GObject):
         return self.conf.get(key)
 
     def dismiss(self):
-        self.emit('dismissed')
+        self._emit_signal('dismissed')
 
     def is_named_quest_complete(self, class_name):
         key = self._get_quest_conf_prefix() + class_name
