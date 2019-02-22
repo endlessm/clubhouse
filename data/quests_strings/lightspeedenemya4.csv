@@ -1,32 +1,34 @@
-LIGHTSPEEDENEMYA4_QUESTION,Let's do one last change to that new enemy.,Ada,,
-LIGHTSPEEDENEMYA4_QUEST_ACCEPT,Sure,,,
-LIGHTSPEEDENEMYA4_LAUNCH,Let's go to LightSpeed... Engage!,,,
+LIGHTSPEEDENEMYA4_QUESTION,Let's do one last change to that new enemy.,Ada,,,
+LIGHTSPEEDENEMYA4_QUEST_ACCEPT,Sure,,,,
+LIGHTSPEEDENEMYA4_LAUNCH,Let's go to Lightspeed... Engage!,,,,
 LIGHTSPEEDENEMYA4_EXPLANATION,"The enemies now move in the diagonal and accumulate at the bottom of the screen. Let's make it more interesting.
 
-They should now bounce off the bottom of the screen and start moving up. Let's go to the coding panel.",,,
+They should now bounce off the bottom of the screen and start moving up. Let's go to the coding panel.",,,,
 LIGHTSPEEDENEMYA4_CODE,"We know when they hit the bottom of the screen because y is 0 or less. But how do we change direction?
 
 Let's use the velocity of the enemy. We can start with a velocity of -10 and when we hit bottom, we change it to +10.
 
-Then we just add the velocity to the position every time: enemy.position.y = enemy.position.y + enemy.velocity.y;",,,
-LIGHTSPEEDENEMYA4_CODE_HINT1,Check if we go below and change the direction of the velocity: if (enemy.position.y <= 0) velocity.y = -velocity.y;,,,
-LIGHTSPEEDENEMYA4_PLAYING,Let's see if they bounce now...,,,
-LIGHTSPEEDENEMYA4_NOTMOVING,Now they aren't moving up and down at all. That's probably because we never set the initial speed. Go back to the code.,,,
-LIGHTSPEEDENEMYA4_GOINGUNDER,TODO: Going under,,,
-LIGHTSPEEDENEMYA4_GOINGOVER,That's good! However... now they go off the top of the screen. Let's fix that while we're at it. Go back to the code.,,,
+Then we just add the velocity to the position every time: enemy.position.y = enemy.position.y + enemy.velocity.y;",,,,
+LIGHTSPEEDENEMYA4_CODE_HINT1,Check if we go below and change the direction of the velocity: if (enemy.position.y <= 0) velocity.y = -velocity.y;,,,,
+LIGHTSPEEDENEMYA4_PLAYING,Let's see if they bounce now...,,,,
+LIGHTSPEEDENEMYA4_NOTMOVING,Now they aren't moving up and down at all. That's probably because we never set the initial speed. Go back to the code.,,,,
+LIGHTSPEEDENEMYA4_GOINGUNDER,Something went wrong and they're going below the screen again. We need to prevent them from going below 0.,,,,
+LIGHTSPEEDENEMYA4_GOINGOVER,That's good! However... now they go off the top of the screen. Let's fix that while we're at it. Go back to the code.,,,,
+LIGHTSPEEDENEMYA4_NOTLOWENOUGH,The enemies aren't going all the way down to 0. Check your code again.,,,,
+LIGHTSPEEDENEMYA4_NOTHIGHENOUGH,For some reason they aren't reaching the top of the screen. Let's look at the code...,,,,
 LIGHTSPEEDENEMYA4_CODE2,"OK, we need to do a very similar check for going off the top. The top of the screen is in the variable height.
 
-So you can set up an if statement for the position going over height and flipping the velocity.",,,
-LIGHTSPEEDENEMYA4_CODE2_HINT1,The if statement is very similar: if (enemy.position.y >= height) ...,,,
-LIGHTSPEEDENEMYA4_CODE2_HINT2,if (enemy.position.y >= height) velocity.y = -velocity.y;,,,
-LIGHTSPEEDENEMYA4_CODE2_HINT3,And don't forget you still need to update the position: enemy.position.y = enemy.position.y + enemy.velocity.y;,,,
-LIGHTSPEEDENEMYA4_CODE2_HINT4,Go ahead and play the level whenever you think you're ready.,,,
-LIGHTSPEEDENEMYA4_CODE3,Find the enemy_spawn() function and set an initial velocity.y of -10.,,,
-LIGHTSPEEDENEMYA4_CODE3_HINT1,Include velocity.y: -10;,,,
-LIGHTSPEEDENEMYA4_CODE3_HINT2,Or if you want to make it more challenging you can use a random vertical velocity.,,,
-LIGHTSPEEDENEMYA4_CODE3_HINT3,"Something like velocity.y: random(-10,10);",,,
+So you can set up an if statement for the position going over height and flipping the velocity.",,,,
+LIGHTSPEEDENEMYA4_CODE2_HINT1,The if statement is very similar: if (enemy.position.y >= height) ...,,,,
+LIGHTSPEEDENEMYA4_CODE2_HINT2,if (enemy.position.y >= height) velocity.y = -velocity.y;,,,,
+LIGHTSPEEDENEMYA4_CODE2_HINT3,And don't forget you still need to update the position: enemy.position.y = enemy.position.y + enemy.velocity.y;,,,,
+LIGHTSPEEDENEMYA4_CODE2_HINT4,Go ahead and play the level whenever you think you're ready.,,,,
+LIGHTSPEEDENEMYA4_CODE3,Find the enemy_spawn() function and set an initial velocity.y of -10.,,,,
+LIGHTSPEEDENEMYA4_CODE3_HINT1,Include velocity.y: -10;,,,,
+LIGHTSPEEDENEMYA4_CODE3_HINT2,Or if you want to make it more challenging you can use a random vertical velocity.,,,,
+LIGHTSPEEDENEMYA4_CODE3_HINT3,"Something like velocity.y: random(-10,10);",,,,
 LIGHTSPEEDENEMYA4_SUCCESS,"Great! Now they bounce up and down and always stay in the screen. 
 
-By the way, you said earlier you were looking for XXXXX. I have one of those here.",,,
-LIGHTSPEEDENEMYA4_END,"Here, take it. You can have it. You did a great job. See you around.",,,
-LIGHTSPEEDENEMYA4_ABORT,Abort,,,
+By the way, you said earlier you were looking for XXXXX. I have one of those here.",,,,
+LIGHTSPEEDENEMYA4_END,"Here, take it. You can have it. You did a great job. See you around.",,,,
+LIGHTSPEEDENEMYA4_ABORT,Abort,,,,

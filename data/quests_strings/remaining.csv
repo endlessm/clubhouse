@@ -1,2 +1,10 @@
-,Drama,,,
-ID,Text,Speaker,Animation,
+,Drama,,,,
+ID, ,Speaker,Animation,,
+INTRO_EPISODETAB,,,,,
+INTRO_EXPLANATION,"Before we get started on new challenges, let’s go check out our progress.
+
+
+",,,,
+INTRO_PROGRESS,,,,,
+INTRO_QUESTION,Hi there! Glad you’re here  =^._.^=   Ready to do some more exploring?,Riley,,,
+INTRO_QUEST_ACCEPT,Yes!,,,,
