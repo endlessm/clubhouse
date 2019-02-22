@@ -48,8 +48,8 @@ class LightSpeedEnemyA3(Quest):
         self.pause(10)
 
         while not self.is_cancelled():
-            min_y = self._app.get_js_property('obstacleType1MinY')
-            max_y = self._app.get_js_property('obstacleType1MaxY')
+            min_y = self._app.get_js_property('enemyType1MinY')
+            max_y = self._app.get_js_property('enemyType1MaxY')
 
             if self.debug_skip():
                 return self.step_success
@@ -65,7 +65,7 @@ class LightSpeedEnemyA3(Quest):
                     break
 
             self.wait_for_app_js_props_changed(self._app,
-                                               ['obstacleType1MinY', 'obstacleType1MaxY'])
+                                               ['enemyType1MinY', 'enemyType1MaxY'])
 
         return self.step_wait_for_flip
 
