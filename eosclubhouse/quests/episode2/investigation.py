@@ -5,6 +5,7 @@ from eosclubhouse.system import App, Sound
 class Investigation(Quest):
 
     APP_NAME = 'com.endlessm.OperatingSystemApp'
+    LEVEL2_LOCK = 'lock.OperatingSystemApp.2'
 
     def __init__(self):
         super().__init__('Investigation', 'riley')
@@ -36,12 +37,19 @@ class Investigation(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_wait_for_flip
 
+    def level2_lock_tried(self):
+        if self.debug_skip():
+            return True
+
+        lock = self.gss.get(self.LEVEL2_LOCK)
+        return lock is not None and lock.get('tried', False)
+
     @Quest.with_app_launched(APP_NAME)
     def step_unlock(self):
         self.show_hints_message('UNLOCK')
 
-        while not (self.debug_skip() or self.is_cancelled()):
-            self.wait_for_app_js_props_changed(self._app, ['DummyProperty'])
+        while not (self.level2_lock_tried() or self.is_cancelled()):
+            self.connect_gss_changes().wait()
 
         return self.step_stop
 
