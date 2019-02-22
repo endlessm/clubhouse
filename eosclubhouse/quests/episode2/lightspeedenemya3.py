@@ -47,27 +47,21 @@ class LightSpeedEnemyA3(Quest):
         self.show_hints_message('PLAYING')
         self.pause(10)
 
-        while not self.is_cancelled():
-            min_y = self._app.get_js_property('enemyType1MinY')
-            max_y = self._app.get_js_property('enemyType1MaxY')
+        if self.debug_skip():
+            return self.step_success
 
-            if self.debug_skip():
-                return self.step_success
-
-            if min_y is not None and max_y is not None:
-                if min_y >= -10 and max_y >= 0:
-                    return self.step_success
-                if min_y == max_y:
-                    self.show_hints_message('NOTMOVING')
-                    break
-                if min_y < -20:
-                    self.show_hints_message('GOINDOWN')
-                    break
-
-            self.wait_for_app_js_props_changed(self._app,
-                                               ['enemyType1MinY', 'enemyType1MaxY'])
-
-        return self.step_wait_for_flip
+        min_y = self._app.get_js_property('enemyType1MinY', +10000)
+        max_y = self._app.get_js_property('enemyType1MaxY', -10000)
+        if min_y == max_y:
+            self.show_hints_message('NOTMOVING')
+            return self.step_wait_for_flip
+        if min_y < -20:
+            self.show_hints_message('GOINGDOWN')
+            return self.step_wait_for_flip
+        if min_y > 10:
+            self.show_hints_message('NOTREACHINGBOTTOM')
+            return self.step_wait_for_flip
+        return self.step_success
 
     def step_success(self):
         self.conf['complete'] = True
