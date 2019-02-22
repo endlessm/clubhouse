@@ -2,7 +2,7 @@ LIGHTSPEEDENEMYC2_QUESTION,Hey! Want to make that new LightSpeed enemy be smarte
 LIGHTSPEEDENEMYC2_QUEST_ACCEPT,Yes!,,,
 LIGHTSPEEDENEMYC2_LAUNCH,"OK, guess which app to launch.",,,
 LIGHTSPEEDENEMYC2_LAUNCH_HINT1,Lightspeed! Doh!,,,
-LIGHTSPEEDENEMYC2_EXPLAIN,"All right. So right now this new enemy sits there like a lump. We want it to move, but not mindlessly like the other enemies.
+LIGHTSPEEDENEMYC2_EXPLAIN,"All right. So right now this new enemy moves mindlessly like the other enemies. That's not very scary.
 
 We want it to move TOWARDS the player! Let's flip to hack and write some code.",,,
 LIGHTSPEEDENEMYC2_CODE,"In the enemy_update() function, we can change the enemy's vertical position by controlling the y coordinate.
