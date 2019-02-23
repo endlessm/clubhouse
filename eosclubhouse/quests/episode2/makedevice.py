@@ -12,7 +12,7 @@ class MakeDevice(Quest):
     def has_all_stealth_items(self):
         items = ['item.stealth.1', 'item.stealth.2', 'item.stealth.3', 'item.stealth.4']
         for item in items:
-            if self.gss.get('item.stealth.1') is None:
+            if self.gss.get(item) is None:
                 return False
         return True
 
