@@ -18,9 +18,18 @@ class Chore(Quest):
 
         # @todo: Add steps in between, since the we've waited for the app to be launched but
         # step_end doesn't depend on the app being running.
+        return self.step_explanation
+
+    def step_explanation(self):
+        self.show_confirm_message('EXPLANATION').wait()
+        return self.step_key
+
+    def step_key(self):
+        self.show_confirm_message('KEY').wait()
         return self.step_end
 
     def step_end(self):
+        self.give_item('item.key.OperatingSystemApp.2')
         self.conf['complete'] = True
         self.available = False
 
