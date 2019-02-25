@@ -1,11 +1,11 @@
 HACKDEX2FIND_QUESTION,"Hey, check this out! I know you're going to want to see these weird papers I found. 
 ",Riley,,,
-HACKDEX2FIND_QUEST_ACCEPT,Let's look at them! ,,,,
+HACKDEX2FIND_QUEST_ACCEPT,Let's look at them! ,,,,quests/quest2-riley-sneak
 HACKDEX2FIND_LAUNCH,"I was scouting around in the lab and found this ancient bundle of papers rolled up in the back of a drawer.
 
 I've been studying them and making some notes. I made one of those cool evidence boards. I'd love to show it to you.  
 
-It's all about Leviathan. Total. Genius. Hacker. Go ahead and launch Leviathan now.",,,,
+It's all about Leviathan. Total. Genius. Hacker. Go ahead and launch Leviathan now.",,,,quests/quest2-riley-sneak
 HACKDEX2FIND_EXPLANATION,"I'm buggin' because for some reason it's totally scrambled. I've never seen this encryption like this.
 
 Clearly someone doesn't want us reading this stuff! But when has that ever stopped me?

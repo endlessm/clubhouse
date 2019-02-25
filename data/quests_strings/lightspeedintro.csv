@@ -1,12 +1,12 @@
 LIGHTSPEEDINTRO_QUESTION,"So nice to see you again! Would you like to help me develop a game?
-",Ada,,,
-LIGHTSPEEDINTRO_QUEST_ACCEPT,Of course!,,,,
+",Ada,,,quests/quest2-ada-hi
+LIGHTSPEEDINTRO_QUEST_ACCEPT,Of course!,,,,quests/quest2-ada-hi
 LIGHTSPEEDINTRO_LAUNCH,"We've been busy around here! As you know we've been trying to get a handle on this data corruption situation.
 
 We have a new game called Lightspeed. It will help you sharpen your coding skills! 
 
 Go ahead and launch it from the desktop. Do you see it there? 
-",,,,
+",,,,quests/quest2-ada-hi
 LIGHTSPEEDINTRO_EXPLANATION,"Estelle designed it a while back as a simulation exercise. Now we use it for training. 
 
 Can't wait to see what you do with it!

@@ -1,6 +1,6 @@
-LIGHTSPEEDTWEAK_QUESTION,Ready to do some more exploring with Lightspeed?,Ada,,,
-LIGHTSPEEDTWEAK_QUEST_ACCEPT,Definitely!,,,,
-LIGHTSPEEDTWEAK_LAUNCH,Excellent. Start by launching Lightspeed as usual.,,,,
+LIGHTSPEEDTWEAK_QUESTION,Ready to do some more exploring with Lightspeed?,Ada,,,quests/quest2-ada-hi2
+LIGHTSPEEDTWEAK_QUEST_ACCEPT,Definitely!,,,,quests/quest2-ada-hi2
+LIGHTSPEEDTWEAK_LAUNCH,Excellent. Start by launching Lightspeed as usual.,,,,quests/quest2-ada-hi2
 LIGHTSPEEDTWEAK_EXPLANATION,"Okay, so this time, you need to pass Level 2. Select Level 2 in the main menu and press Start.",,,,
 LIGHTSPEEDTWEAK_FLIPTOHACK,"A bit difficult, right? This level has some rough edges. But you can get in there and smooth things out.
 
