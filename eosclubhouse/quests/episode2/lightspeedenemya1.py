@@ -52,13 +52,13 @@ class LightSpeedEnemyA1(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_play(self):
-        enemy_count = self._app.get_js_property('obstacleType1SpawnedCount')
+        enemy_count = self._app.get_js_property('enemyType1SpawnedCount')
         if (enemy_count is not None and enemy_count >= 2) or self.debug_skip():
             # @todo: Check if they spawned asteroids and go back
             # @todo: Timeout if nothing spawned in 5 seconds
             return self.step_success
 
-        self.wait_for_app_js_props_changed(self._app, ['obstacleType1SpawnedCount'])
+        self.wait_for_app_js_props_changed(self._app, ['enemyType1SpawnedCount'])
         return self.step_play
 
     def step_success(self):

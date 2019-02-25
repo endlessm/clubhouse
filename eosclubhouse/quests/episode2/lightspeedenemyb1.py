@@ -48,8 +48,8 @@ class LightSpeedEnemyB1(Quest):
         self.show_hints_message('PLAYTEST')
         self.pause(10)
 
-        min_property = 'obstacleType2MinY'
-        max_property = 'obstacleType2MaxY'
+        min_property = 'enemyType2MinY'
+        max_property = 'enemyType2MaxY'
         code_msg_id = 'CODE1'
 
         while not self.is_cancelled():
@@ -59,7 +59,7 @@ class LightSpeedEnemyB1(Quest):
             if self.debug_skip():
                 return self.step_success
 
-            if self._app.get_js_property('obstacleType2SpawnedCount') == 0:
+            if self._app.get_js_property('enemyType2SpawnedCount') == 0:
                 self.show_hints_message('NOENEMY')
                 break
 

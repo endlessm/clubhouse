@@ -1,15 +1,26 @@
-LIGHTSPEEDINTRO_QUESTION,Hey there! We're working on a new game. Would you like to check it out? ,Ada,,
-LIGHTSPEEDINTRO_QUEST_ACCEPT,Of course!,,,
-LIGHTSPEEDINTRO_LAUNCH,Great. Go ahead and launch it from the desktop. Do you see it there? It's called LightSpeed.,,,
-LIGHTSPEEDINTRO_EXPLANATION,"LightSpeed is currently under development. We're hoping you can help us finish it.
+LIGHTSPEEDINTRO_QUESTION,"So nice to see you again! Whew. We've been busy around here!
 
-The goal of LightSpeed is very simple: Pick up 5 astronauts with your ship without crashing into anything.
+As you know we've been trying to get a handle on this data corruption situation. 
 
-Give it a try. Beat the first level by rescuing 5 astronauts.",,,
-LIGHTSPEEDINTRO_GOAL,Beat the first level by rescuing 5 astronauts.,,,
-LIGHTSPEEDINTRO_ONE,That's it. Grab 4 more astronauts to beat the level.,,,
-LIGHTSPEEDINTRO_THREE,2 more to go!,,,
+But enough of that for now! Would you like to help me develop a game?
+",Ada,,,
+LIGHTSPEEDINTRO_QUEST_ACCEPT,Of course!,,,,
+LIGHTSPEEDINTRO_LAUNCH,"Wonderful. It's called Lightspeed. It will help you sharpen your coding skills! 
+
+Go ahead and launch it from the desktop. Do you see it there? 
+",,,,
+LIGHTSPEEDINTRO_EXPLANATION,"Estelle designed it a while back as a simulation exercise. Now we use it for training. 
+
+Can't wait to see what you do with it!
+
+The goal of Lightspeed is very simple: Pick up 5 astronauts with your ship and avoid crashing into anything.
+
+Try it out. Beat the first level by rescuing 5 astronauts.
+",,,,
+LIGHTSPEEDINTRO_GOAL,Beat the first level by rescuing 5 astronauts.,,,,
+LIGHTSPEEDINTRO_ONE,That's it. Grab 4 more astronauts to beat the level.,,,,
+LIGHTSPEEDINTRO_THREE,2 more to go!,,,,
 LIGHTSPEEDINTRO_SUCCESS,"Nice job! You made quick work of that! Now we'll need your help with the other levels.
 
-Come get me in the Clubhouse and we'll go over the next steps. ",,,
-LIGHTSPEEDINTRO_ABORT,"No prob, we'll try again later. ",,,
+Come get me in the Clubhouse and we'll go over the next steps. ",,,,
+LIGHTSPEEDINTRO_ABORT,"No prob, we'll try again later. ",,,,

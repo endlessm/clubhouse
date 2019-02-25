@@ -1,5 +1,9 @@
-CHORE_QUESTION,"While we're investigating, I need you to do some cleanup.",Saniel,,
-CHORE_QUEST_ACCEPT,Happy to help!,,,
-CHORE_LAUNCH,Launch the System,,,
-CHORE_END,End,,,
-CHORE_ABORT,Abort,,,
+CHORE_QUESTION,"Well, hello there. While we're investigating, I need you to do some cleanup.",Saniel,,,
+CHORE_QUEST_ACCEPT,"Sure, I can do that. ",,,,
+CHORE_LAUNCH,"You'd think we would gotten this file debacle sorted out by now! 
+
+It's amazing how much time can pass when you're focused on a problem.
+
+Alright then, let's go ahead and launch the System.",,,,
+CHORE_END,End,,,,
+CHORE_ABORT,Abort,,,,

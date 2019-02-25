@@ -37,8 +37,8 @@ class LightSpeedEnemyC2(Quest):
         self.show_hints_message('PLAYTEST')
         self.pause(10)
 
-        min_y = self._app.get_js_property('obstacleType3MinY', +10000)
-        max_y = self._app.get_js_property('obstacleType3MaxY', -10000)
+        min_y = self._app.get_js_property('enemyType3MinY', +10000)
+        max_y = self._app.get_js_property('enemyType3MaxY', -10000)
         if min_y > max_y:
             self.show_hints_message('NOENEMIES')
             return self.step_wait_for_flip

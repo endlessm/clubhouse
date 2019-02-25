@@ -46,7 +46,7 @@ class LightSpeedEnemyC1(Quest):
         self.show_hints_message('PLAYTEST')
         self.pause(5)
 
-        enemy3_count = self._app.get_js_property('obstacleType3SpawnedCount', -1)
+        enemy3_count = self._app.get_js_property('enemyType3SpawnedCount', -1)
         if (enemy3_count > 0) or self.debug_skip():
             return self.step_success
 
