@@ -1,10 +1,10 @@
-CHORE_QUESTION,"Well, hello there. While we're investigating, I need you to do some cleanup.",Saniel,,,
-CHORE_QUEST_ACCEPT,"Sure, I can do that. ",,,,
+CHORE_QUESTION,"Well, hello there. While we're investigating, I need you to do some cleanup.",Saniel,,,quests/quest2-saniel-chore
+CHORE_QUEST_ACCEPT,"Sure, I can do that. ",,,,quests/quest2-saniel-chore
 CHORE_LAUNCH,"You'd think we would gotten this file debacle sorted out by now! 
 
 It's amazing how much time can pass when you're focused on a problem.
 
-Alright then, let's go ahead and launch the System.",,,,
+Alright then, let's go ahead and launch the System.",,,,quests/quest2-saniel-chore
 CHORE_EXPLANATION,TODO: Explain what to do here...,,,,
 CHORE_KEY,Hey! What's this? It was hidden behind one of the daemons. It looks like a key...,Riley,,,
 CHORE_END,Whoa! It's the Level 2 key for the System!! Keep it for now.,Riley,,,
