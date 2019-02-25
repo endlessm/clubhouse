@@ -84,6 +84,10 @@ special cases where the sounds override default sounds.
 - `ABORT`: Override the default sound played when the quest is
   aborted. Quests are usually aborted when the external app they are
   using is closed by the user.
+- `QUESTION`: Override the default sound played when the quest is proposed.
+  These messages are usually the initial quest messages that is shown up in
+  the Clubhouse right side window above a character.
+  *Note: Only SFX sounds overrides are supported*.
 
 ### Sprite Animations Format
 
