@@ -1,5 +1,6 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
+from eosclubhouse.system import GameStateService
 from eosclubhouse.quests.episode2.hackdex2find import Hackdex2Find
 from eosclubhouse.quests.episode2.hackdex2decrypt import Hackdex2Decrypt
 from eosclubhouse.quests.episode2.investigation import Investigation
@@ -17,6 +18,13 @@ class RileyQuestSet(QuestSet):
 
     def __init__(self):
         super().__init__()
+        gss = GameStateService()
+        gss.connect('changed', self.update_visibility)
+        self.update_visibility(gss)
+
+    def update_visibility(self, gss):
+        riley_state = gss.get('clubhouse.character.Riley')
+        self.visible = riley_state is None or not riley_state.get('in_trap', False)
 
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('AdaQuestSet').is_active():

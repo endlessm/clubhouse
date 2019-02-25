@@ -61,6 +61,7 @@ class BreakingIn(Quest):
 
     def step_trapped(self):
         self.wait_confirm('TRAPPED')
+        self.gss.set('clubhouse.character.Riley', {'in_trap': True})
         return self.step_archivist
 
     def step_archivist(self):
