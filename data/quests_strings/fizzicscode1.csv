@@ -1,4 +1,4 @@
-FIZZICSCODE1_QUESTION,Hello there. Glad you're still here! I have a bonus challenge for you! Ready to try writing some code?,Ada,,quests/quest-proposed,
+FIZZICSCODE1_QUESTION,Hello there. Glad you're still here! I have a bonus challenge for you! Ready to try writing some code?,Ada,,,
 FIZZICSCODE1_QUEST_ACCEPT,Ready! ,,,,
 FIZZICSCODE1_LAUNCH,Great. Go ahead and launch Fizzics and we'll try out some cool new skills. ,,,,
 FIZZICSCODE1_LAUNCH_HINT1,Click on the Fizzics icon on the desktop.,,,,
@@ -19,4 +19,4 @@ FIZZICSCODE1_END,"You're getting the hang of it. The parameters for each species
 Feel free to change any value and see how they behave. And remember, the reset button is always there when you need it!
 
 I'm gonna have to get back to figuring out what's going on with my research. Hope you have fun exploring! ",,,,
-FIZZICSCODE1_ABORT,Gotta go now? Let's try this again soon! ,,,quests/quest-aborted,
+FIZZICSCODE1_ABORT,Gotta go now? Let's try this again soon! ,,,,
