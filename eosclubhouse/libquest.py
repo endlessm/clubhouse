@@ -439,6 +439,7 @@ class Quest(GObject.GObject):
         self._main_mood = 'talk'
         self._main_open_dialog_sound = 'clubhouse/dialog/open'
         self._default_abort_sound = 'quests/quest-aborted'
+        self._default_initial_sound = 'quests/quest-proposed'
 
         self._available = True
         self._cancellable = None
@@ -838,6 +839,8 @@ class Quest(GObject.GObject):
         if not sfx_sound:
             if info_id == 'ABORT':
                 sfx_sound = self._default_abort_sound
+            elif info_id == 'QUESTION':
+                sfx_sound = self._default_initial_sound
             else:
                 sfx_sound = self._main_open_dialog_sound
         bg_sound = options.get('bg_sound')
@@ -874,6 +877,13 @@ class Quest(GObject.GObject):
             self.show_message(info_id)
         else:
             self._show_next_hint_message(info_id_list)
+
+    def get_initial_sfx_sound(self):
+        info = QuestStringCatalog.get_info('{}_QUESTION'.format(self._qs_base_id))
+        sfx_sound = info.get('sfx_sound') if info else None
+        if not sfx_sound:
+            sfx_sound = self._default_initial_sound
+        return sfx_sound
 
     def get_initial_message(self):
         return self._initial_msg

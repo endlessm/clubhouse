@@ -134,6 +134,8 @@ class Message(Gtk.Bin):
     LABEL_WIDTH = DEFAULT_WINDOW_WIDTH - _LABEL_MARGIN
     MESSAGE_HEIGHT = CHARACTER_HEIGHT + BUTTON_HEIGHT / 2 + _MESSAGE_MARGIN
 
+    OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
+
     def __init__(self):
         super().__init__()
         self._character = None
@@ -415,10 +417,12 @@ class ClubhousePage(Gtk.EventBox):
 
             self.show_message(msg_text, [('Ok', self._message.close)])
         else:
+            sfx_sound = new_quest.get_initial_sfx_sound()
             self.show_message(new_quest.get_initial_message(),
                               [(new_quest.accept_label, self._accept_quest_message, quest_set,
                                 new_quest),
-                               (new_quest.reject_label, self._message.close)])
+                               (new_quest.reject_label, self._message.close)],
+                              sfx_sound)
 
         self._overlay_msg_box.show_all()
 
@@ -593,12 +597,17 @@ class ClubhousePage(Gtk.EventBox):
 
         self._app.send_quest_item_notification(notification)
 
-    def show_message(self, txt, answer_choices=[]):
+    def show_message(self, txt, answer_choices=[], sfx_sound=None):
         self._message.clear_buttons()
         self._message.set_text(txt)
 
         for answer in answer_choices:
             self._message.add_button(answer[0], *answer[1:])
+
+        # @todo: bg sounds are not supported yet.
+        if not sfx_sound:
+            sfx_sound = self._message.OPEN_DIALOG_SOUND
+        Sound.play(sfx_sound)
 
         return self._message
 
