@@ -1,8 +1,4 @@
-FIZZICSINTRO_QUESTION,"Oh hi again! By the way, I'm Ada. Welcome to the Clubhouse! You can always click on the clubhouse and find us here. 
-
-Stop by anytime you have a question or if you want to explore something new. 
-
-I'm working on a new game called Fizzics. Want to see it?",Ada,,quests/quest-proposed,
+FIZZICSINTRO_QUESTION,"Oh hi again! By the way, I'm Ada. I'm working on my new game here in the Clubhouse. It's called Fizzics. Want to see it?",,,quests/quest-proposed,
 FIZZICSINTRO_QUEST_ACCEPT,Sounds fun!,,,,
 FIZZICSINTRO_LAUNCH,"Fab, Go ahead and launch Fizzics now. ",,,,
 FIZZICSINTRO_LAUNCH_HINT1,See the Fizzics app on the desktop? Click on it now to start the game.,,,,
