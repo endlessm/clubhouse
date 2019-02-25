@@ -1,10 +1,10 @@
-MAKERINTRO_QUESTION,"Oh, hey there! I was just making some solar pizza. Nice to meet you! 
+MAKERINTRO_QUESTION,"I'm Faber, I run the Maker Space here. Want to try one of my puzzles?",Faber,,,
+MAKERINTRO_QUEST_ACCEPT,Sure!,,,,
+MAKERINTRO_LAUNCH,"Oh, hey there! I was just making some solar pizza. Nice to meet you! 
 
 You must be the Fizzics whiz Riley told me about. 
 
-I'm Faber, I run the Maker Space here. Want to try one of my puzzles?",Faber,,,
-MAKERINTRO_QUEST_ACCEPT,Sure!,,,,
-MAKERINTRO_LAUNCH,"Okay, so let's see if you can find a way to solve this Fizzics puzzle I just came up with. 
+Okay, so let's see if you can find a way to solve this Fizzics puzzle I just came up with. 
 
 Go ahead and launch Fizzics.",,,,
 MAKERINTRO_EXPLANATION,Here's your challenge: Make it so all 10 of these green balls are touching the red spiky ball at the same time.,,,,

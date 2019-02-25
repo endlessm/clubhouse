@@ -1,11 +1,9 @@
-LIGHTSPEEDINTRO_QUESTION,"So nice to see you again! Whew. We've been busy around here!
-
-As you know we've been trying to get a handle on this data corruption situation. 
-
-But enough of that for now! Would you like to help me develop a game?
+LIGHTSPEEDINTRO_QUESTION,"So nice to see you again! Would you like to help me develop a game?
 ",Ada,,,
 LIGHTSPEEDINTRO_QUEST_ACCEPT,Of course!,,,,
-LIGHTSPEEDINTRO_LAUNCH,"Wonderful. It's called Lightspeed. It will help you sharpen your coding skills! 
+LIGHTSPEEDINTRO_LAUNCH,"We've been busy around here! As you know we've been trying to get a handle on this data corruption situation.
+
+We have a new game called Lightspeed. It will help you sharpen your coding skills! 
 
 Go ahead and launch it from the desktop. Do you see it there? 
 ",,,,
