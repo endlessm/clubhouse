@@ -1,6 +1,7 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
 from eosclubhouse.system import GameStateService
+from eosclubhouse.quests.episode2.intro import Intro
 from eosclubhouse.quests.episode2.hackdex2find import Hackdex2Find
 from eosclubhouse.quests.episode2.hackdex2decrypt import Hackdex2Decrypt
 from eosclubhouse.quests.episode2.investigation import Investigation
@@ -13,7 +14,7 @@ class RileyQuestSet(QuestSet):
 
     __character_id__ = 'riley'
     __position__ = (279, 260)
-    __quests__ = [Hackdex2Find, Investigation, Hackdex2Decrypt, LightSpeedEnemyC1,
+    __quests__ = [Intro, Hackdex2Find, Investigation, Hackdex2Decrypt, LightSpeedEnemyC1,
                   LightSpeedEnemyC2, BreakingIn]
 
     def __init__(self):
