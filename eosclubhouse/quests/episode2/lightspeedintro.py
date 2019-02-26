@@ -54,9 +54,9 @@ class LightSpeedIntro(Quest):
             message_id = 'GOAL'
         elif level == 1:
             message_id = 'ONE'
-        elif level == 3:
-            message_id = 'THREE'
-        elif level >= 5:
+        elif level == 2:
+            message_id = 'TWO'
+        elif level >= 3:
             return self.step_end
 
         if message_id is not None:
@@ -66,10 +66,13 @@ class LightSpeedIntro(Quest):
         return self.step_check_score
 
     def step_end(self):
+        self.wait_confirm('SUCCESS')
+
+        self.give_item('item.key.lightspeed.1')
         self.conf['complete'] = True
         self.available = False
 
         Sound.play('quests/quest-complete')
-        self.show_confirm_message('SUCCESS', confirm_label='Bye').wait()
+        self.show_confirm_message('END', confirm_label='Bye').wait()
 
         self.stop()

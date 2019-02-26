@@ -51,19 +51,12 @@ class LightSpeedTweak(Quest):
     @Quest.with_app_launched(APP_NAME)
     def step_fliptohack(self):
         if self._app.get_js_property('flipped'):
-            return self.step_givekey
+            return self.step_unlock
 
         self.show_hints_message('FLIPTOHACK')
 
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_fliptohack
-
-    @Quest.with_app_launched(APP_NAME)
-    def step_givekey(self):
-        self.wait_confirm('GIVEKEY')
-
-        self.give_item('item.key.lightspeed.1')
-        return self.step_unlock
 
     def _is_panel_unlocked(self):
         item = self.gss.get('item.key.lightspeed.1')
@@ -71,6 +64,9 @@ class LightSpeedTweak(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_unlock(self):
+        if self._is_panel_unlocked():
+            return self.step_hack
+
         self.show_hints_message('UNLOCK')
 
         while not (self._is_panel_unlocked() or self.debug_skip()) and not self.is_cancelled():
