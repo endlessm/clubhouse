@@ -19,4 +19,4 @@ class LightSpeed(App):
             if not self.set_js_property('availableLevels', ('i', level)):
                 return False
 
-        return self.set_js_property('currentLevel', ('i', level))
+        return self.set_js_property('nextLevel', ('i', level))
