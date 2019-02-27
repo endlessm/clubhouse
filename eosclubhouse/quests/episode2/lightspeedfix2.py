@@ -26,36 +26,44 @@ class LightSpeedFix2(Quest):
 
         # @todo: Alert the user something was wrong is the level couldn't be set
         self._app.set_level(4)
-
-        return self.step_fliptohack, 'CODE'
+        return self.step_wait_for_flip, 'CODE'
 
     @Quest.with_app_launched(APP_NAME)
-    def step_fliptohack(self, msg_id_on_flipped):
+    def step_wait_for_flip(self, msg_id):
+        if not self._app.get_js_property('flipped') or self.debug_skip():
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_code, msg_id
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_code(self, msg_id):
+        self.show_hints_message(msg_id)
         if self._app.get_js_property('flipped'):
-            self.show_hints_message(msg_id_on_flipped)
-
-            if not self._app.get_js_property('playing'):
-                self.wait_for_app_js_props_changed(self._app, ['playing'])
-            return self.step_playing
-
-        self.wait_for_app_js_props_changed(self._app, ['flipped'])
-        return self.step_fliptohack, msg_id_on_flipped
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_abouttoplay
 
     @Quest.with_app_launched(APP_NAME)
-    def step_playing(self):
-        self.pause(5)
+    def step_abouttoplay(self):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message('ABOUTTOPLAY')
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playtest
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_playtest(self):
+        self.show_hints_message('PLAYTEST')
+        self.pause(4)
 
         enemyCount = self._app.get_js_property('enemyType0SpawnedCount') or 0
 
         if enemyCount > 10:
             self.show_hints_message('TOOMANY')
-            return self.step_fliptohack, 'CODE2'
+            return self.step_wait_for_flip, 'CODE2'
 
         if enemyCount > 0 or self.debug_skip():
             return self.step_success
 
         self.show_hints_message('NOENEMIES')
-        return self.step_fliptohack, 'CODE'
+        return self.step_wait_for_flip, 'CODE'
 
     def step_success(self):
         self.conf['complete'] = True
