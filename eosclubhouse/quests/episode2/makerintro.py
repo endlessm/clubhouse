@@ -36,7 +36,9 @@ class MakerIntro(Quest):
         if self._app.get_js_property('quest1Success') or self.debug_skip():
             self.wait_confirm('SUCCESS')
             self.wait_confirm('WHATISIT')
-            self.wait_confirm('ANOTHERONE')
+            self.wait_confirm('GIVEKEY')
+            self.gss.set("item.key.unknown_item", {'used': True, 'consume_after_use': True})
+            self.give_item('item.key.OperatingSystemApp.2')
             return self.step_thanks
 
         self.wait_for_app_js_props_changed(self._app, ['quest1Success'])
