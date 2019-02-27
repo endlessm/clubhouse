@@ -4,9 +4,13 @@ LIGHTSPEEDFIX2_LAUNCH,All right. Let's go to Lightspeed again.,,,,
 LIGHTSPEEDFIX2_EXPLANATION,"Level 4 was left rather sparse. We need some more asteroids!
 
 Go ahead and flip to hack just as we did before.",,,,
-LIGHTSPEEDFIX2_CODE,"There. See the spawnEnemy() function? Someone left it empty. No wonder there are no asteroids.
+LIGHTSPEEDFIX2_CODE,"There. See the spawnEnemy() function? It's returning null. No wonder there are no asteroids.
 
-Try adding return ""asteroid""; and running level 4. What do you think will happen?",,,,
+Try changing it return ""asteroid""; and running level 4. What do you think will happen?",,,,
+LIGHTSPEEDFIX2_CODE_HINT1,"Don't forget the double quotes around ""asteroid"" or the semicolon at the end.",,,,
+LIGHTSPEEDFIX2_CODE_HINT2,"When it looks good, press the flip to hack button again and try your level.",,,,
+LIGHTSPEEDFIX2_ABOUTTOPLAY,Go ahead and test your code by playing level 4.,,,,
+LIGHTSPEEDFIX2_PLAYTEST,Let's see those asteroids...,,,,
 LIGHTSPEEDFIX2_TOOMANY,"Leaping Antelopes! That's a LOT of asteroids. So many in fact that you blew up the limit.
 
 It turns out the spawnEnemy() function gets called every frame (about 30 times per second!).
@@ -20,7 +24,8 @@ Notice that we have the variable tick, which goes up once every frame. Let's spa
 We know 30 ticks have passed when tick mod 30 is 0 (when tick is a multiple of 30). In code it's tick%30.
 
 And we can use an if statement to tie it all together: if (condition) return ""asteroid""; return null;",,,,
-LIGHTSPEEDFIX2_CODE2_HINT1,The condition would be tick%50.,,,,
-LIGHTSPEEDFIX2_CODE2_HINT2,"if (tick%50) return ""asteroid""; return null;",,,,
+LIGHTSPEEDFIX2_CODE2_HINT1,The condition would be tick%30==0.,,,,
+LIGHTSPEEDFIX2_CODE2_HINT2,"if (tick%30==0) return ""asteroid""; return null;",,,,
+LIGHTSPEEDFIX2_CODE2_HINT3,Go back to the game when you're ready and test it out.,,,,
 LIGHTSPEEDFIX2_SUCCESS,Smart work there! Clearly you're ready for something more challenging. Ada will give you the details. ,,,,
-LIGHTSPEEDFIX2_ABORT,Abort,,,,
+LIGHTSPEEDFIX2_ABORT,Done so soon? Come back to the Clubhouse whenever you want to try again.,,,,
