@@ -22,10 +22,12 @@ import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
+import functools
 import logging
 import os
 import subprocess
 import sys
+import time
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
@@ -294,6 +296,8 @@ class ClubhousePage(Gtk.EventBox):
 
         self._current_quest = None
 
+        self._last_user_answer = 0
+
         self._app_window = app_window
         self._app_window.connect('key-press-event', self._key_press_event_cb)
 
@@ -532,6 +536,20 @@ class ClubhousePage(Gtk.EventBox):
         self._app.close_quest_msg_notification()
 
     def _shell_popup_message(self, text, character, sfx_sound, bg_sound):
+        real_popup_message = functools.partial(self._shell_popup_message_real, text, character,
+                                               sfx_sound, bg_sound)
+
+        # If the user last interacted with a notification longer than a second ago, then we delay
+        # the new notification a bit. The delaying is so that it is more noticeable to the user
+        # that the notification has changed; the "last time" check is so we don't delay if the
+        # new notification is a result of a user recent interaction.
+        if time.time() - self._last_user_answer > 1:
+            self._app.withdraw_notification(self._app.QUEST_MSG_NOTIFICATION_ID)
+            GLib.timeout_add(300, real_popup_message)
+        else:
+            real_popup_message()
+
+    def _shell_popup_message_real(self, text, character, sfx_sound, bg_sound):
         notification = Gio.Notification()
         notification.set_body(SimpleMarkupParser.parse(text))
         notification.set_title('')
@@ -557,6 +575,8 @@ class ClubhousePage(Gtk.EventBox):
 
         self._app.send_quest_msg_notification(notification)
         self._current_quest_notification = (notification, sfx_sound)
+
+        return GLib.SOURCE_REMOVE
 
     def _shell_show_current_popup_message(self):
         if self._current_quest_notification is None:
@@ -636,6 +656,8 @@ class ClubhousePage(Gtk.EventBox):
         # Call the action
         callback, args = action[1], action[2:]
         callback(*args)
+
+        self._last_user_answer = time.time()
 
     def set_quest_to_background(self):
         if self._current_quest:
