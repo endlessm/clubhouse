@@ -10,5 +10,8 @@ INVESTIGATION_UNLOCK,Here we are. Let's see what's hiding in that level 2 that n
 INVESTIGATION_STOP,"STOP! Stop right now! What are you doing here? I told you never to come here. There's nothing for you to see.
 
 Leave right now! Don't even think of coming back again.",Saniel,,,
+INVESTIGATION_STOP_HINT1,Press the flip to hack button and go away.,Saniel,,,
+INVESTIGATION_STOPAGAIN,What did I say?? Do NOT touch that and get out RIGHT NOW!,Saniel,,,
+INVESTIGATION_STOPAGAIN_HINT1,A hint? Really? Press the Flip to Hack button and leave here right NOW!,Saniel,,,
 INVESTIGATION_END,"Wow, that didn't work. How did he know we were here? We'll have to figure out a way to come in undetected.",,,,
 INVESTIGATION_ABORT,"Sure, we can put off the investigation a bit.",,,,
