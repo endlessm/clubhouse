@@ -489,7 +489,7 @@ class ClubhousePage(Gtk.EventBox):
     def _quest_message_cb(self, quest, message_txt, answer_choices, character_id, character_mood,
                           sfx_sound, bg_sound):
         logger.debug('Message: %s character_id=%s mood=%s choices=[%s]', message_txt, character_id,
-                     character_mood, '|'.join([answer for answer, _cb in answer_choices]))
+                     character_mood, '|'.join([answer for answer, _cb, *_args in answer_choices]))
 
         self._reset_quest_actions()
 
