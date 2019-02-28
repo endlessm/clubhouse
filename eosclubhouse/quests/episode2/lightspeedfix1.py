@@ -61,8 +61,12 @@ class LightSpeedFix1(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_givekey(self):
+        lightSpeedKey = 'item.key.lightspeed.2'
+        if self.gss.get(lightSpeedKey) is not None:
+            return self.step_unlock
+
         self.wait_confirm('GIVEKEY')
-        self.give_item('item.key.lightspeed.2')
+        self.give_item(lightSpeedKey)
         return self.step_unlock
 
     def _is_panel_unlocked(self):
