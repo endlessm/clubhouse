@@ -6,15 +6,6 @@ class StealthDevice(Quest):
 
     def __init__(self):
         super().__init__('StealthDevice', 'faber')
-        self.available = False
-        self.gss.connect('changed', self.update_availability)
-        self.update_availability()
-
-    def update_availability(self, gss=None):
-        if self.conf['complete']:
-            return
-        if self.is_named_quest_complete("Hackdex2Decrypt"):
-            self.available = True
 
     def step_begin(self):
         self.wait_confirm('RILEYQUESTION')

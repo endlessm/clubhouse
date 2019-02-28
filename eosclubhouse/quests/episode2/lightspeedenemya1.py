@@ -17,7 +17,8 @@ class LightSpeedEnemyA1(Quest):
     def update_availability(self, gss=None):
         if self.conf['complete']:
             return
-        if self.is_named_quest_complete("LightSpeedFix2"):
+        if self.is_named_quest_complete("LightSpeedFix2") and \
+           self.is_named_quest_complete("StealthDevice"):
             self.available = True
 
     def step_begin(self):

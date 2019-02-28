@@ -18,7 +18,7 @@ class Investigation(Quest):
     def update_availability(self, gss=None):
         if self.conf['complete']:
             return
-        if self.is_named_quest_complete("MakerIntro"):
+        if self.is_named_quest_complete("Chore"):
             self.available = True
 
     def step_begin(self):
