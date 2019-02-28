@@ -2,21 +2,21 @@ INVESTIGATION_QUESTION,The time has come for us to do some investigating on our 
 INVESTIGATION_QUEST_ACCEPT,I'm with you!,,,,quests/quest2-zarathustra-whale
 INVESTIGATION_LAUNCH,"There's something fishy going on with Saniel. All the evidence points his way:
 
-The Roster got corrupted when he touched it. He dropped that inactive key.  AND he doesn't even want us in the system!
+The Roster got corrupted when he touched it. He dropped that inactive key.  AND he really doesn't want us in the system!
 
 Let's go to the System now that we have the Level 2 key and see what we can learn. ",,,,quests/quest2-zarathustra-whale
-INVESTIGATION_FLIP,"OK, quiet now. Click the Flip button and let's get in there.",,,,
-INVESTIGATION_FLIP_HINT1,Press the flip to hack button.,,,,
+INVESTIGATION_FLIP,"OK, quiet now. Click the Flip button and let's get in there and see what's up.",,,,
+INVESTIGATION_FLIP_HINT1,Press the Flip to hack button.,,,,
 INVESTIGATION_UNLOCK,Here we are. Let's see what's hiding in that level 2 that nobody wanted us to see!,,,,
 INVESTIGATION_UNLOCK_HINT1,Click on the glowing lock panel to unlock it.,,,,
 INVESTIGATION_STOP,"STOP! Stop right now! What are you doing here? I told you never to come here. There's nothing for you to see.
 
 Leave right now! Don't even think of coming back again.",Saniel,,,
 INVESTIGATION_STOP_HINT1,Press the Flip button and go away.,Saniel,,,
-INVESTIGATION_STOPAGAIN,What did I say?? Do NOT touch that and get out RIGHT NOW!,Saniel,,,
+INVESTIGATION_STOPAGAIN,What did I say? Do NOT touch that and get out RIGHT NOW!,Saniel,,,
 INVESTIGATION_STOPAGAIN_HINT1,A hint? Really? Press the Flip button and leave here right NOW!,Saniel,,,
-INVESTIGATION_OUT,"Wow, that didn't work. How did he know we were here? We'll have to figure out a way to come in undetected.
+INVESTIGATION_OUT,"Okay, so that totes did not work. Saniel misses nothing! We need to come up with a scheme to go undetected.
 
-Although it wasn't a total waste. Look what I found while we were in there. It looks like some old device.",,,,
-INVESTIGATION_END,It's all rusted and it even has some stuff growing on it. Let's check with Faber. He's the prince of mysterious gizmos.,,,,
+Our brief visit wasn't a total waste though! Check out this funky device I found while we were in there.",,,,
+INVESTIGATION_END,It's super rusty and there's stuff growing on it. Let's pay Faber a call. He's the prince of mysterious gizmos.,,,,
 INVESTIGATION_ABORT,"Sure, we can put off the investigation a bit.",,,,

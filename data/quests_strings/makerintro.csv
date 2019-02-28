@@ -1,10 +1,10 @@
-MAKERINTRO_QUESTION,"Oh, hey there! I'm Faber, I run the Maker Space here. Want to try one of my puzzles?",Faber,,,quests/faber-theme
+MAKERINTRO_QUESTION,"Oh, hey! My name's Faber, I run the Maker Space here. Want to try solving a puzzle?",Faber,,,quests/faber-theme
 MAKERINTRO_QUEST_ACCEPT,Sure!,,,,quests/faber-theme
-MAKERINTRO_LAUNCH,"Nice to meet you! You must be the Fizzics whiz Riley told me about. 
+MAKERINTRO_LAUNCH,"Good to meet you!  You must be the Fizzics whiz Riley told me about. I almost didn't hear you come in! 
 
-I was just making some solar pizza, so, okay, let me get this Fizzics puzzle ready for you. 
+Just here jamming out & making some solar pizza. Alright, so let's get this puzzle running for you. 
 
-So let's see if you can find a way to solve this. Go ahead and launch Fizzics.",,,,quests/faber-theme
+See if you can find a way to solve this. Go ahead and launch Fizzics.",,,,quests/faber-theme
 MAKERINTRO_EXPLANATION,Here's your challenge: Make it so all 10 of these green balls are touching the red spiky ball at the same time.,,,,quests/quest2-fabers-fizzics
 MAKERINTRO_EXPLANATION_HINT1,Clearly you'll need to hack into Fizzics to do this.,,,,quests/quest2-fabers-fizzics
 MAKERINTRO_EXPLANATION_HINT2,Look at the attraction and repulsion forces.,,,,quests/quest2-fabers-fizzics
@@ -16,5 +16,5 @@ MAKERINTRO_GIVEITEM,"Hmmm, let me see. It's really dirty and rusted. Let me imme
 Ah, that cleaned up so beautifully. Hmm... this looks like a part you might use in a Stealth Device.",,,,
 MAKERINTRO_STEALTHQUESTION,"Stealth Device? What's that, Faber?",Riley,,,
 MAKERINTRO_STEALTHEXPLANATION,It's a device it let's you move around undetected. The great hacker Leviathan used one in one of his big quests.,,,,
-MAKERINTRO_THANKS,That sounds interesting. Thanks Faber! You're the best.,Riley,,,
+MAKERINTRO_THANKS,That sounds interesting. Thanks Faber! You rule.,Riley,,,
 MAKERINTRO_ABORT,"Okay, see ya later!",,,,
