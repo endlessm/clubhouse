@@ -75,6 +75,8 @@ class LightSpeedFix1(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_unlock(self):
+        if self._is_panel_unlocked():
+            return self.step_code
         self.show_hints_message('UNLOCK')
 
         while not (self._is_panel_unlocked() or self.debug_skip()) and not self.is_cancelled():
