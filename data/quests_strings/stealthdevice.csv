@@ -1,11 +1,13 @@
-STEALTHDEVICE_QUESTION,Riley said you had some questions.,Faber,,,
-STEALTHDEVICE_QUEST_ACCEPT,Yeah,,,,
-STEALTHDEVICE_RILEYQUESTION,"Faber, we're looking for a Stealth Device, like the one Leviathan used back in the day.",Riley,,,
-STEALTHDEVICE_EXPLANATION,"Ah, right! I remember following that. He was amazing. Anyway, as for the Stealth Device, I can make one for you.
+STEALTHDEVICE_QUESTION,"Oh, hello there. Riley said you have some questions.",Faber,,,quests/quest2-faber-conga-build
+STEALTHDEVICE_QUEST_ACCEPT,That's right.,,,,quests/quest2-faber-conga-build
+STEALTHDEVICE_RILEYQUESTION,"Faber, we're looking for a Stealth Device, like the one Leviathan used back in the day.",Riley,,,quests/quest2-faber-conga-build
+STEALTHDEVICE_EXPLANATION,"Ah, right! I remember hearing about that. I've studied the specifics of that Stealth Device. 
 
-You're not going to use it to get in any kind of trouble, are you?",,,,
-STEALTHDEVICE_RILEYTROUBLE,Who? Us? Of course not! ,Riley,,,
-STEALTHDEVICE_EXPLANATION2,"OK, just making sure. The only thing is that I don't have all the necessary components to make it right now.
+Pretty sure I can make one for you. You're not going get in any kind of trouble with it, are you?",,,,quests/quest2-faber-werks
+STEALTHDEVICE_RILEYTROUBLE,"Trouble? Us? Faber, you know I never get into trouble ;)  ",Riley,,,quests/quest2-faber-werks
+STEALTHDEVICE_EXPLANATION2,"OK, just making sure. The only thing is I need to get my hands on a few necessary components.
 
-I'm going to need you two to get me XXXXX, XXXXXX, XXXXX, and XXXX. Do you think you can do that?",,,,
-STEALTHDEVICE_END,"Sure. We're on it. Thanks, Faber!",Riley,,,
+I'm going to need you two to get me a click spring, an acorn, and a ratchet wheel the size of a penny. 
+
+Oh, and a a bluebird feather. Do you think you can do that?",,,,quests/quest2-faber-werks
+STEALTHDEVICE_END,"Sure. We're on it. Thanks, Faber!",Riley,,,quests/quest2-faber-werks
