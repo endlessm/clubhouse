@@ -1,14 +1,17 @@
 LIGHTSPEEDTWEAK_QUESTION,Ready to do some more exploring with Lightspeed?,Ada,,,quests/quest2-ada-hi2
 LIGHTSPEEDTWEAK_QUEST_ACCEPT,Definitely!,,,,quests/quest2-ada-hi2
 LIGHTSPEEDTWEAK_LAUNCH,Excellent. Start by launching Lightspeed as usual.,,,,quests/quest2-ada-hi2
-LIGHTSPEEDTWEAK_EXPLANATION,"Okay, so this time, you need to pass Level 2. Select Level 2 in the main menu and press Start.",,,,
+LIGHTSPEEDTWEAK_EXPLANATION,"Okay, so this time, you need to pass Level 2. Go ahead and play Level 2.",,,,
 LIGHTSPEEDTWEAK_FLIPTOHACK,"A bit difficult, right? This level has some rough edges. But you can get in there and smooth things out.
 
 Press the Flip button on the left.",,,,
 LIGHTSPEEDTWEAK_UNLOCK,There. Now click on the lock to unlock the panel and let's get this party started!,,,,
 LIGHTSPEEDTWEAK_HACK,"Okay, so now that you have access to this panel, do you see any settings you can change to make the level easier?",,,,
 LIGHTSPEEDTWEAK_HACK_HINT1,"If things are too fast, what can you change to fix that?",,,,
-LIGHTSPEEDTWEAK_HACK_HINT2,Try making the player's ship go slower.,,,,
+LIGHTSPEEDTWEAK_HACK_HINT2,How about slowing down the player's ship by lowering the speed?,,,,
 LIGHTSPEEDTWEAK_HACK_HINT3,Don't forget that you actually need to beat the level. Press the Flip button and play through the level.,,,,
-LIGHTSPEEDTWEAK_SUCCESS,Brilliant solution! That worked like a dream! ,,,,
+LIGHTSPEEDTWEAK_SUCCESS,Brilliant solution! That worked like a dream! You're really getting the hang of it!,,,,
+LIGHTSPEEDTWEAK_GIVEITEM,I'm going to give you the Level 2 key for Lightspeed. Remember: With great power comes great responsibility!,,,,
+LIGHTSPEEDTWEAK_AFTERITEM,"That key gives you access to the coding panel, where your real training begins.",,,,
+LIGHTSPEEDTWEAK_END,See you at the Clubhouse.,,,,
 LIGHTSPEEDTWEAK_ABORT,See you next time!,,,,

@@ -78,16 +78,24 @@ class LightSpeedTweak(Quest):
     def step_hack(self):
         self.show_hints_message('HACK')
 
-        self.wait_for_app_js_props_changed(self._app, ['success'])
+        if not self._app.get_js_property('success') and not self.debug_skip():
+            self.wait_for_app_js_props_changed(self._app, ['success'])
 
-        if self._app.get_js_property('success') or self.debug_skip():
-            return self.step_success
+        self.show_confirm_message('SUCCESS').wait()
+        return self.step_givekey
 
-        return self.step_hack
+    def step_givekey(self):
+        key_id = 'item.key.lightspeed.2'
+        if self.gss.get(key_id) is not None:
+            return self.step_end
+        self.show_confirm_message('GIVEITEM').wait()
+        self.give_item(key_id)
+        self.show_confirm_message('AFTERITEM').wait()
+        return self.step_end
 
-    def step_success(self):
+    def step_end(self):
         self.conf['complete'] = True
         self.available = False
         Sound.play('quests/quest-complete')
-        self.show_confirm_message('SUCCESS', confirm_label='Bye').wait()
+        self.show_confirm_message('END', confirm_label='Bye').wait()
         self.stop()
