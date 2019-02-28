@@ -59,7 +59,7 @@ class Investigation(Quest):
 
         if not self._app.get_js_property('flipped'):
             if self._try_attempts > 0:
-                return self.step_end
+                return self.step_out
             return self.step_wait_for_flip, True
 
         if self.level2_lock_tried():
@@ -70,7 +70,12 @@ class Investigation(Quest):
         # other reason.
         return self.step_unlock, False
 
+    def step_out(self):
+        self.show_confirm_message('OUT').wait()
+        return self.step_end
+
     def step_end(self):
+        self.give_item('item.key.unknown_item')
         self.conf['complete'] = True
         self.available = False
 

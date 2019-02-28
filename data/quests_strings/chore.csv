@@ -6,6 +6,6 @@ It's amazing how much time can pass when you're focused on a problem.
 
 Alright then, let's go ahead and launch the System.",,,,quests/quest2-saniel-chore
 CHORE_EXPLANATION,TODO: Explain what to do here...,,,,
-CHORE_KEY,Hey! What's this? It was hidden behind one of the daemons. It looks like some old device...,Riley,,,
-CHORE_END,"Not sure what it is. We should check with Faber, the Maker. He knows all about tech stuff.",Riley,,,
-CHORE_ABORT,Abort,,,,
+CHORE_KEY,I just stepped on this thing... whaaat? The System Level 2 key! Shhhhh... Take it now that nobody's looking.,Riley,,,
+CHORE_END,This will let us deeper into the System. We def need to come back here later.,Riley,,,
+CHORE_ABORT,Abort.,,,,
