@@ -77,6 +77,20 @@ class LightSpeedTweak(Quest):
     @Quest.with_app_launched(APP_NAME)
     def step_hack(self):
         self.show_hints_message('HACK')
+        if self._app.get_js_property('flipped'):
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_abouttoplay
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_abouttoplay(self):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message('ABOUTTOPLAY')
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playtest
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_playtest(self):
+        self.show_hints_message('PLAYTEST')
 
         if not self._app.get_js_property('success') and not self.debug_skip():
             self.wait_for_app_js_props_changed(self._app, ['success'])

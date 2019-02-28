@@ -10,6 +10,8 @@ LIGHTSPEEDTWEAK_HACK,"Okay, so now that you have access to this panel, do you se
 LIGHTSPEEDTWEAK_HACK_HINT1,"If things are too fast, what can you change to fix that?",,,,
 LIGHTSPEEDTWEAK_HACK_HINT2,How about slowing down the player's ship by lowering the speed?,,,,
 LIGHTSPEEDTWEAK_HACK_HINT3,Don't forget that you actually need to beat the level. Press the Flip button and play through the level.,,,,
+LIGHTSPEEDTWEAK_ABOUTTOPLAY,All right. Play the level and let's see.,,,,
+LIGHTSPEEDTWEAK_PLAYTEST,"Hopefully this works. If not, go back and change the speed to something lower.",,,,
 LIGHTSPEEDTWEAK_SUCCESS,Brilliant solution! That worked like a dream! You're really getting the hang of it!,,,,
 LIGHTSPEEDTWEAK_GIVEITEM,I'm going to give you the Level 2 key for Lightspeed. Remember: With great power comes great responsibility!,,,,
 LIGHTSPEEDTWEAK_AFTERITEM,"That key gives you access to the coding panel, where your real training begins.",,,,
