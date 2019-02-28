@@ -86,13 +86,28 @@ class LightSpeedFix1(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_code(self):
-        if self._app.get_js_property('success') or self.debug_skip():
-            return self.step_success
-
         self.show_hints_message('CODE')
 
-        self.wait_for_app_js_props_changed(self._app, ['success'])
-        return self.step_code
+        if self._app.get_js_property('flipped'):
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_abouttoplay
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_abouttoplay(self):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message('ABOUTTOPLAY')
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playtest
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_playtest(self):
+        self.show_hints_message('PLAYTEST')
+        self.pause(4)
+
+        if not self._app.get_js_property('success') and not self.debug_skip() and \
+           not self.is_cancelled():
+            self.wait_for_app_js_props_changed(self._app, ['success'])
+        return self.step_success
 
     def step_success(self):
         self.conf['complete'] = True

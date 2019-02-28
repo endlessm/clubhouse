@@ -13,6 +13,10 @@ LIGHTSPEEDFIX1_UNLOCK,Now unlock the level 2 panel and let's do some coding.,,,,
 LIGHTSPEEDFIX1_CODE,"See the function called spawnEnemy()? That's where we set the scale for the asteroids.
 
 Change the scale to something smaller so the level becomes playable again.",,,,
-LIGHTSPEEDFIX1_CODE_HINT1,Make sure to play level 3 and beat it to make sure your solution works correctly.,,,,
+LIGHTSPEEDFIX1_CODE_HINT1,See that scale: 150? Change that number to something smaller.,,,,
+LIGHTSPEEDFIX1_CODE_HINT2,Make sure to play level 3 and beat it to check your solution works correctly.,,,,
+LIGHTSPEEDFIX1_ABOUTTOPLAY,"OK, let's try it now.",,,,
+LIGHTSPEEDFIX1_PLAYTEST,"If all went well, asteroids should be smaller can you can beat this level.",,,,
+LIGHTSPEEDFIX1_PLAYTEST_HINT1,"If you can't beat it, go back to the code panel and try making it even smaller.",,,,
 LIGHTSPEEDFIX1_SUCCESS,Excellent. That'll do it. We've got a few more things to fix. Come find me when you're ready for more coding!,,,,
 LIGHTSPEEDFIX1_ABORT,Stop by again sometime soon!,,,,
