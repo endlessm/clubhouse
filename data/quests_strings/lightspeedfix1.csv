@@ -8,7 +8,6 @@ LIGHTSPEEDFIX1_EXPLANATION2,"Someone made those asteroids way too big! You'll ne
 
 Just like before, you'll have to hack the app to fix it. But this time you'll be using code to do it.",,,,
 LIGHTSPEEDFIX1_EXPLANATION2_HINT1,Press the Flip button.,,,,
-LIGHTSPEEDFIX1_GIVEKEY,I'm going to give you the level 2 key for Lightspeed. Remember: With great power comes great responsibility!,,,,
 LIGHTSPEEDFIX1_UNLOCK,Now unlock the level 2 panel and let's do some coding.,,,,
 LIGHTSPEEDFIX1_CODE,"See the function called spawnEnemy()? That's where we set the scale for the asteroids.
 

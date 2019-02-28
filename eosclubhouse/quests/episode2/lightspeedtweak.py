@@ -77,17 +77,39 @@ class LightSpeedTweak(Quest):
     @Quest.with_app_launched(APP_NAME)
     def step_hack(self):
         self.show_hints_message('HACK')
+        if self._app.get_js_property('flipped'):
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_abouttoplay
 
-        self.wait_for_app_js_props_changed(self._app, ['success'])
+    @Quest.with_app_launched(APP_NAME)
+    def step_abouttoplay(self):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message('ABOUTTOPLAY')
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playtest
 
-        if self._app.get_js_property('success') or self.debug_skip():
-            return self.step_success
+    @Quest.with_app_launched(APP_NAME)
+    def step_playtest(self):
+        self.show_hints_message('PLAYTEST')
 
-        return self.step_hack
+        if not self._app.get_js_property('success') and not self.debug_skip():
+            self.wait_for_app_js_props_changed(self._app, ['success'])
 
-    def step_success(self):
+        self.show_confirm_message('SUCCESS').wait()
+        return self.step_givekey
+
+    def step_givekey(self):
+        key_id = 'item.key.lightspeed.2'
+        if self.gss.get(key_id) is not None:
+            return self.step_end
+        self.show_confirm_message('GIVEITEM').wait()
+        self.give_item(key_id)
+        self.show_confirm_message('AFTERITEM').wait()
+        return self.step_end
+
+    def step_end(self):
         self.conf['complete'] = True
         self.available = False
         Sound.play('quests/quest-complete')
-        self.show_confirm_message('SUCCESS', confirm_label='Bye').wait()
+        self.show_confirm_message('END', confirm_label='Bye').wait()
         self.stop()
