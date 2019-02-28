@@ -829,7 +829,9 @@ class Quest(GObject.GObject):
 
         possible_answers = []
         if options.get('choices'):
-            possible_answers = [(text, callback, *args) for text, callback, *args in options['choices']]
+            possible_answers = [(text, callback, *args)
+                                for text, callback, *args
+                                in options['choices']]
 
         if options.get('use_confirm'):
             confirm_label = options.get('confirm_label', '>')
