@@ -38,8 +38,7 @@ class Chore(Quest):
         return self.step_end
 
     def step_end(self):
-        self.give_item('item.key.unknown_item', "You've received an unknown item",
-                       consume_after_use=True)
+        self.give_item('item.key.OperatingSystemApp.2')
         self.conf['complete'] = True
         self.available = False
 

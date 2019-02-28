@@ -18,7 +18,7 @@ class MakerIntro(Quest):
     def update_availability(self, gss=None):
         if self.conf['complete']:
             return
-        if self.is_named_quest_complete('Chore'):
+        if self.is_named_quest_complete('Investigation'):
             self.available = True
 
     def step_begin(self):
@@ -36,9 +36,11 @@ class MakerIntro(Quest):
         if self._app.get_js_property('quest1Success') or self.debug_skip():
             self.wait_confirm('SUCCESS')
             self.wait_confirm('WHATISIT')
-            self.wait_confirm('GIVEKEY')
+            self.wait_confirm('GIVEITEM')
             self.gss.set("item.key.unknown_item", {'used': True, 'consume_after_use': True})
-            self.give_item('item.key.OperatingSystemApp.2')
+            self.give_item('item.stealth.1')
+            self.wait_confirm('STEALTHQUESTION')
+            self.wait_confirm('STEALTHEXPLANATION')
             return self.step_thanks
 
         self.wait_for_app_js_props_changed(self._app, ['quest1Success'])
