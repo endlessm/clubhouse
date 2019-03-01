@@ -3,22 +3,18 @@ LIGHTSPEEDINTRO_QUESTION,"So nice to see you again! Would you like to help me de
 LIGHTSPEEDINTRO_QUEST_ACCEPT,Of course!,,,,quests/quest2-ada-hi
 LIGHTSPEEDINTRO_LAUNCH,"We've been busy around here! As you know we've been trying to get a handle on this data corruption situation.
 
-We have a new game called Lightspeed. It will help you sharpen your coding skills! 
+We have a new game for you to try. It's called Lightspeed. It will help you sharpen your coding skills! 
 
 Go ahead and launch it from the desktop. Do you see it there? 
 ",,,,quests/quest2-ada-hi
-LIGHTSPEEDINTRO_EXPLANATION,"Estelle designed it a while back as a simulation exercise. Now we use it for training. 
+LIGHTSPEEDINTRO_EXPLANATION,"Estelle, the Conservatory Director designed it as a simulation exercise back when she was an aerospace engineer. 
 
-Can't wait to see what you do with it!
-
-The goal of Lightspeed is very simple: Pick up 3 astronauts with your ship and avoid crashing into anything.
-
-Try it out. Beat the first level by rescuing 3 astronauts.
+Now we use it for training. Can't wait to see what you do with it! Give it a try.
 ",,,,
-LIGHTSPEEDINTRO_GOAL,Beat the first level by rescuing 3 astronauts.,,,,
-LIGHTSPEEDINTRO_ONE,That's it. Grab 2 more astronauts to beat the level.,,,,
-LIGHTSPEEDINTRO_TWO,1 more to go!,,,,
-LIGHTSPEEDINTRO_SUCCESS,"Nice job! You made quick work of that! Now we'll need your help with the other levels.
+LIGHTSPEEDINTRO_GOAL,The goal of Lightspeed is very simple: Pick up 10 astronauts with your ship and avoid crashing into anything.,,,,
+LIGHTSPEEDINTRO_ONE,That's it. Grab 9 more astronauts to beat the level.,,,,
+LIGHTSPEEDINTRO_FIVE,5 more to go!,,,,
+LIGHTSPEEDINTRO_SUCCESS,"Quick work! Now we'll need your help with the other levels.
 
 I'm going to give you the Level 1 key for Lightspeed. I'm sure you'll make good use of it.",,,,
 LIGHTSPEEDINTRO_END,Come get me in the Clubhouse and we'll go over the next steps.,,,,
