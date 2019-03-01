@@ -21,13 +21,13 @@ class LightSpeedIntro(Quest):
 
     def get_current_score(self):
         if self.debug_skip():
-            self._level += 1
+            self._score += 1
         else:
-            self._level = self._app.get_js_property('score', 0)
-        return self._level
+            self._score = self._app.get_js_property('score', 0)
+        return self._score
 
     def step_begin(self):
-        self._level = 0
+        self._score = 0
 
         if not self._app.is_running():
             self.show_hints_message('LAUNCH')
@@ -48,18 +48,18 @@ class LightSpeedIntro(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_check_score(self):
-        old_level = self._level
-        level = self.get_current_score()
+        old_score = self._score
+        score = self.get_current_score()
         message_id = None
 
         # Check if the player lost and got to 0 points
-        if level == 0 and old_level > level:
+        if score == 0 and old_score > score:
             message_id = 'GOAL'
-        elif level == 1:
+        elif score == 1:
             message_id = 'ONE'
-        elif level == 5:
+        elif score == 5:
             message_id = 'FIVE'
-        elif level >= 10:
+        elif score >= 10:
             return self.step_end
 
         if message_id is not None:
