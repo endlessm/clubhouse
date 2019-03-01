@@ -60,8 +60,8 @@ class LightSpeedFix1(Quest):
         return self.step_fliptohack
 
     def _is_panel_unlocked(self):
-        item = self.gss.get('item.key.lightspeed.2')
-        return item is not None and item.get('used', False)
+        item = self.gss.get('lock.lightspeed.2')
+        return item is not None and not item.get('locked', True)
 
     @Quest.with_app_launched(APP_NAME)
     def step_unlock(self):
@@ -78,7 +78,20 @@ class LightSpeedFix1(Quest):
             return self.step_success
 
         self.show_hints_message('CODE')
+        if self._app.get_js_property('flipped'):
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_abouttoplay
 
+    @Quest.with_app_launched(APP_NAME)
+    def step_abouttoplay(self):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message('ABOUTTOPLAY')
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playtest
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_playtest(self):
+        self.show_hints_message('PLAYTEST')
         self.wait_for_app_js_props_changed(self._app, ['success'])
         return self.step_code
 
