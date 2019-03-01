@@ -743,6 +743,28 @@ class Quest(GObject.GObject):
 
         return async_action
 
+    def show_choices_message(self, msg_id, *user_choices, **options):
+        assert self._run_context is not None
+
+        async_action = self._run_context.new_async_action()
+
+        if async_action.is_cancelled():
+            return async_action
+
+        def _callback_and_resolve(async_action, callback, *callback_args):
+            callback(*callback_args)
+            async_action.resolve()
+
+        choices = options.get('choices', [])
+        for option_msg_id, callback, *args in user_choices:
+            option_label = QS('{}_{}'.format(self._qs_base_id, option_msg_id))
+            choices.append((option_label, _callback_and_resolve, async_action, callback, *args))
+
+        options.update({'choices': choices})
+        self.show_message(msg_id, **options)
+
+        return async_action
+
     def wait_for_one(self, action_list):
         self._run_context.wait_for_one(action_list)
 
