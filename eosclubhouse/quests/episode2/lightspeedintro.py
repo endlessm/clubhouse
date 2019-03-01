@@ -41,6 +41,9 @@ class LightSpeedIntro(Quest):
     @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         self.show_hints_message('EXPLANATION')
+        if not self._app.get_js_property('playing'):
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        self.show_hints_message('GOAL')
         return self.step_check_score
 
     @Quest.with_app_launched(APP_NAME)
@@ -54,9 +57,9 @@ class LightSpeedIntro(Quest):
             message_id = 'GOAL'
         elif level == 1:
             message_id = 'ONE'
-        elif level == 2:
-            message_id = 'TWO'
-        elif level >= 3:
+        elif level == 5:
+            message_id = 'FIVE'
+        elif level >= 10:
             return self.step_end
 
         if message_id is not None:
