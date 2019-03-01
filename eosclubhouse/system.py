@@ -374,13 +374,14 @@ class GameStateService(GObject.GObject):
 
         self._get_gss_proxy().Set('(sv)', key, variant)
 
-    def get(self, key):
+    def get(self, key, value_if_missing=None):
         try:
             return self._get_gss_proxy().Get('(s)', key)
         except GLib.Error as e:
             # Raise errors unless they are the expected (key missing)
             if not self._is_key_error(e):
                 raise
+        return value_if_missing
 
     @staticmethod
     def _is_key_error(error):
