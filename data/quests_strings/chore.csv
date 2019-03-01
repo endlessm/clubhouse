@@ -1,11 +1,29 @@
-CHORE_QUESTION,"Well, hello there. While we're investigating, I need you to do some cleanup.",Saniel,,,quests/quest2-saniel-chore
+CHORE_QUESTION,"Well, hello there. While we're investigating, I need you to take care of some stuff.",Saniel,,,quests/quest2-saniel-chore
 CHORE_QUEST_ACCEPT,"Sure, I can do that. ",,,,quests/quest2-saniel-chore
 CHORE_LAUNCH,"You'd think we would gotten this file debacle sorted out by now! 
 
 It's amazing how much time can pass when you're focused on a problem.
 
 Alright then, let's go ahead and launch the System.",,,,quests/quest2-saniel-chore
-CHORE_EXPLANATION,TODO: Explain what to do here...,,,,
-CHORE_KEY,I just stepped on this thing... whaaat? The System Level 2 key! Shhhhh... Take it now that nobody's looking.,Riley,,,
+CHORE_EXPLANATION,Shall we do a... quiz? Pay attention:,,,,
+CHORE_QUIZ1_QUESTION,1) Ada compares /dev/null to...,,,,
+CHORE_QUIZ1_CHOICE1,A wastebasket,,,,
+CHORE_QUIZ1_CHOICE2,A pie,,,,
+CHORE_QUIZ1_CORRECT,Acceptable.,,,,
+CHORE_QUIZ1_INCORRECT,Not quite. Try again.,,,,
+CHORE_QUIZ2_QUESTION,2) The daemons often work...,,,,
+CHORE_QUIZ2_CHOICE1,On horseback,,,,
+CHORE_QUIZ2_CHOICE2,In the background,,,,
+CHORE_QUIZ2_CORRECT,Obviously.,,,,
+CHORE_QUIZ2_INCORRECT,Not really. One more try.,,,,
+CHORE_QUIZ3_QUESTION,"3) The System App lets you change your cursor into a wedge of cheese, a unicorn, and poop.",,,,
+CHORE_QUIZ3_CHOICE1,True,,,,
+CHORE_QUIZ3_CHOICE2,False,,,,
+CHORE_QUIZ3_CORRECT,Correct.,,,,
+CHORE_QUIZ3_INCORRECT,Not even close. Try again.,,,,
+CHORE_WRAPUP,That's it. I hope you've learned something from this and the wonders of the System. Bye for now.,,,,
+CHORE_KEY,"What was the point of all of that? Why waste our talent with quizzes when we should be investigating?
+
+I just stepped on this thing... whaaat? The System Level 2 key! Shhhhh... Take it now that nobody's looking.",Riley,,,
 CHORE_END,This will let us deeper into the System. We def need to come back here later.,Riley,,,
 CHORE_ABORT,Abort.,,,,
