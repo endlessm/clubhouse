@@ -1,8 +1,8 @@
 LIGHTSPEEDTWEAK_QUESTION,Ready to do some more exploring with Lightspeed?,Ada,,,quests/quest2-ada-hi2
 LIGHTSPEEDTWEAK_QUEST_ACCEPT,Definitely!,,,,quests/quest2-ada-hi2
-LIGHTSPEEDTWEAK_LAUNCH,Excellent. Start by launching Lightspeed as usual.,,,,quests/quest2-ada-hi2
+LIGHTSPEEDTWEAK_LAUNCH,Excellent. Start by launching Lightspeed.,,,,quests/quest2-ada-hi2
 LIGHTSPEEDTWEAK_EXPLANATION,"Okay, so this time, you need to pass Level 2. Go ahead and play Level 2.",,,,
-LIGHTSPEEDTWEAK_FLIPTOHACK,"A bit difficult, right? This level has some rough edges. But you can get in there and smooth things out.
+LIGHTSPEEDTWEAK_FLIPTOHACK,"Oof. A bit difficult, right? This level has some rough edges to say the least! But you can smooth things out.
 
 Press the Flip button on the left.",,,,
 LIGHTSPEEDTWEAK_UNLOCK,There. Now click on the lock to unlock the panel and let's get this party started!,,,,
@@ -14,6 +14,6 @@ LIGHTSPEEDTWEAK_ABOUTTOPLAY,All right. Play the level and let's see.,,,,
 LIGHTSPEEDTWEAK_PLAYTEST,"Hopefully this works. If not, go back and change the speed to something lower.",,,,
 LIGHTSPEEDTWEAK_SUCCESS,Brilliant solution! That worked like a dream! You're really getting the hang of it!,,,,
 LIGHTSPEEDTWEAK_GIVEITEM,I'm going to give you the Level 2 key for Lightspeed. Remember: With great power comes great responsibility!,,,,
-LIGHTSPEEDTWEAK_AFTERITEM,"That key gives you access to the coding panel, where your real training begins.",,,,
+LIGHTSPEEDTWEAK_AFTERITEM,That key gives you access to the coding panel. A whole new level for your training!,,,,
 LIGHTSPEEDTWEAK_END,See you at the Clubhouse.,,,,
 LIGHTSPEEDTWEAK_ABORT,See you next time!,,,,

@@ -1,7 +1,7 @@
 LIGHTSPEEDENEMYB2_QUESTION,Ready for your next coding assignment?,Saniel,,,
 LIGHTSPEEDENEMYB2_QUEST_ACCEPT,Sure,,,,
 LIGHTSPEEDENEMYB2_LAUNCH,Launch Lightspeed.,,,,
-LIGHTSPEEDENEMYB2_EXPLAIN,"I'd like you to add the enemies for level 7, we should have all three kinds of enemies.",,,,
+LIGHTSPEEDENEMYB2_EXPLAIN,"I'd like you to add the enemies for Level 7, we should have all three kinds of enemies.",,,,
 LIGHTSPEEDENEMYB2_EXPLAIN_HINT1,You should go to the code view as usual.,,,,
 LIGHTSPEEDENEMYB2_CODE,"Look for the spawnEnemy() function and make sure to return all 3 kinds of enemies: asteroid, beam, and squid.",,,,
 LIGHTSPEEDENEMYB2_CODE_HINT1,You could pick one at random to spawn every second.,,,,

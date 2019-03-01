@@ -1,17 +1,19 @@
-CHORE_QUESTION,"Well, hello there. While we're investigating, I need you to take care of some stuff.",Saniel,,,quests/quest2-saniel-chore
+CHORE_QUESTION,"Oh, hello there! I'm still neck deep in this investigation, but I have some background work I'd like you to do.",Saniel,,,quests/quest2-saniel-chore
 CHORE_QUEST_ACCEPT,"Sure, I can do that. ",,,,quests/quest2-saniel-chore
 CHORE_LAUNCH,"You'd think we would gotten this file debacle sorted out by now! 
 
 It's amazing how much time can pass when you're focused on a problem.
 
 Alright then, let's go ahead and launch the System.",,,,quests/quest2-saniel-chore
-CHORE_EXPLANATION,Shall we do a... quiz? Pay attention:,,,,
-CHORE_QUIZ1_QUESTION,1) Ada compares /dev/null to...,,,,
+CHORE_EXPLANATION,"This will help you get familiar with how the Operating System works. 
+
+Browse around here a bit and then give this quiz a try. ",,,,
+CHORE_QUIZ1_QUESTION,1) Ada compares /dev/null to:,,,,
 CHORE_QUIZ1_CHOICE1,A wastebasket,,,,
 CHORE_QUIZ1_CHOICE2,A pie,,,,
 CHORE_QUIZ1_CORRECT,Acceptable.,,,,
 CHORE_QUIZ1_INCORRECT,Not quite. Try again.,,,,
-CHORE_QUIZ2_QUESTION,2) The daemons often work...,,,,
+CHORE_QUIZ2_QUESTION,2) The daemons often work:,,,,
 CHORE_QUIZ2_CHOICE1,On horseback,,,,
 CHORE_QUIZ2_CHOICE2,In the background,,,,
 CHORE_QUIZ2_CORRECT,Obviously.,,,,
@@ -20,10 +22,12 @@ CHORE_QUIZ3_QUESTION,"3) The System App lets you change your cursor into a wedge
 CHORE_QUIZ3_CHOICE1,True,,,,
 CHORE_QUIZ3_CHOICE2,False,,,,
 CHORE_QUIZ3_CORRECT,Correct.,,,,
-CHORE_QUIZ3_INCORRECT,Not even close. Try again.,,,,
-CHORE_WRAPUP,That's it. I hope you've learned something from this and the wonders of the System. Bye for now.,,,,
-CHORE_KEY,"What was the point of all of that? Why waste our talent with quizzes when we should be investigating?
+CHORE_QUIZ3_INCORRECT,False? Really? Have you checked out the cursors? Try again. ,,,,
+CHORE_WRAPUP,That's it for now. Nice work! Just a little glimpse of the wonders of the System! I must be going now. ,,,,
+CHORE_KEY,"What was up with that quiz? Why is Saniel keeping us busy with quizzes when we should be investigating? 
 
-I just stepped on this thing... whaaat? The System Level 2 key! Shhhhh... Take it now that nobody's looking.",Riley,,,
+Whoa, wait, whaaat? I just stepped on this thing. What is it?
+
+Look, it’s the Level 2 key for The System. Looks like we may get to do some investigating after all ;) ",Riley,,,
 CHORE_END,This will let us deeper into the System. We def need to come back here later.,Riley,,,
-CHORE_ABORT,Abort.,,,,
+CHORE_ABORT,No prob. Find me later! ,,,,

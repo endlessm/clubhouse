@@ -10,7 +10,7 @@ Let's use the velocity of the enemy. We can start with a velocity of -10 and whe
 
 Then we just add the velocity to the position every time: enemy.position.y = enemy.position.y + enemy.velocity.y;",,,,
 LIGHTSPEEDENEMYA4_CODE_HINT1,Check if we go below and change the direction of the velocity: if (enemy.position.y <= 0) velocity.y = -velocity.y;,,,,
-LIGHTSPEEDENEMYA4_PLAYING,Let's see if they bounce now...,,,,
+LIGHTSPEEDENEMYA4_PLAYING,Let's see if they bounce now.,,,,
 LIGHTSPEEDENEMYA4_NOTMOVING,Now they aren't moving up and down at all. That's probably because we never set the initial speed. Go back to the code.,,,,
 LIGHTSPEEDENEMYA4_GOINGUNDER,Something went wrong and they're going below the screen again. We need to prevent them from going below 0.,,,,
 LIGHTSPEEDENEMYA4_GOINGOVER,That's good! However... now they go off the top of the screen. Let's fix that while we're at it. Go back to the code.,,,,

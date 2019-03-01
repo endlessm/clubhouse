@@ -10,7 +10,7 @@ That's where we keep making y a bit smaller every time. Let's stop doing that wh
 
 We can use an 'if' statement. if (enemy.y > 0) enemy.y = enemy.y - 10;",,,,
 LIGHTSPEEDENEMYA3_CODE_HINT1,Prevent y from going below 0 with an if statement. Then run the game.,,,,
-LIGHTSPEEDENEMYA3_PLAYING,Let's see how you did...,,,,
+LIGHTSPEEDENEMYA3_PLAYING,Let's see how you did with that.,,,,
 LIGHTSPEEDENEMYA3_NOTMOVING,Something went wrong and now the enemies aren't moving. Go back to the coding panel and let's fix it.,,,,
 LIGHTSPEEDENEMYA3_GOINGDOWN,Hmm... they're still going below the screen. Go back and make sure you don't update the y position if they go below 0.,,,,
 LIGHTSPEEDENEMYA3_NOTREACHINGBOTTOM,The enemies aren't quite reaching the bottom of the screen. Check your code again.,,,,

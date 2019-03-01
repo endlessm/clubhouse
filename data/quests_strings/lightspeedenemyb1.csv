@@ -1,11 +1,11 @@
 LIGHTSPEEDENEMYB1_QUESTION,Perhaps you're ready to code a whole new enemy on your own?,Saniel,,,
 LIGHTSPEEDENEMYB1_QUEST_ACCEPT,Yes,,,,
 LIGHTSPEEDENEMYB1_LAUNCH,Start by launching Lightspeed.,,,,
-LIGHTSPEEDENEMYB1_EXPLANATION,We'll add this enemy to level 6. Press the Flip button to go to the coding panel.,,,,
+LIGHTSPEEDENEMYB1_EXPLANATION,We'll add this enemy to Level 6. Press the Flip button to go to the coding panel.,,,,
 LIGHTSPEEDENEMYB1_CODE1,Here we are. Start by spawning 'squid' in the spawnEnemy() function. Then play the level to test it.,,,,
 LIGHTSPEEDENEMYB1_PLAYTEST,Let's see if that worked...,,,,
 LIGHTSPEEDENEMYB1_NOTMOVING,"Perfect. That's the new enemy type, although it's not doing anything interesting yet. Let's fix that.",,,,
-LIGHTSPEEDENEMYB1_NEWENEMY_HINT1,Go to the coding panel. Press flip to hack.,,,,
+LIGHTSPEEDENEMYB1_NEWENEMY_HINT1,Go to the coding panel. Press Flip.,,,,
 LIGHTSPEEDENEMYB1_NOENEMY,Hmm... not quite. We don't have any of that enemy in the level. Go back and try to fix it.,,,,
 LIGHTSPEEDENEMYB1_CODE2,"Now we want this enemy to move up and down smoothly, using the sine function.
 
