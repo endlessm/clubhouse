@@ -881,7 +881,7 @@ class EpisodesPage(Gtk.EventBox):
         self._badges_box.put(badge, x, y)
         badge.show()
 
-    def update_episode_view(self, *args, **kwargs):
+    def update_episode_view(self, _gss=None):
         current_episode = libquest.Registry.get_current_episode()
         if current_episode[self._COMPLETED]:
             self._update_ui(self._COMPLETED)
