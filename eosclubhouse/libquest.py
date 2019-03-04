@@ -41,16 +41,27 @@ glibcoro.install()
 class Registry:
 
     _quest_sets = []
+    _loaded_modules = set()
+    _loaded_episode = None
 
-    @staticmethod
+    @classmethod
     @Performance.timeit
-    def load(quest_folder):
+    def load(class_, quest_folder):
         sys.path.append(quest_folder)
 
         for _unused, modname, _unused in pkgutil.walk_packages([quest_folder]):
             __import__(modname)
+            class_._loaded_modules.add(modname)
 
         del sys.path[sys.path.index(quest_folder)]
+
+    @classmethod
+    def _reset(class_):
+        class_._loaded_episode = None
+        class_._quest_sets = []
+        for module in class_._loaded_modules:
+            del sys.modules[module]
+        class_._loaded_modules = set()
 
     @classmethod
     @Performance.timeit
@@ -98,11 +109,14 @@ class Registry:
 
     @classmethod
     def load_current_episode(class_):
+        episode_name = class_.get_current_episode()['name']
+        if class_._loaded_episode != episode_name:
+            class_._reset()
+            class_._loaded_episode = episode_name
+            class_.load(os.path.join(os.path.dirname(__file__),
+                                     'quests',
+                                     episode_name))
         class_.load(get_alternative_quests_dir())
-        current_episode = class_.get_current_episode()
-        class_.load(os.path.join(os.path.dirname(__file__),
-                                 'quests',
-                                 current_episode['name']))
 
     @classmethod
     def get_available_episodes(class_):
