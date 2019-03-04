@@ -720,6 +720,36 @@ class Quest(GObject.GObject):
 
         return async_action
 
+    def connect_clubhouse_changes(self, props_list):
+        assert self._run_context is not None
+
+        state = ClubhouseState()
+        async_action = self._run_context.new_async_action()
+        if async_action.is_cancelled():
+            return async_action
+
+        property_handler_id = 0
+
+        def _disconnect_clubhouse(_future=None):
+            nonlocal property_handler_id
+            nonlocal state
+            if property_handler_id > 0:
+                state.disconnect(property_handler_id)
+                property_handler_id = 0
+
+        def _on_property_changed(property_name):
+            nonlocal props_list
+            if property_name in props_list:
+                _disconnect_clubhouse()
+                async_action.resolve()
+
+        async_action.future.add_done_callback(_disconnect_clubhouse)
+
+        property_handler_id = state.connect('notify', lambda state, param:
+                                            _on_property_changed(param.name))
+
+        return async_action
+
     def pause(self, secs):
         assert self._run_context is not None
         return self._run_context.pause(secs)
