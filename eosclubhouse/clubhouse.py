@@ -663,6 +663,19 @@ class ClubhousePage(Gtk.EventBox):
         if self._current_quest:
             self._current_quest.set_to_background()
 
+    def load_episode(self, episode_name=None):
+        self._cancel_ongoing_task()
+
+        if episode_name is None:
+            episode_name = libquest.Registry.get_current_episode()['name']
+
+        for child in self._main_characters_box.get_children():
+            child.destroy()
+
+        libquest.Registry.load_current_episode()
+        for quest_set in libquest.Registry.get_quest_sets():
+            self.add_quest_set(quest_set)
+
 
 class InventoryItem(Gtk.Button):
 
@@ -1199,9 +1212,7 @@ class ClubhouseApplication(Gtk.Application):
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._visibility_notify_cb)
 
-        quest_sets = libquest.Registry.get_quest_sets()
-        for quest_set in quest_sets:
-            self._window.clubhouse_page.add_quest_set(quest_set)
+        self._window.clubhouse_page.load_episode()
 
     def send_quest_msg_notification(self, notification):
         self.send_notification(self.QUEST_MSG_NOTIFICATION_ID, notification)
