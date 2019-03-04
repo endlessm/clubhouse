@@ -32,7 +32,7 @@ import time
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import GameStateService, Sound
-from eosclubhouse.utils import Performance, SimpleMarkupParser
+from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 
@@ -954,6 +954,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._update_geometry()
 
+        self._clubhouse_state = ClubhouseState()
+
     def _setup_ui(self):
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/main-window.ui')
@@ -964,13 +966,13 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._inventory_button = builder.get_object('main_window_button_inventory')
         self._episodes_button = builder.get_object('main_window_button_episodes')
 
-        page_switcher_data = {self._clubhouse_button: self.clubhouse_page,
-                              self._inventory_button: self.inventory_page,
-                              self._episodes_button: self.episodes_page}
+        pages_data = [(self._clubhouse_button, ClubhouseState.Page.CLUBHOUSE, self.clubhouse_page),
+                      (self._inventory_button, ClubhouseState.Page.INVENTORY, self.inventory_page),
+                      (self._episodes_button, ClubhouseState.Page.EPISODES, self.episodes_page)]
 
-        for button, page_widget in page_switcher_data.items():
-            self._main_window_stack.add(page_widget)
-            button.connect('clicked', self._page_switch_button_clicked_cb, page_widget)
+        for button, page_id, page_widget in pages_data:
+            self._main_window_stack.add_named(page_widget, page_id.name)
+            button.connect('clicked', self._page_switch_button_clicked_cb, page_id)
 
         self.add(builder.get_object('main_window_overlay'))
 
@@ -986,8 +988,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if os.environ.get('CLUBHOUSE_NO_AUTO_HIDE') is None:
             self.connect('focus-out-event', _window_focus_out_event_cb)
 
-    def _page_switch_button_clicked_cb(self, button, page_widget):
-        self._main_window_stack.set_visible_child(page_widget)
+    def _page_switch_button_clicked_cb(self, button, page_id):
+        self._main_window_stack.set_visible_child_name(page_id.name)
+        self._clubhouse_state.current_page = page_id
 
     def set_page(self, page_name):
         page_buttons = {'clubhouse': self._clubhouse_button,

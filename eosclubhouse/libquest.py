@@ -30,7 +30,8 @@ import time
 from enum import Enum
 from eosclubhouse import config, logger
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
-from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog, QS
+from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, Performance, \
+    QuestStringCatalog, QS
 from gi.repository import GObject, GLib, Gio
 
 
@@ -455,6 +456,8 @@ class Quest(GObject.GObject):
         self._confirmed_step = False
 
         self._run_context = None
+
+        self.clubhouse_state = ClubhouseState()
 
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
