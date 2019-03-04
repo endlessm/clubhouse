@@ -308,9 +308,14 @@ class ClubhousePage(Gtk.EventBox):
         self.get_style_context().add_class('clubhouse-page')
         self._reset_quest_actions()
 
+        self._current_episode = None
         self._current_quest_notification = None
 
         self.add_tick_callback(AnimationSystem.step)
+
+        self._gss = GameStateService()
+        self._gss_hander_id = self._gss.connect('changed',
+                                                lambda _gss: self._update_episode_if_needed())
 
     def _setup_ui(self):
         builder = Gtk.Builder()
@@ -438,10 +443,15 @@ class ClubhousePage(Gtk.EventBox):
         self.run_quest(new_quest)
 
     def connect_quest(self, quest):
+        # Don't update the episode if we're running a quest; this is so we avoid reloading the
+        # Clubhouse while running a quest if it changes the episode.
+        self._gss.handler_block(self._gss_hander_id)
+
         quest.connect('message', self._quest_message_cb)
         quest.connect('item-given', self._quest_item_given_cb)
 
     def disconnect_quest(self, quest):
+        self._gss.handler_unblock(self._gss_hander_id)
         quest.disconnect_by_func(self._quest_message_cb)
         quest.disconnect_by_func(self._quest_item_given_cb)
 
@@ -516,6 +526,8 @@ class ClubhousePage(Gtk.EventBox):
             self._shell_close_popup_message()
 
         self._current_quest_notification = None
+
+        self._update_episode_if_needed()
 
         # Ensure the app can be quit if inactive now
         self._app.release()
@@ -668,6 +680,7 @@ class ClubhousePage(Gtk.EventBox):
 
         if episode_name is None:
             episode_name = libquest.Registry.get_current_episode()['name']
+        self._current_episode = episode_name
 
         for child in self._main_characters_box.get_children():
             child.destroy()
@@ -675,6 +688,11 @@ class ClubhousePage(Gtk.EventBox):
         libquest.Registry.load_current_episode()
         for quest_set in libquest.Registry.get_quest_sets():
             self.add_quest_set(quest_set)
+
+    def _update_episode_if_needed(self):
+        episode_name = libquest.Registry.get_current_episode()['name']
+        if self._current_episode != episode_name:
+            self.load_episode(episode_name)
 
 
 class InventoryItem(Gtk.Button):
