@@ -109,13 +109,34 @@ class Registry:
 
     @classmethod
     def load_current_episode(class_):
+        loaded_episodes = {}
         episode_name = class_.get_current_episode()['name']
-        if class_._loaded_episode != episode_name:
+
+        # We keep loading the current episode until it's not been changed after loading it.
+        # This avoids having a quest set a new episode when it's loaded but we'd thus end up
+        # with an old episode loaded.
+        while class_._loaded_episode != episode_name:
+            logger.info('Loading episode %s', episode_name)
+
             class_._reset()
+
             class_._loaded_episode = episode_name
+
             class_.load(os.path.join(os.path.dirname(__file__),
                                      'quests',
                                      episode_name))
+
+            # Avoid circular episode setting (a quest setting an episode that when loaded
+            # sets a previously loaded episode)
+            if episode_name in loaded_episodes:
+                logger.warning('Episode "%s" has already been loaded by %s! This means there is a '
+                               'circular setting of episodes!', episode_name,
+                               loaded_episodes[episode_name])
+                break
+
+            loaded_episodes[episode_name] = class_._loaded_episode
+            episode_name = class_.get_current_episode()['name']
+
         class_.load(get_alternative_quests_dir())
 
     @classmethod
