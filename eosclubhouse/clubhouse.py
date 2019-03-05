@@ -1078,6 +1078,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._reset_selected_page_on_timeout()
             self.stop_ambient_sound()
 
+        self._clubhouse_state.window_is_visible = self.props.visible
+
     def _ambient_sound_uuid_cb(self, _proxy, uuid, _data):
         if isinstance(uuid, GLib.Error):
             logger.warning('Error when attempting to play sound: %s', uuid.message)
