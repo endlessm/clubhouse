@@ -15,6 +15,7 @@ class FizzicsCode2(Quest):
 
     def update_availability(self, gss=None):
         if self.conf['complete']:
+            self.set_next_episode('episode2')
             return
         if self.is_named_quest_complete("FizzicsCode1"):
             self.available = True
