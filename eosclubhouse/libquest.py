@@ -1082,6 +1082,12 @@ class Quest(GObject.GObject):
 
         return wrapper
 
+    @staticmethod
+    def set_next_episode(episode_name):
+        # For now this is just a convenience method, but we may change it to a more automatic
+        # way once the workflow of changing to a new episode is better designed.
+        Registry.set_current_episode(episode_name)
+
     @classmethod
     def get_id(class_):
         return class_.__name__
