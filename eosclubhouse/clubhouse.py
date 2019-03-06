@@ -1147,6 +1147,16 @@ class ClubhouseApplication(Gtk.Application):
     def do_activate(self):
         self.show(Gdk.CURRENT_TIME)
 
+    def _run_episode_autorun_quest_if_needed(self):
+        autorun_quest = libquest.Registry.get_autorun_quest()
+        if autorun_quest is None:
+            return
+
+        quest = libquest.Registry.get_quest_by_name(autorun_quest)
+        if not quest.complete:
+            # Run the quest in the app's main instance
+            self.activate_action('run-quest', GLib.Variant('(sb)', (autorun_quest, True)))
+
     def do_handle_local_options(self, options):
         self.register(None)
 
@@ -1182,11 +1192,20 @@ class ClubhouseApplication(Gtk.Application):
 
         if options.contains('debug'):
             self.activate_action('debug-mode', GLib.Variant('b', True))
+            # We still try to run the Episode's auto-run quest since this option is only be
+            # called for turning the debug mode on (as opposed to other options that have an
+            # end functionality on their own).
+            self._run_episode_autorun_quest_if_needed()
             return 0
 
         if options.contains('quit'):
             self.activate_action('quit', None)
             return 0
+
+        # We call this here, instead of the startup method since we want to avoid eventually
+        # running a quest if the application is only being started for any of the options above
+        # (except for debug).
+        self._run_episode_autorun_quest_if_needed()
 
         return -1
 
@@ -1295,10 +1314,13 @@ class ClubhouseApplication(Gtk.Application):
         if self._window:
             self._window.clubhouse_page.quest_debug_skip()
 
-    def _run_quest_action_cb(self, action, arg_variant):
+    def _run_quest_by_name(self, quest_name):
         self._ensure_window()
-        quest_name, _obsolete = arg_variant.unpack()
         self._window.clubhouse_page.run_quest_by_name(quest_name)
+
+    def _run_quest_action_cb(self, action, arg_variant):
+        quest_name, _obsolete = arg_variant.unpack()
+        self._run_quest_by_name(quest_name)
 
     def _quit_action_cb(self, action, arg_variant):
         self._stop_quest()
