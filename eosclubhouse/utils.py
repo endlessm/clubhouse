@@ -27,8 +27,8 @@ import re
 import time
 
 from collections import OrderedDict
-
-from gi.repository import GLib
+from enum import Enum
+from gi.repository import GLib, GObject
 
 from eosclubhouse import config, logger
 
@@ -252,3 +252,30 @@ class SimpleMarkupParser:
         for regex, replacement in class_._convertions:
             text = regex.sub(replacement, text)
         return text
+
+
+class _ClubhouseStateImpl(GObject.GObject):
+
+    current_page = GObject.Property(type=GObject.TYPE_PYOBJECT)
+
+
+class ClubhouseState:
+    '''Singleton that represents a Clubhouse state.'''
+
+    Page = Enum('Page', ['CLUBHOUSE', 'INVENTORY', 'EPISODES'])
+
+    _impl = None
+
+    def __init__(self):
+        if ClubhouseState._impl is None:
+            ClubhouseState._impl = _ClubhouseStateImpl()
+            ClubhouseState._impl.current_page = ClubhouseState.Page.CLUBHOUSE
+
+    def __getattr__(self, name):
+        return getattr(self._impl, name)
+
+    def __setattr__(self, name, value):
+        setattr(self._impl, name, value)
+
+    def __hasattr__(self, name):
+        return hasattr(self._impl, name)

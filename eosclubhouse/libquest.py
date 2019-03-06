@@ -30,7 +30,8 @@ import time
 from enum import Enum
 from eosclubhouse import config, logger
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
-from eosclubhouse.utils import get_alternative_quests_dir, Performance, QuestStringCatalog, QS
+from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, Performance, \
+    QuestStringCatalog, QS
 from gi.repository import GObject, GLib, Gio
 
 
@@ -456,6 +457,8 @@ class Quest(GObject.GObject):
 
         self._run_context = None
 
+        self.clubhouse_state = ClubhouseState()
+
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
 
@@ -714,6 +717,36 @@ class Quest(GObject.GObject):
         async_action.future.add_done_callback(_disconnect_settings)
 
         settings_changes_handler_id = settings.connect('changed', _on_settings_changed, keys_list)
+
+        return async_action
+
+    def connect_clubhouse_changes(self, props_list):
+        assert self._run_context is not None
+
+        state = ClubhouseState()
+        async_action = self._run_context.new_async_action()
+        if async_action.is_cancelled():
+            return async_action
+
+        property_handler_id = 0
+
+        def _disconnect_clubhouse(_future=None):
+            nonlocal property_handler_id
+            nonlocal state
+            if property_handler_id > 0:
+                state.disconnect(property_handler_id)
+                property_handler_id = 0
+
+        def _on_property_changed(property_name):
+            nonlocal props_list
+            if property_name in props_list:
+                _disconnect_clubhouse()
+                async_action.resolve()
+
+        async_action.future.add_done_callback(_disconnect_clubhouse)
+
+        property_handler_id = state.connect('notify', lambda state, param:
+                                            _on_property_changed(param.name))
 
         return async_action
 
