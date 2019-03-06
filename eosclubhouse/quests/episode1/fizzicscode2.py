@@ -15,6 +15,7 @@ class FizzicsCode2(Quest):
 
     def update_availability(self, gss=None):
         if self.conf['complete']:
+            self.set_next_episode('episode2')
             return
         if self.is_named_quest_complete("FizzicsCode1"):
             self.available = True
@@ -60,4 +61,4 @@ class FizzicsCode2(Quest):
         self.conf['complete'] = True
         self.available = False
         Sound.play('quests/quest-complete')
-        self.show_message('END', choices=[('Bye', self.stop())])
+        self.show_message('END', choices=[('Bye', self.stop)])

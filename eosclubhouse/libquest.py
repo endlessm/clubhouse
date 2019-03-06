@@ -42,16 +42,27 @@ glibcoro.install()
 class Registry:
 
     _quest_sets = []
+    _loaded_modules = set()
+    _loaded_episode = None
 
-    @staticmethod
+    @classmethod
     @Performance.timeit
-    def load(quest_folder):
+    def load(class_, quest_folder):
         sys.path.append(quest_folder)
 
         for _unused, modname, _unused in pkgutil.walk_packages([quest_folder]):
             __import__(modname)
+            class_._loaded_modules.add(modname)
 
         del sys.path[sys.path.index(quest_folder)]
+
+    @classmethod
+    def _reset(class_):
+        class_._loaded_episode = None
+        class_._quest_sets = []
+        for module in class_._loaded_modules:
+            del sys.modules[module]
+        class_._loaded_modules = set()
 
     @classmethod
     @Performance.timeit
@@ -99,11 +110,35 @@ class Registry:
 
     @classmethod
     def load_current_episode(class_):
+        loaded_episodes = {}
+        episode_name = class_.get_current_episode()['name']
+
+        # We keep loading the current episode until it's not been changed after loading it.
+        # This avoids having a quest set a new episode when it's loaded but we'd thus end up
+        # with an old episode loaded.
+        while class_._loaded_episode != episode_name:
+            logger.info('Loading episode %s', episode_name)
+
+            class_._reset()
+
+            class_._loaded_episode = episode_name
+
+            class_.load(os.path.join(os.path.dirname(__file__),
+                                     'quests',
+                                     episode_name))
+
+            # Avoid circular episode setting (a quest setting an episode that when loaded
+            # sets a previously loaded episode)
+            if episode_name in loaded_episodes:
+                logger.warning('Episode "%s" has already been loaded by %s! This means there is a '
+                               'circular setting of episodes!', episode_name,
+                               loaded_episodes[episode_name])
+                break
+
+            loaded_episodes[episode_name] = class_._loaded_episode
+            episode_name = class_.get_current_episode()['name']
+
         class_.load(get_alternative_quests_dir())
-        current_episode = class_.get_current_episode()
-        class_.load(os.path.join(os.path.dirname(__file__),
-                                 'quests',
-                                 current_episode['name']))
 
     @classmethod
     def get_available_episodes(class_):
@@ -1079,6 +1114,12 @@ class Quest(GObject.GObject):
             return wrapped_func
 
         return wrapper
+
+    @staticmethod
+    def set_next_episode(episode_name):
+        # For now this is just a convenience method, but we may change it to a more automatic
+        # way once the workflow of changing to a new episode is better designed.
+        Registry.set_current_episode(episode_name)
 
     @classmethod
     def get_id(class_):
