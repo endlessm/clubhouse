@@ -49,6 +49,9 @@ class FizzicsIntro(Quest):
         self.pause(1)
         return self.step_explanation
 
+    def _connect_level_changed(self):
+        return self.connect_app_js_props_changes(self._app, ['levelSuccess', 'currentLevel'])
+
     @Quest.with_app_launched(APP_NAME)
     def step_check_level(self):
         level = self.get_current_level()
@@ -62,8 +65,7 @@ class FizzicsIntro(Quest):
             self.wait_confirm('SUCCESS')
             return self.step_key
 
-        async_action = self.wait_for_app_js_props_changed(self._app,
-                                                          ['levelSuccess', 'currentLevel'])
+        async_action = self._connect_level_changed().wait()
         if async_action.is_cancelled():
             return self.abort
 
@@ -76,7 +78,8 @@ class FizzicsIntro(Quest):
         if self.get_current_level() > 2:
             return self.step_already_beat
 
-        self.wait_confirm('EXPLANATION')
+        self.wait_for_one([self.show_confirm_message('EXPLANATION'), self._connect_level_changed()])
+
         return self.step_check_level
 
     def step_success(self):
