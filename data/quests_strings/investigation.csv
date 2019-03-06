@@ -1,22 +1,24 @@
-INVESTIGATION_QUESTION,The time has come for us to do some investigating on our own!,Riley,,,
+INVESTIGATION_QUESTION,The time has come for us to do some investigating on our own in a new part of the System!,Riley,,,
 INVESTIGATION_QUEST_ACCEPT,I'm with you!,,,,quests/quest2-zarathustra-whale
 INVESTIGATION_LAUNCH,"Something's seriously up with Saniel. All the evidence points his way:
 
-The Roster got corrupted when he touched it. He dropped that inactive key. AND he really doesn't want us in the system!
+The Roster got corrupted when he touched it, he doesn't want us near the system, and he keeps us off the investigation!
 
-Let's go to the System now that we have the Level 2 key and see what we can learn. ",,,,quests/quest2-zarathustra-whale
+Let's go to the System now that we have the Level 2 key see what's in the off-limits area. ",,,,quests/quest2-zarathustra-whale
 INVESTIGATION_FLIP,"OK, quiet now. Click the Flip button and let's get in there and see what's up.",,,,
 INVESTIGATION_FLIP_HINT1,Press the Flip to hack button.,,,,
-INVESTIGATION_UNLOCK,Here we are. Let's see what's hiding in that level 2 that nobody wanted us to see!,,,,
+INVESTIGATION_UNLOCK,Here we are. Let's see what's hiding here in level 2 that nobody wants us to see!,,,,
 INVESTIGATION_UNLOCK_HINT1,Click on the glowing lock panel to unlock it.,,,,
-INVESTIGATION_STOP,"Stop right there! Nothing back here concerns you.
+INVESTIGATION_STOP,"Stop right there! This part of the System is off limits to you. 
 
-This is no place for you! Don't even think of coming back here again.",Saniel,,,
-INVESTIGATION_STOP_HINT1,Press the Flip button while you can.,Saniel,,,
+",Saniel,,,
+INVESTIGATION_STOP_HINT1,Press the Flip button to go back. ,Saniel,,,
 INVESTIGATION_STOPAGAIN,Was I not clear? This area is off limits. Get out immediately!,Saniel,,,
 INVESTIGATION_STOPAGAIN_HINT1,A hint? How about this? Press the Flip button and Exit. NOW!,Saniel,,,
-INVESTIGATION_OUT,"Okaaaaaay, so that totes did not work. Saniel misses nothing! We need a scheme to get in there undetected.
+INVESTIGATION_OUT,"Okaaaaaay, so that totes did not work. Saniel misses nothing! 
 
-Our brief visit wasn't a total waste though! Check out this funky device I found while we were in there.",,,,
+We need a scheme to get in there undetected if we're going to be able to do this work for Ada.
+
+Our brief visit wasn't a total waste though! Check out this funky device I found while we were in there.",Riley,,,
 INVESTIGATION_END,It's super rusty and it's got stuff growing on it. Let's pay Faber a call. He's the prince of mysterious gizmos.,,,,
 INVESTIGATION_ABORT,"Sure, we can put off the investigation a bit.",,,,

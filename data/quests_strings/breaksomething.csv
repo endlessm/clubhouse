@@ -1,7 +1,7 @@
 BREAKSOMETHING_QUESTION,Psssst! I was hoping I'd see you. Wanna go scope around in the System?,Riley,,,
 BREAKSOMETHING_QUEST_ACCEPT,Definitely,,,,
 BREAKSOMETHING_LAUNCH,Ok. So you just need to launch the System app now and we're golden. ,,,,quests/hi-hat-start
-BREAKSOMETHING_LAUNCH_HINT1,,,,,quests/hi-hat-start
+BREAKSOMETHING_LAUNCH_HINT1,Launch the System app from the desktop.,,,,quests/hi-hat-start
 BREAKSOMETHING_OSAPP,"Awesome. This place is LIT. We have to be beyond quiet. We don't want Saniel knowing we're here. 
 
 He seems to be able to hear everything! Sometimes I think he even hears what I'm thinking! Ssshhhhh.",,,,

@@ -1,7 +1,7 @@
 LIGHTSPEEDENEMYA3_QUESTION,Let's keep working on that Lightspeed enemy you made.,Ada,,,
 LIGHTSPEEDENEMYA3_QUEST_ACCEPT,Sure,,,,
 LIGHTSPEEDENEMYA3_LAUNCH,You know the drill: Launch Lightspeed.,,,,
-LIGHTSPEEDENEMYA3_EXPLANATION,"Now that spinning enemy moves in a diagonal and goes off screen. Let's make sure it stays on screen.
+LIGHTSPEEDENEMYA3_EXPLANATION,"Now that *spinner* enemy moves in a diagonal and goes off screen. Let's make sure it stays on screen.
 
 Let's go to the coding panel again.",,,,
 LIGHTSPEEDENEMYA3_CODE,"Select the spinning enemy and look for the updateSpinner() function.

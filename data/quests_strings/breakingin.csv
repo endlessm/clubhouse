@@ -7,14 +7,9 @@ Ready! Let's flip to hack and let's go.",,,,quests/quest2-sneaky-hihat
 BREAKINGIN_FLIPPED,"The moment of truth!  Okay, go ahead and Unlock that Level 2. Let's hope Faber knew his stuff and this device really works.",,,,quests/quest2-riley-sneak
 BREAKINGIN_UNLOCKED,"Whoa! It worked! We're in. I wonder what wonders there are here.
 
-All there is here is this weird box?  Why didn't Saniel want us to see this?",,,,quests/quest2-unlock-gush
+it's just a box. Why didn't Saniel want us to see this?",,,,quests/quest2-unlock-gush
 BREAKINGIN_STARTTRAP,Something is super weird here. Let's see what's inside the box. aAUUGHHHhhaaauuaAUUGHHH!!!!,,glitching,,quests/quest2-glitch
 BREAKINGIN_TRAPPED,Help! I'm stuck here! Help!,,talk_glitched,,quests/quest2-glitch
-BREAKINGIN_ARCHIVIST,"What's going on here? Didn't I tell you two – What happened to the box? What activated it?
-
-Oh no! Riley's stuck in the box. This situation is serious.
-
-Looks like the AI's are getting stronger again and we're under attack.
-
-Our first priority is to rescue Riley. I'm going to need your help for that. ",Saniel,,,quests/saniel-theme-start
+BREAKINGIN_ARCHIVIST,"What's going on here? Didn't I tell you two – What happened to the box? What activated it?  Oh no! Riley's stuck in the box. This situation is serious.  Looks like the AI's are getting stronger again and we're under attack.  Our first priority is to rescue Riley. I'm going to need your help for that. 
+",Saniel,,,
 BREAKINGIN_ABORT,Not up for it right now? We can try again later. ,,,,

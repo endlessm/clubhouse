@@ -1,13 +1,13 @@
-CHORE_QUESTION,"Oh, hello there! I'm still neck deep in this investigation, but I have some background work I'd like you to do.",Saniel,,,quests/quest2-saniel-chore
+CHORE_QUESTION,"Oh, hello there! I'm still neck deep in this investigation. For now, I have some background work for you.",Saniel,,,quests/quest2-saniel-chore
 CHORE_QUEST_ACCEPT,"Sure, I can do that. ",,,,quests/quest2-saniel-chore
 CHORE_LAUNCH,"You'd think we would gotten this file debacle sorted out by now! 
 
-It's amazing how much time can pass when you're focused on a problem.
+It's amazing how much time can pass when you're focused on a problem. 
 
 Alright then, let's go ahead and launch the System.",,,,quests/quest2-saniel-chore
-CHORE_EXPLANATION,"This will help you get familiar with how the Operating System works. 
+CHORE_EXPLANATION,"This will help you get familiar with how the Operating System works, which will . 
 
-Browse around here a bit and then give this quiz a try. ",,,,
+Browse around in the System a bit and then give this quiz a try. ",,,,
 CHORE_QUIZ1_QUESTION,1) Ada compares /dev/null to:,,,,
 CHORE_QUIZ1_CHOICE1,A wastebasket,,,,
 CHORE_QUIZ1_CHOICE2,A pie,,,,
@@ -29,5 +29,5 @@ CHORE_KEY,"What was up with that quiz? Why is Saniel keeping us busy with quizze
 Whoa, wait, whaaat? I just stepped on this thing. What is it?
 
 Look, it’s the Level 2 key for The System. Looks like we may get to do some investigating after all ;) ",Riley,,,
-CHORE_END,This will let us deeper into the System. We def need to come back here later.,Riley,,,
+CHORE_END,This will let us deeper into the new areas of the System. We def need to come back here later.,Riley,,,
 CHORE_ABORT,No prob. Find me later! ,,,,
