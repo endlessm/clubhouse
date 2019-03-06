@@ -474,7 +474,7 @@ class ClubhousePage(Gtk.EventBox):
 
         self._current_quest.run(self.on_quest_finished)
 
-    def run_quest_by_name(self, quest_name, use_shell_quest_view):
+    def run_quest_by_name(self, quest_name):
         quest = libquest.Registry.get_quest_by_name(quest_name)
         if quest is None:
             logger.warning('No quest with name "%s" found!', quest_name)
@@ -486,8 +486,6 @@ class ClubhousePage(Gtk.EventBox):
 
         self._cancel_ongoing_task()
 
-        if use_shell_quest_view:
-            self._app_window.hide()
         self.run_quest(quest)
 
     def _is_current_quest(self, quest):
@@ -1299,8 +1297,8 @@ class ClubhouseApplication(Gtk.Application):
 
     def _run_quest_action_cb(self, action, arg_variant):
         self._ensure_window()
-        quest_name, run_in_shell = arg_variant.unpack()
-        self._window.clubhouse_page.run_quest_by_name(quest_name, run_in_shell)
+        quest_name, _obsolete = arg_variant.unpack()
+        self._window.clubhouse_page.run_quest_by_name(quest_name)
 
     def _quit_action_cb(self, action, arg_variant):
         self._stop_quest()
