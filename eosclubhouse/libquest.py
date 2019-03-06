@@ -1049,9 +1049,15 @@ class Quest(GObject.GObject):
     def load_conf(self):
         self.conf['complete'] = self.is_named_quest_complete(self.__class__.__name__)
 
+    def _get_complete(self):
+        return self.conf['complete']
+
+    def _set_complete(self, is_complete):
+        self.conf['complete'] = is_complete
+
     def save_conf(self):
         key = self._get_conf_key()
-        variant = GLib.Variant('a{sb}', {'complete': self.conf['complete']})
+        variant = GLib.Variant('a{sb}', {'complete': self.complete})
         self.gss.set(key, variant)
 
     def set_conf(self, key, value):
@@ -1128,6 +1134,10 @@ class Quest(GObject.GObject):
     available = GObject.Property(_get_available, _set_available, type=bool, default=True,
                                  flags=GObject.ParamFlags.READWRITE |
                                  GObject.ParamFlags.EXPLICIT_NOTIFY)
+
+    complete = GObject.Property(_get_complete, _set_complete, type=bool, default=False,
+                                flags=GObject.ParamFlags.READWRITE |
+                                GObject.ParamFlags.EXPLICIT_NOTIFY)
 
 
 class QuestSet(GObject.GObject):
