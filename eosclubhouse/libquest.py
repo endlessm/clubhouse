@@ -59,7 +59,7 @@ class Registry:
         if not issubclass(quest_set, QuestSet):
             raise TypeError('{} is not a of type {}'.format(quest_set, QuestSet))
         class_._quest_sets.append(quest_set())
-        logger.info('QuestSet registered: %s', quest_set)
+        logger.debug('QuestSet registered: %s', quest_set)
 
     @classmethod
     def get_quest_sets(class_):
@@ -1147,18 +1147,18 @@ class QuestSet(GObject.GObject):
         next_quest = self.get_next_quest()
         self.highlighted = next_quest is not None and next_quest.available
         if self.highlighted:
-            logger.info('QuestSet "%s" highlighted by quest %s', self, next_quest)
+            logger.debug('QuestSet "%s" highlighted by quest %s', self, next_quest)
         else:
-            logger.info('QuestSet "%s" highlight removed', self)
+            logger.debug('QuestSet "%s" highlight removed', self)
 
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s', quest, prop_name)
         if prop_name == 'available' and quest.get_property(prop_name):
             if not self.visible:
-                logger.info('Turning QuestSet "%s" visible from quest %s', self, quest)
+                logger.debug('Turning QuestSet "%s" visible from quest %s', self, quest)
                 self.visible = True
             if self.get_next_quest() == quest:
-                logger.info('QuestSet "%s" highlighted by new available quest %s', self, quest)
+                logger.debug('QuestSet "%s" highlighted by new available quest %s', self, quest)
                 self.highlighted = True
 
     def is_active(self):
