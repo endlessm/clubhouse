@@ -41,11 +41,13 @@ class Welcome(Quest):
     def step_abort(self, msg_id=None):
         self.complete = True
         if msg_id is not None:
-            self.show_message(msg_id)
             # Save conf before pausing since we don't want to eventually allow the user to cancel
             # this quest, which would make it show up automatically again the next time the
             # Clubhouse is run.
             self.save_conf()
+
+            self.pause(.5)
+            self.show_message(msg_id)
             self.pause(5)
         self.stop()
 
