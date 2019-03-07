@@ -175,8 +175,8 @@ class Episode:
         self.number = number
         self.season = season
         self.name = name if name is not None else id_
-        self.badge_x = badge_x if badge_x is None else 240
-        self.badge_y = badge_y if badge_y is None else 540
+        self.badge_x = badge_x if badge_x is not None else 240
+        self.badge_y = badge_y if badge_y is not None else 540
 
 
 class EpisodesDB(_DictFromCSV):
