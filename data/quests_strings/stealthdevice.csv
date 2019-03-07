@@ -1,5 +1,5 @@
-STEALTHDEVICE_QUESTION,"Oh, hello there. Riley said you have some questions.",Faber,,,quests/quest2-faber-conga-build
-STEALTHDEVICE_QUEST_ACCEPT,That's right.,,,,quests/quest2-faber-conga-build
+STEALTHDEVICE_QUESTION,"Oh, hello there. Riley said you have a question.",Faber,,,quests/quest2-faber-conga-build
+STEALTHDEVICE_QUEST_ACCEPT,We do. ,,,,quests/quest2-faber-conga-build
 STEALTHDEVICE_RILEYQUESTION,"So, Faber, about that stealth device you mentioned. Just as an experiment, how about if we make one?
 
 Not that we'd ever use it for real or anything!",Riley,,,quests/quest2-faber-conga-build
