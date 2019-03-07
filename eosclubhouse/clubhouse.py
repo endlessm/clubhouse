@@ -409,7 +409,7 @@ class ClubhousePage(Gtk.EventBox):
         # If a quest from this quest_set is already running, then just hide the window so the
         # user focuses on the Shell's quest dialog
         if self._current_quest:
-            if self._current_quest in quest_set.get_quests():
+            if self._current_quest.available and self._current_quest in quest_set.get_quests():
                 self._show_quest_continue_confirmation()
                 return
 
@@ -474,7 +474,7 @@ class ClubhousePage(Gtk.EventBox):
 
         self._current_quest.run(self.on_quest_finished)
 
-    def run_quest_by_name(self, quest_name, use_shell_quest_view):
+    def run_quest_by_name(self, quest_name):
         quest = libquest.Registry.get_quest_by_name(quest_name)
         if quest is None:
             logger.warning('No quest with name "%s" found!', quest_name)
@@ -486,8 +486,6 @@ class ClubhousePage(Gtk.EventBox):
 
         self._cancel_ongoing_task()
 
-        if use_shell_quest_view:
-            self._app_window.hide()
         self.run_quest(quest)
 
     def _is_current_quest(self, quest):
@@ -1078,6 +1076,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._reset_selected_page_on_timeout()
             self.stop_ambient_sound()
 
+        self._clubhouse_state.window_is_visible = self.props.visible
+
     def _ambient_sound_uuid_cb(self, _proxy, uuid, _data):
         if isinstance(uuid, GLib.Error):
             logger.warning('Error when attempting to play sound: %s', uuid.message)
@@ -1147,6 +1147,16 @@ class ClubhouseApplication(Gtk.Application):
     def do_activate(self):
         self.show(Gdk.CURRENT_TIME)
 
+    def _run_episode_autorun_quest_if_needed(self):
+        autorun_quest = libquest.Registry.get_autorun_quest()
+        if autorun_quest is None:
+            return
+
+        quest = libquest.Registry.get_quest_by_name(autorun_quest)
+        if not quest.complete:
+            # Run the quest in the app's main instance
+            self.activate_action('run-quest', GLib.Variant('(sb)', (autorun_quest, True)))
+
     def do_handle_local_options(self, options):
         self.register(None)
 
@@ -1182,11 +1192,20 @@ class ClubhouseApplication(Gtk.Application):
 
         if options.contains('debug'):
             self.activate_action('debug-mode', GLib.Variant('b', True))
+            # We still try to run the Episode's auto-run quest since this option is only be
+            # called for turning the debug mode on (as opposed to other options that have an
+            # end functionality on their own).
+            self._run_episode_autorun_quest_if_needed()
             return 0
 
         if options.contains('quit'):
             self.activate_action('quit', None)
             return 0
+
+        # We call this here, instead of the startup method since we want to avoid eventually
+        # running a quest if the application is only being started for any of the options above
+        # (except for debug).
+        self._run_episode_autorun_quest_if_needed()
 
         return -1
 
@@ -1295,10 +1314,13 @@ class ClubhouseApplication(Gtk.Application):
         if self._window:
             self._window.clubhouse_page.quest_debug_skip()
 
-    def _run_quest_action_cb(self, action, arg_variant):
+    def _run_quest_by_name(self, quest_name):
         self._ensure_window()
-        quest_name, run_in_shell = arg_variant.unpack()
-        self._window.clubhouse_page.run_quest_by_name(quest_name, run_in_shell)
+        self._window.clubhouse_page.run_quest_by_name(quest_name)
+
+    def _run_quest_action_cb(self, action, arg_variant):
+        quest_name, _obsolete = arg_variant.unpack()
+        self._run_quest_by_name(quest_name)
 
     def _quit_action_cb(self, action, arg_variant):
         self._stop_quest()

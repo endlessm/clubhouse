@@ -44,6 +44,27 @@ class Registry:
     _quest_sets = []
     _loaded_modules = set()
     _loaded_episode = None
+    _autorun_quest = None
+
+    @classmethod
+    def get_episode_autorun_quest(class_, quest_folder):
+        basedir = os.path.dirname(quest_folder)
+        sys.path.append(basedir)
+
+        autorun_quest = None
+
+        basename = os.path.basename(quest_folder)
+        try:
+            module = __import__(basename)
+        except ImportError:
+            # This may mean that the quest folder is not a package, which is fine.
+            pass
+        else:
+            autorun_quest = getattr(module, 'AUTORUN_QUEST', None)
+
+        del sys.path[sys.path.index(basedir)]
+
+        return autorun_quest
 
     @classmethod
     @Performance.timeit
@@ -59,6 +80,7 @@ class Registry:
     @classmethod
     def _reset(class_):
         class_._loaded_episode = None
+        class_._autorun_quest = None
         class_._quest_sets = []
         for module in class_._loaded_modules:
             del sys.modules[module]
@@ -123,9 +145,10 @@ class Registry:
 
             class_._loaded_episode = episode_name
 
-            class_.load(os.path.join(os.path.dirname(__file__),
-                                     'quests',
-                                     episode_name))
+            episode_folder = os.path.join(os.path.dirname(__file__), 'quests', episode_name)
+            class_.load(episode_folder)
+
+            class_._autorun_quest = class_.get_episode_autorun_quest(episode_folder)
 
             # Avoid circular episode setting (a quest setting an episode that when loaded
             # sets a previously loaded episode)
@@ -139,6 +162,10 @@ class Registry:
             episode_name = class_.get_current_episode()['name']
 
         class_.load(get_alternative_quests_dir())
+
+    @classmethod
+    def get_autorun_quest(class_):
+        return class_._autorun_quest
 
     @classmethod
     def get_available_episodes(class_):
@@ -1049,9 +1076,15 @@ class Quest(GObject.GObject):
     def load_conf(self):
         self.conf['complete'] = self.is_named_quest_complete(self.__class__.__name__)
 
+    def _get_complete(self):
+        return self.conf['complete']
+
+    def _set_complete(self, is_complete):
+        self.conf['complete'] = is_complete
+
     def save_conf(self):
         key = self._get_conf_key()
-        variant = GLib.Variant('a{sb}', {'complete': self.conf['complete']})
+        variant = GLib.Variant('a{sb}', {'complete': self.complete})
         self.gss.set(key, variant)
 
     def set_conf(self, key, value):
@@ -1128,6 +1161,10 @@ class Quest(GObject.GObject):
     available = GObject.Property(_get_available, _set_available, type=bool, default=True,
                                  flags=GObject.ParamFlags.READWRITE |
                                  GObject.ParamFlags.EXPLICIT_NOTIFY)
+
+    complete = GObject.Property(_get_complete, _set_complete, type=bool, default=False,
+                                flags=GObject.ParamFlags.READWRITE |
+                                GObject.ParamFlags.EXPLICIT_NOTIFY)
 
 
 class QuestSet(GObject.GObject):

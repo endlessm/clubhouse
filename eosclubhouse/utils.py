@@ -257,6 +257,7 @@ class SimpleMarkupParser:
 class _ClubhouseStateImpl(GObject.GObject):
 
     current_page = GObject.Property(type=GObject.TYPE_PYOBJECT)
+    window_is_visible = GObject.Property(type=bool, default=False)
 
 
 class ClubhouseState:
