@@ -9,7 +9,7 @@ LIGHTSPEEDENEMYA3_CODE,"Select the spinning enemy and look for the updateSpinner
 That's where we keep making y a bit smaller every time. Let's stop doing that when it gets to 0.
 
 We can use an `if` statement. `if (condition) do_something;` So let's only make y smaller when y is greater than 0.",,,,
-LIGHTSPEEDENEMYA3_CODE_HINT1,You can check that y is greater than 0 like this: `if (enemy.position.y > 0)`,,,,
+LIGHTSPEEDENEMYA3_CODE_HINT1,You can check that y is greater than 0 like this: `if (enemy.position.y > 0)`.,,,,
 LIGHTSPEEDENEMYA3_CODE_HINT2,"And then put the statement that makes y smaller after the if statement, so it only gets executed when y > 0.",,,,
 LIGHTSPEEDENEMYA3_CODE_HINT3,Put it all together like this: `if (enemy.position.y > 0) enemy.position.y = enemy.position.y - 10;`,,,,
 LIGHTSPEEDENEMYA3_CODE_HINT4,Don't forget to play the level to check your results.,,,,

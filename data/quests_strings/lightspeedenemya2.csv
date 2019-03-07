@@ -6,10 +6,10 @@ LIGHTSPEEDENEMYA2_EXPLANATION,"Last time you added a new enemy, but it's no diff
 Go to the hack panel and let's look at the code for that enemy.",,,,
 LIGHTSPEEDENEMYA2_CODE,"Select Spinner and you'll see the code that updates its position.
 
-The function `updateSpinner()` takes care of moving it. Its y coordinate changes how far up the screen it is.
+The function `updateSpinner()` takes care of moving it. Its `y` coordinate changes how far up the screen it is.
 
-Right we just add 0 to y, so it never changes. Make y smaller every tick.",,,,
-LIGHTSPEEDENEMYA2_CODE_HINT1,"For example, try subtracting 10 from the y coordinate every time `updateSpinner()` is called.",,,,
+Right we just add 0 to y, so it never changes. Make `y` smaller every tick.",,,,
+LIGHTSPEEDENEMYA2_CODE_HINT1,"For example, try subtracting 10 from the `y` coordinate every time `updateSpinner()` is called.",,,,
 LIGHTSPEEDENEMYA2_CODE_HINT2,`enemy.position.y = enemy.position.y - 10;`,,,,
 LIGHTSPEEDENEMYA2_CODE_HINT3,Then run the level again and see how your changes affected things.,,,,
 LIGHTSPEEDENEMYA2_PLAYING,Let's see if that worked.,,,,
