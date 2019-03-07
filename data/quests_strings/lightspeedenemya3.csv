@@ -19,6 +19,6 @@ LIGHTSPEEDENEMYA3_GOINGDOWN,Hmm... they're still going below the screen. Go back
 LIGHTSPEEDENEMYA3_NOTREACHINGBOTTOM,The enemies aren't quite reaching the bottom of the screen. Check your code again.,,,,
 LIGHTSPEEDENEMYA3_SUCCESS,"Perfect. Now they aren't going anywhere. Good job!
 
-By the way, you said earlier you were looking for a ratchet wheel. I've got one right here. ",,,,
+By the way, you said earlier you were looking for a *ratchet wheel*. I've got one right here. ",,,,
 LIGHTSPEEDENEMYA3_END,"Here, take it. You can have it. You did a great job. See you around.",,,,
 LIGHTSPEEDENEMYA3_ABORT,Abort,,,,

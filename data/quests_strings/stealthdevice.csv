@@ -1,5 +1,5 @@
-STEALTHDEVICE_QUESTION,"Oh, hello there. Riley said you have a question.",Faber,,,quests/quest2-faber-conga-build
-STEALTHDEVICE_QUEST_ACCEPT,We do. ,,,,quests/quest2-faber-conga-build
+STEALTHDEVICE_QUESTION,"Oh, hello there. You're back! Can I help you with something?",Faber,,,quests/quest2-faber-conga-build
+STEALTHDEVICE_QUEST_ACCEPT,"As a matter of fact, you can!",,,,quests/quest2-faber-conga-build
 STEALTHDEVICE_RILEYQUESTION,"So, Faber, about that stealth device you mentioned. Just as an experiment, how about if we make one?
 
 Not that we'd ever use it for real or anything!",Riley,,,quests/quest2-faber-conga-build
@@ -11,7 +11,7 @@ Riley, my friend, promise me, you're not going to get in any kind of trouble wit
 STEALTHDEVICE_RILEYTROUBLE,"Trouble? Us? Faber, you know I never get into trouble ;)  ",Riley,,,quests/quest2-faber-werks
 STEALTHDEVICE_EXPLANATION2,"OK, just making sure. I'll have to get my hands on a few necessary components.
 
-I'm going to need you two to get me a hush gasket and a ratchet wheel the size of a penny. 
+I'm going to need you two to get me a *hush gasket* and a *ratchet wheel* the size of a penny. 
 
-Oh, right, and a small quantity of cloaking glaze. Think you can find those things?",,,,quests/quest2-faber-werks
+Oh, right, and a small quantity of *cloaking glaze*. Think you can find those things?",,,,quests/quest2-faber-werks
 STEALTHDEVICE_END,"Sure. We're on it. Thanks, Faber!",Riley,,,quests/quest2-faber-werks
