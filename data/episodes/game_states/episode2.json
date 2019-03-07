@@ -1,0 +1,71 @@
+{
+  "quest.FirstContact" : {
+    "complete" : true
+  },
+  "quest.Welcome" : {
+    "complete" : true
+  },
+  "quest.FizzicsIntro" : {
+    "complete" : true
+  },
+  "quest.OSIntro" : {
+    "complete" : true
+  },
+  "quest.Roster" : {
+    "complete" : true
+  },
+  "quest.LostFiles" : {
+    "complete" : true
+  },
+  "quest.FizzicsCode1" : {
+    "complete" : true
+  },
+  "quest.Fizzics1" : {
+    "complete" : true
+  },
+  "quest.BreakSomething" : {
+    "complete" : true
+  },
+  "quest.Fizzics2" : {
+    "complete" : true
+  },
+  "quest.FizzicsCode2" : {
+    "complete" : true
+  },
+  "quest.Hackdex1" : {
+    "complete" : true
+  },
+  "item.key.fizzics.2" : {
+    "used" : true,
+    "consume_after_use" : false
+  },
+  "lock.fizzics.2" : {
+    "locked" : false
+  },
+  "item.key.fizzics.1" : {
+    "used" : true,
+    "consume_after_use" : false
+  },
+  "lock.com.endlessm.Hackdex_chapter_one.1" : {
+    "locked" : false
+  },
+  "item.key.OperatingSystemApp.1" : {
+    "used" : true,
+    "consume_after_use" : false
+  },
+  "lock.OperatingSystemApp.1" : {
+    "locked" : false
+  },
+  "lock.fizzics.1" : {
+    "locked" : false
+  },
+  "item.key.hackdex1.1" : {
+    "used" : false,
+    "consume_after_use" : false
+  },
+  "clubhouse.CurrentEpisode" : {
+    "teaser-viewed" : false,
+    "name" : "episode2",
+    "completed" : false
+  }
+}
