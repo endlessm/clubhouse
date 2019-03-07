@@ -409,7 +409,7 @@ class ClubhousePage(Gtk.EventBox):
         # If a quest from this quest_set is already running, then just hide the window so the
         # user focuses on the Shell's quest dialog
         if self._current_quest:
-            if self._current_quest in quest_set.get_quests():
+            if self._current_quest.available and self._current_quest in quest_set.get_quests():
                 self._show_quest_continue_confirmation()
                 return
 
