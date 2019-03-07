@@ -55,13 +55,16 @@ class Fizzics1(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_goal(self):
+        Sound.play('quests/step-forward')
+        self.show_hints_message('GOAL')
+        return self.step_check_level
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_check_level(self):
         level = self.get_current_level()
         # Check to see if the goal is already beat
         if level >= 8:
             return self.step_success, True
-
-        Sound.play('quests/step-forward')
-        self.show_hints_message('GOAL')
 
         if level == 7:
             return self.step_level8
@@ -77,7 +80,7 @@ class Fizzics1(Quest):
         if self._app.get_js_property('ballDied'):
             return self.step_ball_died, self.step_goal
 
-        return self.step_goal
+        return self.step_check_level
 
     @Quest.with_app_launched(APP_NAME)
     def step_ball_died(self, next_step):
