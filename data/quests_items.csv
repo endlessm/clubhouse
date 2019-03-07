@@ -4,13 +4,13 @@ item.key.fizzics.2,fizzics-key-level-3-blue.png,fizzics-key-level-3-orange.png,F
 item.key.OperatingSystemApp.1,system-key-1-blue.png,system-key-1-orange.png,System Level 1 Key
 item.key.OperatingSystemApp.2,system-key-1-blue.png,system-key-1-orange.png,System Level 2 Key
 item.key.hackdex1.1,hackdex-key-level-1-blue.png,hackdex-key-level-1-orange.png,Roster Level 1 Key
-item.key.unknown_item,frameworks-key-level-1-blue.png,frameworks-key-level-1-orange.png,Unknown Item
 item.key.testkey,fizzics-key-level-1-blue.png,fizzics-key-level-1-orange.png,Test key
 item.reward.testreward,frameworks-key-level-1-blue.png,frameworks-key-level-1-orange.png,Test reward
 item.key.lightspeed.1,lightspeed-key-level-1-blue.png,lightspeed-key-level-1-orange.png,LightSpeed Level 1 Key
 item.key.lightspeed.2,lightspeed-key-level-2-blue.png,lightspeed-key-level-2-orange.png,LightSpeed Level 2 Key
-item.stealth.1,stealth-part-1.png,,Stealth Device Part 1
-item.stealth.2,stealth-part-2.png,,Stealth Device Part 2
-item.stealth.3,stealth-part-3.png,,Stealth Device Part 3
-item.stealth.4,stealth-part-4.png,,Stealth Device Part 4
+item.key.unknown_item,unknown-item.png,,Unknown item
+item.stealth.1,stealth-part-1.png,,Stealth Device part
+item.stealth.2,stealth-part-2.png,,Ratchet wheel
+item.stealth.3,stealth-part-3.png,,Cloaking glaze
+item.stealth.4,stealth-part-4.png,,Hush gasket
 item.stealth_device,stealth-device.png,,Stealth Device
