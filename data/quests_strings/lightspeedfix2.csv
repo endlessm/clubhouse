@@ -4,7 +4,7 @@ LIGHTSPEEDFIX2_LAUNCH,All right. Let's go to Lightspeed again.,,,,
 LIGHTSPEEDFIX2_EXPLANATION,"Level 4 is looking quite sparse! We need some more asteroids!
 
 Go ahead and flip to hack just as we did before.",,,,
-LIGHTSPEEDFIX2_CODE,"Click on the game tab again. The `spawnEnemy()` function is returning null! No wonder there are no asteroids.
+LIGHTSPEEDFIX2_CODE,"Click on the Enemies tab again. The `spawnEnemy()` function is returning null! No wonder there are no asteroids.
 
 Try changing it to `return 'asteroid';` and running Level 4. What do you think will happen?",,,,
 LIGHTSPEEDFIX2_CODE_HINT1,Don't forget the quotes around `'asteroid'` and the semicolon at the end.,,,,

@@ -40,8 +40,15 @@ class LightSpeedEnemyB2(Quest):
         enemy0_count = self._app.get_js_property('enemyType0SpawnedCount', -1)
         enemy1_count = self._app.get_js_property('enemyType1SpawnedCount', -1)
         enemy2_count = self._app.get_js_property('enemyType2SpawnedCount', -1)
+        zero_count = 0
+        if (enemy0_count == 0):
+            zero_count += 1
+        if (enemy1_count == 0):
+            zero_count += 1
+        if (enemy2_count == 0):
+            zero_count += 1
 
-        if (enemy0_count > 0 and enemy1_count > 0 and enemy2_count > 0) or self.debug_skip():
+        if zero_count <= 1 or self.debug_skip():
             return self.step_success
 
         if enemy0_count == 0 and enemy1_count == 0 and enemy2_count == 0:

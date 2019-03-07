@@ -64,8 +64,13 @@ class LightSpeedEnemyA3(Quest):
         return self.step_success
 
     def step_success(self):
+        self.wait_confirm('SUCCESS')
+        self.give_item('item.stealth.2')
+        return self.step_end
+
+    def step_end(self):
         self.conf['complete'] = True
         self.available = False
         Sound.play('quests/quest-complete')
-        self.show_confirm_message('SUCCESS', confirm_label='Bye').wait()
+        self.show_confirm_message('END', confirm_label='Bye').wait()
         self.stop()

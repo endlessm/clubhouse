@@ -22,7 +22,7 @@ class LightSpeedEnemyB1(Quest):
     def update_availability(self, gss=None):
         if self.conf['complete']:
             return
-        if self.is_named_quest_complete("LightSpeedEnemyA4"):
+        if self.is_named_quest_complete("LightSpeedEnemyA3"):
             self.available = True
 
     def step_begin(self):
@@ -77,13 +77,9 @@ class LightSpeedEnemyB1(Quest):
                     self.show_hints_message('NOTMOVING')
                     code_msg_id = 'CODE2'
                     break
-                if min_y < -100 or max_y > self.SCREEN_HEIGHT + 100:
+                if min_y < -500 or max_y > self.SCREEN_HEIGHT + 500:
                     self.show_hints_message('OFFSCREEN')
                     code_msg_id = 'CODE2'
-                    break
-                if max_y - min_y <= 2.1:
-                    self.show_hints_message('SMALLMOVEMENT')
-                    code_msg_id = 'CODE3'
                     break
 
                 return self.step_success
