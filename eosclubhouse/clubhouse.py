@@ -1179,11 +1179,13 @@ class ClubhouseApplication(Gtk.Application):
             self.activate_action('quit', None)
             episode_value = options.lookup_value('set-episode', GLib.VariantType('s'))
             episode_name = episode_value.get_string()
-            try:
-                libquest.Registry.set_current_episode(episode_name)
-            except KeyError:
+            available_episodes = libquest.Registry.get_available_episodes()
+            if episode_name not in available_episodes:
                 logger.error('Episode %s is not available.', episode_name)
                 return 1
+
+            GameStateService().reset()
+            libquest.Registry.set_current_episode(episode_name)
             return 0
 
         if options.contains('reset'):
