@@ -876,6 +876,11 @@ class EpisodesPage(Gtk.EventBox):
         if new_page == self._current_page:
             return
 
+        # remove old episode background
+        episode = self._current_episode
+        if episode:
+            self.get_style_context().remove_class(episode['name'])
+
         for child in self._badges_box.get_children():
             self._badges_box.remove(child)
 
@@ -885,6 +890,8 @@ class EpisodesPage(Gtk.EventBox):
         self.get_style_context().add_class(self._current_page)
 
         current_episode = libquest.Registry.get_current_episode()
+        if new_page == self._COMPLETED:
+            self.get_style_context().add_class(current_episode['name'])
         episode = self._episodes_db.get_episode(current_episode['name'])
 
         # draw completed episodes

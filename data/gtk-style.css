@@ -10,8 +10,14 @@
     background-image: url('resource:///com/endlessm/Clubhouse/images/episode1_bg.png');
 }
 
+.episodes-page.episode1.completed,
+.episodes-page.cesdemo.completed,
 .episodes-page.episode2 {
     background-image: url('resource:///com/endlessm/Clubhouse/images/episode2_bg.png');
+}
+
+.episodes-page.episode2.completed {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/episode3_bg.png');
 }
 
 .clubhouse-message-box {

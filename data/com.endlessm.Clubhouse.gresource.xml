@@ -15,6 +15,7 @@
     <file>inventory-empty-image.png</file>
     <file>episode1_bg.png</file>
     <file>episode2_bg.png</file>
+    <file>episode3_bg.png</file>
     <file>icon_check-in-circle.svg</file>
   </gresource>
 </gresources>
