@@ -1,7 +1,7 @@
 import os
 from gi.repository import Gdk, Gtk
 
-from eosclubhouse import config, utils
+from eosclubhouse import config, utils, libquest
 
 
 class BadgeButton(Gtk.Button):
@@ -91,12 +91,14 @@ class PosterWindow(Gtk.Window):
                                                       self._episode.name)
         title_label.set_markup(text)
 
-        # @todo: Check if the next episode is already available, in which case we
-        # shouldn't show this text or these words (to be checked with Design)
         text = "Episode {} coming soon…".format(self._episode.number + 1)
         if self._next:
-            text = "<i>coming soon ⭑  Episode {} | {}</i>".format(self._next.number,
-                                                                  self._next.name)
+            available_episodes = libquest.Registry.get_available_episodes()
+            if self._next.id not in available_episodes:
+                text = "<i>coming soon ⭑  Episode {} | {}</i>".format(self._next.number,
+                                                                      self._next.name)
+            else:
+                text = ""
         subtitle_label.set_markup(text)
 
         container.show_all()
