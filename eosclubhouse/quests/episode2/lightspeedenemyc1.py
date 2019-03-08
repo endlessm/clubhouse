@@ -36,6 +36,8 @@ class LightSpeedEnemyC1(Quest):
            or self.debug_skip():
             return self.step_play
 
+        self._app.reveal_topic('spawnEnemy')
+
         self.show_hints_message('CODE')
 
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])

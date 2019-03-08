@@ -17,6 +17,9 @@ class LightSpeedEnemyA4(Quest):
         self._app = LightSpeed()
 
     def step_begin(self):
+        self._app.reveal_topic('spawnEnemy')
+        self._app.reveal_topic('updateSpinner')
+
         if not self._app.is_running():
             self.show_hints_message('LAUNCH')
             self.give_app_icon(self.APP_NAME)

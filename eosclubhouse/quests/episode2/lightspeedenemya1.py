@@ -46,6 +46,8 @@ class LightSpeedEnemyA1(Quest):
             self.show_hints_message('PLAY')
             return self.step_play
 
+        self._app.reveal_topic('spawnEnemy')
+
         self.show_hints_message('CHANGEENEMY')
 
         self.wait_for_app_js_props_changed(self._app, ['flipped'])

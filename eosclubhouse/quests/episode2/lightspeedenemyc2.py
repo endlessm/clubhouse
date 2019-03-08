@@ -12,6 +12,8 @@ class LightSpeedEnemyC2(Quest):
         self._app = LightSpeed()
 
     def step_begin(self):
+        self._app.reveal_topic('spawnEnemy')
+
         if not self._app.is_running():
             self.show_hints_message('LAUNCH')
             self.give_app_icon(self.APP_NAME)
@@ -26,6 +28,8 @@ class LightSpeedEnemyC2(Quest):
         if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
            or self.debug_skip():
             return self.step_play
+
+        self._app.reveal_topic('updateBeam')
 
         self.show_hints_message('CODE')
 
