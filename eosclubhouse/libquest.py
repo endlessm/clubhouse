@@ -67,6 +67,24 @@ class Registry:
         return autorun_quest
 
     @classmethod
+    def set_episode_required_state(class_, quest_folder):
+        basedir = os.path.dirname(quest_folder)
+        sys.path.append(basedir)
+
+        basename = os.path.basename(quest_folder)
+        try:
+            module = __import__(basename)
+        except ImportError:
+            # This may mean that the quest folder is not a package, which is fine.
+            pass
+        else:
+            set_required_game_state = getattr(module, 'set_required_game_state', None)
+            if callable(set_required_game_state):
+                set_required_game_state()
+
+        del sys.path[sys.path.index(basedir)]
+
+    @classmethod
     @Performance.timeit
     def load(class_, quest_folder):
         sys.path.append(quest_folder)
@@ -131,6 +149,10 @@ class Registry:
         return None
 
     @classmethod
+    def _get_episode_folder(class_, episode_name):
+        return os.path.join(os.path.dirname(__file__), 'quests', episode_name)
+
+    @classmethod
     def load_current_episode(class_):
         loaded_episodes = {}
         episode_name = class_.get_current_episode()['name']
@@ -145,7 +167,7 @@ class Registry:
 
             class_._loaded_episode = episode_name
 
-            episode_folder = os.path.join(os.path.dirname(__file__), 'quests', episode_name)
+            episode_folder = class_._get_episode_folder(episode_name)
             class_.load(episode_folder)
 
             class_._autorun_quest = class_.get_episode_autorun_quest(episode_folder)
@@ -196,7 +218,10 @@ class Registry:
         if episode_name == class_.get_current_episode()['name']:
             return
 
-        logger.info('Setting episode: %s', episode_name)
+        episode_folder = class_._get_episode_folder(episode_name)
+        class_.set_episode_required_state(episode_folder)
+
+        logger.debug('Setting episode: %s', episode_name)
         episode_info = {'name': episode_name, 'completed': False, 'teaser-viewed': False}
         GameStateService().set('clubhouse.CurrentEpisode', episode_info)
 
