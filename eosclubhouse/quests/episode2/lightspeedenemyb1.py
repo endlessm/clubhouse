@@ -47,6 +47,11 @@ class LightSpeedEnemyB1(Quest):
            or self.debug_skip():
             return self.step_play
 
+        if code_msg_id == 'CODE1':
+            self._app.reveal_topic('spawnEnemy')
+        elif code_msg_id == 'CODE2':
+            self._app.reveal_topic('updateSquid')
+
         self.show_hints_message(code_msg_id)
 
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])

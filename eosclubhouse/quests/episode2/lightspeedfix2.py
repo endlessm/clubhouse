@@ -12,6 +12,10 @@ class LightSpeedFix2(Quest):
         self._app = LightSpeed()
 
     def step_begin(self):
+        # Reveal this topic here, I guess? There's not really any other good
+        # place to reveal it, because it's never used in any of the quests.
+        self._app.reveal_topic('updateAsteroid')
+
         if not self._app.is_running():
             self.show_hints_message('LAUNCH')
             self.give_app_icon(self.APP_NAME)
@@ -30,6 +34,9 @@ class LightSpeedFix2(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_wait_for_flip(self, msg_id):
+        if msg_id == 'CODE':
+            self._app.reveal_topic('spawnEnemy')
+
         if not self._app.get_js_property('flipped') or self.debug_skip():
             self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_code, msg_id
