@@ -6,19 +6,11 @@ class Hackdex1(Quest):
 
     APP_NAME = 'com.endlessm.Hackdex_chapter_one'
 
+    __available_after_completing_quests__ = ['BreakSomething', 'Roster']
+
     def __init__(self):
         super().__init__('Hackdex Corruption', 'saniel')
         self._app = App(self.APP_NAME)
-        self.gss.connect('changed', self.update_availability)
-        self.available = False
-        self.update_availability()
-
-    def update_availability(self, gss=None):
-        if self.conf['complete']:
-            return
-        if self.is_named_quest_complete("BreakSomething") and \
-           self.is_named_quest_complete("Roster"):
-            self.available = True
 
     def step_begin(self):
         self.gss.set('app.com_endlessm_Hackdex_chapter_one.corruption',

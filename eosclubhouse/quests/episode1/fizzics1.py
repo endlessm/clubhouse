@@ -6,22 +6,15 @@ class Fizzics1(Quest):
 
     APP_NAME = 'com.endlessm.Fizzics'
 
+    __available_after_completing_quests__ = ['FizzicsIntro']
+
     def __init__(self):
         super().__init__('Fizzics 1', 'riley')
         self._app = App(self.APP_NAME)
-        self.gss.connect('changed', self.update_availability)
         self.already_in_level_8 = False
-        self.available = False
-        self.update_availability()
 
     def _app_is_flipped(self):
         return bool(self._app.get_js_property('flipped'))
-
-    def update_availability(self, gss=None):
-        if self.conf['complete']:
-            return
-        if self.is_named_quest_complete("FizzicsIntro"):
-            self.available = True
 
     def get_current_level(self):
         if self.debug_skip():

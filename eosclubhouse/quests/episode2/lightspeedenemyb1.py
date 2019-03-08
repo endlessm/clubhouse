@@ -12,18 +12,11 @@ class LightSpeedEnemyB1(Quest):
     APP_NAME = 'com.endlessm.LightSpeed'
     SCREEN_HEIGHT = 1004
 
+    __available_after_completing_quests__ = ['LightSpeedEnemyA3']
+
     def __init__(self):
         super().__init__('LightSpeedEnemyB1', 'saniel')
         self._app = LightSpeed()
-        self.available = False
-        self.gss.connect('changed', self.update_availability)
-        self.update_availability()
-
-    def update_availability(self, gss=None):
-        if self.conf['complete']:
-            return
-        if self.is_named_quest_complete("LightSpeedEnemyA3"):
-            self.available = True
 
     def step_begin(self):
         if not self._app.is_running():
