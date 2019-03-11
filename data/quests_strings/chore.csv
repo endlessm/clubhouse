@@ -4,10 +4,10 @@ CHORE_LAUNCH,"You'd think we would have gotten this file debacle sorted out by n
 
 It's amazing how much time can pass when you're focused on a problem. 
 
-Okay so now to the matter at hand. Let's go ahead and launch the System.",,,,quests/quest2-saniel-chore
+Okay, so now to the matter at hand. Let's go ahead and launch the System.",,,,quests/quest2-saniel-chore
 CHORE_EXPLANATION,"We're going to need you to get familiar with how the Operating System works. 
 
-Browse around in the System a bit to learn about the differen areas, and then give this quiz a try. t",,,,
+Browse around in the System a bit to learn about the different areas, and then give this quiz a try.",,,,
 CHORE_QUIZ1_QUESTION,1) Ada compares /dev/null to:,,,,
 CHORE_QUIZ1_CHOICE1,A wastebasket,,,,
 CHORE_QUIZ1_CHOICE2,A pie,,,,
@@ -24,10 +24,11 @@ CHORE_QUIZ3_CHOICE2,False.,,,,
 CHORE_QUIZ3_CORRECT,I'm afraid you're right. ,,,,
 CHORE_QUIZ3_INCORRECT,False? Really? Have you checked out the cursors? Try again. ,,,,
 CHORE_WRAPUP,Nice work! That's it for now. Just a little glimpse of the wonders of the System! I must be going now. ,,,,
-CHORE_KEY,"What was up with that quiz? Why is Saniel keeping us busy with quizzes when we should be investigating? 
+CHORE_KEY,"What was up with that quiz? We need to help solve Ada's data problem and Saniel's here quizzing us.
 
-Whoa, wait, whaaat? I just stepped on this thing. What is it?
+I'm just going to borrow this Level 2 System key so we can investigate some unusual activity I spotted earlier. 
 
-Look, it’s the Level 2 key for The System. Looks like we may get to do some investigating after all ;) ",Riley,,,
-CHORE_END,This will let us deeper into the new areas of the System. We def need to come back here later.,Riley,,,
+Saniel warned us not to go to Level 2. We'll be super careful, and we'll return the key before he misses it.
+   ",Riley,Riley hair flip/eye roll,,
+CHORE_END,We'll definitely come back later to do some more investigating. I know Ada will appreciate it. ,Riley,,,
 CHORE_ABORT,No prob. Find me later! ,,,,

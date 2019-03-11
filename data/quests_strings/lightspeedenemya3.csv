@@ -1,10 +1,10 @@
 LIGHTSPEEDENEMYA3_QUESTION,Let's keep working on that Lightspeed enemy you made.,Ada,,,
-LIGHTSPEEDENEMYA3_QUEST_ACCEPT,Sure,,,,
+LIGHTSPEEDENEMYA3_QUEST_ACCEPT,"Okay, great. ",,,,
 LIGHTSPEEDENEMYA3_LAUNCH,You know the drill: Launch Lightspeed.,,,,
 LIGHTSPEEDENEMYA3_EXPLANATION,"Now that *spinner* enemy moves in a diagonal and goes off screen. Let's make sure it stays on screen.
 
 Let's go to the coding panel again.",,,,
-LIGHTSPEEDENEMYA3_CODE,"Select the spinning enemy and look for the updateSpinner() function.
+LIGHTSPEEDENEMYA3_CODE,"Select the Spinner tab and look for the updateSpinner() function.
 
 That's where we keep making y a bit smaller every time. Let's stop doing that when it gets to 0.
 
@@ -21,4 +21,4 @@ LIGHTSPEEDENEMYA3_SUCCESS,"Perfect. Now they aren't going anywhere. Good job!
 
 By the way, you said earlier you were looking for a *ratchet wheel*. I've got one right here. ",,,,
 LIGHTSPEEDENEMYA3_END,"Here, take it. You can have it. You did a great job. See you around.",,,,
-LIGHTSPEEDENEMYA3_ABORT,Abort,,,,
+LIGHTSPEEDENEMYA3_ABORT,Check back if you want to explore the coding panel some more!,,,,

@@ -1,10 +1,10 @@
 LIGHTSPEEDFIX2_QUESTION,We've got our work cut out for us on Lightspeed.,Saniel,,,
 LIGHTSPEEDFIX2_QUEST_ACCEPT,"Okay, let's get on it!",,,,
 LIGHTSPEEDFIX2_LAUNCH,All right. Let's go to Lightspeed again.,,,,
-LIGHTSPEEDFIX2_EXPLANATION,"Level 4 is looking quite sparse! We need some more asteroids!
+LIGHTSPEEDFIX2_EXPLANATION,"Level 4 is somehow quite sparse! We could really use some more asteroids!
 
 Go ahead and flip to hack just as we did before.",,,,
-LIGHTSPEEDFIX2_CODE,"Click on the Enemies tab again. The `spawnEnemy()` function is returning null! No wonder there are no asteroids.
+LIGHTSPEEDFIX2_CODE,"Click on the Spawn tab again. The `spawnEnemy()` function is returning null! No wonder there are no asteroids.
 
 Try changing it to `return 'asteroid';` and running Level 4. What do you think will happen?",,,,
 LIGHTSPEEDFIX2_CODE_HINT1,Don't forget the quotes around `'asteroid'` and the semicolon at the end.,,,,
@@ -16,14 +16,14 @@ LIGHTSPEEDFIX2_TOOMANY,"Leaping Antelopes! That's a LOT of asteroids. So many in
 It turns out the `spawnEnemy()` function gets called every tick (about 30 times per second!).
 
 So you're creating 30 asteroids per second! Let's go back and fix it.",,,,
-LIGHTSPEEDFIX2_NOENEMIES,"No, I don't see any enemies yet. Let's go back and look at the spawn code again.",,,,
-LIGHTSPEEDFIX2_CODE2,"An asteroid every second would be more like what we want.
+LIGHTSPEEDFIX2_NOENEMIES,Hmmm. I don't see any enemies yet. Let's go back and look at the spawn code again.,,,,
+LIGHTSPEEDFIX2_CODE2,"An asteroid every second is more like what we're going for.
 
 We have a variable called `ticksSinceSpawn`, which goes up once every tick. Let's spawn it every 30 ticks.
 
 See that line that says `if (ticksSinceSpawn > 0)`? That executes the line below whenever `ticksSinceSpawn` is greater than zero.
 
-Let's change that 0 to 30 and we'll get one asteroid about every second instead.",,,,
+Let's change that 0 to 30 and we'll get one asteroid about every second.",,,,
 LIGHTSPEEDFIX2_CODE2_HINT1,The condition would be `ticksSinceSpawn > 30`,,,,
 LIGHTSPEEDFIX2_CODE2_HINT2,The code should be `if (ticksSinceSpawn > 30) return 'asteroid';`,,,,
 LIGHTSPEEDFIX2_CODE2_HINT3,Go back to the game when you're ready and test it out.,,,,

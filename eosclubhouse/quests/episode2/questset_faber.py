@@ -17,7 +17,7 @@ class FaberQuestSet(QuestSet):
         super().__init__()
         first_quest = self.get_quests()[0]
         self.visible = (first_quest.available or first_quest.conf['complete'] or
-                        first_quest.is_named_quest_complete('Chore'))
+                        first_quest.is_named_quest_complete('Investigation'))
 
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('AdaQuestSet').is_active():
