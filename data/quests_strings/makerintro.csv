@@ -7,16 +7,24 @@ Just here jamming out & making some solar pizza. Alright, so let's get this puzz
 See if you can find a way to solve this. Go ahead and launch Fizzics.",,,,quests/faber-theme
 MAKERINTRO_EXPLANATION,Here's your challenge: Make it so all 10 of these green balls are touching the red spiky ball at the same time.,,,,quests/quest2-fabers-fizzics
 MAKERINTRO_EXPLANATION_HINT1,Clearly you'll need to hack into Fizzics to do this.,,,,quests/quest2-fabers-fizzics
-MAKERINTRO_EXPLANATION_HINT2,Look at the attraction and repulsion forces.,,,,quests/quest2-fabers-fizzics
+MAKERINTRO_EXPLANATION_HINT2,Try adjusting the settings for attraction and repulsion.,,,,quests/quest2-fabers-fizzics
 MAKERINTRO_EXPLANATION_HINT3,What if you make the green balls smaller?,,,,quests/quest2-fabers-fizzics
 MAKERINTRO_SUCCESS,That's what I'm talking about! Way to go! Riley certainly was right about you.,,,,quests/quest2-fabers-fizzics
-MAKERINTRO_WHATISIT,"Hey Faber, since we're here, any idea what this weird rusty scrap I found earlier might be?",Riley,,,
-MAKERINTRO_GIVEITEM,"Hmmm, let me see. Let me immerse it in this clarifying solution.
+MAKERINTRO_WHATISIT,"Hey Faber, since we're here, do you have any clue what this weird rusty thingamajig might be?",Riley,,,
+MAKERINTRO_GIVEITEM,"Hmmm, let me see. Let me immerse it in this clarifying solution. 
 
-Ah, that cleaned up beautifully. Whoa, wait, this looks like part of a Stealth Device! ",,,,
-MAKERINTRO_STEALTHQUESTION,"Stealth Device? What's that, Faber?",Riley,,,
-MAKERINTRO_STEALTHEXPLANATION,"It's a device it lets you move around undetected. The great hacker Leviathan often used them in his exploits.
+Whoa, look at that! This stuff really works! Hold up! Riley, I think this is part of a Stealth Device! 
 
-I've only ever seen drawings of them. But wow, so cool that you found this. ",,,,
-MAKERINTRO_THANKS,Something that lets us move around undetected. We just might need that! Thanks Faber! You rule.,Riley,,,
+I can't believe you found this! This is so major. Totally cool to actually hold one in my hands!
+",,,,
+MAKERINTRO_STEALTHQUESTION,"What exactly is a Steath Device, Faber?",Riley,,,
+MAKERINTRO_STEALTHEXPLANATION,"A Stealth Device lets you go anywhere undetected. Not that you'd ever want something like that, Riley! 
+
+I once glimpsed some schematics of a device like this. 
+
+Rumors have it that the legendary hacker Leviathan used a device like this one in his exploits. 
+",,,,
+MAKERINTRO_THANKS,"Let me get this right. A device that lets us go anywhere undetected? Fascinating. Fascinating. 
+
+We just might have a use for that! Purely for research purposes of course. ʌ˽ʌ Thanks Faber! You rule. ",Riley,,,
 MAKERINTRO_ABORT,"Okay, see ya later!",,,,

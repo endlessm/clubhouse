@@ -9,5 +9,5 @@ That one amplifying the input, and finally, this one stabilizing the voltages. A
 MAKEDEVICE_GIVEITEM,"There you go. Take it. 
 
 So remind me, what were you going to do with it again?",,,,quests/quest2-faber-conga-build
-MAKEDEVICE_RILEY,Oh we're just doing some experiments.  Thank you!,Riley,,,quests/quest2-faber-conga-build
+MAKEDEVICE_RILEY,Oh we're just doing some training experiments. Thank you!,Riley,salute,,quests/quest2-faber-conga-build
 MAKEDEVICE_END,"OK, bye. Let me know if I can help you with any other projects!",,,,quests/quest2-faber-conga-build
