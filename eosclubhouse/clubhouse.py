@@ -31,7 +31,7 @@ import time
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
-from eosclubhouse.system import GameStateService, Sound
+from eosclubhouse.system import AccountService, GameStateService, Sound
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
@@ -1241,6 +1241,9 @@ class ClubhouseApplication(Gtk.Application):
             action = Gio.SimpleAction.new(name, variant_type)
             action.connect('activate', callback)
             self.add_action(action)
+
+        # Make sure that we create a user account if there's none
+        AccountService().init_accounts()
 
     def _ensure_registry_loaded(self):
         if not self._registry_loaded:
