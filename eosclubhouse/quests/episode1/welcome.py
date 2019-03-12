@@ -3,6 +3,9 @@ from eosclubhouse.libquest import Quest
 
 class Welcome(Quest):
 
+    # The quest doesn't show any messages immediately to the user, so let's silence it when it runs.
+    __sound_on_run_begin__ = None
+
     def __init__(self):
         # This quest starts directly. There's no prompting.
         super().__init__('Welcome', 'ada', '')

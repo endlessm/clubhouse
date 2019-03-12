@@ -489,6 +489,8 @@ class Quest(GObject.GObject):
         ),
     }
 
+    __sound_on_run_begin__ = 'quests/quest-given'
+
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
 
     skippable = GObject.Property(type=bool, default=False)
@@ -579,7 +581,8 @@ class Quest(GObject.GObject):
                          name='quest-thread').start()
 
     def run_in_context(self, quest_finished_cb):
-        Sound.play('quests/quest-given')
+        if self.__sound_on_run_begin__:
+            Sound.play(self.__sound_on_run_begin__)
 
         self._run_context = _QuestRunContext(self._cancellable)
         self._run_context.run(self.step_begin)

@@ -31,7 +31,7 @@ import time
 
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
-from eosclubhouse.system import AccountService, GameStateService, Sound
+from eosclubhouse.system import AccountService, Desktop, GameStateService, Sound
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
@@ -1122,6 +1122,7 @@ class ClubhouseApplication(Gtk.Application):
         self._debug_mode = False
         self._registry_loaded = False
         self._suggesting_open = False
+        self._session_mode = None
 
         resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
         Gio.Resource._register(resource)
@@ -1155,14 +1156,30 @@ class ClubhouseApplication(Gtk.Application):
         self.show(Gdk.CURRENT_TIME)
 
     def _run_episode_autorun_quest_if_needed(self):
-        autorun_quest = libquest.Registry.get_autorun_quest()
-        if autorun_quest is None:
-            return
+        def _run_autorun_quest_if_user_session(proxy=None):
+            if proxy is not None:
+                self._session_mode = proxy.get_cached_property('Mode').unpack()
 
-        quest = libquest.Registry.get_quest_by_name(autorun_quest)
-        if not quest.complete:
-            # Run the quest in the app's main instance
-            self.activate_action('run-quest', GLib.Variant('(sb)', (autorun_quest, True)))
+            assert self._session_mode is not None, 'Session mode not set up'
+
+            # Restrict the autorun quest to only normal sessions (since we don't want to auto-run
+            # quests in the initial setup and other cases)
+            if self._session_mode != 'user':
+                return
+
+            autorun_quest = libquest.Registry.get_autorun_quest()
+            if autorun_quest is None:
+                return
+
+            quest = libquest.Registry.get_quest_by_name(autorun_quest)
+            if not quest.complete:
+                # Run the quest in the app's main instance
+                self.activate_action('run-quest', GLib.Variant('(sb)', (autorun_quest, True)))
+
+        if self._session_mode is None:
+            Desktop.get_shell_proxy_async(_run_autorun_quest_if_user_session)
+        else:
+            _run_autorun_quest_if_user_session()
 
     def do_handle_local_options(self, options):
         self.register(None)

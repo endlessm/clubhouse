@@ -90,6 +90,29 @@ class Desktop:
         return klass._shell_proxy
 
     @classmethod
+    def get_shell_proxy_async(klass, callback, *callback_args):
+        def _on_shell_proxy_ready(proxy, result):
+            try:
+                klass._shell_proxy = proxy.new_finish(result)
+            except GLib.Error as e:
+                logger.warning("Error: Failed to get Shell proxy:", e.message)
+                return
+
+            callback(klass._shell_proxy, *callback_args)
+
+        if klass._shell_proxy is None:
+            Gio.DBusProxy.new_for_bus(Gio.BusType.SESSION,
+                                      0,
+                                      None,
+                                      'org.gnome.Shell',
+                                      '/org/gnome/Shell',
+                                      'org.gnome.Shell',
+                                      None,
+                                      _on_shell_proxy_ready)
+        else:
+            callback(klass._shell_proxy, *callback_args)
+
+    @classmethod
     def get_app_desktop_name(_klass, app_name):
         if app_name.endswith('.desktop'):
             return app_name
