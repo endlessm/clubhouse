@@ -9,16 +9,7 @@ class Chore(Quest):
     def __init__(self):
         super().__init__('Chore', 'saniel')
         self._app = App(self.APP_NAME)
-        self.available = False
-        self.gss.connect('changed', self.update_availability)
-        self.update_availability()
         self._ask_question = True
-
-    def update_availability(self, gss=None):
-        if self.conf['complete']:
-            return
-        if self.is_named_quest_complete('Intro'):
-            self.available = True
 
     def step_begin(self):
         if not self._app.is_running():
