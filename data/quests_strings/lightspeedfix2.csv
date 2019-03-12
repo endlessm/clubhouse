@@ -17,7 +17,7 @@ It turns out the `spawnEnemy()` function gets called every tick (about 30 times 
 
 So you're creating 30 asteroids per second! Let's go back and fix it.",,,,
 LIGHTSPEEDFIX2_NOENEMIES,Hmmm. I don't see any enemies yet. Let's go back and look at the spawn code again.,,,,
-LIGHTSPEEDFIX2_CODE2,"An asteroid every second is more like what we're going for.
+LIGHTSPEEDFIX2_CODE2,"An asteroid every second is more like what we're going for. There are thirty ticks per second. 
 
 We have a variable called `ticksSinceSpawn`, which goes up once every tick. Let's spawn it every 30 ticks.
 
@@ -25,7 +25,7 @@ See that line that says `if (ticksSinceSpawn > 0)`? That executes the line below
 
 Let's change that 0 to 30 and we'll get one asteroid about every second.",,,,
 LIGHTSPEEDFIX2_CODE2_HINT1,The condition would be `ticksSinceSpawn > 30`,,,,
-LIGHTSPEEDFIX2_CODE2_HINT2,The code should be `if (ticksSinceSpawn > 30) return 'asteroid';`,,,,
+LIGHTSPEEDFIX2_CODE2_HINT2,The code should be `if (ticksSinceSpawn > 30) { return 'asteroid'; }`,,,,
 LIGHTSPEEDFIX2_CODE2_HINT3,Go back to the game when you're ready and test it out.,,,,
 LIGHTSPEEDFIX2_SUCCESS,Smart work there! Clearly you're ready for something more challenging. Ada will give you the details. ,,,,
 LIGHTSPEEDFIX2_ABORT,Done so soon? Come back to the Clubhouse whenever you want to try again.,,,,

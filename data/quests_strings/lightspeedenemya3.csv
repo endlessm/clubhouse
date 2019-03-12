@@ -1,5 +1,5 @@
 LIGHTSPEEDENEMYA3_QUESTION,Let's keep working on that Lightspeed enemy you made.,Ada,,,
-LIGHTSPEEDENEMYA3_QUEST_ACCEPT,"Okay, great. ",,,,
+LIGHTSPEEDENEMYA3_QUEST_ACCEPT,"Okay, great.",,,,
 LIGHTSPEEDENEMYA3_LAUNCH,You know the drill: Launch Lightspeed.,,,,
 LIGHTSPEEDENEMYA3_EXPLANATION,"Now that *spinner* enemy moves in a diagonal and goes off screen. Let's make sure it stays on screen.
 
@@ -8,10 +8,10 @@ LIGHTSPEEDENEMYA3_CODE,"Select the Spinner tab and look for the updateSpinner() 
 
 That's where we keep making y a bit smaller every time. Let's stop doing that when it gets to 0.
 
-We can use an `if` statement. `if (condition) do_something;` So let's only make y smaller when y is greater than 0.",,,,
+We can use an `if` statement. `if (condition) { do_something; }` So let's only make y smaller when y is greater than 0.",,,,
 LIGHTSPEEDENEMYA3_CODE_HINT1,You can check that y is greater than 0 like this: `if (enemy.position.y > 0)`.,,,,
 LIGHTSPEEDENEMYA3_CODE_HINT2,"And then put the statement that makes y smaller after the if statement, so it only gets executed when y > 0.",,,,
-LIGHTSPEEDENEMYA3_CODE_HINT3,Put it all together like this: `if (enemy.position.y > 0) enemy.position.y = enemy.position.y - 10;`,,,,
+LIGHTSPEEDENEMYA3_CODE_HINT3,Put it all together like this: `if (enemy.position.y > 0) { enemy.position.y = enemy.position.y - 10; }`,,,,
 LIGHTSPEEDENEMYA3_CODE_HINT4,Don't forget to play the level to check your results.,,,,
 LIGHTSPEEDENEMYA3_PLAYING,Let's see how you did with that.,,,,
 LIGHTSPEEDENEMYA3_NOTMOVING,Something went wrong and now the enemies aren't moving. Go back to the coding panel and let's fix it.,,,,
@@ -19,6 +19,7 @@ LIGHTSPEEDENEMYA3_GOINGDOWN,Hmm... they're still going below the screen. Go back
 LIGHTSPEEDENEMYA3_NOTREACHINGBOTTOM,The enemies aren't quite reaching the bottom of the screen. Check your code again.,,,,
 LIGHTSPEEDENEMYA3_SUCCESS,"Perfect. Now they aren't going anywhere. Good job!
 
-By the way, you said earlier you were looking for a *ratchet wheel*. I've got one right here. ",,,,
+By the way, you said earlier you were looking for a 
+*ratchet wheel*. I've got one right here. ",,,,
 LIGHTSPEEDENEMYA3_END,"Here, take it. You can have it. You did a great job. See you around.",,,,
 LIGHTSPEEDENEMYA3_ABORT,Check back if you want to explore the coding panel some more!,,,,

@@ -11,7 +11,7 @@ Browse around in the System a bit to learn about the different areas, and then g
 CHORE_QUIZ1_QUESTION,1) Ada compares /dev/null to:,,,,
 CHORE_QUIZ1_CHOICE1,A wastebasket,,,,
 CHORE_QUIZ1_CHOICE2,A pie,,,,
-CHORE_QUIZ1_CORRECT,Quite acceptable.,,,,
+CHORE_QUIZ1_CORRECT,Quite acceptable.,,hurray,,
 CHORE_QUIZ1_INCORRECT,Not quite. Try again.,,,,
 CHORE_QUIZ2_QUESTION,2) The daemons often work:,,,,
 CHORE_QUIZ2_CHOICE1,On horseback,,,,
@@ -21,14 +21,14 @@ CHORE_QUIZ2_INCORRECT,Not really. One more try.,,,,
 CHORE_QUIZ3_QUESTION,"3) The System App lets you change your cursor into a wedge of cheese, a unicorn, and poop.",,,,
 CHORE_QUIZ3_CHOICE1,I sure hope that's True! ,,,,
 CHORE_QUIZ3_CHOICE2,False.,,,,
-CHORE_QUIZ3_CORRECT,I'm afraid you're right. ,,,,
+CHORE_QUIZ3_CORRECT,I'm afraid you're right. ,,hurray,,
 CHORE_QUIZ3_INCORRECT,False? Really? Have you checked out the cursors? Try again. ,,,,
 CHORE_WRAPUP,Nice work! That's it for now. Just a little glimpse of the wonders of the System! I must be going now. ,,,,
 CHORE_KEY,"What was up with that quiz? We need to help solve Ada's data problem and Saniel's here quizzing us.
 
-I'm just going to borrow this Level 2 System key so we can investigate some unusual activity I spotted earlier. 
-
-Saniel warned us not to go to Level 2. We'll be super careful, and we'll return the key before he misses it.
-   ",Riley,Riley hair flip/eye roll,,
+Saniel warned us not to go too deep into the system but that's exactly where I spotted some unusual activity earlier.
+   
+I'm just going to borrow Saniel's key. We'll be super careful, and return the key before he misses it.
+",Riley,,,
 CHORE_END,We'll definitely come back later to do some more investigating. I know Ada will appreciate it. ,Riley,,,
 CHORE_ABORT,No prob. Find me later! ,,,,

@@ -5,22 +5,22 @@ MAKERINTRO_LAUNCH,"Good to meet you!  You must be the Fizzics whiz Riley told me
 Just here jamming out & making some solar pizza. Alright, so let's get this puzzle running for you. 
 
 See if you can find a way to solve this. Go ahead and launch Fizzics.",,,,quests/faber-theme
-MAKERINTRO_EXPLANATION,Here's your challenge: Make it so all 10 of these green balls are touching the red spiky ball at the same time.,,,,quests/quest2-fabers-fizzics
-MAKERINTRO_EXPLANATION_HINT1,Clearly you'll need to hack into Fizzics to do this.,,,,quests/quest2-fabers-fizzics
-MAKERINTRO_EXPLANATION_HINT2,Try adjusting the settings for attraction and repulsion.,,,,quests/quest2-fabers-fizzics
-MAKERINTRO_EXPLANATION_HINT3,What if you make the green balls smaller?,,,,quests/quest2-fabers-fizzics
+MAKERINTRO_EXPLANATION,Here's your challenge: Collect all the diamonds... without flinging the orange ball.,,,,quests/quest2-fabers-fizzics
+MAKERINTRO_EXPLANATION_HINT1,"You heard me. I'll be watching, so don't try flinging.",,,,quests/quest2-fabers-fizzics
+MAKERINTRO_EXPLANATION_HINT2,Go into the hacking panel and look into the attraction forces.,,,,quests/quest2-fabers-fizzics
+MAKERINTRO_EXPLANATION_HINT3,Could you make the orange ball be attracted towards the diamonds?,,,,quests/quest2-fabers-fizzics
 MAKERINTRO_SUCCESS,That's what I'm talking about! Way to go! Riley certainly was right about you.,,,,quests/quest2-fabers-fizzics
 MAKERINTRO_WHATISIT,"Hey Faber, since we're here, do you have any clue what this weird rusty thingamajig might be?",Riley,,,
 MAKERINTRO_GIVEITEM,"Hmmm, let me see. Let me immerse it in this clarifying solution. 
 
-Whoa, look at that! This stuff really works! Hold up! Riley, I think this is part of a Stealth Device! 
+Whoa! This stuff really works! Hold up! Riley, I think this is a *Perception Deflector* for a Stealth Device! 
 
-I can't believe you found this! This is so major. Totally cool to actually hold one in my hands!
+I can't believe you found this! This is so major. Totally cool to actually hold this in my hands!
 ",,,,
 MAKERINTRO_STEALTHQUESTION,"What exactly is a Steath Device, Faber?",Riley,,,
 MAKERINTRO_STEALTHEXPLANATION,"A Stealth Device lets you go anywhere undetected. Not that you'd ever want something like that, Riley! 
 
-I once glimpsed some schematics of a device like this. 
+I once glimpsed some schematics of one of these deflectors! 
 
 Rumors have it that the legendary hacker Leviathan used a device like this one in his exploits. 
 ",,,,
