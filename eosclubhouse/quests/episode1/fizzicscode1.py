@@ -88,4 +88,4 @@ class FizzicsCode1(Quest):
         self.conf['complete'] = True
         self.available = False
         Sound.play('quests/quest-complete')
-        self.show_message('END', choices=[('Bye', self.stop())])
+        self.show_message('END', choices=[('Bye', self.stop)])
