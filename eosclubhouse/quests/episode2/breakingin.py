@@ -91,5 +91,5 @@ class BreakingIn(Quest):
         Sound.play('quests/quest-complete')
         self.conf['complete'] = True
         self.available = False
-
+        self.complete_current_episode()
         self.stop()
