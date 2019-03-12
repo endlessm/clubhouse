@@ -112,8 +112,6 @@ class Desktop:
         else:
             callback(klass._shell_proxy, *callback_args)
 
-        return klass._shell_proxy
-
     @classmethod
     def get_app_desktop_name(_klass, app_name):
         if app_name.endswith('.desktop'):
