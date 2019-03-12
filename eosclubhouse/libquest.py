@@ -490,6 +490,7 @@ class Quest(GObject.GObject):
     }
 
     __sound_on_run_begin__ = 'quests/quest-given'
+    __available_after_completing_quests__ = []
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
 
@@ -531,13 +532,16 @@ class Quest(GObject.GObject):
         self._default_abort_sound = 'quests/quest-aborted'
         self._default_initial_sound = 'quests/quest-proposed'
 
-        self._available = True
-        self._cancellable = None
-
         self.gss = GameStateService()
-
         self.conf = {}
         self.load_conf()
+
+        self._available = self.__available_after_completing_quests__ == []
+        if self.__available_after_completing_quests__ != []:
+            self.gss.connect('changed', self.update_availability)
+            self.update_availability()
+
+        self._cancellable = None
 
         self.key_event = False
         self._debug_skip = False
@@ -547,6 +551,13 @@ class Quest(GObject.GObject):
         self._run_context = None
 
         self.clubhouse_state = ClubhouseState()
+
+    def update_availability(self, _gss=None):
+        if self.complete:
+            return
+        if all(self.is_named_quest_complete(q)
+               for q in self.__available_after_completing_quests__):
+            self.available = True
 
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()

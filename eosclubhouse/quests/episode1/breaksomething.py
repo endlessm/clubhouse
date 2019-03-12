@@ -10,19 +10,12 @@ class BreakSomething(Quest):
     CURSOR_NORMAL_SIZE = 24
     CURSOR_HUGE_SIZE = 200
 
+    __available_after_completing_quests__ = ['OSIntro']
+
     def __init__(self):
         super().__init__('Break Something', 'riley')
         self._app = App(self.APP_NAME)
-        self.gss.connect('changed', self.update_availability)
-        self.available = False
-        self.update_availability()
         self.settings = Gio.Settings.new("org.gnome.desktop.interface")
-
-    def update_availability(self, gss=None):
-        if self.conf['complete']:
-            return
-        if self.is_named_quest_complete("OSIntro"):
-            self.available = True
 
     def step_begin(self):
         if self._app.is_running():

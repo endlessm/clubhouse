@@ -7,18 +7,11 @@ class BreakingIn(Quest):
     APP_NAME = 'com.endlessm.OperatingSystemApp'
     LEVEL2_LOCK = 'lock.OperatingSystemApp.2'
 
+    __available_after_completing_quests__ = ['MakeDevice']
+
     def __init__(self):
         super().__init__('BreakingIn', 'riley')
         self._app = App(self.APP_NAME)
-        self.available = False
-        self.gss.connect('changed', self.update_availability)
-        self.update_availability()
-
-    def update_availability(self, gss=None):
-        if self.conf['complete']:
-            return
-        if self.is_named_quest_complete("MakeDevice"):
-            self.available = True
 
     def step_begin(self):
         if not self._app.is_running():
