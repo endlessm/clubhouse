@@ -25,19 +25,21 @@ class LightSpeedEnemyC1(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_code(self):
-        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
-           or self.debug_skip():
-            return self.step_play
-
         self._app.reveal_topic('spawnEnemy')
-
         self.show_hints_message('CODE')
-
-        self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
-        return self.step_code
+        if self._app.get_js_property('flipped'):
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_abouttoplay
 
     @Quest.with_app_launched(APP_NAME)
-    def step_play(self):
+    def step_abouttoplay(self):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message('ABOUTTOPLAY')
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playtest
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_playtest(self):
         self.show_hints_message('PLAYTEST')
         self.pause(5)
 
