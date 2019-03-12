@@ -4,16 +4,16 @@ BREAKINGIN_LAUNCH,Cool. Let's launch the System.,,,,quests/quest2-werk-before-st
 BREAKINGIN_EXPLAIN,"Here we are. Wait, don't move. I'm turning the Stealth Device on right now.
 
 Ready! Let's flip to hack and let's go.",,,,quests/quest2-sneaky-hihat
-BREAKINGIN_FLIPPED,"The moment of truth!  Okay, go ahead and Unlock that Level 2. Let's hope Faber knew his stuff and this device really works.",,,,quests/quest2-riley-sneak
-BREAKINGIN_UNLOCKED,"Whoa! It worked! We're in. Level 2 at last. I wonder what wonders await us here!
+BREAKINGIN_FLIPPED,"The moment of truth!  Okay, go ahead and Unlock the Windows Area. Let's hope Faber knew his stuff and this device really works.",,,,quests/quest2-riley-sneak
+BREAKINGIN_UNLOCKED,"Whoa! It worked! We're in. The Windows Area at last. I wonder what wonders await us here!
 
 This box looks pretty intriguing. Maybe this is what Saniel didn't want us to see?",,,,quests/quest2-unlock-gush
 BREAKINGIN_STARTTRAP,Something is super weird here. Let me just get a look inside. aAUUGHHHhhaaauuaAUUGHHH!!!!,,glitching,,quests/quest2-glitch
 BREAKINGIN_TRAPPED,Hello! Hello! I can't get back out! Go find help!,,talk_glitched,,quests/quest2-glitch
-BREAKINGIN_ARCHIVIST,"What's going on here? Didn't I tell you two – Wait that's Riley's scarf!  What happened to the box? 
+BREAKINGIN_ARCHIVIST,"What's going on here? Didn't I tell you two – Wait that's Riley's scarf!  
 
-This box has been inactive for years. What set it off? I'm afraid the AI's are at it again. Very concerning. 
+This trap has been inactive for years. What set it off? Very concerning. 
 
-We've got to rescue Riley from the box! I'm going to need your help for that. 
+We've got to rescue Riley! I'm going to need your help for that. 
 ",Saniel,talk_anger,,
 BREAKINGIN_ABORT,Not up for it right now? We can try again later. ,,,,

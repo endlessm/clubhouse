@@ -1,5 +1,12 @@
-MAKERQUEST_QUESTION,MakerQuest,Faber,,,
+MAKERQUEST_QUESTION,Would you like to attempt another one of my brain-tickling puzzles?,Faber,,,
 MAKERQUEST_QUEST_ACCEPT,Sure,,,,
 MAKERQUEST_LAUNCH,Launch,,,,
-MAKERQUEST_END,End,,,,
-MAKERQUEST_ABORT,Abort,,,,
+MAKERQUEST_EXPLANATION,Today's puzzle is to make it so all 10 of these green balls are touching the red spiky ball at the same time.,,,,
+MAKERQUEST_EXPLANATION_HINT1,Clearly you'll need to hack into Fizzics to do this.,,,,
+MAKERQUEST_EXPLANATION_HINT2,Try adjusting the settings for attraction and repulsion.,,,,
+MAKERQUEST_EXPLANATION_HINT3,What if you make the green balls smaller and the red one larger?,,,,
+MAKERQUEST_SUCCESS,"That's it! Good job!
+
+By the way, I found that *cloaking glaze* you were looking for earlier. Here, take it.",,,,
+MAKERQUEST_END,Let me know if I can give you a hand with any interesting projects.,,,,
+MAKERQUEST_ABORT,Suuuuure thing. You can always try later.,,,,
