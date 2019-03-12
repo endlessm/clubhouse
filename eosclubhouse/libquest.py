@@ -1114,7 +1114,7 @@ class Quest(GObject.GObject):
     def save_conf(self):
         key = self._get_conf_key()
         variant = GLib.Variant('a{sb}', {'complete': self.complete})
-        self.gss.set(key, variant)
+        self.gss.set_async(key, variant)
 
     def set_conf(self, key, value):
         self.conf[key] = value

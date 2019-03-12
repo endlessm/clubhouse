@@ -363,7 +363,7 @@ class GameStateService(GObject.GObject):
         if signal_name == 'changed':
             self.emit('changed')
 
-    def set(self, key, variant):
+    def _convert_variant_arg(self, variant):
         # If we're passing a dictionary instead, then we just convert it from json
         if isinstance(variant, dict):
             try:
@@ -372,8 +372,23 @@ class GameStateService(GObject.GObject):
             except Exception:
                 raise TypeError('Error setting GSS entry: value is not a variant nor can it be '
                                 'converted to json')
+        return variant
 
+    def set(self, key, variant):
+        variant = self._convert_variant_arg(variant)
         self._get_gss_proxy().Set('(sv)', key, variant)
+
+    def set_async(self, key, variant):
+        variant = self._convert_variant_arg(variant)
+
+        def _on_set_done_callback(proxy, result):
+            try:
+                proxy.call_finish(result)
+            except GLib.Error as e:
+                logger.error('Error calling set_async on GSS: %s', e.message)
+
+        self._get_gss_proxy().call('Set', GLib.Variant('(sv)', (key, variant)),
+                                   Gio.DBusCallFlags.NONE, -1, None, _on_set_done_callback)
 
     def get(self, key, value_if_missing=None):
         try:
