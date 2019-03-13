@@ -15,7 +15,7 @@ FIZZICSINTRO_SUCCESS,"Whoa, I knew you'd catch on quickly! Here's a reward for y
 FIZZICSINTRO_ALREADYBEAT,"Oh, hey there! Quick work, Einstein!",,,,
 FIZZICSINTRO_KEY,,,,,
 FIZZICSINTRO_KEYAFTER,Your first key! This will come in handy later if you want to dig deeper into Fizzics.,,,,
-FIZZICSINTRO_RILEY,OMG. Fizzics. I love this game. It's my total fave. ,Riley,,quests/riley-intro,
+FIZZICSINTRO_RILEY,OMG. Fizzics. I love this game. It's my total fave. ,Riley,,,quests/riley-intro
 FIZZICSINTRO_END,"Oh, hey Riley! I hear you're already on Level 10!
 
 See you back at the Clubhouse!",Ada,,,
