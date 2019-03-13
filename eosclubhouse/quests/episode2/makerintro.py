@@ -21,22 +21,33 @@ class MakerIntro(Quest):
 
         self.show_hints_message('EXPLANATION')
         self._app.set_js_property('preset', ('i', self.GAME_PRESET))
-        return self.step_explanation
+        return self.step_checkgoal
 
     @Quest.with_app_launched(APP_NAME)
-    def step_explanation(self):
-        if self._app.get_js_property('quest1Success') or self.debug_skip():
-            self.wait_confirm('SUCCESS')
-            self.wait_confirm('WHATISIT')
-            self.wait_confirm('GIVEITEM')
-            self.gss.set("item.key.unknown_item", {'used': True, 'consume_after_use': True})
-            self.give_item('item.stealth.1')
-            self.wait_confirm('STEALTHQUESTION')
-            self.wait_confirm('STEALTHEXPLANATION')
-            return self.step_thanks
+    def step_checkgoal(self):
+        if not self._app.get_js_property('quest1Success'):
+            self.wait_for_app_js_props_changed(self._app, ['quest1Success', 'flingCount'])
 
-        self.wait_for_app_js_props_changed(self._app, ['quest1Success'])
-        return self.step_explanation
+        if self._app.get_js_property('flingCount') > 0:
+            self.show_hints_message('FLING')
+            return self.step_fling
+
+        self.wait_confirm('SUCCESS')
+        self.wait_confirm('WHATISIT')
+        self.wait_confirm('GIVEITEM')
+        self.gss.set("item.key.unknown_item", {'used': True, 'consume_after_use': True})
+        self.give_item('item.stealth.1')
+        self.wait_confirm('STEALTHQUESTION')
+        self.wait_confirm('STEALTHEXPLANATION')
+        return self.step_thanks
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_fling(self):
+        if self._app.get_js_property('flingCount') == 0:
+            self.show_hints_message('EXPLANATION')
+            return self.step_checkgoal
+        self.wait_for_app_js_props_changed(self._app, ['flingCount'])
+        return self.step_fling
 
     def step_thanks(self):
         Sound.play('quests/quest-complete')
