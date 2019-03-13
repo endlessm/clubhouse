@@ -360,8 +360,22 @@ class _QuestRunContext:
         if async_action.is_cancelled():
             return async_action
 
+        pause_handler = None
+        def _cancel_pause():
+            if pause_handler is not None:
+                pause_handler.cancel()
+
+        cancel_handler_id = self._cancellable.connect(_cancel_pause)
+        def _pause_finished():
+            async_action.resolve()
+
+            nonlocal cancel_handler_id
+            if cancel_handler_id > 0:
+                self._cancellable.disconnect(cancel_handler_id)
+            cancel_handler_id = 0
+
         loop = self._future_get_loop(async_action.future)
-        loop.call_later(secs, functools.partial(async_action.resolve))
+        pause_handler = loop.call_later(secs, _pause_finished)
 
         return self.wait_for_action(async_action)
 
