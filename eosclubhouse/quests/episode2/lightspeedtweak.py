@@ -96,15 +96,6 @@ class LightSpeedTweak(Quest):
             self.wait_for_app_js_props_changed(self._app, ['success'])
 
         self.show_confirm_message('SUCCESS').wait()
-        return self.step_givekey
-
-    def step_givekey(self):
-        key_id = 'item.key.lightspeed.2'
-        if self.gss.get(key_id) is not None:
-            return self.step_end
-        self.show_confirm_message('GIVEITEM').wait()
-        self.give_item(key_id)
-        self.show_confirm_message('AFTERITEM').wait()
         return self.step_end
 
     def step_end(self):
