@@ -76,6 +76,13 @@ strings CSV file can be added to a secondary location and will be loaded
 directly by the Clubhouse (overriding any quest/string-id with the same name).
 this alternative location is: `~/.var/app/com.endlessm.Clubhouse/data/quests`
 
+### Other CSV files
+
+There is information in other CSV files, which can also be imported
+from the spreadsheet. Example:
+
+`./tools/get-info-file episodes`
+
 ### Quest Sound Overrides
 
 In the spreadsheet, per-message sounds can be defined. There are

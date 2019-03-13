@@ -1,0 +1,81 @@
+#!/bin/env python3
+
+import argparse
+import csv
+import io
+import os
+import requests
+import subprocess
+
+CSV_PATH = os.path.join('data')
+CSV_ALTERNATIVE_PATH = os.path.expanduser('~/.var/app/com.endlessm.Clubhouse' +
+                                          '/data/quests')
+SHEETS_FOR_FILES = {
+    'quests_items': 'Items',
+    'episodes': 'Episodes',
+}
+
+CSV_NAME = 'quests_items'
+
+URL_TEMPLATE = ('https://docs.google.com/spreadsheets/d/{key}/' +
+                'gviz/tq?tqx=out:csv&sheet={sheet}&range={range}')
+URL_PARAMS = {
+    'key': '162yiw_kW3lgLEIUwBq3PgiZxWTtcVBUHqpZKUXtF8qY',
+    'range': 'A:F'
+}
+
+
+def get_rows_from_sheet(sheet):
+    url_params = URL_PARAMS.copy()
+    url_params['sheet'] = sheet
+
+    url = URL_TEMPLATE.format(**url_params)
+    response = requests.get(url)
+    response.raise_for_status()
+    csv_file = io.StringIO(response.text)
+    return list(csv.reader(csv_file))
+
+def _write_csv_file(filename, rows):
+    with open(filename, 'w') as out_file:
+        writer = csv.writer(out_file)
+        for r in rows:
+            writer.writerow(r)
+
+def write_csv(info_file, rows, use_alternative_path=False):
+    csv_path = CSV_PATH if not use_alternative_path else CSV_ALTERNATIVE_PATH
+    filename = os.path.join(csv_path, info_file + '.csv')
+    _write_csv_file(filename, rows)
+
+def make_commit(info_file, sheet_name):
+    head = 'data: Update {} CSV'.format(info_file)
+    body = 'From sheet: {}.'.format(sheet_name)
+    message = head + '\n\n' + body
+
+    # Ensure we don't include previously added things in this commit
+    subprocess.call(['git', 'reset', 'HEAD'])
+
+    # Add any changes to the CSV file and commit them
+    subprocess.call(['git', 'add', os.path.join(CSV_PATH, info_file + '.csv')])
+    subprocess.call(['git', 'commit', '--no-verify', '-m', message])
+
+def main(info_file, commit=False, use_alternative_path=False):
+    sheet_name = SHEETS_FOR_FILES[info_file]
+    rows = get_rows_from_sheet(sheet_name)
+    write_csv(info_file, rows, use_alternative_path)
+
+    if not commit or use_alternative_path:
+        return
+
+    make_commit(info_file, sheet_name)
+
+
+parser = argparse.ArgumentParser(description='Obtain an info file from the spreadsheet.')
+parser.add_argument(dest='info_file', choices=SHEETS_FOR_FILES.keys(), default='quests_items',
+                    help='Make a commit with the updated strings.')
+parser.add_argument('--commit', action='store_true',
+                    help='Make a commit with the updated strings.')
+parser.add_argument('--use-alternative-path', action='store_true',
+                    help='Import the strings into the alternative path.')
+
+args = parser.parse_args()
+main(**vars(args))
