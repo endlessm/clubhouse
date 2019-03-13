@@ -8,7 +8,6 @@ LIGHTSPEEDFIX1_EXPLANATION2,"Someone made those asteroids way too big! You'll ne
 
 Just like before, you'll have to hack the app to fix it. But this time you'll be using code to do it.",,,,
 LIGHTSPEEDFIX1_EXPLANATION2_HINT1,Press the Flip button.,,,,
-LIGHTSPEEDFIX1_UNLOCK,Now unlock the Level 2 panel and let's do some coding.,,,,
 LIGHTSPEEDFIX1_CODE,"Click on the Spawn tab. See the function called `spawnEnemy()`? That's where we create the asteroids.
 
 There you can change the scale to something smaller so the level becomes playable again.",,,,
