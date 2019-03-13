@@ -24,20 +24,29 @@ class LightSpeedEnemyC2(Quest):
         return self.step_wait_for_flip
 
     @Quest.with_app_launched(APP_NAME)
-    def step_code(self):
-        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
-           or self.debug_skip():
-            return self.step_play
-
-        self._app.reveal_topic('updateBeam')
-
-        self.show_hints_message('CODE')
-
-        self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
+    def step_wait_for_flip(self):
+        if not self._app.get_js_property('flipped') or self.debug_skip():
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_code
 
     @Quest.with_app_launched(APP_NAME)
-    def step_play(self):
+    def step_code(self):
+        self._app.reveal_topic('updateBeam')
+        self.show_hints_message('CODE')
+
+        if self._app.get_js_property('flipped'):
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_abouttoplay
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_abouttoplay(self):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message('ABOUTTOPLAY')
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playtest
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_playtest(self):
         self.show_hints_message('PLAYTEST')
         self.pause(10)
 
@@ -49,15 +58,26 @@ class LightSpeedEnemyC2(Quest):
         if min_y == max_y:
             self.show_hints_message('NOTMOVING')
             return self.step_wait_for_flip
-        return self.step_success
+        return self.step_moving
 
     @Quest.with_app_launched(APP_NAME)
-    def step_wait_for_flip(self):
-        if not self._app.get_js_property('flipped') or self.debug_skip():
-            self.wait_for_app_js_props_changed(self._app, ['flipped'])
-        return self.step_code
+    def step_moving(self):
+        self.show_hints_message('MOVING')
+        if self._app.get_js_property('playing'):
+            self.wait_for_app_js_props_changed(self._app, ['playing', 'success'])
 
-    @Quest.with_app_launched(APP_NAME)
+        if self._app.get_js_property('success') or self.debug_skip():
+            return self.step_success
+
+        self.show_hints_message('FAILED')
+
+        if not self._app.get_js_property('flipped') and not self._app.get_js_property('playing'):
+            self.wait_for_app_js_props_changed(self._app, ['playing', 'flipped'])
+        if self._app.get_js_property('flipped'):
+            return self.step_code
+        # playing
+        return self.step_playtest
+
     def step_success(self):
         self.conf['complete'] = True
         self.available = False
