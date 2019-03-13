@@ -46,7 +46,6 @@ class OSIntro(Quest):
         if self._app.get_js_property('flipped'):
             return self.step_flipped, self.step_saniel
 
-        Sound.play('quests/saniel-intro')
         confirm_action = self.show_confirm_message('SANIEL')
         app_changes_action = self.connect_app_js_props_changes(self._app, ['flipped'])
 
@@ -61,7 +60,6 @@ class OSIntro(Quest):
         if not self._app.get_js_property('flipped'):
             return self.step_intro
 
-        Sound.play('quests/saniel-angry')
         self.show_hints_message('SANIEL_FLIP')
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_saniel_flip
@@ -120,7 +118,6 @@ class OSIntro(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_flipped(self, next_step):
-        Sound.play('quests/saniel-angry')
         self.show_hints_message('FLIPPED')
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return next_step

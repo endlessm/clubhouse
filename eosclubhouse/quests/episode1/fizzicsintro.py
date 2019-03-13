@@ -96,7 +96,6 @@ class FizzicsIntro(Quest):
         return self.step_riley
 
     def step_riley(self):
-        Sound.play('quests/riley-intro')
         self.wait_confirm('RILEY')
         return self.step_end
 
