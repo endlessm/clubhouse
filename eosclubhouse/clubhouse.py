@@ -467,12 +467,18 @@ class ClubhousePage(Gtk.EventBox):
 
         quest.set_cancellable(Gio.Cancellable())
 
+        # Start running the new quest only when the mainloop is idle so we allow any previous
+        # events (from other quests) to be dispatched.
+        GLib.idle_add(self._run_new_quest, quest)
+
+    def _run_new_quest(self, quest):
         self._current_quest = quest
 
         # Hide the window so the user focuses on the Shell Quest View
         self._app_window.hide()
 
         self._current_quest.run(self.on_quest_finished)
+        return GLib.SOURCE_REMOVE
 
     def run_quest_by_name(self, quest_name):
         quest = libquest.Registry.get_quest_by_name(quest_name)

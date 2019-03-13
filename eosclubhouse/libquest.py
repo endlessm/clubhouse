@@ -258,6 +258,9 @@ class _QuestRunContext:
     def _cancel_all(self):
         self.reset_stop_timeout()
 
+        if self._current_waiting_loop is not None:
+            self._cancel_and_close_loop(self._current_waiting_loop)
+
         self._cancel_and_close_loop(self._step_loop)
 
         # Cancel also any ongoing actions
@@ -357,8 +360,22 @@ class _QuestRunContext:
         if async_action.is_cancelled():
             return async_action
 
+        pause_handler = None
+        def _cancel_pause():
+            if pause_handler is not None:
+                pause_handler.cancel()
+
+        cancel_handler_id = self._cancellable.connect(_cancel_pause)
+        def _pause_finished():
+            async_action.resolve()
+
+            nonlocal cancel_handler_id
+            if cancel_handler_id > 0:
+                self._cancellable.disconnect(cancel_handler_id)
+            cancel_handler_id = 0
+
         loop = self._future_get_loop(async_action.future)
-        loop.call_later(secs, functools.partial(async_action.resolve))
+        pause_handler = loop.call_later(secs, _pause_finished)
 
         return self.wait_for_action(async_action)
 
@@ -393,10 +410,13 @@ class _QuestRunContext:
 
         self._debug_actions = set(action_list)
 
-        loop = asyncio.new_event_loop()
+        self._current_waiting_loop = loop = asyncio.new_event_loop()
+
         loop.run_until_complete(wait_or_timeout(futures, timeout))
         loop.stop()
         loop.close()
+
+        self._current_waiting_loop = None
 
         self._debug_actions.clear()
 
