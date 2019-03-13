@@ -14,7 +14,7 @@ There you can change the scale to something smaller so the level becomes playabl
 LIGHTSPEEDFIX1_CODE_HINT1,See that `scale: 150`? Change that number to something smaller like 50.,,,,
 LIGHTSPEEDFIX1_CODE_HINT2,Make sure to play Level 3 and beat it to see if your solution works correctly.,,,,
 LIGHTSPEEDFIX1_ABOUTTOPLAY,"OK, let's try it now.",,,,
-LIGHTSPEEDFIX1_PLAYTEST,"If that worked, the asteroids should be smaller. Can you can beat this level?",,,,
+LIGHTSPEEDFIX1_PLAYTEST,"If that worked, the asteroids should be smaller. Can you beat this level?",,,,
 LIGHTSPEEDFIX1_PLAYTEST_HINT1,"If you can't beat it, go back to the code panel and try making it even smaller.",,,,
 LIGHTSPEEDFIX1_SUCCESS,Excellent. That'll do it. We've got a few more things to fix. Come find me when you're ready for more coding!,,,,
 LIGHTSPEEDFIX1_ABORT,Stop by again sometime soon!,,,,
