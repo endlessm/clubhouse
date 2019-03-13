@@ -53,7 +53,7 @@ class MakerIntro(Quest):
         Sound.play('quests/quest-complete')
         self.show_confirm_message('THANKS', confirm_label='Bye').wait()
 
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
 
         self.stop()

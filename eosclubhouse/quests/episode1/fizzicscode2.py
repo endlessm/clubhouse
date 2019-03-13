@@ -50,7 +50,7 @@ class FizzicsCode2(Quest):
 
     def step_end(self):
         Sound.play('quests/step-forward')
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
         self.set_next_episode('episode2')
         Sound.play('quests/quest-complete')

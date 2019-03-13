@@ -63,7 +63,7 @@ class LightSpeedIntro(Quest):
         self.wait_confirm('SUCCESS')
 
         self.give_item('item.key.lightspeed.1')
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
 
         Sound.play('quests/quest-complete')

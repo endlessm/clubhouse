@@ -79,7 +79,7 @@ class LightSpeedEnemyC2(Quest):
         return self.step_playtest
 
     def step_success(self):
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
         Sound.play('quests/quest-complete')
         self.show_confirm_message('SUCCESS', confirm_label='Bye').wait()

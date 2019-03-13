@@ -42,7 +42,7 @@ class MakeDevice(Quest):
         self.stop()
 
     def step_end(self):
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
 
         Sound.play('quests/quest-complete')

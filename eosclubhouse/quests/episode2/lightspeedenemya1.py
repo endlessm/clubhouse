@@ -57,7 +57,7 @@ class LightSpeedEnemyA1(Quest):
         return self.step_play
 
     def step_success(self):
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
 
         Sound.play('quests/quest-complete')
