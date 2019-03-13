@@ -69,7 +69,7 @@ class Investigation(Quest):
 
     def step_end(self):
         self.give_item('item.key.unknown_item')
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
 
         Sound.play('quests/quest-complete')

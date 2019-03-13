@@ -18,7 +18,7 @@ class LostFiles(Quest):
 
     def finish_episode(self):
         Sound.play('quests/quest-complete')
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
         self.complete_current_episode()
         self.stop()

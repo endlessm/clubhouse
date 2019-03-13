@@ -99,7 +99,7 @@ class LightSpeedTweak(Quest):
         return self.step_end
 
     def step_end(self):
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
         Sound.play('quests/quest-complete')
         self.show_confirm_message('END', confirm_label='Bye').wait()

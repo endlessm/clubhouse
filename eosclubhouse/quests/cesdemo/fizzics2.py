@@ -49,7 +49,7 @@ class Fizzics2(Quest):
         return self.step_end
 
     def step_end(self):
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
         self.give_item('item.key.fizzics.2')
         self.complete_current_episode()

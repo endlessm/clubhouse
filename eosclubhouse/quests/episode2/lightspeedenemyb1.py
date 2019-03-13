@@ -87,7 +87,7 @@ class LightSpeedEnemyB1(Quest):
         return self.step_wait_for_flip, code_msg_id
 
     def step_success(self):
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
 
         Sound.play('quests/quest-complete')

@@ -26,7 +26,7 @@ class FirstContact(Quest):
         return self._app.get_js_property('mode', default_value=0) >= 4
 
     def step_reward(self):
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
         self.stop()
 

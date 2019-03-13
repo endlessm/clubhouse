@@ -100,7 +100,7 @@ class FizzicsIntro(Quest):
         return self.step_end
 
     def step_end(self):
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
         self.show_message('END', choices=[('Bye', self.stop)])
         Sound.play('quests/quest-complete')

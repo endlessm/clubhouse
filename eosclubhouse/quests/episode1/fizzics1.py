@@ -151,7 +151,7 @@ class Fizzics1(Quest):
         return self.step_hack
 
     def step_success(self, already_beat=False):
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
         Sound.play('quests/quest-complete')
         msg_id = 'ALREADYBEAT' if already_beat else 'SUCCESS'

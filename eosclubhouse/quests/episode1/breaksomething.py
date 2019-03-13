@@ -147,7 +147,7 @@ class BreakSomething(Quest):
         return self.step_reward
 
     def step_reward(self):
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
         Sound.play('quests/quest-complete')
 

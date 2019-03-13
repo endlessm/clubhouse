@@ -74,7 +74,7 @@ class Hackdex1(Quest):
         self.show_confirm_message('SUCCESS', confirm_label='OK').wait()
 
         self.give_item('item.key.fizzics.2')
-        self.conf['complete'] = True
+        self.complete = True
         self.available = False
 
         Sound.play('quests/quest-complete')
