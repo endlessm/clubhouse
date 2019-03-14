@@ -361,11 +361,13 @@ class _QuestRunContext:
             return async_action
 
         pause_handler = None
+
         def _cancel_pause():
             if pause_handler is not None:
                 pause_handler.cancel()
 
         cancel_handler_id = self._cancellable.connect(_cancel_pause)
+
         def _pause_finished():
             async_action.resolve()
 
