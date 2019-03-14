@@ -1,3 +1,4 @@
+from eosclubhouse import logger
 from eosclubhouse.apps import LightSpeed
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
@@ -21,10 +22,21 @@ class LightSpeedEnemyA3(Quest):
         if not self._app.is_running():
             self.show_hints_message('LAUNCH')
             self.give_app_icon(self.APP_NAME)
-            self.wait_for_app_launch(self._app, pause_after_launch=2)
+            # Waiting that long because anything less would cause code not to be set correctly,
+            # maybe because Lightspeed was loading the state. We should fix it to know when LS is
+            # ready.
+            self.wait_for_app_launch(self._app, pause_after_launch=4)
 
         self.show_hints_message('EXPLANATION')
         self._app.set_level(5)
+
+        try:
+            self._app.set_object_property('view.JSContext.globalLevel5Parameters',
+                                          'updateSpinnerCode',
+                                          '''if (enemy.position.y < 1000)
+    enemy.position.y = enemy.position.y - 10;''')
+        except Exception as e:
+            logger.error('Error setting the code in LightSpeed: %s', e.message)
         return self.step_wait_for_flip
 
     @Quest.with_app_launched(APP_NAME)
