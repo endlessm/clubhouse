@@ -14,4 +14,6 @@ LIGHTSPEEDTWEAK_ABOUTTOPLAY,All right. Play the level and let's see how it goes.
 LIGHTSPEEDTWEAK_PLAYTEST,"Let's hope this works. If not, go back and change the speed to something lower.",,,,
 LIGHTSPEEDTWEAK_SUCCESS,Brilliant solution! That worked like a dream! You're really getting the hang of it!,,,,
 LIGHTSPEEDTWEAK_END,See you at the Clubhouse.,,,,
+LIGHTSPEEDTWEAK_WRONGLEVEL,Go back to Level 2. That's the one we're working on.,,,,
+LIGHTSPEEDTWEAK_WRONGLEVEL_HINT1,"Go to the start screen, select Level 2, and start playing.",,,,
 LIGHTSPEEDTWEAK_ABORT,See you next time!,,,,
