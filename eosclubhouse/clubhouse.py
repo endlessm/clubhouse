@@ -98,16 +98,22 @@ class Character(GObject.GObject):
     def get_moods_path(self):
         return os.path.join(self._id, 'moods')
 
-    def get_mood_icon(self):
+    def _get_mood_image(self, mood):
         mood_path = self.get_moods_path()
-
-        mood_image = None
         for sprites_path in get_character_animation_dirs(mood_path):
-            test_image = os.path.join(sprites_path, self._mood + '.png')
-            if not os.path.exists(test_image):
-                continue
-            mood_image = test_image
+            test_image = os.path.join(sprites_path, mood + '.png')
+            if os.path.exists(test_image):
+                return test_image
+        raise ValueError()
 
+    def get_mood_icon(self):
+        mood_image = None
+        try:
+            mood_image = self._get_mood_image(self._mood)
+        except ValueError:
+            mood_image = self._get_mood_image(self.DEFAULT_MOOD)
+
+        assert mood_image is not None, 'The default mood is not available!'
         image_file = Gio.File.new_for_path(mood_image)
         return Gio.FileIcon.new(image_file)
 
