@@ -240,6 +240,8 @@ class EpisodesDB(_DictFromCSV):
 class SimpleMarkupParser:
 
     _convertions = [
+        [re.compile(r'<', re.S), r'&lt;'],
+        [re.compile(r'>', re.S), r'&gt;'],
         [re.compile(r'(\*)(?=\S)(.+?)(?<=\S)\1', re.S), r'<b>\2</b>'],  # bold
         [re.compile(r'(_)(?=\S)(.+?)(?<=\S)\1', re.S), r'<i>\2</i>'],  # italics
         [re.compile(r'(~)(?=\S)(.+?)(?<=\S)\1', re.S), r'<s>\2</s>'],  # strikethrough
