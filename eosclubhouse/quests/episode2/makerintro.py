@@ -32,6 +32,10 @@ class MakerIntro(Quest):
             self.show_hints_message('FLING')
             return self.step_fling
 
+        return self.step_success
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_success(self):
         self.wait_confirm('SUCCESS')
         self.wait_confirm('WHATISIT')
         self.wait_confirm('GIVEITEM')
