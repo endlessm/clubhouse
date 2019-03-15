@@ -6,10 +6,12 @@ from eosclubhouse.system import Sound
 class LightSpeedTweak(Quest):
 
     APP_NAME = 'com.endlessm.LightSpeed'
+    LEVEL_ID = 2
 
     def __init__(self):
         super().__init__('LightSpeed Tweak', 'ada')
         self._app = LightSpeed()
+        self._step_to_continue = None
 
     def get_current_score(self):
         if self.debug_skip():
@@ -24,27 +26,31 @@ class LightSpeedTweak(Quest):
             self.give_app_icon(self.APP_NAME)
             self.wait_for_app_launch(self._app, pause_after_launch=2)
 
+        self._app.set_level(self.LEVEL_ID)
         return self.step_explanation
 
     @Quest.with_app_launched(APP_NAME)
     def step_explanation(self):
         self.show_hints_message('EXPLANATION')
-        self._app.set_level(2)
-
-        return self.step_check_state
+        if not self._app.get_js_property('playing'):
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playing
 
     @Quest.with_app_launched(APP_NAME)
-    def step_check_state(self):
-        if self._app.get_js_property('playing') or self.debug_skip():
-            return self.step_playing
-
-        self.wait_for_app_js_props_changed(self._app, ['playing'])
-        return self.step_check_state
+    def step_wrong_level(self):
+        self.show_hints_message('WRONGLEVEL')
+        if self._app.get_js_property('currentLevel') == self.LEVEL_ID:
+            return self._step_to_continue
+        self.wait_for_app_js_props_changed(self._app, ['currentLevel'])
+        return self.step_wrong_level
 
     @Quest.with_app_launched(APP_NAME)
     def step_playing(self):
         if self._app.get_js_property('playing'):
-            self.wait_for_app_js_props_changed(self._app, ['playing'], timeout=10)
+            self.wait_for_app_js_props_changed(self._app, ['playing', 'currentLevel'], timeout=10)
+        if self._app.get_js_property('currentLevel') != self.LEVEL_ID:
+            self._step_to_continue = self.step_explanation
+            return self.step_wrong_level
 
         return self.step_fliptohack
 
@@ -93,10 +99,17 @@ class LightSpeedTweak(Quest):
         self.show_hints_message('PLAYTEST')
 
         if not self._app.get_js_property('success') and not self.debug_skip():
-            self.wait_for_app_js_props_changed(self._app, ['success'])
+            self.wait_for_app_js_props_changed(self._app, ['success', 'currentLevel'])
 
-        self.show_confirm_message('SUCCESS').wait()
-        return self.step_end
+        if self._app.get_js_property('success'):
+            self.show_confirm_message('SUCCESS').wait()
+            return self.step_end
+
+        if self._app.get_js_property('currentLevel') != self.LEVEL_ID:
+            self._step_to_continue = self.step_playtest
+            return self.step_wrong_level
+
+        return self.step_playtest
 
     def step_end(self):
         self.complete = True
