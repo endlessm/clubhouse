@@ -246,6 +246,7 @@ class _QuestRunContext:
         self._timeout_handle = None
         self._cancellable = cancellable
         self._debug_actions = set()
+        self._current_waiting_loop = None
 
     def _cancel_and_close_loop(self, loop):
         if not loop.is_closed():
