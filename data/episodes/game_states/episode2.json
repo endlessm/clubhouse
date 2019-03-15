@@ -60,7 +60,7 @@
     "locked" : false
   },
   "item.key.hackdex1.1" : {
-    "used" : false,
+    "used" : true,
     "consume_after_use" : false
   },
   "clubhouse.CurrentEpisode" : {
