@@ -5,9 +5,9 @@ MAKEDEVICE_EXPLAIN,"Fantastic. Fantastic. Let's see them.
 
 Okay, we need to solder this one to the board. That one underneath connected to the emitter.
 
-That one amplifying the input, and finally, this one stabilizing the voltages. Aaahhh! Beautiful. All set.",,,,quests/quest2-faber-werks
+That one amplifying the input, and finally, this one stabilizing the voltages. Aaahhh! Beautiful. All set.",,,,quests/quest2-faber-make-stealth
 MAKEDEVICE_GIVEITEM,"There you go. Take it. 
 
 So remind me, what were you going to do with it again?",,,,quests/quest2-faber-conga-build
-MAKEDEVICE_RILEY,Oh we're just doing some training experiments. Thank you!,Riley,salute,,quests/quest2-faber-conga-build
+MAKEDEVICE_RILEY,Oh we're just doing some training experiments. Thank you!,Riley,hurray,,quests/quest2-faber-conga-build
 MAKEDEVICE_END,"OK, bye. Let me know if I can help you with any other projects!",,,,quests/quest2-faber-conga-build
