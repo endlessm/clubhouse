@@ -816,7 +816,7 @@ class InventoryPage(Gtk.EventBox):
     def _remove_item(self, item_id):
         item = self._loaded_items.get(item_id)
         if item:
-            self._inventory_box.remove(item)
+            self._inventory_box.remove(item.get_parent())
             del self._loaded_items[item_id]
 
     def _load_items(self):

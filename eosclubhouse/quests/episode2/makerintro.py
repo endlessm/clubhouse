@@ -28,10 +28,14 @@ class MakerIntro(Quest):
         if not self._app.get_js_property('quest1Success'):
             self.wait_for_app_js_props_changed(self._app, ['quest1Success', 'flingCount'])
 
-        if self._app.get_js_property('flingCount') > 0:
+        if self._app.get_js_property('flingCount', 0) > 0:
             self.show_hints_message('FLING')
             return self.step_fling
 
+        return self.step_success
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_success(self):
         self.wait_confirm('SUCCESS')
         self.wait_confirm('WHATISIT')
         self.wait_confirm('GIVEITEM')
