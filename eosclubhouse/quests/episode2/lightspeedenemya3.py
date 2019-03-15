@@ -61,6 +61,8 @@ class LightSpeedEnemyA3(Quest):
     @Quest.with_app_launched(APP_NAME)
     def step_play(self):
         self.show_hints_message('PLAYING')
+        if self._app.get_js_property('paused'):
+            self.wait_for_app_js_props_changed(self._app, ['paused'])
         self.pause(10)
 
         if self.debug_skip():

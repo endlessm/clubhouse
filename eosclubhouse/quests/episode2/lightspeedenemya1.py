@@ -23,38 +23,49 @@ class LightSpeedEnemyA1(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_newlevel(self):
-        if self._app.get_js_property('flipped') or self.debug_skip():
-            return self.step_changeenemy
-
         self.show_hints_message('NEWLEVEL')
         self._app.set_level(5)
-
-        self.wait_for_app_js_props_changed(self._app, ['flipped'])
-        return self.step_newlevel
+        return self.step_wait_for_flip
 
     @Quest.with_app_launched(APP_NAME)
-    def step_changeenemy(self):
+    def step_wait_for_flip(self):
         if not self._app.get_js_property('flipped') or self.debug_skip():
-            self.show_hints_message('PLAY')
-            return self.step_play
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_code
 
+    @Quest.with_app_launched(APP_NAME)
+    def step_code(self):
         self._app.reveal_topic('spawnEnemy')
-
         self.show_hints_message('CHANGEENEMY')
 
-        self.wait_for_app_js_props_changed(self._app, ['flipped'])
-        return self.step_changeenemy
+        if self._app.get_js_property('flipped'):
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_abouttoplay
 
     @Quest.with_app_launched(APP_NAME)
-    def step_play(self):
-        enemy_count = self._app.get_js_property('enemyType1SpawnedCount')
-        if (enemy_count is not None and enemy_count >= 2) or self.debug_skip():
-            # @todo: Check if they spawned asteroids and go back
-            # @todo: Timeout if nothing spawned in 5 seconds
-            return self.step_success
+    def step_abouttoplay(self):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message('ABOUTTOPLAY')
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playtest
 
-        self.wait_for_app_js_props_changed(self._app, ['enemyType1SpawnedCount'])
-        return self.step_play
+    @Quest.with_app_launched(APP_NAME)
+    def step_playtest(self):
+        self.show_hints_message('PLAYTEST')
+        if self._app.get_js_property('paused'):
+            self.wait_for_app_js_props_changed(self._app, ['paused'])
+        self.pause(5)
+
+        enemy0_count = self._app.get_js_property('enemyType0SpawnedCount')
+        enemy1_count = self._app.get_js_property('enemyType1SpawnedCount')
+        if (enemy0_count == 0 and enemy1_count == 0):
+            self.show_hints_message('NOENEMIES')
+            return self.step_wait_for_flip
+        if (enemy1_count == 0):
+            self.show_hints_message('NOSPINNERS')
+            return self.step_wait_for_flip
+
+        return self.step_success
 
     def step_success(self):
         self.complete = True
