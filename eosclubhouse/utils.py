@@ -246,7 +246,7 @@ class SimpleMarkupParser:
         [re.compile(r'(_)(?=\S)(.+?)(?<=\S)\1', re.S), r'<i>\2</i>'],  # italics
         [re.compile(r'(~)(?=\S)(.+?)(?<=\S)\1', re.S), r'<s>\2</s>'],  # strikethrough
         [re.compile(r'(`)(?=\S)(.+?)(?<=\S)\1', re.S),  # inline code
-         r'<tt><span foreground="#E01E5A" background="#E9E9EB" size="small">\2</span></tt>'],
+         r'<tt><span foreground="#E01E5A" background="#E9E9EB">\2</span></tt>'],
     ]
 
     @classmethod
