@@ -62,10 +62,20 @@ class LightSpeedFix2(Quest):
             return self.step_wait_for_flip, 'CODE2'
 
         if enemyCount > 0 or self.debug_skip():
-            return self.step_success
+            self.show_hints_message('FINISHLEVEL')
+            return self.step_finishlevel
 
         self.show_hints_message('NOENEMIES')
         return self.step_wait_for_flip, 'CODE'
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_finishlevel(self):
+        if self._app.get_js_property('success'):
+            return self.step_success
+        if not self._app.get_js_property('playing'):
+            return self.step_abouttoplay
+        self.wait_for_app_js_props_changed(self._app, ['playing', 'success'])
+        return self.step_finishlevel
 
     def step_success(self):
         self.complete = True
