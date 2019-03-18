@@ -17,7 +17,7 @@ We can use the `random(a,b)` function that returns a number at random between a 
 
 What could we do instead of always adding or subtracting a number to its `y` coordinate?",,,,
 LIGHTSPEEDENEMYB1_CODE2_HINT1,Use the random function to give you a number between -20 and 20 for example.,,,,
-LIGHTSPEEDENEMYB1_CODE2_HINT2,"That would be `random(-20,20)`.",,,,
+LIGHTSPEEDENEMYB1_CODE2_HINT2,"That would be `random(-50,50)`.",,,,
 LIGHTSPEEDENEMYB1_CODE2_HINT3,And add that to the current enemy `y` coordinate.,,,,
 LIGHTSPEEDENEMYB1_CODE2_HINT4,"Like `enemy.position.y = enemy.position.y + random(-20,20);`.",,,,
 LIGHTSPEEDENEMYB1_OFFSCREEN,The enemies are going offscreen. Go back and use the sin() function for their movement.,,,,

@@ -6,19 +6,19 @@ LIGHTSPEEDENEMYA3_EXPLANATION,"Now that *spinner* enemy moves in a diagonal and 
 Let's go to the coding panel again.",,,,
 LIGHTSPEEDENEMYA3_CODE,"Select the Spinner tab and look for the `updateSpinner()` function.
 
-Let's stop making `y` smaller when it becomes less than 0 (the bottom of the screen). Oh look, there's a check already.
+Let's stop making `y` smaller when it becomes less than 0 (the bottom of the screen). Oh look, there's an `if` statement already.
 
 Someone made it so `y` only gets smaller if the enemy y position is less than 1000. That's not quite right. We call that a bug.
 
 We don't want them going off the bottom of the screen, so let's only make `y` smaller when it is greater than 0.",,,,
-LIGHTSPEEDENEMYA3_CODE_HINT1,Not it's checking if `y` is less than 1000. Change it to more than 0.,,,,
-LIGHTSPEEDENEMYA3_CODE_HINT2,"Less than 100 is `< 1000`, so more than 0 would be...",,,,
+LIGHTSPEEDENEMYA3_CODE_HINT1,Now it's checking if `y` is less than 1000. Change it to more than 0.,,,,
+LIGHTSPEEDENEMYA3_CODE_HINT2,"Less than 100 is `< 1000`, so what would more than 0 would be?",,,,
 LIGHTSPEEDENEMYA3_CODE_HINT3,That's right: `> 0`,,,,
-LIGHTSPEEDENEMYA3_CODE_HINT4,So it should be `if (enemy.position.y > 0)`...,,,,
+LIGHTSPEEDENEMYA3_CODE_HINT4,So it should be `if (enemy.position.y > 0)` etc.,,,,
 LIGHTSPEEDENEMYA3_CODE_HINT5,Don't forget to play the level to check your results.,,,,
 LIGHTSPEEDENEMYA3_PLAYING,Let's see how you did with that.,,,,
 LIGHTSPEEDENEMYA3_NOTMOVING,Something went wrong and now the enemies aren't moving. Go back to the coding panel and let's fix it.,,,,
-LIGHTSPEEDENEMYA3_GOINGDOWN,Hmm... they're still going below the screen. Go back and make sure you don't update the y position if they go below 0.,,,,
+LIGHTSPEEDENEMYA3_GOINGDOWN,Hmm. they're still going below the screen. Go back and make sure you don't update the y position if they go below 0.,,,,
 LIGHTSPEEDENEMYA3_NOTREACHINGBOTTOM,The enemies aren't quite reaching the bottom of the screen. Check your code again.,,,,
 LIGHTSPEEDENEMYA3_SUCCESS,"Perfect. Now they aren't going anywhere. Good job!
 

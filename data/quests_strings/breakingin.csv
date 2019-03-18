@@ -3,7 +3,7 @@ BREAKINGIN_QUEST_ACCEPT,I've got it right here!,,,,quests/quest2-werk-before-ste
 BREAKINGIN_LAUNCH,Cool. Let's launch the System.,,,,quests/quest2-werk-before-stealth
 BREAKINGIN_EXPLAIN,"Here we are. Wait, don't move. I'm turning the Stealth Device on right now.
 
-Ready! Let's flip to hack and let's go.",,,,quests/quest2-sneaky-hihat
+Ready! Let's flip to hack and let's go.",,,quests/quest2-stealth-power-on,quests/quest2-sneaky-hihat
 BREAKINGIN_FLIPPED,"The moment of truth!  Okay, go ahead and Unlock the Windows Area. Let's hope Faber knew his stuff and this device really works.",,,,quests/quest2-riley-sneak
 BREAKINGIN_UNLOCKED,"Whoa! It worked! We're in. The Windows Area at last. I wonder what wonders await us here!
 

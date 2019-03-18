@@ -1,5 +1,5 @@
 CHORE_QUESTION,"Oh, hello there! I'm still neck deep in this investigation. For now, I have some background work for you.",Saniel,,,quests/quest2-saniel-chore
-CHORE_QUEST_ACCEPT,"Sure, I can do that. ",,,,quests/quest2-saniel-chore
+CHORE_QUEST_ACCEPT,come get me in the Clubhouse and we'll go over the next steps.,,,,quests/quest2-saniel-chore
 CHORE_LAUNCH,"You'd think we would have gotten this file debacle sorted out by now! 
 
 It's amazing how much time can pass when you're focused on a problem. 
@@ -18,11 +18,11 @@ CHORE_QUIZ2_CHOICE1,On horseback,,,,
 CHORE_QUIZ2_CHOICE2,In the background,,,,
 CHORE_QUIZ2_CORRECT,"Indeed, the background.",,,,
 CHORE_QUIZ2_INCORRECT,Not really. One more try.,,,,
-CHORE_QUIZ3_QUESTION,"3) The System App lets you change your cursor into a wedge of cheese, a unicorn, and poop.",,,,
-CHORE_QUIZ3_CHOICE1,I sure hope that's True! ,,,,
-CHORE_QUIZ3_CHOICE2,False.,,,,
+CHORE_QUIZ3_QUESTION,"3) The System App lets you change your cursor into a unicorn, poop, and a _____.",,,,
+CHORE_QUIZ3_CHOICE1,Wedge of cheese.,,,,
+CHORE_QUIZ3_CHOICE2,Pizza.,,,,
 CHORE_QUIZ3_CORRECT,I'm afraid you're right. ,,hurray,,
-CHORE_QUIZ3_INCORRECT,False? Really? Have you checked out the cursors? Try again. ,,,,
+CHORE_QUIZ3_INCORRECT,That's an idea... (⌤),,,,
 CHORE_WRAPUP,Nice work! That's it for now. Just a little glimpse of the wonders of the System! I must be going now. ,,,,
 CHORE_KEY,"What was up with that quiz? We need to help solve Ada's data problem and Saniel's here quizzing us.
 
