@@ -16,10 +16,10 @@ BREAKSOMETHING_MAKEITLARGE_HINT1,"Click the + next to ""Size"" until it's more t
 BREAKSOMETHING_SUCCESS,"LOLLZZ. OMG. So epic! We have to stop laughing or San will hear us. He's like a bat! 
 
 Uh-oh! Yep, too late–he's coming! Hi there, Dr. Rowe. We're just, er, studying!",,,,quests/pink-panther-start
-BREAKSOMETHING_SANIELARRIVES,I just told you this is no place for novices! Hhmmph.,Saniel,talk_anger,,quests/saniel-intro
-BREAKSOMETHING_GIVERESET,All's not lost yet. There's still a fix for this. I'm enabling the Reset button. Press it and it brings back the original settings.,Saniel,,,
-BREAKSOMETHING_GIVERESET_HINT1,"Press the *reset all* button on the left, under the System icon.",Saniel,,,
-BREAKSOMETHING_RESET,Good job restoring the settings! Glad you know about the Reset button now. ,Saniel,,,
-BREAKSOMETHING_ALREADYRESET,"I see you already fixed it. Very sensible. I'm also enabling the Reset button, which returns things to the original settings.",Saniel,,,
-BREAKSOMETHING_WRAPUP,Keep it handy for when you need to clean up messes like this one!,Saniel,,,
+BREAKSOMETHING_SANIELARRIVES,I just told you this is no place for novices! Hhmmph.,Saniel,talk_anger,quests/saniel-angry,quests/saniel-theme-start
+BREAKSOMETHING_GIVERESET,All's not lost yet. There's still a fix for this. I'm enabling the Reset button. Press it and it brings back the original settings.,Saniel,,,quests/saniel-theme-start
+BREAKSOMETHING_GIVERESET_HINT1,"Press the *reset all* button on the left, under the System icon.",Saniel,,,quests/saniel-theme-start
+BREAKSOMETHING_RESET,Good job restoring the settings! Glad you know about the Reset button now. ,Saniel,,,quests/saniel-theme-start
+BREAKSOMETHING_ALREADYRESET,"I see you already fixed it. Very sensible. I'm also enabling the Reset button, which returns things to the original settings.",Saniel,,,quests/saniel-theme-start
+BREAKSOMETHING_WRAPUP,Keep it handy for when you need to clean up messes like this one!,Saniel,,,quests/saniel-theme-start
 BREAKSOMETHING_ABORT,No prob! We can try again later. ,,,,

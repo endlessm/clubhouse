@@ -9,5 +9,5 @@ So now you've finished Episode 1 and we're starting Episode 2.
 INTRO_EXPLANATION,"Before we get started on new challenges, let’s go check out our progress.
 
 Click on the Clubhouse and then on the Episodes tab.",,,,quests/quest2-riley-hi
-INTRO_QUESTION,Hi there! Glad you’re here  =^._.^=   Ready to do some more exploring?,Riley,salute,,
+INTRO_QUESTION,Hi there! Glad you’re here  =^._.^=   Ready to do some more exploring?,Riley,,,
 INTRO_QUEST_ACCEPT,Yes!,,,,quests/quest2-riley-hi
