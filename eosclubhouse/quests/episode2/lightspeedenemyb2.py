@@ -69,7 +69,7 @@ class LightSpeedEnemyB2(Quest):
     @Quest.with_app_launched(APP_NAME)
     def step_success(self):
         self.wait_confirm('SUCCESS')
-        self.give_item('item.stealth.4')
+        self.give_item('item.stealth.4', consume_after_use=True)
         return self.step_end
 
     def step_end(self):
