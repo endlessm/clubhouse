@@ -35,7 +35,7 @@ class LightSpeedEnemyA1(Quest):
     @Quest.with_app_launched(APP_NAME)
     def step_changeenemy(self):
         if not self._app.get_js_property('flipped') or self.debug_skip():
-            self.show_hints_message('PLAY')
+            self.show_hints_message('PLAYTEST')
             return self.step_play
 
         self._app.reveal_topic('spawnEnemy')
