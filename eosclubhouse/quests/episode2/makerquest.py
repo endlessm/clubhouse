@@ -27,7 +27,7 @@ class MakerQuest(Quest):
             self.wait_for_app_js_props_changed(self._app, ['quest2Success'])
 
         self.wait_confirm('SUCCESS')
-        self.give_item('item.stealth.3')
+        self.give_item('item.stealth.3', consume_after_use=True)
         return self.step_end
 
     def step_end(self):

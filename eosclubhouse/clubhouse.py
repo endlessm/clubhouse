@@ -835,10 +835,9 @@ class InventoryPage(Gtk.EventBox):
                 self._remove_item(item_id)
                 continue
 
-            # Used keys shouldn't show up in the inventory if are consume-able
-            if (self._item_is_key(item_id) and
-               item_state.get('used', False) and
-               item_state.get('consume_after_use', True)):
+            # Used items shouldn't show up in the inventory if are consume-able
+            if (item_state.get('used', False) and
+               item_state.get('consume_after_use', False)):
                 self._remove_item(item_id)
                 continue
 
@@ -852,9 +851,6 @@ class InventoryPage(Gtk.EventBox):
             self._inventory_stack.set_visible_child(self._inventory_box)
         else:
             self._inventory_stack.set_visible_child(self._inventory_empty_state_box)
-
-    def _item_is_key(self, item_id):
-        return item_id.startswith('item.key.')
 
 
 class EpisodesPage(Gtk.EventBox):
