@@ -7,13 +7,13 @@ LIGHTSPEEDENEMYC2_EXPLAIN,"All right. So right now the *beam* moves towards the 
 Let's see if you can fix it so you can beat this level. Go to the coding panel.",,,,
 LIGHTSPEEDENEMYC2_CODE,"Go to the Beam tab. Look at the `updateBeam()` function. This is different from the other enemies we've seen.
 
-See those `if` statements? It's checking if `playerShipY` is higher and moving up, or lower and moving down.
+See those `if` statements? It's checking if `playerShip.position.y` is higher and moving up, or lower and moving down.
 
 So it's tracking the player! Change the code so the enemy still moves some but it's easier to beat the level.",,,,
 LIGHTSPEEDENEMYC2_CODE_HINT1,What if we reverse the effect?,,,,
 LIGHTSPEEDENEMYC2_CODE_HINT2,"So when the player is higher than the enemy, the enemy moves down and the other way around.",,,,
 LIGHTSPEEDENEMYC2_CODE_HINT3,"So instead of subtracting 5, add 5. Also flip the other statement.",,,,
-LIGHTSPEEDENEMYC2_CODE_HINT4,So `if (playerShipY < enemy.position.y) enemy.position.y = enemy.position.y + 5;`,,,,
+LIGHTSPEEDENEMYC2_CODE_HINT4,So `if (playerShip.position.y < enemy.position.y) enemy.position.y = enemy.position.y + 5;`,,,,
 LIGHTSPEEDENEMYC2_ABOUTTOPLAY,Let's play now.,,,,
 LIGHTSPEEDENEMYC2_PLAYTEST,Let's see if the enemies are moving correctly...,,,,
 LIGHTSPEEDENEMYC2_NOENEMIES,Weird. I don't see any enemies anymore. Did you change something? Let's fix it.,,,,
