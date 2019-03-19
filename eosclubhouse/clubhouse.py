@@ -1307,12 +1307,7 @@ class ClubhouseApplication(Gtk.Application):
     def close_quest_item_notification(self):
         self.withdraw_notification(self.QUEST_ITEM_NOTIFICATION_ID)
 
-    def send_suggest_open(self, suggest):
-        if suggest == self._suggesting_open:
-            return
-
-        self._suggesting_open = suggest
-        changed_props = {'SuggestingOpen': GLib.Variant('b', self._suggesting_open)}
+    def _emit_dbus_props_changed(self, changed_props):
         variant = GLib.Variant.new_tuple(GLib.Variant('s', CLUBHOUSE_IFACE),
                                          GLib.Variant('a{sv}', changed_props),
                                          GLib.Variant('as', []))
@@ -1321,6 +1316,14 @@ class ClubhouseApplication(Gtk.Application):
                                                'org.freedesktop.DBus.Properties',
                                                'PropertiesChanged',
                                                variant)
+
+    def send_suggest_open(self, suggest):
+        if suggest == self._suggesting_open:
+            return
+
+        self._suggesting_open = suggest
+        changed_props = {'SuggestingOpen': GLib.Variant('b', self._suggesting_open)}
+        self._emit_dbus_props_changed(changed_props)
 
     def _stop_quest(self, *args):
         if (self._window):
@@ -1389,14 +1392,7 @@ class ClubhouseApplication(Gtk.Application):
             self.remove_window(self._window)
 
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}
-        variant = GLib.Variant.new_tuple(GLib.Variant('s', CLUBHOUSE_IFACE),
-                                         GLib.Variant('a{sv}', changed_props),
-                                         GLib.Variant('as', []))
-        self.get_dbus_connection().emit_signal(None,
-                                               CLUBHOUSE_PATH,
-                                               'org.freedesktop.DBus.Properties',
-                                               'PropertiesChanged',
-                                               variant)
+        self._emit_dbus_props_changed(changed_props)
 
     def do_dbus_register(self, connection, path):
         introspection_data = Gio.DBusNodeInfo.new_for_xml(ClubhouseIface)
