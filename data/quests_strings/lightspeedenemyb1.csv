@@ -8,7 +8,9 @@ LIGHTSPEEDENEMYB1_CODE1_HINT1,Go to the Spawn tab and look for the `spawnEnemy()
 LIGHTSPEEDENEMYB1_CODE1_HINT2,You need to have a `return 'squid';` there.,,,,
 LIGHTSPEEDENEMYB1_CODE1_HINT3,And play the level to check when you're ready.,,,,
 LIGHTSPEEDENEMYB1_PLAYTEST,Let's see if that worked.,,,,
-LIGHTSPEEDENEMYB1_NOTMOVING,"You got some *squids* all right, but they aren't moving. Let's write some code to improve it a bit.",,,,
+LIGHTSPEEDENEMYB1_NOTMOVING,"You got some *squids* all right, but they just go forward – maybe we can give them some better *squid* moves.
+
+Let's write some code and see if we can get them to move up and down.",,,,
 LIGHTSPEEDENEMYB1_NOTMOVING_HINT1,Press the Flip button.,,,,
 LIGHTSPEEDENEMYB1_NOENEMY,Hmm That didn't quite work. We don't have any of that enemy in the level. Go back and try to fix it.,,,,
 LIGHTSPEEDENEMYB1_CODE2,"Click on the Squid tab and look for the `updateSquid()` function. We want them to move up and down randomly.
