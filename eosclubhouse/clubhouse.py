@@ -56,6 +56,7 @@ ClubhouseIface = ('<node>'
                   '<arg type="v" direction="out" name="metadata"/>'
                   '</method>'
                   '<property name="Visible" type="b" access="read"/>'
+                  '<property name="RunningQuest" type="s" access="read"/>'
                   '<property name="SuggestingOpen" type="b" access="read"/>'
                   '</interface>'
                   '</node>')
@@ -363,7 +364,7 @@ class ClubhousePage(Gtk.EventBox):
             logger.debug('Stopping quest %s', self._current_quest)
             cancellable.cancel()
 
-        self._current_quest = None
+        self._set_current_quest(None)
 
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set)
@@ -478,7 +479,7 @@ class ClubhousePage(Gtk.EventBox):
         GLib.idle_add(self._run_new_quest, quest)
 
     def _run_new_quest(self, quest):
-        self._current_quest = quest
+        self._set_current_quest(quest)
 
         # Hide the window so the user focuses on the Shell Quest View
         self._app_window.hide()
@@ -530,7 +531,7 @@ class ClubhousePage(Gtk.EventBox):
         # Ensure we reset the running quest (only if we haven't started a different quest in the
         # meanwhile) quest and close any eventual message popups
         if self._is_current_quest(quest):
-            self._current_quest = None
+            self._set_current_quest(None)
 
         if self._current_quest is None:
             self._shell_close_popup_message()
@@ -685,6 +686,16 @@ class ClubhousePage(Gtk.EventBox):
         if self._current_quest:
             self._current_quest.set_to_background()
 
+    def _get_running_quest(self):
+        if self._current_quest is None:
+            return None
+        return self._current_quest
+
+    def _set_current_quest(self, quest_obj):
+        if quest_obj is not self._current_quest:
+            self._current_quest = quest_obj
+            self.notify('running-quest')
+
     def load_episode(self, episode_name=None):
         self._cancel_ongoing_task()
 
@@ -703,6 +714,12 @@ class ClubhousePage(Gtk.EventBox):
         episode_name = libquest.Registry.get_current_episode()['name']
         if self._current_episode != episode_name:
             self.load_episode(episode_name)
+
+    running_quest = GObject.Property(_get_running_quest,
+                                     type=GObject.TYPE_PYOBJECT,
+                                     default=None,
+                                     flags=GObject.ParamFlags.READABLE |
+                                     GObject.ParamFlags.EXPLICIT_NOTIFY)
 
 
 class InventoryItem(Gtk.Button):
@@ -1288,6 +1305,8 @@ class ClubhouseApplication(Gtk.Application):
 
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._visibility_notify_cb)
+        self._window.clubhouse_page.connect('notify::running-quest',
+                                            self._running_quest_notify_cb)
 
         self._window.clubhouse_page.load_episode()
 
@@ -1303,12 +1322,7 @@ class ClubhouseApplication(Gtk.Application):
     def close_quest_item_notification(self):
         self.withdraw_notification(self.QUEST_ITEM_NOTIFICATION_ID)
 
-    def send_suggest_open(self, suggest):
-        if suggest == self._suggesting_open:
-            return
-
-        self._suggesting_open = suggest
-        changed_props = {'SuggestingOpen': GLib.Variant('b', self._suggesting_open)}
+    def _emit_dbus_props_changed(self, changed_props):
         variant = GLib.Variant.new_tuple(GLib.Variant('s', CLUBHOUSE_IFACE),
                                          GLib.Variant('a{sv}', changed_props),
                                          GLib.Variant('as', []))
@@ -1317,6 +1331,14 @@ class ClubhouseApplication(Gtk.Application):
                                                'org.freedesktop.DBus.Properties',
                                                'PropertiesChanged',
                                                variant)
+
+    def send_suggest_open(self, suggest):
+        if suggest == self._suggesting_open:
+            return
+
+        self._suggesting_open = suggest
+        changed_props = {'SuggestingOpen': GLib.Variant('b', self._suggesting_open)}
+        self._emit_dbus_props_changed(changed_props)
 
     def _stop_quest(self, *args):
         if (self._window):
@@ -1385,14 +1407,7 @@ class ClubhouseApplication(Gtk.Application):
             self.remove_window(self._window)
 
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}
-        variant = GLib.Variant.new_tuple(GLib.Variant('s', CLUBHOUSE_IFACE),
-                                         GLib.Variant('a{sv}', changed_props),
-                                         GLib.Variant('as', []))
-        self.get_dbus_connection().emit_signal(None,
-                                               CLUBHOUSE_PATH,
-                                               'org.freedesktop.DBus.Properties',
-                                               'PropertiesChanged',
-                                               variant)
+        self._emit_dbus_props_changed(changed_props)
 
     def do_dbus_register(self, connection, path):
         introspection_data = Gio.DBusNodeInfo.new_for_xml(ClubhouseIface)
@@ -1418,8 +1433,21 @@ class ClubhouseApplication(Gtk.Application):
             return GLib.Variant('b', self._window.is_visible() if self._window else False)
         elif key == 'SuggestingOpen':
             return GLib.Variant('b', self._suggesting_open)
+        elif key == 'RunningQuest':
+            return GLib.Variant('s', self._get_running_quest_name())
 
         return None
+
+    def _running_quest_notify_cb(self, _clubhouse_page, _pspec):
+        changed_props = {'RunningQuest': GLib.Variant('s', self._get_running_quest_name())}
+        self._emit_dbus_props_changed(changed_props)
+
+    def _get_running_quest_name(self):
+        if self._window is not None:
+            quest = self._window.clubhouse_page.props.running_quest
+            if quest is not None:
+                return quest.get_id()
+        return ''
 
     # D-Bus implementation
     def show(self, timestamp):
