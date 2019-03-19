@@ -11,7 +11,7 @@ MAKERINTRO_EXPLANATION_HINT2,Go into the hacking panel and look into the attract
 MAKERINTRO_EXPLANATION_HINT3,Could you make the orange ball be attracted towards the diamonds?,,,,quests/quest2-fabers-fizzics
 MAKERINTRO_FLING,Hey! No cheating! You're not allowed to use the Fling tool. Reset the level and try again.,,,,
 MAKERINTRO_FLING_HINT1,Press the reset button on top. The one with the arrow.,,,,
-MAKERINTRO_SUCCESS,That's what I'm talking about! Way to go! Riley certainly was right about you.,,,,quests/quest2-fabers-fizzics
+MAKERINTRO_SUCCESS,That's what I'm talking about! Way to go! Riley certainly was right about you.,,hurray,,quests/quest2-fabers-fizzics
 MAKERINTRO_WHATISIT,"Hey Faber, since we're here, do you have any clue what this weird rusty thingamajig might be?",Riley,,,
 MAKERINTRO_GIVEITEM,"Hmmm, let me see. Let me immerse it in this clarifying solution. 
 
