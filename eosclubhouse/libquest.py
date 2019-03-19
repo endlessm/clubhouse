@@ -602,6 +602,9 @@ class Quest(GObject.GObject):
 
     def run_in_thread(self, on_quest_finished):
         def _on_task_finished(quest, result):
+            self.active = False
+            self.save_conf()
+
             nonlocal on_quest_finished
             on_quest_finished(quest)
 
@@ -611,6 +614,10 @@ class Quest(GObject.GObject):
             task.return_boolean(True)
 
         quest_task = Gio.Task.new(self, self.get_cancellable(), _on_task_finished)
+
+        self.active = True
+        self.save_conf()
+
         threading.Thread(target=_run_task_in_thread, args=(quest_task,),
                          name='quest-thread').start()
 
@@ -619,8 +626,15 @@ class Quest(GObject.GObject):
             Sound.play(self.__sound_on_run_begin__)
 
         self._run_context = _QuestRunContext(self._cancellable)
+
+        self.active = True
+        self.save_conf()
+
         self._run_context.run(self.step_begin)
         self._run_context = None
+
+        self.active = False
+        self.save_conf()
 
         quest_finished_cb(self)
 
@@ -1140,6 +1154,7 @@ class Quest(GObject.GObject):
         return 'quest.'
 
     def load_conf(self):
+        self.conf['active'] = False
         self.conf['complete'] = self.is_named_quest_complete(self.__class__.__name__)
 
     def _get_complete(self):
@@ -1148,9 +1163,18 @@ class Quest(GObject.GObject):
     def _set_complete(self, is_complete):
         self.conf['complete'] = is_complete
 
+    def _get_active(self):
+        return self.conf['active']
+
+    def _set_active(self, is_active):
+        self.conf['active'] = is_active
+
     def save_conf(self):
         key = self._get_conf_key()
-        variant = GLib.Variant('a{sb}', {'complete': self.complete})
+        variant = GLib.Variant('a{sb}', {
+            'active': self.active,
+            'complete': self.complete,
+        })
         self.gss.set_async(key, variant)
 
     def set_conf(self, key, value):
@@ -1232,6 +1256,9 @@ class Quest(GObject.GObject):
                                 flags=GObject.ParamFlags.READWRITE |
                                 GObject.ParamFlags.EXPLICIT_NOTIFY)
 
+    active = GObject.Property(_get_active, _set_active, type=bool, default=False,
+                              flags=GObject.ParamFlags.READWRITE |
+                              GObject.ParamFlags.EXPLICIT_NOTIFY)
 
 class QuestSet(GObject.GObject):
 
