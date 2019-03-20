@@ -20,8 +20,7 @@ class TrapQuestSet(QuestSet):
         self.visible = riley_state is not None and riley_state.get('in_trap', False)
 
     def get_empty_message(self):
-        # @todo: Trap message here
-        return QS('NOQUEST_RILEY_NOTHING')
+        return QS('NOQUEST_TRAP_NOTHING')
 
 
 Registry.register_quest_set(TrapQuestSet)
