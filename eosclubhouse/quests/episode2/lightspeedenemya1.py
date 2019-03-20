@@ -31,8 +31,7 @@ class LightSpeedEnemyA1(Quest):
     @Quest.with_app_launched(APP_NAME)
     def step_changeenemy(self):
         if not self._app.get_js_property('flipped') or self.debug_skip():
-            self.show_hints_message('PLAYTEST')
-            return self.step_play
+            return self.step_abouttoplay
 
         self._app.reveal_topic('spawnEnemy')
 
@@ -42,15 +41,33 @@ class LightSpeedEnemyA1(Quest):
         return self.step_changeenemy
 
     @Quest.with_app_launched(APP_NAME)
-    def step_play(self):
+    def step_abouttoplay(self):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message('ABOUTTOPLAY')
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playtest
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_playtest(self):
+        self.show_hints_message('PLAYTEST')
         enemy_count = self._app.get_js_property('enemyType1SpawnedCount')
         if (enemy_count is not None and enemy_count >= 2) or self.debug_skip():
             # @todo: Check if they spawned asteroids and go back
             # @todo: Timeout if nothing spawned in 5 seconds
-            return self.step_success
+            self.show_hints_message('FINISHLEVEL')
+            return self.step_finishlevel
 
         self.wait_for_app_js_props_changed(self._app, ['enemyType1SpawnedCount'])
-        return self.step_play
+        return self.step_playtest
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_finishlevel(self):
+        if self._app.get_js_property('success'):
+            return self.step_success
+        if not self._app.get_js_property('playing'):
+            return self.step_abouttoplay
+        self.wait_for_app_js_props_changed(self._app, ['playing', 'success'])
+        return self.step_finishlevel
 
     def step_success(self):
         self.complete = True
