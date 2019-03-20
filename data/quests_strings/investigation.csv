@@ -8,7 +8,7 @@ We have the key to the Windows Area. So let's launch the System and go do some i
 INVESTIGATION_FLIP,"OK, quiet now. Click the Flip button and let's get in the System and find out what's up.",,,,
 INVESTIGATION_FLIP_HINT1,Press the Flip button.,,,,
 INVESTIGATION_UNLOCK,"Okay, wow, gorgeous. This looks very promising. And we'll slip in and out before Saniel notices we're here!",,,,
-INVESTIGATION_UNLOCK_HINT1,Click on the glowing lock panel to unlock it.,,,,
+INVESTIGATION_UNLOCK_HINT1,Click on the Windows Area tab. Then click on the glowing lock panel to unlock it.,,,,
 INVESTIGATION_STOP,"Stop right there! You're not going a step further, my friends. The Windows Area of the System is strictly off limits to you. 
 
 One day you'll have Windows Area clearance. For now it's too risky. Go back immediately! It's for your own good!",Saniel,,,
