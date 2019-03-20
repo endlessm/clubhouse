@@ -7,6 +7,7 @@ LIGHTSPEEDENEMYB1_CODE1,Here we are. Start by spawning `'squid'` in the `spawnEn
 LIGHTSPEEDENEMYB1_CODE1_HINT1,Go to the Spawn tab and look for the `spawnEnemy()` function.,,,,
 LIGHTSPEEDENEMYB1_CODE1_HINT2,You need to have a `return 'squid';` there.,,,,
 LIGHTSPEEDENEMYB1_CODE1_HINT3,And play the level to check when you're ready.,,,,
+LIGHTSPEEDENEMYB1_ABOUTTOPLAY,Play the level now.,,,,
 LIGHTSPEEDENEMYB1_PLAYTEST,Let's see if that worked.,,,,
 LIGHTSPEEDENEMYB1_NOTMOVING,"You got some *squids* all right, but they just go forward – maybe we can give them some better *squid* moves.
 
@@ -23,7 +24,8 @@ LIGHTSPEEDENEMYB1_CODE2_HINT2,"That would be `random(-20,20)`.",,,,
 LIGHTSPEEDENEMYB1_CODE2_HINT3,And add that to the current enemy `y` coordinate.,,,,
 LIGHTSPEEDENEMYB1_CODE2_HINT4,"Like `enemy.position.y = enemy.position.y + random(-20,20);`.",,,,
 LIGHTSPEEDENEMYB1_OFFSCREEN,The enemies are going offscreen. Go back and use the sin() function for their movement.,,,,
-LIGHTSPEEDENEMYB1_SUCCESS,"Excellent! You can also choose different numbers in the `random()` function to get different results.
+LIGHTSPEEDENEMYB1_FINISHLEVEL,Excellent! Look how they move. Finish the level now.,,,,
+LIGHTSPEEDENEMYB1_SUCCESS,"Great! You can also choose different numbers in the `random()` function to get different results.
 
 Go back and try later if you want to. But for now this is a great start. You just coded your first enemy from scratch!",,,,
 LIGHTSPEEDENEMYB1_ABORT,"Okay, just check back later if you want to try some more coding. ",,,,

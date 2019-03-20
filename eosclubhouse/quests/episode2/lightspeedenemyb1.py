@@ -33,9 +33,8 @@ class LightSpeedEnemyB1(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_code(self, code_msg_id):
-        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
-           or self.debug_skip():
-            return self.step_play
+        if not self._app.get_js_property('flipped') or self.debug_skip():
+            return self.step_abouttoplay
 
         if code_msg_id == 'CODE1':
             self._app.reveal_topic('spawnEnemy')
@@ -48,7 +47,14 @@ class LightSpeedEnemyB1(Quest):
         return self.step_code, code_msg_id
 
     @Quest.with_app_launched(APP_NAME)
-    def step_play(self):
+    def step_abouttoplay(self):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message('ABOUTTOPLAY')
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playtest
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_playtest(self):
         self.show_hints_message('PLAYTEST')
         self.pause(10)
 
@@ -59,9 +65,6 @@ class LightSpeedEnemyB1(Quest):
         while not self.is_cancelled():
             min_y = self._app.get_js_property(min_property)
             max_y = self._app.get_js_property(max_property)
-
-            if self.debug_skip():
-                return self.step_success
 
             if self._app.get_js_property('enemyType2SpawnedCount') == 0:
                 self.show_hints_message('NOENEMY')
@@ -77,11 +80,21 @@ class LightSpeedEnemyB1(Quest):
                     code_msg_id = 'CODE2'
                     break
 
-                return self.step_success
+                self.show_hints_message('FINISHLEVEL')
+                return self.step_finishlevel
 
             self.wait_for_app_js_props_changed(self._app, [min_property, max_property])
 
         return self.step_wait_for_flip, code_msg_id
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_finishlevel(self):
+        if self._app.get_js_property('success'):
+            return self.step_success
+        if not self._app.get_js_property('playing'):
+            return self.step_abouttoplay
+        self.wait_for_app_js_props_changed(self._app, ['playing', 'success'])
+        return self.step_finishlevel
 
     def step_success(self):
         self.complete = True

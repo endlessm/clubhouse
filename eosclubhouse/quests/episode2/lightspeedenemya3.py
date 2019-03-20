@@ -44,8 +44,7 @@ class LightSpeedEnemyA3(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_code(self):
-        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
-           or self.debug_skip():
+        if not self._app.get_js_property('flipped') or self.debug_skip():
             return self.step_abouttoplay
 
         self._app.reveal_topic('updateSpinner')
