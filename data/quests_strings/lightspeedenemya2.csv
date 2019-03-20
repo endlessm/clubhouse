@@ -1,10 +1,10 @@
 LIGHTSPEEDENEMYA2_QUESTION,The new enemy in Lightspeed isn't working quite right. Can you help me out with it?,Ada,,,
 LIGHTSPEEDENEMYA2_QUEST_ACCEPT,I'd love to,,,,
 LIGHTSPEEDENEMYA2_LAUNCH,Launch Lightspeed as usual.,,,,
-LIGHTSPEEDENEMYA2_ASK_PLAY,Try playing now to see if it's working as expected!,,,,
 LIGHTSPEEDENEMYA2_EXPLANATION,"Last time you added a new enemy, but it's no different than the asteroid. We can make it much more interesting.
 
 Go to the hack panel and let's look at the code for that enemy.",,,,
+LIGHTSPEEDENEMYA2_ASK_PLAY,Try playing now to see if it's working as expected!,,,,
 LIGHTSPEEDENEMYA2_CODE,"Select the Spinner tab and you'll see the code that updates its position.
 
 The function `updateSpinner()` takes care of moving it. The `y` coordinate changes its vertical position on the screen.
@@ -15,10 +15,12 @@ LIGHTSPEEDENEMYA2_CODE_HINT2,`enemy.position.y = enemy.position.y - 10;`,,,,
 LIGHTSPEEDENEMYA2_CODE_HINT3,Then run the level again and see how your changes affected things.,,,,
 LIGHTSPEEDENEMYA2_ADD_ENEMY_CODE,Select the Spawn tab and make sure the `spawnEnemy` function creates a *spinner* enemy!,,,,
 LIGHTSPEEDENEMYA2_ADD_ENEMY_CODE_HINT1,Make sure to return a `spinner` enemy in the `spawnEnemy` function!,,,,
-LIGHTSPEEDENEMYA2_ADD_ENEMY_CODE_HINT2,Change the `spawnEnemy` function so it produces Spinner enemies: `return 'spinner';`,,,,
-LIGHTSPEEDENEMYA2_PLAYING,Let's see if that worked.,,,,
+LIGHTSPEEDENEMYA2_ADD_ENEMY_CODE_HINT2,Change the `spawnEnemy` function so it produces *spinner* enemies: `return 'spinner';`,,,,
+LIGHTSPEEDENEMYA2_ABOUTTOPLAY,Let's play the level and see if your changes are showing up.,,,,
+LIGHTSPEEDENEMYA2_PLAYING,"Okay, so let's see if those *spinners* can move vertically now.  ",,,,
 LIGHTSPEEDENEMYA2_NOENEMIES,Where did the enemies go? Go back to the Spawn tab and make sure to create some *spinner* enemies.,,,,
 LIGHTSPEEDENEMYA2_NOTMOVING,"No, that's not quite right. The enemies aren't moving up and down yet. Let's go back and try that again.",,,,
 LIGHTSPEEDENEMYA2_GOINGUP,"Almost. You got them to move, but they're going up instead of down. Make `y` smaller instead of larger.",,,,
-LIGHTSPEEDENEMYA2_SUCCESS,"That's it! The level's a lot more exciting now, right?",,hurray,,
-LIGHTSPEEDENEMYA2_ABORT,We can do it later.,,,,
+LIGHTSPEEDENEMYA2_FINISHLEVEL,"Fantastic work all around! The level's a lot more exciting now, right? Go ahead and beat the level now.",,hurray,,
+LIGHTSPEEDENEMYA2_SUCCESS,Perfect. Come back later and we can try some other cool ways to change the *spinner*,,hurray,,
+LIGHTSPEEDENEMYA2_ABORT,No prob. Check back later and we can do some more coding!,,,,
