@@ -14,14 +14,14 @@ LIGHTSPEEDENEMYB2_CODE_HINT4,"So when it's time to spawn:
 return 'squid';`",,,,
 LIGHTSPEEDENEMYB2_CODE_HINT5,All of that after `if (ticksSinceSpawn > 40) {...}` of course.,,,,
 LIGHTSPEEDENEMYB2_CODE_HINT6,Make sure you go back and test your code in the game!,,,,
+LIGHTSPEEDENEMYB2_ABOUTTOPLAY,Let's test the level now.,,,,
 LIGHTSPEEDENEMYB2_PLAYING,Let's see if we get *two* types of enemies.,,,,
 LIGHTSPEEDENEMYB2_NOENEMIES,Hmmm. No enemies at all! Are you sure you spawned some? Go back and check.,,,,
 LIGHTSPEEDENEMYB2_SOMENEMIES,We're missing some enemy types. Go back and make sure to spawn at least *two* types.,,,,
-LIGHTSPEEDENEMYB2_SUCCESS,"That solution is correct. Well done. Perhaps you could use a 
-*hush gasket*.
-
-I think you'll find this quite useful in your studies.",,,,
-LIGHTSPEEDENEMYB2_END,"It's amazing how many things call for a hush gasket. 
+LIGHTSPEEDENEMYB2_FINISHLEVEL,That solution is correct. Now beat the level.,,,,
+LIGHTSPEEDENEMYB2_SUCCESS,"Well done. Perhaps you could use a 
+*hush gasket*.",,,,
+LIGHTSPEEDENEMYB2_END,"I think you'll find this quite useful in your studies. It's amazing how many things call for a hush gasket. 
 
 You're always making things so I figured you could use one! ",,,,
 LIGHTSPEEDENEMYB2_ABORT,Okay. Just check back later when you're ready to do some more work on Lightspeed!,,,,

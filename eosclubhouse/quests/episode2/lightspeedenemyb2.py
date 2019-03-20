@@ -22,7 +22,7 @@ class LightSpeedEnemyB2(Quest):
     def step_code(self):
         if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
            or self.debug_skip():
-            return self.step_play
+            return self.step_abouttoplay
 
         self._app.reveal_topic('spawnEnemy')
 
@@ -32,7 +32,14 @@ class LightSpeedEnemyB2(Quest):
         return self.step_code
 
     @Quest.with_app_launched(APP_NAME)
-    def step_play(self):
+    def step_abouttoplay(self):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message('ABOUTTOPLAY')
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+        return self.step_playtest
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_playtest(self):
         self.show_hints_message('PLAYING')
         self.pause(12)
 
@@ -48,7 +55,8 @@ class LightSpeedEnemyB2(Quest):
             zero_count += 1
 
         if zero_count <= 1 or self.debug_skip():
-            return self.step_success
+            self.show_hints_message('FINISHLEVEL')
+            return self.step_finishlevel
 
         if enemy0_count == 0 and enemy1_count == 0 and enemy2_count == 0:
             self.show_hints_message('NOENEMIES')
@@ -62,6 +70,15 @@ class LightSpeedEnemyB2(Quest):
         if not self._app.get_js_property('flipped') or self.debug_skip():
             self.wait_for_app_js_props_changed(self._app, ['flipped'])
         return self.step_code
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_finishlevel(self):
+        if self._app.get_js_property('success'):
+            return self.step_success
+        if not self._app.get_js_property('playing'):
+            return self.step_abouttoplay
+        self.wait_for_app_js_props_changed(self._app, ['playing', 'success'])
+        return self.step_finishlevel
 
     @Quest.with_app_launched(APP_NAME)
     def step_success(self):
