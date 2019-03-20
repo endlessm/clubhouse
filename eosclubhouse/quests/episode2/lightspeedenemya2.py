@@ -25,22 +25,29 @@ class LightSpeedEnemyA2(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_wait_for_flip(self):
+        code_msg_id = 'CODE'
+
         if not self._app.get_js_property('flipped') or self.debug_skip():
+            enemy_count = self._app.get_js_property('enemyType1SpawnedCount', 0)
+
+            if enemy_count == 0:
+                code_msg_id = 'ADD_ENEMY_CODE'
+
             self.wait_for_app_js_props_changed(self._app, ['flipped'])
-        return self.step_code
+        return self.step_code, code_msg_id
 
     @Quest.with_app_launched(APP_NAME)
-    def step_code(self):
+    def step_code(self, msg_id):
         if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
            or self.debug_skip():
             return self.step_play
 
         self._app.reveal_topic('updateSpinner')
 
-        self.show_hints_message('CODE')
+        self.show_hints_message(msg_id)
 
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
-        return self.step_code
+        return self.step_code, msg_id
 
     @Quest.with_app_launched(APP_NAME)
     def step_play(self):
