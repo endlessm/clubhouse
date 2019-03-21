@@ -23,7 +23,17 @@ class LightSpeedEnemyB1(Quest):
 
         self.show_hints_message('EXPLANATION')
         self._app.set_level(6)
-        return self.step_wait_for_flip, 'CODE1'
+
+        self.pause(1)
+        if self._has_enemies():
+            msg_id = 'CODE2'
+        else:
+            msg_id = 'CODE1'
+
+        return self.step_wait_for_flip, msg_id
+
+    def _has_enemies(self):
+        return self._app.get_js_property('enemyType2SpawnedCount') != 0
 
     @Quest.with_app_launched(APP_NAME)
     def step_wait_for_flip(self, code_msg_id):
@@ -68,7 +78,7 @@ class LightSpeedEnemyB1(Quest):
             if self.debug_skip():
                 return self.step_success
 
-            if self._app.get_js_property('enemyType2SpawnedCount') == 0:
+            if not self._has_enemies():
                 self.show_hints_message('NOENEMY')
                 break
 
