@@ -8,7 +8,7 @@ LIGHTSPEEDENEMYA3_CODE,"Select the Spinner tab and look for the `updateSpinner()
 
 Let's stop making `y` smaller when it becomes less than 0 (the bottom of the screen). Oh look, there's an `if` statement already.
 
-Someone made it so `y` only gets smaller if the enemy y position is less than 1000. That's not quite right. We call that a bug.
+Someone made it so `y` only gets smaller if the enemy's y position is less than 1000. That's not quite right. We call that a bug.
 
 We don't want them going off the bottom of the screen, so let's only make `y` smaller when it is greater than 0.",,,,
 LIGHTSPEEDENEMYA3_CODE_HINT1,Now it's checking if `y` is less than 1000. Change it to more than 0.,,,,
