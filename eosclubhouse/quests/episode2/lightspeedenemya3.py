@@ -31,7 +31,7 @@ class LightSpeedEnemyA3(Quest):
         self._app.set_level(5)
 
         try:
-            self._app.set_object_property('view.JSContext.globalLevel5Parameters',
+            self._app.set_object_property('view.JSContext.globalParameters',
                                           'updateSpinnerCode',
                                           '''if (enemy.position.y < 1000)
     enemy.position.y = enemy.position.y - 10;''')
