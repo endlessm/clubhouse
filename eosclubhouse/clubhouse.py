@@ -772,13 +772,20 @@ class InventoryItem(Gtk.Button):
         self.is_used = is_used
         self._update_icon()
 
+    def _is_key(self):
+        return self.item_id.startswith('item.key.')
+
     def _on_item_clicked_cb(self, *_args):
         self.get_style_context().add_class('active')
         text = None
-        if self.is_used:
+
+        if not self._is_key():
+            text = 'This is a special item.'
+        elif self.is_used:
             text = 'This key has already been used.'
         else:
             text = 'To use this key click on the matching lock.'
+
         self._label.set_text(text)
         GLib.timeout_add_seconds(5, self._deactivate_on_timeout)
 
