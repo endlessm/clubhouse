@@ -43,13 +43,19 @@ class LightSpeedEnemyA3(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_code(self):
-        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
-           or self.debug_skip():
-            return self.step_play
+        msg_to_show = 'CODE'
+
+        if not self._app.get_js_property('flipped') or self.debug_skip():
+            if self._app.get_js_property('playing'):
+                return self.step_play
+
+            # If we're not flipped nor playing, then we're in a Restart or Continue screens, and
+            # thus ask the user to play.
+            msg_to_show = 'ABOUTTOPLAY'
 
         self._app.reveal_topic('updateSpinner')
 
-        self.show_hints_message('CODE')
+        self.show_hints_message(msg_to_show)
 
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
         return self.step_code
