@@ -56,6 +56,9 @@
   "lock.OperatingSystemApp.1" : {
     "locked" : false
   },
+  "app.hack_toolbox.reset_button" : {
+    "visible" : true
+  },
   "lock.fizzics.1" : {
     "locked" : false
   },
