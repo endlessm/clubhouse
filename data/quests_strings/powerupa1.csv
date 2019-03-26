@@ -1,0 +1,20 @@
+POWERUPA1_QUESTION,Should we get started with the code from Lightspeed?,Saniel,,,
+POWERUPA1_QUEST_ACCEPT,Let's do it.,,,,
+POWERUPA1_LAUNCH,"Remember, one of the codes to remove the shield of the AI trap is in deep inside Lightspeed.
+
+We'll need to create a level with every enemy and powerup in the game. Let's launch Lightspeed.",,,,
+POWERUPA1_LAUNCH_HINT1,Click on the Lightspeed icon on the desktop.,,,,
+POWERUPA1_EXPLAIN,"We're going to make some power ups! Powerups are capsules that bring benefits when the player's ship picks them up.
+
+Let's go to the coding panel. ",,,,
+POWERUPA1_EXPLAIN_HINT1,Press the Flip button.,,,,
+POWERUPA1_CODE,"Click on the Spawn tab. See that `spawnPowerup()` function? That's what creates powerups.
+
+It returns a number with the type of powerup. 0 means no powerup. Change it to a 1 and try the level.",,,,
+POWERUPA1_CODE_HINT1,Set `return 1;` and play the level.,,,,
+POWERUPA1_ABOUTTOPLAY,Start playing the level.,,,,
+POWERUPA1_PLAYTEST,Let's see if the powerups appear...,,,,
+POWERUPA1_NOPOWERUPS,I estimate there are have been ZERO powerups spawned. Something is wrong. Let's go back and check.,,,,
+POWERUPA1_FINISHLEVEL,"Excellent. The powerups are there, although they don't do anything let. Finish the level now.",,,,
+POWERUPA1_SUCCESS,Great. Your Lightspeed skills are still quite sharp. Come back later and let's keep working on that powerup.,,,,
+POWERUPA1_ABORT,Abort,,,,

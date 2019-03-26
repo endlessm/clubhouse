@@ -1,0 +1,21 @@
+POWERUPB1_QUESTION,Let's do more powerup work.,Saniel,,,
+POWERUPB1_QUEST_ACCEPT,Sure,,,,
+POWERUPB1_LAUNCH,Let's go into Lightspeed once again.,,,,
+POWERUPB1_EXPLAIN,"Let's add a second powerup. For now we just want to create BOTH types of powerups at random.
+
+Let's go in the coding panel and I'll show you.",,,,
+POWERUPB1_EXPLAIN_HINT1,Click the Flip button.,,,,
+POWERUPB1_CODE,"Click on the Spawn tab again and look for the `spawnPowerup()` function.
+
+Right now we're only spawning powerups of type 1. How could we make it it so it's 1 or 2?
+
+Let's use the `random()` function we used before. Do you remember how it works?",,,,
+POWERUPB1_CODE_HINT1,"If you do `random(a,b)` it returns a number between a and b.",,,,
+POWERUPB1_CODE_HINT2,"So to return 1 or to, you do `random(1,2)`.",,,,
+POWERUPB1_ABOUTTOPLAY,Go ahead and play the level.,,,,
+POWERUPB1_PLAYTEST,Let's see if we get both types of powerups...,,,,
+POWERUPB1_NOPOWERUPS,Hmm... no powerups at all now. Something went wrong. Let's fix it.,,,,
+POWERUPB1_ONETYPEONLY,"We have some powerups, but it's only one type. Let's go back and use the `random()` function.",,,,
+POWERUPB1_FINISHLEVEL,That's it. We now have both types. Go ahead and finish the level.,,,,
+POWERUPB1_SUCCESS,Perfect. The second powerup doesn't do anything yet. Come get me at the Clubhouse and we'll fix that.,,,,
+POWERUPB1_ABORT,Abort,,,,

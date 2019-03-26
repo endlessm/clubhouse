@@ -1,0 +1,22 @@
+LIGHTSPEEDFINAL_QUESTION,Ready to get one of the codes to break the shield?,,,,
+LIGHTSPEEDFINAL_QUEST_ACCEPT,Yes!,,,,
+LIGHTSPEEDFINAL_LAUNCH,We need to beat the final level in Lightspeed. Launch it now.,,,,
+LIGHTSPEEDFINAL_EXPLAIN,"Here we are. You'll have to create and beat the final level with every monster and every upgrade.
+
+Press the Flip button to go to the code.",,,,
+LIGHTSPEEDFINAL_CODE,"All right, now we need to give it everything. Let's spawn every enemy and powerup in this level.
+
+Click on the Spawn tab and look at the `spawnEnemy()` function.
+
+Let's change it so it spawns any of the 4 enemies: *asteroid*, *spinner*, *squid*, or *beam*.",,,,
+LIGHTSPEEDFINAL_CODE_HINT1,You'll need to change the random variable to be between 1 and 4.,,,,
+LIGHTSPEEDFINAL_CODE_HINT2,"`var r = random(1,4);`",,,,
+LIGHTSPEEDFINAL_CODE_HINT3,And then check for each number and return the enemy type: `if (r == 2) return 'spinner';`,,,,
+LIGHTSPEEDFINAL_CODE_HINT4,And `if (r==3) return 'squid';` and if it's 4 spawn a *beam*.,,,,
+LIGHTSPEEDFINAL_ABOUTTOPLAY,Ready. Let's play!,,,,
+LIGHTSPEEDFINAL_PLAYTEST,You should get all 4 enemies in this level...,,,,
+LIGHTSPEEDFINAL_NOTFOUR,I don't see all 4 enemies. Let's go back and check.,,,,
+LIGHTSPEEDFINAL_FINISHLEVEL,"Yes, you got all 4 enemies. Now keep playing to the end. That's how we'll get the code.",,,,
+LIGHTSPEEDFINAL_SUCCESS,"Well done! I knew you could it. And here's the code, as we expected.",,,,
+LIGHTSPEEDFINAL_END,Excellent. As soon as we get all three codes we'll break through the shields on the AI trap Riley is trapped in.,,,,
+LIGHTSPEEDFINAL_ABORT,Abort.,,,,

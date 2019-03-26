@@ -1,0 +1,6 @@
+SETUP_QUESTION,We need to figure out how to get Riley out of the AI trap.,Ada,,,
+SETUP_QUESTION_ACCEPT,I'm in,,,,
+SETUP_EXPLAIN,TODO: Explain situation,,,,
+SETUP_EXPLAIN2,TODO: Explain about the 3 codes and how to get them,Saniel,,,
+SETUP_END,TODO: Wrap it up,,,,
+SETUP_ABORT,TODO: Abort,,,,
