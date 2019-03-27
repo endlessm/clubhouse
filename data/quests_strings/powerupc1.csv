@@ -1,0 +1,19 @@
+POWERUPC1_QUESTION,One more powerup to go. Ready?,Saniel,,,
+POWERUPC1_QUEST_ACCEPT,As always!,,,,
+POWERUPC1_LAUNCH,Start by launching Lightspeed.,,,,
+POWERUPC1_EXPLAIN,Now we're going to create powerup 3. Go to the coding panel.,,,,
+POWERUPC1_CODE,"This level is already spawning powerups of type 3. We just need to change what happens when you pick one up.
+
+Click on the Powerup tab and look for the `handlePowerup()` function.
+
+We need to add a new `if` statement for the type 3. In this case, let's shrink the ship!
+
+It's on a timer, like invulnerability, so `ship.shrinkTimer = 5;`",,,,
+POWERUPC1_CODE_HINT1,Remember to add the correct `if` statement for powerups of type 3.,,,,
+POWERUPC1_CODE_HINT2,`if (powerupType == 3)` ...,,,,
+POWERUPC1_ABOUTTOPLAY,Let's play the level now.,,,,
+POWERUPC1_PLAYTEST,Those powerups should shrink our ship now...,,,,
+POWERUPC1_NOSHRINK,The ship doesn't seem to be shrinking for some reason. Let's check the code.,,,,
+POWERUPC1_FINISHLEVEL,There you go. It should make finishing the level much easier.,,,,
+POWERUPC1_SUCCESS,Perfect. A few more tweaks on this powerup and we'll be almost ready.,,,,
+POWERUPC1_ABORT,Abort.,,,,

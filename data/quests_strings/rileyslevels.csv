@@ -1,0 +1,15 @@
+RILEYSLEVELS_QUESTION,Want to help me investigate Riley's disappearance?,Ada,,,
+RILEYSLEVELS_QUESTION_ACCEPT,Definitely.,,,,
+RILEYSLEVELS_LAUNCH,"I just realized that Riley created some new Fizzics levels right before she was trapped.
+
+Maybe they hold a clue as to what happened. Launch Fizzics and let's look into it.",,,,
+RILEYSLEVELS_GETTOLEVEL11,"First, you need to get to level 11.",,,,
+RILEYSLEVELS_LEVEL11,Here we are. I think Riley hid the new levels. If we could pass this one. Could you solve it?,,,,
+RILEYSLEVELS_LEVEL11_HINT1,Remember: To beat a level you need to fling all the orange balls into the target to beat a level.,,,,
+RILEYSLEVELS_LEVEL11_HINT2,There are no goals in this level. Maybe you should add one.,,,,
+RILEYSLEVELS_LEVEL12,Great. You made it into Riley's secret levels! Now see if you can beat them all.,,,,
+RILEYSLEVELS_NOMOVING,That won't work. Riley programmed it so you can only beat them with the fling tool.,,,,
+RILEYSLEVELS_SUCCESS,"You did it! That was some seriously amazing work.
+
+That's an interesting pattern in this last screen. I wonder what it means.",,,,
+RILEYSLEVELS_ABORT,Abort,,,,

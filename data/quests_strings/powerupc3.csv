@@ -1,0 +1,19 @@
+POWERUPC3_QUESTION,One more tweak to the powerup.,,,,
+POWERUPC3_QUEST_ACCEPT,Sure,,,,
+POWERUPC3_LAUNCH,Let's go to Lightspeed again.,,,,
+POWERUPC3_EXPLAIN,"For the final touch, let's add another possible random upgrade to the ship. Go to the code.",,,,
+POWERUPC3_CODE,"Go to the `handlePowerup()` function like before. Let's make it so you can also get better engines.
+
+The upgrade is `ship.engineTimer = 5;`. How would you do it so you can get that randomly in addition to the others?
+
+I'll let you try to figure it out. If not, I always have some hints.",,,,
+POWERUPC3_CODE_HINT1,"Now you're trying to give one of 3 upgrades at random, so the random number should be between 1 and 3.",,,,
+POWERUPC3_CODE_HINT2,"That would make it `var r = random(1,3);`",,,,
+POWERUPC3_CODE_HINT3,And then you'll need another `if` statment checking for 3 and giving that upgrade.,,,,
+POWERUPC3_CODE_HINT4,`if (r == 3) ship.engineTimer = 5;`,,,,
+POWERUPC3_ABOUTTOPLAY,Go ahead and try the level as usual.,,,,
+POWERUPC3_PLAYTEST,You should be able to get all 3 types of upgrades as you play the level...,,,,
+POWERUPC3_NOTTHREE,You didn't get all 3 types of upgrades. Weird. Let's check that code.,,,,
+POWERUPC3_FINISHLEVEL,Perfect. Now you just need to breeze to the end of the level.,,,,
+POWERUPC3_SUCCESS,Excellent! You have completed all powerups. Now we're ready for the final challenge to get the code.,,,,
+POWERUPC3_ABORT,Abort.,,,,

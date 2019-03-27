@@ -1,0 +1,26 @@
+POWERUPC2_QUESTION,Let's do some more work on that powerup.,Saniel,,,
+POWERUPC2_QUEST_ACCEPT,I'm ready,,,,
+POWERUPC2_LAUNCH,Launch Lightspeed now.,,,,
+POWERUPC2_EXPLAIN,"We're going to make it so powerup 3 is doesn't always shrink the ship: It gives a random bonus!
+
+Let's go to the code panel and I'll explain it there.",,,,
+POWERUPC2_CODE,"All right, start by clicking on the Powerup tab and looking for the `handlePowerup()` function.
+
+See where we left off with the `if (powerupType == 3)` from last time? We're going to expand on that.
+
+Once we know we're touching a powerup of type 3, we want to pick an upgrade at random.
+
+Either shrinking the ship like we already did, or increasing the astronaut attraction with `ship.attractTimer = 5;`
+
+First create a variable with a random number between 1 and 2 like this `var r = random(1,2);`
+
+Then you can use `if` statements to do one upgrade or the other.",,,,
+POWERUPC2_CODE_HINT1,"After `if (powerupType == 3) {` create generate a random number `var r = random(1,2);`",,,,
+POWERUPC2_CODE_HINT2,Then use that to do one thing or another: `if (r == 1) ship.shrinkTimer = 5;`...,,,,
+POWERUPC2_CODE_HINT3,`if (r==2) ship.attractTimer = 5;',,,,
+POWERUPC2_ABOUTTOPLAY,Play the level now.,,,,
+POWERUPC2_PLAYTEST,And let's see if we get both effects with those powerups...,,,,
+POWERUPC2_ONLYONE,"You're picking up powerups, but there's only one effect. Let's go back to the code to fix it.",,,,
+POWERUPC2_FINISHLEVEL,"Yes, that's it. Finish the level now.",,,,
+POWERUPC2_SUCCESS,Perfect. One more tweak to this powerup and then we'll be ready to get the code.,,,,
+POWERUPC2_ABORT,Abort.,,,,
