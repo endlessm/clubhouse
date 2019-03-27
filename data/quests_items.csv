@@ -1,18 +1,18 @@
-ID,Icon,Icon used,Name
-item.key.fizzics.1,fizzics-key-level-1-blue.png,fizzics-key-level-1-orange.png,Fizzics Level 1 Key
-item.key.fizzics.2,fizzics-key-level-3-blue.png,fizzics-key-level-3-orange.png,Fizzics Level 2 Key
-item.key.OperatingSystemApp.1,system-key-1-blue.png,system-key-1-orange.png,System Level 1 Key
-item.key.OperatingSystemApp.2,system-key-2-blue.png,system-key-2-orange.png,System Level 2 Key
-item.key.hackdex1.1,hackdex-key-level-1-blue.png,hackdex-key-level-1-orange.png,Roster Level 1 Key
-item.key.testkey,fizzics-key-level-1-blue.png,fizzics-key-level-1-orange.png,Test key
-item.reward.testreward,frameworks-key-level-1-blue.png,frameworks-key-level-1-orange.png,Test reward
-item.key.lightspeed.1,lightspeed-key-level-1-blue.png,lightspeed-key-level-1-orange.png,LightSpeed Level 1 Key
-item.key.unknown_item,unknown-item.png,,Riley's Discovery
-item.stealth.1,stealth-part-1.png,,Perception Deflector
-item.stealth.2,stealth-part-2.png,,Ratchet Wheel
-item.stealth.3,stealth-part-3.png,,Cloaking Glaze
-item.stealth.4,stealth-part-4.png,,Hush Gasket
-item.stealth_device,stealth-device.png,,Stealth Device
-item.program.1,program1.png,,Program #1
-item.program.2,program2.png,,Program #2
-item.program.3,program3.png,,Program #3
+ID,Icon,Icon used,Name,Description
+item.key.fizzics.1,fizzics-key-level-1-blue.png,fizzics-key-level-1-orange.png,Fizzics Level 1 Key,Unlocks the Fizzics app's hacking panel
+item.key.fizzics.2,fizzics-key-level-3-blue.png,fizzics-key-level-3-orange.png,Fizzics Level 2 Key,
+item.key.OperatingSystemApp.1,system-key-1-blue.png,system-key-1-orange.png,System Level 1 Key,
+item.key.OperatingSystemApp.2,system-key-2-blue.png,system-key-2-orange.png,System Level 2 Key,
+item.key.hackdex1.1,hackdex-key-level-1-blue.png,hackdex-key-level-1-orange.png,Roster Level 1 Key,
+item.key.testkey,fizzics-key-level-1-blue.png,fizzics-key-level-1-orange.png,Test key,
+item.reward.testreward,frameworks-key-level-1-blue.png,frameworks-key-level-1-orange.png,Test reward,
+item.key.lightspeed.1,lightspeed-key-level-1-blue.png,lightspeed-key-level-1-orange.png,LightSpeed Level 1 Key,
+item.key.unknown_item,unknown-item.png,,Riley's Discovery,
+item.stealth.1,stealth-part-1.png,,Perception Deflector,
+item.stealth.2,stealth-part-2.png,,Ratchet Wheel,
+item.stealth.3,stealth-part-3.png,,Cloaking Glaze,
+item.stealth.4,stealth-part-4.png,,Hush Gasket,
+item.stealth_device,stealth-device.png,,Stealth Device,
+item.program.1,program1.png,,Program #1,A nice program
+item.program.2,program2.png,,Program #2,
+item.program.3,program3.png,,Program #3,
