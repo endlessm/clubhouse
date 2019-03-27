@@ -727,7 +727,8 @@ class InventoryItem(Gtk.Button):
     _ITEM_WIDTH = 150
     _ITEM_HEIGHT = 265
 
-    def __init__(self, item_id, is_used, icon_name, icon_used_name, item_name):
+    def __init__(self, item_id, is_used, icon_name, icon_used_name, item_name,
+                 item_description):
         super().__init__(height_request=self._ITEM_HEIGHT)
 
         self.item_id = item_id
@@ -735,6 +736,7 @@ class InventoryItem(Gtk.Button):
         self.is_used = is_used
         self._icon_name = icon_name
         self._icon_used_name = icon_used_name
+        self._description = item_description
 
         self.get_style_context().add_class('inventory-item')
 
@@ -772,13 +774,21 @@ class InventoryItem(Gtk.Button):
         self.is_used = is_used
         self._update_icon()
 
+    def _is_key(self):
+        return self.item_id.startswith('item.key.')
+
     def _on_item_clicked_cb(self, *_args):
         self.get_style_context().add_class('active')
-        text = None
-        if self.is_used:
-            text = 'This key has already been used.'
-        else:
-            text = 'To use this key click on the matching lock.'
+        text = self._description
+
+        if not text:
+            if not self._is_key():
+                text = 'This is a special item.'
+            elif self.is_used:
+                text = 'This key has already been used.'
+            else:
+                text = 'To use this key click on the matching lock.'
+
         self._label.set_text(text)
         GLib.timeout_add_seconds(5, self._deactivate_on_timeout)
 
@@ -826,13 +836,14 @@ class InventoryPage(Gtk.EventBox):
         item_2 = child_2.get_children()[0]
         return int(item_1.is_used) - int(item_2.is_used)
 
-    def _add_item(self, item_id, is_used, icon_name, icon_used_name, item_name):
+    def _add_item(self, item_id, is_used, icon_name, icon_used_name, item_name, item_description):
         if item_id in self._loaded_items:
             item = self._loaded_items[item_id]
             item.set_used(is_used)
             return
 
-        new_item = InventoryItem(item_id, is_used, icon_name, icon_used_name, item_name)
+        new_item = InventoryItem(item_id, is_used, icon_name, icon_used_name, item_name,
+                                 item_description)
         self._loaded_items[item_id] = new_item
         self._inventory_box.add(new_item)
 
@@ -846,7 +857,7 @@ class InventoryPage(Gtk.EventBox):
         # For now there is no method in the GameStateService to retrieve items based
         # on a prefix, so every time there's a change in the service, we need to directly
         # verify all the items we're interested in.
-        for item_id, (icon, icon_used, name) in self._items_db.get_all_items():
+        for item_id, (icon, icon_used, name, description) in self._items_db.get_all_items():
             item_state = self._gss.get(item_id)
             if item_state is None:
                 self._remove_item(item_id)
@@ -859,7 +870,7 @@ class InventoryPage(Gtk.EventBox):
                 continue
 
             is_used = item_state.get('used', False)
-            self._add_item(item_id, is_used, icon, icon_used, name)
+            self._add_item(item_id, is_used, icon, icon_used, name, description.strip())
 
         self._update_state()
 
