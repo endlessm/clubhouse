@@ -11,7 +11,7 @@ from eosclubhouse.quests.episode2.lightspeedenemya3 import LightSpeedEnemyA3
 class AdaQuestSet(QuestSet):
 
     __character_id__ = 'ada'
-    __position__ = (38, 206)
+    __position__ = (38, 186)
     __quests__ = [LightSpeedIntro, LightSpeedTweak, LightSpeedEnemyA1, LightSpeedEnemyA2,
                   LightSpeedEnemyA3]
 
