@@ -8,7 +8,7 @@ from eosclubhouse.quests.episode3.rileyslevels import RileysLevels
 class AdaQuestSet(QuestSet):
 
     __character_id__ = 'ada'
-    __position__ = (38, 206)
+    __position__ = (38, 186)
     __quests__ = [SetUp, RileysLevels]
 
     def get_empty_message(self):

@@ -10,7 +10,7 @@ from eosclubhouse.quests.episode2.makedevice import MakeDevice
 class FaberQuestSet(QuestSet):
 
     __character_id__ = 'faber'
-    __position__ = (200, 625)
+    __position__ = (155, 565)
     __quests__ = [MakerIntro, StealthDevice, MakerQuest, MakeDevice]
 
     def __init__(self):

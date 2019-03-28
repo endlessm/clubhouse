@@ -8,7 +8,7 @@ from eosclubhouse.quests.episode3.fizzicspuzzle2 import FizzicsPuzzle2
 class FaberQuestSet(QuestSet):
 
     __character_id__ = 'faber'
-    __position__ = (200, 625)
+    __position__ = (155, 565)
     __quests__ = [FizzicsPuzzle1, FizzicsPuzzle2]
 
     def __init__(self):
