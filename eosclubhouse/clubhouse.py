@@ -618,7 +618,7 @@ class ClubhousePage(Gtk.EventBox):
             logger.debug('Failed to get item %s from DB', item_id)
             return
 
-        icon_name, _icon_used_name, item_name = item
+        icon_name, _icon_used_name, item_name = item[:3]
 
         notification = Gio.Notification()
         if text is None:
