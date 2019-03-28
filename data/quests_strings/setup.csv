@@ -1,6 +1,11 @@
-SETUP_QUESTION,We need to figure out how to get Riley out of the AI trap.,Ada,,,
+SETUP_QUESTION,"Hi there! So glad you're here! Riley has gotten stuck in this AI trap.
+Want to help us get access so we can help her get out?",Ada,,,
 SETUP_QUESTION_ACCEPT,I'm in,,,,
-SETUP_EXPLAIN,TODO: Explain situation,,,,
-SETUP_EXPLAIN2,TODO: Explain about the 3 codes and how to get them,Saniel,,,
-SETUP_END,TODO: Wrap it up,,,,
-SETUP_ABORT,TODO: Abort,,,,
+SETUP_EXPLAIN,"As you can see it's a tricky situation! If anyone can get through this challenge, it’s Riley. 
+But that doesn't mean it's going to be easy for any of us. ",,,,
+SETUP_EXPLAIN2,"I remember this trap! I set this trap 2,024 blue moons ago. So this is indeed highly irregular. 
+I should have foreseen that Riley would find that portal. ",Saniel,,,
+SETUP_END,"So give me a minute. This is going to take some careful attention 
+There’s no way I will let this box I myself made bring our Riley to any harm! 
+",,,,
+SETUP_ABORT,"OK, hope you can come back soon!",,,,

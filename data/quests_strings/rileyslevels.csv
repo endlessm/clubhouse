@@ -12,4 +12,4 @@ RILEYSLEVELS_NOMOVING,That won't work. Riley programmed it so you can only beat 
 RILEYSLEVELS_SUCCESS,"You did it! That was some seriously amazing work.
 
 That's an interesting pattern in this last screen. I wonder what it means.",,,,
-RILEYSLEVELS_ABORT,Abort,,,,
+RILEYSLEVELS_ABORT,"OK, let's keep exploring this later. ",,,,

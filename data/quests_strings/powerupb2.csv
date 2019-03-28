@@ -20,4 +20,4 @@ POWERUPB2_PLAYTEST,Let's see what happens when you pick both kinds of powerups..
 POWERUPB2_ONLYONE,All powerups seem to be doing the same thing. Go back and make sure we have the two `if` statements.,,,,
 POWERUPB2_FINISHLEVEL,That's some real fireworks! Finish the level now. The powerups will make it much easier.,,,,
 POWERUPB2_SUCCESS,Excellent. We have one more powerup to do before we can get the code. ,,,,
-POWERUPB2_ABORT,Abort,,,,
+POWERUPB2_ABORT,"OK, we can do it later.",,,,
