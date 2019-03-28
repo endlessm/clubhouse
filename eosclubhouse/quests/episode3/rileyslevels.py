@@ -32,7 +32,7 @@ class RileysLevels(Quest):
         return self.step_success
 
     def step_success(self):
-        self.give_item('item.program.1')
+        self.give_item('item.fob.1')
         self.wait_confirm('SUCCESS')
         self.complete = True
         self.available = False

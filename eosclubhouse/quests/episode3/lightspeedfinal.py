@@ -48,7 +48,7 @@ class LightspeedFinal(Quest):
         return self.step_success
 
     def step_success(self):
-        self.give_item('item.program.2')
+        self.give_item('item.fob.2')
         self.wait_confirm('SUCCESS')
         self.complete = True
         self.available = False

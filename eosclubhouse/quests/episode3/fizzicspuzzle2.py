@@ -15,7 +15,7 @@ class FizzicsPuzzle2(Quest):
         return self.step_success
 
     def step_success(self):
-        self.give_item('item.program.3')
+        self.give_item('item.fob.3')
         self.wait_confirm('END')
         self.complete = True
         self.available = False
