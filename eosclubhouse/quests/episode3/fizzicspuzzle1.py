@@ -6,7 +6,7 @@ class FizzicsPuzzle1(Quest):
 
     APP_NAME = 'com.endlessm.Fizzics'
 
-    __available_after_completing_quests__ = ['SetUp']
+    __available_after_completing_quests__ = ['ApplyFob2']
 
     def __init__(self):
         super().__init__('FizzicsPuzzle1', 'faber')

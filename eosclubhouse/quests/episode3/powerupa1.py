@@ -7,7 +7,7 @@ class PowerUpA1(Quest):
 
     APP_NAME = 'com.endlessm.LightSpeed'
 
-    __available_after_completing_quests__ = ['SetUp']
+    __available_after_completing_quests__ = ['ApplyFob1']
 
     def __init__(self):
         super().__init__('PowerUpA1', 'saniel')

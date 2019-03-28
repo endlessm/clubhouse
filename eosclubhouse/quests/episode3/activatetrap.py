@@ -4,7 +4,7 @@ from eosclubhouse.system import Sound
 
 class ActivateTrap(Quest):
 
-    __available_after_completing_quests__ = ['RileysLevels', 'FizzicsPuzzle2']
+    __available_after_completing_quests__ = ['ApplyFob3']
 
     def __init__(self):
         super().__init__('ActivateTrap', 'saniel')

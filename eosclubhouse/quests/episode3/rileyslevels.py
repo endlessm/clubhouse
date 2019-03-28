@@ -6,6 +6,8 @@ class RileysLevels(Quest):
 
     APP_NAME = 'com.endlessm.Fizzics'
 
+    __available_after_completing_quests__ = ['SetUp']
+
     def __init__(self):
         super().__init__('RileysLevels', 'ada')
         self._app = App(self.APP_NAME)
