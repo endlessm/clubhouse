@@ -1140,12 +1140,12 @@ class Quest(GObject.GObject):
         return 'quest.'
 
     def load_conf(self):
-        self.conf['complete'] = self.is_named_quest_complete(self.__class__.__name__)
+        self.complete = self.is_named_quest_complete(self.__class__.__name__)
 
     def _get_complete(self):
         return self.conf['complete']
 
-    def _set_complete(self, is_complete):
+    def set_complete(self, is_complete):
         self.conf['complete'] = is_complete
 
     def save_conf(self):
@@ -1228,7 +1228,7 @@ class Quest(GObject.GObject):
                                  flags=GObject.ParamFlags.READWRITE |
                                  GObject.ParamFlags.EXPLICIT_NOTIFY)
 
-    complete = GObject.Property(_get_complete, _set_complete, type=bool, default=False,
+    complete = GObject.Property(_get_complete, set_complete, type=bool, default=False,
                                 flags=GObject.ParamFlags.READWRITE |
                                 GObject.ParamFlags.EXPLICIT_NOTIFY)
 
