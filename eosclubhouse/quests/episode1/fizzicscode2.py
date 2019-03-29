@@ -12,6 +12,11 @@ class FizzicsCode2(Quest):
         super().__init__('Fizzics Code 2', 'riley')
         self._app = App(self.APP_NAME)
 
+    def set_complete(self, is_complete):
+        super().set_complete(is_complete)
+        if self.complete:
+            self.set_next_episode('episode2')
+
     def step_begin(self):
         if not self._app.is_running():
             self.show_hints_message('LAUNCH')
@@ -52,6 +57,5 @@ class FizzicsCode2(Quest):
         Sound.play('quests/step-forward')
         self.complete = True
         self.available = False
-        self.set_next_episode('episode2')
         Sound.play('quests/quest-complete')
         self.show_message('END', choices=[('Bye', self.stop)])
