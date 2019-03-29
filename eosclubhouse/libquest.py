@@ -1256,6 +1256,7 @@ class QuestSet(GObject.GObject):
 
     visible = GObject.Property(type=bool, default=True)
     highlighted = GObject.Property(type=bool, default=False)
+    body_animation = GObject.Property(type=str, default='idle')
 
     def __init__(self):
         super().__init__()
