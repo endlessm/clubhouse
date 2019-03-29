@@ -13,6 +13,12 @@ class BreakingIn(Quest):
         super().__init__('BreakingIn', 'riley')
         self._app = App(self.APP_NAME)
 
+    @Quest.complete.setter
+    def set_complete(self, is_complete):
+        Quest.set_complete(self, is_complete)
+        if self.complete:
+            self.set_next_episode('episode3')
+
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
         return self.step_explanation
