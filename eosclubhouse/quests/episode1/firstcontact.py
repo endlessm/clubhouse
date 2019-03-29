@@ -31,8 +31,7 @@ class FirstContact(Quest):
         self.stop()
 
     def step_begin(self):
-        self.wait_for_app_launch(self._app)
-        self.pause(3)
+        self.wait_for_app_launch(self._app, pause_after_launch=3)
 
         if self._is_app_flipped():
             return self.step_wait_for_hack
