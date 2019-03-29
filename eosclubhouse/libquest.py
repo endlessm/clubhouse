@@ -508,6 +508,9 @@ class Quest(GObject.GObject):
         'dismissed': (
             GObject.SignalFlags.RUN_FIRST, None, ()
         ),
+        'schedule-quest': (
+            GObject.SignalFlags.RUN_FIRST, None, (str, int)
+        ),
     }
 
     __sound_on_run_begin__ = 'quests/quest-given'
@@ -1035,6 +1038,9 @@ class Quest(GObject.GObject):
         })
         self.gss.set(item_name, variant)
         self.emit('item-given', item_name, notification_text)
+
+    def schedule_quest(self, quest_name, start_after=3):
+        self.emit('schedule-quest', quest_name, start_after)
 
     def complete_current_episode(self):
         current_episode_info = Registry.get_current_episode()

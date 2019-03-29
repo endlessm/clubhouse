@@ -321,10 +321,17 @@ class QuestSetButton(Gtk.Button):
 
 class ClubhousePage(Gtk.EventBox):
 
+    class _QuestScheduleInfo:
+        def __init__(self, quest, timeout, handler_id):
+            self.quest = quest
+            self.timeout = timeout
+            self.handler_id = handler_id
+
     def __init__(self, app_window):
         super().__init__(visible=True)
 
         self._current_quest = None
+        self._scheduled_quest_info = None
 
         self._last_user_answer = 0
 
@@ -378,6 +385,7 @@ class ClubhousePage(Gtk.EventBox):
 
     def stop_quest(self):
         self._cancel_ongoing_task()
+        self._reset_scheduled_quest()
 
     def quest_debug_skip(self):
         if self._current_quest is not None:
@@ -424,7 +432,7 @@ class ClubhousePage(Gtk.EventBox):
 
     def _stop_quest_from_message(self, quest):
         if self._is_current_quest(quest):
-            self.stop_quest()
+            self._cancel_ongoing_task()
             self._overlay_msg_box.hide()
 
     def _continue_quest(self, quest):
@@ -484,14 +492,19 @@ class ClubhousePage(Gtk.EventBox):
         self._gss.handler_block(self._gss_hander_id)
 
         quest.connect('message', self._quest_message_cb)
+        quest.connect('schedule-quest', self._quest_scheduled_cb)
         quest.connect('item-given', self._quest_item_given_cb)
 
     def disconnect_quest(self, quest):
         self._gss.handler_unblock(self._gss_hander_id)
         quest.disconnect_by_func(self._quest_message_cb)
+        quest.disconnect_by_func(self._quest_scheduled_cb)
         quest.disconnect_by_func(self._quest_item_given_cb)
 
     def run_quest(self, quest):
+        # Stop any scheduled quests from attempting to run if we are running a quest
+        self._reset_scheduled_quest()
+
         # Ensure the app stays alive at least for as long as we're running the quest
         self._app.hold()
 
@@ -533,6 +546,21 @@ class ClubhousePage(Gtk.EventBox):
     def _is_current_quest(self, quest):
         return self._current_quest is not None and self._current_quest == quest
 
+    def _quest_scheduled_cb(self, quest, quest_name, start_after_timeout):
+        self._reset_scheduled_quest()
+
+        # This means that scheduling a quest called '' just removes the scheduled quest
+        if not quest_name:
+            return
+
+        quest = libquest.Registry.get_quest_by_name(quest_name)
+        if quest is None:
+            logger.warning('No quest with name "%s" found when setting up next quest from '
+                           'running quest "%s"!', quest_name, quest.get_id())
+            return
+
+        self._scheduled_quest_info = self._QuestScheduleInfo(quest, start_after_timeout, 0)
+
     def _quest_item_given_cb(self, quest, item_id, text):
         self._shell_popup_item(item_id, text)
 
@@ -571,6 +599,37 @@ class ClubhousePage(Gtk.EventBox):
 
         # Ensure the app can be quit if inactive now
         self._app.release()
+
+        # If there is a next quest to run, we start it
+        self._schedule_next_quest()
+
+    def _reset_scheduled_quest(self):
+        if self._scheduled_quest_info is not None:
+            if self._scheduled_quest_info.handler_id > 0:
+                GLib.source_remove(self._scheduled_quest_info.handler_id)
+                self._scheduled_quest_info.handler_id = 0
+
+            self._scheduled_quest_info = None
+
+    def _schedule_next_quest(self):
+        if self._scheduled_quest_info is None:
+            return
+
+        def _run_quest_after_timeout():
+            if self._scheduled_quest_info is None:
+                return
+
+            quest = self._scheduled_quest_info.quest
+
+            self._reset_scheduled_quest()
+
+            self.run_quest(quest)
+
+            return GLib.SOURCE_REMOVE
+
+        timeout = self._scheduled_quest_info.timeout
+        self._scheduled_quest_info.handler_id = GLib.timeout_add_seconds(timeout,
+                                                                         _run_quest_after_timeout)
 
     def _key_press_event_cb(self, window, event):
         # Allow to fully quit the Clubhouse on Ctrl+Escape
