@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import App, Sound
 
 
 class LightSpeedIntro(Quest):
@@ -20,13 +20,7 @@ class LightSpeedIntro(Quest):
     def step_begin(self):
         self._score = 0
 
-        if not self._app.is_running():
-            self.show_hints_message('LAUNCH')
-            Desktop.add_app_to_grid(self.APP_NAME)
-            Desktop.focus_app(self.APP_NAME)
-
-            self.wait_for_app_launch(self._app)
-
+        self.ask_for_app_launch(self._app)
         return self.step_explanation
 
     @Quest.with_app_launched(APP_NAME)

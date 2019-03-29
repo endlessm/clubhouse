@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import App, Sound
 from gi.repository import Gio
 
 
@@ -18,14 +18,7 @@ class BreakSomething(Quest):
         self.settings = Gio.Settings.new("org.gnome.desktop.interface")
 
     def step_begin(self):
-        if self._app.is_running():
-            return self.step_explanation
-
-        self.show_hints_message('LAUNCH')
-        Desktop.focus_app(self.APP_NAME)
-
-        self.wait_for_app_launch(self._app)
-        self.pause(1)
+        self.ask_for_app_launch(self._app, pause_after_launch=1)
         return self.step_explanation
 
     @Quest.with_app_launched(APP_NAME)

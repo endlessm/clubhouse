@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import App, Sound
 
 
 class FizzicsIntro(Quest):
@@ -33,20 +33,7 @@ class FizzicsIntro(Quest):
 
     def step_begin(self):
         self._level = -1
-
-        if self._app.is_running():
-            return self.step_explanation
-
-        self.show_hints_message('LAUNCH')
-
-        Sound.play('quests/new-icon')
-        Desktop.add_app_to_grid(self.APP_NAME)
-        Desktop.focus_app(self.APP_NAME)
-
-        self.wait_for_app_launch(self._app)
-
-        # And delay the next step to let the game initialize its current level
-        self.pause(1)
+        self.ask_for_app_launch(self._app, pause_after_launch=1)
         return self.step_explanation
 
     def _connect_level_changed(self):

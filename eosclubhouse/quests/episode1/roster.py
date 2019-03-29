@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import App, Sound
 
 
 class Roster(Quest):
@@ -22,16 +22,7 @@ class Roster(Quest):
             return self.step_explanation
 
         self.wait_confirm('PRELAUNCH')
-        return self.step_launch
-
-    def step_launch(self):
-        self.show_hints_message('LAUNCH')
-        Sound.play('quests/new-icon')
-        Desktop.add_app_to_grid(self.APP_NAME)
-        Desktop.focus_app(self.APP_NAME)
-
-        self.wait_for_app_launch(self._app)
-        self.pause(2)
+        self.ask_for_app_launch(self._app, pause_after_launch=2)
         return self.step_explanation
 
     @Quest.with_app_launched(APP_NAME)

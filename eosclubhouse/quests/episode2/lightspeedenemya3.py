@@ -19,13 +19,9 @@ class LightSpeedEnemyA3(Quest):
     def step_begin(self):
         self._app.reveal_topic('spawnEnemy')
 
-        if not self._app.is_running():
-            self.show_hints_message('LAUNCH')
-            self.give_app_icon(self.APP_NAME)
-            # Waiting that long because anything less would cause code not to be set correctly,
-            # maybe because Lightspeed was loading the state. We should fix it to know when LS is
-            # ready.
-            self.wait_for_app_launch(self._app, pause_after_launch=4)
+        # Pausing for that long because anything less would cause code not to be set correctly,
+        # maybe because Lightspeed was loading the state. We should fix it to know when LS is ready.
+        self.ask_for_app_launch(self._app, pause_after_launch=4)
 
         self.show_hints_message('EXPLANATION')
         self._app.set_level(5)
