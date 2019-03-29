@@ -12,10 +12,7 @@ class Chore(Quest):
         self._ask_question = True
 
     def step_begin(self):
-        if not self._app.is_running():
-            self.show_hints_message('LAUNCH')
-            self.give_app_icon(self.APP_NAME)
-            self.wait_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app, pause_after_launch=2)
 
         # @todo: Add steps in between, since the we've waited for the app to be launched but
         # step_end doesn't depend on the app being running.

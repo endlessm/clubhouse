@@ -13,11 +13,7 @@ class FizzicsPuzzle1(Quest):
         self._app = App(self.APP_NAME)
 
     def step_begin(self):
-        if not self._app.is_running():
-            self.show_hints_message('LAUNCH')
-            self.give_app_icon(self.APP_NAME)
-            self.wait_for_app_launch(self._app, pause_after_launch=2)
-
+        self.ask_for_app_launch(self._app, pause_after_launch=2)
         return self.step_success
 
     def step_success(self):

@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import App, Sound
 
 
 class Hackdex1(Quest):
@@ -34,19 +34,7 @@ class Hackdex1(Quest):
 
     def step_begin(self):
         self.wait_confirm('PRELAUNCH')
-
-        if not self._app.is_running():
-            return self.step_launch
-
-        return self.step_explanation
-
-    def step_launch(self):
-        self.show_hints_message('LAUNCH')
-        Desktop.focus_app(self.APP_NAME)
-
-        self.wait_for_app_launch(self._app)
-        self.pause(2)
-
+        self.ask_for_app_launch(self._app, pause_after_launch=2)
         return self.step_explanation
 
     @Quest.with_app_launched(APP_NAME)

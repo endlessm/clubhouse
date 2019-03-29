@@ -21,10 +21,7 @@ class LightSpeedTweak(Quest):
         return self._level
 
     def step_begin(self):
-        if not self._app.is_running():
-            self.show_hints_message('LAUNCH')
-            self.give_app_icon(self.APP_NAME)
-            self.wait_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app, pause_after_launch=2)
 
         self._app.set_level(self.LEVEL_ID)
         return self.step_explanation

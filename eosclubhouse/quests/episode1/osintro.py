@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Registry, Quest
-from eosclubhouse.system import Desktop, App, Sound
+from eosclubhouse.system import App, Sound
 
 
 class OSIntro(Quest):
@@ -12,17 +12,7 @@ class OSIntro(Quest):
 
     def step_begin(self):
         self.wait_confirm('PRELAUNCH')
-        return self.step_launch
-
-    def step_launch(self):
-        self.show_hints_message('LAUNCH')
-
-        if not self._app.is_running():
-            Sound.play('quests/new-icon')
-            Desktop.add_app_to_grid(self.APP_NAME)
-            Desktop.focus_app(self.APP_NAME)
-            self.wait_for_app_launch(self._app)
-
+        self.ask_for_app_launch(self._app)
         return self.step_explanation
 
     @Quest.with_app_launched(APP_NAME)
