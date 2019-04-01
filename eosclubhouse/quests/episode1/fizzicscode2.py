@@ -13,7 +13,7 @@ class FizzicsCode2(Quest):
         self._app = App(self.APP_NAME)
 
     def set_complete(self, is_complete):
-        Quest.set_complete(self, is_complete)
+        super().set_complete(is_complete)
         if self.complete:
             self.set_next_episode('episode2')
 
