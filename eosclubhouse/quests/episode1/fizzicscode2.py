@@ -12,9 +12,8 @@ class FizzicsCode2(Quest):
         super().__init__('Fizzics Code 2', 'riley')
         self._app = App(self.APP_NAME)
 
-    @Quest.complete.setter
     def set_complete(self, is_complete):
-        Quest.set_complete(self, is_complete)
+        super().set_complete(is_complete)
         if self.complete:
             self.set_next_episode('episode2')
 
