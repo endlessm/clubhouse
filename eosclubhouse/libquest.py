@@ -914,8 +914,8 @@ class Quest(GObject.GObject):
         abort_info = QuestStringCatalog.get_info('{}_ABORT'.format(self._qs_base_id))
         if abort_info:
             self.show_message('ABORT')
+            self.pause(5)
 
-        self.pause(5)
         self.stop()
 
     def stop(self):
