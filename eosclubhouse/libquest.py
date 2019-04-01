@@ -883,6 +883,11 @@ class Quest(GObject.GObject):
                 self._last_bg_sound_uuid = None
             self._run_context.run_stop_timeout(self.stop_timeout)
 
+            # If we are stopping already, then call stop() right away because the quest is no
+            # longer visible.
+            if self.stopping:
+                self.stop()
+
     def set_to_foreground(self):
         if self._run_context is not None:
             self._run_context.reset_stop_timeout()
