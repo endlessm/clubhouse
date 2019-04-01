@@ -13,7 +13,6 @@ class BreakingIn(Quest):
         super().__init__('BreakingIn', 'riley')
         self._app = App(self.APP_NAME)
 
-    @Quest.complete.setter
     def set_complete(self, is_complete):
         Quest.set_complete(self, is_complete)
         if self.complete:
