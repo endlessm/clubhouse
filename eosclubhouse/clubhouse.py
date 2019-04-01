@@ -330,6 +330,7 @@ class ClubhousePage(Gtk.EventBox):
 
         self._app_window = app_window
         self._app_window.connect('key-press-event', self._key_press_event_cb)
+        self._app_window.connect('notify::visible', self._on_window_visibility_changed)
 
         self._app = self._app_window.get_application()
         assert self._app is not None
@@ -360,6 +361,10 @@ class ClubhousePage(Gtk.EventBox):
 
         self._main_box = builder.get_object('clubhouse_main_box')
         self._main_box.connect('button-press-event', self._on_button_press_event_cb)
+
+    def _on_window_visibility_changed(self, _window, _param):
+        if not self._app_window.props.visible:
+            self._overlay_msg_box.hide()
 
     def _hide_message_overlay_cb(self, message):
         self._overlay_msg_box.hide()
