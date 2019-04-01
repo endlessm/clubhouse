@@ -6,6 +6,8 @@ class RileysLevels(Quest):
 
     APP_NAME = 'com.endlessm.Fizzics'
 
+    __available_after_completing_quests__ = ['SetUp']
+
     def __init__(self):
         super().__init__('RileysLevels', 'ada')
         self._app = App(self.APP_NAME)
@@ -30,7 +32,7 @@ class RileysLevels(Quest):
         return self.step_success
 
     def step_success(self):
-        self.give_item('item.program.1')
+        self.give_item('item.fob.1', consume_after_use=True)
         self.wait_confirm('SUCCESS')
         self.complete = True
         self.available = False

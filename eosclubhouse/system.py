@@ -422,6 +422,14 @@ class GameStateService(GObject.GObject):
                 raise
         return value_if_missing
 
+    def update(self, key, new_value, value_if_missing=None):
+        state = self.get(key, value_if_missing)
+        if isinstance(state, dict) and isinstance(new_value, dict):
+            state.update(new_value)
+        else:
+            state = new_value
+        self.set(key, state)
+
     def reset(self):
         return self._get_gss_proxy().Reset()
 

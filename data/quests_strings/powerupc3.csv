@@ -16,4 +16,4 @@ POWERUPC3_PLAYTEST,You should be able to get all 3 types of upgrades as you play
 POWERUPC3_NOTTHREE,You didn't get all 3 types of upgrades. Weird. Let's check that code.,,,,
 POWERUPC3_FINISHLEVEL,Perfect. Now you just need to breeze to the end of the level.,,,,
 POWERUPC3_SUCCESS,Excellent! You have completed all powerups. Now we're ready for the final challenge to get the code.,,,,
-POWERUPC3_ABORT,Abort.,,,,
+POWERUPC3_ABORT,"OK, we can do it later.",,,,

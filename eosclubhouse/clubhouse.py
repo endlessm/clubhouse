@@ -67,6 +67,7 @@ DEFAULT_WINDOW_WIDTH = 480
 class Character(GObject.GObject):
     _characters = {}
     DEFAULT_MOOD = 'talk'
+    DEFAULT_BODY_ANIMATION = 'idle'
 
     @classmethod
     def get_or_create(class_, character_id):
@@ -79,7 +80,8 @@ class Character(GObject.GObject):
         super().__init__()
         self._id = id_
         self._mood = self.DEFAULT_MOOD
-        self._fullbody_image = None
+        self._body_animation = self.DEFAULT_BODY_ANIMATION
+        self._body_image = None
         self.load()
 
     def _get_id(self):
@@ -93,8 +95,19 @@ class Character(GObject.GObject):
             mood = self.DEFAULT_MOOD
         self._mood = mood
 
-    def get_fullbody_image(self):
-        return self._fullbody_image
+    def _get_body_animation(self):
+        return self._body_animation
+
+    def _set_body_animation(self, body_animation):
+        if body_animation is None:
+            body_animation = self.DEFAULT_BODY_ANIMATION
+        if body_animation == self._body_animation:
+            return
+        self._body_image.play(body_animation)
+        self._body_animation = body_animation
+
+    def get_body_image(self):
+        return self._body_image
 
     def get_moods_path(self):
         return os.path.join(self._id, 'moods')
@@ -119,12 +132,13 @@ class Character(GObject.GObject):
         return Gio.FileIcon.new(image_file)
 
     def load(self):
-        fullbody_path = os.path.join(self._id, 'fullbody')
-        self._fullbody_image = AnimationImage(fullbody_path)
-        self._fullbody_image.play('idle')
+        body_path = os.path.join(self._id, 'fullbody')
+        self._body_image = AnimationImage(body_path)
+        self._body_image.play('idle')
 
     id = property(_get_id)
     mood = GObject.Property(_get_mood, _set_mood, type=str)
+    body_animation = GObject.Property(_get_body_animation, _set_body_animation, type=str)
 
 
 class Message(Gtk.Bin):
@@ -258,18 +272,23 @@ class QuestSetButton(Gtk.Button):
         super().__init__(halign=Gtk.Align.START,
                          relief=Gtk.ReliefStyle.NONE)
 
+        self._unhighlighted_animation = None
+
         self.get_style_context().add_class('quest-set-button')
 
         self._quest_set = quest_set
-        character = Character.get_or_create(self._quest_set.get_character())
+        self._character = Character.get_or_create(self._quest_set.get_character())
 
-        self._image = character.get_fullbody_image()
-        self._image.show()
-        self.add(self._image)
+        image = self._character.get_body_image()
+        image.show()
+        self.add(image)
 
         self._set_highlighted(self._quest_set.highlighted)
+        self._character.body_animation = self._quest_set.body_animation
 
         self._quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
+        self._quest_set.connect('notify::body-animation',
+                                self._on_quest_set_body_animation_changed)
 
         # The button should only be visible when the QuestSet is visible
         self._quest_set.bind_property('visible', self, 'visible',
@@ -285,14 +304,18 @@ class QuestSetButton(Gtk.Button):
     def _on_quest_set_highlighted_changed(self, _quest_set, _param):
         self._set_highlighted(self._quest_set.highlighted)
 
+    def _on_quest_set_body_animation_changed(self, _quest_set, _param):
+        self._character.body_animation = self._quest_set.body_animation
+
     def _set_highlighted(self, highlighted):
         highlighted_style = 'highlighted'
         style_context = self.get_style_context()
         if highlighted:
-            self._image.play('hi')
+            self._unhighlighted_animation = self._character.body_animation
+            self._character.body_animation = 'hi'
             style_context.add_class(highlighted_style)
         else:
-            self._image.play('idle')
+            self._character.body_animation = self._unhighlighted_animation
             style_context.remove_class(highlighted_style)
 
 

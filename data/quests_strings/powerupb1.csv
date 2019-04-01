@@ -18,4 +18,4 @@ POWERUPB1_NOPOWERUPS,Hmm... no powerups at all now. Something went wrong. Let's 
 POWERUPB1_ONETYPEONLY,"We have some powerups, but it's only one type. Let's go back and use the `random()` function.",,,,
 POWERUPB1_FINISHLEVEL,That's it. We now have both types. Go ahead and finish the level.,,,,
 POWERUPB1_SUCCESS,Perfect. The second powerup doesn't do anything yet. Come get me at the Clubhouse and we'll fix that.,,,,
-POWERUPB1_ABORT,Abort,,,,
+POWERUPB1_ABORT,"OK, we can do it later.",,,,

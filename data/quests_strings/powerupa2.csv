@@ -18,4 +18,4 @@ POWERUPA2_PLAYTEST,Let's see if that worked. Try picking up a powerup when you s
 POWERUPA2_PICKEDUP,That's it. You're invulnerable now! If you crash against something you won't die.,,,,
 POWERUPA2_FINISHLEVEL,Finish the level now.,,,,
 POWERUPA2_SUCCESS,Excellent! Those powerups made things easier for sure.,,,,
-POWERUPA2_ABORT,Abort,,,,
+POWERUPA2_ABORT,"OK, we can do it later.",,,,
