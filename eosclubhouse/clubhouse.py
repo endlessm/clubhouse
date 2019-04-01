@@ -489,19 +489,19 @@ class ClubhousePage(Gtk.EventBox):
         # Ensure the app stays alive at least for as long as we're running the quest
         self._app.hold()
 
-        logger.info('Running quest "%s"', quest)
-
         self._cancel_ongoing_task()
-
-        self.connect_quest(quest)
-
-        quest.set_cancellable(Gio.Cancellable())
 
         # Start running the new quest only when the mainloop is idle so we allow any previous
         # events (from other quests) to be dispatched.
         GLib.idle_add(self._run_new_quest, quest)
 
     def _run_new_quest(self, quest):
+        logger.info('Running quest "%s"', quest)
+
+        self.connect_quest(quest)
+
+        quest.set_cancellable(Gio.Cancellable())
+
         self._set_current_quest(quest)
 
         # Hide the window so the user focuses on the Shell Quest View
