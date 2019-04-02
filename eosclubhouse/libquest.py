@@ -528,6 +528,8 @@ class Quest(GObject.GObject):
 
     quest_set = GObject.Property(type=GObject.TYPE_PYOBJECT, default=None)
 
+    auto_offer = GObject.Property(type=bool, default=False)
+
     def __init__(self, name, main_character_id, initial_msg=None):
         super().__init__()
         self._name = name
@@ -634,7 +636,7 @@ class Quest(GObject.GObject):
             return
 
         next_quest = self.get_next_quest()
-        if next_quest and next_quest is not self:
+        if next_quest and next_quest.auto_offer and next_quest is not self:
             logger.debug('Proposing next quest: %s', next_quest)
             self.schedule_quest(next_quest.get_full_id())
 
