@@ -333,6 +333,7 @@ class ClubhousePage(Gtk.EventBox):
 
         self._current_quest = None
         self._scheduled_quest_info = None
+        self._proposing_quest = False
 
         self._last_user_answer = 0
 
@@ -462,6 +463,8 @@ class ClubhousePage(Gtk.EventBox):
         character = new_quest.get_main_character() if new_quest else quest_set.get_character()
         self._message.set_character(character)
 
+        self._stop_quest_proposal()
+
         if new_quest is None:
             msg_text = quest_set.get_empty_message()
             # If a QuestSet has overridden the empty message to be None, then don't
@@ -479,6 +482,11 @@ class ClubhousePage(Gtk.EventBox):
                               sfx_sound)
 
         self._overlay_msg_box.show_all()
+
+    def _stop_quest_proposal(self):
+        if self._proposing_quest:
+            self._shell_close_popup_message()
+            self._proposing_quest = False
 
     def _accept_quest_message(self, quest_set, new_quest):
         self._message.hide()
@@ -503,6 +511,8 @@ class ClubhousePage(Gtk.EventBox):
         quest.disconnect_by_func(self._quest_item_given_cb)
 
     def run_quest(self, quest):
+        self._stop_quest_proposal()
+
         # Stop any scheduled quests from attempting to run if we are running a quest
         self._reset_scheduled_quest()
 
@@ -646,12 +656,13 @@ class ClubhousePage(Gtk.EventBox):
         self._reset_quest_actions()
 
         for answer in [(quest.accept_label, self._accept_quest_message, quest_set, quest),
-                       (quest.reject_label, self._shell_close_popup_message)]:
+                       (quest.reject_label, self._stop_quest_proposal)]:
             self._add_quest_action(answer)
 
         sfx_sound = quest.get_initial_sfx_sound()
         character = Character.get_or_create(character_id)
 
+        self._proposing_quest = True
         self._shell_popup_message(quest.get_initial_message(), character, sfx_sound, None)
 
     def _key_press_event_cb(self, window, event):
@@ -796,6 +807,10 @@ class ClubhousePage(Gtk.EventBox):
     def set_quest_to_background(self):
         if self._current_quest:
             self._current_quest.set_to_background()
+        else:
+            # If the quest proposal dialog in the Shell has been dismissed, then we
+            # should reset the "proposing_quest" flag.
+            self._stop_quest_proposal()
 
     def _get_running_quest(self):
         if self._current_quest is None:
