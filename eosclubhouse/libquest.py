@@ -1185,6 +1185,11 @@ class Quest(GObject.GObject):
     def get_id(class_):
         return class_.__name__
 
+    def get_full_id(self):
+        if self.quest_set is not None:
+            return '{}.{}'.format(self.quest_set.get_id(), self.get_id())
+        return self.get_id()
+
     available = GObject.Property(_get_available, _set_available, type=bool, default=True,
                                  flags=GObject.ParamFlags.READWRITE |
                                  GObject.ParamFlags.EXPLICIT_NOTIFY)
