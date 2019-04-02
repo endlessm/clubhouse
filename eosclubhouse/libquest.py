@@ -615,10 +615,28 @@ class Quest(GObject.GObject):
         self._run_context.run(self.step_begin)
         self._run_context = None
 
+        self.run_finished()
+
         quest_finished_cb(self)
 
         # The quest is stopped, so reset the "stopping" property again.
         self.stopping = False
+
+    def run_finished(self):
+        """This method is called when a quest finishes running.
+
+        It can be overridden when quests need to run logic associated with that moment. By default
+        it schedules the next quest to be run (if there's any).
+        """
+
+        # Only try to propose the next quest if this one is complete.
+        if not self.complete:
+            return
+
+        next_quest = self.get_next_quest()
+        if next_quest and next_quest is not self:
+            logger.debug('Proposing next quest: %s', next_quest)
+            self.schedule_quest(next_quest.get_full_id())
 
     def set_next_step(self, step_func, delay=0, args=()):
         assert self._run_context is not None
@@ -1174,6 +1192,26 @@ class Quest(GObject.GObject):
             return wrapped_func
 
         return wrapper
+
+    def get_next_quest(self):
+        """Return the next quest that should be run.
+
+        This gets the next quest to be run, first by looking in the quest's set up quest-set, or
+        otherwise in other quest sets. Note that the original implementation doesn't guarantee
+        that the quest returned is not the very same quest, or a quest that's availabel in the
+        quest set and comes before this one.
+        """
+        if self.quest_set:
+            next_quest = self.quest_set.get_next_quest()
+            if next_quest:
+                return next_quest
+
+        for quest_set in Registry.get_quest_sets():
+            quest = quest_set.get_next_quest()
+            if quest:
+                return quest
+
+        return None
 
     @staticmethod
     def set_next_episode(episode_name):
