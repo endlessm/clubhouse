@@ -526,6 +526,8 @@ class Quest(GObject.GObject):
 
     stopping = GObject.Property(type=bool, default=False)
 
+    quest_set = GObject.Property(type=GObject.TYPE_PYOBJECT, default=None)
+
     def __init__(self, name, main_character_id, initial_msg=None):
         super().__init__()
         self._name = name
@@ -1211,6 +1213,8 @@ class QuestSet(GObject.GObject):
         self._quest_objs = []
         for quest_class in self.__quests__:
             quest = quest_class()
+            quest.quest_set = self
+
             self._quest_objs.append(quest)
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
