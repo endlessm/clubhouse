@@ -330,6 +330,7 @@ class ClubhousePage(Gtk.EventBox):
 
         self._app_window = app_window
         self._app_window.connect('key-press-event', self._key_press_event_cb)
+        self._app_window.connect('notify::visible', self._on_window_visibility_changed)
 
         self._app = self._app_window.get_application()
         assert self._app is not None
@@ -360,6 +361,10 @@ class ClubhousePage(Gtk.EventBox):
 
         self._main_box = builder.get_object('clubhouse_main_box')
         self._main_box.connect('button-press-event', self._on_button_press_event_cb)
+
+    def _on_window_visibility_changed(self, _window, _param):
+        if not self._app_window.props.visible:
+            self._overlay_msg_box.hide()
 
     def _hide_message_overlay_cb(self, message):
         self._overlay_msg_box.hide()
@@ -439,7 +444,8 @@ class ClubhousePage(Gtk.EventBox):
         # If a quest from this quest_set is already running, then just hide the window so the
         # user focuses on the Shell's quest dialog
         if self._current_quest:
-            if self._current_quest.available and self._current_quest in quest_set.get_quests():
+            if self._current_quest.available and self._current_quest in quest_set.get_quests() and \
+               not self._current_quest.stopping:
                 self._show_quest_continue_confirmation()
                 return
 
@@ -489,19 +495,19 @@ class ClubhousePage(Gtk.EventBox):
         # Ensure the app stays alive at least for as long as we're running the quest
         self._app.hold()
 
-        logger.info('Running quest "%s"', quest)
-
         self._cancel_ongoing_task()
-
-        self.connect_quest(quest)
-
-        quest.set_cancellable(Gio.Cancellable())
 
         # Start running the new quest only when the mainloop is idle so we allow any previous
         # events (from other quests) to be dispatched.
         GLib.idle_add(self._run_new_quest, quest)
 
     def _run_new_quest(self, quest):
+        logger.info('Running quest "%s"', quest)
+
+        self.connect_quest(quest)
+
+        quest.set_cancellable(Gio.Cancellable())
+
         self._set_current_quest(quest)
 
         # Hide the window so the user focuses on the Shell Quest View

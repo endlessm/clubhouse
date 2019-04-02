@@ -521,6 +521,8 @@ class Quest(GObject.GObject):
     accept_label = GObject.Property(type=str, default="Sure!")
     reject_label = GObject.Property(type=str, default="Not now…")
 
+    stopping = GObject.Property(type=bool, default=False)
+
     def __init__(self, name, main_character_id, initial_msg=None):
         super().__init__()
         self._name = name
@@ -601,11 +603,17 @@ class Quest(GObject.GObject):
         if self.__sound_on_run_begin__:
             Sound.play(self.__sound_on_run_begin__)
 
+        # Reset the "stopping" property before running the quest.
+        self.stopping = False
+
         self._run_context = _QuestRunContext(self._cancellable)
         self._run_context.run(self.step_begin)
         self._run_context = None
 
         quest_finished_cb(self)
+
+        # The quest is stopped, so reset the "stopping" property again.
+        self.stopping = False
 
     def set_next_step(self, step_func, delay=0, args=()):
         assert self._run_context is not None
@@ -875,6 +883,11 @@ class Quest(GObject.GObject):
                 self._last_bg_sound_uuid = None
             self._run_context.run_stop_timeout(self.stop_timeout)
 
+            # If we are stopping already, then call stop() right away because the quest is no
+            # longer visible.
+            if self.stopping:
+                self.stop()
+
     def set_to_foreground(self):
         if self._run_context is not None:
             self._run_context.reset_stop_timeout()
@@ -895,11 +908,14 @@ class Quest(GObject.GObject):
         return confirmed
 
     def abort(self):
+        # Notify we're going to stop soon
+        self.stopping = True
+
         abort_info = QuestStringCatalog.get_info('{}_ABORT'.format(self._qs_base_id))
         if abort_info:
             self.show_message('ABORT')
+            self.pause(5)
 
-        self.pause(5)
         self.stop()
 
     def stop(self):
