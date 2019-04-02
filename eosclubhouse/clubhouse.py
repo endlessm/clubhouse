@@ -322,8 +322,9 @@ class QuestSetButton(Gtk.Button):
 class ClubhousePage(Gtk.EventBox):
 
     class _QuestScheduleInfo:
-        def __init__(self, quest, timeout, handler_id):
+        def __init__(self, quest, confirm_before, timeout, handler_id):
             self.quest = quest
+            self.confirm_before = confirm_before
             self.timeout = timeout
             self.handler_id = handler_id
 
@@ -546,7 +547,7 @@ class ClubhousePage(Gtk.EventBox):
     def _is_current_quest(self, quest):
         return self._current_quest is not None and self._current_quest == quest
 
-    def _quest_scheduled_cb(self, quest, quest_name, start_after_timeout):
+    def _quest_scheduled_cb(self, quest, quest_name, confirm_before, start_after_timeout):
         self._reset_scheduled_quest()
 
         # This means that scheduling a quest called '' just removes the scheduled quest
@@ -559,7 +560,8 @@ class ClubhousePage(Gtk.EventBox):
                            'running quest "%s"!', quest_name, quest.get_id())
             return
 
-        self._scheduled_quest_info = self._QuestScheduleInfo(quest, start_after_timeout, 0)
+        self._scheduled_quest_info = self._QuestScheduleInfo(quest, confirm_before,
+                                                             start_after_timeout, 0)
 
     def _quest_item_given_cb(self, quest, item_id, text):
         self._shell_popup_item(item_id, text)
@@ -620,16 +622,37 @@ class ClubhousePage(Gtk.EventBox):
                 return
 
             quest = self._scheduled_quest_info.quest
+            confirm_before = self._scheduled_quest_info.confirm_before
 
             self._reset_scheduled_quest()
 
-            self.run_quest(quest)
+            if confirm_before:
+                self._propose_next_quest(quest)
+            else:
+                self.run_quest(quest)
 
             return GLib.SOURCE_REMOVE
 
         timeout = self._scheduled_quest_info.timeout
         self._scheduled_quest_info.handler_id = GLib.timeout_add_seconds(timeout,
                                                                          _run_quest_after_timeout)
+
+    def _propose_next_quest(self, quest):
+        quest_set = quest.quest_set
+        character_id = quest.get_main_character()
+        if not character_id and quest.quest_set is not None:
+            character_id = quest_set.get_character()
+
+        self._reset_quest_actions()
+
+        for answer in [(quest.accept_label, self._accept_quest_message, quest_set, quest),
+                       (quest.reject_label, self._shell_close_popup_message)]:
+            self._add_quest_action(answer)
+
+        sfx_sound = quest.get_initial_sfx_sound()
+        character = Character.get_or_create(character_id)
+
+        self._shell_popup_message(quest.get_initial_message(), character, sfx_sound, None)
 
     def _key_press_event_cb(self, window, event):
         # Allow to fully quit the Clubhouse on Ctrl+Escape
