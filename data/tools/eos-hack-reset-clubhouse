@@ -16,4 +16,11 @@ echo "Resetting cursor"
 gsettings reset org.gnome.desktop.interface cursor-size
 gsettings reset org.gnome.desktop.interface cursor-theme
 
+echo "Resetting wobbly windows"
+dconf reset /org/gnome/shell/wobbly-effect
+dconf reset /org/gnome/shell/wobbly-object-movement-range
+dconf reset /org/gnome/shell/wobbly-slowdown-factor
+dconf reset /org/gnome/shell/wobbly-spring-frictiont
+dconf reset /org/gnome/shell/wobbly-spring-k
+
 echo "Done"
