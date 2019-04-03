@@ -1,20 +1,28 @@
-POWERUPA1_QUESTION,Should we get started with the code from Lightspeed?,Saniel,,,
-POWERUPA1_QUEST_ACCEPT,Let's do it.,,,,
-POWERUPA1_LAUNCH,"Remember, one of the codes to remove the shield of the AI trap is deep inside Lightspeed.
+POWERUPA1_QUESTION,Ready to retrieve the encoded fob from Lightspeed?,Saniel,,,
+POWERUPA1_QUEST_ACCEPT,"Yes, let's get to work!",,,,
+POWERUPA1_LAUNCH,"Excellent. So we need to stay sharp and give this our keenest attention. 
 
-We'll need to create a level with every enemy and powerup in the game. Let's launch Lightspeed.",,,,
-POWERUPA1_LAUNCH_HINT1,Click on the Lightspeed icon on the desktop.,,,,
-POWERUPA1_EXPLAIN,"We're going to make some power ups! Powerups are capsules that bring benefits when the player's ship picks them up.
+We're going to create a new level using every enemy and every powerup Lightspeed can give us.
 
-Let's go to the coding panel. ",,,,
+So, if all goes well, we should find that second fob deep in Lightspeed!
+
+So now ahead and launch Lightspeed.",,,,
+POWERUPA1_LAUNCH_HINT1,Click on the Lightspeed icon on the desktop.	,,,,
+POWERUPA1_EXPLAIN,"Okay, let's make some powerups! Powerups are capsules that give your ship special powers.
+
+Let's go to the coding panel and see what we can do! ",,,,
 POWERUPA1_EXPLAIN_HINT1,Press the Flip button.,,,,
 POWERUPA1_CODE,"Click on the Spawn tab. See that `spawnPowerup()` function? That's what creates powerups.
 
-It returns a number with the type of powerup. 0 means no powerup. Change it to a 1 and try the level.",,,,
+The Spawn tab gives you a number with the type of powerup. 0 means no powerup. 
+
+Set the number to 1 and try the level.",,,,
 POWERUPA1_CODE_HINT1,Set `return 1;` and play the level.,,,,
 POWERUPA1_ABOUTTOPLAY,Start playing the level.,,,,
-POWERUPA1_PLAYTEST,Let's see if the powerups appear...,,,,
-POWERUPA1_NOPOWERUPS,I estimate there are have been ZERO powerups spawned. Something is wrong. Let's go back and check.,,,,
-POWERUPA1_FINISHLEVEL,"Excellent. The powerups are there, although they don't do anything let. Finish the level now.",,,,
-POWERUPA1_SUCCESS,Great. Your Lightspeed skills are still quite sharp. Come back later and let's keep working on that powerup.,,,,
+POWERUPA1_PLAYTEST,"Let's see if the powerups show up. When they show up, they won't have any of their powers yet.",,,,
+POWERUPA1_NOPOWERUPS,How strange. Looks like we have ZERO powerups. Something is wrong. Let's go back and check.,,,,
+POWERUPA1_FINISHLEVEL,"Excellent. The powerups are there, although they don't do anything yet. Finish the level now.",,,,
+POWERUPA1_SUCCESS,"Great. Your Lightspeed skills are still quite sharp. 
+
+Come back later and let's keep working on that powerup.",,,,
 POWERUPA1_ABORT,Check back later and we can keep exploring. ,,,,

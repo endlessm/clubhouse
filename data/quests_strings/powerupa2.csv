@@ -1,21 +1,21 @@
 POWERUPA2_QUESTION,Ready to keep working on powerups?,Saniel,,,
-POWERUPA2_QUEST_ACCEPT,Yes!,,,,
+POWERUPA2_QUEST_ACCEPT,Totally!,,,,
 POWERUPA2_LAUNCH,Let's go to Lightspeed again.,,,,
-POWERUPA2_LAUNCH_HINT1,You know the drill: Desktop. Icon. Click.,,,,
-POWERUPA2_EXPLAIN,"Now that we've spawned a powerup, we want to make something happen when the player picks it up.
+POWERUPA2_LAUNCH_HINT1,You know the drill: Desktop. Lightspeed icon. Click.,,,,
+POWERUPA2_EXPLAIN,"Now that we've spawned a powerup, let's try out some different powers. 
 
 For this first one, let's make the player invulnerable for a few seconds. Flip to the code panel.",,,,
 POWERUPA2_EXPLAIN_HINT1,Press the Flip button.,,,,
-POWERUPA2_CODE,"Click on the Powerups tab. See that `activatePowerup()` function? That will get executed when we pick the powerup.
+POWERUPA2_CODE,"Click on the Powerups tab. See that `activatePowerup()` function? That will get executed when we pick up the powerup.
 
 Right now it's empty, so it does nothing. Let's make the ship invulnerable there.
 
 There's a variable in the ship called `invulnerableTimer`. Set it to 5 seconds.",,,,
 POWERUPA2_CODE_HINT1,`ship.invulnerableTimer = 5;`,,,,
-POWERUPA2_CODE_HINT2,And run the level as usual.,,,,
-POWERUPA2_ABOUTTOPLAY,Play the level now.,,,,
+POWERUPA2_CODE_HINT2,Now run the level as usual.,,,,
+POWERUPA2_ABOUTTOPLAY,Go ahead and play the level now.,,,,
 POWERUPA2_PLAYTEST,Let's see if that worked. Try picking up a powerup when you see it.,,,,
-POWERUPA2_PICKEDUP,That's it. You're invulnerable now! If you crash against something you won't die.,,,,
-POWERUPA2_FINISHLEVEL,Finish the level now.,,,,
-POWERUPA2_SUCCESS,Excellent! Those powerups made things easier for sure.,,,,
-POWERUPA2_ABORT,"OK, we can do it later.",,,,
+POWERUPA2_PICKEDUP,"That's it. You're invulnerable now! That means if your ship crashes into something, it will survive!",,,,
+POWERUPA2_FINISHLEVEL,"Okay, so go ahead and finish the level now.",,,,
+POWERUPA2_SUCCESS,Excellent! Those powerups definitely gave us an advantage. ,,,,
+POWERUPA2_ABORT,No prob. Hope you'll check back later. ,,,,
