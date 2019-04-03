@@ -508,6 +508,9 @@ class Quest(GObject.GObject):
         'dismissed': (
             GObject.SignalFlags.RUN_FIRST, None, ()
         ),
+        'schedule-quest': (
+            GObject.SignalFlags.RUN_FIRST, None, (str, bool, int)
+        ),
     }
 
     __sound_on_run_begin__ = 'quests/quest-given'
@@ -522,6 +525,10 @@ class Quest(GObject.GObject):
     reject_label = GObject.Property(type=str, default="Not now…")
 
     stopping = GObject.Property(type=bool, default=False)
+
+    quest_set = GObject.Property(type=GObject.TYPE_PYOBJECT, default=None)
+
+    auto_offer = GObject.Property(type=bool, default=False)
 
     def __init__(self, name, main_character_id, initial_msg=None):
         super().__init__()
@@ -610,10 +617,28 @@ class Quest(GObject.GObject):
         self._run_context.run(self.step_begin)
         self._run_context = None
 
+        self.run_finished()
+
         quest_finished_cb(self)
 
         # The quest is stopped, so reset the "stopping" property again.
         self.stopping = False
+
+    def run_finished(self):
+        """This method is called when a quest finishes running.
+
+        It can be overridden when quests need to run logic associated with that moment. By default
+        it schedules the next quest to be run (if there's any).
+        """
+
+        # Only try to propose the next quest if this one is complete.
+        if not self.complete:
+            return
+
+        next_quest = self.get_next_quest()
+        if next_quest and next_quest.auto_offer and next_quest is not self:
+            logger.debug('Proposing next quest: %s', next_quest)
+            self.schedule_quest(next_quest.get_full_id())
 
     def set_next_step(self, step_func, delay=0, args=()):
         assert self._run_context is not None
@@ -1036,6 +1061,9 @@ class Quest(GObject.GObject):
         self.gss.set(item_name, variant)
         self.emit('item-given', item_name, notification_text)
 
+    def schedule_quest(self, quest_name, confirm_before=True, start_after=3):
+        self.emit('schedule-quest', quest_name, confirm_before, start_after)
+
     def complete_current_episode(self):
         current_episode_info = Registry.get_current_episode()
         if current_episode_info['completed']:
@@ -1167,6 +1195,26 @@ class Quest(GObject.GObject):
 
         return wrapper
 
+    def get_next_quest(self):
+        """Return the next quest that should be run.
+
+        This gets the next quest to be run, first by looking in the quest's set up quest-set, or
+        otherwise in other quest sets. Note that the original implementation doesn't guarantee
+        that the quest returned is not the very same quest, or a quest that's availabel in the
+        quest set and comes before this one.
+        """
+        if self.quest_set:
+            next_quest = self.quest_set.get_next_quest()
+            if next_quest:
+                return next_quest
+
+        for quest_set in Registry.get_quest_sets():
+            quest = quest_set.get_next_quest()
+            if quest:
+                return quest
+
+        return None
+
     @staticmethod
     def set_next_episode(episode_name):
         # For now this is just a convenience method, but we may change it to a more automatic
@@ -1176,6 +1224,11 @@ class Quest(GObject.GObject):
     @classmethod
     def get_id(class_):
         return class_.__name__
+
+    def get_full_id(self):
+        if self.quest_set is not None:
+            return '{}.{}'.format(self.quest_set.get_id(), self.get_id())
+        return self.get_id()
 
     available = GObject.Property(_get_available, _set_available, type=bool, default=True,
                                  flags=GObject.ParamFlags.READWRITE |
@@ -1205,6 +1258,8 @@ class QuestSet(GObject.GObject):
         self._quest_objs = []
         for quest_class in self.__quests__:
             quest = quest_class()
+            quest.quest_set = self
+
             self._quest_objs.append(quest)
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
