@@ -9,6 +9,7 @@ class PowerUpC3(Quest):
 
     def __init__(self):
         super().__init__('PowerUpC3', 'saniel')
+        self.auto_offer = True
         self._app = LightSpeed()
 
     def step_begin(self):

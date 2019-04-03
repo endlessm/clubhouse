@@ -9,6 +9,7 @@ class LightspeedFinal(Quest):
 
     def __init__(self):
         super().__init__('LightspeedFinal', 'saniel')
+        self.auto_offer = True
         self._app = LightSpeed()
 
     def step_begin(self):
