@@ -19,6 +19,11 @@ class ApplyFob1(Quest):
         self.gss.update('item.fob.1', {'used': True},
                         value_if_missing={'consume_after_use': True})
 
+        self.wait_confirm('OPEN')
+        self.wait_confirm('RILEY1')
+        self.wait_confirm('RILEY2')
+        self.wait_confirm('RILEY3')
+
         return self.step_success
 
     def step_success(self):
