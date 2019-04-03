@@ -1,11 +1,24 @@
-SETUP_QUESTION,"Hi there! So glad you're here! Riley has gotten stuck in this AI trap.
-Want to help us get access so we can help her get out?",Ada,,,
-SETUP_QUESTION_ACCEPT,I'm in,,,,
-SETUP_EXPLAIN,"As you can see it's a tricky situation! If anyone can get through this challenge, it’s Riley. 
-But that doesn't mean it's going to be easy for any of us. ",,,,
-SETUP_EXPLAIN2,"I remember this trap! I set this trap 2,024 blue moons ago. So this is indeed highly irregular. 
-I should have foreseen that Riley would find that portal. ",Saniel,,,
-SETUP_END,"So give me a minute. This is going to take some careful attention 
-There’s no way I will let this box I myself made bring our Riley to any harm! 
+SETUP_QUESTION,Glad to see you! We've got a bit of a situation here. We have to rescue Riley! Can you help us?,Saniel,,,
+SETUP_QUESTION_ACCEPT,Definitely! ,,,,
+SETUP_EXPLAIN,"So, here's what's going on. Riley's missing and all of us will need to work together to find her. 
+
+She was poking around in a restricted area and suddenly plummeted into some kind of portal!
+
+When I heard the ruckus I got there just as the entry panels closed & caught Riley's scarf.",,,,
+SETUP_EXPLAIN2,"Very concerning. I thought this thing was disarmed a thousand blue moons ago. Now it's got Riley! 
+
+This contraption is supposed to capture data threats, not capture our own Conservatory students!
+
+I hope Riley will find a way to communicate with us! Knowing Riley, she'll figure something out. 
+
+Indeed, she's probably already investigating something new in there. Alright, let's get on this.",,,,
+SETUP_END,"So, the box is locked down tight with a triple passcode protocol. We need to get those access codes. 
+
+The codes are embedded on 3 small tags, or ""fobs."" They work like a key, but with radio waves!
+
+For extra security, the fobs are hidden in 3 different levels deep in Fizzics and and in Lightspeed.
+
+So our job is to get to each of those levels and retrieve the coded fobs and open those panels! 
+
 ",,,,
 SETUP_ABORT,"OK, hope you can come back soon!",,,,

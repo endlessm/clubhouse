@@ -8,16 +8,16 @@ POWERUPB2_CODE,"This is very similar to the other one. Click on the Powerups tab
 
 Right now, if we pick up a powerup of type 1, we turn the ship invulnerable.
 
-We want to add that if we pick up a different kind of powerup, we blow everything up.
+Now we want to add a setting that if we pick up a different kind of powerup, we blow everything up.
 
-See how there's a `if (powerupType == 1)` check already. Add a similar one checking for powerup 2.
+See how there's an `if (powerupType == 1)` check already. Add a similar one for powerup 2.
 
-Then blow up everything with the funciton `blowUpEnemies()`.",,,,
+Then blow up everything with the function `blowUpEnemies()`.",,,,
 POWERUPB2_CODE_HINT1,"So after the code that's there already, you should have `if (powerupType == 2)`",,,,
 POWERUPB2_CODE_HINT2,And then `blowUpEnemies();`. And that should do it. Test it out.,,,,
 POWERUPB2_ABOUTTOPLAY,Play the level to test it.,,,,
-POWERUPB2_PLAYTEST,Let's see what happens when you pick both kinds of powerups...,,,,
+POWERUPB2_PLAYTEST,Let's see what happens when you pick up both kinds of powerups.,,,,
 POWERUPB2_ONLYONE,All powerups seem to be doing the same thing. Go back and make sure we have the two `if` statements.,,,,
-POWERUPB2_FINISHLEVEL,That's some real fireworks! Finish the level now. The powerups will make it much easier.,,,,
-POWERUPB2_SUCCESS,Excellent. We have one more powerup to do before we can get the code. ,,,,
-POWERUPB2_ABORT,"OK, we can do it later.",,,,
+POWERUPB2_FINISHLEVEL,Major fireworks! Go ahead and finish the level now with the help of the powerups!,,,,
+POWERUPB2_SUCCESS,"Excellent. Okay, only one more powerup before we can get our next fob to open the box. ",,,,
+POWERUPB2_ABORT,"No problem, we can try it again later. ",,,,

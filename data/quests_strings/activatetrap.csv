@@ -1,7 +1,9 @@
-ACTIVATETRAP_QUESTION,All panels open. Ready to start the trap transcoding?,,,,
-ACTIVATETRAP_QUEST_ACCEPT,Yes!,,,,
-ACTIVATETRAP_OPEN_CLUBHOUSE,Open the clubhouse first.,,,,
-ACTIVATETRAP_OPEN_CLUBHOUSE_HINT1,Click on the button at the right.,,,,
-ACTIVATETRAP_TRY,"Ok, let's try to start the transcoding......",,,,
-ACTIVATETRAP_END,Hmm that didn't work.. the trap is stuck in the transcoding state.,,,,
-ACTIVATETRAP_ABORT,"OK, we can do it later.",,,,
+ACTIVATETRAP_QUESTION,Magnificent. All the panels are open. Ready to start the trap transcoding?,Saniel,,,
+ACTIVATETRAP_QUEST_ACCEPT,So ready!,,,,
+ACTIVATETRAP_OPEN_CLUBHOUSE,"Okay, so open the clubhouse first.",,,,
+ACTIVATETRAP_OPEN_CLUBHOUSE_HINT1,Click on the button at the right to open the clubhouse.,,,,
+ACTIVATETRAP_TRY,So here goes. Let's start the transcoding.,,,,
+ACTIVATETRAP_END,"Hmmm. So the process has started!
+Looks like it's going to need to stay in the transcoding state for a while. 
+I've seen this process before. It takes time, but trust me, it's worth the wait. ",,,,
+ACTIVATETRAP_ABORT,Hope you'll check back soon! Just one more step. ,,,,
