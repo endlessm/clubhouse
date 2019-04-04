@@ -1,5 +1,10 @@
 FIZZICSPUZZLE1_QUESTION,Ready for a Fizzics puzzle?,,,,
 FIZZICSPUZZLE1_QUEST_ACCEPT,Yes!,,,,
 FIZZICSPUZZLE1_LAUNCH,Launch Fizzics,,,,
+FIZZICSPUZZLE1_GOAL,"
+So the challenge here is to collect 50 points.	",,,,
+FIZZICSPUZZLE1_GOAL_HINT1,To do that you'll need to add more diamonds.,,,,
+FIZZICSPUZZLE1_GOAL_HINT2,Use the create tool to create more diamonds.,,,,
+FIZZICSPUZZLE1_SUCCESS,"Great, awesome work.  Let's go to the next level for the next challenge.",,,,
 FIZZICSPUZZLE1_END,TODO: End,,,,
 FIZZICSPUZZLE1_ABORT,"OK, we can do it later.",,,,

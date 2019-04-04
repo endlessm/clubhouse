@@ -3,7 +3,9 @@ APPLYFOB2_QUEST_ACCEPT,Very ready.,,,,
 APPLYFOB2_OPEN_CLUBHOUSE,"Great. So, as before, let's go to the clubhouse.",,,,
 APPLYFOB2_OPEN_CLUBHOUSE_HINT1,Click on the button at the right to open the clubhouse.,,,,
 APPLYFOB2_APPLY,"Alright, here goes! Let's see if this old fob works!",,,,
-APPLYFOB2_OPEN,"Ah, excellent. Just as I'd hoped. Now we're 2/3 of the way there!",,,,
-APPLYFOB2_RILEY,HERE IS PART TWO,Riley,talk_glitched,,
-APPLYFOB2_END,How interesting that Riley is speaking to us from the box.  Wonder what she's getting at.,,,,
+APPLYFOB2_OPEN,"Ah, excellent. Just as I'd hoped. Now we're 2/3 of the way there!",,hurray,,
+APPLYFOB2_RILEY,^= ∫~}}}^444= ∫~ }}} <<?{{{ _QISA_~(==^^ /ᐠ!#)& &(ᐟ\^4@4 ∫~} }}=^^= ∫~} }},Riley,talk_glitched,,
+APPLYFOB2_END,"If I know Riley, she's trying to tell us something. I'm taking note of all of it. 
+
+But for now we have one more fob to go! Faber is going to guide you through Fizzics for that one. ",,,,
 APPLYFOB2_ABORT,Check back later and we'll keep working on getting access to the box.,,,,

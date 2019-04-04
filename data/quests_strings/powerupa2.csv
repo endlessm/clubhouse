@@ -1,10 +1,12 @@
-POWERUPA2_QUESTION,Ready to keep working on powerups?,Saniel,,,
+POWERUPA2_QUESTION,"Okay, so let's keep working on some more powerups. Are you with me?",Saniel,,,
 POWERUPA2_QUEST_ACCEPT,Totally!,,,,
 POWERUPA2_LAUNCH,Let's go to Lightspeed again.,,,,
 POWERUPA2_LAUNCH_HINT1,You know the drill: Desktop. Lightspeed icon. Click.,,,,
-POWERUPA2_EXPLAIN,"Now that we've spawned a powerup, let's try out some different powers. 
+POWERUPA2_EXPLAIN,"Now that we've spawned a powerup, let's see what special powers they can give us!
 
-For this first one, let's make the player invulnerable for a few seconds. Flip to the code panel.",,,,
+For the first powerup, let's imagine what we could do if nothing could harm the ship. Let's try it!
+
+We'll make the ship invulnerable for five seconds. Flip to the code panel.",,,,
 POWERUPA2_EXPLAIN_HINT1,Press the Flip button.,,,,
 POWERUPA2_CODE,"Click on the Powerups tab. See that `activatePowerup()` function? That will get executed when we pick up the powerup.
 
