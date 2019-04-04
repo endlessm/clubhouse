@@ -29,6 +29,7 @@ import subprocess
 import sys
 import time
 
+from collections import OrderedDict
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import AccountService, Desktop, GameStateService, Sound
@@ -777,7 +778,8 @@ class ClubhousePage(Gtk.EventBox):
         return self._message
 
     def _reset_quest_actions(self):
-        self._actions = {}
+        # We need to maintain the order of the quest actions, so we use an OrderedDict here.
+        self._actions = OrderedDict()
 
     def _add_quest_action(self, action):
         # Lazy import UUID module because it takes a while to do so, and we only need it here
