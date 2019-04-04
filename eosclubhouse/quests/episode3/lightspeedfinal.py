@@ -5,8 +5,6 @@ from eosclubhouse.system import Sound
 
 class LightspeedFinal(Quest):
 
-    APP_NAME = 'com.endlessm.LightSpeed'
-
     def __init__(self):
         super().__init__('LightspeedFinal', 'saniel')
         self.auto_offer = True
@@ -16,7 +14,7 @@ class LightspeedFinal(Quest):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
         return self.step_flip
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_flip(self):
         if self._app.get_js_property('flipped'):
             return self.step_code
@@ -28,7 +26,7 @@ class LightspeedFinal(Quest):
 
         return self.step_code
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_code(self):
         if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
            or self.debug_skip():
@@ -40,7 +38,7 @@ class LightspeedFinal(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
         return self.step_code
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_play(self):
         self.wait_confirm('ABOUTTOPLAY')
         self.wait_confirm('PLAYTEST')

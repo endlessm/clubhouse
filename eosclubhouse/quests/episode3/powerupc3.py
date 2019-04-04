@@ -5,8 +5,6 @@ from eosclubhouse.system import Sound
 
 class PowerUpC3(Quest):
 
-    APP_NAME = 'com.endlessm.LightSpeed'
-
     def __init__(self):
         super().__init__('PowerUpC3', 'saniel')
         self.auto_offer = True
@@ -19,7 +17,7 @@ class PowerUpC3(Quest):
         self._app.set_level(8)
         return self.step_flip
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_flip(self):
         if self._app.get_js_property('flipped'):
             return self.step_code
@@ -31,7 +29,7 @@ class PowerUpC3(Quest):
 
         return self.step_code
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_code(self):
         if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
            or self.debug_skip():
@@ -44,7 +42,7 @@ class PowerUpC3(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
         return self.step_code
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_play(self):
         self.wait_confirm('ABOUTTOPLAY')
         self.wait_confirm('PLAYTEST')
