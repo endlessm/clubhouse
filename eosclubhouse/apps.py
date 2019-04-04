@@ -1,6 +1,30 @@
 from eosclubhouse.system import App, GameStateService
 
 
+class Fizzics(App):
+
+    APP_NAME = 'com.endlessm.Fizzics'
+
+    def __init__(self):
+        super().__init__(self.APP_NAME)
+
+        # This is used only for debugging to skip steps:
+        self._last_known_level = 0
+
+    def get_current_level(self, debug_skip=False):
+        if debug_skip:
+            self._last_known_level += 1
+            return self._last_known_level
+
+        # The level obtained is zero-based, but this is too confusing
+        # because the dialogues are 1-based. So we convert to
+        # 1-based here:
+        level = self.get_js_property('currentLevel', 0) + 1
+
+        self._last_known_level = level
+        return level
+
+
 class LightSpeed(App):
 
     APP_NAME = 'com.endlessm.LightSpeed'
