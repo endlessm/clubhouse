@@ -1,3 +1,5 @@
+import random
+
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App, Sound
 
@@ -26,7 +28,11 @@ class Chore(Quest):
             nonlocal is_correct
             is_correct = is_correct_choice
 
-        for choice_msg_id, is_correct_choice in choices:
+        # We want the choices's order to appear randomly on every run, so it makes the quizz more
+        # interesting.
+        random_choices = random.sample(choices, k=len(choices))
+
+        for choice_msg_id, is_correct_choice in random_choices:
             answers.append((choice_msg_id, _quiz_choice, is_correct_choice))
 
         while not self.is_cancelled():
