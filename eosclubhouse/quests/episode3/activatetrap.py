@@ -15,6 +15,8 @@ class ActivateTrap(Quest):
         self.connect_clubhouse_changes(['window-is-visible']).wait()
 
         self.wait_confirm('TRY')
+        for message in range(2, 6):
+            self.wait_confirm('TRY{}'.format(message))
 
         self.gss.update('clubhouse.character.Trap', {'body-animation': 'transcoding-init'}, {})
 
