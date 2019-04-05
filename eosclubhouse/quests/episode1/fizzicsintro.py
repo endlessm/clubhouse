@@ -1,5 +1,6 @@
+from eosclubhouse.apps import Fizzics
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App, Sound
+from eosclubhouse.system import Sound
 
 
 class FizzicsIntro(Quest):
@@ -8,31 +9,12 @@ class FizzicsIntro(Quest):
 
     def __init__(self):
         super().__init__('Fizzics Intro', 'ada')
-        self._app = App(self.APP_NAME)
-        self._level = -1
+        self._app = Fizzics()
 
     def get_current_level(self):
-        if self.debug_skip():
-            self._level += 1
-            return self._level
-
-        success = False
-        level = self._app.get_js_property('currentLevel')
-
-        if level is None:
-            level = -1
-        else:
-            success = self._app.get_js_property('levelSuccess')
-
-        self._level = level
-
-        if self._level != -1 and (success or self.debug_skip()):
-            self._level += 1
-
-        return self._level
+        return self._app.get_effective_level(self.debug_skip())
 
     def step_begin(self):
-        self._level = -1
         self.ask_for_app_launch(self._app, pause_after_launch=1)
         return self.step_explanation
 
@@ -43,9 +25,9 @@ class FizzicsIntro(Quest):
     def step_check_level(self):
         level = self.get_current_level()
 
-        if level < 1:
+        if level == 1:
             self.show_hints_message('LEVEL1')
-        elif level == 1:
+        elif level == 2:
             Sound.play('quests/step-forward')
             self.show_hints_message('LEVEL2')
         else:
