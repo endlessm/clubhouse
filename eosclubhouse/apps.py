@@ -8,20 +8,33 @@ class Fizzics(App):
     def __init__(self):
         super().__init__(self.APP_NAME)
 
-        # This is used only for debugging to skip steps:
-        self._last_known_level = 0
+        # This is the level that the app was at, the last time we checked; it's used only for
+        # skipping steps when needed.
+        self._current_level = 0
+
+        # This is the level where we consider the user to be at, i.e. usually it's the current
+        # level, but we bump it if the user has also just beaten the level.
+        self._effective_level = 0
+
+    def get_effective_level(self, debug_skip=False):
+        level = self.get_current_level(debug_skip)
+        if self.get_js_property('levelSuccess', False):
+            level += 1
+
+        self._effective_level = level
+        return level
 
     def get_current_level(self, debug_skip=False):
         if debug_skip:
-            self._last_known_level += 1
-            return self._last_known_level
+            self._current_level += 1
+            return self._current_level
 
         # The level obtained is zero-based, but this is too confusing
         # because the dialogues are 1-based. So we convert to
         # 1-based here:
         level = self.get_js_property('currentLevel', 0) + 1
 
-        self._last_known_level = level
+        self._current_level = level
         return level
 
 
