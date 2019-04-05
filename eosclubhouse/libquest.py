@@ -759,6 +759,9 @@ class Quest(GObject.GObject):
     def connect_app_quit(self, app):
         return self._connect_app_changes(app, None, [])
 
+    def connect_app_props_changes(self, app, props):
+        return self._connect_app_changes(app, None, props)
+
     def _connect_app_changes(self, app, obj, props):
         assert self._run_context is not None
 
