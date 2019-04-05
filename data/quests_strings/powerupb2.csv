@@ -1,18 +1,18 @@
-POWERUPB2_QUESTION,Ready to make the last powerup light up some real fireworks?,Saniel,,,
+POWERUPB2_QUESTION,Now for our last powerup. Ready for some fireworks?,Saniel,,,
 POWERUPB2_QUEST_ACCEPT,You bet!,,,,
-POWERUPB2_LAUNCH,"OK, launch Lightspeed.",,,,
-POWERUPB2_EXPLAIN,"We're going to add code so powerup of type 2 blows up every enemy on the screen.
+POWERUPB2_LAUNCH,Excellent. Launch Lightspeed.,,,,
+POWERUPB2_EXPLAIN,"We're going to add code so a powerup of type 2 blows up every enemy on the screen.
 
-Click on the Flip button",,,,
+Click  the Flip button.",,,,
 POWERUPB2_CODE,"This is very similar to the other one. Click on the Powerups tab. See the `handlePowerup()` function?
 
-Right now, if we pick up a powerup of type 1, we turn the ship invulnerable.
+Right now, the type 1 powerup makes us invulnerable. 
 
-Now we want to add a setting that if we pick up a different kind of powerup, we blow everything up.
+Now we want to add a setting for powerup 2.  So if we pick up one of these, we blow up everything.
 
 See how there's an `if (powerupType == 1)` check already. Add a similar one for powerup 2.
 
-Then blow up everything with the function `blowUpEnemies()`.",,,,
+You can blow up everything with the function `blowUpEnemies()`.",,,,
 POWERUPB2_CODE_HINT1,"So after the code that's there already, you should have `if (powerupType == 2)`",,,,
 POWERUPB2_CODE_HINT2,And then `blowUpEnemies();`. And that should do it. Test it out.,,,,
 POWERUPB2_ABOUTTOPLAY,Play the level to test it.,,,,

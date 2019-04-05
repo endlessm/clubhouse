@@ -1,9 +1,25 @@
-ACTIVATETRAP_QUESTION,Magnificent. All the panels are open. Ready to start the trap transcoding?,Saniel,,,
-ACTIVATETRAP_QUEST_ACCEPT,So ready!,,,,
-ACTIVATETRAP_OPEN_CLUBHOUSE,"Okay, so open the clubhouse first.",,,,
+ACTIVATETRAP_QUESTION,How very odd. All three panels are activated. But the box is still closed. Not liking the looks of this. ,Saniel,,,
+ACTIVATETRAP_QUEST_ACCEPT,Let's keep trying!,,,,
+ACTIVATETRAP_OPEN_CLUBHOUSE,"That's what I like to hear! Okay, so open the clubhouse first.",,,,
 ACTIVATETRAP_OPEN_CLUBHOUSE_HINT1,Click on the button at the right to open the clubhouse.,,,,
-ACTIVATETRAP_TRY,So here goes. Let's start the transcoding.,,,,
-ACTIVATETRAP_END,"Hmmm. So the process has started!
-Looks like it's going to need to stay in the transcoding state for a while. 
-I've seen this process before. It takes time, but trust me, it's worth the wait. ",,,,
+ACTIVATETRAP_TRY,"We're in luck. Turns out Riley was communicating the final password to open the box. 
+
+Looks like she's using a cipher and she's even giving us the key. 1_NFPX_1
+
+The letters are part of the password and the number she gives us tells us how to decipher it!
+",,,,
+ACTIVATETRAP_TRY2,"Right! It's a Caesar Cipher! With the 1's, she's telling us to shift the letters over by 1. ",Ada,,,
+ACTIVATETRAP_TRY3,"Exactly, So N becomes N. F becomes E, and P gives us O, and finally, X becomes W, giving us –",Saniel,,,
+ACTIVATETRAP_TRY4,MEOW! ,Faber,hurray,,
+ACTIVATETRAP_TRY5,"MEOW. Yes. And if we follow the same pattern with the others we get MEOW, and again, MEOW. 
+
+MEOWMEOWMEOW. I must say, this password gives me pause. 
+
+Let's see if it opens the box. 
+",Saniel,,,
+ACTIVATETRAP_END,"The password worked! The opening protocol has started! Whoa, that's alot of smoke! 
+
+Looks like it's going through a transcoding process. This could take a while. 
+
+I've seen this transcoding process before. It takes time, but trust me, it's worth the wait. ",,hurray,,
 ACTIVATETRAP_ABORT,Hope you'll check back soon! Just one more step. ,,,,
