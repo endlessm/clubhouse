@@ -12,6 +12,12 @@ class LightspeedFinal(Quest):
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
+
+        self._app.reveal_topic('spawnEnemy')
+        self._app.reveal_topic('spawnPowerup')
+        self._app.reveal_topic('activatePowerup')
+        self._app.set_level(14)
+
         return self.step_flip
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
@@ -32,8 +38,6 @@ class LightspeedFinal(Quest):
            or self.debug_skip():
             return self.step_play
 
-        # self._app.reveal_topic('powerups')
-
         self.show_hints_message('CODE')
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
         return self.step_code
@@ -44,6 +48,10 @@ class LightspeedFinal(Quest):
         self.wait_confirm('PLAYTEST')
         self.wait_confirm('NOTFOUR')
         self.wait_confirm('FINISHLEVEL')
+
+        # @todo check goal condition: All 4 different enemies were
+        # spawned.
+
         return self.step_success
 
     def step_success(self):

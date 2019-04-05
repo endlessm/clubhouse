@@ -13,8 +13,10 @@ class PowerUpB1(Quest):
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
 
-        # @todo: set correct level
-        self._app.set_level(8)
+        self._app.reveal_topic('spawnEnemy')
+        self._app.reveal_topic('spawnPowerup')
+        self._app.set_level(12)
+
         return self.step_flip
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
@@ -35,9 +37,6 @@ class PowerUpB1(Quest):
            or self.debug_skip():
             return self.step_play
 
-        # @todo: reveal powerups topic
-        # self._app.reveal_topic('powerups')
-
         self.show_hints_message('CODE')
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
         return self.step_code
@@ -49,6 +48,10 @@ class PowerUpB1(Quest):
         self.wait_confirm('NOPOWERUPS')
         self.wait_confirm('ONETYPEONLY')
         self.wait_confirm('FINISHLEVEL')
+
+        # @todo check goal condition: Powerups of type 'invincibility'
+        # and 'blowup' were spawned.
+
         return self.step_success
 
     def step_success(self):
