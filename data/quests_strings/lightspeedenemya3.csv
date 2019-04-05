@@ -4,11 +4,14 @@ LIGHTSPEEDENEMYA3_LAUNCH,You know the drill: Launch Lightspeed.,,,,
 LIGHTSPEEDENEMYA3_EXPLANATION,"Now that *spinner* enemy moves in a diagonal and goes off screen. Let's make sure it stays on screen.
 
 Let's go to the coding panel again.",,,,
+LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE,Select the Spawn tab and make sure the `spawnEnemy` function creates a *spinner* enemy!,,,,
+LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE_HINT1,Make sure to return a `spinner` enemy in the `spawnEnemy` function!,,,,
+LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE_HINT2,Change the `spawnEnemy` function so it produces *spinner* enemies: `return 'spinner';`,,,,
 LIGHTSPEEDENEMYA3_CODE,"Select the Spinner tab and look for the `updateSpinner()` function.
 
 Let's stop making `y` smaller when it becomes less than 0 (the bottom of the screen). Oh look, there's an `if` statement already.
 
-Someone made it so `y` only gets smaller if the enemy y position is less than 1000. That's not quite right. We call that a bug.
+Someone made it so `y` only gets smaller if the enemy's y position is less than 1000. That's not quite right. We call that a bug.
 
 We don't want them going off the bottom of the screen, so let's only make `y` smaller when it is greater than 0.",,,,
 LIGHTSPEEDENEMYA3_CODE_HINT1,Now it's checking if `y` is less than 1000. Change it to more than 0.,,,,
@@ -16,13 +19,16 @@ LIGHTSPEEDENEMYA3_CODE_HINT2,"Less than 100 is `< 1000`, so what would more than
 LIGHTSPEEDENEMYA3_CODE_HINT3,That's right: `> 0`,,,,
 LIGHTSPEEDENEMYA3_CODE_HINT4,So it should be `if (enemy.position.y > 0)` etc.,,,,
 LIGHTSPEEDENEMYA3_CODE_HINT5,Don't forget to play the level to check your results.,,,,
+LIGHTSPEEDENEMYA3_ABOUTTOPLAY,Go ahead and play the level to test your code.,,,,
 LIGHTSPEEDENEMYA3_PLAYING,Let's see how you did with that.,,,,
+LIGHTSPEEDENEMYA3_NOENEMIES,Where did the enemies go? Go back to the Spawn tab and make sure to create some *spinner* enemies.,,,,
 LIGHTSPEEDENEMYA3_NOTMOVING,Something went wrong and now the enemies aren't moving. Go back to the coding panel and let's fix it.,,,,
 LIGHTSPEEDENEMYA3_GOINGDOWN,Hmm. they're still going below the screen. Go back and make sure you don't update the y position if they go below 0.,,,,
 LIGHTSPEEDENEMYA3_NOTREACHINGBOTTOM,The enemies aren't quite reaching the bottom of the screen. Check your code again.,,,,
-LIGHTSPEEDENEMYA3_SUCCESS,"Perfect. Now they aren't going anywhere. Good job!
+LIGHTSPEEDENEMYA3_FINISHLEVEL,Excellent solution! Now they're not disappearing off the screen! Now go ahead and finish the level. ,,hurray,,
+LIGHTSPEEDENEMYA3_SUCCESS,"That's it. Beautiful work. 
 
 By the way, you said earlier you were looking for a 
-*ratchet wheel*. I've got one right here. ",,,,
+*ratchet wheel*. I knew I had one from an old project, and I found it for you!",,,,
 LIGHTSPEEDENEMYA3_END,"Here, take it. You can have it. You did a great job. See you around.",,,,
 LIGHTSPEEDENEMYA3_ABORT,Check back if you want to explore the coding panel some more!,,,,
