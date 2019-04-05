@@ -5,8 +5,6 @@ from eosclubhouse.system import Sound
 
 class FizzicsIntro(Quest):
 
-    APP_NAME = 'com.endlessm.Fizzics'
-
     def __init__(self):
         super().__init__('Fizzics Intro', 'ada')
         self._app = Fizzics()
@@ -21,7 +19,7 @@ class FizzicsIntro(Quest):
     def _connect_level_changed(self):
         return self.connect_app_js_props_changes(self._app, ['levelSuccess', 'currentLevel'])
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_check_level(self):
         level = self.get_current_level()
 
@@ -40,7 +38,7 @@ class FizzicsIntro(Quest):
 
         return self.step_check_level
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_explanation(self):
         Sound.play('quests/step-forward')
 

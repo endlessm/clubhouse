@@ -1,20 +1,19 @@
+from eosclubhouse.apps import Fizzics
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App, Sound
+from eosclubhouse.system import Sound
 
 
 class FizzicsCode1(Quest):
 
-    APP_NAME = 'com.endlessm.Fizzics'
-
     def __init__(self):
         super().__init__('Fizzics Code 1', 'ada')
-        self._app = App(self.APP_NAME)
+        self._app = Fizzics()
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
         return self.step_flip
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_flip(self):
         if self._app.get_js_property('flipped'):
             return self.step_unlock
@@ -30,7 +29,7 @@ class FizzicsCode1(Quest):
         item = self.gss.get('item.key.fizzics.2')
         return item is not None and item.get('used', False)
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_unlock(self):
         if self._is_panel_unlocked():
             return self.step_explanation1
@@ -45,7 +44,7 @@ class FizzicsCode1(Quest):
     def _has_radius_changed(self, prev_radius):
         return self._app.get_js_property('radius_0', prev_radius) != prev_radius
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_explanation1(self):
         Sound.play('quests/step-forward')
         self.show_hints_message('EXPLANATION1')
@@ -59,7 +58,7 @@ class FizzicsCode1(Quest):
 
         return self.step_explanation2
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_explanation2(self):
         Sound.play('quests/step-forward')
         self.show_hints_message('EXPLANATION2')
