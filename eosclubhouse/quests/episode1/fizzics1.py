@@ -40,8 +40,7 @@ class Fizzics1(Quest):
             return self.step_level8
 
         # Check for level change
-        level_action = self.connect_app_js_props_changes(self._app,
-                                                         ['currentLevel', 'levelSuccess'])
+        level_action = self.connect_app_props_changes(self._app, ['effectiveLevel'])
         # Check for popping ball
         balldied_action = self.connect_app_js_props_changes(self._app, ['ballDied'])
 

@@ -17,7 +17,7 @@ class FizzicsIntro(Quest):
         return self.step_explanation
 
     def _connect_level_changed(self):
-        return self.connect_app_js_props_changes(self._app, ['levelSuccess', 'currentLevel'])
+        return self.connect_app_props_changes(self._app, ['effectiveLevel'])
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_check_level(self):
