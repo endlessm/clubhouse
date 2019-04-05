@@ -6,6 +6,11 @@ class Fizzics(App):
     APP_NAME = 'com.endlessm.Fizzics'
 
     def __init__(self):
+        """Clubhouse App that represents the Fizzics app.
+
+        Extra properties to connect to in this class:
+          effectiveLevel -- notifies when the level is changed or beaten;
+        """
         super().__init__(self.APP_NAME)
 
         # This is the level that the app was at, the last time we checked; it's used only for
@@ -36,6 +41,38 @@ class Fizzics(App):
 
         self._current_level = level
         return level
+
+    def _connect_level_change(self, property_changed_cb, *args):
+        def _on_level_changed():
+            old_level = self._effective_level
+            if old_level != self.get_effective_level():
+                property_changed_cb(*args)
+
+        def _on_level_success():
+            if self.get_js_property('levelSuccess', False):
+                _on_level_changed()
+
+        success_handler = self.connect_object_props_change(self.APP_JS_PARAMS,
+                                                           ['levelSuccess'],
+                                                           _on_level_success)
+        level_handler = self.connect_object_props_change(self.APP_JS_PARAMS,
+                                                         ['currentLevel'],
+                                                         _on_level_changed)
+        return [success_handler, level_handler]
+
+    def connect_props_change(self, obj, props, property_changed_cb, *args):
+        props = set(props)
+        handlers = []
+
+        if 'effectiveLevel' in props:
+            handlers.extend(self._connect_level_change(property_changed_cb, *args))
+            props.remove('effectiveLevel')
+
+        if props:
+            # Call the base implementation if there are other properties to connect.
+            handlers.extend(super().connect_props_change(obj, props, property_changed_cb, *args))
+
+        return handlers
 
 
 class LightSpeed(App):
