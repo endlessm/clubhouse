@@ -14,8 +14,9 @@ class PowerUpA1(Quest):
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
 
-        # @todo: set correct level
-        self._app.set_level(8)
+        self._app.reveal_topic('spawnEnemy')
+        self._app.set_level(11)
+
         return self.step_flip
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
@@ -36,6 +37,8 @@ class PowerUpA1(Quest):
            or self.debug_skip():
             return self.step_play
 
+        self._app.reveal_topic('spawnPowerup')
+
         self.show_hints_message('CODE')
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
         return self.step_code
@@ -46,6 +49,9 @@ class PowerUpA1(Quest):
         self.wait_confirm('PLAYTEST')
         self.wait_confirm('NOPOWERUPS')
         self.wait_confirm('FINISHLEVEL')
+
+        # @todo check goal condition: A powerup was spawned.
+
         return self.step_success
 
     def step_success(self):
