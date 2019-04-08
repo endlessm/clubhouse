@@ -1,5 +1,5 @@
 import os
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, Gio, Gtk
 
 from eosclubhouse import config, utils, libquest
 
