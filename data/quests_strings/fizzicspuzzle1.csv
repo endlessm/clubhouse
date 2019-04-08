@@ -1,10 +1,12 @@
-FIZZICSPUZZLE1_QUESTION,Ready for a Fizzics puzzle?,,,,
-FIZZICSPUZZLE1_QUEST_ACCEPT,Yes!,,,,
+FIZZICSPUZZLE1_QUESTION,"Hey, good job! Two fobs down, one to go! Ready to solve a Fizzics puzzle/? ",Faber,,,
+FIZZICSPUZZLE1_QUEST_ACCEPT,Definitely. Let's go. ,,,,
 FIZZICSPUZZLE1_LAUNCH,Launch Fizzics,,,,
 FIZZICSPUZZLE1_GOAL,"
-So the challenge here is to collect 50 points.	",,,,
-FIZZICSPUZZLE1_GOAL_HINT1,To do that you'll need to add more diamonds.,,,,
-FIZZICSPUZZLE1_GOAL_HINT2,Use the create tool to create more diamonds.,,,,
+Okay, now, your challenge here is to collect 50 points.     
+
+We need to go to the code panel and add more diamonds. Click the Flip button.  ",,,,
+FIZZICSPUZZLE1_GOAL_HINT1,Flip to hack and click the add tool to create more diamonds.,,,,
+FIZZICSPUZZLE1_GOAL_HINT2,Click the + button to add more diamonds. ,,,,
 FIZZICSPUZZLE1_SUCCESS,"Great, awesome work.  Let's go to the next level for the next challenge.",,,,
-FIZZICSPUZZLE1_END,TODO: End,,,,
-FIZZICSPUZZLE1_ABORT,"OK, we can do it later.",,,,
+FIZZICSPUZZLE1_END,"Let's keep looking for that fob! According to Saniel, this is our best chance at finding it. ",,,,
+FIZZICSPUZZLE1_ABORT,No worries. HMU later if you want to play some more Fizzics. ,,,,
