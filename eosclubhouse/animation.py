@@ -45,7 +45,13 @@ class Animator:
                 self._animations[animation_name] = animation
 
     def play(self, name):
-        AnimationSystem.animate(id(self), self._animations[name])
+        new_animation = self._animations[name]
+        current_animation = AnimationSystem.get_animation(id(self))
+
+        if current_animation is not None and new_animation != current_animation:
+            current_animation.reset()
+
+        AnimationSystem.animate(id(self), new_animation)
 
     def has_animation(self, name):
         return self._animations.get(name) is not None
@@ -54,17 +60,26 @@ class Animator:
 class Animation(GObject.GObject):
     def __init__(self, path, target_image):
         super().__init__()
+        self._loop = True
         self.frames = []
-        self.frame_index = 0
         self.last_updated = None
         self.target_image = target_image
+        self.reset()
         self.load(path)
         self._set_current_frame_delay()
 
+    def reset(self):
+        self.frame_index = 0
+
     def advance_frame(self):
-        # The animations play in loop for now
+        num_frames = len(self.frames)
+
+        # If the animation is not looped, we just don't advance it past the last frame.
+        if not self._loop and self.frame_index + 1 == num_frames:
+            return
+
         self.frame_index += 1
-        if self.frame_index >= len(self.frames):
+        if self.frame_index >= num_frames:
             self.frame_index = 0
 
         self._set_current_frame_delay()
@@ -104,6 +119,8 @@ class Animation(GObject.GObject):
                 frame_index, delay = self._parse_frame(frame, default_delay)
                 pixbuf = subpixbufs[frame_index]
                 self.frames.append({'pixbuf': pixbuf, 'delay': delay})
+
+        self._loop = metadata.get('loop', True)
 
     current_frame = property(_get_current_frame)
 
@@ -149,6 +166,10 @@ class AnimationSystem:
     def animate(class_, id_, animation):
         class_._animations[id_] = animation
         animation.update_image()
+
+    @classmethod
+    def get_animation(class_, id_):
+        return class_._animations.get(id_)
 
     @classmethod
     def step(class_, _widget, clock):
