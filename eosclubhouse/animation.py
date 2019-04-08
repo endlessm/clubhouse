@@ -45,7 +45,13 @@ class Animator:
                 self._animations[animation_name] = animation
 
     def play(self, name):
-        AnimationSystem.animate(id(self), self._animations[name])
+        new_animation = self._animations[name]
+        current_animation = AnimationSystem.get_animation(id(self))
+
+        if current_animation is not None and new_animation != current_animation:
+            current_animation.reset()
+
+        AnimationSystem.animate(id(self), new_animation)
 
     def has_animation(self, name):
         return self._animations.get(name) is not None
@@ -56,11 +62,14 @@ class Animation(GObject.GObject):
         super().__init__()
         self._loop = True
         self.frames = []
-        self.frame_index = 0
         self.last_updated = None
         self.target_image = target_image
+        self.reset()
         self.load(path)
         self._set_current_frame_delay()
+
+    def reset(self):
+        self.frame_index = 0
 
     def advance_frame(self):
         num_frames = len(self.frames)
@@ -157,6 +166,10 @@ class AnimationSystem:
     def animate(class_, id_, animation):
         class_._animations[id_] = animation
         animation.update_image()
+
+    @classmethod
+    def get_animation(class_, id_):
+        return class_._animations.get(id_)
 
     @classmethod
     def step(class_, _widget, clock):
