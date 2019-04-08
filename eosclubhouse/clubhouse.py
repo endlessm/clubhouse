@@ -300,7 +300,16 @@ class QuestSetButton(Gtk.Button):
         return self._quest_set
 
     def get_position(self):
-        return self._quest_set.get_position()
+        anchor = (0, 0)
+        position = self._quest_set.get_position()
+
+        # Get the anchor (if any) so we adapt the position to it.
+        if self._character:
+            animation_image = self._character.get_body_image()
+            if animation_image is not None:
+                anchor = animation_image.get_anchor()
+
+        return (position[0] - anchor[0], position[1] - anchor[1])
 
     def _on_quest_set_highlighted_changed(self, _quest_set, _param):
         self._set_highlighted(self._quest_set.highlighted)
