@@ -299,7 +299,7 @@ class QuestSetButton(Gtk.Button):
     def get_quest_set(self):
         return self._quest_set
 
-    def get_position(self):
+    def _get_position(self):
         anchor = (0, 0)
         position = self._quest_set.get_position()
 
@@ -316,6 +316,7 @@ class QuestSetButton(Gtk.Button):
 
     def _on_quest_set_body_animation_changed(self, _quest_set, _param):
         self._character.body_animation = self._quest_set.body_animation
+        self.notify('position')
 
     def _set_highlighted(self, highlighted):
         highlighted_style = 'highlighted'
@@ -327,6 +328,8 @@ class QuestSetButton(Gtk.Button):
         else:
             self._character.body_animation = self._unhighlighted_animation
             style_context.remove_class(highlighted_style)
+
+    position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
 
 
 class ClubhousePage(Gtk.EventBox):
@@ -414,13 +417,18 @@ class ClubhousePage(Gtk.EventBox):
 
         self._set_current_quest(None)
 
+    def _on_button_position_changed(self, button, _param):
+        self._main_characters_box.move(button, *button.position)
+
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set)
         quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
         button.connect('clicked', self._button_clicked_cb)
 
-        x, y = button.get_position()
+        x, y = button.position
         self._main_characters_box.put(button, x, y)
+
+        button.connect('notify::position', self._on_button_position_changed)
 
     def _on_quest_set_highlighted_changed(self, quest_set, _param):
         if self._app_window.is_visible():
