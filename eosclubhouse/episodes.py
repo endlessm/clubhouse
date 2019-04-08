@@ -55,7 +55,8 @@ class BadgeButton(Gtk.Button):
 
 class PosterWindow(Gtk.Window):
     def __init__(self, episode):
-        super().__init__(title=episode.name, skip_taskbar_hint=False)
+        super().__init__(title=episode.name, skip_taskbar_hint=False,
+                         application=Gio.Application.get_default())
         screen = Gdk.Screen.get_default()
         self.set_visual(screen.get_rgba_visual())
 
