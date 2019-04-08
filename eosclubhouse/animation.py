@@ -54,6 +54,7 @@ class Animator:
 class Animation(GObject.GObject):
     def __init__(self, path, target_image):
         super().__init__()
+        self._loop = True
         self.frames = []
         self.frame_index = 0
         self.last_updated = None
@@ -62,9 +63,14 @@ class Animation(GObject.GObject):
         self._set_current_frame_delay()
 
     def advance_frame(self):
-        # The animations play in loop for now
+        num_frames = len(self.frames)
+
+        # If the animation is not looped, we just don't advance it past the last frame.
+        if not self._loop and self.frame_index + 1 == num_frames:
+            return
+
         self.frame_index += 1
-        if self.frame_index >= len(self.frames):
+        if self.frame_index >= num_frames:
             self.frame_index = 0
 
         self._set_current_frame_delay()
@@ -104,6 +110,8 @@ class Animation(GObject.GObject):
                 frame_index, delay = self._parse_frame(frame, default_delay)
                 pixbuf = subpixbufs[frame_index]
                 self.frames.append({'pixbuf': pixbuf, 'delay': delay})
+
+        self._loop = metadata.get('loop', True)
 
     current_frame = property(_get_current_frame)
 
