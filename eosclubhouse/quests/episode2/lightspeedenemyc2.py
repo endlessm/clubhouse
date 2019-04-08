@@ -22,14 +22,22 @@ class LightSpeedEnemyC2(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_wait_for_flip(self):
-        if not self._app.get_js_property('flipped') or self.debug_skip():
+        code_msg_id = 'CODE'
+
+        if (not self._app.get_js_property('flipped') or self.debug_skip()) and \
+           self._app.get_js_property('playing'):
+            enemy_count = self._app.get_js_property('enemyType1SpawnedCount', 0)
+
+            if enemy_count == 0:
+                code_msg_id = 'ADD_ENEMY_CODE'
+
             self.wait_for_app_js_props_changed(self._app, ['flipped'])
-        return self.step_code
+        return self.step_code, code_msg_id
 
     @Quest.with_app_launched(APP_NAME)
-    def step_code(self):
+    def step_code(self, msg_id):
         self._app.reveal_topic('updateBeam')
-        self.show_hints_message('CODE')
+        self.show_hints_message(msg_id)
 
         if self._app.get_js_property('flipped'):
             self.wait_for_app_js_props_changed(self._app, ['flipped'])
@@ -71,7 +79,7 @@ class LightSpeedEnemyC2(Quest):
         if not self._app.get_js_property('flipped') and not self._app.get_js_property('playing'):
             self.wait_for_app_js_props_changed(self._app, ['playing', 'flipped'])
         if self._app.get_js_property('flipped'):
-            return self.step_code
+            return self.step_code, 'CODE'
         # playing
         return self.step_playtest
 

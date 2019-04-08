@@ -37,22 +37,35 @@ class LightSpeedEnemyA3(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_wait_for_flip(self):
+        code_msg_id = 'CODE'
+
         if not self._app.get_js_property('flipped') or self.debug_skip():
+            enemy_count = self._app.get_js_property('enemyType1SpawnedCount', 0)
+
+            if enemy_count == 0:
+                code_msg_id = 'ADD_ENEMY_CODE'
+
             self.wait_for_app_js_props_changed(self._app, ['flipped'])
-        return self.step_code
+        return self.step_code, code_msg_id
 
     @Quest.with_app_launched(APP_NAME)
-    def step_code(self):
-        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
-           or self.debug_skip():
-            return self.step_play
+    def step_code(self, msg_id):
+        msg_to_show = msg_id
+
+        if not self._app.get_js_property('flipped') or self.debug_skip():
+            if self._app.get_js_property('playing'):
+                return self.step_play
+
+            # If we're not flipped nor playing, then we're in a Restart or Continue screens, and
+            # thus ask the user to play.
+            msg_to_show = 'ABOUTTOPLAY'
 
         self._app.reveal_topic('updateSpinner')
 
-        self.show_hints_message('CODE')
+        self.show_hints_message(msg_to_show)
 
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
-        return self.step_code
+        return self.step_code, 'CODE'
 
     @Quest.with_app_launched(APP_NAME)
     def step_play(self):
@@ -62,8 +75,12 @@ class LightSpeedEnemyA3(Quest):
         if self.debug_skip():
             return self.step_success
 
+        enemy_count = self._app.get_js_property('enemyType1SpawnedCount', 0)
         min_y = self._app.get_js_property('enemyType1MinY', +10000)
         max_y = self._app.get_js_property('enemyType1MaxY', -10000)
+        if enemy_count == 0 or min_y > max_y:
+            self.show_hints_message('NOENEMIES')
+            return self.step_wait_for_flip
         if min_y == max_y:
             self.show_hints_message('NOTMOVING')
             return self.step_wait_for_flip

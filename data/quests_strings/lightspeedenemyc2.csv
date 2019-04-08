@@ -5,6 +5,9 @@ LIGHTSPEEDENEMYC2_LAUNCH_HINT1,Lightspeed! ,,,,
 LIGHTSPEEDENEMYC2_EXPLAIN,"All right. So right now the *beam* moves towards the player relentlessly. It's impossible to beat.
 
 Let's see if you can fix it so you can beat this level. Go to the coding panel.",,,,
+LIGHTSPEEDENEMYC2_ADD_ENEMY_CODE,Select the Spawn tab and make sure the `spawnEnemy` function creates a *Beam* enemy!,,,,
+LIGHTSPEEDENEMYC2_ADD_ENEMY_CODE_HINT1,Make sure to return a `beam` enemy in the `spawnEnemy` function!,,,,
+LIGHTSPEEDENEMYC2_ADD_ENEMY_CODE_HINT2,Change the `spawnEnemy` function so it produces *Beam* enemies: `return 'beam';`,,,,
 LIGHTSPEEDENEMYC2_CODE,"Go to the Beam tab. Look at the `updateBeam()` function. This is different from the other enemies we've seen.
 
 See those `if` statements? It's checking if `playerShip.position.y` is higher and moving up, or lower and moving down.
