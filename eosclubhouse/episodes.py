@@ -2,6 +2,7 @@ import os
 from gi.repository import Gdk, Gio, Gtk
 
 from eosclubhouse import config, utils, libquest
+from eosclubhouse.system import Sound
 
 
 class BadgeButton(Gtk.Button):
@@ -62,6 +63,7 @@ class PosterWindow(Gtk.Window):
 
         self._episode = episode
         self._next = None
+        self._sound_uuid = None
 
         next_episodes = utils.EpisodesDB().get_next_episodes(episode.id)
         if next_episodes:
@@ -137,8 +139,34 @@ class PosterWindow(Gtk.Window):
     def _hide(self, _widget, _event):
         self._modal.hide()
         self.hide()
+
+        if self._sound_uuid == 'pending':
+            self._sound_uuid = 'cancel'
+        elif self._sound_uuid:
+            Sound.stop(self._sound_uuid)
+            self._sound_uuid = None
+
         return True
 
     def _show(self, _window):
         self._modal.present()
         self.set_keep_above(True)
+
+        if self._sound_uuid == 'pending':
+            return
+
+        if self._sound_uuid == 'cancel':
+            self._sound_uuid = 'pending'
+            return
+
+        self._sound_uuid = 'pending'
+        Sound.play('clubhouse/ending/%s' % self._episode.id,
+                   result_handler=self._sound_playing)
+
+    def _sound_playing(self, _proxy, uuid, user_data=None):
+        if self._sound_uuid == 'cancel':
+            Sound.stop(uuid)
+            self._sound_uuid = None
+            return
+
+        self._sound_uuid = uuid
