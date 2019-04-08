@@ -29,6 +29,12 @@ class AnimationImage(Gtk.Image):
     def play(self, name):
         self._animator.play(name)
 
+    def get_anchor(self):
+        animation = self._animator.get_current_animation()
+        if animation is None:
+            return (0, 0)
+        return animation.anchor
+
 
 class Animator:
 
@@ -46,7 +52,7 @@ class Animator:
 
     def play(self, name):
         new_animation = self._animations[name]
-        current_animation = AnimationSystem.get_animation(id(self))
+        current_animation = self.get_current_animation()
 
         if current_animation is not None and new_animation != current_animation:
             current_animation.reset()
@@ -56,11 +62,16 @@ class Animator:
     def has_animation(self, name):
         return self._animations.get(name) is not None
 
+    def get_current_animation(self):
+        return AnimationSystem.get_animation(id(self))
+
 
 class Animation(GObject.GObject):
+
     def __init__(self, path, target_image):
         super().__init__()
         self._loop = True
+        self._anchor = (0, 0)
         self.frames = []
         self.last_updated = None
         self.target_image = target_image
@@ -122,6 +133,11 @@ class Animation(GObject.GObject):
 
         self._loop = metadata.get('loop', True)
 
+        anchor = metadata.get('anchor', (0, 0))
+        assert len(anchor) == 2, ('The anchor given by the animation in "%s" does not have'
+                                  'two elements: %s', sprite_path, anchor)
+        self.anchor = anchor
+
     current_frame = property(_get_current_frame)
 
     @staticmethod
@@ -157,6 +173,14 @@ class Animation(GObject.GObject):
                 metadata = f.read()
 
         return metadata
+
+    def _get_anchor(self):
+        return self._anchor
+
+    def _set_anchor(self, anchor):
+        self._anchor = tuple(anchor)
+
+    anchor = GObject.Property(_get_anchor, _set_anchor, type=GObject.TYPE_PYOBJECT)
 
 
 class AnimationSystem:
