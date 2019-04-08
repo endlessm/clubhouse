@@ -4,12 +4,12 @@ ACTIVATETRAP_OPEN_CLUBHOUSE,"That's what I like to hear! Okay, so open the clubh
 ACTIVATETRAP_OPEN_CLUBHOUSE_HINT1,Click on the button at the right to open the clubhouse.,,,,
 ACTIVATETRAP_TRY,"We're in luck. Turns out Riley was communicating the final password to open the box. 
 
-Looks like she's using a cipher and she's even giving us the key. 1_NFPX_1
+So, for example, it looks like with 1_NFPX_1 she's using a cipher and she's even giving us the key. 
 
-The letters are part of the password and the number she gives us tells us how to decipher it!
+The letters are part of the password and the number gives us the pattern to decipher it!
 ",,,,
 ACTIVATETRAP_TRY2,"Right! It's a Caesar Cipher! With the 1's, she's telling us to shift the letters over by 1. ",Ada,,,
-ACTIVATETRAP_TRY3,"Exactly, So N becomes N. F becomes E, and P gives us O, and finally, X becomes W, giving us –",Saniel,,,
+ACTIVATETRAP_TRY3,"Exactly, So N becomes M. F becomes E, and P gives us O, and finally, X becomes W, giving us –",Saniel,,,
 ACTIVATETRAP_TRY4,MEOW! ,Faber,hurray,,
 ACTIVATETRAP_TRY5,"MEOW. Yes. And if we follow the same pattern with the others we get MEOW, and again, MEOW. 
 
