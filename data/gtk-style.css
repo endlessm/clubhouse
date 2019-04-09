@@ -20,6 +20,10 @@
     background-image: url('resource:///com/endlessm/Clubhouse/images/episode3_bg.png');
 }
 
+.episodes-page.episode3.completed {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/episode4_bg.png');
+}
+
 .clubhouse-message-box {
     background-color: rgba(255, 255, 255, .96);
     border-radius: 12px;
