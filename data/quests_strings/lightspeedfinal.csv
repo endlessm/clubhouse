@@ -9,12 +9,14 @@ LIGHTSPEEDFINAL_CODE,"All right, now we need to give it everything. Let's spawn 
 Click on the Spawn tab and look at the `spawnEnemy()` function.
 
 Let's change it so it spawns any of the 4 enemies: *asteroid*, *spinner*, *squid*, or *beam*.",,,,
-LIGHTSPEEDFINAL_CODE_HINT1,You'll need to change the random variable to be between 1 and 4.,,,,
-LIGHTSPEEDFINAL_CODE_HINT2,"`var r = random(1,4);`",,,,
-LIGHTSPEEDFINAL_CODE_HINT3,And then check for each number and return the enemy type: `if (r == 2) return 'spinner';`,,,,
-LIGHTSPEEDFINAL_CODE_HINT4,And `if (r==3) return 'squid';` and if it's 4 spawn a *beam*.,,,,
+LIGHTSPEEDFINAL_CODE_HINT1,Remember the `pickOne()` function? It can be useful here too.,,,,
+LIGHTSPEEDFINAL_CODE_HINT2,"Use the `pickOne()` function to return one of the 4 enemies, `'asteroid'`, `'spinner'`, `'squid'` or `'beam'`.",,,,
+LIGHTSPEEDFINAL_CODE_HINT3,"`return pickOne('asteroid', 'spinner', 'squid', 'beam');`",,,,
 LIGHTSPEEDFINAL_ABOUTTOPLAY,Ready. Let's play!,,,,
 LIGHTSPEEDFINAL_PLAYTEST,You should get all 4 enemies in this level.,,,,
+LIGHTSPEEDFINAL_ABOUTTOPLAY_HINT1,Press the *Restart* button.,,,,
+LIGHTSPEEDFINAL_PLAY_AGAIN,Let's try again.,,,,
+LIGHTSPEEDFINAL_PLAY_AGAIN_HINT1,Press the *Restart* button.,,,,
 LIGHTSPEEDFINAL_NOTFOUR,I don't see all 4 enemies. Let's go back and check.,,,,
 LIGHTSPEEDFINAL_FINISHLEVEL,"Yes, you got all 4 enemies. Now keep playing to the end. That's how we'll get the code.",,,,
 LIGHTSPEEDFINAL_SUCCESS,"Well done! I knew you could it. And here's the code, as we expected.",,,,

@@ -1,10 +1,8 @@
 RILEYSLEVELS_QUESTION,Hey there! I'm heading up the search for the fob hidden in Fizzics. Want to join me?,Ada,,,
 RILEYSLEVELS_QUESTION_ACCEPT,Of course!,,,,
-RILEYSLEVELS_LAUNCH,"Fantastic. We really need your help! We're giving everything we have to rescuing Riley. 
+RILEYSLEVELS_LAUNCH,"Fantastic. We really need your help! Saniel told me Riley made some hidden Fizzics levels. 
 
-So, Saniel told me that right before Riley was trapped, she was working on a Fizzics assignment. 
-
-She turned in some new Fizzics levels to Saniel and he's implemented them so we can play them. 
+She made them as a Fizzics assignment for Saniel and he implemented them so we can play them. 
 
 So let's play them now and see if we find one of the access fobs. Launch Fizzics and let's go!",,,,
 RILEYSLEVELS_GETTOLEVEL11,"First, you need to get to level 11.",,,,
@@ -15,7 +13,7 @@ RILEYSLEVELS_LEVEL11_HINT3,Click the Flip button and enable the *Add* tool.,,,,
 RILEYSLEVELS_ALREADYBEAT,Oh hey! You already finished Riley's levels!,,,,
 RILEYSLEVELS_LEVEL12,Great. You made it into Riley's secret levels! Now see if you can beat them all.,,,,
 RILEYSLEVELS_DIED_LEVEL12,Ouch! What's up with those balls falling right when the level begins!,,,,
-RILEYSLEVELS_DIED_LEVEL12_HINT1,The gravity button might be very useful right now.,,,,
+RILEYSLEVELS_DIED_LEVEL12_HINT1,Changing the gravity variable might be very useful right now.,,,,
 RILEYSLEVELS_START_LEVEL13,"Wait, what? No fling tool? How can you solve this problem?",,,,
 RILEYSLEVELS_START_LEVEL13_HINT1,"You know by now, flip the app and Hack it!",,,,
 RILEYSLEVELS_DIED_LEVEL13,"Good try, but try another solution.",,,,

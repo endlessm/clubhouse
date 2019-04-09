@@ -8,18 +8,21 @@ So, for example, it looks like with 1_NFPX_1 she's using a cipher and she's even
 
 The letters are part of the password and the number gives us the pattern to decipher it!
 ",,,,
-ACTIVATETRAP_TRY2,"Right! It's a Caesar Cipher! With the 1's, she's telling us to shift the letters over by 1. ",Ada,,,
+ACTIVATETRAP_TRY2,"Right! It's a Caesar Cipher! With the 1's, she's telling us to shift the letters over by 1. 
+
+For example, one letter after M is N. What's one letter before F? 
+
+PLAYER: E!               OR       G!               ",Ada,,,
 ACTIVATETRAP_TRY3,"Exactly, So N becomes M. F becomes E, and P gives us O, and finally, X becomes W, giving us –",Saniel,,,
 ACTIVATETRAP_TRY4,MEOW! ,Faber,hurray,,
-ACTIVATETRAP_TRY5,"MEOW. Yes. And if we follow the same pattern with the others we get MEOW, and again, MEOW. 
+ACTIVATETRAP_TRY5,"MEOW. Yes. And followING the same pattern with the two others we get MEOW, and again, MEOW. 
 
 MEOWMEOWMEOW. I must say, this password gives me pause. 
 
 Let's see if it opens the box. 
 ",Saniel,,,
-ACTIVATETRAP_END,"The password worked! The opening protocol has started! Whoa, that's alot of smoke! 
+ACTIVATETRAP_END,"The password worked! The opening protocol has started! 
 
 Looks like it's going through a transcoding process. This could take a while. 
-
-I've seen this transcoding process before. It takes time, but trust me, it's worth the wait. ",,hurray,,
+",,,,
 ACTIVATETRAP_ABORT,Hope you'll check back soon! Just one more step. ,,,,

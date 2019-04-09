@@ -14,15 +14,21 @@ Let's go to the coding panel and see what we can do! ",,,,
 POWERUPA1_EXPLAIN_HINT1,Press the Flip button.,,,,
 POWERUPA1_CODE,"Click on the Spawn tab. See that `spawnPowerup()` function? That's what creates powerups.
 
-The Spawn tab gives you a number with the type of powerup. 0 means no powerup. 
+The Spawn tab gives you a number with the type of powerup. `null` means no powerup. 
 
-Set the number to 1 and try the level.",,,,
-POWERUPA1_CODE_HINT1,Set `return 1;` and play the level.,,,,
+Return `'invulnerable'` and try the level.",,,,
+POWERUPA1_CODE_HINT1,Set `return 'invulnerable';` and play the level.,,,,
 POWERUPA1_ABOUTTOPLAY,Start playing the level.,,,,
+POWERUPA1_ABOUTTOPLAY_HINT1,Press the *Restart* button.,,,,
+POWERUPA1_PLAY_AGAIN,Oh! The ship crashed while I was waiting for a powerup!,,,,
+POWERUPA1_PLAY_AGAIN_HINT1,Let's try again.,,,,
+POWERUPA1_PLAY_AGAIN_HINT2,Press the *Restart* button.,,,,
 POWERUPA1_PLAYTEST,"Let's see if the powerups show up. When they show up, they won't have any of their powers yet.",,,,
 POWERUPA1_NOPOWERUPS,How strange. Looks like we have ZERO powerups. Something is wrong. Let's go back and check.,,,,
+POWERUPA1_OTHER_POWERUP,"Oh interesting! A powerup was spawned, but not the kind we are looking for.",,,,
+POWERUPA1_OTHER_POWERUP_HINT1,Flip the app again and edit the code to spawn a powerup of the `'invulnerable'` kind.,,,,
 POWERUPA1_FINISHLEVEL,"Excellent. The powerups are there, although they don't do anything yet. Finish the level now.",,,,
 POWERUPA1_SUCCESS,"Great. Your Lightspeed skills are still quite sharp. 
 
-Come back later and let's keep working on that powerup.",,,,
+Come back later and let's keep working on that powerup.",,hurray,,
 POWERUPA1_ABORT,Check back later and we can keep exploring. ,,,,

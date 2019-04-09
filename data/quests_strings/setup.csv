@@ -1,24 +1,16 @@
 SETUP_QUESTION,Glad to see you! We've got a bit of a situation here. We have to rescue Riley! Can you help us?,Saniel,,,
 SETUP_QUESTION_ACCEPT,Definitely! ,,,,
-SETUP_EXPLAIN,"So, here's what's going on. Riley's missing and all of us will need to work together to find her. 
-
-She was poking around in a restricted area and suddenly plummeted into some kind of portal!
-
-When I heard the ruckus I got there just as the box closed & caught Riley's scarf.",,,,
-SETUP_EXPLAIN2,"I thought this thing was disarmed a thousand blue moons ago. Now it's got Riley! 
+SETUP_EXPLAIN,"Riley was poking around in a restricted area and suddenly plummeted into some kind of portal!
+",Ada,,,
+SETUP_EXPLAIN2,"I thought that thing was disarmed a thousand blue moons ago. Now it's got Riley! 
 
 This contraption is supposed to capture data threats, not our own Conservatory students!
 
-I hope Riley will find a way to communicate with us! Knowing Riley, she'll figure something out. 
-
-",,,,
+Knowing Riley, she'll find a way to communicate with us! We need to all work together to find her!",Saniel,,,
 SETUP_END,"The box is locked down tight with a triple passcode protocol. 
 
-The codes are embedded on 3 small tags, or ""fobs."" They work like a key, but with radio waves!
-
-For extra security, the fobs are hidden in 3 different levels deep in Fizzics and and in Lightspeed.
+The codes are embedded on 3 small tags, or ""fobs, hidden deep in Fizzics and Lightspeed.
 
 Our job is to get to each of those levels and retrieve the coded fobs and open those panels! 
-
 ",,,,
 SETUP_ABORT,"OK, hope you can come back soon!",,,,

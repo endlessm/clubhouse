@@ -1,23 +1,32 @@
 POWERUPB2_QUESTION,Now for our last powerup. Ready for some fireworks?,Saniel,,,
 POWERUPB2_QUEST_ACCEPT,You bet!,,,,
 POWERUPB2_LAUNCH,Excellent. Launch Lightspeed.,,,,
-POWERUPB2_EXPLAIN,"We're going to add code so a powerup of type 2 blows up every enemy on the screen.
+POWERUPB2_EXPLAIN,"We're going to add code so a powerup of type `'blowup'` blows up every enemy on the screen.
 
 Click  the Flip button.",,,,
-POWERUPB2_CODE,"This is very similar to the other one. Click on the Powerups tab. See the `handlePowerup()` function?
+POWERUPB2_CODE,"This is very similar to the other one. Click on the Powerups tab. See the `activatePowerup()` function?
 
-Right now, the type 1 powerup makes us invulnerable. 
+Right now, the type `'invulnerable'` powerup makes us invulnerable. 
 
-Now we want to add a setting for powerup 2.  So if we pick up one of these, we blow up everything.
+Now we want to add a setting for powerup `'blowup'`.  So if we pick up one of these, we blow up everything.
 
-See how there's an `if (powerupType == 1)` check already. Add a similar one for powerup 2.
+See how there's an `if (powerUpType == 'invulnerable')` check already. Add a similar one for powerup `'blowup'`.
 
 You can blow up everything with the function `blowUpEnemies()`.",,,,
-POWERUPB2_CODE_HINT1,"So after the code that's there already, you should have `if (powerupType == 2)`",,,,
+POWERUPB2_CODE_HINT1,"So after the code that's there already, you should have `if (powerUpType == 'blowup')`",,,,
 POWERUPB2_CODE_HINT2,And then `blowUpEnemies();`. And that should do it. Test it out.,,,,
 POWERUPB2_ABOUTTOPLAY,Play the level to test it.,,,,
+POWERUPB2_ABOUTTOPLAY_HINT1,Press the *Restart* button.,,,,
+POWERUPB2_PLAY_AGAIN,Let's try again.,,,,
+POWERUPB2_PLAY_AGAIN_HINT1,Press the *Restart* button.,,,,
 POWERUPB2_PLAYTEST,Let's see what happens when you pick up both kinds of powerups.,,,,
-POWERUPB2_ONLYONE,All powerups seem to be doing the same thing. Go back and make sure we have the two `if` statements.,,,,
+POWERUPB2_ONLYONE,All powerups seem to be doing the same thing.,,,,
+POWERUPB2_ONLYONE_HINT1,Go back and make sure we have the two `if` statements.,,,,
 POWERUPB2_FINISHLEVEL,Major fireworks! Go ahead and finish the level now with the help of the powerups!,,,,
+POWERUPB2_NOT_ACTIVATED,"Hmm, these powerups aren't doing anything.",,,,
+POWERUPB2_NOT_ACTIVATED_HINT1,Go back and make sure we have the two `if` statements.,,,,
 POWERUPB2_SUCCESS,"Excellent. Okay, only one more powerup before we can get our next fob to open the box. ",,,,
+POWERUPB2_ONE_PICKED,"One picked, can you pick the other kind?.",,,,
+POWERUPB2_OTHER_PICKED,Hmm you picked the wrong type.,,,,
+POWERUPB2_NOT_PICKED,You couldn't pick any powerup? Are they being spawned?,,,,
 POWERUPB2_ABORT,"No problem, we can try it again later. ",,,,
