@@ -328,10 +328,11 @@ class QuestSetButton(Gtk.Button):
 
     def _get_position(self):
         anchor = (0, 0)
-        position = self._quest_set.get_position()
+        position = (0, 0)
 
         # Get the anchor (if any) so we adapt the position to it.
         if self._character:
+            position = self._quest_set.get_position() or self._character.get_position() or position
             animation_image = self._character.get_body_image()
             if animation_image is not None:
                 anchor = animation_image.get_anchor()
