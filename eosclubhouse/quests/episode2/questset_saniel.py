@@ -11,7 +11,6 @@ from eosclubhouse.quests.episode2.lightspeedenemyb2 import LightSpeedEnemyB2
 class SanielQuestSet(QuestSet):
 
     __character_id__ = 'saniel'
-    __position__ = (72, 629)
     __quests__ = [Chore, LightSpeedFix1, LightSpeedFix2, LightSpeedEnemyB1, LightSpeedEnemyB2]
 
     def __init__(self):

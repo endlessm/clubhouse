@@ -10,7 +10,6 @@ from eosclubhouse.quests.episode2.breakingin import BreakingIn
 class RileyQuestSet(QuestSet):
 
     __character_id__ = 'riley'
-    __position__ = (279, 230)
     __quests__ = [Investigation, LightSpeedEnemyC1,
                   LightSpeedEnemyC2, BreakingIn]
 

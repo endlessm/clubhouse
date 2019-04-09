@@ -17,7 +17,6 @@ from eosclubhouse.quests.episode3.activatetrap import ActivateTrap
 class SanielQuestSet(QuestSet):
 
     __character_id__ = 'saniel'
-    __position__ = (72, 629)
     __quests__ = [SetUp, PowerUpA1, PowerUpA2, PowerUpB1, PowerUpB2, PowerUpC1, PowerUpC2,
                   PowerUpC3, LightspeedFinal, ApplyFob2, ActivateTrap]
 

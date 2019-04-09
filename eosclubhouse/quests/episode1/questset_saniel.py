@@ -7,7 +7,6 @@ from eosclubhouse.quests.episode1.hackdex1 import Hackdex1
 class SanielQuestSet(QuestSet):
 
     __character_id__ = 'saniel'
-    __position__ = (72, 629)
     __quests__ = [Hackdex1]
 
     def __init__(self):
