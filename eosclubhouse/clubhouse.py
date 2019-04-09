@@ -810,12 +810,16 @@ class ClubhousePage(Gtk.EventBox):
         actions = self._actions
         action = self._actions.get(action_key)
 
-        self._reset_quest_actions()
-
         if action is None:
             logger.debug('Failed to get action for key %s', action_key)
             logger.debug('Current actions: %s', actions)
             return
+
+        # It's important to reset the quest actions only after the check above, as the same action
+        # can be triggered twice by clicking the Quest view button's very quickly, and in that case,
+        # the second time we could be resetting the actions when new ones have been added by the
+        # quests in the meanwhile.
+        self._reset_quest_actions()
 
         # Call the action
         callback, args = action[1], action[2:]
