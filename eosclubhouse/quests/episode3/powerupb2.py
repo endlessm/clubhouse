@@ -50,7 +50,7 @@ class PowerUpB2(Quest):
         self.wait_confirm('FINISHLEVEL')
 
         # @todo check goal condition: player picked powerups of type
-        # 'invincibility' and 'blowup', and ship got invulnerableTimer
+        # 'invulnerable' and 'blowup', and ship got invulnerableTimer
         # > 0, and blownUpEnemies() was called (or enemies
         # dissapeared?).
 

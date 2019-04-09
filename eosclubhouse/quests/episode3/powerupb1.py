@@ -49,7 +49,7 @@ class PowerUpB1(Quest):
         self.wait_confirm('ONETYPEONLY')
         self.wait_confirm('FINISHLEVEL')
 
-        # @todo check goal condition: Powerups of type 'invincibility'
+        # @todo check goal condition: Powerups of type 'invulnerable'
         # and 'blowup' were spawned.
 
         return self.step_success
