@@ -586,6 +586,8 @@ class Quest(GObject.GObject):
 
         self._run_context = None
 
+        self.reset_hints_given_once()
+
         self.clubhouse_state = ClubhouseState()
 
     def get_episode_name(self):
@@ -621,6 +623,9 @@ class Quest(GObject.GObject):
 
         # Reset the "stopping" property before running the quest.
         self.stopping = False
+
+        # Reset the hints given once:
+        self.reset_hints_given_once()
 
         self._run_context = _QuestRunContext(self._cancellable)
         self._run_context.run(self.step_begin)
@@ -1021,6 +1026,9 @@ class Quest(GObject.GObject):
                   options.get('mood') or self._main_mood,
                   sfx_sound, bg_sound)
 
+    def reset_hints_given_once(self):
+        self._hints_given_once = set()
+
     def _show_next_hint_message(self, info_list, index=0):
         label = "I'd like another hint"
         if index == 0:
@@ -1033,7 +1041,13 @@ class Quest(GObject.GObject):
         next_hint = functools.partial(self._show_next_hint_message, info_list, next_index)
         self.show_message(info_id=info_id, choices=[(label, next_hint)])
 
-    def show_hints_message(self, info_id):
+    def show_hints_message(self, info_id, give_once=False):
+        if give_once:
+            if info_id in self._hints_given_once:
+                return
+            else:
+                self._hints_given_once.add(info_id)
+
         full_info_id = self._qs_base_id + '_' + info_id
         info_id_list = QuestStringCatalog.get_hint_keys(full_info_id)
 
