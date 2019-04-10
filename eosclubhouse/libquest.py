@@ -184,6 +184,10 @@ class Registry:
         class_.load(get_alternative_quests_dir())
 
     @classmethod
+    def get_loaded_episode_name(class_):
+        return class_._loaded_episode
+
+    @classmethod
     def get_autorun_quest(class_):
         return class_._autorun_quest
 
@@ -534,6 +538,8 @@ class Quest(GObject.GObject):
         super().__init__()
         self._name = name
 
+        self._episode_name = Registry.get_current_episode()
+
         self._qs_base_id = self.get_default_qs_base_id()
         self._initial_msg = initial_msg
 
@@ -581,6 +587,9 @@ class Quest(GObject.GObject):
         self._run_context = None
 
         self.clubhouse_state = ClubhouseState()
+
+    def get_episode_name(self):
+        return self._episode_name
 
     def update_availability(self, _gss=None):
         if self.complete:
@@ -1067,6 +1076,12 @@ class Quest(GObject.GObject):
     def complete_current_episode(self):
         current_episode_info = Registry.get_current_episode()
         if current_episode_info['completed']:
+            return
+
+        # This method is about setting the Quest's episode, so if the episode has changed for
+        # some reason (e.g. changing to the next episode just moments before a quest sets the
+        # current episode as complete) we should no longer set it as current.
+        if self.get_episode_name() != current_episode_info['name']:
             return
 
         current_episode_info.update({'completed': True})

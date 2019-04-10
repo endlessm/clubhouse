@@ -16,6 +16,7 @@ class BreakingIn(Quest):
     def set_complete(self, is_complete):
         super().set_complete(is_complete)
         if self.complete:
+            self.complete_current_episode()
             self.set_next_episode('episode3')
 
     def step_begin(self):
@@ -85,5 +86,4 @@ class BreakingIn(Quest):
         Sound.play('quests/quest-complete')
         self.complete = True
         self.available = False
-        self.complete_current_episode()
         self.stop()
