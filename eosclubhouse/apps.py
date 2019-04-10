@@ -30,7 +30,7 @@ class LightSpeed(App):
     APP_NAME = 'com.endlessm.LightSpeed'
 
     _POWERUP_TYPES = ['invulnerable', 'blowup', 'upgrade']
-    _UPGRADE_TYPES = ['shrink', 'attraction']
+    _UPGRADE_TYPES = ['shrink', 'attraction', 'engine']
 
     _POWERUP_SPAWN_SUFFIX = 'PowerupSpawnCount'
     _POWERUP_PICKED_SUFFIX = 'PowerupPickedCount'

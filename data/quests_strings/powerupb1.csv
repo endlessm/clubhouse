@@ -18,9 +18,7 @@ POWERUPB1_PLAY_AGAIN,Let's try again.,,,,
 POWERUPB1_PLAY_AGAIN_HINT1,Press the *Restart* button.,,,,
 POWERUPB1_PLAYTEST,Let's see if we get both types of powerups.,,,,
 POWERUPB1_NOPOWERUPS,Hmm. Now we have no powerups at all. Something went wrong. Let's fix it.,,,,
-POWERUPB1_ONETYPEONLY,"We have some powerups, but it's only one type.",,,,
-POWERUPB1_ONETYPEONLY_HINT1,Are the two types being spawned?,,,,
-POWERUPB1_ONETYPEONLY_HINT2,"If unsure, go back and use the `pickOne()` function.",,,,
+POWERUPB1_ONETYPEONLY,"We have some powerups, but it's only one type. Are the two types being spawned?",,,,
 POWERUPB1_FINISHLEVEL,That's it! We now have both types. Go ahead and finish the level.,,,,
 POWERUPB1_SUCCESS,"Splendid. So we have two powerups now, but the second one doesn't yet have its powers. 
 
