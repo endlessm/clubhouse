@@ -51,7 +51,7 @@ class PowerUpC3(Quest):
 
         # @todo check goal condition: Player picked powerups of type
         # 'upgrade' and ship got shrinkTimer > 0 and attractTimer > 0
-        # and betterEnginesTimer > 0 (the latter not implemented).
+        # and enginesTimer > 0 (the latter not implemented).
 
         return self.step_success
 

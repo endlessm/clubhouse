@@ -1,19 +1,25 @@
 POWERUPC1_QUESTION,One more powerup to go. Ready?,Saniel,,,
 POWERUPC1_QUEST_ACCEPT,Always!,,,,
 POWERUPC1_LAUNCH,Start by launching Lightspeed.,,,,
-POWERUPC1_EXPLAIN,Now we're going to create powerup 3. Go to the coding panel.,,,,
-POWERUPC1_CODE,"This level is already spawning powerups of type 3. So let's change its special power. 
+POWERUPC1_EXPLAIN,Now we're going to create powerup `'upgrade'`. Go to the coding panel.,,,,
+POWERUPC1_CODE,"This level is already spawning powerups of type `'upgrade'`. So let's change its special power. 
 
-Click on the Powerup tab and look for the `handlePowerup()` function.
+Click on the Powerup tab and look for the `activatePowerup()` function.
 
-We need to add a new `if` statement for type 3. Let's try shrinking the ship! 
+We need to add a new `if` statement for type `'upgrade'`. Let's try shrinking the ship! 
 
 It's on a timer, like invulnerability, so `ship.shrinkTimer = 5;`",,,,
-POWERUPC1_CODE_HINT1,Remember to add the correct `if` statement for powerups of type 3.,,,,
-POWERUPC1_CODE_HINT2,The correct syntax would be: `if (powerupType == 3)` ,,,,
+POWERUPC1_CODE_HINT1,Remember to add the correct `if` statement for powerups of type `'upgrade'`.,,,,
+POWERUPC1_CODE_HINT2,The correct syntax would be: `if (powerUpType == 'upgrade')` ,,,,
 POWERUPC1_ABOUTTOPLAY,Let's play the level now.,,,,
+POWERUPC1_ABOUTTOPLAY_HINT1,Press the *Restart* button.,,,,
+POWERUPC1_PLAY_AGAIN,Let's try again.,,,,
+POWERUPC1_PLAY_AGAIN_HINT1,Press the *Restart* button.,,,,
 POWERUPC1_PLAYTEST,Those powerups should shrink our ship now.,,,,
 POWERUPC1_NOSHRINK,The ship is not  shrinking for some reason. Let's check the code.,,,,
+POWERUPC1_OTHER_PICKED,Seems you picked a powerup of a different type.,,,,
+POWERUPC1_NOT_PICKED,You couldn't pick any powerup?,,,,
+POWERUPC1_NOT_PICKED_HINT1,Are they actually being spawned?,,,,
 POWERUPC1_FINISHLEVEL,There you go. It should make finishing the level much easier.,,,,
-POWERUPC1_SUCCESS,Perfect. A few more tweaks on this powerup and we'll be almost ready.,,,,
+POWERUPC1_SUCCESS,Perfect. A few more tweaks on this powerup and we'll be almost ready.,,hurray,,
 POWERUPC1_ABORT,Hope you'll come back soon. We need your help!,,,,
