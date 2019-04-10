@@ -6,7 +6,6 @@ from eosclubhouse.quests.cesdemo.fizzics2 import Fizzics2
 class RileyQuestSet(QuestSet):
 
     __character_id__ = 'riley'
-    __position__ = (279, 260)
     __quests__ = [Fizzics2]
 
     def get_empty_message(self):

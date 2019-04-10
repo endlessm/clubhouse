@@ -23,6 +23,7 @@ gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
 import functools
+import json
 import logging
 import os
 import subprocess
@@ -83,6 +84,7 @@ class Character(GObject.GObject):
         self._mood = self.DEFAULT_MOOD
         self._body_animation = self.DEFAULT_BODY_ANIMATION
         self._body_image = None
+        self._position = None
         self.load()
 
     def _get_id(self):
@@ -134,8 +136,33 @@ class Character(GObject.GObject):
 
     def load(self):
         body_path = os.path.join(self._id, 'fullbody')
+        self._load_position()
         self._body_image = AnimationImage(body_path)
         self._body_image.play('idle')
+
+    def _load_position(self):
+        checked_main_path = False
+
+        for character_path in get_character_animation_dirs(self._id):
+            conf_path = os.path.join(character_path, 'fullbody.json')
+            conf_json = None
+
+            try:
+                with open(conf_path) as f:
+                    conf_json = json.load(f)
+            except FileNotFoundError:
+                if not checked_main_path:
+                    logger.debug('No conf for "%s" fullbody animation', self._id)
+                continue
+            finally:
+                checked_main_path = True
+
+            self._position = conf_json.get('position', None)
+            if self._position is not None:
+                self._position = tuple(self._position)
+
+    def get_position(self):
+        return self._position
 
     id = property(_get_id)
     mood = GObject.Property(_get_mood, _set_mood, type=str)
@@ -301,10 +328,11 @@ class QuestSetButton(Gtk.Button):
 
     def _get_position(self):
         anchor = (0, 0)
-        position = self._quest_set.get_position()
+        position = (0, 0)
 
         # Get the anchor (if any) so we adapt the position to it.
         if self._character:
+            position = self._quest_set.get_position() or self._character.get_position() or position
             animation_image = self._character.get_body_image()
             if animation_image is not None:
                 anchor = animation_image.get_anchor()
