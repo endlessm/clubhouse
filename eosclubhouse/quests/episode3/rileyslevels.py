@@ -51,7 +51,7 @@ class RileysLevels(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_ball_died(self, message, next_step):
-        self._show_hints_message(message, give_once=True)
+        self.show_hints_message(message, give_once=True)
         self.wait_for_app_js_props_changed(self._app, ['ballDied'])
         return next_step
 
@@ -83,7 +83,7 @@ class RileysLevels(Quest):
             return self.step_success
 
         if self.SECOND_RILEY_LEVEL <= level <= self.LAST_RILEY_LEVEL:
-            self._show_hints_message('START_LEVEL{}'.format(int(level)), give_once=True)
+            self.show_hints_message('START_LEVEL{}'.format(int(level)), give_once=True)
 
         change = self._wait_for_app_changes()
         if change == 'levelSuccess' and level == self.LAST_RILEY_LEVEL:
