@@ -6,6 +6,7 @@ from eosclubhouse.system import Sound
 class PowerUpC2(Quest):
 
     CHECK_GOAL_TIMEOUT = 20
+    GIVEUP_PICKED = 7
 
     def __init__(self):
         super().__init__('PowerUpC2', 'saniel')
@@ -71,14 +72,15 @@ class PowerUpC2(Quest):
             # Player crashed the ship:
             return self.step_abouttoplay, 'PLAY_AGAIN'
 
+        upgrades_active = self._app.get_upgrades_active_dict('shrink', 'attraction')
+        if all(upgrades_active.values()):
+            # Pause one second to see the powerup effect on screen:
+            self.pause(1)
+            return self.step_success
+
         upgrades_picked = self._app.powerups_picked_count('upgrade')
-        if upgrades_picked >= 2:
-            active = self._app.get_upgrades_active_dict('shrink', 'attraction')
-            if active['shrink'] and active['attraction']:
-                # Pause one second to see the powerup effect on screen:
-                self.pause(1)
-                return self.step_success
-            elif active['shrink'] or active['attraction']:
+        if upgrades_picked >= self.GIVEUP_PICKED:
+            if any(upgrades_active.values()):
                 # Pause one second to see the powerup effect on screen:
                 self.pause(1)
                 return self.step_play, 'ONLYONE'
