@@ -375,6 +375,7 @@ class ClubhousePage(Gtk.EventBox):
         self._current_quest = None
         self._scheduled_quest_info = None
         self._proposing_quest = False
+        self._delayed_message_handler = 0
 
         self._last_user_answer = 0
 
@@ -637,9 +638,15 @@ class ClubhousePage(Gtk.EventBox):
 
         self._shell_popup_message(message_txt, character, sfx_sound, bg_sound)
 
+    def _reset_delayed_message(self):
+        if self._delayed_message_handler > 0:
+            GLib.source_remove(self._delayed_message_handler)
+            self._delayed_message_handler = 0
+
     def on_quest_finished(self, quest):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
+        self._reset_delayed_message()
         quest.save_conf()
         quest.dismiss()
 
@@ -736,7 +743,8 @@ class ClubhousePage(Gtk.EventBox):
         # new notification is a result of a user recent interaction.
         if time.time() - self._last_user_answer > 1:
             self._app.withdraw_notification(self._app.QUEST_MSG_NOTIFICATION_ID)
-            GLib.timeout_add(300, real_popup_message)
+            self._reset_delayed_message()
+            self._delayed_message_handler = GLib.timeout_add(300, real_popup_message)
         else:
             real_popup_message()
 
@@ -767,6 +775,7 @@ class ClubhousePage(Gtk.EventBox):
         self._app.send_quest_msg_notification(notification)
         self._current_quest_notification = (notification, sfx_sound)
 
+        self._delayed_message_handler = 0
         return GLib.SOURCE_REMOVE
 
     def _shell_show_current_popup_message(self):
