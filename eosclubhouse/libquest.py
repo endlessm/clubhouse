@@ -1078,6 +1078,12 @@ class Quest(GObject.GObject):
         if current_episode_info['completed']:
             return
 
+        # This method is about setting the Quest's episode, so if the episode has changed for
+        # some reason (e.g. changing to the next episode just moments before a quest sets the
+        # current episode as complete) we should no longer set it as current.
+        if self.get_episode_name() != current_episode_info['name']:
+            return
+
         current_episode_info.update({'completed': True})
         self.gss.set('clubhouse.CurrentEpisode', current_episode_info)
 
