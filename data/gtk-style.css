@@ -124,7 +124,7 @@
 }
 
 .clubhouse-button-box {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 .clubhouse-button-box > button > label {
@@ -194,7 +194,7 @@
 }
 
 .inventory-scrolled-window {
-    margin-bottom: 85px
+    margin-bottom: 65px
 }
 
 .inventory-scrolled-window > scrollbar {
