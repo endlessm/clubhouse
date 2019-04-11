@@ -1,6 +1,19 @@
 from eosclubhouse.system import App, GameStateService
 
 
+class Maze(App):
+
+	APP_NAME = 'come.endlessm.Maze'  # check to make sure that's what it's called
+
+	def __init__(self):
+		super().__init__(self.APP_NAME)
+
+	def get_current_level (self): 
+		return 0;
+
+	# we will also need a method for when a level is started, and whether it's restarted bc the user died
+
+
 class Fizzics(App):
 
     APP_NAME = 'com.endlessm.Fizzics'

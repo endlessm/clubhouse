@@ -1,0 +1,65 @@
+MAZEPT1_QUESTION,TRANSCODING COMPLETE. READY FOR NEXT STEP?,Riley,,,
+MAZEPT1_QUESTION_ACCEPT,CONFIRM,,,,
+MAZEPT1_TRANSFER,TRANSFER TO DESKTOP SUCCESSFUL,,,,
+MAZEPT1_LAUNCH_ADA,Did you see that!? Riley's box is an app now! We should launch it!,Ada,,,
+MAZEPT1_LAUNCH_SANIEL,Great! Now you can enter the box and help Riley escape. It should be easy from here!,Saniel,,,
+MAZEPT1_LAUNCH_FABER,"The box just turned into an app! Well, don’t waste any time, get in there!",Faber,,,
+MAZEPT1_MANUAL1,"Finally! I’ve been exploring around as I waited for you. But I have to get OUT of here!
+
+I don’t know what’s going on, but this maze makes me run forward.  I’m in constant motion!  
+
+I HAVE to go forward every moment! I can also run up and down at the same time, on a diagonal. 
+
+Help me get to the exit!",Riley,,,
+MAZEPT1_MANUAL1_HINT1,"Use the FORWARD, UP, and DOWN Instructions to move me through the maze.",,,,
+MAZEPT1_MANUAL1_HINT2,"I always run one space to the right, but I can also move UP or DOWN at the same time.",,,,
+MAZEPT1_MANUAL1_HINT3,Don't bump into any walls!,,,,
+MAZEPT1_DIED_RESTART,"Ouch! I'm only virtual inside this app, but it still smarts when I screw up like that!",Riley,,,
+MAZEPT1_MANUAL2,Oh no! Another level! I wonder how many there are?,,,,
+MAZEPT1_MANUAL3,"This is preposterous! There should only be one level in this maze!
+
+Someone has been tampering with it!",Saniel,,,
+MAZEPT1_MANUAL4,"Is that a pit I see in the ground!  Impossible!  How did pits suddenly appear!??
+
+There were only walls inside this maze when I …. ahhh…. previously!",Saniel,,,
+MAZEPT1_MANUAL4_HINT1,Riley will have to use her JUMP Instruction to cross the pits!,Saniel,,,
+MAZEPT1_AUTO1,Is that all this maze can throw at us? We’ll get out of here in no time.,Riley,,,
+MAZEPT1_AUTO1_FELIX,Bzrt bzrt meow,Felix,,,
+MAZEPT1_AUTO1_FABER,What was that!?,Faber,,,
+MAZEPT1_AUTO1_ADA,Where did your controls go!?,Ada,,,
+MAZEPT1_AUTO1_RILEY,How am I going to get out of this maze if I can't move!?,Riley,,,
+MAZEPT1_AUTO1_SANIEL,Very alarming! It has given you a set of Instructions already.,Saniel,,,
+MAZEPT1_AUTO1_HINT1,See that PLAY button? Try pushing that.,Saniel,,,
+MAZEPT1_AUTO2,It looks like you can still move as long as you decide in advance which Instructions to execute.,Saniel,,,
+MAZEPT1_AUTO2_HINT1,Press PLAY again to get through this new level.,Saniel,,,
+MAZEPT1_AUTO3,"Hmmm. To solve this level, you'll need to reorder the Instructions.",Saniel,,,
+MAZEPT1_AUTO3_HINT1,You’ll need to drag and drop those Instructions to put them in a new order.,Saniel,,,
+MAZEPT1_AUTO3_HINT2,Press PLAY when you’re ready.,Saniel,,,
+MAZEPT1_AUTO3_SUCCESS,That’s it! You put the Instructions in an order that got Riley out of this level! Excellent thinking!,Saniel,,,
+MAZEPT1_AUTO3_FAILURE,"Shoot! Make sure you put the Instructions in an order that gets Riley safely to the exit.
+
+Once you press PLAY you can no longer change the Instructions!",Saniel,,,
+MAZEPT1_AUTO4,"I have a horrible confession. It was me who created this maze!
+
+It was supposed to be a trap in case any rogue AIs were sneaking around the System.
+
+I never intended for a student to fall into it, even one as mischievous as Riley!  I feel such guilt!
+
+That said, someone or something has been modifying this trap. I'm looking at the commit logs.
+
+Seems it’s been in here for many years, growing the trap and making it harder and harder! 
+
+This is all my fault! I better go figure out what to do about this.",Saniel,,,
+MAZEPT1_AUTO5,Uh… what’s THAT instruction!? The one at position 6. Something looks WRONG with it!,Riley,,,
+MAZEPT1_AUTO5_ADA,Try pressing PLAY to see if you can get through anyway.,Ada,,,
+MAZEPT1_AUTO5_ADA_HINT1,There's no way forward unless we at least try!,,,,
+MAZEPT1_AUTO5_FAILURE,"That Instruction does some crazy things to me! I don’t like it!
+
+And I for sure can’t get through this level with it in here.",Riley,,,
+MAZEPT1_AUTO5_FAILURE_ADA,"You’re right. I think there must be a syntax error, but to be sure we’ll need to see the code.
+
+And for that we’ll need the Instructions panel key.",Ada,,,
+MAZEPT1_SUCCESS,"Hey guys! I just checked in with Saniel. He’s still moping, but he says he remembers the key.
+
+He left it inside Lightspeed, long ago. Meet me at the clubhouse, and we’ll go get it together.",Faber,,,
+MAZEPT1_ABORT,PLEASE COME BACK LATER,,,,
