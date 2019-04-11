@@ -1,0 +1,59 @@
+LIGHTSPEED_QUESTION,Ready to go get that key from Lightspeed?,Faber,,,
+LIGHTSPEED_QUEST_ACCEPT,You bet!,,,,
+LIGHTSPEED_LAUNCH,First let's launch Lightspeed.,,,,
+LIGHTSPEED_LAUNCH_HINT1,Click on the Lightspeed icon on the desktop.	,,,,
+LIGHTSPEED_LEVELS1,"Okay, this isn’t going to be easy.  We have to get through the next 5 levels.
+
+They’re all SUPER HARD for different reasons.  You won’t be able to see all the Topics either!
+
+But when you see a Topic, you can hack the code however you want.
+
+I recommend you try each level out first so you know why it’s hard.
+
+Then when you flip to the coding panels, I can give you some hints on what to change.",,,,
+LIGHTSPEED_LEVELS1_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
+LIGHTSPEED_LEVELS2,"Good work!  One level down, four to go!",,,,
+LIGHTSPEED_LEVELS2_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
+LIGHTSPEED_LEVELS3,"Good work!  Two levels down, three to go!",,,,
+LIGHTSPEED_LEVELS3_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
+LIGHTSPEED_LEVELS4,"Good work!  Three level down, two to go!",,,,
+LIGHTSPEED_LEVELS4_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
+LIGHTSPEED_LEVELS5,Last level to beat! You're almost there! The key is at the end of this level!,,,,
+LIGHTSPEED_LEVELS5_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
+LIGHTSPEED_PANEL_LOCKED,You can't use this panel on this level!  You have to figure out how to solve it with another panel.,,,,
+LIGHTSPEED_PANEL_GAME,"This panel lets you change the size of your ship and the astronauts too.
+
+You can also change how fast your ship moves and what it looks like.",,,,
+LIGHTSPEED_PANEL_SPAWN,"You can edit the code in this panel to change how often enemies appear and which enemies.
+
+If you make 40 larger, they will appear less often. Smaller and they will appear more often.
+
+Change where it says 'asteroid' to chage which enemy spawns.",,,,
+LIGHTSPEED_PANEL_ASTEROID,The code in these panels creates behaviors of an enemy type. This panel works for Asteroids.,,,,
+LIGHTSPEED_PANEL_SPINNER,The code in these panels creates behaviors of an enemy type. This panel works for Spinners.,,,,
+LIGHTSPEED_PANEL_SQUID,The code in these panels creates behaviors of an enemy type. This panel works for Squids.,,,,
+LIGHTSPEED_PANEL_BEAM,The code in these panels creates behaviors of an enemy type. This panel works for Beams.,,,,
+LIGHTSPEED_PANEL_POWERUPS,The code in this panel changes how power-ups work.,,,,
+LIGHTSPEED_SUCCESS,You're really amazing at this. Great job picking up the key!,,hurray,,
+LIGHTSPEED_ABORT,No problem. Come back when you're ready.,,,,
+LIGHTSPEEDFINAL_QUESTION,We're almost there! One more level! Ready to find the second access fob?,,,,
+LIGHTSPEEDFINAL_QUEST_ACCEPT,Yes!,,,,
+LIGHTSPEEDFINAL_LAUNCH,We need to beat the final level in Lightspeed. Launch it now.,,,,
+LIGHTSPEEDFINAL_EXPLAIN,"Here we are. You'll have to create and beat the final level with every monster and every upgrade.
+
+Press the Flip button to go to the code.",,,,
+LIGHTSPEEDFINAL_CODE,"All right, now we need to give it everything. Let's spawn every enemy and powerup in this level.
+
+Click on the Spawn tab and look at the `spawnEnemy()` function.
+
+Let's change it so it spawns any of the 4 enemies: *asteroid*, *spinner*, *squid*, or *beam*.",,,,
+LIGHTSPEEDFINAL_CODE_HINT1,Remember the `pickOne()` function? It can be useful here too.,,,,
+LIGHTSPEEDFINAL_CODE_HINT2,"Use the `pickOne()` function to return one of the 4 enemies, `'asteroid'`, `'spinner'`, `'squid'` or `'beam'`.",,,,
+LIGHTSPEEDFINAL_CODE_HINT3,"`return pickOne('asteroid', 'spinner', 'squid', 'beam');`",,,,
+LIGHTSPEEDFINAL_ABOUTTOPLAY,Ready. Let's play!,,,,
+LIGHTSPEEDFINAL_PLAYTEST,You should get all 4 enemies in this level.,,,,
+LIGHTSPEEDFINAL_NOTFOUR,I don't see all 4 enemies. Let's go back and check.,,,,
+LIGHTSPEEDFINAL_FINISHLEVEL,"Yes, you got all 4 enemies. Now keep playing to the end. That's how we'll get the code.",,,,
+LIGHTSPEEDFINAL_SUCCESS,"Well done! I knew you could it. And here's the code, as we expected.",,,,
+LIGHTSPEEDFINAL_END,Excellent. As soon as we get all three codes we'll activate the three panels. ,,,,
+LIGHTSPEEDFINAL_ABORT,"Go if you must, but I do hope you'll check back later.  ",,,,
