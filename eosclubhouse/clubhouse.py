@@ -502,12 +502,15 @@ class ClubhousePage(Gtk.EventBox):
                 return
 
         new_quest = quest_set.get_next_quest()
-        character = new_quest.get_main_character() if new_quest else quest_set.get_character()
-        self._message.set_character(character)
 
         self._stop_quest_proposal()
 
         if new_quest is None:
+            character_id = quest_set.get_character()
+            character = Character.get_or_create(character_id)
+            character.mood = None
+            self._message.set_character(character_id)
+
             msg_text = quest_set.get_empty_message()
             # If a QuestSet has overridden the empty message to be None, then don't
             # show anything
@@ -516,12 +519,16 @@ class ClubhousePage(Gtk.EventBox):
 
             self.show_message(msg_text, [('Ok', self._message.close)])
         else:
-            sfx_sound = new_quest.get_initial_sfx_sound()
-            self.show_message(new_quest.get_initial_message(),
+            character_id = new_quest.get_main_character()
+            character = Character.get_or_create(character_id)
+            character.mood = new_quest.proposal_mood
+            self._message.set_character(character_id)
+
+            self.show_message(new_quest.proposal_message,
                               [(new_quest.accept_label, self._accept_quest_message, quest_set,
                                 new_quest),
                                (new_quest.reject_label, self._message.close)],
-                              sfx_sound)
+                              new_quest.proposal_sound)
 
         self._overlay_msg_box.show_all()
 
@@ -697,9 +704,6 @@ class ClubhousePage(Gtk.EventBox):
 
     def _propose_next_quest(self, quest):
         quest_set = quest.quest_set
-        character_id = quest.get_main_character()
-        if not character_id and quest.quest_set is not None:
-            character_id = quest_set.get_character()
 
         self._reset_quest_actions()
 
@@ -707,11 +711,11 @@ class ClubhousePage(Gtk.EventBox):
                        (quest.reject_label, self._stop_quest_proposal)]:
             self._add_quest_action(answer)
 
-        sfx_sound = quest.get_initial_sfx_sound()
-        character = Character.get_or_create(character_id)
-
         self._proposing_quest = True
-        self._shell_popup_message(quest.get_initial_message(), character, sfx_sound, None)
+
+        character = Character.get_or_create(quest.get_main_character())
+        character.mood = quest.proposal_mood
+        self._shell_popup_message(quest.proposal_message, character, quest.proposal_sound)
 
     def _key_press_event_cb(self, window, event):
         # Allow to fully quit the Clubhouse on Ctrl+Escape
@@ -728,7 +732,7 @@ class ClubhousePage(Gtk.EventBox):
     def _shell_close_popup_message(self):
         self._app.close_quest_msg_notification()
 
-    def _shell_popup_message(self, text, character, sfx_sound, bg_sound):
+    def _shell_popup_message(self, text, character, sfx_sound, bg_sound=None):
         real_popup_message = functools.partial(self._shell_popup_message_real, text, character,
                                                sfx_sound, bg_sound)
 
