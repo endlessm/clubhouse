@@ -1,7 +1,7 @@
 import os
 from gi.repository import Gdk, Gio, Gtk
 
-from eosclubhouse import config, utils, libquest
+from eosclubhouse import config, libquest, logger, utils
 from eosclubhouse.system import Sound
 
 
@@ -163,10 +163,16 @@ class PosterWindow(Gtk.Window):
         Sound.play('clubhouse/ending/%s' % self._episode.id,
                    result_handler=self._sound_playing)
 
-    def _sound_playing(self, _proxy, uuid, user_data=None):
+    def _sound_playing(self, _proxy, result, user_data=None):
+        if isinstance(result, GLib.GError):
+            self._sound_uuid = None
+            logger.error('Can not play the poster sound "%s": %s',
+                         self._episode.id, result)
+            return
+
         if self._sound_uuid == 'cancel':
-            Sound.stop(uuid)
+            Sound.stop(result)
             self._sound_uuid = None
             return
 
-        self._sound_uuid = uuid
+        self._sound_uuid = result
