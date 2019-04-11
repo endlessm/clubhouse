@@ -300,8 +300,6 @@ class QuestSetButton(Gtk.Button):
         super().__init__(halign=Gtk.Align.START,
                          relief=Gtk.ReliefStyle.NONE)
 
-        self._unhighlighted_animation = None
-
         self.get_style_context().add_class('quest-set-button')
 
         self._quest_set = quest_set
@@ -350,11 +348,8 @@ class QuestSetButton(Gtk.Button):
         highlighted_style = 'highlighted'
         style_context = self.get_style_context()
         if highlighted:
-            self._unhighlighted_animation = self._character.body_animation
-            self._character.body_animation = 'hi'
             style_context.add_class(highlighted_style)
         else:
-            self._character.body_animation = self._unhighlighted_animation
             style_context.remove_class(highlighted_style)
 
     position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
