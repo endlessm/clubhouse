@@ -8,7 +8,6 @@ from eosclubhouse.quests.episode3.applyfob1 import ApplyFob1
 class AdaQuestSet(QuestSet):
 
     __character_id__ = 'ada'
-    __position__ = (38, 186)
     __quests__ = [RileysLevels, ApplyFob1]
 
     def get_empty_message(self):

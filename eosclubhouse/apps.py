@@ -42,8 +42,23 @@ class LightSpeed(App):
 
     APP_NAME = 'com.endlessm.LightSpeed'
 
+    _POWERUP_TYPES = ['invulnerable', 'blowup', 'upgrade']
+    _UPGRADE_TYPES = ['shrink', 'attraction', 'engine']
+
+    _POWERUP_SPAWN_SUFFIX = 'PowerupSpawnCount'
+    _POWERUP_PICKED_SUFFIX = 'PowerupPickedCount'
+    _POWERUP_ACTIVE_SUFFIX = 'PowerupActivateCount'
+    _UPGRADE_ACTIVE_SUFFIX = 'UpgradeActivateCount'
+
     def __init__(self):
         super().__init__(self.APP_NAME)
+
+        self.POWERUPS_SPAWN_COUNTERS = list(pw + self._POWERUP_SPAWN_SUFFIX
+                                            for pw in self._POWERUP_TYPES)
+
+        self.POWERUPS_PICKED_COUNTERS = list(pw + self._POWERUP_PICKED_SUFFIX
+                                             for pw in self._POWERUP_TYPES)
+
         self._gss = None
 
     @property
@@ -70,3 +85,43 @@ class LightSpeed(App):
         in Lightspeed's toolbox.'''
 
         self.gss.set('lightspeed.topic.{}'.format(topic), {'visible': True})
+
+    def _count_properties(self, type_, suffix, *elements):
+        assert all(elem in type_ for elem in elements)
+        return sum(self.get_js_property(elem + suffix, 0) for elem in elements)
+
+    def powerups_spawned_count(self, *powerups):
+        return self._count_properties(self._POWERUP_TYPES, self._POWERUP_SPAWN_SUFFIX, *powerups)
+
+    def powerups_picked_count(self, *powerups):
+        return self._count_properties(self._POWERUP_TYPES, self._POWERUP_PICKED_SUFFIX, *powerups)
+
+    def powerups_active_count(self, *powerups):
+        return self._count_properties(self._POWERUP_TYPES, self._POWERUP_ACTIVE_SUFFIX, *powerups)
+
+    def upgrades_active_count(self, *upgrades):
+        return self._count_properties(self._UPGRADE_TYPES, self._UPGRADE_ACTIVE_SUFFIX, *upgrades)
+
+    def powerups_spawned(self, *powerups):
+        return self.powerups_spawned_count(*powerups) > 0
+
+    def powerups_picked(self, *powerups):
+        return self.powerups_picked_count(*powerups) > 0
+
+    def powerups_active(self, *powerups):
+        return self.powerups_active_count(*powerups) > 0
+
+    def upgrades_active(self, *upgrades):
+        return self.upgrades_active_count(*upgrades) > 0
+
+    def get_powerups_spawned_dict(self, *powerups):
+        return {pw: self.powerups_spawned(pw) for pw in powerups}
+
+    def get_powerups_picked_dict(self, *powerups):
+        return {pw: self.powerups_picked(pw) for pw in powerups}
+
+    def get_powerups_active_dict(self, *powerups):
+        return {pw: self.powerups_active(pw) for pw in powerups}
+
+    def get_upgrades_active_dict(self, *upgrades):
+        return {up: self.upgrades_active(up) for up in upgrades}

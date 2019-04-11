@@ -45,26 +45,6 @@ class Registry:
     _autorun_quest = None
 
     @classmethod
-    def get_episode_autorun_quest(class_, quest_folder):
-        basedir = os.path.dirname(quest_folder)
-        sys.path.append(basedir)
-
-        autorun_quest = None
-
-        basename = os.path.basename(quest_folder)
-        try:
-            module = __import__(basename)
-        except ImportError:
-            # This may mean that the quest folder is not a package, which is fine.
-            pass
-        else:
-            autorun_quest = getattr(module, 'AUTORUN_QUEST', None)
-
-        del sys.path[sys.path.index(basedir)]
-
-        return autorun_quest
-
-    @classmethod
     def set_episode_required_state(class_, quest_folder):
         basedir = os.path.dirname(quest_folder)
         sys.path.append(basedir)
@@ -97,6 +77,7 @@ class Registry:
     def _reset(class_):
         class_._loaded_episode = None
         class_._autorun_quest = None
+        class_._next_episode = None
         class_._quest_sets = []
         for module in class_._loaded_modules:
             del sys.modules[module]
@@ -150,6 +131,24 @@ class Registry:
     def _get_episode_folder(class_, episode_name):
         return os.path.join(os.path.dirname(__file__), 'quests', episode_name)
 
+    @staticmethod
+    def _get_episode_module(episode_folder):
+        basedir = os.path.dirname(episode_folder)
+        sys.path.append(basedir)
+
+        basename = os.path.basename(episode_folder)
+        module = None
+
+        try:
+            module = __import__(basename)
+        except ImportError:
+            # This may mean that the quest folder is not a package, which is fine.
+            pass
+
+        del sys.path[sys.path.index(basedir)]
+
+        return module
+
     @classmethod
     def load_current_episode(class_):
         loaded_episodes = {}
@@ -166,9 +165,13 @@ class Registry:
             class_._loaded_episode = episode_name
 
             episode_folder = class_._get_episode_folder(episode_name)
-            class_.load(episode_folder)
 
-            class_._autorun_quest = class_.get_episode_autorun_quest(episode_folder)
+            module = class_._get_episode_module(episode_folder)
+            if module:
+                class_._autorun_quest = getattr(module, 'AUTORUN_QUEST', None)
+                class_._next_episode = getattr(module, 'NEXT_EPISODE', None)
+
+            class_.load(episode_folder)
 
             # Avoid circular episode setting (a quest setting an episode that when loaded
             # sets a previously loaded episode)
@@ -182,6 +185,14 @@ class Registry:
             episode_name = class_.get_current_episode()['name']
 
         class_.load(get_alternative_quests_dir())
+
+    @classmethod
+    def get_loaded_episode_name(class_):
+        return class_._loaded_episode
+
+    @classmethod
+    def get_next_episode_name(class_):
+        return class_._next_episode
 
     @classmethod
     def get_autorun_quest(class_):
@@ -515,6 +526,8 @@ class Quest(GObject.GObject):
 
     __sound_on_run_begin__ = 'quests/quest-given'
     __available_after_completing_quests__ = []
+    __complete_episode__ = False
+    __advance_episode__ = False
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
 
@@ -533,6 +546,17 @@ class Quest(GObject.GObject):
     def __init__(self, name, main_character_id, initial_msg=None):
         super().__init__()
         self._name = name
+
+        # We declare these variables here, instead of looking them up in the registry when
+        # we need them because this way we ensure we get the values when the quest was loaded,
+        # and eventually prevent situations where the quest uses these values from the Registry
+        # but meanwhile a new episode has been loaded (unlikely, but disastrous if it happens).
+        self._episode_name = Registry.get_loaded_episode_name()
+        self._next_episode_name = Registry.get_next_episode_name()
+
+        if self.__advance_episode__ and not self._next_episode_name:
+            logger.warning('The quest "%s" sets the next episode when complete but there is no '
+                           'info about what the next episode is!', self)
 
         self._qs_base_id = self.get_default_qs_base_id()
         self._initial_msg = initial_msg
@@ -580,7 +604,12 @@ class Quest(GObject.GObject):
 
         self._run_context = None
 
+        self.reset_hints_given_once()
+
         self.clubhouse_state = ClubhouseState()
+
+    def get_episode_name(self):
+        return self._episode_name
 
     def update_availability(self, _gss=None):
         if self.complete:
@@ -612,6 +641,9 @@ class Quest(GObject.GObject):
 
         # Reset the "stopping" property before running the quest.
         self.stopping = False
+
+        # Reset the hints given once:
+        self.reset_hints_given_once()
 
         self._run_context = _QuestRunContext(self._cancellable)
         self._run_context.run(self.step_begin)
@@ -1012,6 +1044,9 @@ class Quest(GObject.GObject):
                   options.get('mood') or self._main_mood,
                   sfx_sound, bg_sound)
 
+    def reset_hints_given_once(self):
+        self._hints_given_once = set()
+
     def _show_next_hint_message(self, info_list, index=0):
         label = "I'd like another hint"
         if index == 0:
@@ -1024,7 +1059,13 @@ class Quest(GObject.GObject):
         next_hint = functools.partial(self._show_next_hint_message, info_list, next_index)
         self.show_message(info_id=info_id, choices=[(label, next_hint)])
 
-    def show_hints_message(self, info_id):
+    def show_hints_message(self, info_id, give_once=False):
+        if give_once:
+            if info_id in self._hints_given_once:
+                return
+            else:
+                self._hints_given_once.add(info_id)
+
         full_info_id = self._qs_base_id + '_' + info_id
         info_id_list = QuestStringCatalog.get_hint_keys(full_info_id)
 
@@ -1067,6 +1108,12 @@ class Quest(GObject.GObject):
     def complete_current_episode(self):
         current_episode_info = Registry.get_current_episode()
         if current_episode_info['completed']:
+            return
+
+        # This method is about setting the Quest's episode, so if the episode has changed for
+        # some reason (e.g. changing to the next episode just moments before a quest sets the
+        # current episode as complete) we should no longer set it as current.
+        if self.get_episode_name() != current_episode_info['name']:
             return
 
         current_episode_info.update({'completed': True})
@@ -1125,6 +1172,12 @@ class Quest(GObject.GObject):
 
     def set_complete(self, is_complete):
         self.conf['complete'] = is_complete
+
+        if is_complete:
+            if self.__complete_episode__:
+                self.complete_current_episode()
+            if self.__advance_episode__:
+                self.set_next_episode()
 
     def _set_complete(self, is_complete):
         self.set_complete(is_complete)
@@ -1215,10 +1268,14 @@ class Quest(GObject.GObject):
 
         return None
 
-    @staticmethod
-    def set_next_episode(episode_name):
-        # For now this is just a convenience method, but we may change it to a more automatic
-        # way once the workflow of changing to a new episode is better designed.
+    def set_next_episode(self, episode_name=None):
+        # Ensure we don't end up in a different episode than the one we should get to.
+        if self._next_episode_name != Registry.get_next_episode_name():
+            return
+
+        if episode_name is None:
+            episode_name = self._next_episode_name
+
         Registry.set_current_episode(episode_name)
 
     @classmethod
@@ -1244,16 +1301,20 @@ class QuestSet(GObject.GObject):
     __quests__ = []
     # @todo: Default character; should be set to None in the future
     __character_id__ = 'aggretsuko'
-    __position__ = (0, 0)
+    # The __position__ can override the character's position by using a tuple here e.g. (10, 12)
+    __position__ = None
     __empty_message__ = 'Nothing to see here!'
 
     visible = GObject.Property(type=bool, default=True)
-    highlighted = GObject.Property(type=bool, default=False)
     body_animation = GObject.Property(type=str, default='idle')
+
+    HIGHLIGHTED_ANIMATION = 'hi'
 
     def __init__(self):
         super().__init__()
         self._position = self.__position__
+        self._unhighlighted_body_animation = self.body_animation
+        self._highlighted = False
 
         self._quest_objs = []
         for quest_class in self.__quests__:
@@ -1296,6 +1357,20 @@ class QuestSet(GObject.GObject):
     def get_position(self):
         return self._position
 
+    def _get_highlighted(self):
+        return self._highlighted
+
+    def _set_highlighted(self, highlighted):
+        self._highlighted = highlighted
+
+        if self.highlighted:
+            if self.body_animation != self.HIGHLIGHTED_ANIMATION:
+                self._unhighlighted_body_animation = self.body_animation
+                self.body_animation = self.HIGHLIGHTED_ANIMATION
+        else:
+            if self.body_animation == self.HIGHLIGHTED_ANIMATION:
+                self.body_animation = self._unhighlighted_body_animation
+
     def _update_highlighted(self, _current_quest=None):
         next_quest = self.get_next_quest()
         self.highlighted = next_quest is not None and next_quest.available
@@ -1316,3 +1391,5 @@ class QuestSet(GObject.GObject):
 
     def is_active(self):
         return self.visible and self.get_next_quest() is not None
+
+    highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False)

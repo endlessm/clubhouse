@@ -13,7 +13,6 @@ from eosclubhouse.quests.episode1.welcome import Welcome
 class AdaQuestSet(QuestSet):
 
     __character_id__ = 'ada'
-    __position__ = (38, 186)
     __quests__ = [FirstContact, Welcome, FizzicsIntro, OSIntro, Roster, LostFiles, FizzicsCode1]
 
     def get_empty_message(self):

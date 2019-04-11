@@ -23,6 +23,7 @@ gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
 import functools
+import json
 import logging
 import os
 import subprocess
@@ -83,6 +84,7 @@ class Character(GObject.GObject):
         self._mood = self.DEFAULT_MOOD
         self._body_animation = self.DEFAULT_BODY_ANIMATION
         self._body_image = None
+        self._position = None
         self.load()
 
     def _get_id(self):
@@ -134,8 +136,33 @@ class Character(GObject.GObject):
 
     def load(self):
         body_path = os.path.join(self._id, 'fullbody')
+        self._load_position()
         self._body_image = AnimationImage(body_path)
         self._body_image.play('idle')
+
+    def _load_position(self):
+        checked_main_path = False
+
+        for character_path in get_character_animation_dirs(self._id):
+            conf_path = os.path.join(character_path, 'fullbody.json')
+            conf_json = None
+
+            try:
+                with open(conf_path) as f:
+                    conf_json = json.load(f)
+            except FileNotFoundError:
+                if not checked_main_path:
+                    logger.debug('No conf for "%s" fullbody animation', self._id)
+                continue
+            finally:
+                checked_main_path = True
+
+            self._position = conf_json.get('position', None)
+            if self._position is not None:
+                self._position = tuple(self._position)
+
+    def get_position(self):
+        return self._position
 
     id = property(_get_id)
     mood = GObject.Property(_get_mood, _set_mood, type=str)
@@ -273,8 +300,6 @@ class QuestSetButton(Gtk.Button):
         super().__init__(halign=Gtk.Align.START,
                          relief=Gtk.ReliefStyle.NONE)
 
-        self._unhighlighted_animation = None
-
         self.get_style_context().add_class('quest-set-button')
 
         self._quest_set = quest_set
@@ -301,10 +326,11 @@ class QuestSetButton(Gtk.Button):
 
     def _get_position(self):
         anchor = (0, 0)
-        position = self._quest_set.get_position()
+        position = (0, 0)
 
         # Get the anchor (if any) so we adapt the position to it.
         if self._character:
+            position = self._quest_set.get_position() or self._character.get_position() or position
             animation_image = self._character.get_body_image()
             if animation_image is not None:
                 anchor = animation_image.get_anchor()
@@ -322,11 +348,8 @@ class QuestSetButton(Gtk.Button):
         highlighted_style = 'highlighted'
         style_context = self.get_style_context()
         if highlighted:
-            self._unhighlighted_animation = self._character.body_animation
-            self._character.body_animation = 'hi'
             style_context.add_class(highlighted_style)
         else:
-            self._character.body_animation = self._unhighlighted_animation
             style_context.remove_class(highlighted_style)
 
     position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
@@ -347,6 +370,7 @@ class ClubhousePage(Gtk.EventBox):
         self._current_quest = None
         self._scheduled_quest_info = None
         self._proposing_quest = False
+        self._delayed_message_handler = 0
 
         self._last_user_answer = 0
 
@@ -609,9 +633,15 @@ class ClubhousePage(Gtk.EventBox):
 
         self._shell_popup_message(message_txt, character, sfx_sound, bg_sound)
 
+    def _reset_delayed_message(self):
+        if self._delayed_message_handler > 0:
+            GLib.source_remove(self._delayed_message_handler)
+            self._delayed_message_handler = 0
+
     def on_quest_finished(self, quest):
         logger.debug('Quest {} finished'.format(quest))
         self.disconnect_quest(quest)
+        self._reset_delayed_message()
         quest.save_conf()
         quest.dismiss()
 
@@ -708,7 +738,8 @@ class ClubhousePage(Gtk.EventBox):
         # new notification is a result of a user recent interaction.
         if time.time() - self._last_user_answer > 1:
             self._app.withdraw_notification(self._app.QUEST_MSG_NOTIFICATION_ID)
-            GLib.timeout_add(300, real_popup_message)
+            self._reset_delayed_message()
+            self._delayed_message_handler = GLib.timeout_add(300, real_popup_message)
         else:
             real_popup_message()
 
@@ -739,6 +770,7 @@ class ClubhousePage(Gtk.EventBox):
         self._app.send_quest_msg_notification(notification)
         self._current_quest_notification = (notification, sfx_sound)
 
+        self._delayed_message_handler = 0
         return GLib.SOURCE_REMOVE
 
     def _shell_show_current_popup_message(self):
@@ -1125,14 +1157,34 @@ class EpisodesPage(Gtk.EventBox):
         if self._current_episode == current_episode:
             return
 
-        self._current_episode = current_episode
-        show = current_episode["completed"] and not current_episode["teaser-viewed"]
+        is_same_episode = False
+        if self._current_episode is None or \
+           self._current_episode['name'] == current_episode['name']:
+            self._current_episode = current_episode
+            is_same_episode = True
 
-        if not show:
-            return
+        episode_name = self._current_episode['name']
+        is_teaser_viewed = self._current_episode['teaser-viewed']
 
-        self.click_badge(current_episode["name"])
-        libquest.Registry.set_current_episode_teaser_viewed(True)
+        # We want to show the teaser if it hasn't been viewed yet.
+        show = not is_teaser_viewed
+
+        # If there's been an episode transition, then we just check if the teaser hasn't been
+        # viewed in order to show it; otherwise, if the episode is the current one, then we also
+        # check if it's complete.
+        if not is_same_episode:
+            # Ensure we update the current episode info.
+            self._current_episode = current_episode
+            show = not is_teaser_viewed
+        else:
+            show = self._current_episode[self._COMPLETED] and not is_teaser_viewed
+
+        if show:
+            self.click_badge(episode_name)
+
+        # Only update the teaser-viewed info if there hasn't been an episode change.
+        if is_same_episode:
+            libquest.Registry.set_current_episode_teaser_viewed(True)
 
 
 class ClubhouseWindow(Gtk.ApplicationWindow):

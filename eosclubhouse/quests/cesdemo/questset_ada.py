@@ -6,7 +6,6 @@ from eosclubhouse.libquest import Registry, QuestSet
 class AdaQuestSet(QuestSet):
 
     __character_id__ = 'ada'
-    __position__ = (38, 206)
     __quests__ = []
 
     def get_empty_message(self):

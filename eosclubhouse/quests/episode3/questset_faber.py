@@ -9,7 +9,6 @@ from eosclubhouse.quests.episode3.applyfob3 import ApplyFob3
 class FaberQuestSet(QuestSet):
 
     __character_id__ = 'faber'
-    __position__ = (155, 565)
     __quests__ = [FizzicsPuzzle1, FizzicsPuzzle2, ApplyFob3]
 
     def __init__(self):

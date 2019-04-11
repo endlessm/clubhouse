@@ -10,6 +10,10 @@ class LightspeedFinal(Quest):
         self.auto_offer = True
         self._app = LightSpeed()
 
+    def _all_enemies_spawned(self):
+        return all(self._app.get_js_property('enemyType{}SpawnedCount'.format(i), 0) > 0
+                   for i in range(4))
+
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
 
@@ -34,25 +38,48 @@ class LightspeedFinal(Quest):
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_code(self):
-        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
-           or self.debug_skip():
-            return self.step_play
-
         self.show_hints_message('CODE')
-        self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
-        return self.step_code
+
+        if self._app.get_js_property('flipped'):
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_abouttoplay
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
-    def step_play(self):
-        self.wait_confirm('ABOUTTOPLAY')
-        self.wait_confirm('PLAYTEST')
-        self.wait_confirm('NOTFOUR')
-        self.wait_confirm('FINISHLEVEL')
+    def step_abouttoplay(self, message_id='ABOUTTOPLAY'):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message(message_id)
+            self.wait_for_app_js_props_changed(self._app, ['playing', 'flipped'])
 
-        # @todo check goal condition: All 4 different enemies were
-        # spawned.
+        if self._app.get_js_property('flipped'):
+            return self.step_code
 
-        return self.step_success
+        self.reset_hints_given_once()
+        return self.step_play, 'PLAYTEST'
+
+    @Quest.with_app_launched(LightSpeed.APP_NAME)
+    def step_play(self, message_id=None):
+        if message_id:
+            self.show_hints_message(message_id, give_once=True)
+
+        self.wait_for_app_js_props_changed(self._app, ['playing', 'success', 'flipped'])
+
+        if self._app.get_js_property('flipped'):
+            # Player flipped the app:
+            return self.step_code
+
+        if self._app.get_js_property('success'):
+            # Player completed the level:
+            if self._all_enemies_spawned():
+                return self.step_success
+            else:
+                return self.step_play, 'NOTFOUR'
+
+        if not self._app.get_js_property('playing'):
+            # Player crashed the ship:
+            return self.step_abouttoplay, 'PLAY_AGAIN'
+
+        # This should not be reached unless the waiter times out:
+        return self.step_play
 
     def step_success(self):
         self.give_item('item.fob.2', consume_after_use=True)

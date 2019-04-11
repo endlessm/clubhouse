@@ -7,19 +7,22 @@ Let's go in the coding panel and I'll show you how this works. So let's take thi
 POWERUPB1_EXPLAIN_HINT1,Click the Flip button.,,,,
 POWERUPB1_CODE,"Click on the Spawn tab again and look for the `spawnPowerup()` function.
 
-Right now we're only spawning type 1 powerup. So, how do we set it to spawn type 1 or type 2?
+Right now we're only spawning type 'invulnerable' powerup. So, how do we set it to spawn type 'invulnerable' or type 'blowup'?
 
-Let's use the `random()` function we used before. Do you remember how it works?",,,,
-POWERUPB1_CODE_HINT1,"So if you want to return either 1 or 2, you use 'random(1,2)'",,,,
-POWERUPB1_CODE_HINT2,"So to return 1 or 2, you do `random(1,2)`.",,,,
+Let's use the `pickOne()` function. Can you guess how it works?",,,,
+POWERUPB1_CODE_HINT1,"So if you want to return either one or the other, you use `pickOne('invulnerable', 'blowup')`.",,,,
+POWERUPB1_CODE_HINT2,"So to return `'invulnerable'` or `'blowup'`, you do 'pickOne('invulnerable', 'blowup')'.",,,,
 POWERUPB1_ABOUTTOPLAY,Go ahead and play the level.,,,,
+POWERUPB1_ABOUTTOPLAY_HINT1,Press the *Restart* button.,,,,
+POWERUPB1_PLAY_AGAIN,Let's try again.,,,,
+POWERUPB1_PLAY_AGAIN_HINT1,Press the *Restart* button.,,,,
 POWERUPB1_PLAYTEST,Let's see if we get both types of powerups.,,,,
 POWERUPB1_NOPOWERUPS,Hmm. Now we have no powerups at all. Something went wrong. Let's fix it.,,,,
-POWERUPB1_ONETYPEONLY,"We have some powerups, but it's only one type. Let's go back and use the `random()` function.",,,,
+POWERUPB1_ONETYPEONLY,"We have some powerups, but it's only one type. Are the two types being spawned?",,,,
 POWERUPB1_FINISHLEVEL,That's it! We now have both types. Go ahead and finish the level.,,,,
 POWERUPB1_SUCCESS,"Splendid. So we have two powerups now, but the second one doesn't yet have its powers. 
 
 Come get me at the Clubhouse and we'll give the second powerup its special power! 
 
-We'll do this just as we did with the first powerup. What powers would you like to add? ",,,,
+We'll do this just as we did with the first powerup. What powers would you like to add? ",,hurray,,
 POWERUPB1_ABORT,No problem. Let's resume work later. ,,,,

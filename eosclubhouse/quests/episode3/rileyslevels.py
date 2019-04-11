@@ -15,15 +15,6 @@ class RileysLevels(Quest):
         super().__init__('RileysLevels', 'ada')
         self._app = Fizzics()
 
-        # These hints are given only once:
-        self._hints_given_once = None
-
-    def _show_hints_message_once(self, message):
-        if message in self._hints_given_once:
-            return
-        self.show_hints_message(message)
-        self._hints_given_once.add(message)
-
     def _wait_for_app_changes(self):
         app_changes = self.connect_app_js_props_changes(self._app,
                                                         ['currentLevel', 'levelSuccess',
@@ -37,9 +28,6 @@ class RileysLevels(Quest):
         return 'currentLevel'
 
     def step_begin(self):
-        # Resetting hints here because they should be given once per run:
-        self._hints_given_once = set()
-
         self.ask_for_app_launch(self._app, pause_after_launch=2)
         return self.step_explain_reach_previous_level
 
@@ -63,7 +51,7 @@ class RileysLevels(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_ball_died(self, message, next_step):
-        self._show_hints_message_once(message)
+        self.show_hints_message(message, give_once=True)
         self.wait_for_app_js_props_changed(self._app, ['ballDied'])
         return next_step
 
@@ -95,7 +83,7 @@ class RileysLevels(Quest):
             return self.step_success
 
         if self.SECOND_RILEY_LEVEL <= level <= self.LAST_RILEY_LEVEL:
-            self._show_hints_message_once('START_LEVEL{}'.format(int(level)))
+            self.show_hints_message('START_LEVEL{}'.format(int(level)), give_once=True)
 
         change = self._wait_for_app_changes()
         if change == 'levelSuccess' and level == self.LAST_RILEY_LEVEL:

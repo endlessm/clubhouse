@@ -20,6 +20,9 @@
     background-image: url('resource:///com/endlessm/Clubhouse/images/episode3_bg.png');
 }
 
+.episodes-page.episode3 {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/episode3_bg.png');
+}
 .episodes-page.episode3.completed {
     background-image: url('resource:///com/endlessm/Clubhouse/images/episode4_bg.png');
 }
@@ -124,7 +127,7 @@
 }
 
 .clubhouse-button-box {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 .clubhouse-button-box > button > label {
@@ -194,7 +197,7 @@
 }
 
 .inventory-scrolled-window {
-    margin-bottom: 85px
+    margin-bottom: 65px
 }
 
 .inventory-scrolled-window > scrollbar {

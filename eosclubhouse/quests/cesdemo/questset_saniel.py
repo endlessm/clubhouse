@@ -6,7 +6,6 @@ from eosclubhouse.libquest import Registry, QuestSet
 class SanielQuestSet(QuestSet):
 
     __character_id__ = 'saniel'
-    __position__ = (72, 659)
     __quests__ = []
 
     def get_empty_message(self):

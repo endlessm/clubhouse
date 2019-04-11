@@ -6,7 +6,6 @@ from eosclubhouse.system import GameStateService
 class TrapQuestSet(QuestSet):
 
     __character_id__ = 'trap'
-    __position__ = (270, 340)
     __quests__ = []
 
     @classmethod

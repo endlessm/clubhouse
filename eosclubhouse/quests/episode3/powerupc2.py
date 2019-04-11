@@ -5,6 +5,9 @@ from eosclubhouse.system import Sound
 
 class PowerUpC2(Quest):
 
+    CHECK_GOAL_TIMEOUT = 20
+    GIVEUP_PICKED = 7
+
     def __init__(self):
         super().__init__('PowerUpC2', 'saniel')
         self.auto_offer = True
@@ -34,27 +37,68 @@ class PowerUpC2(Quest):
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_code(self):
-        if (not self._app.get_js_property('flipped') and self._app.get_js_property('playing')) \
-           or self.debug_skip():
-            return self.step_play
-
         self.show_hints_message('CODE')
-        self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'])
-        return self.step_code
+
+        if self._app.get_js_property('flipped'):
+            self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_abouttoplay
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
-    def step_play(self):
-        self.wait_confirm('ABOUTTOPLAY')
-        self.wait_confirm('PLAYTEST')
-        self.wait_confirm('ONLYONE')
-        self.wait_confirm('FINISHLEVEL')
+    def step_abouttoplay(self, message_id='ABOUTTOPLAY'):
+        if not self._app.get_js_property('playing'):
+            self.show_hints_message(message_id)
+            self.wait_for_app_js_props_changed(self._app, ['playing', 'flipped'])
 
-        # @todo check goal condition: Player picked powerups of type
-        # 'upgrade' and ship got shrinkTimer > 0 and attractTimer > 0.
+        if self._app.get_js_property('flipped'):
+            return self.step_code
 
-        return self.step_success
+        self.reset_hints_given_once()
+        return self.step_play, 'PLAYTEST'
+
+    @Quest.with_app_launched(LightSpeed.APP_NAME)
+    def step_play(self, message_id=None):
+        if message_id:
+            self.show_hints_message(message_id, give_once=True)
+
+        self.wait_for_app_js_props_changed(self._app, [*self._app.POWERUPS_PICKED_COUNTERS,
+                                                       'playing',
+                                                       'flipped'], timeout=self.CHECK_GOAL_TIMEOUT)
+
+        if self._app.get_js_property('flipped'):
+            # Player flipped the app:
+            return self.step_code
+
+        if not self._app.get_js_property('playing'):
+            # Player crashed the ship:
+            return self.step_abouttoplay, 'PLAY_AGAIN'
+
+        upgrades_active = self._app.get_upgrades_active_dict('shrink', 'attraction')
+        if all(upgrades_active.values()):
+            # Pause one second to see the powerup effect on screen:
+            self.pause(1)
+            return self.step_success
+
+        upgrades_picked = self._app.powerups_picked_count('upgrade')
+        if upgrades_picked >= self.GIVEUP_PICKED:
+            if any(upgrades_active.values()):
+                # Pause one second to see the powerup effect on screen:
+                self.pause(1)
+                return self.step_play, 'ONLYONE'
+            else:
+                return self.step_play, 'NO_UPGRADE'
+
+        if self._app.powerups_picked('invulnerable', 'blowup'):
+            return self.step_play, 'OTHER_PICKED'
+
+        # Timeout reached and powerup wasn't picked, and player didn't
+        # crash or flipped the app:
+        if upgrades_picked == 0:
+            return self.step_play, 'NOT_PICKED'
+
+        return self.step_play
 
     def step_success(self):
+        Sound.play('quests/step-forward')
         self.wait_confirm('SUCCESS')
         self.complete = True
         self.available = False
