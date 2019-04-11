@@ -527,7 +527,7 @@ class Quest(GObject.GObject):
     __sound_on_run_begin__ = 'quests/quest-given'
     __available_after_completing_quests__ = []
     __complete_episode__ = False
-    __advance_episode__ = None
+    __advance_episode__ = False
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
 
@@ -547,7 +547,16 @@ class Quest(GObject.GObject):
         super().__init__()
         self._name = name
 
+        # We declare these variables here, instead of looking them up in the registry when
+        # we need them because this way we ensure we get the values when the quest was loaded,
+        # and eventually prevent situations where the quest uses these values from the Registry
+        # but meanwhile a new episode has been loaded (unlikely, but disastrous if it happens).
         self._episode_name = Registry.get_loaded_episode_name()
+        self._next_episode_name = Registry.get_next_episode_name()
+
+        if self.__advance_episode__ and not self._next_episode_name:
+            logger.warning('The quest "%s" sets the next episode when complete but there is no '
+                           'info about what the next episode is!', self)
 
         self._qs_base_id = self.get_default_qs_base_id()
         self._initial_msg = initial_msg
@@ -1168,7 +1177,7 @@ class Quest(GObject.GObject):
             if self.__complete_episode__:
                 self.complete_current_episode()
             if self.__advance_episode__:
-                self.set_next_episode(self.__advance_episode__)
+                self.set_next_episode()
 
     def _set_complete(self, is_complete):
         self.set_complete(is_complete)
@@ -1259,10 +1268,14 @@ class Quest(GObject.GObject):
 
         return None
 
-    @staticmethod
-    def set_next_episode(episode_name):
-        # For now this is just a convenience method, but we may change it to a more automatic
-        # way once the workflow of changing to a new episode is better designed.
+    def set_next_episode(self, episode_name=None):
+        # Ensure we don't end up in a different episode than the one we should get to.
+        if self._next_episode_name != Registry.get_next_episode_name():
+            return
+
+        if episode_name is None:
+            episode_name = self._next_episode_name
+
         Registry.set_current_episode(episode_name)
 
     @classmethod
