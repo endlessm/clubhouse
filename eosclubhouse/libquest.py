@@ -519,6 +519,8 @@ class Quest(GObject.GObject):
 
     __sound_on_run_begin__ = 'quests/quest-given'
     __available_after_completing_quests__ = []
+    __complete_episode__ = False
+    __advance_episode__ = None
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
 
@@ -1154,6 +1156,12 @@ class Quest(GObject.GObject):
 
     def set_complete(self, is_complete):
         self.conf['complete'] = is_complete
+
+        if is_complete:
+            if self.__complete_episode__:
+                self.complete_current_episode()
+            if self.__advance_episode__:
+                self.set_next_episode(self.__advance_episode__)
 
     def _set_complete(self, is_complete):
         self.set_complete(is_complete)
