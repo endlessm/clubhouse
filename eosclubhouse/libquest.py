@@ -538,7 +538,7 @@ class Quest(GObject.GObject):
         super().__init__()
         self._name = name
 
-        self._episode_name = Registry.get_current_episode()
+        self._episode_name = Registry.get_loaded_episode_name()
 
         self._qs_base_id = self.get_default_qs_base_id()
         self._initial_msg = initial_msg
