@@ -1278,12 +1278,15 @@ class QuestSet(GObject.GObject):
     __empty_message__ = 'Nothing to see here!'
 
     visible = GObject.Property(type=bool, default=True)
-    highlighted = GObject.Property(type=bool, default=False)
     body_animation = GObject.Property(type=str, default='idle')
+
+    HIGHLIGHTED_ANIMATION = 'hi'
 
     def __init__(self):
         super().__init__()
         self._position = self.__position__
+        self._unhighlighted_body_animation = self.body_animation
+        self._highlighted = False
 
         self._quest_objs = []
         for quest_class in self.__quests__:
@@ -1326,6 +1329,20 @@ class QuestSet(GObject.GObject):
     def get_position(self):
         return self._position
 
+    def _get_highlighted(self):
+        return self._highlighted
+
+    def _set_highlighted(self, highlighted):
+        self._highlighted = highlighted
+
+        if self.highlighted:
+            if self.body_animation != self.HIGHLIGHTED_ANIMATION:
+                self._unhighlighted_body_animation = self.body_animation
+                self.body_animation = self.HIGHLIGHTED_ANIMATION
+        else:
+            if self.body_animation == self.HIGHLIGHTED_ANIMATION:
+                self.body_animation = self._unhighlighted_body_animation
+
     def _update_highlighted(self, _current_quest=None):
         next_quest = self.get_next_quest()
         self.highlighted = next_quest is not None and next_quest.available
@@ -1346,3 +1363,5 @@ class QuestSet(GObject.GObject):
 
     def is_active(self):
         return self.visible and self.get_next_quest() is not None
+
+    highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False)
