@@ -86,7 +86,7 @@
   "quest.LightSpeedTweak" : {
     "complete" : true
   },
-  "lightspeed.topic.spawnEnemy" : {
+  "lightspeed.topic.spawn" : {
     "visible" : true
   },
   "quest.LightSpeedFix1" : {

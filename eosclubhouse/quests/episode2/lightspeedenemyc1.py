@@ -22,7 +22,7 @@ class LightSpeedEnemyC1(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_code(self):
-        self._app.reveal_topic('spawnEnemy')
+        self._app.reveal_topic('spawn')
         self.show_hints_message('CODE')
         if self._app.get_js_property('flipped'):
             self.wait_for_app_js_props_changed(self._app, ['flipped'])

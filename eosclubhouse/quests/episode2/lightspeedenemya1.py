@@ -34,7 +34,7 @@ class LightSpeedEnemyA1(Quest):
             self.show_hints_message('PLAYTEST')
             return self.step_play
 
-        self._app.reveal_topic('spawnEnemy')
+        self._app.reveal_topic('spawn')
 
         self.show_hints_message('CHANGEENEMY')
 

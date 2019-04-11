@@ -12,7 +12,7 @@ class LightSpeedEnemyC2(Quest):
         self._app = LightSpeed()
 
     def step_begin(self):
-        self._app.reveal_topic('spawnEnemy')
+        self._app.reveal_topic('spawn')
 
         self.ask_for_app_launch(self._app, pause_after_launch=2)
 

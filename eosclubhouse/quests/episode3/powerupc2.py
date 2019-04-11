@@ -16,8 +16,7 @@ class PowerUpC2(Quest):
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
 
-        self._app.reveal_topic('spawnEnemy')
-        self._app.reveal_topic('spawnPowerup')
+        self._app.reveal_topic('spawn')
         self._app.reveal_topic('activatePowerup')
         self._app.set_level(13)
 
