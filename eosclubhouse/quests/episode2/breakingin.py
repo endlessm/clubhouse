@@ -8,16 +8,12 @@ class BreakingIn(Quest):
     LEVEL2_LOCK = 'lock.OperatingSystemApp.2'
 
     __available_after_completing_quests__ = ['MakeDevice']
+    __complete_episode__ = True
+    __advance_episode__ = True
 
     def __init__(self):
         super().__init__('BreakingIn', 'riley')
         self._app = App(self.APP_NAME)
-
-    def set_complete(self, is_complete):
-        super().set_complete(is_complete)
-        if self.complete:
-            self.complete_current_episode()
-            self.set_next_episode('episode3')
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)

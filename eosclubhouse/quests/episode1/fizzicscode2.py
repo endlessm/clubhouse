@@ -7,15 +7,11 @@ class FizzicsCode2(Quest):
     APP_NAME = 'com.endlessm.Fizzics'
 
     __available_after_completing_quests__ = ['FizzicsCode1']
+    __advance_episode__ = True
 
     def __init__(self):
         super().__init__('Fizzics Code 2', 'riley')
         self._app = App(self.APP_NAME)
-
-    def set_complete(self, is_complete):
-        super().set_complete(is_complete)
-        if self.complete:
-            self.set_next_episode('episode2')
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
