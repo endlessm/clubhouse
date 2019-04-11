@@ -1162,14 +1162,34 @@ class EpisodesPage(Gtk.EventBox):
         if self._current_episode == current_episode:
             return
 
-        self._current_episode = current_episode
-        show = current_episode["completed"] and not current_episode["teaser-viewed"]
+        is_same_episode = False
+        if self._current_episode is None or \
+           self._current_episode['name'] == current_episode['name']:
+            self._current_episode = current_episode
+            is_same_episode = True
 
-        if not show:
-            return
+        episode_name = self._current_episode['name']
+        is_teaser_viewed = self._current_episode['teaser-viewed']
 
-        self.click_badge(current_episode["name"])
-        libquest.Registry.set_current_episode_teaser_viewed(True)
+        # We want to show the teaser if it hasn't been viewed yet.
+        show = not is_teaser_viewed
+
+        # If there's been an episode transition, then we just check if the teaser hasn't been
+        # viewed in order to show it; otherwise, if the episode is the current one, then we also
+        # check if it's complete.
+        if not is_same_episode:
+            # Ensure we update the current episode info.
+            self._current_episode = current_episode
+            show = not is_teaser_viewed
+        else:
+            show = self._current_episode[self._COMPLETED] and not is_teaser_viewed
+
+        if show:
+            self.click_badge(episode_name)
+
+        # Only update the teaser-viewed info if there hasn't been an episode change.
+        if is_same_episode:
+            libquest.Registry.set_current_episode_teaser_viewed(True)
 
 
 class ClubhouseWindow(Gtk.ApplicationWindow):

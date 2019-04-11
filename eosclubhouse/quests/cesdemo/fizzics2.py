@@ -4,6 +4,8 @@ from eosclubhouse.system import App, Sound
 
 class Fizzics2(Quest):
 
+    __complete_episode__ = True
+
     APP_NAME = 'com.endlessm.Fizzics'
     GAME_PRESET = 1000
 
@@ -45,7 +47,6 @@ class Fizzics2(Quest):
         self.complete = True
         self.available = False
         self.give_item('item.key.fizzics.2')
-        self.complete_current_episode()
         Sound.play('quests/quest-complete')
 
         self.wait_confirm('END')

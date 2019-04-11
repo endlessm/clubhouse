@@ -5,6 +5,7 @@ from eosclubhouse.system import Sound
 class LostFiles(Quest):
 
     __available_after_completing_quests__ = ['Hackdex1']
+    __complete_episode__ = True
 
     def __init__(self):
         super().__init__('Lost Files', 'ada')
@@ -20,5 +21,4 @@ class LostFiles(Quest):
         Sound.play('quests/quest-complete')
         self.complete = True
         self.available = False
-        self.complete_current_episode()
         self.stop()
