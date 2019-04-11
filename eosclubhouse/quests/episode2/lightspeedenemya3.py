@@ -17,7 +17,7 @@ class LightSpeedEnemyA3(Quest):
         self._app = LightSpeed()
 
     def step_begin(self):
-        self._app.reveal_topic('spawnEnemy')
+        self._app.reveal_topic('spawn')
 
         # Pausing for that long because anything less would cause code not to be set correctly,
         # maybe because Lightspeed was loading the state. We should fix it to know when LS is ready.

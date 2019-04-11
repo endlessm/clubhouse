@@ -15,7 +15,7 @@ class PowerUpA1(Quest):
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
 
-        self._app.reveal_topic('spawnEnemy')
+        self._app.reveal_topic('spawn')
         self._app.set_level(11)
 
         return self.step_flip
@@ -34,7 +34,6 @@ class PowerUpA1(Quest):
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_code(self):
-        self._app.reveal_topic('spawnPowerup')
         self.show_hints_message('CODE')
 
         if self._app.get_js_property('flipped'):

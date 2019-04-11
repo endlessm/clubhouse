@@ -50,7 +50,7 @@ class LightSpeedFix1(Quest):
         if self._app.get_js_property('success') or self.debug_skip():
             return self.step_success
 
-        self._app.reveal_topic('spawnEnemy')
+        self._app.reveal_topic('spawn')
 
         self.show_hints_message('CODE')
         if self._app.get_js_property('flipped'):

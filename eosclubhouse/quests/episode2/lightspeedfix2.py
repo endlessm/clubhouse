@@ -30,7 +30,7 @@ class LightSpeedFix2(Quest):
     @Quest.with_app_launched(APP_NAME)
     def step_wait_for_flip(self, msg_id):
         if msg_id == 'CODE':
-            self._app.reveal_topic('spawnEnemy')
+            self._app.reveal_topic('spawn')
 
         if not self._app.get_js_property('flipped') or self.debug_skip():
             self.wait_for_app_js_props_changed(self._app, ['flipped'])

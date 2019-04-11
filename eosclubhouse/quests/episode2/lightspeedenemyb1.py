@@ -53,7 +53,7 @@ class LightSpeedEnemyB1(Quest):
             msg_to_show = 'ABOUTTOPLAY'
 
         if code_msg_id == 'CODE1':
-            self._app.reveal_topic('spawnEnemy')
+            self._app.reveal_topic('spawn')
         elif code_msg_id == 'CODE2':
             self._app.reveal_topic('updateSquid')
 

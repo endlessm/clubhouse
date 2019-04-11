@@ -30,7 +30,7 @@ class LightSpeedEnemyB2(Quest):
             # thus ask the user to play.
             msg_to_show = 'ABOUTTOPLAY'
 
-        self._app.reveal_topic('spawnEnemy')
+        self._app.reveal_topic('spawn')
 
         self.show_hints_message(msg_to_show)
 
