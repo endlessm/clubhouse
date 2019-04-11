@@ -45,26 +45,6 @@ class Registry:
     _autorun_quest = None
 
     @classmethod
-    def get_episode_autorun_quest(class_, quest_folder):
-        basedir = os.path.dirname(quest_folder)
-        sys.path.append(basedir)
-
-        autorun_quest = None
-
-        basename = os.path.basename(quest_folder)
-        try:
-            module = __import__(basename)
-        except ImportError:
-            # This may mean that the quest folder is not a package, which is fine.
-            pass
-        else:
-            autorun_quest = getattr(module, 'AUTORUN_QUEST', None)
-
-        del sys.path[sys.path.index(basedir)]
-
-        return autorun_quest
-
-    @classmethod
     def set_episode_required_state(class_, quest_folder):
         basedir = os.path.dirname(quest_folder)
         sys.path.append(basedir)
@@ -97,6 +77,7 @@ class Registry:
     def _reset(class_):
         class_._loaded_episode = None
         class_._autorun_quest = None
+        class_._next_episode = None
         class_._quest_sets = []
         for module in class_._loaded_modules:
             del sys.modules[module]
@@ -150,6 +131,24 @@ class Registry:
     def _get_episode_folder(class_, episode_name):
         return os.path.join(os.path.dirname(__file__), 'quests', episode_name)
 
+    @staticmethod
+    def _get_episode_module(episode_folder):
+        basedir = os.path.dirname(episode_folder)
+        sys.path.append(basedir)
+
+        basename = os.path.basename(episode_folder)
+        module = None
+
+        try:
+            module = __import__(basename)
+        except ImportError:
+            # This may mean that the quest folder is not a package, which is fine.
+            pass
+
+        del sys.path[sys.path.index(basedir)]
+
+        return module
+
     @classmethod
     def load_current_episode(class_):
         loaded_episodes = {}
@@ -166,9 +165,13 @@ class Registry:
             class_._loaded_episode = episode_name
 
             episode_folder = class_._get_episode_folder(episode_name)
-            class_.load(episode_folder)
 
-            class_._autorun_quest = class_.get_episode_autorun_quest(episode_folder)
+            module = class_._get_episode_module(episode_folder)
+            if module:
+                class_._autorun_quest = getattr(module, 'AUTORUN_QUEST', None)
+                class_._next_episode = getattr(module, 'NEXT_EPISODE', None)
+
+            class_.load(episode_folder)
 
             # Avoid circular episode setting (a quest setting an episode that when loaded
             # sets a previously loaded episode)
@@ -186,6 +189,10 @@ class Registry:
     @classmethod
     def get_loaded_episode_name(class_):
         return class_._loaded_episode
+
+    @classmethod
+    def get_next_episode_name(class_):
+        return class_._next_episode
 
     @classmethod
     def get_autorun_quest(class_):
