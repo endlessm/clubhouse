@@ -15,13 +15,8 @@ class TrapQuestSet(QuestSet):
     def __init__(self):
         super().__init__()
 
-        self._gss = GameStateService()
-        self._gss.connect('changed',
-                          lambda _gss: self._update_body_animation())
-        self._update_body_animation()
-
-    def _update_body_animation(self):
-        character_state = self._gss.get(self.get_gss_key(), {})
+        gss = GameStateService()
+        character_state = gss.get(self.get_gss_key(), {})
         body_animation = character_state.get('body-animation')
         if body_animation is not None:
             self.body_animation = body_animation

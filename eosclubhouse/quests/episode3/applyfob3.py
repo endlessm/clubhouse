@@ -1,4 +1,4 @@
-from eosclubhouse.libquest import Quest
+from eosclubhouse.libquest import Quest, Registry
 from eosclubhouse.system import Sound
 
 
@@ -14,6 +14,8 @@ class ApplyFob3(Quest):
 
         self.wait_confirm('APPLY')
 
+        trap_questset = Registry.get_quest_set_by_name('TrapQuestSet')
+        trap_questset.body_animation = 'panels3'
         self.gss.update('clubhouse.character.Trap', {'body-animation': 'panels3'}, {})
 
         self.gss.update('item.fob.3', {'used': True},

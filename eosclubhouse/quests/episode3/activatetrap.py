@@ -1,4 +1,4 @@
-from eosclubhouse.libquest import Quest
+from eosclubhouse.libquest import Quest, Registry
 from eosclubhouse.system import Sound
 
 
@@ -19,10 +19,14 @@ class ActivateTrap(Quest):
         for message in range(2, 6):
             self.wait_confirm('TRY{}'.format(message))
 
+        trap_questset = Registry.get_quest_set_by_name('TrapQuestSet')
+
+        trap_questset.body_animation = 'transcoding-init'
         self.gss.update('clubhouse.character.Trap', {'body-animation': 'transcoding-init'}, {})
 
         self.wait_confirm('END')
 
+        trap_questset.body_animation = 'transcoding'
         self.gss.update('clubhouse.character.Trap', {'body-animation': 'transcoding'}, {})
 
         return self.step_success
