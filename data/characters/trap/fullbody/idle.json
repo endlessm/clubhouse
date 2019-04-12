@@ -1,8 +1,12 @@
 {
+  "anchor": [
+    44,
+    161
+  ],
   "default-delay": 100,
   "frames": [
     0
   ],
-  "height": 164,
-  "width": 127
+  "height": 165,
+  "width": 131
 }
