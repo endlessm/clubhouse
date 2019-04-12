@@ -1,65 +1,46 @@
+from eosclubhouse.apps import Fizzics
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App, Sound
+from eosclubhouse.system import Sound
 
 
 class Fizzics1(Quest):
-
-    APP_NAME = 'com.endlessm.Fizzics'
 
     __available_after_completing_quests__ = ['FizzicsIntro']
 
     def __init__(self):
         super().__init__('Fizzics 1', 'riley')
-        self._app = App(self.APP_NAME)
+        self._app = Fizzics()
         self.already_in_level_8 = False
 
     def _app_is_flipped(self):
         return bool(self._app.get_js_property('flipped'))
 
     def get_current_level(self):
-        if self.debug_skip():
-            self._level += 1
-            return self._level
-
-        success = False
-        level = self._app.get_js_property('currentLevel')
-
-        if level is None:
-            level = -1
-        else:
-            success = self._app.get_js_property('levelSuccess')
-
-        self._level = level
-
-        if self._level != -1 and (success or self.debug_skip()):
-            self._level += 1
-
-        return self._level
+        return self._app.get_effective_level(self.debug_skip())
 
     def step_begin(self):
         self.already_in_level_8 = False
         self.ask_for_app_launch(self._app, pause_after_launch=2)
         return self.step_goal
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_goal(self):
         Sound.play('quests/step-forward')
         self.show_hints_message('GOAL')
         return self.step_check_level
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_check_level(self):
         level = self.get_current_level()
         # Check to see if the goal is already beat
-        if level >= 8:
+        if level >= 9:
             return self.step_success, True
 
-        if level == 7:
+        if level == 8:
             return self.step_level8
 
         # Check for level change
-        level_action = self.connect_app_js_props_changes(self._app,
-                                                         ['currentLevel', 'levelSuccess'])
+        level_action = self.connect_app_props_changes(self._app, ['effectiveLevel'])
         # Check for popping ball
         balldied_action = self.connect_app_js_props_changes(self._app, ['ballDied'])
 
@@ -70,26 +51,26 @@ class Fizzics1(Quest):
 
         return self.step_check_level
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_ball_died(self, next_step):
         self.show_hints_message('BALLDIED')
         self.wait_for_app_js_props_changed(self._app, ['ballDied'])
         return next_step
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level8(self):
         if self._app_is_flipped():
             return self.step_flipped
 
         level = self.get_current_level()
-        if level == 7:
+        if level == 8:
             if self.already_in_level_8:
                 self.show_hints_message('LEVEL8AGAIN')
             else:
                 Sound.play('quests/step-forward')
                 self.show_hints_message('LEVEL8')
                 self.already_in_level_8 = True
-        elif level >= 8:
+        elif level >= 9:
             return self.step_success
         else:
             self.show_message('BACKTOLEVEL8')
@@ -107,13 +88,13 @@ class Fizzics1(Quest):
 
         return self.step_level8
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_flipped(self):
         Sound.play('quests/step-forward')
         self.show_hints_message('FLIPPED')
         return self.step_check_unlocked
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_check_unlocked(self):
         if not self._app_is_flipped():
             return self.step_level8
@@ -130,13 +111,13 @@ class Fizzics1(Quest):
 
         return self.step_check_unlocked
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_hack(self):
         level = self.get_current_level()
-        if level == 8:
+        if level == 9:
             return self.step_success
 
-        if level < 7:
+        if level < 8:
             self.show_message('BACKTOLEVEL8')
         else:
             Sound.play('quests/step-forward')

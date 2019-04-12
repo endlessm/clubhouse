@@ -306,6 +306,11 @@ class App:
 
         return True
 
+    def connect_props_change(self, obj, props, property_changed_cb, *args):
+        obj = obj or self.APP_JS_PARAMS
+        return [self.connect_object_props_change(obj, props,
+                                                 property_changed_cb, *args)]
+
     def connect_object_props_change(self, obj, props, js_property_changed_cb, *args):
         # Check if the properties really changed, because in older versions of
         # Clippy, it was notifying always, instead of only if the value of the

@@ -1,17 +1,17 @@
+from eosclubhouse.apps import Fizzics
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App, Sound
+from eosclubhouse.system import Sound
 
 
 class MakerIntro(Quest):
 
-    APP_NAME = 'com.endlessm.Fizzics'
     GAME_PRESET = 1001
 
     __available_after_completing_quests__ = ['Investigation']
 
     def __init__(self):
         super().__init__('MakerIntro', 'faber')
-        self._app = App(self.APP_NAME)
+        self._app = Fizzics()
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
@@ -20,7 +20,7 @@ class MakerIntro(Quest):
         self._app.set_js_property('preset', ('i', self.GAME_PRESET))
         return self.step_checkgoal
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_checkgoal(self):
         if not self._app.get_js_property('quest1Success'):
             self.wait_for_app_js_props_changed(self._app, ['quest1Success', 'flingCount'])
@@ -31,7 +31,7 @@ class MakerIntro(Quest):
 
         return self.step_success
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_success(self):
         self.wait_confirm('SUCCESS')
         self.wait_confirm('WHATISIT')
@@ -42,7 +42,7 @@ class MakerIntro(Quest):
         self.wait_confirm('STEALTHEXPLANATION')
         return self.step_thanks
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_fling(self):
         if self._app.get_js_property('flingCount') == 0:
             self.show_hints_message('EXPLANATION')

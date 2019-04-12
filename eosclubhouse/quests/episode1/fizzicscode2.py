@@ -1,23 +1,22 @@
+from eosclubhouse.apps import Fizzics
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App, Sound
+from eosclubhouse.system import Sound
 
 
 class FizzicsCode2(Quest):
-
-    APP_NAME = 'com.endlessm.Fizzics'
 
     __available_after_completing_quests__ = ['FizzicsCode1']
     __advance_episode__ = True
 
     def __init__(self):
         super().__init__('Fizzics Code 2', 'riley')
-        self._app = App(self.APP_NAME)
+        self._app = Fizzics()
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
         return self.step_flip
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_flip(self):
         if self._app.get_js_property('flipped'):
             return self.step_explanation
@@ -29,7 +28,7 @@ class FizzicsCode2(Quest):
 
         return self.step_explanation
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_explanation(self):
         if self._app.get_js_property('gravity_0', 0) < 0:
             return self.step_end

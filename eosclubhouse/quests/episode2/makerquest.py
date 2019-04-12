@@ -1,15 +1,15 @@
+from eosclubhouse.apps import Fizzics
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App, Sound
+from eosclubhouse.system import Sound
 
 
 class MakerQuest(Quest):
 
-    APP_NAME = 'com.endlessm.Fizzics'
     GAME_PRESET = 1002
 
     def __init__(self):
         super().__init__('MakerQuest', 'faber')
-        self._app = App(self.APP_NAME)
+        self._app = Fizzics()
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
@@ -18,7 +18,7 @@ class MakerQuest(Quest):
         self.show_hints_message('EXPLANATION')
         return self.step_explanation
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_explanation(self):
         if not self._app.get_js_property('quest2Success') and not self.debug_skip():
             self.wait_for_app_js_props_changed(self._app, ['quest2Success'])

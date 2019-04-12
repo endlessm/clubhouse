@@ -759,6 +759,9 @@ class Quest(GObject.GObject):
     def connect_app_quit(self, app):
         return self._connect_app_changes(app, None, [])
 
+    def connect_app_props_changes(self, app, props):
+        return self._connect_app_changes(app, None, props)
+
     def _connect_app_changes(self, app, obj, props):
         assert self._run_context is not None
 
@@ -768,15 +771,12 @@ class Quest(GObject.GObject):
             if not app.is_running() and not async_action.is_resolved():
                 async_action.resolve()
 
-        obj_props_handler_id = running_handler_id = 0
+        running_handler_id = 0
+        props_handlers = []
 
         def _disconnect_app(_future):
-            nonlocal obj_props_handler_id
-            nonlocal running_handler_id
-
-            if obj_props_handler_id > 0:
-                app.disconnect_object_props_change(obj_props_handler_id)
-                obj_props_handler_id = 0
+            for handler_id in props_handlers:
+                app.disconnect_object_props_change(handler_id)
 
             app.disconnect_running_change(running_handler_id)
 
@@ -790,9 +790,8 @@ class Quest(GObject.GObject):
 
         if len(props) > 0:
             try:
-                obj_props_handler_id = app.connect_object_props_change(
-                    obj, props,
-                    lambda: async_action.resolve())
+                props_handlers = app.connect_props_change(obj, props,
+                                                          lambda: async_action.resolve())
             except GLib.Error as e:
                 # Prevent any D-Bus errors (like ServiceUnknown when the app has been quit)
                 logger.debug('Could not connect to app "%s" object property changes: %s',
