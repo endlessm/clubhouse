@@ -1,5 +1,5 @@
 import os
-from gi.repository import Gdk, Gio, Gtk
+from gi.repository import Gdk, Gio, GLib, Gtk
 
 from eosclubhouse import config, libquest, logger, utils
 from eosclubhouse.system import Sound
