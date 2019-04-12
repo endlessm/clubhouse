@@ -16,15 +16,15 @@ class TrapQuestSet(QuestSet):
         super().__init__()
 
         self._gss = GameStateService()
-        self._gss.connect('changed',
-                          lambda _gss: self._update_body_animation())
-        self._update_body_animation()
-
-    def _update_body_animation(self):
         character_state = self._gss.get(self.get_gss_key(), {})
         body_animation = character_state.get('body-animation')
         if body_animation is not None:
-            self.body_animation = body_animation
+            super().set_body_animation(body_animation)
+
+    def set_body_animation(self, body_animation):
+        self._gss.update(self.get_gss_key(),
+                         {'body-animation': body_animation}, {})
+        super().set_body_animation(body_animation)
 
     def get_empty_message(self):
         return QS('NOQUEST_TRAP_NOTHING')
