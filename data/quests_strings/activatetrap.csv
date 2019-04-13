@@ -2,29 +2,24 @@ ACTIVATETRAP_QUESTION,How very odd. All three panels are activated. But the box 
 ACTIVATETRAP_QUEST_ACCEPT,Let's keep trying!,,,,
 ACTIVATETRAP_OPEN_CLUBHOUSE,"That's what I like to hear! Okay, so open the clubhouse first.",,,,
 ACTIVATETRAP_OPEN_CLUBHOUSE_HINT1,Click on the button at the right to open the clubhouse.,,,,
-ACTIVATETRAP_TRY,"We're in luck. Turns out Riley was communicating the final password to open the box. 
+ACTIVATETRAP_TRY,"We're in luck! Riley was trying to tell us the final password to open the box. 
 
-So, for example, it looks like with 1_NFPX_1 she's using a cipher and she's even giving us the key. 
-
-The letters are part of the password and the number gives us the pattern to decipher it!
 ",,,,
-ACTIVATETRAP_TRY2,"Right! It's a Caesar Cipher! With the 1's, she's telling us to shift the letters over by 1. 
+ACTIVATETRAP_TRY2,"Something is garbling her speech. I know this is strange, but I think I heard Riley say MEOW!",Ada,,,
+ACTIVATETRAP_TRY3,"That's funny, that's what I could make out from what she said too! MEOW!",Saniel,,,
+ACTIVATETRAP_TRY4,"MEOW! That's also what I heard, but I was like, why is Riley meowing? This might mean something.
 
-For example, one letter after M is N. What's one letter before F? 
+We all heard the same thing thing: MEOW. MEOW. And again, MEOW. ",Faber,,,
+ACTIVATETRAP_TRY5,"MEOWMEOWMEOW. I must say, this password gives me pause. 
 
-PLAYER: E!               OR       G!               ",Ada,,,
-ACTIVATETRAP_TRY3,"Exactly, So N becomes M. F becomes E, and P gives us O, and finally, X becomes W, giving us –",Saniel,,,
-ACTIVATETRAP_TRY4,MEOW! ,Faber,hurray,,
-ACTIVATETRAP_TRY5,"MEOW. Yes. And followING the same pattern with the two others we get MEOW, and again, MEOW. 
+Well, let's not just stand around like cats! Let's see if this sequence opens the box! M-E-O-W–– 
 
-MEOWMEOWMEOW. I must say, this password gives me pause. 
-
-Let's see if it opens the box. 
+Well, I'll be a –– the opening protocol has started! Riley, this ordeal is almost over!  
 ",Saniel,,,
-ACTIVATETRAP_END,"The password worked! The opening protocol has started! Riley, we're almost there!
+ACTIVATETRAP_END,"Three key fobs. The triple password – we should be good to go – Wait – What's all this? 
 
-This ordeal is almost over! We've got the three key fobs, the triple password – we're good to go–wait –
+*TRANSCODING*? Okay. Transcoding. Not thrilled. Not thrilled at all. Could be a while still.
 
-What's this? It's transcoding? That's going to take a while. Riley, if you can hear this, we'll see you soon!
+Riley, hold on just a bit longer in there. I know you can! We're all here for you and we'll have you out soon!
 ",,,,
 ACTIVATETRAP_ABORT,Hope you'll check back soon! Just one more step. ,,,,
