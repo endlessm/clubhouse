@@ -1311,11 +1311,13 @@ class QuestSet(GObject.GObject):
 
     visible = GObject.Property(type=bool, default=True)
 
+    DEFAULT_ANIMATION = 'idle'
     HIGHLIGHTED_ANIMATION = 'hi'
 
     def __init__(self):
         super().__init__()
         self._position = self.__position__
+        self._body_animation = self.DEFAULT_ANIMATION
         self._unhighlighted_body_animation = self.body_animation
         self._highlighted = False
 
