@@ -19,13 +19,13 @@ class ActivateTrap(Quest):
         for message in range(2, 6):
             self.wait_confirm('TRY{}'.format(message))
 
-        trap_questset = Registry.get_quest_set_by_name('TrapQuestSet')
+        if not self.is_cancelled():
+            trap_questset = Registry.get_quest_set_by_name('TrapQuestSet')
 
-        trap_questset.body_animation = 'transcoding-init'
+            trap_questset.body_animation = 'transcoding-init'
 
-        self.wait_confirm('TRANSCODING')
-
-        trap_questset.body_animation = 'transcoding'
+        if not self.wait_confirm('TRANSCODING').is_cancelled():
+            trap_questset.body_animation = 'transcoding'
 
         return self.step_success
 

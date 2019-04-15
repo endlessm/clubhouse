@@ -12,20 +12,20 @@ class ApplyFob1(Quest):
             self.show_hints_message('OPEN_CLUBHOUSE')
         self.connect_clubhouse_changes(['window-is-visible']).wait()
 
-        self.wait_confirm('APPLY')
+        if not self.wait_confirm('APPLY').is_cancelled():
+            trap_questset = Registry.get_quest_set_by_name('TrapQuestSet')
+            trap_questset.body_animation = 'panels1'
 
-        trap_questset = Registry.get_quest_set_by_name('TrapQuestSet')
-        trap_questset.body_animation = 'panels1'
-        if self.clubhouse_state.window_is_visible:
-            Sound.play('quests/episode3/trap/animations/panels')
+            self.gss.update('item.fob.1', {'used': True},
+                            value_if_missing={'consume_after_use': True})
 
-        self.gss.update('item.fob.1', {'used': True},
-                        value_if_missing={'consume_after_use': True})
+            if self.clubhouse_state.window_is_visible:
+                Sound.play('quests/episode3/trap/animations/panels')
 
-        self.wait_confirm('OPEN')
-        self.wait_confirm('RILEY1')
-        self.wait_confirm('RILEY2')
-        self.wait_confirm('RILEY3')
+            self.wait_confirm('OPEN')
+            self.wait_confirm('RILEY1')
+            self.wait_confirm('RILEY2')
+            self.wait_confirm('RILEY3')
 
         return self.step_success
 
