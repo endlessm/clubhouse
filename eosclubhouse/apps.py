@@ -4,6 +4,8 @@ from eosclubhouse.system import App, GameStateService
 class Fizzics(App):
 
     APP_NAME = 'com.endlessm.Fizzics'
+    _TOOLS = ['fling', 'move', 'create', 'delete']
+    _TOOL_DISABLED_SUFFIX = 'ToolDisabled'
 
     def __init__(self):
         """Clubhouse App that represents the Fizzics app.
@@ -41,6 +43,10 @@ class Fizzics(App):
 
         self._current_level = level
         return level
+
+    def disable_tool(self, tool, disabled=True):
+        assert tool in self._TOOLS
+        return self.set_js_property(tool + self._TOOL_DISABLED_SUFFIX, disabled)
 
     def _connect_level_change(self, property_changed_cb, *args):
         def _on_level_changed():

@@ -58,6 +58,10 @@ class RileysLevels(Quest):
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_explain_beat_previous_level(self):
         self.show_hints_message('LEVEL11')
+
+        # This level should be impossible until this quest runs:
+        self._app.disable_tool('create', disabled=False)
+
         return self.step_beat_previous_level
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
