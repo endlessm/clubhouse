@@ -175,8 +175,12 @@ class Episode:
         self.number = number
         self.season = season
         self.name = name if name is not None else id_
+        self.description = '''Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nec feugiat nisl pretium fusce id velit ut tortor pretium. Pellentesque dignissim enim sit amet venenatis urna cursus. Cursus sit amet dictum sit amet justo donec. Diam vel quam elementum pulvinar etiam. Duis ut diam quam nulla porttitor. Nulla pellentesque dignissim enim sit amet venenatis urna. Mattis molestie a iaculis at erat pellentesque adipiscing commodo elit.
+
+Non enim praesent elementum facilisis leo vel fringilla. In vitae turpis massa sed elementum. Maecenas ultricies mi eget mauris pharetra. Integer malesuada nunc vel risus commodo viverra maecenas accumsan.'''
         self.badge_x = badge_x if badge_x is not None else 240
         self.badge_y = badge_y if badge_y is not None else 540
+        self.complete = False
 
 
 class EpisodesDB(_DictFromCSV):
@@ -235,6 +239,10 @@ class EpisodesDB(_DictFromCSV):
         episode = class_.get_episode(current_episode)
         return [v for k, v in class_.get_all_episodes()
                 if v.season == episode.season and v.number > episode.number]
+
+    @classmethod
+    def get_episodes_in_season(class_, season):
+        return [episode for key, episode in class_.get_all_episodes() if episode.season == season]
 
 
 class SimpleMarkupParser:

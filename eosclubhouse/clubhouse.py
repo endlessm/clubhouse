@@ -1065,6 +1065,38 @@ class InventoryPage(Gtk.EventBox):
         else:
             self._inventory_stack.set_visible_child(self._inventory_empty_state_box)
 
+class EpisodeRow(Gtk.ListBoxRow):
+
+    def __init__(self, episode):
+        super().__init__()
+        self._episode = episode
+
+        self._setup_ui()
+
+    def _setup_ui(self):
+        builder = Gtk.Builder()
+        builder.add_from_resource('/com/endlessm/Clubhouse/episode-row.ui')
+
+        self._expand_button = builder.get_object('episode_row_expand_button')
+        self._expand_button.connect('clicked', lambda _button: self._toggle_expand())
+        self._expand_button.set_label(self._episode.name)
+
+        self._description_label = builder.get_object('episode_row_description_label')
+        self._description_label.set_markup(self._episode.description)
+
+        self._revealer = builder.get_object('episode_row_revealer')
+
+        self._button_box = builder.get_object('episode_row_button_box')
+
+        if self._episode.complete:
+            print('COMPLETE')
+            self._button_box.add(BadgeButton(self._episode))
+
+        self.add(builder.get_object('episode_row_box'))
+
+    def _toggle_expand(self):
+        is_revealed = self._revealer.get_reveal_child()
+        self._revealer.set_reveal_child(not is_revealed)
 
 class EpisodesPage(Gtk.EventBox):
 
@@ -1090,8 +1122,22 @@ class EpisodesPage(Gtk.EventBox):
         builder.add_from_resource('/com/endlessm/Clubhouse/episodes-page.ui')
 
         self._badges_box = builder.get_object('badges_box')
+        self._list_box = builder.get_object('episodes_list_box')
 
-        self.add(self._badges_box)
+        self.add(builder.get_object('episodes_overlay'))
+
+        self._populate()
+
+    def _populate(self):
+        current_episode = libquest.Registry.get_current_episode()
+        episode = self._episodes_db.get_episode(current_episode['name'])
+
+        completed_episodes = self._episodes_db.get_previous_episodes(episode.id)
+        for episode in self._episodes_db.get_episodes_in_season(episode.season):
+            if episode in completed_episodes:
+                episode.complete = True
+            self._list_box.add(EpisodeRow(episode))
+        self._list_box.show_all()
 
     def _update_ui(self, new_page):
         if new_page == self._current_page:
@@ -1111,8 +1157,6 @@ class EpisodesPage(Gtk.EventBox):
         self.get_style_context().add_class(self._current_page)
 
         current_episode = libquest.Registry.get_current_episode()
-        if new_page == self._COMPLETED:
-            self.get_style_context().add_class(current_episode['name'])
         episode = self._episodes_db.get_episode(current_episode['name'])
 
         # draw completed episodes

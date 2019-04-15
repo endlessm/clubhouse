@@ -6,25 +6,12 @@
     background-image: url('resource:///com/endlessm/Clubhouse/images/inventory_bg.png');
 }
 
-.episodes-page.episode1, .episodes-page.cesdemo {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episode1_bg.png');
+.episodes-page {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/episodes_bg.png');
 }
 
-.episodes-page.episode1.completed,
-.episodes-page.cesdemo.completed,
-.episodes-page.episode2 {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episode2_bg.png');
-}
-
-.episodes-page.episode2.completed {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episode3_bg.png');
-}
-
-.episodes-page.episode3 {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episode3_bg.png');
-}
-.episodes-page.episode3.completed {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episode4_bg.png');
+.episodes-page .episodes-list {
+    background: transparent;
 }
 
 .clubhouse-message-box {
@@ -293,4 +280,9 @@ window.poster {
 
 .badge:hover image {
     -gtk-icon-shadow: 0 10px 10px alpha(black,0.4);
+}
+
+.episode-row-expand-button {
+    background: rgba(255, 255, 255, 0.7);
+    min-height: 50px;
 }
