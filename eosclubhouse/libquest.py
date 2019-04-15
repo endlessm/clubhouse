@@ -1310,7 +1310,6 @@ class QuestSet(GObject.GObject):
     __empty_message__ = 'Nothing to see here!'
 
     visible = GObject.Property(type=bool, default=True)
-    body_animation = GObject.Property(type=str, default='idle')
 
     HIGHLIGHTED_ANIMATION = 'hi'
 
@@ -1395,5 +1394,23 @@ class QuestSet(GObject.GObject):
 
     def is_active(self):
         return self.visible and self.get_next_quest() is not None
+
+    def get_body_animation(self):
+        return self._body_animation
+
+    def _get_body_animation(self):
+        return self.get_body_animation()
+
+    def set_body_animation(self, body_animation):
+        self._body_animation = body_animation
+        self.notify('body-animation')
+
+    def _set_body_animation(self, body_animation):
+        self.set_body_animation(body_animation)
+
+    body_animation = GObject.Property(_get_body_animation, _set_body_animation,
+                                      type=str, default='idle',
+                                      flags=GObject.ParamFlags.READWRITE |
+                                      GObject.ParamFlags.EXPLICIT_NOTIFY)
 
     highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False)
