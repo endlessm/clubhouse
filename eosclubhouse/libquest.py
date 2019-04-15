@@ -530,10 +530,14 @@ class Quest(GObject.GObject):
     __advance_episode__ = False
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
+    _DEFAULT_MOOD = 'talk'
 
     skippable = GObject.Property(type=bool, default=False)
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
     continue_message = GObject.Property(type=str, default="You haven't completed my challenge yet!")
+    proposal_message = GObject.Property(type=str, default="Do you want to go for a challenge?")
+    proposal_mood = GObject.Property(type=str, default=_DEFAULT_MOOD)
+    proposal_sound = GObject.Property(type=str, default="quests/quest-proposed")
     accept_label = GObject.Property(type=str, default="Sure!")
     reject_label = GObject.Property(type=str, default="Not now…")
 
@@ -543,7 +547,7 @@ class Quest(GObject.GObject):
 
     auto_offer = GObject.Property(type=bool, default=False)
 
-    def __init__(self, name, main_character_id, initial_msg=None):
+    def __init__(self, name, main_character_id, proposal_message_id='QUESTION'):
         super().__init__()
         self._name = name
 
@@ -559,32 +563,18 @@ class Quest(GObject.GObject):
                            'info about what the next episode is!', self)
 
         self._qs_base_id = self.get_default_qs_base_id()
-        self._initial_msg = initial_msg
 
         self._last_bg_sound_uuid = None
         self._last_bg_sound_event_id = None
 
-        if self._initial_msg is None:
-            self._initial_msg = self._get_initial_msg_from_qs()
-
-            label = self._get_accept_label_from_qs()
-            if label:
-                self.accept_label = label
-
-            label = self._get_reject_label_from_qs()
-            if label:
-                self.reject_label = label
-
-        if self._initial_msg is None:
-            logger.critical('Initial message is missing for quest %r', self._qs_base_id)
-
         self._characters = {}
 
         self._main_character_id = main_character_id
-        self._main_mood = 'talk'
+        self._main_mood = self._DEFAULT_MOOD
         self._main_open_dialog_sound = 'clubhouse/dialog/open'
         self._default_abort_sound = 'quests/quest-aborted'
-        self._default_initial_sound = 'quests/quest-proposed'
+
+        self._setup_proposal_message(proposal_message_id)
 
         self.gss = GameStateService()
         self.conf = {}
@@ -608,6 +598,34 @@ class Quest(GObject.GObject):
 
         self.clubhouse_state = ClubhouseState()
 
+    def _setup_proposal_message(self, message_id):
+        message_info = QuestStringCatalog.get_info('{}_{}'.format(self._qs_base_id, message_id))
+
+        if message_info is None:
+            logger.debug('Proposal message %r is missing for quest %r',
+                         message_id, self._qs_base_id)
+            return
+
+        self.proposal_message = message_info['txt']
+        sfx_sound = message_info.get('sfx_sound')
+        if sfx_sound:
+            self.proposal_sound = sfx_sound
+
+        character_id = message_info.get('character_id')
+        if character_id:
+            self._main_character_id = character_id
+
+        mood = message_info.get('mood')
+        if mood:
+            self.proposal_mood = mood
+
+        accept_label = self._get_accept_label_from_qs()
+        if accept_label:
+            self.accept_label = accept_label
+        reject_label = self._get_reject_label_from_qs()
+        if reject_label:
+            self.reject_label = reject_label
+
     def get_episode_name(self):
         return self._episode_name
 
@@ -620,9 +638,6 @@ class Quest(GObject.GObject):
 
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
-
-    def _get_initial_msg_from_qs(self):
-        return QS('{}_QUESTION'.format(self._qs_base_id))
 
     def _get_accept_label_from_qs(self):
         return QS('{}_QUEST_ACCEPT'.format(self._qs_base_id))
@@ -1033,7 +1048,7 @@ class Quest(GObject.GObject):
             if info_id == 'ABORT':
                 sfx_sound = self._default_abort_sound
             elif info_id == 'QUESTION':
-                sfx_sound = self._default_initial_sound
+                sfx_sound = self.proposal_sound
             else:
                 sfx_sound = self._main_open_dialog_sound
         bg_sound = options.get('bg_sound')
@@ -1079,16 +1094,6 @@ class Quest(GObject.GObject):
             self.show_message(info_id)
         else:
             self._show_next_hint_message(info_id_list)
-
-    def get_initial_sfx_sound(self):
-        info = QuestStringCatalog.get_info('{}_QUESTION'.format(self._qs_base_id))
-        sfx_sound = info.get('sfx_sound') if info else None
-        if not sfx_sound:
-            sfx_sound = self._default_initial_sound
-        return sfx_sound
-
-    def get_initial_message(self):
-        return self._initial_msg
 
     def get_last_bg_sound_event_id(self):
         return self._last_bg_sound_uuid
