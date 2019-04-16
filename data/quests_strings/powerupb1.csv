@@ -7,7 +7,7 @@ Let's go in the coding panel and I'll show you how this works. ",,,,
 POWERUPB1_EXPLAIN_HINT1,Click the Flip button.,,,,
 POWERUPB1_CODE,"Click on the Spawn tab again and look for the `spawnPowerup()` function.
 
-Right now we're only spawning type 'invulnerable' powerup. 
+Right now we're only spawning type 'invulnerable' powerups. 
 
 So, if we want it to be random, how do we set it to spawn type 'invulnerable' or type 'blowup'?
 
