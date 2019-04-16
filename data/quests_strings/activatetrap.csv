@@ -13,7 +13,7 @@ ACTIVATETRAP_TRY2,"When I was in there, I distinctly heard Riley say MEOW!",Ada,
 ACTIVATETRAP_TRY3,"Exactly! That's the one word, as it were, that came forth clearly for me as well. MEOW!",Saniel,,,
 ACTIVATETRAP_TRY4,"MEOW! Whoa. I totally caught that too, but I was all like, why is Riley meowing?
 
-But that's *gotta* mean something! MEOW. MEOW. And again, MEOW. 
+But that's _gotta_ mean something! MEOW. MEOW. And again, MEOW. 
 
 ",Faber,,,
 ACTIVATETRAP_TRY5,"MEOWMEOWMEOW. I must say, this password gives me pause. 
@@ -22,8 +22,10 @@ But let's enter it now. Okay, M – E – O – W – M – E – O – W – M 
 
 This ordeal is almost over! The opening protocol has started. We're good to go! 
 ",Saniel,,,
-ACTIVATETRAP_TRANSCODING,"Wait – What's all this? TRANSCODING*? Riley, hold on in there! 
+ACTIVATETRAP_TRANSCODING,"Wait – What's all this? The display says it's  _TRANSCODING_ . Okay. Transcoding. Not thrilled.
 
-Okay. Transcoding. Not thrilled. Not thrilled at all. Could be *quite* a while still.",,,,
-ACTIVATETRAP_END,"Riley, we're all here for you! We'll have you out just as soon as we can!",,,,
+Not thrilled at all. Could be _quite_ a while still.",,,,
+ACTIVATETRAP_END,"Riley, hold on in there! We're all here for you and we're doing everything we can! 
+
+You really came through in getting those passwords to us! We'll have you out just as soon as we can!",,,,
 ACTIVATETRAP_ABORT,We all hope you'll check back soon! Just one more step. ,,,,
