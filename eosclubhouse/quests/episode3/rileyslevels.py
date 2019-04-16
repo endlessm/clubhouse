@@ -17,7 +17,7 @@ class RileysLevels(Quest):
 
     def _wait_for_app_changes(self):
         app_changes = self.connect_app_js_props_changes(self._app,
-                                                        ['currentLevel', 'levelSuccess',
+                                                        ['effectiveLevel', 'levelSuccess',
                                                          'ballDied'])
         app_changes.wait()
 
@@ -25,7 +25,7 @@ class RileysLevels(Quest):
             return 'ballDied'
         elif self._app.get_js_property('levelSuccess', False):
             return 'levelSuccess'
-        return 'currentLevel'
+        return 'effectiveLevel'
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
@@ -38,7 +38,7 @@ class RileysLevels(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_reach_previous_level(self):
-        level = self._app.get_current_level(self.debug_skip())
+        level = self._app.get_effective_level(self.debug_skip())
         if level > self.LAST_RILEY_LEVEL:
             return self.step_success, True
         elif level >= self.FIRST_RILEY_LEVEL:
@@ -66,7 +66,7 @@ class RileysLevels(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_beat_previous_level(self):
-        level = self._app.get_current_level(self.debug_skip())
+        level = self._app.get_effective_level(self.debug_skip())
         if level > self.LAST_RILEY_LEVEL:
             return self.step_success, True
         elif level >= self.FIRST_RILEY_LEVEL:
@@ -82,7 +82,7 @@ class RileysLevels(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_beat_riley_levels(self):
-        level = self._app.get_current_level(self.debug_skip())
+        level = self._app.get_effective_level(self.debug_skip())
         if level > self.LAST_RILEY_LEVEL:
             return self.step_success
 
