@@ -19,9 +19,6 @@ class ApplyFob3(Quest):
             self.gss.update('item.fob.3', {'used': True},
                             value_if_missing={'consume_after_use': True})
 
-            if self.clubhouse_state.window_is_visible:
-                Sound.play('quests/episode3/trap/animations/panels')
-
             self.wait_confirm('OPEN')
             self.wait_confirm('RILEY')
 
