@@ -2,24 +2,28 @@ ACTIVATETRAP_QUESTION,How very odd. All three panels are activated. But the box 
 ACTIVATETRAP_QUEST_ACCEPT,Let's keep trying!,,,,
 ACTIVATETRAP_OPEN_CLUBHOUSE,"That's what I like to hear! Okay, so open the clubhouse first.",,,,
 ACTIVATETRAP_OPEN_CLUBHOUSE_HINT1,Click on the button at the right to open the clubhouse.,,,,
-ACTIVATETRAP_TRY,"We're in luck! Riley was trying to tell us the final password to open the box. 
+ACTIVATETRAP_TRY,"Now, what are we missing? I fully expected that box to spring open. What are we still not seeing? 
+
+Let's consider everything we have. Each time we activated a fob, Riley spoke to us. 
+
+Something was scrambling her speech, but somewhere in there, she's giving us clues. I know her!
 
 ",,,,
-ACTIVATETRAP_TRY2,"Something is garbling her speech. I know this is strange, but I think I heard Riley say MEOW!",Ada,,,
-ACTIVATETRAP_TRY3,"That's funny, that's what I could make out from what she said too! MEOW!",Saniel,,,
-ACTIVATETRAP_TRY4,"MEOW! That's also what I heard, but I was like, why is Riley meowing? This might mean something.
+ACTIVATETRAP_TRY2,"When I was in there, I distinctly heard Riley say MEOW!",Ada,,,
+ACTIVATETRAP_TRY3,"Exactly! That's the one word, as it were, that came forth clearly for me as well. MEOW!",Saniel,,,
+ACTIVATETRAP_TRY4,"MEOW! Whoa. I totally caught that too, but I was all like, why is Riley meowing?
 
-We all heard the same thing thing: MEOW. MEOW. And again, MEOW. ",Faber,,,
+But that's *gotta* mean something! MEOW. MEOW. And again, MEOW. 
+
+",Faber,,,
 ACTIVATETRAP_TRY5,"MEOWMEOWMEOW. I must say, this password gives me pause. 
 
-Well, let's not just stand around like cats! Let's see if this sequence opens the box! M-E-O-W–– 
+But let's enter it now. Okay, M – E – O – W – M – E – O – W – M – E – O – W ––––––––––––
 
-Well, I'll be a –– the opening protocol has started! Riley, this ordeal is almost over!  
+This ordeal is almost over! The opening protocol has started. We're good to go! 
 ",Saniel,,,
-ACTIVATETRAP_END,"Three key fobs. The triple password – we should be good to go – Wait – What's all this? 
+ACTIVATETRAP_TRANSCODING,"Wait – What's all this? TRANSCODING*? Riley, hold on in there! 
 
-*TRANSCODING*? Okay. Transcoding. Not thrilled. Not thrilled at all. Could be a while still.
-
-Riley, hold on just a bit longer in there. I know you can! We're all here for you and we'll have you out soon!
-",,,,
-ACTIVATETRAP_ABORT,Hope you'll check back soon! Just one more step. ,,,,
+Okay. Transcoding. Not thrilled. Not thrilled at all. Could be *quite* a while still.",,,,
+ACTIVATETRAP_END,"Riley, we're all here for you! We'll have you out just as soon as we can!",,,,
+ACTIVATETRAP_ABORT,We all hope you'll check back soon! Just one more step. ,,,,
