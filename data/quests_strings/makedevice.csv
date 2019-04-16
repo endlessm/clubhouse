@@ -1,7 +1,7 @@
 MAKEDEVICE_QUESTION,Hi again! Did you get the parts to make that Stealth Device?,Faber,,,quests/quest2-faber-conga-build
 MAKEDEVICE_QUEST_ACCEPT,Yes! Right here.,,,,quests/quest2-faber-conga-build
 MAKEDEVICE_QUEST_NOTYET,Not yet. I'll be back later.,,,,quests/quest2-faber-conga-build
-MAKEDEVICE_EXPLAIN,"Fantastic. Fantastic. Let's see them.
+MAKEDEVICE_EXPLAIN,"Fantastic. Fannnntastic. Let's see them.
 
 Okay, we need to solder this one to the board. That one underneath connected to the emitter.
 

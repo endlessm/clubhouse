@@ -1,28 +1,28 @@
 POWERUPB1_QUESTION,Ready to try out another powerup?,Saniel,,,
-POWERUPB1_QUEST_ACCEPT,Of course!,,,,
+POWERUPB1_QUEST_ACCEPT,Sounds fun!,,,,
 POWERUPB1_LAUNCH,Excellent. Let's go back to Lightspeed.,,,,
-POWERUPB1_EXPLAIN,"Let's add a second powerup. For now we want to create BOTH types of powerups at random.
+POWERUPB1_EXPLAIN,"Let's add a second powerup. Let's create BOTH types of powerups at random.
 
-Let's go in the coding panel and I'll show you how this works. So let's take this step by step. ",,,,
+Let's go in the coding panel and I'll show you how this works. ",,,,
 POWERUPB1_EXPLAIN_HINT1,Click the Flip button.,,,,
 POWERUPB1_CODE,"Click on the Spawn tab again and look for the `spawnPowerup()` function.
 
-Right now we're only spawning type 'invulnerable' powerup. So, how do we set it to spawn type 'invulnerable' or type 'blowup'?
+Right now we're only spawning type 'invulnerable' powerup. 
+
+So, if we want it to be random, how do we set it to spawn type 'invulnerable' or type 'blowup'?
 
 Let's use the `pickOne()` function. Can you guess how it works?",,,,
-POWERUPB1_CODE_HINT1,"So if you want to return either one or the other, you use `pickOne('invulnerable', 'blowup')`.",,,,
-POWERUPB1_CODE_HINT2,"So to return `'invulnerable'` or `'blowup'`, you do 'pickOne('invulnerable', 'blowup')'.",,,,
+POWERUPB1_CODE_HINT1,"If you want to return either one or the other, you use `pickOne('invulnerable', 'blowup')`.",,,,
+POWERUPB1_CODE_HINT2,"To return `'invulnerable'` or `'blowup'`, you do 'pickOne('invulnerable', 'blowup')'.",,,,
 POWERUPB1_ABOUTTOPLAY,Go ahead and play the level.,,,,
 POWERUPB1_ABOUTTOPLAY_HINT1,Press the *Restart* button.,,,,
-POWERUPB1_PLAY_AGAIN,Let's try again.,,,,
-POWERUPB1_PLAY_AGAIN_HINT1,Press the *Restart* button.,,,,
-POWERUPB1_PLAYTEST,Let's see if we get both types of powerups.,,,,
+POWERUPB1_PLAY_AGAIN,How about if we try that again.,,,,
+POWERUPB1_PLAY_AGAIN_HINT1,Click *Restart*.,,,,
+POWERUPB1_PLAYTEST,Here's where we find out if we get both types of powerups.,,,,
 POWERUPB1_NOPOWERUPS,Hmm. Now we have no powerups at all. Something went wrong. Let's fix it.,,,,
-POWERUPB1_ONETYPEONLY,"We have some powerups, but it's only one type. Are the two types being spawned?",,,,
+POWERUPB1_ONETYPEONLY,"We have *some* powerups, but it's only one type. Are both types being spawned?",,,,
 POWERUPB1_FINISHLEVEL,That's it! We now have both types. Go ahead and finish the level.,,,,
 POWERUPB1_SUCCESS,"Splendid. So we have two powerups now, but the second one doesn't yet have its powers. 
 
-Come get me at the Clubhouse and we'll give the second powerup its special power! 
-
-We'll do this just as we did with the first powerup. What powers would you like to add? ",,hurray,,
+What power would you like to add? ",,hurray,,
 POWERUPB1_ABORT,No problem. Let's resume work later. ,,,,
