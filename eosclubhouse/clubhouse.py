@@ -1098,6 +1098,10 @@ class EpisodeRow(Gtk.ListBoxRow):
         is_revealed = self._revealer.get_reveal_child()
         self._revealer.set_reveal_child(not is_revealed)
 
+class GFixed(Gtk.Fixed):
+
+    pass
+
 class EpisodesPage(Gtk.EventBox):
 
     _COMPLETED = 'completed'
@@ -1121,7 +1125,12 @@ class EpisodesPage(Gtk.EventBox):
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/episodes-page.ui')
 
-        self._badges_box = builder.get_object('badges_box')
+        self._badges_box = GFixed()
+        b = builder.get_object('badges_box')
+        self._badges_box.show_all()
+        ov = builder.get_object('episodes_overlay')
+        ov.set_overlay_pass_through(b, True)
+        b.add(self._badges_box)
         self._list_box = builder.get_object('episodes_list_box')
 
         self.add(builder.get_object('episodes_overlay'))

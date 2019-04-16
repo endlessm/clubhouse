@@ -5,8 +5,9 @@
     <property name="halign">fill</property>
     <property name="valign">fill</property>
     <child type="overlay">
-      <object class="GtkFixed" id="badges_box">
-	<property name="visible">False</property>
+      <object class="GtkBox" id="badges_box">
+	<property name="visible">True</property>
+	<property name="orientation">vertical</property>
 	<property name="can_focus">False</property>
 	<property name="halign">fill</property>
 	<property name="valign">fill</property>

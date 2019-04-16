@@ -284,5 +284,5 @@ window.poster {
 
 .episode-row-expand-button {
     background: rgba(255, 255, 255, 0.7);
-    min-height: 50px;
+    min-height: 100px;
 }
