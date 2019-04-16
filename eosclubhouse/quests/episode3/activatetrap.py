@@ -23,7 +23,7 @@ class ActivateTrap(Quest):
 
         trap_questset.body_animation = 'transcoding-init'
 
-        self.wait_confirm('END')
+        self.wait_confirm('TRANSCODING')
 
         trap_questset.body_animation = 'transcoding'
 
