@@ -36,10 +36,14 @@ MAZEPT2_LEVELS4_FABER2,"Huh, I didn’t think of that. I guess that’s why he f
 MAZEPT2_LEVELS4_ADA3,"Yeah. Hmmm.. this almost reminds me of something.
 
 I feel like something should be clicking into place, but I think I’ve forgotten something important…",Ada,,,
-MAZEPT2_LEVELS5,"Hey! My files! Riley, you see that thing near the Exit!? That’s my missing research!",Ada,,,
-MAZEPT2_LEVELS5_RILEY,Oh wow! I’ll go get it for you!,Riley,,,
-MAZEPT2_RESEARCH1,"I got it! Ada, I'm sending your research files over to you!",Riley,,,
-MAZEPT2_RESEARCH2,"Great! I'm receiving them now. Wow, thanks a million Riley. These were missing for so long!",Ada,,,
+MAZEPT2_LEVELS5,"Hold on, I think – Riley, Do you see that bundle of files near the Exit!? That’s my missing research!",Ada,,,
+MAZEPT2_LEVELS5_RILEY,Stellar! Just gonna go snap them up right now! ,Riley,,,
+MAZEPT2_RESEARCH1,"Okay, I'm transmitting the files to you now. You should be see them soon.
+
+Sending them from in here might mean they get a bit distorted in the process. ",Riley,,,
+MAZEPT2_RESEARCH2,"No problem. We can deal with that. Okay, whew! I'm receiving them now. 
+
+Wow, thanks a million Riley. These were missing for so long! I wonder how they got in there? ",Ada,,,
 MAZEPT2_LEVELS6,I hear something. Do you hear that?,Riley,,,
 MAZEPT2_LEVELS6_FELIX,^__MEOW__^ ,Felix,,,
 MAZEPT2_LEVELS6_FABER,There it is again! What the heck IS that thing?,Faber,,,
