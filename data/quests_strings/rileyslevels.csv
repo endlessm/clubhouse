@@ -1,29 +1,29 @@
-RILEYSLEVELS_QUESTION,Hey there! I'm heading up the search for the fob #1. It's hidden in Fizzics. Want to join me?,Ada,,,
+RILEYSLEVELS_QUESTION,Hey there! I'm heading up the search for fob #1. It's hidden in Fizzics. Want to join me?,Ada,,,
 RILEYSLEVELS_QUESTION_ACCEPT,Of course!,,,,
 RILEYSLEVELS_LAUNCH,"Fantastic. We really need your help! Saniel told me Riley designed some hidden Fizzics levels. 
 
 She made them as a Fizzics assignment for Saniel and he implemented them so we can play them. 
 
-Let's play them now, and for Riley's sake, let's hope our luck is with us! Launch Fizzics and let's go!",,,,
+Let's play them now, and for Riley's sake, let's hope luck is with us! Launch Fizzics and let's go!",,,,
 RILEYSLEVELS_GETTOLEVEL11,"First, you need to get to level 11.",,,,
 RILEYSLEVELS_LEVEL11,Here we are at level 11! We need to pass this one to get to Riley's secret levels. ,,,,
 RILEYSLEVELS_LEVEL11_HINT1,"Remember: To beat a level, you need to fling all the orange balls into the target.",,,,
 RILEYSLEVELS_LEVEL11_HINT2,The balls with the stars are the goals. Maybe you should add one of those!,,,,
 RILEYSLEVELS_LEVEL11_HINT3,Click the Flip button and click on the *Add* tool to enable it.,,,,
 RILEYSLEVELS_ALREADYBEAT,Oh hey! You already finished Riley's levels!,,,,
-RILEYSLEVELS_LEVEL12,Great. You made it into Riley's secret levels! Now see if you can beat them all.,,,,
+RILEYSLEVELS_LEVEL12,"Great. You made it into Riley's secret levels! Now, see if you can beat them all.",,,,
 RILEYSLEVELS_DIED_LEVEL12,Ooopf. What's up with those balls falling to the bottom?,,,,
-RILEYSLEVELS_DIED_LEVEL12_HINT1,Changing the gravity variable might be very useful right now.,,,,
+RILEYSLEVELS_DIED_LEVEL12_HINT1,Changing the gravity variable might be very advisable right now.,,,,
 RILEYSLEVELS_START_LEVEL13,"Wait, what? No fling tool? How can you solve this problem?",,,,
-RILEYSLEVELS_START_LEVEL13_HINT1,"You know by now, flip the app and Hack it!",,,,
-RILEYSLEVELS_DIED_LEVEL13,"Good try, but try another solution.",,,,
+RILEYSLEVELS_START_LEVEL13_HINT1,"You know by now, flip the app and hack it!",,,,
+RILEYSLEVELS_DIED_LEVEL13,"That was a good thought, but try another solution.",,,,
 RILEYSLEVELS_DIED_LEVEL13_HINT1,What if you unfreeze the goal?,,,,
 RILEYSLEVELS_DIED_LEVEL13_HINT2,Maybe add gravity to the goal?,,,,
-RILEYSLEVELS_START_LEVEL14,"So you can fling in this level, but now the goal is blocked.",,,,
+RILEYSLEVELS_START_LEVEL14,"So, the sitch is you can fling in this level, but now the goal is blocked.",,,,
 RILEYSLEVELS_START_LEVEL15,"No fling tool again, how can you solve this?",,,,
-RILEYSLEVELS_START_LEVEL16,"Great, now you have the fling tool, but you can't get near the balls! ",,,,
+RILEYSLEVELS_START_LEVEL16,"Great. Now you have the fling tool, but there's something up with the attraction and repulsion.",,,,
 RILEYSLEVELS_NOMOVING,"Smart strategy, but it won't work. Riley programmed it so you can only win with the fling tool.",,,,
 RILEYSLEVELS_SUCCESS,"You did it! That was really clever work! 
 
-Oh hey, I think I found one of those fobs we're looking for! Let's hope this works! ",,hurray,,
+Oh, brilliant! I think we lucked upon of those fobs we're looking for! Meet me at the Clubhouse!",,hurray,,
 RILEYSLEVELS_ABORT,"OK, let's keep exploring this later. ",,,,
