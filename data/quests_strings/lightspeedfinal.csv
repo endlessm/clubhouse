@@ -4,14 +4,14 @@ LIGHTSPEEDFINAL_LAUNCH,We need to beat the final level in Lightspeed. Launch it 
 LIGHTSPEEDFINAL_EXPLAIN,"Here we are. You'll have to create and beat the final level with every monster and every upgrade.
 
 Press the Flip button to go to the code.",,,,
-LIGHTSPEEDFINAL_CODE,"All right, now we need to give it everything. Let's spawn every enemy and powerup in this level.
+LIGHTSPEEDFINAL_CODE,"All right, now we need to give it everything. Let's spawn every enemy and Power-up in this level.
 
 Click on the Spawn tab and look at the `spawnEnemy()` function.
 
-Let's change it so it spawns any of the 4 enemies: *asteroid*, *spinner*, *squid*, or *beam*.",,,,
-LIGHTSPEEDFINAL_CODE_HINT1,Remember the `pickOne()` function? It can be useful here too.,,,,
-LIGHTSPEEDFINAL_CODE_HINT2,"Use the `pickOne()` function to return one of the 4 enemies, `'asteroid'`, `'spinner'`, `'squid'` or `'beam'`.",,,,
-LIGHTSPEEDFINAL_CODE_HINT3,"`return pickOne('asteroid', 'spinner', 'squid', 'beam');`",,,,
+Let's change it so it randomly spawns any of the 4 enemies: `'asteroid'`, `'spinner'`, `'squid'` or `'beam'`. I'm ready to give you hints.",,,,
+LIGHTSPEEDFINAL_CODE_HINT1,See where we return `'asteroid'`? Instead we'll return by using the `pickOne()` function.,,,,
+LIGHTSPEEDFINAL_CODE_HINT2,"Inside the `pickOne()` we will list the 4 enemies, `'asteroid', 'spinner', 'squid', 'beam'`.",,,,
+LIGHTSPEEDFINAL_CODE_HINT3,"So the whole thing should say `return pickOne('asteroid', 'spinner', 'squid', 'beam');`",,,,
 LIGHTSPEEDFINAL_ABOUTTOPLAY,Ready. Let's play!,,,,
 LIGHTSPEEDFINAL_PLAYTEST,You should get all 4 enemies in this level.,,,,
 LIGHTSPEEDFINAL_ABOUTTOPLAY_HINT1,Click the trusty *Restart* button.,,,,
@@ -20,5 +20,5 @@ LIGHTSPEEDFINAL_PLAY_AGAIN_HINT1,Click ye olde *Restart. button* ,,,,
 LIGHTSPEEDFINAL_NOTFOUR,I don't see all 4 enemies. Let's go back and check.,,,,
 LIGHTSPEEDFINAL_FINISHLEVEL,Excellent. You've got all 4 enemies. Now finish the level. That's how we'll find that second fob!,,,,
 LIGHTSPEEDFINAL_SUCCESS,"Well done! I knew you could get us here! And, just as we'd hoped, here's the fob. ",,,,
-LIGHTSPEEDFINAL_END,This is auspicious indeed! I'm going to head to the clubhouse and see how this work! See you there. ,,,,
+LIGHTSPEEDFINAL_END,This is auspicious indeed! I'm going to head to the Clubhouse and see how this work! See you there. ,,,,
 LIGHTSPEEDFINAL_ABORT,"Go if you must, but I do hope you'll check back later.  ",,,,

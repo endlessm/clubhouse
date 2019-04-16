@@ -20,12 +20,14 @@ ACTIVATETRAP_TRY5,"MEOWMEOWMEOW. I must say, this password gives me pause.
 
 But let's enter it now. Okay, M – E – O – W – M – E – O – W – M – E – O – W ––––––––––––
 
-This ordeal is almost over! The opening protocol has started. We're good to go! 
+This ordeal is almost over! The opening protocol has started. Watch the box closely now!
 ",Saniel,,,
 ACTIVATETRAP_TRANSCODING,"Wait – What's all this? The display says it's  _TRANSCODING_ . Okay. Transcoding. Not thrilled.
 
-Not thrilled at all. Could be _quite_ a while still.",,,,
+Not thrilled at all. I must say, this really has me stumped. I had hoped we would free Riley today.
+
+This transcoding sequence is likely to tie things up for _quite_ a while still. ",,,,
 ACTIVATETRAP_END,"Riley, hold on in there! We're all here for you and we're doing everything we can! 
 
-You really came through in getting those passwords to us! We'll have you out just as soon as we can!",,,,
+You really came through in getting those passwords to us! We'll have you out just as soon as we can! ",,,,
 ACTIVATETRAP_ABORT,We all hope you'll check back soon! Just one more step. ,,,,

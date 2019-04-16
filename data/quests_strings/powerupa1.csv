@@ -2,27 +2,27 @@ POWERUPA1_QUESTION,Ready to retrieve the next encoded fob from Lightspeed?,Sanie
 POWERUPA1_QUEST_ACCEPT,"Yes, let's get to work!",,,,
 POWERUPA1_LAUNCH,"Excellent. So we need to stay sharp and give this our keenest attention. 
 
-We're going to create a new level using every enemy and every powerup Lightspeed can give us.
+We're going to create a new level using every enemy and every Power-up Lightspeed can give us.
 
 So, if all goes well, we'll find that second fob deep in Lightspeed! Let's launch Lightspeed now!",,,,
 POWERUPA1_LAUNCH_HINT1,Click on the Lightspeed icon on the desktop.        ,,,,
-POWERUPA1_EXPLAIN,"Okay, let's make some powerups! Powerups are capsules that give your ship special powers.
+POWERUPA1_EXPLAIN,"Okay, let's make some Power-ups! Power-ups are capsules that give your ship special powers.
 
 Very handy indeed! Let's go to the coding panel and see what these special powers can do! ",,,,
 POWERUPA1_EXPLAIN_HINT1,Press the Flip button.,,,,
-POWERUPA1_CODE,"Click on the Spawn tab. See that `spawnPowerup()` function? That's what creates powerups.
+POWERUPA1_CODE,"Click on the Spawn tab. See that `spawnPowerup()` function? That's what creates Power-ups.
 
-The Spawn powerup function returns a type of powerup. `null` means no powerup. 
+It creates the type of Power-up you return. For example, `return null;` means _no_ Power-up. 
 
-Return `'invulnerable'` and try the level.",,,,
-POWERUPA1_CODE_HINT1,Set `return 'invulnerable';` and play the level.,,,,
+So now, let's replace `return null;` with `return 'invulnerable';` and try the level.",,,,
+POWERUPA1_CODE_HINT1,Change `return null;` to `return 'invulnerable';` Don't forget the quotes! Then try the level.,,,,
 POWERUPA1_ABOUTTOPLAY,Start playing the level.,,,,
 POWERUPA1_ABOUTTOPLAY_HINT1,Press *Restart.* ,,,,
 POWERUPA1_PLAY_AGAIN,Let's try that level again.,,,,
 POWERUPA1_PLAY_AGAIN_HINT1,Press *Restart*.,,,,
-POWERUPA1_PLAYTEST,"Let's see if the powerups show up. When the they first show up, they won't have any powers yet.",,,,
-POWERUPA1_NOPOWERUPS,How strange. Looks like we have ZERO powerups. Something's wrong. Let's go back and check.,,,,
-POWERUPA1_OTHER_POWERUP,"Intriguing! You spawned a powerup, but it's a different kind. Have a look at your settings again.",,,,
-POWERUPA1_FINISHLEVEL,"Excellent. The powerups are there, but they don't do anything yet. Finish the level now.",,,,
+POWERUPA1_PLAYTEST,"Let's see if the Power-ups show up. When the they first show up, they won't have any powers yet.",,,,
+POWERUPA1_NOPOWERUPS,How strange. Looks like we have ZERO Power-ups. Something's wrong. Let's go back and check.,,,,
+POWERUPA1_OTHER_POWERUP,"Intriguing! You spawned a Power-up, but it's a different kind. Have a look at your settings again.",,,,
+POWERUPA1_FINISHLEVEL,"Excellent. The Power-ups are there, but they don't do anything yet. Finish the level now.",,,,
 POWERUPA1_SUCCESS,Great. Your Lightspeed coding skills are still quite sharp.,,hurray,,
 POWERUPA1_ABORT,Check back later and we can keep exploring. ,,,,
