@@ -1,9 +1,7 @@
-MAZEPT1_QUESTION,TRANSCODING COMPLETE. READY FOR NEXT STEP?,Riley,,,
-MAZEPT1_QUESTION_ACCEPT,CONFIRM,,,,
+MAZEPT1_QUESTION,TRANSCODING COMPLETE. AWAITING CONFIRMATION,Riley,,,
+MAZEPT1_QUESTION_ACCEPT,CONFIRM!,,,,
 MAZEPT1_TRANSFER,TRANSFER TO DESKTOP SUCCESSFUL,,,,
 MAZEPT1_LAUNCH_ADA,Did you see that!? Riley's box is an app now! We should launch it!,Ada,,,
-MAZEPT1_LAUNCH_SANIEL,Great! Now you can enter the box and help Riley escape. It should be easy from here!,Saniel,,,
-MAZEPT1_LAUNCH_FABER,"The box just turned into an app! Well, don’t waste any time, get in there!",Faber,,,
 MAZEPT1_MANUAL1,"Finally! I’ve been exploring around as I waited for you. But I have to get OUT of here!
 
 I don’t know what’s going on, but this maze makes me run forward.  I’m in constant motion!  
