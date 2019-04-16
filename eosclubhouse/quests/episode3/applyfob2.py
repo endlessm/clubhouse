@@ -16,6 +16,8 @@ class ApplyFob2(Quest):
 
         trap_questset = Registry.get_quest_set_by_name('TrapQuestSet')
         trap_questset.body_animation = 'panels2'
+        if self.clubhouse_state.window_is_visible:
+            Sound.play('quests/episode3/trap/animations/panels')
 
         self.gss.update('item.fob.2', {'used': True},
                         value_if_missing={'consume_after_use': True})
