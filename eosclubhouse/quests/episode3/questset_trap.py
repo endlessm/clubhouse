@@ -56,6 +56,11 @@ class TrapQuestSet(QuestSet):
         elif self.body_animation == 'transcoding':
             play_animation_sound('quests/episode3/activatetrap/transcoding/pulse')
 
+        if self.body_animation in ('transcoding-init', 'transcoding'):
+            # Stop animation sounds after 5 seconds.
+            GLib.timeout_add_seconds(5, self._delayed_stop_cb, self.body_animation,
+                                     priority=GLib.PRIORITY_DEFAULT)
+
     def stop_previous_animation_sounds(self):
         for body_animation in list(self._sounds_by_body_animation.keys()):
             if self.body_animation == body_animation:
@@ -96,5 +101,17 @@ class TrapQuestSet(QuestSet):
         if animation_id not in self._sounds_by_body_animation:
             self._sounds_by_body_animation[animation_id] = set([])
         self._sounds_by_body_animation[animation_id].add(result)
+
+    def _delayed_stop_cb(self, body_animation):
+        sounds = self._sounds_by_body_animation.get(body_animation, [])
+        if not sounds:
+            return GLib.SOURCE_REMOVE
+
+        for uuid in sounds:
+            Sound.stop(uuid)
+        del self._sounds_by_body_animation[body_animation]
+
+        return GLib.SOURCE_REMOVE
+
 
 Registry.register_quest_set(TrapQuestSet)
