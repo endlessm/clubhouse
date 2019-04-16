@@ -117,6 +117,10 @@ class LightSpeed(App):
 
         levelCount = self.get_js_property('availableLevels')
 
+        # If there was a problem getting the property, then we just stop here.
+        if levelCount is None:
+            return False
+
         if levelCount < level:
             if not self.set_js_property('availableLevels', ('i', level)):
                 return False
