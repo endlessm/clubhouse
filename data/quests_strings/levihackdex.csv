@@ -1,3 +1,7 @@
 LEVIHACKDEX_DUMMY1,hackdex dummy text 1 (If you see this in master it's a bug!),Ada,,,
 LEVIHACKDEX_DUMMY2,"hackdex dummy text 2, longer (If you see this in master it's a bug!)",Ada,,,
 LEVIHACKDEX_DUMMY3,"hackdex dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Ada,,,
+LEVIHACKDEX_QUESTION,want to start levihackdex? (dummytext),Ada,,,
+LEVIHACKDEX_QUEST_ACCEPT,(dummyaccept),Ada,,,
+LEVIHACKDEX_SUCCESS,levihackdex complete (dummytext),Ada,,,
+LEVIHACKDEX_ABORT,levihackdex abort (dummytext),Ada,,,
