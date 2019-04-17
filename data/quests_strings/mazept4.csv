@@ -1,3 +1,7 @@
 MAZEPT4_DUMMY1,mazept4 dummy text 1 (If you see this in master it's a bug!),Ada,,,
 MAZEPT4_DUMMY2,"mazept4 dummy text 2, longer (If you see this in master it's a bug!)",Ada,,,
 MAZEPT4_DUMMY3,"mazept4 dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Ada,,,
+MAZEPT4_QUESTION,want to start MAZEPT4? (dummytext),Ada,,,
+MAZEPT4_QUEST_ACCEPT,(dummyaccept),Ada,,,
+MAZEPT4_SUCCESS,MAZEPT4 complete (dummytext),Ada,,,
+MAZEPT4_ABORT,MAZEPT4 abort (dummytext),Ada,,,
