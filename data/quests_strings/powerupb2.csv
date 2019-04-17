@@ -3,16 +3,14 @@ POWERUPB2_QUEST_ACCEPT,Of course!,,,,
 POWERUPB2_LAUNCH,Excellent. Launch Lightspeed.,,,,
 POWERUPB2_EXPLAIN,"We're going to add code so a Power-up of type `'blowup'` blows up every enemy on the screen.
 
-Click the Flip button.",,,,
-POWERUPB2_CODE,"This is very similar to the other one. Click on the Power-ups tab. See the `activatePowerup()` function?
-
-Right now, the type `'invulnerable'` Power-up makes us invulnerable. 
+This is very similar to the other one. Click the Flip button.",,,,
+POWERUPB2_CODE,"See the `activatePowerup()` function in the Power-ups tab? The `'invulnerable'` Power-up makes us invulnerable. 
 
 Now we want to add a setting for Power-up `'blowup'`. So if we pick up one of these, we blow up everything.
 
 See how there's an `if (powerUpType == 'invulnerable')` check already? You will add a similar one for Power-up `'blowup'`.
 
-Then insead of setting `ship.invulnerableTimer = 5;` you will use `blowUpEnemies();`.",,,,
+Then instead of setting `ship.invulnerableTimer = 5;` you will use `blowUpEnemies();`.",,,,
 POWERUPB2_CODE_HINT1,"Just before the final `}` on the last line, type in `if (powerUpType == 'blowup')`",,,,
 POWERUPB2_CODE_HINT2,And then `blowUpEnemies();`. And that should do it. Test it out.,,,,
 POWERUPB2_ABOUTTOPLAY,Play the level to test it.,,,,

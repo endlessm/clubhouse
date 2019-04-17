@@ -10,8 +10,6 @@ We'll make the ship invulnerable for five seconds. Flip to the code panel.",,,,
 POWERUPA2_EXPLAIN_HINT1,Press the Flip button.,,,,
 POWERUPA2_CODE,"Click on the Power-Up tab, at the bottom. See that `activatePowerup()` function? 
 
-That will get executed when we pick up the Power-up.
-
 Right now it's empty, so it does nothing. Let's make the ship invulnerable there.
 
 There's a variable called `ship.invulnerableTimer`. Set it to 5 seconds. This is a bit tricky. 
