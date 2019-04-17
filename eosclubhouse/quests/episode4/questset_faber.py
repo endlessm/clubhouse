@@ -7,14 +7,12 @@ from eosclubhouse.quests.episode4.lightspeed import Lightspeed
 class FaberQuestSet(QuestSet):
 
     __character_id__ = 'faber'
-    #__position__ = (38, 186)
     __quests__ = [Lightspeed]
 
     def __init__(self):
         super().__init__()
         
     def get_empty_message(self):
-        #logger.debug('current quest sets %s', Registry.get_quest_sets())
         if Registry.get_quest_set_by_name('SanielQuestSet').is_active():
             return QS('NOQUEST_FABER_SANIEL')
         if Registry.get_quest_set_by_name('AdaQuestSet').is_active():

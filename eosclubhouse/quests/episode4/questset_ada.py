@@ -10,7 +10,6 @@ from eosclubhouse.quests.episode4.mazept4 import MazePt4
 class AdaQuestSet(QuestSet):
 
     __character_id__ = 'ada'
-    __position__ = (38, 186)
     __quests__ = [MazePt2, LeviHackdex, MazePt3, MazePt4]
 
     def __init__(self):
