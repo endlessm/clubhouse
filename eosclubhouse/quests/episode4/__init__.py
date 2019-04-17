@@ -6,7 +6,7 @@ from eosclubhouse.system import GameStateService
 
 
 def set_required_game_state():
-    json_path = os.path.join(config.EPISODES_DIR, 'game_states', 'episode3.json')
+    json_path = os.path.join(config.EPISODES_DIR, 'game_states', 'episode4.json')
     if not os.path.exists(json_path):
         return
     with open(json_path) as f:
