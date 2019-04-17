@@ -4,6 +4,22 @@ from eosclubhouse.system import Sound
 
 class Lightspeed(Quest):
 
+    __available_after_completing_quests__ = ['MazePt1']
+    # Dummy code to stub in quest
+    def __init__(self):
+        super().__init__('Lightspeed', 'faber')
+
+    def step_begin(self):
+        self.wait_confirm('LEVELS1')
+        self.wait_confirm('LEVELS2')
+        return self.step_success
+
+    def step_success(self):
+        self.wait_confirm('SUCCESS')
+        self.complete = True
+        self.available = False
+        Sound.play('quests/quest-complete')
+        self.stop()
 
 	# initalize basic quest stuff
 
@@ -30,26 +46,3 @@ class Lightspeed(Quest):
 	# LIGHTSPEED_PANEL_SQUID - if they click on the Squid panel
 	# LIGHTSPEED_PANEL_BEAM - if they click on the Beam panel
 	# LIGHTSPEED_PANEL_POWERUPS - if they click on the PowerUps panel
-	
-
-
-
-	
-
-# below here = old code from another quest in a prior episode
-
-
-    def __init__(self):
-        super().__init__('SetUp', 'riley')
-
-    def step_begin(self):
-        self.wait_confirm('EXPLAIN')
-        self.wait_confirm('EXPLAIN2')
-        return self.step_success
-
-    def step_success(self):
-        self.wait_confirm('END')
-        self.complete = True
-        self.available = False
-        Sound.play('quests/quest-complete')
-        self.stop()
