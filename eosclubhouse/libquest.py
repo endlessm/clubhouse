@@ -1362,9 +1362,6 @@ class QuestSet(GObject.GObject):
                     break
         return None
 
-    def get_empty_message(self):
-        return self.__empty_message__
-
     def get_position(self):
         return self._position
 
@@ -1415,6 +1412,35 @@ class QuestSet(GObject.GObject):
 
     def _set_body_animation(self, body_animation):
         self.set_body_animation(body_animation)
+
+    def get_empty_message(self):
+        # @todo: Document how the NOQUEST_ messages are interpreted by the Clubhouse.
+        msg_id_suffix = None
+        character_id = self.get_character()
+        string_info = None
+
+        def get_noquest_message(msg_id_suffix):
+            return QuestStringCatalog.get_info('NOQUEST_' + msg_id_suffix.upper())
+
+        for quest_set in Registry.get_quest_sets():
+            if quest_set is self:
+                continue
+
+            if quest_set.is_active():
+                msg_id_suffix = '{}_{}'.format(character_id, quest_set.get_character())
+
+                string_info = get_noquest_message(msg_id_suffix)
+                if string_info is not None:
+                    break
+
+        if string_info is None:
+            msg_id_suffix = '{}_NOTHING'.format(character_id)
+            string_info = get_noquest_message(msg_id_suffix)
+
+            if string_info is None:
+                return self.__empty_message__
+
+        return string_info['txt']
 
     body_animation = GObject.Property(_get_body_animation, _set_body_animation,
                                       type=str, default=DEFAULT_ANIMATION,
