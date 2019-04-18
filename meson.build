@@ -36,4 +36,6 @@ install_data(
     install_dir: get_option('bindir')
 )
 
+subdir('tests')
+
 meson.add_install_script('meson-postinstall.sh', install_dir)

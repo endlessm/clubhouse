@@ -41,6 +41,7 @@
             "config-opts" : [
                 "-Dsession-bus-services-dir=/app/share/dbus-1/services"
             ],
+            "run-tests": false,
             "sources": [
                 {
                     "type": "git",

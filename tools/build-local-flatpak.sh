@@ -22,6 +22,7 @@ BRANCH=${BRANCH:-master}
 
 sed -e "s|@GIT_CLONE_BRANCH@|${GIT_CLONE_BRANCH}|g" \
     -e "s|@BRANCH@|${BRANCH}|g" \
+    -e 's|"run-tests": false|"run-tests": true|g' \
   com.endlessm.Clubhouse.json.in > com.endlessm.Clubhouse.json
 
 # Add any extra options from the user to the flatpak-builder command (e.g. --install)
