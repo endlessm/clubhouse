@@ -1,6 +1,6 @@
 from eosclubhouse.libquest import Registry, Quest
 from eosclubhouse.utils import QS
-from clubhouseunittest import ClubhouseTestCase
+from clubhouseunittest import ClubhouseTestCase, test_all_episodes
 
 
 class PhonyQuest(Quest):
@@ -27,6 +27,7 @@ class TestQuestSets(ClubhouseTestCase):
                 return quest_set
         return None
 
+    @test_all_episodes
     def test_empty_message_with_inactive_questsets(self):
         """Tests the QuestSets empty messages when other QuestSets are inactive."""
         quest_sets = Registry.get_quest_sets()
@@ -41,14 +42,22 @@ class TestQuestSets(ClubhouseTestCase):
 
             self.assertEqual(message, expected_message)
 
+    @test_all_episodes
     def test_empty_message_with_active_questsets(self):
         """Tests the QuestSets empty messages when other QuestSet objects are active."""
         quest_sets = Registry.get_quest_sets()
-        for quest_set in quest_sets:
-            self.deactivate_quest_set(quest_set)
+        quest_sets_to_test = []
 
         for quest_set in quest_sets:
-            self.check_empty_message_with_active_questsets(quest_set)
+            # Skip checking the Trap quest set here as it's different.
+            if str(quest_set) == 'TrapQuestSet':
+                continue
+
+            self.deactivate_quest_set(quest_set)
+            quest_sets_to_test.append(quest_set)
+
+        for quest_set in quest_sets_to_test:
+            self.check_empty_message_with_active_questsets(quest_sets_to_test, quest_set)
 
     def activate_quest_set(self, quest_set):
         quest_set.get_quests().insert(0, PhonyQuest(quest_set))
@@ -62,11 +71,11 @@ class TestQuestSets(ClubhouseTestCase):
 
         quest_set.visible = False
 
-    def check_empty_message_with_active_questsets(self, test_quest_set):
+    def check_empty_message_with_active_questsets(self, quest_sets, test_quest_set):
         # Activate one quest set at a time and verify that the NOQUEST message matches the one
         # for quest set.
-        for quest_set in Registry.get_quest_sets():
-            if test_quest_set is quest_set:
+        for quest_set in quest_sets:
+            if quest_set is test_quest_set:
                 continue
 
             self.activate_quest_set(quest_set)
