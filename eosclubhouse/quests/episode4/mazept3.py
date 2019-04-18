@@ -1,5 +1,6 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
+from eosclubhouse.apps import Maze
 
 class MazePt3(Quest):
 # Dummy code to stub in quest
