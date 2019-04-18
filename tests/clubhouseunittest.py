@@ -1,5 +1,6 @@
 import unittest
 
+from eosclubhouse.libquest import Registry
 from eosclubhouse.system import GameStateService
 from gi.repository import Gio, GObject
 
@@ -52,3 +53,29 @@ class ClubhouseTestCase(unittest.TestCase):
     @classmethod
     def reset_gss(self):
         GameStateService().reset()
+
+
+def test_on_episodes(episodes=[]):
+    def func_wrapper(function):
+        def wrapper(*args, **kwargs):
+            _episodes = episodes or Registry.get_available_episodes()
+
+            for episode in _episodes:
+                # Load the next episode.
+                Registry.set_current_episode(episode)
+                Registry.load_current_episode()
+
+                try:
+                    # Call the test method.
+                    function(*args, **kwargs)
+                except Exception:
+                    # Inform about which episode failed and propagate the failure.
+                    print('Failed test in episode "{}"'.format(episode))
+                    raise
+        return wrapper
+
+    return func_wrapper
+
+
+def test_all_episodes(func):
+    return test_on_episodes([])(func)
