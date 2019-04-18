@@ -20,9 +20,6 @@ class SanielQuestSet(QuestSet):
     __quests__ = [SetUp, PowerUpA1, PowerUpA2, PowerUpB1, PowerUpB2, PowerUpC1, PowerUpC2,
                   PowerUpC3, LightspeedFinal, ApplyFob2, ActivateTrap]
 
-    def __init__(self):
-        super().__init__()
-
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('AdaQuestSet').is_active():
             return QS('NOQUEST_SANIEL_ADA')

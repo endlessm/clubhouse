@@ -13,9 +13,6 @@ class SanielQuestSet(QuestSet):
     __character_id__ = 'saniel'
     __quests__ = [Chore, LightSpeedFix1, LightSpeedFix2, LightSpeedEnemyB1, LightSpeedEnemyB2]
 
-    def __init__(self):
-        super().__init__()
-
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('AdaQuestSet').is_active():
             return QS('NOQUEST_SANIEL_ADA')
