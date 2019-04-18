@@ -95,4 +95,5 @@ class TrapQuestSet(QuestSet):
             self._body_animation_sounds[animation_id] = set()
         self._body_animation_sounds[animation_id].add(result)
 
+
 Registry.register_quest_set(TrapQuestSet)
