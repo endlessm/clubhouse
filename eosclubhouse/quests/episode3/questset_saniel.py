@@ -1,5 +1,3 @@
-
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
 from eosclubhouse.quests.episode3.setup import SetUp
 from eosclubhouse.quests.episode3.powerupa1 import PowerUpA1
@@ -19,14 +17,6 @@ class SanielQuestSet(QuestSet):
     __character_id__ = 'saniel'
     __quests__ = [SetUp, PowerUpA1, PowerUpA2, PowerUpB1, PowerUpB2, PowerUpC1, PowerUpC2,
                   PowerUpC3, LightspeedFinal, ApplyFob2, ActivateTrap]
-
-    def get_empty_message(self):
-        if Registry.get_quest_set_by_name('AdaQuestSet').is_active():
-            return QS('NOQUEST_SANIEL_ADA')
-        if Registry.get_quest_set_by_name('FaberQuestSet').is_active():
-            return QS('NOQUEST_SANIEL_FABER')
-
-        return QS('NOQUEST_SANIEL_NOTHING')
 
 
 Registry.register_quest_set(SanielQuestSet)
