@@ -75,7 +75,7 @@ class TrapQuestSet(QuestSet):
 
         sounds = self._body_animation_sounds.get(self.body_animation, [])
         if not sounds:
-          return
+            return
 
         silence_props = {'volume': GLib.Variant('d', volume)}
         for uuid in sounds:
@@ -94,5 +94,6 @@ class TrapQuestSet(QuestSet):
         if animation_id not in self._body_animation_sounds:
             self._body_animation_sounds[animation_id] = set()
         self._body_animation_sounds[animation_id].add(result)
+
 
 Registry.register_quest_set(TrapQuestSet)
