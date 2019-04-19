@@ -3,7 +3,6 @@ from eosclubhouse.system import Sound
 from eosclubhouse.apps import LightSpeed
 from eosclubhouse import logger
 
-
 class Lightspeed(Quest):
 
     __available_after_completing_quests__ = ['MazePt1']
@@ -25,6 +24,17 @@ class Lightspeed(Quest):
     @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_initiallevel(self):
         logger.debug('start step_initiallevel')
+        try:
+            self._app.set_object_property('view.JSContext.globalParameters', 'availableLevels', ('u', 7))
+            #self._app.set_js_property('availableLevels', ('u', '7'))
+        except Exception as e:
+            logger.error('Error setting availableLevels in LightSpeed: %s', e.message)
+        self._app.reveal_topic('spawn')
+        self._app.reveal_topic('updateAsteroid')
+        self._app.reveal_topic('updateSpinner')
+        self._app.reveal_topic('updateSquid')
+        self._app.reveal_topic('updateBeam')
+        self._app.reveal_topic('activatePowerup')
         self._app.set_level(1)
         logger.debug('end step_initiallevel')
         return self.step_inlevel
