@@ -4,11 +4,14 @@ from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
 
 class MazePt1(Quest):
-    # initalize basic quest stuff
+
     def __init__(self):
         super().__init__('MazePt1', 'riley')
-        # super() calls __init__() which is a python constructor in the parent class
         # MazePt1 is the class we are defining rn, and riley is the current character
+        # In this case, super() calls __init__() in the parent class (the constructor)...
+        # ...but super() is a wierd special case in Python that doesn't work how you would expect it to.
+        # Try to avoid using it if you can.
+        # Here, this call is functionally identical to Quest().__init__()
         ###self._app = Maze()
         # self is the same as C#'s keyword this
         # using _ (underscore) before a var name is the convention when it's a class internal variable.
@@ -18,11 +21,11 @@ class MazePt1(Quest):
         # for testing the app, since the maze hooks aren't in yet
 
     def step_begin(self):
-    # by default this function already uses _QUESTION and _ACCEPT and _ABORT
-    # quest starts by clicking on Riley in the clubhouse
-    # Riley asks:  MAZEPT1_QUESTION
-    # user can reply:  MAZEPT1_QUESTION_ACCEPT  or _ABORT
-    # if user does _ACCEPT, then Riley replies with _TRANSFER
+        # by default this function already uses _QUESTION and _ACCEPT and _ABORT
+        # quest starts by clicking on Riley in the clubhouse
+        # Riley asks:  MAZEPT1_QUESTION
+        # user can reply:  MAZEPT1_QUESTION_ACCEPT  or _ABORT
+        # if user does _ACCEPT, then Riley replies with _TRANSFER
         self.wait_confirm('TRANSFER')
         # self.wait_confirm(dialog string) = display this dialog and wait for the user to click on it
         # note that the MAZEPT1_ part is always automatically pre-pended, so you don't include it 
@@ -40,7 +43,7 @@ class MazePt1(Quest):
         # here, we return a function (defined below), which will be run by the parent class.
         # Thsi is how we move to the next step of the quest.
 
-    @Quest.with_app_launched(Fizzics.APP_NAME) # was calling the class directly but why not this?
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_play_level(self):    
     # the @ is shorthand notation for a 'decorator'. Decorators are functions that take a function as their argument.
     # in this case, the decorator lets us detect if the user closes the app during this step, so we can go to step abort()
@@ -49,7 +52,7 @@ class MazePt1(Quest):
         # when the user launches the app:
         # Riley says MAZEPT1_MANUAL1 which has MAZEPT1_MANUAL1_HINT1 _HINT2 and _HINT3
         if current_level >= 1: #should be == when rileymaze hooks get in
-            self.show_hints_message('MAZEPT1_MANUAL1');  # Here you must prepend the entire string id
+            self.show_hints_message('MANUAL1')  # Here you must prepend the entire string id
             # show_hints_message() differs from wait_confirm() in that it operates asynchronously
             # it doesn't block downstream steps if the user doesn't click on it.
             # also, it loops through a set of messages: the _HINT# variations,
@@ -61,31 +64,46 @@ class MazePt1(Quest):
         # which we are waiting for the player to change before we move to the next step.
         # for now, it's just level, but it could be user dying or similar.
         self.pause(10)
-        return self.step_success
+        return self.step_level2
+        #return self.step_success
         # and now we move on to the end of the quest step
-
+    
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level2(self):
         # at the start of level 2, Riley says MAZEPT1_MANUAL2
-        return 0
-    # if we ever restart a level whose #<X (see below) because the user lost, Riley plays
-    # MAZEPT1_DIED_RESTART
+        self.show_hints_message('MANUAL2')
+        return self.step_level3
+        # if we ever restart a level whose #<X (see below) because the user lost, Riley plays
+        # MAZEPT1_DIED_RESTART
 
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level3(self):
         # at the start of level 3, Saniel says MAZEPT1_MANUAL3
-        return 0
+        self.show_hints_message('MANUAL3')
+        return self.step_levelx
 
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_levelx(self):
-       # at the start of level #(tbd), Saniel says MAZEPT1_MANUAL4 which has _HINT1
-       return 0
+        # at the start of level #(tbd), Saniel says MAZEPT1_MANUAL4 which has _HINT1
+        self.show_hints_message('MANUAL4')
+        return self.step_levely
        
+    @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_levely(self):
-       # at the start of level #(tbd), Riley says MAZEPT1_AUTO1
-       # then Felix says MAZEPT1_AUTO1_FELIX
-       # then Faber says MAZEPT1_AUTO1_FABER
-       # then Ada says MAZEPT1_AUTO1_ADA
-       # then Riley says MAZEPT1_AUTO1_RILEY
-       # then Saniel says MAZEPT1_AUTO1_SANIEL which has _HINT1
-       return 0
+        # at the start of level #(tbd), Riley says MAZEPT1_AUTO1
+        # then Felix says MAZEPT1_AUTO1_FELIX
+        # then Faber says MAZEPT1_AUTO1_FABER
+        # then Ada says MAZEPT1_AUTO1_ADA
+        # then Riley says MAZEPT1_AUTO1_RILEY
+        # then Saniel says MAZEPT1_AUTO1_SANIEL which has _HINT1
+        self.wait_confirm('AUTO1')
+        #self.wait_confirm('AUTO1_FELIX')
+        self.wait_confirm('AUTO1_FABER')
+        self.wait_confirm('AUTO1_ADA')
+        self.wait_confirm('AUTO1_RILEY')
+        self.show_hints_message('AUTO1_SANIEL')
+        self.pause(10)
+        return self.step_success
 
     # at the start of level X(tbd), Saniel says MAZEPT1_AUTO2 which has _HINT1
     

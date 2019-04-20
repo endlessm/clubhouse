@@ -27,8 +27,10 @@ class Lightspeed(Quest):
         try:
             self._app.set_object_property('view.JSContext.globalParameters', 'availableLevels', ('u', 7))
             #self._app.set_js_property('availableLevels', ('u', '7'))
+            # for some reason the above line does not work, I need to use the function inside its definition
         except Exception as e:
             logger.error('Error setting availableLevels in LightSpeed: %s', e.message)
+        # turn on all the topic panels, this will end up changing per-level
         self._app.reveal_topic('spawn')
         self._app.reveal_topic('updateAsteroid')
         self._app.reveal_topic('updateSpinner')
@@ -70,11 +72,8 @@ class Lightspeed(Quest):
     def step_incode(self):
         logger.debug('in step_incode, should be in the code panel')
         
-
-
-        self.wait_for_app_js_props_changed(self._app, ['flipped'])
-        return self.step_inlevel
-
+        # waiting for new hooks and functionality here
+        #
         # if the user flips the app and clicks on a coding panel, Faber responds as follows:
         # LIGHTSPEED_PANEL_LOCKED - if the panel they've clicked on is not available this level
         # LIGHTSPEED_PANEL_GAME- if they click on the Game panel
@@ -85,10 +84,12 @@ class Lightspeed(Quest):
         # LIGHTSPEED_PANEL_BEAM - if they click on the Beam panel
         # LIGHTSPEED_PANEL_POWERUPS - if they click on the PowerUps panel
 
+        self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        return self.step_inlevel
+
     def step_success(self):
-        logger.debug('in step_sucess, should be still in Lightspeed but playing victory dialogue')
-        # when the user beats level 5, Faber says LIGHTSPEED_SUCCESS and
-        # gives the player the key: Riley Maze Instructions Panel
+        logger.debug('in step_success, should be still in Lightspeed but playing victory dialogue')
+        # when the user beats level 5, Faber says LIGHTSPEED_SUCCESS
         self.wait_confirm('SUCCESS')
         # give the player the key: Riley Maze Instructions Panel
         # items are stored in the text spreadsheet
