@@ -1,28 +1,30 @@
-MAZEPT1_QUESTION,TRANSCODING COMPLETE. AWAITING CONFIRMATION,Riley,,,
-MAZEPT1_QUESTION_ACCEPT,CONFIRM!,,,,
-MAZEPT1_TRANSFER,TRANSFER TO DESKTOP SUCCESSFUL,,,,
+MAZEPT1_QUESTION,"((( ( ( (  TRANSCODING SEQUENCE COMPLETE ) ) ) )))) )
+
+§(∞((∞((∞( AWAITING CONFIRMATION )∞))∞))∞)§ ",Riley,,,
+MAZEPT1_QUESTION_ACCEPT,CONFIRMED!,,,,
+MAZEPT1_TRANSFER,TRANSFER TO DESKTOP: 100% SUCCESSFUL,,,,
 MAZEPT1_LAUNCH_ADA,Did you see that!? Riley's box is an app now! We should launch it!,Ada,,,
-MAZEPT1_MANUAL1,"Finally! I’ve been exploring around as I waited for you. But I have to get OUT of here!
+MAZEPT1_MANUAL1,"YOU GUYS!  Serrriousssly glad to see you! Kind of rad in here, but hoping to get out ASAP! 
 
-I don’t know what’s going on, but this maze makes me run forward.  I’m in constant motion!  
+The maze propels me forward. This is my life rn: Running forward 24/7. 
 
-I HAVE to go forward every moment! I can also run up and down at the same time, on a diagonal. 
+Looking for me? Catch me here, running forward. Forward, and up. Forward, and down. Even Diagonal! 
 
-Help me get to the exit!",Riley,,,
+See that Exit? That's my dream, to get to the exit. Until then, it's constant motion for me!",Riley,,,
 MAZEPT1_MANUAL1_HINT1,"Use the FORWARD, UP, and DOWN Instructions to move me through the maze.",,,,
 MAZEPT1_MANUAL1_HINT2,"I always run one space to the right, but I can also move UP or DOWN at the same time.",,,,
-MAZEPT1_MANUAL1_HINT3,Don't bump into any walls!,,,,
-MAZEPT1_DIED_RESTART,"Ouch! I'm only virtual inside this app, but it still smarts when I screw up like that!",Riley,,,
-MAZEPT1_MANUAL2,Oh no! Another level! I wonder how many there are?,,,,
-MAZEPT1_MANUAL3,"This is preposterous! There should only be one level in this maze!
+MAZEPT1_MANUAL1_HINT3,Watch out for those walls!,,,,
+MAZEPT1_DIED_RESTART,"Ouch! I might look virtual here in this app, but it still smarts when I bump into walls!",Riley,,,
+MAZEPT1_MANUAL2,Oh no! Are you kidding me? Another level! How many can there be?,,,,
+MAZEPT1_MANUAL3,"This is preposterous! This maze should have only one level!
 
-Someone has been tampering with it!",Saniel,,,
+Something has been in there wreaking havoc with it!",Saniel,,,
 MAZEPT1_MANUAL4,"Is that a pit I see in the ground!  Impossible!  How did pits suddenly appear!??
 
 There were only walls inside this maze when I …. ahhh…. previously!",Saniel,,,
 MAZEPT1_MANUAL4_HINT1,Riley will have to use her JUMP Instruction to cross the pits!,Saniel,,,
 MAZEPT1_AUTO1,Is that all this maze can throw at us? We’ll get out of here in no time.,Riley,,,
-MAZEPT1_AUTO1_FELIX,Bzrt bzrt meow,Felix,,,
+MAZEPT1_AUTO1_FELIX,mjau ^ = ^ mjav //\\ ngiyaw /\ ^  miav,Felix,,,
 MAZEPT1_AUTO1_FABER,What was that!?,Faber,,,
 MAZEPT1_AUTO1_ADA,Where did your controls go!?,Ada,,,
 MAZEPT1_AUTO1_RILEY,How am I going to get out of this maze if I can't move!?,Riley,,,
