@@ -26,8 +26,8 @@ class FizzicsCode1(Quest):
         return self.step_unlock
 
     def _is_panel_unlocked(self):
-        item = self.gss.get('item.key.fizzics.2')
-        return item is not None and item.get('used', False)
+        lock_state = self.gss.get('lock.fizzics.2')
+        return lock_state is not None and lock_state.get('locked', True)
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_unlock(self):
