@@ -1,16 +1,12 @@
 from eosclubhouse.system import App, GameStateService
 
 
-class Maze(App):
-    # TODO we need a method that signals when the user restarted a level
-    APP_NAME = 'com.endlessm.RileyMaze'
+class Sidetrack(App):
+
+    APP_NAME = 'com.endlessm.Sidetrack'
 
     def __init__(self):
         super().__init__(self.APP_NAME)
-
-    # TODO make this actually work
-    def get_current_level(self):
-        return
 
 
 class Fizzics(App):
@@ -21,6 +17,7 @@ class Fizzics(App):
 
     def __init__(self):
         """Clubhouse App that represents the Fizzics app.
+
         Extra properties to connect to in this class:
           effectiveLevel -- notifies when the level is changed or beaten;
         """
