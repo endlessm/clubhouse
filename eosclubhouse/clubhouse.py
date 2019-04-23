@@ -1145,7 +1145,22 @@ class EpisodesPage(Gtk.EventBox):
         for episode in self._episodes_db.get_episodes_in_season(episode.season):
             if episode in completed_episodes:
                 episode.complete = True
-            self._list_box.add(EpisodeRow(episode))
+            def _on_map(widget, _w, badge):
+                alloc = widget.get_allocation()
+                self._badges_box.move(badge, alloc.x + alloc.width / 2, alloc.y + alloc.height / 2)
+                print('MAP', widget, alloc.x, alloc.y)
+
+            row = EpisodeRow(episode)
+            self._list_box.add(row)
+
+            self._list_box.realize()
+            allocation = self._list_box.get_allocation()
+            print('ALLOCATION', allocation.x, allocation.y)
+            badge = BadgeButton(episode)
+            self._badges[episode.id] = badge
+            self._badges_box.put(badge, 0, 0)
+            row.connect('draw', _on_map, badge)
+
         self._list_box.show_all()
 
     def _update_ui(self, new_page):
