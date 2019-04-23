@@ -52,7 +52,7 @@ class MazePt1(Quest):
         # when the user launches the app:
         # Riley says MAZEPT1_MANUAL1 which has MAZEPT1_MANUAL1_HINT1 _HINT2 and _HINT3
         if current_level >= 1: #should be == when rileymaze hooks get in
-            self.show_hints_message('MANUAL1')  # Here you must prepend the entire string id
+            self.show_hints_message('MANUAL1')
             # show_hints_message() differs from wait_confirm() in that it operates asynchronously
             # it doesn't block downstream steps if the user doesn't click on it.
             # also, it loops through a set of messages: the _HINT# variations,
@@ -63,15 +63,15 @@ class MazePt1(Quest):
         # this is a list (which is what py calls arrays) of the properties (which are basically java script variables)
         # which we are waiting for the player to change before we move to the next step.
         # for now, it's just level, but it could be user dying or similar.
-        self.pause(10)
-        return self.step_level2
+        self.pause(7)
+        #return self.step_level2
         #return self.step_success
         # and now we move on to the end of the quest step
     
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level2(self):
         # at the start of level 2, Riley says MAZEPT1_MANUAL2
-        self.show_hints_message('MANUAL2')
+        self.wait_confirm('MANUAL2')
         return self.step_level3
         # if we ever restart a level whose #<X (see below) because the user lost, Riley plays
         # MAZEPT1_DIED_RESTART
@@ -79,7 +79,7 @@ class MazePt1(Quest):
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level3(self):
         # at the start of level 3, Saniel says MAZEPT1_MANUAL3
-        self.show_hints_message('MANUAL3')
+        self.wait_confirm('MANUAL3')
         return self.step_levelx
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
@@ -102,7 +102,14 @@ class MazePt1(Quest):
         self.wait_confirm('AUTO1_ADA')
         self.wait_confirm('AUTO1_RILEY')
         self.show_hints_message('AUTO1_SANIEL')
-        self.pause(10)
+        self.pause(7)
+        self.show_hints_message('AUTO2')
+        self.pause(7)
+        self.show_hints_message('AUTO3')
+        self.wait_confirm('AUTO4')
+        self.wait_confirm('AUTO5')
+        self.show_hints_message('AUTO5_ADA')
+        self.pause(7)
         return self.step_success
 
     # at the start of level X(tbd), Saniel says MAZEPT1_AUTO2 which has _HINT1

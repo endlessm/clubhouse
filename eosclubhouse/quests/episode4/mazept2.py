@@ -24,6 +24,30 @@ class MazePt2(Quest):
         self.show_hints_message('FLIP')
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         self.show_hints_message('INSTRUCTIONS')
+        self.pause(15)
+        self.show_hints_message('LEVELS2')
+        self.pause(15)
+        self.show_hints_message('LEVELS3')
+        self.pause(15)
+        self.wait_confirm('LEVELS4_ADA1')
+        self.wait_confirm('LEVELS4_FABER1')
+        self.wait_confirm('LEVELS4_ADA2')
+        self.wait_confirm('LEVELS4_FABER2')
+        self.wait_confirm('LEVELS4_ADA3')
+        self.wait_confirm('LEVELS5')
+        self.wait_confirm('LEVELS5_RILEY')
+        self.wait_confirm('RESEARCH1')
+        self.wait_confirm('RESEARCH2')
+        self.wait_confirm('LEVELS6')
+        #felix line
+        #self.wait_confirm('LEVELS6_FELIX')
+        self.wait_confirm('LEVELS6_FABER')
+        self.wait_confirm('LEVELS6_RILEY')
+        self.wait_confirm('LEVELS6_ADA')
+        #felix line
+        #self.wait_confirm('IMPASSABLE')
+        self.wait_confirm('IMPASSABLE_FABER')
+        self.wait_confirm('IMPASSABLE_RILEY')
         # inside Riley Maze app, at the start of level 1, if the app is not flipped,
         # Ada says MAZEPT2_FLIP which has _HINT1 until the app is flipped
         # this will present the user with a locked panel
