@@ -1,9 +1,11 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
 
+
 class BonusRound(Quest):
+
     __available_after_completing_quests__ = ['MazePt4']
-    
+
     # Dummy code to stub in quest
     def __init__(self):
         super().__init__('BonusRound', 'Riley')
@@ -19,4 +21,3 @@ class BonusRound(Quest):
         self.available = False
         Sound.play('quests/quest-complete')
         self.stop()
-

@@ -1,11 +1,11 @@
-
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse import logger
+# from eosclubhouse import logger
 from eosclubhouse.quests.episode4.mazept2 import MazePt2
 from eosclubhouse.quests.episode4.levihackdex import LeviHackdex
 from eosclubhouse.quests.episode4.mazept3 import MazePt3
 from eosclubhouse.quests.episode4.mazept4 import MazePt4
+
 
 class AdaQuestSet(QuestSet):
 
@@ -14,7 +14,7 @@ class AdaQuestSet(QuestSet):
 
     def __init__(self):
         super().__init__()
-        
+
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('SanielQuestSet').is_active():
             return QS('NOQUEST_ADA_SANIEL')
@@ -23,5 +23,6 @@ class AdaQuestSet(QuestSet):
         if Registry.get_quest_set_by_name('RileyQuestSet').is_active():
             return QS('NOQUEST_ADA_RILEY')
         return QS('NOQUEST_ADA_NOTHING')
+
 
 Registry.register_quest_set(AdaQuestSet)

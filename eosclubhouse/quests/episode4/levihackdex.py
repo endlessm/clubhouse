@@ -1,8 +1,8 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
 
+
 class LeviHackdex(Quest):
-# Dummy code to stub in quest
     def __init__(self):
         super().__init__('LeviHackdex', 'ada')
 

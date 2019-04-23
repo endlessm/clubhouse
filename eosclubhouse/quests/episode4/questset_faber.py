@@ -1,8 +1,9 @@
 
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse import logger
+# from eosclubhouse import logger
 from eosclubhouse.quests.episode4.lightspeed import Lightspeed
+
 
 class FaberQuestSet(QuestSet):
 
@@ -11,7 +12,7 @@ class FaberQuestSet(QuestSet):
 
     def __init__(self):
         super().__init__()
-        
+
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('SanielQuestSet').is_active():
             return QS('NOQUEST_FABER_SANIEL')
@@ -20,5 +21,6 @@ class FaberQuestSet(QuestSet):
         if Registry.get_quest_set_by_name('RileyQuestSet').is_active():
             return QS('NOQUEST_FABER_RILEY')
         return QS('NOQUEST_FABER_NOTHING')
+
 
 Registry.register_quest_set(FaberQuestSet)

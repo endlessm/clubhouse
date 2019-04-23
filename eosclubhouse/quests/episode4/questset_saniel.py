@@ -1,13 +1,13 @@
-
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse import logger
+# from eosclubhouse import logger
 from eosclubhouse.quests.episode4.fizzicskey import FizzicsKey
+
 
 class SanielQuestSet(QuestSet):
 
     __character_id__ = 'saniel'
-    __quests__ = [FizzicsKey] 
+    __quests__ = [FizzicsKey]
 
     def __init__(self):
         super().__init__()
@@ -20,5 +20,6 @@ class SanielQuestSet(QuestSet):
         if Registry.get_quest_set_by_name('RileyQuestSet').is_active():
             return QS('NOQUEST_SANIEL_RILEY')
         return QS('NOQUEST_SANIEL_NOTHING')
+
 
 Registry.register_quest_set(SanielQuestSet)

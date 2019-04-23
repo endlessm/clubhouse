@@ -1,13 +1,15 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
-from eosclubhouse.apps import Maze
+# from eosclubhouse.apps import Maze
+
 
 class MazePt4(Quest):
 
     __available_after_completing_quests__ = ['FizzicsKey']
-    # Dummy code to stub in quest
+
     def __init__(self):
         super().__init__('MazePt4', 'ada')
+        # self._app = Maze()
 
     def step_begin(self):
         self.wait_confirm('DUMMY1')
