@@ -8,7 +8,7 @@ MAZEPT2_INSTRUCTIONS,"Ah. Here are the Instructions. It's the same as the icons 
 
 See that! Someone spelled Jump wrong. No wonder that Instruction doesn't work.
 
-We call that a syntax error. Fix it, then try running the level again!",,,,
+We call that a syntax error. The language has to be super exact. Fix it, then try running the level again!",,,,
 MAZEPT2_INSTRUCTIONS_HINT1,See in code where it says `Jumpp` with two p's? Jump only needs one p!,,,,
 MAZEPT2_INSTRUCTIONS_HINT2,Change it to say `riley.Jump();` Then flip back over and press PLAY.,,,,
 MAZEPT2_LEVELS2,"Awesome! That was scary, but thanks to you I got through.
@@ -49,7 +49,7 @@ MAZEPT2_LEVELS6_FELIX,^__MEOW__^ ,Felix,,,
 MAZEPT2_LEVELS6_FABER,There it is again! What the heck IS that thing?,Faber,,,
 MAZEPT2_LEVELS6_RILEY,"I don’t know, but it’s pretty cool!",Riley,,,
 MAZEPT2_LEVELS6_ADA,I think it’s what’s making this maze harder! Look how difficult this level is!,Ada,,,
-MAZEPT2_IMPASSABLE,"Bzzzrt, bzzrt!  Purrrrrrrrrrrrrrrrrrrrrrr",Felix,,,
+MAZEPT2_IMPASSABLE,^ = ^ prhhzzhhhrrr  //\\ Prhzzhhhhzzhhhhrrrrrrrrr //\\  myaaaaaoo ^ = ^ ,Felix,glitching,,
 MAZEPT2_IMPASSABLE_FABER,"Whoa, wait a minute! There’s no way to get past a solid column of walls like that, is there?",Faber,,,
 MAZEPT2_IMPASSABLE_RILEY,"Oh no! Am I stuck in here forever, then!?",Riley,,,
 MAZEPT2_SUCCESS,I think I know what to do. Come meet me in the Clubhouse.,Ada,,,
