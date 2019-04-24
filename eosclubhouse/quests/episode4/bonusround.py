@@ -5,6 +5,7 @@ from eosclubhouse.system import Sound
 class BonusRound(Quest):
 
     __available_after_completing_quests__ = ['MazePt4']
+    __complete_episode__ = True
 
     # Dummy code to stub in quest
     def __init__(self):
