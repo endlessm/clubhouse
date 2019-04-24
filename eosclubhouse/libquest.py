@@ -202,7 +202,9 @@ class Registry:
     def get_available_episodes(class_):
         episodes_path = os.path.join(os.path.dirname(__file__), 'quests')
         episodes = os.listdir(episodes_path)
-        return (e for e in episodes if os.path.isdir(os.path.join(episodes_path, e)))
+        # Exclude paths that are special to Python (they usually start with __).
+        return (e for e in episodes if os.path.isdir(os.path.join(episodes_path, e)) and not
+                e.startswith('__'))
 
     @classmethod
     def get_current_episode(class_):
