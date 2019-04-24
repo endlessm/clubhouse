@@ -1,7 +1,5 @@
-
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
-# from eosclubhouse import logger
 from eosclubhouse.quests.episode4.lightspeedkey import LightspeedKey
 
 

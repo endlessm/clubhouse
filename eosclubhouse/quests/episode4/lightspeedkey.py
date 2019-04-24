@@ -18,7 +18,7 @@ class LightspeedKey(Quest):
         # user can reply:  LIGHTSPEEDKEY_QUESTION_ACCEPT  or _ABORT
         # if user does _ACCEPT, then Faber says LIGHTSPEEDKEY_LAUNCH which has _HINT1
         logger.debug('start step_begin')
-        self.ask_for_app_launch(self._app)
+        self.ask_for_app_launch(self._app, message_id='LIGHTSPEEDKEY_LAUNCH')
         logger.debug('end step_begin')
         return self.step_initiallevel
 
@@ -44,7 +44,7 @@ class LightspeedKey(Quest):
     @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_inlevel(self):
         logger.debug('in step_inlevel, we are somewhere in the game')
-        cl = self._app.get_js_property('currentLevel', 0)
+        cl = int(self._app.get_js_property('currentLevel', 0))
         logger.debug('currentlevel = ' + str(cl))
         level_id = "LEVELS" + str(cl)
         logger.debug('level_id = ' + str(level_id))
