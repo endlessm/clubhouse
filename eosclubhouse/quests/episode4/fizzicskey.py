@@ -14,9 +14,10 @@ class FizzicsKey(Quest):
 
     def reset_params(self):
         # TODO: What are the default values for these?
-        self._app.set_object_property(self._gParams, 'gravity_0', ('u', 0))
+        self._app.set_object_property(self._gParams, 'usePhysics_0', ('b', False))
+        self._app.set_object_property(self._gParams, 'gravity_0', ('u', 100))
         self._app.set_object_property(self._gParams, 'friction_0', ('u', 100))
-        self._app.set_object_property(self._gParams, 'collision_0', ('u', 0))
+        self._app.set_object_property(self._gParams, 'collision_0', ('d', 0.1))
 
     def do_result_grav(self, result):
         if result:
@@ -32,19 +33,31 @@ class FizzicsKey(Quest):
 
     def do_result_bounce(self, result):
         if result:
-            self._app.set_object_property(self._gParams, 'collision_0', ('u', 999))
+            self._app.set_object_property(self._gParams, 'collision_0', ('d', 10))
         else:
-            self._app.set_object_property(self._gParams, 'collision_0', ('u', 0))
+            self._app.set_object_property(self._gParams, 'collision_0', ('d', 0.01))
 
     def step_begin(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='DUMMY1')
+        self.ask_for_app_launch(self._app)
         # get the player to the 'old' levels
         # disable tools
-        self._app.disable_tool('fling')
-        self._app.disable_tool('move')
-        self._app.disable_tool('delete')
-        # Temp until we get the proper hook
-        self._app.disable_tool('add', False)
+        # self._app.disable_tool('fling')
+        # self._app.disable_tool('move')
+        # self._app.disable_tool('delete')
+        # found a better way to do it? This way prevents the visual desync
+        self._app.set_object_property(self._gParams, 'flingToolDisabled', ('b', True))
+        self._app.set_object_property(self._gParams, 'moveToolDisabled', ('b', True))
+        # self._app.set_object_property(self._gParams, 'deleteToolDisabled', ('b', True))
+        # re-enable the delete tool for testing
+        self._app.set_object_property(self._gParams, 'deleteToolDisabled', ('b', False))
+        self._app.set_object_property(self._gParams, 'createToolDisabled', ('b', False))
+        # Make tools visible
+        self._app.set_object_property(self._gParams, 'flingToolActive', ('b', True))
+        self._app.set_object_property(self._gParams, 'moveToolActive', ('b', True))
+        self._app.set_object_property(self._gParams, 'deleteToolActive', ('b', True))
+        self._app.set_object_property(self._gParams, 'createToolActive', ('b', True))
+        # self._app.disable_tool('add', False)
+        self.reset_params()
         return self.step_ingame
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
@@ -56,33 +69,35 @@ class FizzicsKey(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level1(self):
-        # say puzzle
-        # ask what grav
-        # set grav
-        # next level
-        self._app.set_object_property(self._gParams, 'gravity_0', ('u', 0))
-        # for formatting and line length
-        choice1 = ('CHOICEHIGH', self.do_result_grav, True)
-        choice2 = ('CHOICELOW', self.do_result_grav, False)
-        self.show_choices_message('SETGRAV', choice1, choice2).wait()
+        # present the choice of value
+        choiceHigh = ('CHOICEHIGH', self.do_result_grav, True)
+        choiceLow = ('CHOICELOW', self.do_result_grav, False)
+        self.show_choices_message('SETGRAV', choiceHigh, choiceLow).wait()
+        # after choice chosen, activate physics
+        self._app.set_object_property(self._gParams, 'usePhysics_0', ('b', True))
+        # test here if the player won, otherwise restart
+        # yay you did it
         self.wait_confirm('DUMMY3')
+        # next level
         self.reset_params()
         return self.step_level2
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level2(self):
-        choice1 = ('CHOICEHIGH', self.do_result_fric, True)
-        choice2 = ('CHOICELOW', self.do_result_fric, False)
-        self.show_choices_message('SETFRIC', choice1, choice2).wait()
+        choiceHigh = ('CHOICEHIGH', self.do_result_fric, True)
+        choiceLow = ('CHOICELOW', self.do_result_fric, False)
+        self.show_choices_message('SETFRIC', choiceHigh, choiceLow).wait()
+        self._app.set_object_property(self._gParams, 'usePhysics_0', ('b', True))
         self.wait_confirm('DUMMY3')
         self.reset_params()
         return self.step_level3
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level3(self):
-        choice1 = ('CHOICEHIGH', self.do_result_bounce, True)
-        choice2 = ('CHOICELOW', self.do_result_bounce, False)
-        self.show_choices_message('SETBOUNCE', choice1, choice2).wait()
+        choiceHigh = ('CHOICEHIGH', self.do_result_bounce, True)
+        choiceLow = ('CHOICELOW', self.do_result_bounce, False)
+        self.show_choices_message('SETBOUNCE', choiceHigh, choiceLow).wait()
+        self._app.set_object_property(self._gParams, 'usePhysics_0', ('b', True))
         self.wait_confirm('DUMMY3')
         self.reset_params()
         return self.step_success
