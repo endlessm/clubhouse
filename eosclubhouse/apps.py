@@ -1,6 +1,14 @@
 from eosclubhouse.system import App, GameStateService
 
 
+class Sidetrack(App):
+
+    APP_NAME = 'com.endlessm.Sidetrack'
+
+    def __init__(self):
+        super().__init__(self.APP_NAME)
+
+
 class Fizzics(App):
 
     APP_NAME = 'com.endlessm.Fizzics'

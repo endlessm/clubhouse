@@ -1,0 +1,24 @@
+LEVIHACKDEX_DUMMY1,hackdex dummy text 1 (If you see this in master it's a bug!),Ada,,,
+LEVIHACKDEX_DUMMY2,"hackdex dummy text 2, longer (If you see this in master it's a bug!)",Ada,,,
+LEVIHACKDEX_DUMMY3,"hackdex dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Ada,,,
+LEVIHACKDEX_QUESTION,"Hey there, Would you like to see what's in these files? ",Ada,,,
+LEVIHACKDEX_QUEST_ACCEPT,Yes! ,Ada,,,
+LEVIHACKDEX_OPENINTRO,"Whew. so glad to see these! You’ve heard about Leviathan, right? We’re all Leviathan fans around here.  
+
+These files hold some of my research on Leviathan. So let’s see what we have here.",Ada,,,
+LEVIHACKDEX_OPENINTRO1,"Wait, what’s going on? This is illegible. Everything’s scrambled. 
+
+Finally got these back and now they’re not legible.",Ada,,,
+LEVIHACKDEX_OPENINTRO2,"That looks challenging, but I think I can help move this along. Solving cryptology puzzles is one of my side studies. 
+
+So fascinating! I see you’ve been keeping a dossier on Leviathan! I know a bit about this illustrious figure myself. ",Estelle,,,
+LEVIHACKDEX_GIVEKEY,"
+First thing we’ll need is this. hmmm, 
+",,,,
+LEVIHACKDEX_BACKGROUND,Yes. Leviathan is one of our ancestors. He’s a hero of mine. ,Ada,,,
+LEVIHACKDEX_PUSHINSTRUCTION,Well this might be handy. It turns out that what we’re looking at is an instruction for the Riley Maze app. It’s called Push.,Estelle,,,
+LEVIHACKDEX_PUSHINSTRUCTION2,So cool.   I remember finding that in an old folder that belonged to Leviathan. What does it do?,Ada,,,
+LEVIHACKDEX_PUSHINSTRUCTION3,Riley can use it in the maze to push walls out of her way. It’s going to be essential in getting her past this obstacle. ,Estelle,,,
+LEVIHACKDEX_END,Well this is a good development! Let’s go back to RileyMaze and see if Riley needs more help. ,Ada,,,
+LEVIHACKDEX_SUCCESS,levihackdex complete (dummytext),Ada,,,
+LEVIHACKDEX_ABORT,levihackdex abort (dummytext),Ada,,,

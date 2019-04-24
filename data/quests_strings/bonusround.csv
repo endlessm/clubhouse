@@ -1,0 +1,7 @@
+BONUSROUND_DUMMY1,bonus round dummy text 1 (If you see this in master it's a bug!),Riley,,,
+BONUSROUND_DUMMY2,"bonus round dummy text 2, longer (If you see this in master it's a bug!)",Riley,,,
+BONUSROUND_DUMMY3,"bonus round dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Riley,,,
+BONUSROUND_QUESTION,want to start BONUSROUND? (dummytext),Riley,,,
+BONUSROUND_QUEST_ACCEPT,(dummyaccept),Riley,,,
+BONUSROUND_SUCCESS,BONUSROUND complete (dummytext),Riley,,,
+BONUSROUND_ABORT,BONUSROUND abort (dummytext),Riley,,,

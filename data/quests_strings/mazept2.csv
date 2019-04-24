@@ -1,0 +1,56 @@
+MAZEPT2_QUESTION,You and Faber found the key? That's great! Ready to get back into the maze and help Riley?,Ada,,,
+MAZEPT2_QUEST_ACCEPT,Let's go!,,,,
+MAZEPT2_LAUNCH,Launch the box app.,,,,
+MAZEPT2_LAUNCH_HINT1,Go to the desktop and click on the box icon.,,,,
+MAZEPT2_FLIP,Let's flip the app so we can get to the coding panel.,,,,
+MAZEPT2_FLIP_HINT1,Press the Flip button.,,,,
+MAZEPT2_INSTRUCTIONS,"Ah. Here are the Instructions. It's the same as the icons on the front, just written in code.
+
+See that! Someone spelled Jump wrong. No wonder that Instruction doesn't work.
+
+We call that a syntax error. The language has to be super exact. Fix it, then try running the level again!",,,,
+MAZEPT2_INSTRUCTIONS_HINT1,See in code where it says `Jumpp` with two p's? Jump only needs one p!,,,,
+MAZEPT2_INSTRUCTIONS_HINT2,Change it to say `riley.Jump();` Then flip back over and press PLAY.,,,,
+MAZEPT2_LEVELS2,"Awesome! That was scary, but thanks to you I got through.
+
+Looks like this level has another error, though!",Riley,,,
+MAZEPT2_LEVELS2_HINT1,Look at the Instructions code by flipping the app to the back.,Riley,,,
+MAZEPT2_LEVELS2_HINT2,Then look for Instructions that are spelled wrong or which don't match the other Instructions.,Riley,,,
+MAZEPT2_LEVELS2_HINT3,"I see it! You're supposed to have just ONE period between `riley` and `Up();`
+
+But one of these has TWO periods and another one doesn't have ANY periods! Better fix them!",Riley,,,
+MAZEPT2_LEVELS2_HINT4,Change both of them to say `riley.Up();`,Riley,,,
+MAZEPT2_LEVELS3,"Hmm, look carefully. There’s no way this set of Instructions could EVER finish this level.
+
+But good news, flip the panel over and you can type any Instructions you want!
+
+You don’t have to rearrange the ones you’re given anymore.",Faber,,,
+MAZEPT2_LEVELS3_HINT1,Flip the app over to the back so you can edit the code for Instructions.,,,,
+MAZEPT2_LEVELS3_HINT2,"Because of that pit in this level, you'll need to add at least one Jump Instruction.",,,,
+MAZEPT2_LEVELS3_HINT3,Delete one of the Instructions and replace it with `riley.Jump();` ,,,,
+MAZEPT2_LEVELS3_HINT4,"Make sure when you're done that there are 8 Instructions total. No more, no less!",,,,
+MAZEPT2_LEVELS4_ADA1,"Hey Faber. I’ve been wondering something. Saniel just mentioned that he created this trap, right?",Ada,,,
+MAZEPT2_LEVELS4_FABER1,"Yeah, he made it to trap and exhaust rogue AIs.",Faber,,,
+MAZEPT2_LEVELS4_ADA2,I'm puzzled– why didn’t he mention that before? Riley's been in this trap for a long time now!,Ada,,,
+MAZEPT2_LEVELS4_FABER2,"That's such a good point, Ada. I didn’t think of that. I guess that’s why he's acting so strange. .",Faber,,,
+MAZEPT2_LEVELS4_ADA3,"Yeah. Hmmm. I have a theory I've been investigating. I'd love to run it by you. 
+
+Something is clicking into place, but I still feel like I'm missing some essential elements. ",Ada,,,
+MAZEPT2_LEVELS5,"Hold on, I think – Riley, Do you see that bundle of files near the Exit!? That’s my missing research!",Ada,,,
+MAZEPT2_LEVELS5_RILEY,Stellar! Just gonna go snap them up right now! ,Riley,,,
+MAZEPT2_RESEARCH1,"Okay, I'm transmitting the files to you now. You should be see them soon.
+
+Sending them from in here might mean they get a bit distorted in the process. ",Riley,,,
+MAZEPT2_RESEARCH2,"No problem. We can deal with that. Okay, whew! I'm receiving them now. 
+
+Wow, thanks a million Riley. These were missing for so long! I wonder how they got in there? ",Ada,,,
+MAZEPT2_LEVELS6,I hear something. Do you hear that?,Riley,,,
+MAZEPT2_LEVELS6_FELIX,^__MEOW__^ ,Felix,,,
+MAZEPT2_LEVELS6_FABER,There it is again! What the heck IS that thing?,Faber,,,
+MAZEPT2_LEVELS6_RILEY,"I don’t know, but it’s pretty cool!",Riley,,,
+MAZEPT2_LEVELS6_ADA,I think it’s what’s making this maze harder! Look how difficult this level is!,Ada,,,
+MAZEPT2_IMPASSABLE,^ = ^ prhhzzhhhrrr  //\\ Prhzzhhhhzzhhhhrrrrrrrrr //\\  myaaaaaoo ^ = ^ ,Felix,glitching,,
+MAZEPT2_IMPASSABLE_FABER,"Whoa, wait a minute! There’s no way to get past a solid column of walls like that, is there?",Faber,,,
+MAZEPT2_IMPASSABLE_RILEY,"Oh no! Am I stuck in here forever, then!?",Riley,,,
+MAZEPT2_SUCCESS,I think I know what to do. Come meet me in the Clubhouse.,Ada,,,
+MAZEPT2_ABORT,Come back whenever you're feeling up for it!,Ada,,,

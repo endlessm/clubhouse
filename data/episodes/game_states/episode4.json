@@ -1,0 +1,248 @@
+{
+  "quest.FirstContact" : {
+    "complete" : true
+  },
+  "quest.Welcome" : {
+    "complete" : true
+  },
+  "quest.FizzicsIntro" : {
+    "complete" : true
+  },
+  "quest.OSIntro" : {
+    "complete" : true
+  },
+  "quest.Roster" : {
+    "complete" : true
+  },
+  "quest.LostFiles" : {
+    "complete" : true
+  },
+  "quest.FizzicsCode1" : {
+    "complete" : true
+  },
+  "quest.Fizzics1" : {
+    "complete" : true
+  },
+  "quest.BreakSomething" : {
+    "complete" : true
+  },
+  "quest.Fizzics2" : {
+    "complete" : true
+  },
+  "quest.FizzicsCode2" : {
+    "complete" : true
+  },
+  "quest.Hackdex1" : {
+    "complete" : true
+  },
+  "item.key.fizzics.2" : {
+    "used" : true,
+    "consume_after_use" : false
+  },
+  "lock.fizzics.2" : {
+    "locked" : false
+  },
+  "item.key.fizzics.1" : {
+    "used" : true,
+    "consume_after_use" : false
+  },
+  "lock.com.endlessm.Hackdex_chapter_one.1" : {
+    "locked" : false
+  },
+  "item.key.OperatingSystemApp.1" : {
+    "used" : true,
+    "consume_after_use" : false
+  },
+  "lock.OperatingSystemApp.1" : {
+    "locked" : false
+  },
+  "app.hack_toolbox.reset_button" : {
+    "visible" : true
+  },
+  "lock.fizzics.1" : {
+    "locked" : false
+  },
+  "item.key.hackdex1.1" : {
+    "used" : true,
+    "consume_after_use" : false
+  },
+  "item.key.OperatingSystemApp.2" : {
+    "consume_after_use" : false,
+    "used" : true
+  },
+  "quest.Chore" : {
+    "complete" : true
+  },
+  "item.key.lightspeed.1" : {
+    "consume_after_use" : false,
+    "used" : true
+  },
+  "quest.LightSpeedIntro" : {
+    "complete" : true
+  },
+  "lock.lightspeed.1" : {
+    "locked" : false
+  },
+  "quest.LightSpeedTweak" : {
+    "complete" : true
+  },
+  "lightspeed.topic.spawn" : {
+    "visible" : true
+  },
+  "quest.LightSpeedFix1" : {
+    "complete" : true
+  },
+  "lightspeed.topic.updateAsteroid" : {
+    "visible" : true
+  },
+  "quest.LightSpeedFix2" : {
+    "complete" : true
+  },
+  "lock.OperatingSystemApp.2" : {
+    "locked" : false,
+    "tried" : false
+  },
+  "item.key.unknown_item" : {
+    "used" : true,
+    "consume_after_use" : true
+  },
+  "quest.Investigation" : {
+    "complete" : true
+  },
+  "item.stealth.1" : {
+    "used" : true,
+    "consume_after_use" : true
+  },
+  "quest.MakerIntro" : {
+    "complete" : true
+  },
+  "quest.StealthDevice" : {
+    "complete" : true
+  },
+  "item.stealth.3" : {
+    "used" : true,
+    "consume_after_use" : true
+  },
+  "quest.MakerQuest" : {
+    "complete" : true
+  },
+  "quest.LightSpeedEnemyA1" : {
+    "complete" : true
+  },
+  "lightspeed.topic.updateSpinner" : {
+    "visible" : true
+  },
+  "quest.LightSpeedEnemyA2" : {
+    "complete" : true
+  },
+  "quest.MakeDevice" : {
+    "complete" : true
+  },
+  "item.stealth.2" : {
+    "used" : true,
+    "consume_after_use" : true
+  },
+  "quest.LightSpeedEnemyA3" : {
+    "complete" : true
+  },
+  "lightspeed.topic.updateSquid" : {
+    "visible" : true
+  },
+  "quest.LightSpeedEnemyB1" : {
+    "complete" : true
+  },
+  "item.stealth.4" : {
+    "used" : true,
+    "consume_after_use" : true
+  },
+  "quest.LightSpeedEnemyB2" : {
+    "complete" : true
+  },
+  "item.stealth_device" : {
+    "used" : false,
+    "consume_after_use" : false
+  },
+  "quest.LightSpeedEnemyC1" : {
+    "complete" : true
+  },
+  "lightspeed.topic.updateBeam" : {
+    "visible" : true
+  },
+  "quest.LightSpeedEnemyC2" : {
+    "complete" : true
+  },
+  "clubhouse.character.Riley" : {
+    "in_trap" : true
+  },
+  "quest.BreakingIn" : {
+    "complete" : true
+  },
+  "quest.lightspeedfinal" : {
+    "complete" : true
+  },
+  "quest.activatetrap" : {
+      "complete" : true
+  },
+  "quest.applyfob1" : {
+      "complete" : true
+  },
+  "quest.questset_trap" : {
+      "complete" : true
+  },
+  "quest.powerupb1" : {
+      "complete" : true
+  },
+  "quest.setup" : {
+      "complete" : true
+  },
+  "quest.applyfob2" : {
+      "complete" : true
+  },
+  "quest.powerupc2" : {
+      "complete" : true
+  },
+  "quest.rileyslevels" : {
+      "complete" : true
+  },
+  "quest.powerupb2" : {
+      "complete" : true
+  },
+  "quest.fizzicspuzzle2" : {
+      "complete" : true
+  },
+  "quest.powerupc3" : {
+      "complete" : true
+  },
+  "quest.fizzicspuzzle1" : {
+      "complete" : true
+  },
+  "quest.powerupc1" : {
+      "complete" : true
+  },
+  "quest.powerupa1" : {
+      "complete" : true
+  },
+  "quest.applyfob3" : {
+      "complete" : true
+  },
+  "quest.powerupa2" : {
+      "complete" : true
+  },
+  "item.fob.1" : {
+    "used" : true,
+    "consume_after_use" : true
+  },
+  "item.fob.2" : {
+    "used" : true,
+    "consume_after_use" : true
+  },
+  "item.fob.3" : {
+    "used" : true,
+    "consume_after_use" : true
+  },
+  "clubhouse.CurrentEpisode" : {
+    "teaser-viewed" : false,
+    "name" : "episode4",
+    "completed" : false
+  }
+}

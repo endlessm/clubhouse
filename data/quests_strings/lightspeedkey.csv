@@ -1,0 +1,38 @@
+LIGHTSPEEDKEY_QUESTION,Ready to go get that key from Lightspeed?,Faber,,,
+LIGHTSPEEDKEY_QUEST_ACCEPT,You bet!,,,,
+LIGHTSPEEDKEY_LAUNCH,First let's launch Lightspeed.,,,,
+LIGHTSPEEDKEY_LAUNCH_HINT1,Click on the Lightspeed icon on the desktop.	,,,,
+LIGHTSPEEDKEY_LEVELS1,"Okay, this isn’t going to be easy.  We have to get through the next 5 levels.
+
+They’re all SUPER HARD for different reasons.  You won’t be able to see all the Topics either!
+
+But when you see a Topic, you can hack the code however you want.
+
+I recommend you try each level out first so you know why it’s hard.
+
+Then when you flip to the coding panels, I can give you some hints on what to change.",,,,
+LIGHTSPEEDKEY_LEVELS1_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
+LIGHTSPEEDKEY_LEVELS2,"Good work!  One level down, four to go!",,,,
+LIGHTSPEEDKEY_LEVELS2_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
+LIGHTSPEEDKEY_LEVELS3,"Good work!  Two levels down, three to go!",,,,
+LIGHTSPEEDKEY_LEVELS3_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
+LIGHTSPEEDKEY_LEVELS4,"Good work!  Three level down, two to go!",,,,
+LIGHTSPEEDKEY_LEVELS4_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
+LIGHTSPEEDKEY_LEVELS5,Last level to beat! You're almost there! The key is at the end of this level!,,,,
+LIGHTSPEEDKEY_LEVELS5_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
+LIGHTSPEEDKEY_PANEL_LOCKED,You can't use this panel on this level!  You have to figure out how to solve it with another panel.,,,,
+LIGHTSPEEDKEY_PANEL_GAME,"This panel lets you change the size of your ship and the astronauts too.
+
+You can also change how fast your ship moves and what it looks like.",,,,
+LIGHTSPEEDKEY_PANEL_SPAWN,"You can edit the code in this panel to change how often enemies appear and which enemies.
+
+If you make 40 larger, they will appear less often. Smaller and they will appear more often.
+
+Change where it says 'asteroid' to chage which enemy spawns.",,,,
+LIGHTSPEEDKEY_PANEL_ASTEROID,The code in these panels creates behaviors of an enemy type. This panel works for Asteroids.,,,,
+LIGHTSPEEDKEY_PANEL_SPINNER,The code in these panels creates behaviors of an enemy type. This panel works for Spinners.,,,,
+LIGHTSPEEDKEY_PANEL_SQUID,The code in these panels creates behaviors of an enemy type. This panel works for Squids.,,,,
+LIGHTSPEEDKEY_PANEL_BEAM,The code in these panels creates behaviors of an enemy type. This panel works for Beams.,,,,
+LIGHTSPEEDKEY_PANEL_POWERUPS,The code in this panel changes how power-ups work.,,,,
+LIGHTSPEEDKEY_SUCCESS,You're really amazing at this. Great job picking up the key!,,hurray,,
+LIGHTSPEEDKEY_ABORT,No problem. Come back when you're ready.,,,,
