@@ -85,7 +85,6 @@ class Character(GObject.GObject):
         self._body_animation = self.DEFAULT_BODY_ANIMATION
         self._body_image = None
         self._position = None
-        self.load()
 
     def _get_id(self):
         return self._id
@@ -138,7 +137,7 @@ class Character(GObject.GObject):
         body_path = os.path.join(self._id, 'fullbody')
         self._load_position()
         self._body_image = AnimationImage(body_path)
-        self._body_image.play('idle')
+        self._body_image.play(self.DEFAULT_BODY_ANIMATION)
 
     def _load_position(self):
         checked_main_path = False
@@ -304,6 +303,7 @@ class QuestSetButton(Gtk.Button):
 
         self._quest_set = quest_set
         self._character = Character.get_or_create(self._quest_set.get_character())
+        self._character.load()
 
         image = self._character.get_body_image()
         image.show()
