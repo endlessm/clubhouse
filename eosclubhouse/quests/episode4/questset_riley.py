@@ -1,6 +1,4 @@
-from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
-# from eosclubhouse.libquest import Quest
 # from eosclubhouse.system import GameStateService
 from eosclubhouse.quests.episode4.mazept1 import MazePt1
 from eosclubhouse.quests.episode4.bonusround import BonusRound
