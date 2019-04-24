@@ -47,7 +47,7 @@ class LightspeedKey(Quest):
         cl = int(self._app.get_js_property('currentLevel', 0))
         logger.debug('currentlevel = ' + str(cl))
         level_id = "LEVELS" + str(cl)
-        logger.debug('level_id = ' + str(level_id))
+        logger.debug('level_id = ' + level_id)
         # there are 5 levels to the Lightspeed quest.  for each level #:
         # at the beginning of the level, Faber says LIGHTSPEEDKEY_LEVELS# which has _HINT1
         # python has no switch statement so we have to do this gross way
