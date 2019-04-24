@@ -15,14 +15,5 @@ class AdaQuestSet(QuestSet):
     def __init__(self):
         super().__init__()
 
-    def get_empty_message(self):
-        if Registry.get_quest_set_by_name('SanielQuestSet').is_active():
-            return QS('NOQUEST_ADA_SANIEL')
-        if Registry.get_quest_set_by_name('FaberQuestSet').is_active():
-            return QS('NOQUEST_ADA_FABER')
-        if Registry.get_quest_set_by_name('RileyQuestSet').is_active():
-            return QS('NOQUEST_ADA_RILEY')
-        return QS('NOQUEST_ADA_NOTHING')
-
 
 Registry.register_quest_set(AdaQuestSet)

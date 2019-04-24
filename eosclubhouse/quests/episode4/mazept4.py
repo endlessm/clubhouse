@@ -6,6 +6,7 @@ from eosclubhouse.system import Sound
 class MazePt4(Quest):
 
     __available_after_completing_quests__ = ['FizzicsKey']
+    __complete_episode__ = True
 
     def __init__(self):
         super().__init__('MazePt4', 'ada')

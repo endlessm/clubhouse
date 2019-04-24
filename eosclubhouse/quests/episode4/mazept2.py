@@ -6,7 +6,7 @@ from eosclubhouse.apps import Fizzics
 
 class MazePt2(Quest):
 
-    __available_after_completing_quests__ = ['Lightspeed']
+    __available_after_completing_quests__ = ['LightspeedKey']
 
     def __init__(self):
         super().__init__('MazePt2', 'ada')

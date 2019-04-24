@@ -22,19 +22,6 @@ class RileyQuestSet(QuestSet):
 
     def __init__(self):
         super().__init__()
-        # self._tempQ = Quest('tempQ', 'riley')
-
-    def get_empty_message(self):
-        if Registry.get_quest_set_by_name('AdaQuestSet').is_active():
-            return QS('NOQUEST_RILEY_ADA')
-        if Registry.get_quest_set_by_name('SanielQuestSet').is_active():
-            return QS('NOQUEST_RILEY_SANIEL')
-        if Registry.get_quest_set_by_name('FaberQuestSet').is_active():
-            return QS('NOQUEST_RILEY_FABER')
-        # if self._tempQ.is_named_quest_complete('BonusRound'):
-            # return QS('NOQUEST_TRAP_NOTHING')
-        # else:
-        return QS('NOQUEST_RILEY_NOTHING')
 
 
 Registry.register_quest_set(RileyQuestSet)
