@@ -1145,21 +1145,21 @@ class EpisodesPage(Gtk.EventBox):
         for episode in self._episodes_db.get_episodes_in_season(episode.season):
             if episode in completed_episodes:
                 episode.complete = True
-            def _on_map(widget, _w, badge):
-                alloc = widget.get_allocation()
-                self._badges_box.move(badge, alloc.x + alloc.width / 2, alloc.y + alloc.height / 2)
-                print('MAP', widget, alloc.x, alloc.y)
 
             row = EpisodeRow(episode)
             self._list_box.add(row)
 
-            self._list_box.realize()
-            allocation = self._list_box.get_allocation()
-            print('ALLOCATION', allocation.x, allocation.y)
             badge = BadgeButton(episode)
             self._badges[episode.id] = badge
             self._badges_box.put(badge, 0, 0)
-            row.connect('draw', _on_map, badge)
+            badge.show()
+
+            def _on_cb(w, s, badge):
+                print(':::::::::::::::::::::::::::::::::::::::::::', badge, s.x, s.y)
+                if badge.get_realized():
+                    self._badges_box.move(badge, s.x, s.y)
+
+            row.connect('size-allocate', _on_cb, badge)
 
         self._list_box.show_all()
 
@@ -1172,29 +1172,29 @@ class EpisodesPage(Gtk.EventBox):
         if episode:
             self.get_style_context().remove_class(episode['name'])
 
-        for child in self._badges_box.get_children():
-            self._badges_box.remove(child)
+        # for child in self._badges_box.get_children():
+        #     self._badges_box.remove(child)
 
-        if self._current_page is not None:
-            self.get_style_context().remove_class(self._current_page)
-        self._current_page = new_page
-        self.get_style_context().add_class(self._current_page)
+        # if self._current_page is not None:
+        #     self.get_style_context().remove_class(self._current_page)
+        # self._current_page = new_page
+        # self.get_style_context().add_class(self._current_page)
 
-        current_episode = libquest.Registry.get_current_episode()
-        episode = self._episodes_db.get_episode(current_episode['name'])
+        # current_episode = libquest.Registry.get_current_episode()
+        # episode = self._episodes_db.get_episode(current_episode['name'])
 
-        # draw completed episodes
-        completed_episodes = self._episodes_db.get_previous_episodes(episode.id)
-        for completed in completed_episodes:
-            self._add_badge_button(completed,
-                                   completed.badge_x,
-                                   completed.badge_y)
+        # # draw completed episodes
+        # completed_episodes = self._episodes_db.get_previous_episodes(episode.id)
+        # for completed in completed_episodes:
+        #     self._add_badge_button(completed,
+        #                            completed.badge_x,
+        #                            completed.badge_y)
 
-        if new_page == self._COMPLETED:
-            x, y = episode.badge_x, episode.badge_y
-            if not completed_episodes:
-                x = DEFAULT_WINDOW_WIDTH / 2
-            self._add_badge_button(episode, x, y)
+        # if new_page == self._COMPLETED:
+        #     x, y = episode.badge_x, episode.badge_y
+        #     if not completed_episodes:
+        #         x = DEFAULT_WINDOW_WIDTH / 2
+        #     self._add_badge_button(episode, x, y)
 
     def _add_badge_button(self, episode, x, y):
         badge = BadgeButton(episode)
