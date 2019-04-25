@@ -1416,7 +1416,6 @@ class QuestSet(GObject.GObject):
         self.set_body_animation(body_animation)
 
     def get_empty_message(self):
-        # @todo: Document how the NOQUEST_ messages are interpreted by the Clubhouse.
         msg_id_suffix = None
         character_id = self.get_character()
         string_info = None
