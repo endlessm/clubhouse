@@ -6,15 +6,16 @@ from eosclubhouse.system import Sound
 
 class MazePt1(Quest):
 
+    __available_after_completing_quests__ = ['TrapIntro']
+
     def __init__(self):
-        super().__init__('MazePt1', 'riley')
+        super().__init__('MazePt1', 'ada')
         # self._app = Maze()
         self._app = Fizzics()
         # for testing the app, since the maze hooks aren't in yet
 
     def step_begin(self):
-        # @todo: This message ID is not in the catalog.
-        # self.wait_confirm('TRANSFER')
+        self.gss.set('clubhouse.character.Riley', {'in_trap': False})
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH_ADA')
         return self.step_play_level
 
@@ -64,8 +65,6 @@ class MazePt1(Quest):
         self.show_hints_message('AUTO2')
         self.pause(7)
         self.show_hints_message('AUTO3')
-        # @todo: This message ID is not in the catalog.
-        # self.wait_confirm('AUTO4')
         self.wait_confirm('AUTO5')
         self.show_hints_message('AUTO5_ADA')
         self.pause(7)

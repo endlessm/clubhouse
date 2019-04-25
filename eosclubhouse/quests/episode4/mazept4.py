@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Sound
+from eosclubhouse.system import Sound, GameStateService
 # from eosclubhouse.apps import Maze
 
 
@@ -10,6 +10,7 @@ class MazePt4(Quest):
 
     def __init__(self):
         super().__init__('MazePt4', 'ada')
+        self._gss = GameStateService()
         # self._app = Maze()
 
     def step_begin(self):
@@ -19,6 +20,8 @@ class MazePt4(Quest):
 
     def step_success(self):
         self.wait_confirm('DUMMY3')
+        # Yay riley's back
+        self._gss.set('clubhouse.character.Riley', {'in_trap', False})
         self.complete = True
         self.available = False
         Sound.play('quests/quest-complete')
