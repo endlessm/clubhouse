@@ -25,7 +25,7 @@ class BadgeButton(Gtk.Button):
         filename = os.path.join(config.EPISODES_DIR, 'badges', badgename)
 
         img = Gtk.Image.new_from_file(filename)
-
+        img.show()
         self.add(img)
 
     def _show_poster(self, _badge):

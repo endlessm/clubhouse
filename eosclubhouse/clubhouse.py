@@ -1067,10 +1067,11 @@ class InventoryPage(Gtk.EventBox):
 
 class EpisodeRow(Gtk.ListBoxRow):
 
-    def __init__(self, episode):
+    def __init__(self, episode, is_even_row):
         super().__init__()
         self._episode = episode
-
+        self._is_even = is_even_row
+        self._badge_position_handler = 0
         self._setup_ui()
 
     def _setup_ui(self):
@@ -1088,19 +1089,47 @@ class EpisodeRow(Gtk.ListBoxRow):
 
         self._button_box = builder.get_object('episode_row_button_box')
 
-        if self._episode.complete:
-            print('COMPLETE')
-            self._button_box.add(BadgeButton(self._episode))
-
         self.add(builder.get_object('episode_row_box'))
 
     def _toggle_expand(self):
         is_revealed = self._revealer.get_reveal_child()
         self._revealer.set_reveal_child(not is_revealed)
 
-class GFixed(Gtk.Fixed):
+    def position_badge(self, badge, badges_box):
+        self._position_badge_real(badge, badges_box)
 
-    pass
+        if self._badge_position_handler == 0:
+            self._badge_position_handler = \
+                self._expand_button.connect('size-allocate',
+                             lambda _widget, _alloc: self._position_badge_real(badge, badges_box))
+            self._expand_button.connect_after('realize',
+                                     lambda _widget: self._position_badge_real(badge, badges_box))
+
+    def _position_badge_real(self, badge, badges_box):
+        if not self._expand_button.get_realized():
+            return
+
+        row_button = self._expand_button
+
+        allocation = row_button.get_allocation()
+        x = allocation.x
+        y = allocation.y
+        width = allocation.width
+        height = allocation.height
+
+        if not badge.get_realized():
+            return
+
+        pos_x, pos_y = row_button.translate_coordinates(badges_box, width * .75, height / 2.0)
+
+        badge_allocation = badge.get_allocation()
+        pos_x -= badge_allocation.width / 2.0
+
+        if self._is_even:
+            pos_x += badge_allocation.width / 2.0 - 25
+
+        badges_box.move(badge, pos_x, pos_y - badge_allocation.height / 2.0)
+
 
 class EpisodesPage(Gtk.EventBox):
 
@@ -1142,11 +1171,12 @@ class EpisodesPage(Gtk.EventBox):
         episode = self._episodes_db.get_episode(current_episode['name'])
 
         completed_episodes = self._episodes_db.get_previous_episodes(episode.id)
+        i = 0
         for episode in self._episodes_db.get_episodes_in_season(episode.season):
             if episode in completed_episodes:
                 episode.complete = True
 
-            row = EpisodeRow(episode)
+            row = EpisodeRow(episode, i % 2 == 0)
             self._list_box.add(row)
 
             badge = BadgeButton(episode)
@@ -1154,12 +1184,9 @@ class EpisodesPage(Gtk.EventBox):
             self._badges_box.put(badge, 0, 0)
             badge.show()
 
-            def _on_cb(w, s, badge):
-                print(':::::::::::::::::::::::::::::::::::::::::::', badge, s.x, s.y)
-                if badge.get_realized():
-                    self._badges_box.move(badge, s.x, s.y)
+            row.position_badge(badge, self._badges_box)
 
-            row.connect('size-allocate', _on_cb, badge)
+            i += 1
 
         self._list_box.show_all()
 
