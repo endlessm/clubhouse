@@ -6,6 +6,7 @@ class ActivateTrap(Quest):
 
     __available_after_completing_quests__ = ['ApplyFob3']
     __complete_episode__ = True
+    __advance_episode__ = True
 
     def __init__(self):
         super().__init__('ActivateTrap', 'saniel')
