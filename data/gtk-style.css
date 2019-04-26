@@ -12,7 +12,7 @@
 
 .episodes-page .episodes-list {
     background: transparent;
-    margin-top: 25px;
+    margin-top: 36px;
 }
 
 .clubhouse-message-box {
@@ -277,6 +277,25 @@ window.poster {
 }
 
 .episode-row-expand-button {
-    background: rgba(255, 255, 255, 0.7);
-    min-height: 100px;
+    background: rgba(239, 230, 218, 0.2);
+    min-height: 104px;
+}
+
+.episode-row-expand-button:hover {
+    background: rgba(239, 230, 218, 0.4);
+}
+
+.episode-row-name-label {
+    color: #2a1e10;
+    font: 32px "Metropolis Medium, Sans-Serif";
+    margin-left: 40px;
+}
+
+.episode-row-number-label, .episode-row-description-label {
+    color: #2a1e10;
+    font: 16px "Metropolis Medium, Sans-Serif";
+}
+
+.episode-row-description-label {
+    margin: 32px 80px 40px 40px;
 }

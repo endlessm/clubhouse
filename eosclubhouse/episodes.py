@@ -8,6 +8,8 @@ from eosclubhouse.system import Sound
 class BadgeButton(Gtk.Button):
     _poster = None
 
+    HEIGHT = WIDTH = 164
+
     def __init__(self, episode):
         super().__init__(halign=Gtk.Align.START,
                          relief=Gtk.ReliefStyle.NONE)
@@ -24,18 +26,15 @@ class BadgeButton(Gtk.Button):
         badgename = '{}.png'.format(self._episode.id)
         filename = os.path.join(config.EPISODES_DIR, 'badges', badgename)
 
-        img = Gtk.Image.new_from_file(filename)
-        img.show()
-        self.add(img)
+        self._image = Gtk.Image.new_from_file(filename)
+        self._image.show()
+        self.add(self._image)
 
     def _show_poster(self, _badge):
         if not self._poster:
             self._poster = PosterWindow(self._episode)
         self._poster.show()
         self._poster.present()
-
-    def get_size(self):
-        return self._WIDTH, self._HEIGHT
 
 
 class PosterWindow(Gtk.Window):
