@@ -8,11 +8,15 @@ item.key.testkey,fizzics-key-level-1-blue.png,fizzics-key-level-1-orange.png,Tes
 item.reward.testreward,frameworks-key-level-1-blue.png,frameworks-key-level-1-orange.png,Test reward,
 item.key.lightspeed.1,lightspeed-key-level-1-blue.png,lightspeed-key-level-1-orange.png,LightSpeed Controls Key,
 item.key.unknown_item,unknown-item.png,,Riley's Discovery,What could this be? 
-item.stealth.1,stealth-part-1.png,,Perception Deflector,scrambles visibility
-item.stealth.2,stealth-part-2.png,,Ratchet Wheel,keeps internal time
-item.stealth.3,stealth-part-3.png,,Cloaking Glaze,prevents all tracking
-item.stealth.4,stealth-part-4.png,,Hush Gasket,softens footfalls
+item.stealth.1,stealth-part-1.png,,Perception Deflector,Scrambles visibility
+item.stealth.2,stealth-part-2.png,,Ratchet Wheel,Keeps internal time
+item.stealth.3,stealth-part-3.png,,Cloaking Glaze,Prevents all tracking
+item.stealth.4,stealth-part-4.png,,Hush Rivets,Soften footfalls
 item.stealth_device,stealth-device.png,,Stealth Device,Use this with care!
 item.fob.1,item-fob1.png,,Fob #1,Apply it to the trap
 item.fob.2,item-fob2.png,,Fob #2,Apply it to the trap
 item.fob.3,item-fob3.png,,Fob #3,Apply it to the trap
+item.key.levi_hackdex.1,hackdex-key-level-1-blue.png,hackdex-key-level-1-orange.png,Encryption Key,From Estelle
+item.key.sidetrack.1,fizzics-key-level-3-blue.png,fizzics-key-level-3-orange.png,Instructions Key,"if(haskey), sidetrack.code = true"
+item.key.sidetrack.2,lightspeed-key-level-1-blue.png,lightspeed-key-level-1-orange.png,Push Key,"if(haspush), barriers.destroy()"
+item.key.sidetrack.3,frameworks-key-level-1-blue.png,frameworks-key-level-1-orange.png,Level Editor Key,Sidetrack.unlockall()
