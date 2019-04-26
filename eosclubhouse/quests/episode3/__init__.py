@@ -14,3 +14,6 @@ def set_required_game_state():
         gss = GameStateService()
         for key, value in game_state.items():
             gss.set(key, value)
+
+
+NEXT_EPISODE = 'episode4'
