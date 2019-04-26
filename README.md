@@ -291,6 +291,83 @@ spreadsheet page as argument:
 
 `./tools/get-info-file episodes`
 
+### Building the Quests Flow
+
+When you are creating an episode, you start with a diagram like this:
+
+![Example 1](data/docs/quests-flow.png?raw=true)
+
+To build the graph of this diagram, you should:
+
+- Define quest-sets. Each quest-set has an ordered list of quests. Each
+  quest-set is mapped to a character in the Clubhouse, and represents the set of
+  quests offered by this character.
+
+- Define the availability dependency between quests of different quest-sets. The
+  dependency between quests of same quest-sets is automatic: they are made
+  available in order, as defined in the previous step.
+
+- Define which quests are automatically offered, if any.
+
+- Define which quest marks the episode as completed.
+
+- Define which quest advance automatically to the next episode. Should be the
+  last quest of an episode.
+
+You define the quests in each quest-set like this:
+
+``` python
+class QuestSetA(QuestSet):
+
+    __quests__ = ['QuestA1', 'QuestA2', 'QuestA3']
+```
+
+**Note**: The order in the names A1, A2, A3 above are just an example. There is
+no convention for the class name of quests.
+
+To define the availability dependency between quests of different quest-sets:
+
+``` python
+class QuestA3(Quest):
+
+    __available_after_completing_quests__ = ['QuestB1']
+```
+
+In the diagram above, quests A2 and A3 are auto-offered once they become
+available. The character will offer the next quest immediately after the
+previous quest is completed. So the player will get the impression that quests
+A1 to A3 are chained together. To make a quest auto-offer:
+
+``` python
+class QuestA2(Quest):
+
+    def setup(self):
+        self.auto_offer = True
+```
+
+One of the quests must mark the episode as completed. This doesn't have to be
+the last one. Quests define if they complete the episode with:
+
+``` python
+class QuestC2(Quest):
+
+    __complete_episode__ = True
+
+```
+
+The quests coming after the episode is completed are considered bonus. In the
+example above, quests B3 and B4 are bonus.
+
+If there are more episodes after this one, the last quest should advance to the
+next episode with:
+
+``` python
+class QuestB4(Quest):
+
+    __advance_episode__ = True
+
+```
+
 ### Sprite Animations Format
 
 Character animations in the Clubhouse are implemented with
