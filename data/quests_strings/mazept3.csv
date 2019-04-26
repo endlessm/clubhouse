@@ -1,7 +1,40 @@
 MAZEPT3_DUMMY1,mazept3 dummy text 1,Ada,,,
 MAZEPT3_DUMMY2,"mazept3 dummy text 2, longer",Ada,,,
 MAZEPT3_DUMMY3,"mazept3 dummy text 3, even longer still, with many more letters",Ada,,,
-MAZEPT3_QUESTION,,Ada,,,
-MAZEPT3_QUEST_ACCEPT,(dummyaccept),Ada,,,
+MAZEPT3_HELLO,You know what.  I don’t think it’s possible to solve this level.  Not even with Push!,Riley,,,
+MAZEPT3_HELLO2,"
+That’s correct.",Saniel,,,
+MAZEPT3_QUESTION,Meet me in the Clubhouse so we can obtain the key Riley needs!,Saniel,,,
+MAZEPT3_QUEST_ACCEPT,"Okay, let's get started!",Ada,,,
+MAZEPT3_RILEYPUSH,"Check out this Push Instruction Estelle told me about! So cool! We can use it to get past this column of walls!
+",Riley,,,
+MAZEPT3_RILEYPUSH_HINT1,Click the Flip key.  Type in Riley.Push(),Riley,,,
+MAZEPT3_RILEYPUSH2,"Push is exactly the thing for when I’m lined up with a wall and about to crash into it. 
+Suddenly I'm so strong I can actually move walls!  Flip the app back over! & let’s give it a try! ",,,,
+MAZEPT3_RILEYPUSH3,"Once you add a Push Instruction, you can see it on the front of the app.  
+That means you can drag it into a different position. ",,,,
+MAZEPT3_RILEYPUSH4,"You guys are doing such brilliant work!  This trap of Saniel's turns out to be quite challenging!
+",Ada,,,
+MAZEPT3_RILEYPUSH5,"That Push Instruction sure did come in handy.  Wait, how did you find that?
+
+",Faber,,,
+MAZEPT3_RILEYPUSH6,"Oh, I came across that in this ancient folder that belonged to Leviathan, that illustrious hacker.  
+
+I had no idea what it was but I took note of it, and stored it in my research file.",Ada,,,
+MAZEPT3_RILEYPUSH7,"Oh, snap. And then your research vanished!. The question is, how did your files end up inside this maze? 
+This is for sure no amateur we're dealing with if they got past your encryption protocols, Ada!
+",Faber,,,
+MAZEPT3_RILEYPUSH8,"I'm detecting a pattern in all this. So many things have been glitching out around the Conservatory lately!  
+
+Maybe something inside the box is causing all these aberrations! ",Ada,,,
+MAZEPT3_FELIXINTRO,,,,,
+MAZEPT3_FELIXINTRO1,"Ah!  There it is again!
+[Faber recounts story from Saniel about Felix]
+",Faber,,,
+MAZEPT3_FELIXINTRO2,The AI has learned to “think outside the box”  ,Saniel,,,
+MAZEPT3_FELIXINTRO3,"Ada expresses a bit of concern that Riley is getting too close to Felix
+(threat?)  She explains that it's just doing what it's programmed to do, but that it's getting out of scale.
+
+She implies that she knows alot about this because of her research into Leviathan.  ",Ada,,,
 MAZEPT3_SUCCESS,mazept3 complete (dummytext),Ada,,,
 MAZEPT3_ABORT,mazept3 abort (dummytext),Ada,,,
