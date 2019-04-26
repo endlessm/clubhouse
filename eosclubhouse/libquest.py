@@ -1421,7 +1421,18 @@ class QuestSet(GObject.GObject):
         string_info = None
 
         def get_noquest_message(msg_id_suffix):
-            return QuestStringCatalog.get_info('NOQUEST_' + msg_id_suffix.upper())
+            msg_id_suffix = msg_id_suffix.upper()
+
+            # Try to get the NOQUEST message with the episode prefix, otherwise default to the
+            # generic one.
+            episode_name = Registry.get_loaded_episode_name()
+            full_message_id = 'NOQUEST_{}_{}'.format(episode_name.upper(), msg_id_suffix)
+            message_info = QuestStringCatalog.get_info(full_message_id)
+
+            if message_info is not None:
+                return message_info
+
+            return QuestStringCatalog.get_info('NOQUEST_' + msg_id_suffix)
 
         for quest_set in Registry.get_quest_sets():
             if quest_set is self:
