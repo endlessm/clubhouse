@@ -16,10 +16,9 @@ class TrapIntro(Quest):
         return self.step_success
 
     def step_success(self):
+        self.show_message('TRAPINTRO_SUCCESS').wait(10)
         # hide the trap
         self._gss.set('clubhouse.character.Trap', {'deployed': True})
         self.complete = True
         self.available = False
-        self.show_message('SUCCESS')
-        self.pause(10)
         self.stop()
