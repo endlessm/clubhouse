@@ -231,6 +231,21 @@ characters, Ada and Saniel:
 - `NOQUEST_SANIEL_NOTHING`: The text Saniel displays when none of the
   characters have a quest to offer.
 
+The above messages will be used in any episode, independently from whether they
+have been set in a sheet corresponding to a certain episode in the spreadsheet.
+
+It is also possible to specify `NOQUEST` messages that episode dependent. This
+is done by using `NOQUEST_EPISODEID` instead of just NOQUEST, where `EPISODEID`
+is the ID of the episode, i.e. for `episode3` specific `NOQUEST` messages, they
+should have the prefix of `NOQUEST_EPISODE3`. The suffixes work just as
+mentioned above for the plain `NOQUEST` messages, e.g.
+`NOQUEST_EPISODE2_SANIEL_ADA` will be used when the user clicks on the Saniel
+character in episode 2, when this character has no quest to offer but the Ada
+character does.
+
+`NOQUEST` messages specific to episodes should be kept in the episode's
+respective sheet.
+
 **Note**: This is the default behavior. It can be changed for a
 character by overriding the `QuestSet.get_empty_message()` method.
 
