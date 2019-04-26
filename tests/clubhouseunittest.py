@@ -1,8 +1,11 @@
+import copy
 import unittest
 
 from eosclubhouse.libquest import Registry
 from eosclubhouse.system import GameStateService
+from eosclubhouse.utils import QuestStringCatalog
 from gi.repository import Gio, GObject
+from unittest import mock
 
 
 class _GSSMockProxy(GObject.GObject):
@@ -49,6 +52,19 @@ class ClubhouseTestCase(unittest.TestCase):
 
         # Reset the GSS so every test case starts with a clean slate.
         cls.reset_gss()
+
+        # We patch the QuestStringCatalog so any changes made by a test aren't kept in the string
+        # catalog for the next test or beyond tests. We patch the catalog with a deep copy of it
+        # since otherwise only the dictionary is "protected" but not its members (so if a test
+        # changes a message's sound, it'd remain like that even with the mock patch).
+        strings_catalog_copy = copy.deepcopy(QuestStringCatalog._csv_dict)
+        mock.patch.dict('eosclubhouse.utils.QuestStringCatalog._csv_dict',
+                        strings_catalog_copy, clear=True).start()
+
+    @classmethod
+    def tearDownClass(cls):
+        # Stop any mock patches created in the setUpClass.
+        mock.patch.stopall()
 
     @classmethod
     def reset_gss(self):
