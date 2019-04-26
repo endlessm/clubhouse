@@ -12,13 +12,14 @@ class TrapIntro(Quest):
 
     def step_begin(self):
         # silently install the app
-        # self.give_app_icon(_app.dbus_name)
+        # self.give_app_icon(self._app.dbus_name)
+        # hide the trap
+        self._gss.set('clubhouse.character.Trap', {'deployed': True})
+        self.wait_confirm('QUESTION_ACCEPT')
         return self.step_success
 
     def step_success(self):
-        self.show_message('TRAPINTRO_SUCCESS').wait(10)
-        # hide the trap
-        self._gss.set('clubhouse.character.Trap', {'deployed': True})
+        self.wait_confirm('SUCCESS')
         self.complete = True
         self.available = False
         self.stop()

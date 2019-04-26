@@ -11,6 +11,7 @@ class LeviHackdex(Quest):
         self.wait_confirm('OPENINTRO1')
         self.wait_confirm('OPENINTRO2')
         self.wait_confirm('GIVEKEY')
+        self.give_item('item.key.levi_hackdex.1')
         self.wait_confirm('BACKGROUND')
         self.wait_confirm('PUSHINSTRUCTION')
         self.wait_confirm('PUSHINSTRUCTION2')
