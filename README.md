@@ -50,6 +50,12 @@ and install it in the user installation base, you can do:
 
 `./tools/build-local-flatpak.sh --install`
 
+This automatically switches the flatpak to a 'custom' branch. If you need to
+switch from this custom local built version to the previous stable or master
+version, you can do so with:
+
+`sudo flatpak make-current --system com.endlessm.Clubhouse stable`
+
 ### Coding Style
 
 The `run-lint` script can be used to verify the codebase's coding style.
