@@ -1,15 +1,17 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
-# from eosclubhouse.apps import Maze
+from eosclubhouse.apps import Sidetrack
 
 
 class MazePt3(Quest):
 
     def __init__(self):
         super().__init__('MazePt3', 'ada')
-        # self._app = Maze()
+        self._app = Sidetrack()
 
+    @Quest.with_app_launched(Sidetrack.APP_NAME)
     def step_begin(self):
+        self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH')
         self.wait_confirm('HELLO')
         self.wait_confirm('HELLO2')
         self.show_hints_message('RILEYPUSH')

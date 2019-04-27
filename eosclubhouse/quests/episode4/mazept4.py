@@ -1,6 +1,6 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound, GameStateService
-# from eosclubhouse.apps import Maze
+from eosclubhouse.apps import Sidetrack
 
 
 class MazePt4(Quest):
@@ -11,10 +11,11 @@ class MazePt4(Quest):
     def __init__(self):
         super().__init__('MazePt4', 'ada')
         self._gss = GameStateService()
-        # self._app = Maze()
+        self._app = Sidetrack()
 
+    @Quest.with_app_launched(Sidetrack.APP_NAME)
     def step_begin(self):
-        self.show_hints_message('LAUNCH')
+        self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH')
         self.pause(7)
         self.show_hints_message('INSTRUCTIONS')
         self.pause(7)

@@ -1,7 +1,6 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
-# from eosclubhouse.apps import Maze
-from eosclubhouse.apps import Fizzics
+from eosclubhouse.apps import Sidetrack
 
 
 class MazePt2(Quest):
@@ -10,8 +9,7 @@ class MazePt2(Quest):
 
     def __init__(self):
         super().__init__('MazePt2', 'ada')
-        self._app = Fizzics()
-        # self._app = Maze()
+        self._app = Sidetrack()
 
     def step_begin(self):
         # quest starts by clicking on Ada in the clubhouse
@@ -22,16 +20,16 @@ class MazePt2(Quest):
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH')
         return self.step_app_launched
 
-    @Quest.with_app_launched(Fizzics.APP_NAME)
+    @Quest.with_app_launched(Sidetrack.APP_NAME)
     def step_app_launched(self):
         self.show_hints_message('FLIP')
         self.wait_for_app_js_props_changed(self._app, ['flipped'])
         self.show_hints_message('INSTRUCTIONS')
-        self.pause(15)
+        self.pause(10)
         self.show_hints_message('LEVELS2')
-        self.pause(15)
+        self.pause(10)
         self.show_hints_message('LEVELS3')
-        self.pause(15)
+        self.pause(10)
         self.wait_confirm('LEVELS4_ADA1')
         self.wait_confirm('LEVELS4_FABER1')
         self.wait_confirm('LEVELS4_ADA2')
@@ -42,11 +40,11 @@ class MazePt2(Quest):
         self.wait_confirm('RESEARCH1')
         self.wait_confirm('RESEARCH2')
         self.wait_confirm('LEVELS6')
-        self.wait_confirm('LEVELS6_FELIX')
+        # self.wait_confirm('LEVELS6_FELIX')
         self.wait_confirm('LEVELS6_FABER')
         self.wait_confirm('LEVELS6_RILEY')
         self.wait_confirm('LEVELS6_ADA')
-        self.wait_confirm('IMPASSABLE')
+        # self.wait_confirm('IMPASSABLE')
         self.wait_confirm('IMPASSABLE_FABER')
         self.wait_confirm('IMPASSABLE_RILEY')
         # inside Riley Maze app, at the start of level 1, if the app is not flipped,

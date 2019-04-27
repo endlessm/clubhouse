@@ -13,9 +13,15 @@ class BonusRound(Quest):
     def step_begin(self):
         self.wait_confirm('DUMMY1')
         self.wait_confirm('DUMMY2')
+        return self.step_inlevel
+
+    def step_inlevel(self):
+        # there will be a bunch more levels here
+        # different challenges than before
         return self.step_success
 
     def step_success(self):
+        # give the Sidetrack level editing key
         self.give_item('item.key.sidetrack.3')
         self.wait_confirm('DUMMY3')
         self.complete = True
