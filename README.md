@@ -369,7 +369,9 @@ alternative quests' location), you can simply press Ctrl+Escape in its window
 (you may have to close and re-open it for the focus to be properly set and the
 keyboard shortcut to work).
 
-## Debug Mode
+## Running Modes For Development
+
+### Debug Mode
 
 The Clubohouse has a debug mode for developers. It will:
 
@@ -396,4 +398,29 @@ and then start with debug mode again, like this:
 ``` bash
 com.endlessm.Clubhouse --quit
 com.endlessm.Clubhouse --debug
+```
+
+### As a Normal Window
+
+Run the Clubhouse inside a normal window, instead of the special side panel:
+
+``` bash
+CLUBHOUSE_NO_SIDE_COMPONENT=yes com.endlessm.Clubhouse
+```
+
+### No Auto Hide
+
+Prevent the Clubhouse to hide automatically when it loses focus:
+
+``` bash
+CLUBHOUSE_NO_AUTO_HIDE=yes com.endlessm.Clubhouse
+```
+
+### Measuring Performance
+
+Output the time it takes to run certain setup steps. Useful for finding
+performance regressions:
+
+``` bash
+CLUBHOUSE_PERF_DEBUG=yes com.endlessm.Clubhouse
 ```
