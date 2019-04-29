@@ -14,6 +14,7 @@ class Fizzics(App):
     APP_NAME = 'com.endlessm.Fizzics'
     _TOOLS = ['fling', 'move', 'create', 'delete']
     _TOOL_DISABLED_SUFFIX = 'ToolDisabled'
+    _DISABLE_ADD_FOR_BALL_TEMPLATE = 'createType{}Disabled'
 
     def __init__(self):
         """Clubhouse App that represents the Fizzics app.
@@ -55,6 +56,10 @@ class Fizzics(App):
     def disable_tool(self, tool, disabled=True):
         assert tool in self._TOOLS
         return self.set_js_property(tool + self._TOOL_DISABLED_SUFFIX, disabled)
+
+    def disable_add_tool_for_ball_type(self, ball_type, disabled=True):
+        assert ball_type in range(5)
+        return self.set_js_property(self._DISABLE_ADD_FOR_BALL_TEMPLATE.format(ball_type), disabled)
 
     def _connect_level_change(self, property_changed_cb, *args):
         def _on_level_changed():
