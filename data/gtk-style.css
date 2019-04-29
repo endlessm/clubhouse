@@ -196,29 +196,33 @@
     -gtk-icon-effect: dim;
 }
 
-.inventory-scrolled-window {
+.clubhouse-scrolled-window {
     margin-bottom: 65px
 }
 
-.inventory-scrolled-window > scrollbar {
+.clubhouse-scrolled-window > scrollbar {
     background: rgba(0, 0, 0, .5);
-    padding: 4px;
+    padding: 3px;
     border: none;
     margin-top: 30px;
-    margin-right: 20px;
+    margin-right: 1px;
     border-radius: 10px;
 }
 
-.inventory-scrolled-window > scrollbar:hover {
+.inventory-scrolled-window > scrollbar {
+    margin-right: 20px;
+}
+
+.clubhouse-scrolled-window > scrollbar:hover {
     background: rgba(0, 0, 0, .7);
 }
 
-.inventory-scrolled-window > scrollbar slider {
+.clubhouse-scrolled-window > scrollbar slider {
     background: rgba(234, 189, 141, .7);
-    min-width: 1px
+    min-width: 0;
 }
 
-.inventory-scrolled-window > scrollbar slider:hover {
+.clubhouse-scrolled-window > scrollbar slider:hover {
     background: rgba(223, 166, 106, .8);
 }
 

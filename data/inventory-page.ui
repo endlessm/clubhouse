@@ -59,6 +59,7 @@ You don't have any objects yet!</property>
       </object>
     </child>
     <style>
+      <class name="clubhouse-scrolled-window"/>
       <class name="inventory-scrolled-window"/>
     </style>
   </object>
