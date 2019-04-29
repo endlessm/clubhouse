@@ -1,5 +1,13 @@
-ID,Season,Name,BadgeX,BadgeY
-episode1,season1,Corruption,167,590
-episode2,season1,Stealth Operations,312,673
-episode3,season1,Breaking Through,167,756
-episode4,season1,Rescue Mission,312,839
+ID,Season,Name,BadgeX,BadgeY,Description
+episode1,season1,Corruption,167,590,"Ep 1, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus aliquet blandit lorem sit amet auctor. Nullam vestibulum nibh a massa blandit finibus. Maecenas consequat nisl eu lorem convallis congue. Praesent vehicula lectus id quam aliquet, a feugiat lacus scelerisque.
+
+Pellentesque eget erat vitae nunc suscipit mollis. Nulla facilisi. Vestibulum cursus justo a leo porta finibus. Cras sed velit aliquam, varius augue non, congue lectus. Nullam sagittis et magna quis malesuada. Aenean faucibus, orci fermentum gravida viverra, enim sapien vestibulum velit, sed ornare odio mauris eu ligula."
+episode2,season1,Stealth Operations,312,673,"Ep 2, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus aliquet blandit lorem sit amet auctor. Nullam vestibulum nibh a massa blandit finibus. Maecenas consequat nisl eu lorem convallis congue. Praesent vehicula lectus id quam aliquet, a feugiat lacus scelerisque.
+
+Pellentesque eget erat vitae nunc suscipit mollis. Nulla facilisi. Vestibulum cursus justo a leo porta finibus. Cras sed velit aliquam, varius augue non, congue lectus. Nullam sagittis et magna quis malesuada. Aenean faucibus, orci fermentum gravida viverra, enim sapien vestibulum velit, sed ornare odio mauris eu ligula."
+episode3,season1,Breaking Through,167,756,"Ep 3, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus aliquet blandit lorem sit amet auctor. Nullam vestibulum nibh a massa blandit finibus. Maecenas consequat nisl eu lorem convallis congue. Praesent vehicula lectus id quam aliquet, a feugiat lacus scelerisque.
+
+Pellentesque eget erat vitae nunc suscipit mollis. Nulla facilisi. Vestibulum cursus justo a leo porta finibus. Cras sed velit aliquam, varius augue non, congue lectus. Nullam sagittis et magna quis malesuada. Aenean faucibus, orci fermentum gravida viverra, enim sapien vestibulum velit, sed ornare odio mauris eu ligula."
+episode4,season1,Rescue Mission,312,839,"Ep 4, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus aliquet blandit lorem sit amet auctor. Nullam vestibulum nibh a massa blandit finibus. Maecenas consequat nisl eu lorem convallis congue. Praesent vehicula lectus id quam aliquet, a feugiat lacus scelerisque.
+
+Pellentesque eget erat vitae nunc suscipit mollis. Nulla facilisi. Vestibulum cursus justo a leo porta finibus. Cras sed velit aliquam, varius augue non, congue lectus. Nullam sagittis et magna quis malesuada. Aenean faucibus, orci fermentum gravida viverra, enim sapien vestibulum velit, sed ornare odio mauris eu ligula."
