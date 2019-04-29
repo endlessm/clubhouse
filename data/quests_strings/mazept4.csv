@@ -4,10 +4,10 @@ MAZEPT4_DUMMY3,"mazept4 dummy text 3, even longer still, also the end (If you se
 MAZEPT4_QUESTION,want to start MAZEPT4? (dummytext),Ada,,,
 MAZEPT4_QUEST_ACCEPT,(dummyaccept),Ada,,,
 MAZEPT4_LAUNCH,Let's try some new levels in Sidetrack. ,Ada,,,
-MAZEPT4_LAUNCH_HINT1,Click the Sidetrack icon. ,,,,
+MAZEPT4_LAUNCH_HINT1,Click the Sidetrack icon. ,Ada,,,
 MAZEPT4_INSTRUCTIONS,Oh this is awesome!  Now we can make the down pads into up pads!  And we can flip the up robots to move down instead!  We can even make both go the same direction!,Riley,,,
 MAZEPT4_INSTRUCTIONS_HINT1,hint,,,,
-MAZEPT4_LEVELS2,level,,,,
+MAZEPT4_LEVELS2, ,,,,
 MAZEPT4_LEVELS3,level,,,,
 MAZEPT4_LEVELS4,level,,,,
 MAZEPT4_INSTRUCTIONS1,"Don’t forget you can still edit Instructions AND Units.  And use the Push Instruction!  You can trivialize a challenging problem.
