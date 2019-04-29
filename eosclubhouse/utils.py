@@ -170,11 +170,13 @@ class Performance:
 
 
 class Episode:
-    def __init__(self, id_, number=1, season=None, name=None, badge_x=None, badge_y=None):
+    def __init__(self, id_, number=1, season=None, name=None, description='',
+                 badge_x=None, badge_y=None):
         self.id = id_
         self.number = number
         self.season = season
         self.name = name if name is not None else id_
+        self.description = description
         self.badge_x = badge_x if badge_x is not None else 240
         self.badge_y = badge_y if badge_y is not None else 540
 
@@ -205,7 +207,7 @@ class EpisodesDB(_DictFromCSV):
             number = 0
             prev_season = None
             for row in csv.reader(csv_file):
-                episode_id, season, name, badge_x, badge_y = row
+                episode_id, season, name, badge_x, badge_y, description = row
                 # using appearance order in the same session to number episodes
                 if season != prev_season:
                     prev_season = season
@@ -222,7 +224,8 @@ class EpisodesDB(_DictFromCSV):
                 except ValueError:
                     badge_y = None
 
-                contents[episode_id] = Episode(episode_id, number, season, name, badge_x, badge_y)
+                contents[episode_id] = Episode(episode_id, number, season, name, description,
+                                               badge_x, badge_y)
 
     @classmethod
     def get_previous_episodes(class_, current_episode):
