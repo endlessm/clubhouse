@@ -509,6 +509,10 @@ class AsyncAction:
         self._state = state
 
 
+class NoMessageIdError(Exception):
+    pass
+
+
 class Quest(GObject.GObject):
 
     __gsignals__ = {
@@ -1032,6 +1036,10 @@ class Quest(GObject.GObject):
             # Fallback to the given info_id if no string was found
             if info is None:
                 info = QuestStringCatalog.get_info(info_id)
+
+            if info is None:
+                raise NoMessageIdError("Can't show message, the message ID " + info_id +
+                                       " is not in the catalog.")
 
             options.update(info)
 
