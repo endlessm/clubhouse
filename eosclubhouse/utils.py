@@ -179,6 +179,7 @@ class Episode:
         self.description = description
         self.badge_x = badge_x if badge_x is not None else 240
         self.badge_y = badge_y if badge_y is not None else 540
+        self.is_available = False
 
 
 class EpisodesDB(_DictFromCSV):
@@ -238,6 +239,10 @@ class EpisodesDB(_DictFromCSV):
         episode = class_.get_episode(current_episode)
         return [v for k, v in class_.get_all_episodes()
                 if v.season == episode.season and v.number > episode.number]
+
+    @classmethod
+    def get_episodes_in_season(class_, season):
+        return [episode for key, episode in class_.get_all_episodes() if episode.season == season]
 
 
 class SimpleMarkupParser:

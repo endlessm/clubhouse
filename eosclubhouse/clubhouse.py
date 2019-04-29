@@ -1067,6 +1067,88 @@ class InventoryPage(Gtk.EventBox):
             self._inventory_stack.set_visible_child(self._inventory_empty_state_box)
 
 
+class EpisodeRow(Gtk.ListBoxRow):
+
+    BADGE_INNER_MARGIN = 25
+
+    def __init__(self, episode, badges_box):
+        super().__init__()
+        self._episode = episode
+        self._badges_box = badges_box
+        self._badge = None
+        self._badge_position_handler = 0
+        self._setup_ui()
+
+    def _setup_ui(self):
+        builder = Gtk.Builder()
+        builder.add_from_resource('/com/endlessm/Clubhouse/episode-row.ui')
+
+        self._expand_button = builder.get_object('episode_row_expand_button')
+        self._expand_button.connect('clicked', lambda _button: self._toggle_expand())
+        episode_name_label = builder.get_object('episode_row_name_label')
+
+        episode_name_label.set_label(self._episode.name)
+
+        episode_number_label = builder.get_object('episode_row_number_label')
+        episode_number_label.set_label('Episode {}'.format(self._episode.number))
+
+        self._description_label = builder.get_object('episode_row_description_label')
+        self._description_label.set_markup(self._episode.description)
+
+        self._revealer = builder.get_object('episode_row_revealer')
+
+        self.add(builder.get_object('episode_row_box'))
+
+        self._setup_badge()
+
+    def _toggle_expand(self):
+        is_revealed = self._revealer.get_reveal_child()
+        self._revealer.set_reveal_child(not is_revealed)
+
+    def _setup_badge(self):
+        if not self._episode.is_available:
+            return
+
+        self._badge = BadgeButton(self._episode)
+        self._badges_box.put(self._badge, 0, 0)
+        self._badge.show()
+
+        self._update_badge_position()
+
+        if self._badge_position_handler == 0:
+            self._badge_position_handler = \
+                self._expand_button.connect('size-allocate',
+                                            lambda _widget, _alloc: self._update_badge_position())
+
+    def _update_badge_position(self):
+        if not self.get_realized():
+            return
+
+        # We only use the button's allocation for getting the vertical position on which to set
+        # the badge (and not the width), otherwise the badges would move when the scrollbar
+        # appears (because the buttons are shortened horizontally when that happens).
+        height = self._expand_button.get_allocation().height
+
+        pos_x, pos_y = self._expand_button.translate_coordinates(self._badges_box,
+                                                                 DEFAULT_WINDOW_WIDTH,
+                                                                 height / 2.0)
+
+        # Place the badge horizontally as if aligned to the right.
+        pos_x -= self._badge.WIDTH
+        # Place the badge vertically using the middle-point as the anchor.
+        pos_y -= self._badge.HEIGHT / 2.0
+
+        # Pull the odd-numbered (1-based indexing) episodes further to the left (to accomplish
+        # the zig-zag placement).
+        if self._episode.number % 2 != 0:
+            pos_x -= self._badge.WIDTH / 2.0 - self.BADGE_INNER_MARGIN
+
+        self._badges_box.move(self._badge, pos_x, pos_y)
+
+    def get_badge(self):
+        return self._badge
+
+
 class EpisodesPage(Gtk.EventBox):
 
     _COMPLETED = 'completed'
@@ -1081,8 +1163,10 @@ class EpisodesPage(Gtk.EventBox):
         self._current_episode = None
         self._badges = {}
         self._setup_ui()
-        GameStateService().connect('changed', self.update_episode_view)
-        self.update_episode_view()
+
+        GameStateService().connect('changed', lambda _gss: self._update_episode_badges())
+
+        self._update_episode_badges()
 
     def _setup_ui(self):
         self.get_style_context().add_class('episodes-page')
@@ -1091,62 +1175,28 @@ class EpisodesPage(Gtk.EventBox):
         builder.add_from_resource('/com/endlessm/Clubhouse/episodes-page.ui')
 
         self._badges_box = builder.get_object('badges_box')
+        self._badges_box.show_all()
+        episodes_overlay = builder.get_object('episodes_overlay')
+        episodes_overlay.set_overlay_pass_through(self._badges_box, True)
+        self._list_box = builder.get_object('episodes_list_box')
 
-        self.add(self._badges_box)
+        self.add(builder.get_object('episodes_scrolled_window'))
 
-    def _update_ui(self, new_page):
-        if new_page == self._current_page:
-            return
+        self._populate()
 
-        # remove old episode background
-        episode = self._current_episode
-        if episode:
-            self.get_style_context().remove_class(episode['name'])
-
-        for child in self._badges_box.get_children():
-            self._badges_box.remove(child)
-
-        if self._current_page is not None:
-            self.get_style_context().remove_class(self._current_page)
-        self._current_page = new_page
-        self.get_style_context().add_class(self._current_page)
-
+    def _populate(self):
+        available_episodes = set(libquest.Registry.get_available_episodes())
         current_episode = libquest.Registry.get_current_episode()
-        if new_page == self._COMPLETED:
-            self.get_style_context().add_class(current_episode['name'])
         episode = self._episodes_db.get_episode(current_episode['name'])
 
-        # draw completed episodes
-        completed_episodes = self._episodes_db.get_previous_episodes(episode.id)
-        for completed in completed_episodes:
-            self._add_badge_button(completed,
-                                   completed.badge_x,
-                                   completed.badge_y)
+        for episode in self._episodes_db.get_episodes_in_season(episode.season):
+            if episode.id in available_episodes:
+                episode.is_available = True
 
-        if new_page == self._COMPLETED:
-            x, y = episode.badge_x, episode.badge_y
-            if not completed_episodes:
-                x = DEFAULT_WINDOW_WIDTH / 2
-            self._add_badge_button(episode, x, y)
-
-    def _add_badge_button(self, episode, x, y):
-        badge = BadgeButton(episode)
-        self._badges[episode.id] = badge
-
-        w, _h = badge.get_size()
-        x -= w / 2
-
-        self._badges_box.put(badge, x, y)
-        badge.show()
-
-    def update_episode_view(self, _gss=None):
-        current_episode = libquest.Registry.get_current_episode()
-        if current_episode[self._COMPLETED]:
-            self._update_ui(self._COMPLETED)
-        else:
-            self._update_ui(current_episode['name'])
-
-        self._update_episode_badges()
+            row = EpisodeRow(episode, self._badges_box)
+            self._list_box.add(row)
+            row.show()
+            self._badges[episode.id] = row.get_badge()
 
     def click_badge(self, episode):
         button = self._badges.get(episode)
@@ -1156,7 +1206,7 @@ class EpisodesPage(Gtk.EventBox):
 
         button.clicked()
 
-    def _update_episode_badges(self, _gss=None):
+    def _update_episode_badges(self):
         current_episode = libquest.Registry.get_current_episode()
 
         if self._current_episode == current_episode:
