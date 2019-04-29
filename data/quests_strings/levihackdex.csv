@@ -11,14 +11,14 @@ LEVIHACKDEX_OPENINTRO1,"Wait, what’s going on? This is illegible. Everything�
 Finally got these back and now they’re not legible.",Ada,,,
 LEVIHACKDEX_OPENINTRO2,"That looks challenging, but I think I can help move this along. Solving cryptology puzzles is one of my side studies. 
 
-So fascinating! I see you’ve been keeping a dossier on Leviathan! I know a bit about this illustrious figure myself. ",Estelle,,,
+So fascinating! I see you’ve been keeping a dossier on Leviathan! I know a bit about this illustrious figure myself. ",Estelle,,,quests/teaching
 LEVIHACKDEX_GIVEKEY,"
 First thing we’ll need is this. hmmm, 
-",,,,
-LEVIHACKDEX_BACKGROUND,Yes. Leviathan is one of our ancestors. He’s a hero of mine. ,Ada,,,
-LEVIHACKDEX_PUSHINSTRUCTION,Well this might be handy. It turns out that what we’re looking at is an instruction for the Riley Maze app. It’s called Push.,Estelle,,,
-LEVIHACKDEX_PUSHINSTRUCTION2,So cool.   I remember finding that in an old folder that belonged to Leviathan. What does it do?,Ada,,,
-LEVIHACKDEX_PUSHINSTRUCTION3,Riley can use it in the maze to push walls out of her way. It’s going to be essential in getting her past this obstacle. ,Estelle,,,
-LEVIHACKDEX_END,Well this is a good development! Let’s go back to RileyMaze and see if Riley needs more help. ,Ada,,,
+",,,,quests/teaching
+LEVIHACKDEX_BACKGROUND,Yes. Leviathan is one of our ancestors. He’s a hero of mine. ,Ada,,,quests/teaching
+LEVIHACKDEX_PUSHINSTRUCTION,Well this might be handy. It turns out that what we’re looking at is an instruction for the Riley Maze app. It’s called Push.,Estelle,,,quests/teaching
+LEVIHACKDEX_PUSHINSTRUCTION2,So cool.   I remember finding that in an old folder that belonged to Leviathan. What does it do?,Ada,,,quests/teaching
+LEVIHACKDEX_PUSHINSTRUCTION3,Riley can use it in the maze to push walls out of her way. It’s going to be essential in getting her past this obstacle. ,Estelle,,,quests/teaching
+LEVIHACKDEX_END,Well this is a good development! Let’s go back to RileyMaze and see if Riley needs more help. ,Ada,,,quests/teaching
 LEVIHACKDEX_SUCCESS,levihackdex complete (dummytext),Ada,,,
 LEVIHACKDEX_ABORT,levihackdex abort (dummytext),Ada,,,
