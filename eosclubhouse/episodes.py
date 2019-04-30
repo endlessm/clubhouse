@@ -8,7 +8,7 @@ from eosclubhouse.system import Sound
 class BadgeButton(Gtk.Button):
     _poster = None
 
-    HEIGHT = WIDTH = 164
+    WIDTH = HEIGHT = 164
 
     def __init__(self, episode):
         super().__init__(halign=Gtk.Align.START,

@@ -24,8 +24,8 @@
             "buildsystem": "simple",
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://github.com/endlessm/glibcoro.git"
+                    "type": "dir",
+                    "path": "../glibcoro"
                 }
             ],
             "build-options": [

@@ -169,9 +169,12 @@ class Performance:
         return _report_time_func if class_._enabled else func
 
 
-class Episode:
+class Episode(GObject.Object):
+
     def __init__(self, id_, number=1, season=None, name=None, description='',
                  badge_x=None, badge_y=None):
+        super().__init__()
+
         self.id = id_
         self.number = number
         self.season = season
@@ -179,7 +182,6 @@ class Episode:
         self.description = description
         self.badge_x = badge_x if badge_x is not None else 240
         self.badge_y = badge_y if badge_y is not None else 540
-        self.is_complete = False
         self.is_available = False
         self.is_current = False
         self.percentage_complete = 0

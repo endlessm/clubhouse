@@ -1083,20 +1083,32 @@ class EpisodeRow(Gtk.ListBoxRow):
         builder.add_from_resource('/com/endlessm/Clubhouse/episode-row.ui')
 
         self._expand_button = builder.get_object('episode_row_expand_button')
-        self._expand_button.connect('clicked', lambda _button: self._toggle_expand())
         episode_name_label = builder.get_object('episode_row_name_label')
-
-        episode_name_label.set_label(self._episode.name)
-
         episode_number_label = builder.get_object('episode_row_number_label')
-        episode_number_label.set_label('Episode {}'.format(self._episode.number))
 
-        self._description_label = builder.get_object('episode_row_description_label')
-        self._description_label.set_markup(self._episode.description)
+        episode_number_text = 'Episode {}'.format(self._episode.number)
 
-        self._revealer = builder.get_object('episode_row_revealer')
+        height = 104
+        if self._episode.percentage_complete != 100 and not self._episode.is_current:
+            height = 64
+            episode_name_label.set_label(episode_number_text)
+            episode_number_label.hide()
+            self._expand_button.set_sensitive(False)
+        else:
+            episode_name_label.set_label(self._episode.name)
+            episode_number_label.set_label(episode_number_text)
+            episode_number_label.show()
+
+            self._description_label = builder.get_object('episode_row_description_label')
+            self._description_label.set_markup(self._episode.description)
+
+            self._revealer = builder.get_object('episode_row_revealer')
+
+            self._expand_button.connect('clicked', lambda _button: self._toggle_expand())
 
         self._button_box = builder.get_object('episode_row_button_box')
+
+        self._expand_button.set_size_request(-1, height)
 
         self.add(builder.get_object('episode_row_box'))
 
@@ -1204,9 +1216,8 @@ class EpisodesPage(Gtk.EventBox):
 
             row = EpisodeRow(episode, self._badges_box)
             self._list_box.add(row)
+            row.show()
             self._badges[episode.id] = row.get_badge()
-
-        self._list_box.show_all()
 
     def click_badge(self, episode):
         button = self._badges.get(episode)
