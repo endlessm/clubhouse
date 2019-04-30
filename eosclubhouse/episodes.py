@@ -20,20 +20,35 @@ class BadgeButton(Gtk.Button):
         style_context = self.get_style_context()
         style_context.add_class('badge')
 
+        self._update()
+
         self.connect('clicked', self._show_poster)
 
     def _setup_ui(self):
-        badgename = '{}.png'.format(self._episode.id)
-        filename = os.path.join(config.EPISODES_DIR, 'badges', badgename)
-
-        if not os.path.exists(filename):
-            return
-
-        self._image = Gtk.Image.new_from_file(filename)
+        self._image = Gtk.Image()
         self._image.show()
         self.add(self._image)
 
+    def _update(self):
+        percentage_complete = self._episode.percentage_complete
+        if percentage_complete == 100:
+            badgename = '{}.png'.format(self._episode.id)
+        elif self._episode.is_current:
+            badgename = 'episode_progress_{}.png'.format(percentage_complete)
+        else:
+            self.hide()
+            return
+
+        self.show()
+
+        filename = os.path.join(config.EPISODES_DIR, 'badges', badgename)
+
+        self._image.set_from_file(filename)
+
     def _show_poster(self, _badge):
+        if self._episode.percentage_complete != 100:
+            return
+
         if not self._poster:
             self._poster = PosterWindow(self._episode)
         self._poster.show()

@@ -1187,10 +1187,18 @@ class EpisodesPage(Gtk.EventBox):
 
     def _populate(self):
         available_episodes = set(libquest.Registry.get_available_episodes())
-        current_episode = libquest.Registry.get_current_episode()
-        episode = self._episodes_db.get_episode(current_episode['name'])
+        loaded_episode = libquest.Registry.get_loaded_episode_name()
+        episode = self._episodes_db.get_episode(loaded_episode)
 
+        completed_episodes = self._episodes_db.get_previous_episodes(episode.id)
         for episode in self._episodes_db.get_episodes_in_season(episode.season):
+            if episode in completed_episodes:
+                episode.percentage_complete = 100
+            elif episode.id == loaded_episode:
+                episode.is_current = True
+            else:
+                episode.percentage_complete = 0
+
             if episode.id in available_episodes:
                 episode.is_available = True
 
