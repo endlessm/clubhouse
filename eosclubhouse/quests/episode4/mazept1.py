@@ -15,8 +15,6 @@ class MazePt1(Quest):
         # for testing the app, since the maze hooks aren't in yet
 
     def step_begin(self):
-        # self.wait_confirm('TRANSFER')
-        # self.gss.set('clubhouse.character.Riley', {'in_trap': False})
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH_ADA')
         self.wait_confirm('RILEYHELLO')
         self.wait_confirm('EXIT')

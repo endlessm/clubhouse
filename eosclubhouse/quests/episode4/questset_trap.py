@@ -1,6 +1,6 @@
 from eosclubhouse.libquest import Registry, QuestSet
 from eosclubhouse.system import GameStateService
-from eosclubhouse import logger
+# from eosclubhouse import logger
 from eosclubhouse.quests.episode4.trapintro import TrapIntro
 
 
@@ -19,9 +19,8 @@ class TrapQuestSet(QuestSet):
         super().set_body_animation('transcoding')
 
     def update_visibility(self, gss):
-        trap_state = gss.get('clubhouse.character.Trap', 'deployed')
-        trap_state_str = trap_state.__str__()
-        logger.debug('trap state is ' + trap_state_str)
+        trap_state = gss.get('clubhouse.character.Trap')
+        # logger.debug('trap deployment state is %s', trap_state)
         # if the trap is NOT deployed, it is visible
         # otherwise, it is hidden
         # this means Riley's space is empty most of the time in ep4

@@ -240,9 +240,6 @@
     "used" : true,
     "consume_after_use" : true
   },
-  "clubhouse.character.Trap" : {
-    "deployed" : false
-  },
   "clubhouse.CurrentEpisode" : {
     "teaser-viewed" : false,
     "name" : "episode4",
