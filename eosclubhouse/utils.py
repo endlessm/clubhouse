@@ -180,6 +180,8 @@ class Episode:
         self.badge_x = badge_x if badge_x is not None else 240
         self.badge_y = badge_y if badge_y is not None else 540
         self.is_available = False
+        self.is_current = False
+        self.percentage_complete = 0
 
 
 class EpisodesDB(_DictFromCSV):
