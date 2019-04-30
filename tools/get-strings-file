@@ -7,8 +7,10 @@ import os
 import re
 import requests
 import subprocess
+import sys
 
 QUESTS_PATH = os.path.join('eosclubhouse', 'quests')
+CHARACTERS_PATH = os.path.join('data', 'characters')
 CSV_PATH = os.path.join('data', 'quests_strings')
 CSV_ALTERNATIVE_PATH = os.path.expanduser('~/.var/app/com.endlessm.Clubhouse' +
                                           '/data/quests/quests_strings')
@@ -23,6 +25,16 @@ URL_PARAMS = {
 ALL_SHEETS = ['Episode1', 'Episode2', 'Episode3', 'Episode4']
 
 quest_codes = None
+character_animations = None
+
+
+# Spreadsheet columns:
+MESSAGE_ID = 0
+TEXT = 1
+SPEAKER = 2
+ANIMATION = 3
+SFX = 4
+BG = 5
 
 
 def get_quest_codes():
@@ -45,6 +57,26 @@ def get_quest_codes():
     return quest_codes
 
 
+def get_character_animations():
+    global character_animations
+    if character_animations is not None:
+        return character_animations
+
+    character_animations = {}
+    for character in os.listdir(CHARACTERS_PATH):
+        character_animations[character] = set()
+        moods_path = os.path.join(CHARACTERS_PATH, character, 'moods')
+        if not os.path.isdir(moods_path):
+            continue
+        for filename in os.listdir(moods_path):
+            if not filename.endswith('.json'):
+                continue
+            animation_name, _ext = os.path.splitext(filename)
+            character_animations[character].add(animation_name)
+
+    return character_animations
+
+
 def get_rows_from_sheet(sheet):
     url_params = URL_PARAMS.copy()
     url_params['sheet'] = sheet
@@ -65,9 +97,25 @@ def _write_csv_file(filename, rows):
     with open(filename, 'w') as out_file:
         writer = csv.writer(out_file)
         for r in rows:
-            sfx_sound = r[-2] if r[-2].startswith('quests/') else ''
-            bg_sound = r[-1] if r[-1].startswith('quests/') else ''
-            r = r[:-2] + [sfx_sound, bg_sound]
+            # Data cleanup:
+            if not r[SFX].startswith('quests/'):
+                r[SFX] = ''
+            if not r[BG].startswith('quests/'):
+                r[BG] = ''
+
+            # Data validation:
+            character_animations = get_character_animations()
+            speaker = r[SPEAKER].lower().strip()
+            if speaker not in ('', 'speaker'):
+                if speaker not in character_animations:
+                    print('ERROR! Character "{}" is invalid.'
+                          ''.format(r[SPEAKER]), file=sys.stderr)
+                else:
+                    animation = r[ANIMATION].lower().strip()
+                    if animation is not '' and animation not in character_animations[speaker]:
+                        print('ERROR! Animation "{}" for character "{}" is invalid.'
+                              ''.format(r[ANIMATION], r[SPEAKER]), file=sys.stderr)
+
             writer.writerow(r)
 
 
