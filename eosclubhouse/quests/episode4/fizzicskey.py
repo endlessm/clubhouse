@@ -98,6 +98,7 @@ class FizzicsKey(Quest):
         return self.step_success
 
     def step_success(self):
+        self.give_item('item.key.sidetrack.2')
         self.wait_confirm('DUMMY3')
         self.complete = True
         self.available = False

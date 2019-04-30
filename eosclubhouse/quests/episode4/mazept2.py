@@ -42,13 +42,11 @@ class MazePt2(Quest):
         self.wait_confirm('RESEARCH1')
         self.wait_confirm('RESEARCH2')
         self.wait_confirm('LEVELS6')
-        # felix line
-        # self.wait_confirm('LEVELS6_FELIX')
+        self.wait_confirm('LEVELS6_FELIX')
         self.wait_confirm('LEVELS6_FABER')
         self.wait_confirm('LEVELS6_RILEY')
         self.wait_confirm('LEVELS6_ADA')
-        # felix line
-        # self.wait_confirm('IMPASSABLE')
+        self.wait_confirm('IMPASSABLE')
         self.wait_confirm('IMPASSABLE_FABER')
         self.wait_confirm('IMPASSABLE_RILEY')
         # inside Riley Maze app, at the start of level 1, if the app is not flipped,
