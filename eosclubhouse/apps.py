@@ -1,4 +1,5 @@
 from eosclubhouse.system import App, GameStateService
+from gi.repository import Gio, GLib
 
 
 class Sidetrack(App):
@@ -92,6 +93,12 @@ class Fizzics(App):
             handlers.extend(super().connect_props_change(obj, props, property_changed_cb, *args))
 
         return handlers
+
+    def reset(self):
+        self.get_gtk_actions_proxy().call_sync('Activate',
+                                               GLib.Variant('(sava{sv})', ('reset', (), {})),
+                                               Gio.DBusCallFlags.NO_AUTO_START,
+                                               -1, None)
 
 
 class LightSpeed(App):
