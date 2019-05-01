@@ -1086,11 +1086,17 @@ class EpisodeRow(Gtk.ListBoxRow):
         self._expand_button = builder.get_object('episode_row_expand_button')
         self._expand_button.connect('clicked', lambda _button: self._toggle_expand())
         episode_name_label = builder.get_object('episode_row_name_label')
-
-        episode_name_label.set_label(self._episode.name)
-
         episode_number_label = builder.get_object('episode_row_number_label')
-        episode_number_label.set_label('Episode {}'.format(self._episode.number))
+
+        episode_number_text = 'Episode {}'.format(self._episode.number)
+
+        if self._episode.percentage_complete != 100 and not self._episode.is_current:
+            episode_name_label.set_label(episode_number_text)
+            episode_number_label.hide()
+        else:
+            episode_name_label.set_label(self._episode.name)
+            episode_number_label.set_label(episode_number_text)
+            episode_number_label.show()
 
         self._description_label = builder.get_object('episode_row_description_label')
         self._description_label.set_markup(self._episode.description)
