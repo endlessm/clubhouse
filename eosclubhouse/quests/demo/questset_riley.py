@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse.quests.cesdemo.fizzics2 import Fizzics2
+from eosclubhouse.quests.demo.fizzics2 import Fizzics2
 
 
 class RileyQuestSet(QuestSet):
