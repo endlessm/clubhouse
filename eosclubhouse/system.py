@@ -215,6 +215,7 @@ class App:
 
     _clippy = None
     _gtk_app_proxy = None
+    _gtk_actions_proxy = None
 
     def __init__(self, app_dbus_name, app_dbus_path=None):
         self._app_dbus_name = app_dbus_name
@@ -249,6 +250,20 @@ class App:
                                                None)
 
         return self._gtk_app_proxy
+
+    def get_gtk_actions_proxy(self):
+        if self._gtk_actions_proxy is None:
+            self._gtk_actions_proxy = \
+                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                               Gio.DBusProxyFlags.DO_NOT_AUTO_START |
+                                               Gio.DBusProxyFlags.DO_NOT_AUTO_START_AT_CONSTRUCTION,
+                                               None,
+                                               self._app_dbus_name,
+                                               self._app_dbus_path,
+                                               'org.gtk.Actions',
+                                               None)
+
+        return self._gtk_actions_proxy
 
     def is_running(self):
         return self.get_gtk_app_proxy().props.g_name_owner is not None
