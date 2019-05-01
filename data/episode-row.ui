@@ -9,7 +9,6 @@
         <property name="visible">True</property>
         <property name="halign">fill</property>
         <property name="valign">fill</property>
-        <property name="height-request">104</property>
         <child type="overlay">
           <object class="GtkEventBox" id="episode_row_button_box">
             <property name="visible">True</property>
@@ -30,6 +29,7 @@
                 <property name="visible">True</property>
                 <property name="halign">fill</property>
                 <property name="orientation">vertical</property>
+                <property name="valign">center</property>
                 <child>
                   <object class="GtkLabel" id="episode_row_number_label">
                     <property name="visible">True</property>

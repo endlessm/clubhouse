@@ -1089,7 +1089,9 @@ class EpisodeRow(Gtk.ListBoxRow):
 
         episode_number_text = 'Episode {}'.format(self._episode.number)
 
+        height = 104
         if self._episode.percentage_complete != 100 and not self._episode.is_current:
+            height = 64
             episode_name_label.set_label(episode_number_text)
             episode_number_label.hide()
             self._expand_button.set_sensitive(False)
@@ -1104,6 +1106,8 @@ class EpisodeRow(Gtk.ListBoxRow):
             self._revealer = builder.get_object('episode_row_revealer')
 
             self._expand_button.connect('clicked', lambda _button: self._toggle_expand())
+
+        self._expand_button.set_size_request(-1, height)
 
         self.add(builder.get_object('episode_row_box'))
 
