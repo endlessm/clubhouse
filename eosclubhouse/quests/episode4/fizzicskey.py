@@ -8,7 +8,7 @@ class FizzicsKey(Quest):
     __available_after_completing_quests__ = ['MazePt3']
 
     def __init__(self):
-        super().__init__('FizzicsKey', 'Saniel')
+        super().__init__('FizzicsKey', 'saniel')
         self._app = Fizzics()
 
     def reset_params(self):
