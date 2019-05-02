@@ -625,9 +625,10 @@ class ClubhousePage(Gtk.EventBox):
     def _quest_item_given_cb(self, quest, item_id, text):
         self._shell_popup_item(item_id, text)
 
-    def _quest_message_cb(self, quest, message_txt, answer_choices, character_id, character_mood,
-                          sfx_sound, bg_sound):
-        logger.debug('Message: %s character_id=%s mood=%s choices=[%s]', message_txt, character_id,
+    def _quest_message_cb(self, quest, message_id, message_txt, answer_choices, character_id,
+                          character_mood, sfx_sound, bg_sound):
+        logger.debug('Message %s: %s character_id=%s mood=%s choices=[%s]', message_id, message_txt,
+                     character_id,
                      character_mood, '|'.join([answer for answer, _cb, *_args in answer_choices]))
 
         self._reset_quest_actions()
