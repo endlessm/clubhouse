@@ -38,7 +38,7 @@ from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 
-from eosclubhouse.episodes import BadgeButton
+from eosclubhouse.episodes import BadgeButton, PosterWindow
 
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
@@ -1086,6 +1086,9 @@ class EpisodeRow(Gtk.ListBoxRow):
         self._badges_box = badges_box
         self._badge = None
         self._badge_position_handler = 0
+
+        self._poster = None
+
         self._setup_ui()
 
     def _setup_ui(self):
@@ -1141,6 +1144,8 @@ class EpisodeRow(Gtk.ListBoxRow):
                 self._expand_button.connect('size-allocate',
                                             lambda _widget, _alloc: self._update_badge_position())
 
+        self._badge.connect('clicked', lambda _badge: self.show_poster())
+
     def _update_badge_position(self):
         if not self.get_realized():
             return
@@ -1174,6 +1179,12 @@ class EpisodeRow(Gtk.ListBoxRow):
 
     def do_destroy(self):
         self.get_badge().destroy()
+
+    def show_poster(self):
+        if self._poster is None:
+            self._poster = PosterWindow(self._episode)
+        self._poster.show()
+        self._poster.present()
 
 
 class EpisodesPage(Gtk.EventBox):
@@ -1243,14 +1254,6 @@ class EpisodesPage(Gtk.EventBox):
 
         self.update_current_episode()
 
-    def click_badge(self, episode):
-        button = self._episodes.get(episode).get_badge()
-
-        if not button:
-            return
-
-        button.clicked()
-
     def _get_current_episode(self):
         loaded_episode = libquest.Registry.get_loaded_episode_name()
         return self._episodes[loaded_episode].get_episode()
@@ -1288,7 +1291,7 @@ class EpisodesPage(Gtk.EventBox):
             show = self._current_episode[self._COMPLETED] and not is_teaser_viewed
 
         if show:
-            self.click_badge(episode_name)
+            self._episodes[episode_name].show_poster()
 
         # Only update the teaser-viewed info if there hasn't been an episode change.
         if is_same_episode:

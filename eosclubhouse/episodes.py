@@ -27,8 +27,6 @@ class BadgeButton(Gtk.Button):
         self._episode.connect('notify::percentage-complete',
                               lambda *args: self._update())
 
-        self.connect('clicked', self._show_poster)
-
     def _setup_ui(self):
         self._image = Gtk.Image()
         self._image.show()
@@ -58,12 +56,6 @@ class BadgeButton(Gtk.Button):
         filename = os.path.join(config.EPISODES_DIR, 'badges', badgename)
 
         self._image.set_from_file(filename)
-
-    def _show_poster(self, _badge):
-        if not self._poster:
-            self._poster = PosterWindow(self._episode)
-        self._poster.show()
-        self._poster.present()
 
 
 class PosterWindow(Gtk.Window):
