@@ -17,6 +17,6 @@ item.fob.1,item-fob1.png,,Fob #1,Apply it to the trap
 item.fob.2,item-fob2.png,,Fob #2,Apply it to the trap
 item.fob.3,item-fob3.png,,Fob #3,Apply it to the trap
 item.key.levi_hackdex.1,hackdex-key-level-1-blue.png,hackdex-key-level-1-orange.png,Encryption Key,From Estelle
-item.key.sidetrack.1,fizzics-key-level-3-blue.png,fizzics-key-level-3-orange.png,Instructions Key,"if(haskey), sidetrack.code = true"
+item.key.sidetrack.1,sidetrack-key-level-1-blue.png,sidetrack-key-level-1-orange.png,Instructions Key,"if(haskey), sidetrack.code = true"
 item.key.sidetrack.2,lightspeed-key-level-1-blue.png,lightspeed-key-level-1-orange.png,Units Key,Sidetrack.unlockunits()
 item.key.sidetrack.3,frameworks-key-level-1-blue.png,frameworks-key-level-1-orange.png,Level Editor Key,Sidetrack.unlockall()
