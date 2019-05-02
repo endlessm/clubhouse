@@ -904,6 +904,12 @@ class ClubhousePage(Gtk.EventBox):
         if self._current_episode != episode_name:
             self.load_episode(episode_name)
 
+            # @todo: Instead of reloading the Episodes page directly, it should use a common
+            # path for checking that an episode has been loaded (possibly using the
+            # ClubhouseState), and update the Episodes page from within itself.
+            if self._app_window.episodes_page is not None:
+                self._app_window.episodes_page.reload()
+
     running_quest = GObject.Property(_get_running_quest,
                                      type=GObject.TYPE_PYOBJECT,
                                      default=None,
@@ -1166,6 +1172,9 @@ class EpisodeRow(Gtk.ListBoxRow):
     def get_episode(self):
         return self._episode
 
+    def do_destroy(self):
+        self.get_badge().destroy()
+
 
 class EpisodesPage(Gtk.EventBox):
 
@@ -1200,9 +1209,14 @@ class EpisodesPage(Gtk.EventBox):
 
         self.add(builder.get_object('episodes_scrolled_window'))
 
-        self._populate()
+        self.reload()
 
-    def _populate(self):
+    def reload(self):
+        # Clear the episodes list.
+        self._episodes = {}
+        for row in self._list_box.get_children():
+            row.destroy()
+
         available_episodes = set(libquest.Registry.get_available_episodes())
         loaded_episode = libquest.Registry.get_loaded_episode_name()
         episode = self._episodes_db.get_episode(loaded_episode)
