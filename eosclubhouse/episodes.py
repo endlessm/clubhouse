@@ -10,6 +10,8 @@ class BadgeButton(Gtk.Button):
 
     WIDTH = HEIGHT = 164
 
+    PROGRESS_BADGES = [15, 30, 50, 70, 85]
+
     def __init__(self, episode):
         super().__init__(halign=Gtk.Align.START,
                          relief=Gtk.ReliefStyle.NONE)
@@ -22,6 +24,9 @@ class BadgeButton(Gtk.Button):
 
         self._update()
 
+        self._episode.connect('notify::percentage-complete',
+                              lambda *args: self._update())
+
         self.connect('clicked', self._show_poster)
 
     def _setup_ui(self):
@@ -29,12 +34,21 @@ class BadgeButton(Gtk.Button):
         self._image.show()
         self.add(self._image)
 
+    def _get_progress_for_percentage(self, percentage):
+        if percentage == 0:
+            return 0
+
+        step = 100 // len(self.PROGRESS_BADGES)
+        progress_index = int(percentage // step)
+        return self.PROGRESS_BADGES[progress_index]
+
     def _update(self):
         percentage_complete = self._episode.percentage_complete
         if percentage_complete == 100:
             badgename = '{}.png'.format(self._episode.id)
         elif self._episode.is_current:
-            badgename = 'episode_progress_{}.png'.format(percentage_complete)
+            progress = self._get_progress_for_percentage(percentage_complete)
+            badgename = 'episode_progress_{}.png'.format(progress)
         else:
             self.hide()
             return
