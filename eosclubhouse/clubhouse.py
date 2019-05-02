@@ -1119,6 +1119,7 @@ class EpisodeRow(Gtk.ListBoxRow):
         self._expand_button = builder.get_object('episode_row_expand_button')
         episode_name_label = builder.get_object('episode_row_name_label')
         episode_number_label = builder.get_object('episode_row_number_label')
+        episode_comingsoon_label = builder.get_object('episode_row_comingsoon_label')
 
         episode_number_text = 'Episode {}'.format(self._episode.number)
 
@@ -1128,6 +1129,8 @@ class EpisodeRow(Gtk.ListBoxRow):
             episode_name_label.set_label(episode_number_text)
             episode_number_label.hide()
             self._expand_button.set_sensitive(False)
+            if not self._episode.is_available:
+                episode_comingsoon_label.set_visible(True)
         else:
             episode_name_label.set_label(self._episode.name)
             episode_number_label.set_label(episode_number_text)

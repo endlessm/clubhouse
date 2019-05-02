@@ -288,6 +288,7 @@ window.poster {
     background: rgba(239, 230, 218, 0.4);
 }
 
+.episode-row-comingsoon-label,
 .episode-row-description-label,
 .episode-row-name-label,
 .episode-row-number-label {
@@ -306,4 +307,13 @@ window.poster {
 
 .episode-row-description-label {
     margin: 32px 80px 40px 40px;
+}
+
+.episode-row-comingsoon-label {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/comingsoon_label_bg.png');
+    background-repeat: no-repeat;
+    min-height: 34px;
+    min-width: 147px;
+    font-style: italic;
+    font-size: 18px;
 }

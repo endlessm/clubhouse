@@ -11,6 +11,7 @@
     <file preprocess="xml-stripblanks">posterwindow.ui</file>
   </gresource>
   <gresource prefix="/com/endlessm/Clubhouse/images">
+    <file>comingsoon_label_bg.png</file>
     <file>clubhouse_bg.png</file>
     <file>inventory_bg.png</file>
     <file>inventory-empty-image.png</file>
