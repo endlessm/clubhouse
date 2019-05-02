@@ -517,7 +517,8 @@ class Quest(GObject.GObject):
 
     __gsignals__ = {
         'message': (
-            GObject.SignalFlags.RUN_FIRST, None, (str, GObject.TYPE_PYOBJECT, str, str, str, str)
+            GObject.SignalFlags.RUN_FIRST, None, (str, str, GObject.TYPE_PYOBJECT,
+                                                  str, str, str, str)
         ),
         'item-given': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str)
@@ -1063,7 +1064,10 @@ class Quest(GObject.GObject):
                 sfx_sound = self._main_open_dialog_sound
         bg_sound = options.get('bg_sound')
 
-        self.emit('message', options['txt'], possible_answers,
+        # @todo: We are passing all the fields of the message
+        # information here, so it would be better to pass the dict
+        # directly.
+        self.emit('message', info_id or '', options['txt'], possible_answers,
                   options.get('character_id') or self._main_character_id,
                   options.get('mood') or self._main_mood,
                   sfx_sound, bg_sound)
