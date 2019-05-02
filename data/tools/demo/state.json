@@ -46,12 +46,32 @@
     "consume_after_use" : false,
     "used" : false
   },
+  "item.key.lightspeed.1" : {
+    "consume_after_use" : false,
+    "used" : false
+  },
+  "lightspeed.topic.spawn" : {
+    "visible" : true
+  },
+  "lightspeed.topic.updateAsteroid" : {
+    "visible" : true
+  },
+  "lightspeed.topic.updateSpinner" : {
+    "visible" : true
+  },
+  "lightspeed.topic.updateSquid" : {
+    "visible" : true
+  },
+  "lightspeed.topic.updateBeam" : {
+    "visible" : true
+  },
   "lock.OperatingSystemApp.2" : {
     "locked": false
   },
   "app.hack_toolbox.reset_button" : {
     "visible" : true
   },
+  "com.endlessm.LightSpeed.State": "{\n \"availableLevels\": 14,\n \"nextLevel\": 1,\n \"level\": 0,\n \"levelParameters\": []\n }",
   "quest.Fizzics2" : {
     "complete" : false
   }
