@@ -96,6 +96,7 @@ def _get_rows_for_quest(quest, rows):
 
 
 def _write_csv_file(filename, rows):
+    success = True
     with open(filename, 'w') as out_file:
         writer = csv.writer(out_file)
         for r in rows:
@@ -110,18 +111,22 @@ def _write_csv_file(filename, rows):
             speaker = r[Columns.SPEAKER.value].lower().strip()
             if speaker not in ('', 'speaker'):
                 if speaker not in character_animations:
+                    success = False
                     print('WARNING! Character "{}" is invalid.'
                           ''.format(r[Columns.SPEAKER.value]))
                 else:
                     animation = r[Columns.ANIMATION.value].lower().strip()
                     if animation is not '' and animation not in character_animations[speaker]:
+                        success = False
                         print('WARNING! Animation "{}" for character "{}" is invalid.'
                               ''.format(r[Columns.ANIMATION.value], r[Columns.SPEAKER.value]))
 
             writer.writerow(r)
+    return success
 
 
 def write_quests(quests, rows, use_alternative_path=False):
+    success = True
     csv_path = CSV_PATH if not use_alternative_path else CSV_ALTERNATIVE_PATH
     remaining_rows = None
     if quests is None:
@@ -139,13 +144,17 @@ def write_quests(quests, rows, use_alternative_path=False):
             for r in quest_rows:
                 del remaining_rows[r[0]]
         filename = os.path.join(csv_path, quest + '.csv')
-        _write_csv_file(filename, quest_rows)
+        write_success = _write_csv_file(filename, quest_rows)
+        success = success and write_success
 
     if remaining_rows is not None:
         remaining_rows = list(remaining_rows.values())
         remaining_rows.sort()
         filename = os.path.join(csv_path, 'remaining.csv')
-        _write_csv_file(filename, remaining_rows)
+        write_success = _write_csv_file(filename, remaining_rows)
+        success = success and write_success
+
+    return success
 
 
 def _build_commit_message(sheets=None, quests=None):
@@ -177,11 +186,15 @@ def main(sheets=None, quests=None, commit=False, use_alternative_path=False):
     for sheet in sheets_to_import:
         rows.extend(get_rows_from_sheet(sheet))
 
-    write_quests(quests, rows, use_alternative_path)
+    success = write_quests(quests, rows, use_alternative_path)
+    if not success:
+        return 1
 
     if not commit or use_alternative_path:
-        return
+        return 0
+
     make_commit(sheets, quests)
+    return 0
 
 
 parser = argparse.ArgumentParser(description='Obtain the strings to be used in quest messages.')
@@ -210,4 +223,5 @@ if args.quests is not None:
         parser.error(('The following quests are not available: {}.\n' +
                       'Available quests: {}').format(bad_quests, available_quests))
 
-main(**vars(args))
+return_code = main(**vars(args))
+sys.exit(return_code)
