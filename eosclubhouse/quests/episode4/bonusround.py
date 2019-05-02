@@ -8,7 +8,7 @@ class BonusRound(Quest):
 
     # Dummy code to stub in quest
     def __init__(self):
-        super().__init__('BonusRound', 'Riley')
+        super().__init__('BonusRound', 'riley')
 
     def step_begin(self):
         self.wait_confirm('DUMMY1')
