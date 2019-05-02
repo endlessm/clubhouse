@@ -653,6 +653,9 @@ class ClubhousePage(Gtk.EventBox):
         quest.save_conf()
         quest.dismiss()
 
+        if quest.complete and self._app_window.episodes_page:
+            self._app_window.episodes_page.update_current_episode()
+
         # Ensure we reset the running quest (only if we haven't started a different quest in the
         # meanwhile) quest and close any eventual message popups
         if self._is_current_quest(quest):
@@ -1160,6 +1163,9 @@ class EpisodeRow(Gtk.ListBoxRow):
     def get_badge(self):
         return self._badge
 
+    def get_episode(self):
+        return self._episode
+
 
 class EpisodesPage(Gtk.EventBox):
 
@@ -1173,12 +1179,12 @@ class EpisodesPage(Gtk.EventBox):
         self._app_window = app_window
         self._current_page = None
         self._current_episode = None
-        self._badges = {}
+        self._episodes = {}
+
         self._setup_ui()
+        self._update_episode_badges()
 
         GameStateService().connect('changed', lambda _gss: self._update_episode_badges())
-
-        self._update_episode_badges()
 
     def _setup_ui(self):
         self.get_style_context().add_class('episodes-page')
@@ -1216,15 +1222,28 @@ class EpisodesPage(Gtk.EventBox):
             row = EpisodeRow(episode, self._badges_box)
             self._list_box.add(row)
             row.show()
-            self._badges[episode.id] = row.get_badge()
+
+            # @todo: Remove the need for an episodes dictionary (it can be done by keeping
+            # the current episode object accessible).
+            self._episodes[episode.id] = row
+
+        self.update_current_episode()
 
     def click_badge(self, episode):
-        button = self._badges.get(episode)
+        button = self._episodes.get(episode).get_badge()
 
         if not button:
             return
 
         button.clicked()
+
+    def _get_current_episode(self):
+        loaded_episode = libquest.Registry.get_loaded_episode_name()
+        return self._episodes[loaded_episode].get_episode()
+
+    def update_current_episode(self):
+        episode = self._get_current_episode()
+        episode.percentage_complete = libquest.Registry.get_current_episode_progress() * 100
 
     def _update_episode_badges(self):
         current_episode = libquest.Registry.get_current_episode()
