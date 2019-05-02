@@ -2,6 +2,7 @@
 
 import argparse
 import csv
+from enum import Enum
 import io
 import os
 import re
@@ -29,12 +30,13 @@ character_animations = None
 
 
 # Spreadsheet columns:
-MESSAGE_ID = 0
-TEXT = 1
-SPEAKER = 2
-ANIMATION = 3
-SFX = 4
-BG = 5
+class Columns(Enum):
+    MESSAGE_ID = 0
+    TEXT = 1
+    SPEAKER = 2
+    ANIMATION = 3
+    SFX = 4
+    BG = 5
 
 
 def get_quest_codes():
@@ -90,7 +92,7 @@ def get_rows_from_sheet(sheet):
 
 
 def _get_rows_for_quest(quest, rows):
-    return (r for r in rows if r[0].startswith(quest.upper()))
+    return (r for r in rows if r[Columns.MESSAGE_ID.value].startswith(quest.upper()))
 
 
 def _write_csv_file(filename, rows):
@@ -98,23 +100,23 @@ def _write_csv_file(filename, rows):
         writer = csv.writer(out_file)
         for r in rows:
             # Data cleanup:
-            if not r[SFX].startswith('quests/'):
-                r[SFX] = ''
-            if not r[BG].startswith('quests/'):
-                r[BG] = ''
+            if not r[Columns.SFX.value].startswith('quests/'):
+                r[Columns.SFX.value] = ''
+            if not r[Columns.BG.value].startswith('quests/'):
+                r[Columns.BG.value] = ''
 
             # Data validation:
             character_animations = get_character_animations()
-            speaker = r[SPEAKER].lower().strip()
+            speaker = r[Columns.SPEAKER.value].lower().strip()
             if speaker not in ('', 'speaker'):
                 if speaker not in character_animations:
-                    print('ERROR! Character "{}" is invalid.'
-                          ''.format(r[SPEAKER]), file=sys.stderr)
+                    print('WARNING! Character "{}" is invalid.'
+                          ''.format(r[Columns.SPEAKER.value]))
                 else:
-                    animation = r[ANIMATION].lower().strip()
+                    animation = r[Columns.ANIMATION.value].lower().strip()
                     if animation is not '' and animation not in character_animations[speaker]:
-                        print('ERROR! Animation "{}" for character "{}" is invalid.'
-                              ''.format(r[ANIMATION], r[SPEAKER]), file=sys.stderr)
+                        print('WARNING! Animation "{}" for character "{}" is invalid.'
+                              ''.format(r[Columns.ANIMATION.value], r[Columns.SPEAKER.value]))
 
             writer.writerow(r)
 
