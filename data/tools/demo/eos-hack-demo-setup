@@ -25,6 +25,9 @@ echo "---DEMO RESET --- Adding icons to Desktop"
 eos-add-to-desktop com.endlessm.Fizzics
 eos-add-to-desktop com.endlessm.OperatingSystemApp
 eos-add-to-desktop com.endlessm.Hackdex_chapter_one
+eos-add-to-desktop com.endlessm.Hackdex_chapter_two
+eos-add-to-desktop com.endlessm.LightSpeed
+eos-add-to-desktop com.endlessm.Sidetrack
 
 echo "---DEMO RESET --- Restarting Clubhouse"
 com.endlessm.Clubhouse --quit

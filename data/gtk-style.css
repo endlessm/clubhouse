@@ -6,12 +6,12 @@
     background-image: url('resource:///com/endlessm/Clubhouse/images/inventory_bg.png');
 }
 
-.episodes-page.episode1, .episodes-page.cesdemo {
+.episodes-page.episode1, .episodes-page.demo {
     background-image: url('resource:///com/endlessm/Clubhouse/images/episode1_bg.png');
 }
 
 .episodes-page.episode1.completed,
-.episodes-page.cesdemo.completed,
+.episodes-page.demo.completed,
 .episodes-page.episode2 {
     background-image: url('resource:///com/endlessm/Clubhouse/images/episode2_bg.png');
 }
