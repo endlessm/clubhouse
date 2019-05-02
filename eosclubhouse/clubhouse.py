@@ -490,7 +490,9 @@ class ClubhousePage(Gtk.EventBox):
         self._overlay_msg_box.hide()
 
     def _button_clicked_cb(self, button):
-        quest_set = button.get_quest_set()
+        self.ask_character(button.get_quest_set())
+
+    def ask_character(self, quest_set):
         self._message.reset()
 
         # If a quest from this quest_set is already running, then just hide the window so the
@@ -531,6 +533,18 @@ class ClubhousePage(Gtk.EventBox):
                               new_quest.proposal_sound)
 
         self._overlay_msg_box.show_all()
+
+    def continue_playing(self):
+        # If there is a running quest, we ask the quest's character whether to continue/stop it.
+        if self._current_quest and self._current_quest.available and \
+           self._current_quest.quest_set is not None:
+            self.ask_character(self._current_quest.quest_set)
+            return
+
+        # Ask the first character that is active what to do (start/continue a quest, etc.).
+        for quest_set in libquest.Registry.get_quest_sets():
+            if quest_set.is_active():
+                self.ask_character(quest_set)
 
     def _stop_quest_proposal(self):
         if self._proposing_quest:
@@ -1078,11 +1092,18 @@ class InventoryPage(Gtk.EventBox):
 
 class EpisodeRow(Gtk.ListBoxRow):
 
+    __gsignals__ = {
+        'badge-clicked': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
+
     BADGE_INNER_MARGIN = 25
 
     def __init__(self, episode, badges_box):
         super().__init__()
         self._episode = episode
+
         self._badges_box = badges_box
         self._badge = None
         self._badge_position_handler = 0
@@ -1144,7 +1165,7 @@ class EpisodeRow(Gtk.ListBoxRow):
                 self._expand_button.connect('size-allocate',
                                             lambda _widget, _alloc: self._update_badge_position())
 
-        self._badge.connect('clicked', lambda _badge: self.show_poster())
+        self._badge.connect('clicked', self._badge_clicked_cb)
 
     def _update_badge_position(self):
         if not self.get_realized():
@@ -1180,6 +1201,9 @@ class EpisodeRow(Gtk.ListBoxRow):
     def do_destroy(self):
         self.get_badge().destroy()
 
+    def _badge_clicked_cb(self, _badge):
+        self.emit('badge-clicked')
+
     def show_poster(self):
         if self._poster is None:
             self._poster = PosterWindow(self._episode)
@@ -1188,6 +1212,12 @@ class EpisodeRow(Gtk.ListBoxRow):
 
 
 class EpisodesPage(Gtk.EventBox):
+
+    __gsignals__ = {
+        'play-episode': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
 
     _COMPLETED = 'completed'
 
@@ -1245,6 +1275,7 @@ class EpisodesPage(Gtk.EventBox):
                 episode.is_available = True
 
             row = EpisodeRow(episode, self._badges_box)
+            row.connect('badge-clicked', self._episode_badge_clicked_cb)
             self._list_box.add(row)
             row.show()
 
@@ -1253,6 +1284,15 @@ class EpisodesPage(Gtk.EventBox):
             self._episodes[episode.id] = row
 
         self.update_current_episode()
+
+    def _episode_badge_clicked_cb(self, episode_row):
+        episode = episode_row.get_episode()
+        if episode.percentage_complete == 100:
+            episode_row.show_poster()
+            return
+
+        if episode.is_current:
+            self.emit('play-episode')
 
     def _get_current_episode(self):
         loaded_episode = libquest.Registry.get_loaded_episode_name()
@@ -1339,6 +1379,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._update_geometry()
 
         self._clubhouse_state = ClubhouseState()
+
+        self.episodes_page.connect('play-episode',
+                                   lambda _page: self.continue_playing())
+
+    def continue_playing(self):
+        self.clubhouse_page.continue_playing()
+        # Select main page so the user can see whether a character is now offering a quest.
+        self._clubhouse_button.set_active(True)
 
     def _setup_ui(self):
         builder = Gtk.Builder()
