@@ -46,6 +46,9 @@
     "consume_after_use" : false,
     "used" : false
   },
+  "lock.OperatingSystemApp.2" : {
+    "locked": false
+  },
   "app.hack_toolbox.reset_button" : {
     "visible" : true
   },
