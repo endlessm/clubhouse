@@ -575,7 +575,7 @@ class Quest(GObject.GObject):
 
         self._characters = {}
 
-        self._main_character_id = main_character_id
+        self._main_character_id = main_character_id.lower()
         self._main_mood = self._DEFAULT_MOOD
         self._main_open_dialog_sound = 'clubhouse/dialog/open'
         self._default_abort_sound = 'quests/quest-aborted'
