@@ -3,22 +3,43 @@ LEVIHACKDEX_DUMMY2,"hackdex dummy text 2, longer (If you see this in master it's
 LEVIHACKDEX_DUMMY3,"hackdex dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Ada,,,
 LEVIHACKDEX_QUESTION,"Hey there, Would you like to see what's in these files? ",Ada,,,
 LEVIHACKDEX_QUEST_ACCEPT,Yes! ,Ada,,,
+LEVIHACKDEX_LAUNCH,The files should be there on the dektop - Launch the *Leviathan* app.,Ada,,,
 LEVIHACKDEX_OPENINTRO,"Whew. so glad to see these! You’ve heard about Leviathan, right? We’re all Leviathan fans around here.  
 
 These files hold some of my research on Leviathan. So let’s see what we have here.",Ada,,,
 LEVIHACKDEX_OPENINTRO1,"Wait, what’s going on? This is illegible. Everything’s scrambled. 
 
-Finally got these back and now they’re not legible.",Ada,,,
-LEVIHACKDEX_OPENINTRO2,"That looks challenging, but I think I can help move this along. Solving cryptology puzzles is one of my side studies. 
+Finally got these back and now my own encryption has been scrambled!
 
-So fascinating! I see you’ve been keeping a dossier on Leviathan! I know a bit about this illustrious figure myself. ",Estelle,,,quests/teaching
+Maybe Estelle can help us with this. She is a total genius with ciphers.",Ada,,,
+LEVIHACKDEX_OPENINTRO2,"Hello Estelle! Thank you so much for getting here so quickly! 
+
+We need your eyes on this. Something tells me you'll be able to decipher it. ",Faber,,,
+LEVIHACKDEX_OPENINTRO3,"Let's see. Mmm hmm.  think I can move this along. I've done a bit of this in my day. 
+
+I see you’ve been keeping a dossier on Leviathan! I know a bit about this illustrious figure myself. ",Estelle,,,quests/teaching
 LEVIHACKDEX_GIVEKEY,"
-First thing we’ll need is this. hmmm, 
-",,,,quests/teaching
-LEVIHACKDEX_BACKGROUND,Yes. Leviathan is one of our ancestors. He’s a hero of mine. ,Ada,,,quests/teaching
-LEVIHACKDEX_PUSHINSTRUCTION,Well this might be handy. It turns out that what we’re looking at is an instruction for the Riley Maze app. It’s called Push.,Estelle,,,quests/teaching
-LEVIHACKDEX_PUSHINSTRUCTION2,So cool.   I remember finding that in an old folder that belonged to Leviathan. What does it do?,Ada,,,quests/teaching
-LEVIHACKDEX_PUSHINSTRUCTION3,Riley can use it in the maze to push walls out of her way. It’s going to be essential in getting her past this obstacle. ,Estelle,,,quests/teaching
-LEVIHACKDEX_END,Well this is a good development! Let’s go back to RileyMaze and see if Riley needs more help. ,Ada,,,quests/teaching
-LEVIHACKDEX_SUCCESS,levihackdex complete (dummytext),Ada,,,
-LEVIHACKDEX_ABORT,levihackdex abort (dummytext),Ada,,,
+First thing we’ll need is this key. hmmm, 
+",Estelle,,,quests/teaching
+LEVIHACKDEX_BACKGROUND,I think of Leviathan as ancestor! I'm always digging up whatever I can about him. ,Ada,,,quests/teaching
+LEVIHACKDEX_PUSHINSTRUCTION,"Ah yes. This is a signature Leviathan move. Removing an obstacle. 
+
+What we’re looking at is a *Sidetrack* Instruction called `push`.",Estelle,,,quests/teaching
+LEVIHACKDEX_PUSHINSTRUCTION2,"Tight! I knew you'd be able to help us with this, Estelle! Thank you!",Faber,,,quests/teaching
+LEVIHACKDEX_PUSHINSTRUCTION3,"Amazing. Thank you, Estelle. I remember seeing that in Leviathan's notes.
+
+I just couldn't figure out what it was. What does it do?",Ada,,,
+LEVIHACKDEX_PUSHINSTRUCTION4,"It does just what it says. You can use it to move a *Wall* that's blocking you. 
+
+Riley can use it in the maze to push *Walls* out of her way. 
+
+It’s going to be essential in getting her past this obstacle. ",Estelle,,,quests/teaching
+LEVIHACKDEX_PUSHINSTRUCTION5,"Well, this is getting very interesting! 
+
+Why was there a note about Saniel's trap in Leviathan's code sketchbooks?
+",Ada,,,
+LEVIHACKDEX_PUSHINSTRUCTION6,"Ada, I think that's something you're going to have to ask Saniel about! ",Estelle,,,
+LEVIHACKDEX_SUCCESS,"I am totally going to do that. Right now, we've got to get back to Riley!
+
+Let’s go back to *Sidetrack* and see if we can help her with this new Instruction. ",Ada,,,quests/teaching
+LEVIHACKDEX_ABORT,"Okay, come back when you're ready! Riley still needs our help to get through the maze, so come back soon!",Ada,,,

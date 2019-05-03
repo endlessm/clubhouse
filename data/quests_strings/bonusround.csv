@@ -1,7 +1,77 @@
 BONUSROUND_DUMMY1,bonus round dummy text 1 (If you see this in master it's a bug!),Riley,,,
 BONUSROUND_DUMMY2,"bonus round dummy text 2, longer (If you see this in master it's a bug!)",Riley,,,
 BONUSROUND_DUMMY3,"bonus round dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Riley,,,
-BONUSROUND_QUESTION,want to start BONUSROUND? (dummytext),Riley,,,
-BONUSROUND_QUEST_ACCEPT,(dummyaccept),Riley,,,
-BONUSROUND_SUCCESS,BONUSROUND complete (dummytext),Riley,,,
-BONUSROUND_ABORT,BONUSROUND abort (dummytext),Riley,,,
+BONUSROUND_QUESTION,I'm dying to get back into *Sidetrack*. Wanna come with me?,Riley,,,
+BONUSROUND_QUEST_ACCEPT,Sure!,Riley,,,
+BONUSROUND_LAUNCH,Let's start the *Sidetrack* app.,,,,
+BONUSROUND_LAUNCH_HINT1,Click the *Sidetrack* icon. ,,,,
+BONUSROUND_LEVELS1,"Okay, look, it's true. I was really happy to get out of that maze. It was scary at the time.
+
+But I dunno, I kinda miss it now? Also that AI thing, whatever it was, honestly seemed p cool.
+
+But here's the important thing: I found evidence of another key. The best key yet!
+
+If we get this key, we'll be able to hack the maze and make our own levels. Let's go!",,,,
+BONUSROUND_LEVELS1_B,"We need to beat more levels, and these levels are HARD. What is this, some kind of robot dance party!?
+
+And for this one, we can't even edit Instructions!",,,,
+BONUSROUND_LEVELS1_B_HINT1,"We can't edit Instructions, but we can still edit Units! And we can reorder the Instructions.",,,,
+BONUSROUND_LEVELS1_B_HINT2,"Sometimes it's good to try out different solutions and see how far you get. Figure out what's wrong, tweak some things, then try again.",,,,
+BONUSROUND_LEVELS2,Sweet! You nailed it! Hopefully the final key turns up if we finish a few more levels.,,hurray,,
+BONUSROUND_LEVELS2_B,"Now we have to beat THIS level, and the Units panel is locked!",,,,
+BONUSROUND_LEVELS2_B_HINT1,I'm worried about all those *Robots* in column 7. There's got to be a way to get rid of some of them.,,,,
+BONUSROUND_LEVELS2_B_HINT2,We can still edit Instructions. We don't have to stick with the ones they gave us. Although I sense these could probably work. Maybe not in this order.,,,,
+BONUSROUND_LEVELS3,"Nice, this level has no restrictions! We can edit Units and Instructions all we want.",,,,
+BONUSROUND_LEVELS3_HINT1,"Wanna hear a real cool trick? When I get to column 4, all of the *Robots* will be back to where they started. That makes it easier to predict where the *Robots* in those last 3 columns on the right will be.",,,,
+BONUSROUND_LEVELS4,"Whoa, this level is *out of control*. And we can't edit Instructions! There must be a way we can beat it.",,,,
+BONUSROUND_LEVELS4_HINT1,"We can't edit Instructions, so I'm sure we need to rearrange the one's we've got.",,,,
+BONUSROUND_LEVELS4_HINT2,"I think the last Instruction, in position 7, has to be a `jump`, since there's a pit right near the Exit.",,,,
+BONUSROUND_LEVELS4_HINT3,"The first Instruction, in column 0, doesn't have to be an `up`. Something else could work there too.",,,,
+BONUSROUND_LEVELS4_HINT4,"If we `push` a wall, and there's a pit to its right, the *Wall* will fall into the pit. I bet we can make use of that.",,,,
+BONUSROUND_LEVELS4_HINT5,Just because we CAN edit Units doesn't necessarily mean we HAVE to.,,,,
+BONUSROUND_LEVELS5,"This level doesn't look too hard! But we can only reorder Instructions, not edit them.",,,,
+BONUSROUND_LEVELS5_HINT1,"Hmm, `push` is a really powerful Instruction, but it can't solve everything. Just because a *Wall* is there doesn't mean pushing it is always the best option!",,,,
+BONUSROUND_LEVELS5_HINT2,"`push` moves me forward. I can use it instead of a `forward` Instruciton, even when I have nothing to push out of my way.",,,,
+BONUSROUND_LEVELS5_HINT3,"I think we can tell what the final Instruction needs to be: `jump`. And to line up my jump, I somehow need to be right where that *Wall* is in column 6.",,,,
+BONUSROUND_LEVELS6,"You're really excellent at this. And persistent! Thanks to your help, we're close to the key. I can feel it!",,hurray,,
+BONUSROUND_LEVELS6_B,"Look at this weird level we have to beat. The Units panel is disabled, and all the Instructions are missing.",,,,
+BONUSROUND_LEVELS6_B_HINT1,We have to type all the Instructions in from scratch!,,,,
+BONUSROUND_LEVELS6_B_HINT2,"Let's just try a solution, see how far we get, then tweak our solution based on what happened and try again.",,,,
+BONUSROUND_LEVELS6_B_HINT3,"You can always type Instructions in any order, then flip back over to rearrange them.",,,,
+BONUSROUND_LEVELS6_B_HINT4,I bet there's more than one way through this level. But pushing that middle block in column 2 seems like one approach. We may have to push it over and over.,,,,
+BONUSROUND_LEVELS7,"Oh cool, in this level we can use Unit editing AND Instruction editing! It should be a breeze.
+
+Wait, what? Are you seeing what I'm seeing?
+
+There's no way through a double thick column of *Walls*, is there? Not even `push` can solve THAT. What are we going to do?",,,,
+BONUSROUND_LEVELS7_B,What's this thing?... ah ha! Guess what? I just found the Level Editing key! We did it! This is what we've been searching for!,,hurray,,
+BONUSROUND_LEVELS7_FLIP,"Flip the app around, then use the key to unlock the Level Editing panel!",,,,
+BONUSROUND_LEVELS7_LEVELCODE1,"Amazing! Exactly what I wanted! This is the code that creates this level!
+
+See `add (pit, 1, 2);`? That's what creates the pit right near the beginning. This code says: add a `pit` at coordinate (1,2).
+
+Coordinate (1,2) means x = 1, y = 2. X is the column, so that's why the pit appears in column 1.
+
+Y = 2 is for the row. The bottom row is y = 0, and the top row is y = 4. We hackers like to start counting from 0 instead of 1.",,,,
+BONUSROUND_LEVELS7_LEVELCODE2,"If we want to move that pit out of our way, we can give it a new coordinate.
+
+Try changing the coordinate to something like x = 1, y = 4 by editing the code to say `add (pit, 1, 4);`",,,,
+BONUSROUND_LEVELS7_LEVELCODE3,But we really need to do is fix the problem of two columns of *Walls* in a row! You know what's easiest? We can just delete some of them! Muah ha ha!,,,,
+BONUSROUND_LEVELS7_LEVELCODE3_HINT1,"See all the lines that say `add (wall, x, y);` and x is either 3 or 4? Those make all the *Walls* in columns 3 and 4. ",,,,
+BONUSROUND_LEVELS7_LEVELCODE3_HINT2,Try deleting some of those lines to make it possible to finish the level. Then flip around to see how you did.,,,,
+BONUSROUND_LEVELS7_LEVELCODE3_HINT3,"Depending on how you edit the level, you MAY also need to edit Instructions so you can beat it.",,,,
+BONUSROUND_LEVELS8,I LOVE editing the level! Remember how hard this robot dance party was? Now we can beat it EASY.,,,,
+BONUSROUND_LEVELS8_HINT1,"Go the Level hacking panel and edit the code! Heck, you can just delete EVERY `add()` function if you want!",,,,
+BONUSROUND_LEVELS8_HINT2,Don't delete `rileyPosition = 2;` and `goalPosition = 2;` though. You can always Reset the panel if you mess up.,,,,
+BONUSROUND_LEVELS9,This out of control level got even MORE crowded. Madness! But edit the Level code and we'll finish it in no time.,,,,
+BONUSROUND_LEVELS10,"This is it! We've arrived at the END!
+
+A glorious blank canvas! Nothing here except what we decide to `add`.",,hurray,,
+BONUSROUND_LEVELS10_B,Let's make our own level. Go to the Level panel and write your own code!,,,,
+BONUSROUND_LEVELS10_B_HINT1,"`rileyPosition = 2;` and `goalPosition = 2;` say which Y coordinate, meaning which ROW, me and the goal start on. You can change both numbers. 0 to 4!",,,,
+BONUSROUND_LEVELS10_B_HINT2,"Below that type `add (wall, 2, 4);`. Or whatever you want to add: `wall`, `pit`, `robotA`, `robotB`.",,,,
+BONUSROUND_LEVELS10_B_HINT3,"Remember that the two numbers are x for column and y for row. `add (wall, 2, 4);` means add a *Wall*at x = 2 and y = 4. I usually just try different numbers or use graph paper.",,,,
+BONUSROUND_LEVELS10_B_HINT4,"Add a bunch of stuff, then flip the app around and test it out! Edit the Instructions too! See if your friend can beat your level!",,,,
+BONUSROUND_LEVELS10_B_HINT5,"When I have a level I really like, I will sometimes copy and paste the level code into a text document so I can never lose it. Check out the little Gedit icon in the bottom left.",,,,
+BONUSROUND_SUCCESS,"Haha, you beat your own level! Keep editing it to make it more interesting. You can always go back and change any of the earlier levels too. Have fun!",Riley,hurray,,
+BONUSROUND_ABORT,"Okay but trust me, it's gonna be cool. Come back when you have more time!",Riley,,,
