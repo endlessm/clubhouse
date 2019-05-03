@@ -21,6 +21,7 @@
 import asyncio
 import functools
 import glibcoro
+import itertools
 import os
 import pkgutil
 import sys
@@ -189,6 +190,17 @@ class Registry:
     @classmethod
     def get_loaded_episode_name(class_):
         return class_._loaded_episode
+
+    @classmethod
+    def get_current_quests(class_):
+        quest_sets = class_.get_quest_sets()
+        return list(itertools.chain(*(quest_set.get_quests() for quest_set in quest_sets)))
+
+    @classmethod
+    def get_current_episode_progress(class_):
+        all_quests = class_.get_current_quests()
+        complete_quests = len(list(filter(lambda quest: quest.complete, all_quests)))
+        return complete_quests / len(all_quests)
 
     @classmethod
     def get_next_episode_name(class_):

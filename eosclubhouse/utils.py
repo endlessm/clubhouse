@@ -169,14 +169,23 @@ class Performance:
         return _report_time_func if class_._enabled else func
 
 
-class Episode:
-    def __init__(self, id_, number=1, season=None, name=None, badge_x=None, badge_y=None):
+class Episode(GObject.Object):
+
+    def __init__(self, id_, number=1, season=None, name=None, description='',
+                 badge_x=None, badge_y=None):
+        super().__init__()
+
         self.id = id_
         self.number = number
         self.season = season
         self.name = name if name is not None else id_
+        self.description = description
         self.badge_x = badge_x if badge_x is not None else 240
         self.badge_y = badge_y if badge_y is not None else 540
+        self.is_available = False
+        self.is_current = False
+
+    percentage_complete = GObject.Property(type=int, default=0)
 
 
 class EpisodesDB(_DictFromCSV):
@@ -205,7 +214,7 @@ class EpisodesDB(_DictFromCSV):
             number = 0
             prev_season = None
             for row in csv.reader(csv_file):
-                episode_id, season, name, badge_x, badge_y = row
+                episode_id, season, name, badge_x, badge_y, description = row
                 # using appearance order in the same session to number episodes
                 if season != prev_season:
                     prev_season = season
@@ -222,7 +231,8 @@ class EpisodesDB(_DictFromCSV):
                 except ValueError:
                     badge_y = None
 
-                contents[episode_id] = Episode(episode_id, number, season, name, badge_x, badge_y)
+                contents[episode_id] = Episode(episode_id, number, season, name, description,
+                                               badge_x, badge_y)
 
     @classmethod
     def get_previous_episodes(class_, current_episode):
@@ -235,6 +245,10 @@ class EpisodesDB(_DictFromCSV):
         episode = class_.get_episode(current_episode)
         return [v for k, v in class_.get_all_episodes()
                 if v.season == episode.season and v.number > episode.number]
+
+    @classmethod
+    def get_episodes_in_season(class_, season):
+        return [episode for key, episode in class_.get_all_episodes() if episode.season == season]
 
 
 class SimpleMarkupParser:

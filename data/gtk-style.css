@@ -6,25 +6,13 @@
     background-image: url('resource:///com/endlessm/Clubhouse/images/inventory_bg.png');
 }
 
-.episodes-page.episode1, .episodes-page.demo {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episode1_bg.png');
+.episodes-page {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/episodes_bg.png');
 }
 
-.episodes-page.episode1.completed,
-.episodes-page.demo.completed,
-.episodes-page.episode2 {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episode2_bg.png');
-}
-
-.episodes-page.episode2.completed {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episode3_bg.png');
-}
-
-.episodes-page.episode3 {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episode3_bg.png');
-}
-.episodes-page.episode3.completed {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episode4_bg.png');
+.episodes-page .episodes-list {
+    background: transparent;
+    margin-top: 36px;
 }
 
 .clubhouse-message-box {
@@ -196,29 +184,33 @@
     -gtk-icon-effect: dim;
 }
 
-.inventory-scrolled-window {
+.clubhouse-scrolled-window {
     margin-bottom: 65px
 }
 
-.inventory-scrolled-window > scrollbar {
+.clubhouse-scrolled-window > scrollbar {
     background: rgba(0, 0, 0, .5);
-    padding: 4px;
+    padding: 3px;
     border: none;
     margin-top: 30px;
-    margin-right: 20px;
+    margin-right: 1px;
     border-radius: 10px;
 }
 
-.inventory-scrolled-window > scrollbar:hover {
+.inventory-scrolled-window > scrollbar {
+    margin-right: 20px;
+}
+
+.clubhouse-scrolled-window > scrollbar:hover {
     background: rgba(0, 0, 0, .7);
 }
 
-.inventory-scrolled-window > scrollbar slider {
+.clubhouse-scrolled-window > scrollbar slider {
     background: rgba(234, 189, 141, .7);
-    min-width: 1px
+    min-width: 0;
 }
 
-.inventory-scrolled-window > scrollbar slider:hover {
+.clubhouse-scrolled-window > scrollbar slider:hover {
     background: rgba(223, 166, 106, .8);
 }
 
@@ -252,12 +244,6 @@
     margin: 0 40px 140px 40px;
 }
 
-.badge label {
-    text-shadow: 0 0.5px 2px alpha(black,0.4);
-    color: white;
-    margin-bottom: -10px;
-}
-
 .badge image {
     -gtk-icon-shadow: 0 5px 5px alpha(black,0.4);
 }
@@ -284,7 +270,6 @@ window.poster {
     border: none;
     box-shadow: none;
     -gtk-icon-shadow: none;
-    padding-bottom: 20px;
 }
 
 .badge:hover {
@@ -293,4 +278,42 @@ window.poster {
 
 .badge:hover image {
     -gtk-icon-shadow: 0 10px 10px alpha(black,0.4);
+}
+
+.episode-row-expand-button {
+    background: rgba(239, 230, 218, 0.2);
+}
+
+.episode-row-expand-button:hover {
+    background: rgba(239, 230, 218, 0.4);
+}
+
+.episode-row-comingsoon-label,
+.episode-row-description-label,
+.episode-row-name-label,
+.episode-row-number-label {
+    color: #2a1e10;
+    font: 16px "Metropolis Medium, Sans-Serif";
+}
+
+.episode-row-name-label {
+    font-size: 26px;
+    margin-left: 40px;
+}
+
+.episode-row-number-label {
+    margin: 0 200px 10px 40px;
+}
+
+.episode-row-description-label {
+    margin: 32px 80px 40px 40px;
+}
+
+.episode-row-comingsoon-label {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/comingsoon_label_bg.png');
+    background-repeat: no-repeat;
+    min-height: 34px;
+    min-width: 147px;
+    font-style: italic;
+    font-size: 18px;
 }

@@ -7,8 +7,10 @@ from eosclubhouse.system import Sound
 
 class BadgeButton(Gtk.Button):
     _poster = None
-    _WIDTH = 195
-    _HEIGHT = 195
+
+    WIDTH = HEIGHT = 164
+
+    PROGRESS_BADGES = [15, 30, 50, 70, 85]
 
     def __init__(self, episode):
         super().__init__(halign=Gtk.Align.START,
@@ -20,38 +22,40 @@ class BadgeButton(Gtk.Button):
         style_context = self.get_style_context()
         style_context.add_class('badge')
 
-        self.connect('clicked', self._show_poster)
+        self._update()
+
+        self._episode.connect('notify::percentage-complete',
+                              lambda *args: self._update())
 
     def _setup_ui(self):
-        badgename = '{}.png'.format(self._episode.id)
+        self._image = Gtk.Image()
+        self._image.show()
+        self.add(self._image)
+
+    def _get_progress_for_percentage(self, percentage):
+        if percentage == 0:
+            return 0
+
+        step = 100 // len(self.PROGRESS_BADGES)
+        progress_index = int(percentage // step)
+        return self.PROGRESS_BADGES[progress_index]
+
+    def _update(self):
+        percentage_complete = self._episode.percentage_complete
+        if percentage_complete == 100:
+            badgename = '{}.png'.format(self._episode.id)
+        elif self._episode.is_current:
+            progress = self._get_progress_for_percentage(percentage_complete)
+            badgename = 'episode_progress_{}.png'.format(progress)
+        else:
+            self.hide()
+            return
+
+        self.show()
+
         filename = os.path.join(config.EPISODES_DIR, 'badges', badgename)
 
-        img = Gtk.Image()
-        img.set_from_file(filename)
-        pixbuf = img.get_pixbuf()
-        if pixbuf:
-            self._HEIGHT = pixbuf.get_height()
-            self._WIDTH = pixbuf.get_width()
-
-        label = Gtk.Label(label=self._episode.name)
-        label.set_line_wrap(True)
-        label.set_size_request(self._WIDTH, -1)
-
-        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        vbox.add(label)
-        vbox.add(img)
-        vbox.show_all()
-
-        self.add(vbox)
-
-    def _show_poster(self, _badge):
-        if not self._poster:
-            self._poster = PosterWindow(self._episode)
-        self._poster.show()
-        self._poster.present()
-
-    def get_size(self):
-        return self._WIDTH, self._HEIGHT
+        self._image.set_from_file(filename)
 
 
 class PosterWindow(Gtk.Window):

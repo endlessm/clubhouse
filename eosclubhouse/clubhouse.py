@@ -38,7 +38,7 @@ from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 
-from eosclubhouse.episodes import BadgeButton
+from eosclubhouse.episodes import BadgeButton, PosterWindow
 
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
@@ -490,7 +490,9 @@ class ClubhousePage(Gtk.EventBox):
         self._overlay_msg_box.hide()
 
     def _button_clicked_cb(self, button):
-        quest_set = button.get_quest_set()
+        self.ask_character(button.get_quest_set())
+
+    def ask_character(self, quest_set):
         self._message.reset()
 
         # If a quest from this quest_set is already running, then just hide the window so the
@@ -531,6 +533,18 @@ class ClubhousePage(Gtk.EventBox):
                               new_quest.proposal_sound)
 
         self._overlay_msg_box.show_all()
+
+    def continue_playing(self):
+        # If there is a running quest, we ask the quest's character whether to continue/stop it.
+        if self._current_quest and self._current_quest.available and \
+           self._current_quest.quest_set is not None:
+            self.ask_character(self._current_quest.quest_set)
+            return
+
+        # Ask the first character that is active what to do (start/continue a quest, etc.).
+        for quest_set in libquest.Registry.get_quest_sets():
+            if quest_set.is_active():
+                self.ask_character(quest_set)
 
     def _stop_quest_proposal(self):
         if self._proposing_quest:
@@ -652,6 +666,9 @@ class ClubhousePage(Gtk.EventBox):
         self._reset_delayed_message()
         quest.save_conf()
         quest.dismiss()
+
+        if quest.complete and self._app_window.episodes_page:
+            self._app_window.episodes_page.update_current_episode()
 
         # Ensure we reset the running quest (only if we haven't started a different quest in the
         # meanwhile) quest and close any eventual message popups
@@ -901,6 +918,12 @@ class ClubhousePage(Gtk.EventBox):
         if self._current_episode != episode_name:
             self.load_episode(episode_name)
 
+            # @todo: Instead of reloading the Episodes page directly, it should use a common
+            # path for checking that an episode has been loaded (possibly using the
+            # ClubhouseState), and update the Episodes page from within itself.
+            if self._app_window.episodes_page is not None:
+                self._app_window.episodes_page.reload()
+
     running_quest = GObject.Property(_get_running_quest,
                                      type=GObject.TYPE_PYOBJECT,
                                      default=None,
@@ -1067,7 +1090,137 @@ class InventoryPage(Gtk.EventBox):
             self._inventory_stack.set_visible_child(self._inventory_empty_state_box)
 
 
+class EpisodeRow(Gtk.ListBoxRow):
+
+    __gsignals__ = {
+        'badge-clicked': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
+
+    BADGE_INNER_MARGIN = 25
+
+    def __init__(self, episode, badges_box):
+        super().__init__()
+        self._episode = episode
+
+        self._badges_box = badges_box
+        self._badge = None
+        self._badge_position_handler = 0
+
+        self._poster = None
+
+        self._setup_ui()
+
+    def _setup_ui(self):
+        builder = Gtk.Builder()
+        builder.add_from_resource('/com/endlessm/Clubhouse/episode-row.ui')
+
+        self._expand_button = builder.get_object('episode_row_expand_button')
+        episode_name_label = builder.get_object('episode_row_name_label')
+        episode_number_label = builder.get_object('episode_row_number_label')
+        episode_comingsoon_label = builder.get_object('episode_row_comingsoon_label')
+
+        episode_number_text = 'Episode {}'.format(self._episode.number)
+
+        height = 104
+        if self._episode.percentage_complete != 100 and not self._episode.is_current:
+            height = 64
+            episode_name_label.set_label(episode_number_text)
+            episode_number_label.hide()
+            self._expand_button.set_sensitive(False)
+            if not self._episode.is_available:
+                episode_comingsoon_label.set_visible(True)
+        else:
+            episode_name_label.set_label(self._episode.name)
+            episode_number_label.set_label(episode_number_text)
+            episode_number_label.show()
+
+            self._description_label = builder.get_object('episode_row_description_label')
+            self._description_label.set_markup(self._episode.description)
+
+            self._revealer = builder.get_object('episode_row_revealer')
+
+            self._expand_button.connect('clicked', lambda _button: self._toggle_expand())
+
+        self._expand_button.set_size_request(-1, height)
+
+        self.add(builder.get_object('episode_row_box'))
+
+        self._setup_badge()
+
+    def _toggle_expand(self):
+        is_revealed = self._revealer.get_reveal_child()
+        self._revealer.set_reveal_child(not is_revealed)
+
+    def _setup_badge(self):
+        if not self._episode.is_available:
+            return
+
+        self._badge = BadgeButton(self._episode)
+        self._badges_box.put(self._badge, 0, 0)
+        self._badge.show()
+
+        self._update_badge_position()
+
+        if self._badge_position_handler == 0:
+            self._badge_position_handler = \
+                self._expand_button.connect('size-allocate',
+                                            lambda _widget, _alloc: self._update_badge_position())
+
+        self._badge.connect('clicked', self._badge_clicked_cb)
+
+    def _update_badge_position(self):
+        if not self.get_realized():
+            return
+
+        # We only use the button's allocation for getting the vertical position on which to set
+        # the badge (and not the width), otherwise the badges would move when the scrollbar
+        # appears (because the buttons are shortened horizontally when that happens).
+        height = self._expand_button.get_allocation().height
+
+        pos_x, pos_y = self._expand_button.translate_coordinates(self._badges_box,
+                                                                 DEFAULT_WINDOW_WIDTH,
+                                                                 height / 2.0)
+
+        # Place the badge horizontally as if aligned to the right.
+        pos_x -= self._badge.WIDTH
+        # Place the badge vertically using the middle-point as the anchor.
+        pos_y -= self._badge.HEIGHT / 2.0
+
+        # Pull the odd-numbered (1-based indexing) episodes further to the left (to accomplish
+        # the zig-zag placement).
+        if self._episode.number % 2 != 0:
+            pos_x -= self._badge.WIDTH / 2.0 - self.BADGE_INNER_MARGIN
+
+        self._badges_box.move(self._badge, pos_x, pos_y)
+
+    def get_badge(self):
+        return self._badge
+
+    def get_episode(self):
+        return self._episode
+
+    def do_destroy(self):
+        self.get_badge().destroy()
+
+    def _badge_clicked_cb(self, _badge):
+        self.emit('badge-clicked')
+
+    def show_poster(self):
+        if self._poster is None:
+            self._poster = PosterWindow(self._episode)
+        self._poster.show()
+        self._poster.present()
+
+
 class EpisodesPage(Gtk.EventBox):
+
+    __gsignals__ = {
+        'play-episode': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
 
     _COMPLETED = 'completed'
 
@@ -1079,10 +1232,12 @@ class EpisodesPage(Gtk.EventBox):
         self._app_window = app_window
         self._current_page = None
         self._current_episode = None
-        self._badges = {}
+        self._episodes = {}
+
         self._setup_ui()
-        GameStateService().connect('changed', self.update_episode_view)
-        self.update_episode_view()
+        self._update_episode_badges()
+
+        GameStateService().connect('changed', lambda _gss: self._update_episode_badges())
 
     def _setup_ui(self):
         self.get_style_context().add_class('episodes-page')
@@ -1091,72 +1246,66 @@ class EpisodesPage(Gtk.EventBox):
         builder.add_from_resource('/com/endlessm/Clubhouse/episodes-page.ui')
 
         self._badges_box = builder.get_object('badges_box')
+        self._badges_box.show_all()
+        episodes_overlay = builder.get_object('episodes_overlay')
+        episodes_overlay.set_overlay_pass_through(self._badges_box, True)
+        self._list_box = builder.get_object('episodes_list_box')
 
-        self.add(self._badges_box)
+        self.add(builder.get_object('episodes_scrolled_window'))
 
-    def _update_ui(self, new_page):
-        if new_page == self._current_page:
-            return
+        self.reload()
 
-        # remove old episode background
-        episode = self._current_episode
-        if episode:
-            self.get_style_context().remove_class(episode['name'])
+    def reload(self):
+        # Clear the episodes list.
+        self._episodes = {}
+        for row in self._list_box.get_children():
+            row.destroy()
 
-        for child in self._badges_box.get_children():
-            self._badges_box.remove(child)
+        available_episodes = set(libquest.Registry.get_available_episodes())
+        loaded_episode = libquest.Registry.get_loaded_episode_name()
+        episode = self._episodes_db.get_episode(loaded_episode)
 
-        if self._current_page is not None:
-            self.get_style_context().remove_class(self._current_page)
-        self._current_page = new_page
-        self.get_style_context().add_class(self._current_page)
-
-        current_episode = libquest.Registry.get_current_episode()
-        if new_page == self._COMPLETED:
-            self.get_style_context().add_class(current_episode['name'])
-        episode = self._episodes_db.get_episode(current_episode['name'])
-
-        # draw completed episodes
         completed_episodes = self._episodes_db.get_previous_episodes(episode.id)
-        for completed in completed_episodes:
-            self._add_badge_button(completed,
-                                   completed.badge_x,
-                                   completed.badge_y)
+        for episode in self._episodes_db.get_episodes_in_season(episode.season):
+            if episode in completed_episodes:
+                episode.percentage_complete = 100
+            elif episode.id == loaded_episode:
+                episode.is_current = True
+            else:
+                episode.percentage_complete = 0
 
-        if new_page == self._COMPLETED:
-            x, y = episode.badge_x, episode.badge_y
-            if not completed_episodes:
-                x = DEFAULT_WINDOW_WIDTH / 2
-            self._add_badge_button(episode, x, y)
+            if episode.id in available_episodes:
+                episode.is_available = True
 
-    def _add_badge_button(self, episode, x, y):
-        badge = BadgeButton(episode)
-        self._badges[episode.id] = badge
+            row = EpisodeRow(episode, self._badges_box)
+            row.connect('badge-clicked', self._episode_badge_clicked_cb)
+            self._list_box.add(row)
+            row.show()
 
-        w, _h = badge.get_size()
-        x -= w / 2
+            # @todo: Remove the need for an episodes dictionary (it can be done by keeping
+            # the current episode object accessible).
+            self._episodes[episode.id] = row
 
-        self._badges_box.put(badge, x, y)
-        badge.show()
+        self.update_current_episode()
 
-    def update_episode_view(self, _gss=None):
-        current_episode = libquest.Registry.get_current_episode()
-        if current_episode[self._COMPLETED]:
-            self._update_ui(self._COMPLETED)
-        else:
-            self._update_ui(current_episode['name'])
-
-        self._update_episode_badges()
-
-    def click_badge(self, episode):
-        button = self._badges.get(episode)
-
-        if not button:
+    def _episode_badge_clicked_cb(self, episode_row):
+        episode = episode_row.get_episode()
+        if episode.percentage_complete == 100:
+            episode_row.show_poster()
             return
 
-        button.clicked()
+        if episode.is_current:
+            self.emit('play-episode')
 
-    def _update_episode_badges(self, _gss=None):
+    def _get_current_episode(self):
+        loaded_episode = libquest.Registry.get_loaded_episode_name()
+        return self._episodes[loaded_episode].get_episode()
+
+    def update_current_episode(self):
+        episode = self._get_current_episode()
+        episode.percentage_complete = libquest.Registry.get_current_episode_progress() * 100
+
+    def _update_episode_badges(self):
         current_episode = libquest.Registry.get_current_episode()
 
         if self._current_episode == current_episode:
@@ -1185,7 +1334,7 @@ class EpisodesPage(Gtk.EventBox):
             show = self._current_episode[self._COMPLETED] and not is_teaser_viewed
 
         if show:
-            self.click_badge(episode_name)
+            self._episodes[episode_name].show_poster()
 
         # Only update the teaser-viewed info if there hasn't been an episode change.
         if is_same_episode:
@@ -1233,6 +1382,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._update_geometry()
 
         self._clubhouse_state = ClubhouseState()
+
+        self.episodes_page.connect('play-episode',
+                                   lambda _page: self.continue_playing())
+
+    def continue_playing(self):
+        self.clubhouse_page.continue_playing()
+        # Select main page so the user can see whether a character is now offering a quest.
+        self._clubhouse_button.set_active(True)
 
     def _setup_ui(self):
         builder = Gtk.Builder()
