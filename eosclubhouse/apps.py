@@ -15,6 +15,7 @@ class Fizzics(App):
     APP_NAME = 'com.endlessm.Fizzics'
     _TOOLS = ['fling', 'move', 'create', 'delete']
     _TOOL_DISABLED_SUFFIX = 'ToolDisabled'
+    _TOOL_ACTIVE_SUFFIX = 'ToolActive'
     _DISABLE_ADD_FOR_BALL_TEMPLATE = 'createType{}Disabled'
 
     def __init__(self):
@@ -56,7 +57,8 @@ class Fizzics(App):
 
     def disable_tool(self, tool, disabled=True):
         assert tool in self._TOOLS
-        return self.set_js_property(tool + self._TOOL_DISABLED_SUFFIX, disabled)
+        self.set_js_property(tool + self._TOOL_DISABLED_SUFFIX, disabled)
+        self.set_js_property(tool + self._TOOL_ACTIVE_SUFFIX, not disabled)
 
     def disable_add_tool_for_ball_type(self, ball_type, disabled=True):
         assert ball_type in range(5)
