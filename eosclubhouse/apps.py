@@ -71,19 +71,20 @@ class Fizzics(App):
         self.set_js_property(tool + self._TOOL_ACTIVE_SUFFIX, not disabled)
 
     def disable_add_tool_for_ball_type(self, ball_type, disabled=True):
-        assert ball_type in range(5)
-        return self.set_js_property(self._DISABLE_ADD_FOR_BALL_TEMPLATE.format(ball_type), disabled)
+        assert isinstance(ball_type, self.BallType)
+        property_str = self._DISABLE_ADD_FOR_BALL_TEMPLATE.format(ball_type.value)
+        return self.set_js_property(property_str, disabled)
 
     def set_property_for_ball_type(self, property_, ball_type, value):
-        assert ball_type in range(5)
+        assert isinstance(ball_type, self.BallType)
         assert property_ in self._BALL_PROPERTIES
-        property_str = '{}_{}'.format(property_, ball_type)
+        property_str = '{}_{}'.format(property_, ball_type.value)
         return self.set_js_property(property_str, value)
 
     def set_property_for_ball_to_ball(self, property_, ball_type_a, ball_type_b, value):
-        assert ball_type_a in range(5) and ball_type_b in range(5)
+        assert isinstance(ball_type_a, self.BallType) and isinstance(ball_type_b, self.BallType)
         assert property_ in self._MULTIBALL_PROPERTIES
-        property_str = '{}_{}_{}'.format(property_, ball_type_a, ball_type_b)
+        property_str = '{}_{}_{}'.format(property_, ball_type_a.value, ball_type_b.value)
         return self.set_js_property(property_str, value)
 
     def enable_physics_for_ball_type(self, ball_type, enable=True):
