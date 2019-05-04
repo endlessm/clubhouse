@@ -17,50 +17,18 @@ class FizzicsKey(Quest):
     # # UTILITY FXNS  # #
     # # # # # # # # # # #
 
-    # def reset_params(self):
-    #     # found the defaults
-    #     self._app.set_js_property('gravity_0', ('i', 0))
-    #     self._app.set_js_property('friction_0', ('i', 10))
-    #     self._app.set_js_property('collision_0', ('d', 0.2))
-
     def set_tools(self):
         self._app.disable_tool('fling')
         self._app.disable_tool('delete')
         self._app.disable_tool('move')
         # make sure we can create, because this is turned off sometimes
         self._app.disable_tool('create', disabled=False)
-        # Make tools visible (must do this to prevent desync)
-        # theoretically fixed by PR533
-        # self._app.set_js_property('flingToolActive', ('b', False))
-        # self._app.set_js_property('moveToolActive', ('b', False))
-        # self._app.set_js_property('deleteToolActive', ('b', False))
-        # self._app.set_js_property('createToolActive', ('b', True))
         # disable adding not-rocks
         # can't disable this until AFTER the create tool is set up
         self._app.disable_add_tool_for_ball_type(0)
         self._app.disable_add_tool_for_ball_type(1)
         self._app.disable_add_tool_for_ball_type(2)
         self._app.disable_add_tool_for_ball_type(4)
-
-    # def physics_off_orangeball(self):
-    #     self._app.set_js_property('usePhysics_0', ('b', False))
-    #     logger.debug("set physics0 OFF-DISABLED (%s)", self._app.get_js_property('usePhysics_0'))
-    #
-    # def physics_on_orangeball(self):
-    #     self._app.set_js_property('usePhysics_0', ('b', True))
-    #     logger.debug("set physics0 ON-ENABLED (%s)", self._app.get_js_property('usePhysics_0'))
-    #
-    # def physics_off_goal(self):
-    #     self._app.set_js_property('usePhysics_1', ('b', False))
-    #
-    # def physics_on_goal(self):
-    #     self._app.set_js_property('usePhysics_1', ('b', True))
-    #
-    # def physics_off_diamond(self):
-    #     self._app.set_js_property('usePhysics_4', ('b', False))
-    #
-    # def physics_on_diamond(self):
-    #     self._app.set_js_property('usePhysics_4', ('b', True))
 
     # # # # # # # # # # # # #
     # # QUESTION RESULTS  # #
@@ -87,12 +55,13 @@ class FizzicsKey(Quest):
             friction = 0
         self._app.set_js_property('friction_0', ('i', friction))
 
-    def do_level2_repulse(self, result):
+    def do_level2_repel(self, result):
         if result:
-            repulse = -30
+            repel = -30
         else:
-            repulse = 0
-        self._app.set_js_property('socialForce_0_2', ('i', repulse))
+            repel = 0
+        self._app.set_socialforce_for_ball_to_ball(self._app.BallType.PLAYER.value,
+                                                   self._app.BallType.ENEMY.value, ('i', repel))
 
     def do_level3_gravity(self, result):
         if result:
@@ -101,12 +70,13 @@ class FizzicsKey(Quest):
             gravity = -50
         self._app.set_js_property('gravity_0', ('i', gravity))
 
-    def do_level3_repulse(self, result):
+    def do_level3_repel(self, result):
         if result:
-            repulse = -30
+            repel = -30
         else:
-            repulse = 0
-        self._app.set_js_property('socialForce_4_3', ('i', repulse))
+            repel = 0
+        self._app.set_socialforce_for_ball_to_ball(self._app.BallType.DIAMOND.value,
+                                                   self._app.BallType.ROCK.value, ('i', repel))
 
     def do_level4_gravity_goal(self, result):
         if result:
@@ -155,7 +125,8 @@ class FizzicsKey(Quest):
             repel = -30
         else:
             repel = 0
-        self._app.set_js_property('socialForce_3_0', ('i', repel))
+        self._app.set_socialforce_for_ball_to_ball(self._app.BallType.ROCK.value,
+                                                   self._app.BallType.PLAYER.value, repel)
 
     # # # # # # # # # # # #
     # # # QUEST STEPS # # #
@@ -254,8 +225,8 @@ class FizzicsKey(Quest):
         self.set_tools()
         self.show_confirm_message('LEVELS2_READY', confirm_label='Ready!').wait()
 
-        choiceHigh = ('LEVELS2_Q1_A1', self.do_level2_repulse, True)
-        choiceLow = ('LEVELS2_Q1_A2', self.do_level2_repulse, False)
+        choiceHigh = ('LEVELS2_Q1_A1', self.do_level2_repel, True)
+        choiceLow = ('LEVELS2_Q1_A2', self.do_level2_repel, False)
         self.show_choices_message('LEVELS2_Q1', choiceHigh, choiceLow).wait()
         choiceHigh = ('LEVELS2_Q2_A1', self.do_level2_friction, True)
         choiceLow = ('LEVELS2_Q2_A2', self.do_level2_friction, False)
@@ -306,8 +277,8 @@ class FizzicsKey(Quest):
         choiceHigh = ('LEVELS3_Q1_A1', self.do_level3_gravity, True)
         choiceLow = ('LEVELS3_Q1_A2', self.do_level3_gravity, False)
         self.show_choices_message('LEVELS3_Q1', choiceHigh, choiceLow).wait()
-        choiceHigh = ('LEVELS3_Q2_A1', self.do_level3_repulse, True)
-        choiceLow = ('LEVELS3_Q2_A2', self.do_level3_repulse, False)
+        choiceHigh = ('LEVELS3_Q2_A1', self.do_level3_repel, True)
+        choiceLow = ('LEVELS3_Q2_A2', self.do_level3_repel, False)
         self.show_choices_message('LEVELS3_Q2', choiceHigh, choiceLow).wait()
 
         self.wait_confirm('LEVELS3_GO')
