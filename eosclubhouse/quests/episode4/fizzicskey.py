@@ -25,108 +25,70 @@ class FizzicsKey(Quest):
         self._app.disable_tool('create', disabled=False)
         # disable adding not-rocks
         # can't disable this until AFTER the create tool is set up
-        self._app.disable_add_tool_for_ball_type(0)
-        self._app.disable_add_tool_for_ball_type(1)
-        self._app.disable_add_tool_for_ball_type(2)
-        self._app.disable_add_tool_for_ball_type(4)
+        self._app.disable_add_tool_for_ball_type(self._app.BallType.PLAYER)
+        self._app.disable_add_tool_for_ball_type(self._app.BallType.GOAL)
+        self._app.disable_add_tool_for_ball_type(self._app.BallType.ENEMY)
+        self._app.disable_add_tool_for_ball_type(self._app.BallType.DIAMOND)
 
     # # # # # # # # # # # # #
     # # QUESTION RESULTS  # #
     # # # # # # # # # # # # #
 
     def do_level1_friction(self, result):
-        if result:
-            friction = 5
-        else:
-            friction = 0
-        self._app.set_js_property('friction_0', ('i', friction))
+        friction = 5 if result else 0
+        self._app.set_property_for_ball_type('friction', self._app.BallType.PLAYER, ('i', friction))
 
     def do_level1_bounce(self, result):
-        if result:
-            bounce = 0.1
-        else:
-            bounce = 2
-        self._app.set_js_property('collision_0', ('d', bounce))
+        bounce = 0.1 if result else 2
+        self._app.set_property_for_ball_type('collision', self._app.BallType.PLAYER, ('d', bounce))
 
     def do_level2_friction(self, result):
-        if result:
-            friction = 5
-        else:
-            friction = 0
-        self._app.set_js_property('friction_0', ('i', friction))
+        friction = 5 if result else 0
+        self._app.set_property_for_ball_type('friction', self._app.BallType.PLAYER, ('i', friction))
 
     def do_level2_repel(self, result):
-        if result:
-            repel = -30
-        else:
-            repel = 0
-        self._app.set_socialforce_for_ball_to_ball(self._app.BallType.PLAYER.value,
-                                                   self._app.BallType.ENEMY.value, ('i', repel))
+        repel = -30 if result else 0
+        self._app.set_socialforce_for_ball_to_ball(self._app.BallType.PLAYER,
+                                                   self._app.BallType.ENEMY, ('i', repel))
 
     def do_level3_gravity(self, result):
-        if result:
-            gravity = 50
-        else:
-            gravity = -50
-        self._app.set_js_property('gravity_0', ('i', gravity))
+        gravity = 50 if result else -50
+        self._app.set_property_for_ball_type('gravity', self._app.BallType.PLAYER, ('i', gravity))
 
     def do_level3_repel(self, result):
-        if result:
-            repel = -30
-        else:
-            repel = 0
-        self._app.set_socialforce_for_ball_to_ball(self._app.BallType.DIAMOND.value,
-                                                   self._app.BallType.ROCK.value, ('i', repel))
+        repel = -30 if result else 0
+        self._app.set_socialforce_for_ball_to_ball(self._app.BallType.DIAMOND,
+                                                   self._app.BallType.ROCK, ('i', repel))
 
     def do_level4_gravity_goal(self, result):
-        if result:
-            gravity = 50
-        else:
-            gravity = 0
-        self._app.set_js_property('gravity_1', ('i', gravity))
+        gravity = 50 if result else 0
+        self._app.set_property_for_ball_type('gravity', self._app.BallType.GOAL, ('i', gravity))
 
     def do_level4_gravity_diamond(self, result):
-        if result:
-            gravity = 50
-        else:
-            gravity = 0
-        self._app.set_js_property('gravity_4', ('i', gravity))
+        gravity = 50 if result else 0
+        self._app.set_property_for_ball_type('gravity', self._app.BallType.DIAMOND, ('i', gravity))
 
     def do_level4_friction_diamond(self, result):
-        if result:
-            friction = 2.5
-        else:
-            friction = 0
-        self._app.set_js_property('friction_4', ('d', friction))
+        friction = 2.5 if result else 0
+        self._app.set_property_for_ball_type('friction', self._app.BallType.DIAMOND,
+                                             ('d', friction))
 
     def do_level5_gravity_goal(self, result):
-        if result:
-            gravity = 50
-        else:
-            gravity = 0
-        self._app.set_js_property('gravity_1', ('i', gravity))
+        gravity = 50 if result else 0
+        self._app.set_property_for_ball_type('gravity', self._app.BallType.GOAL, ('i', gravity))
 
     def do_level5_size_diamond(self, result):
-        if result:
-            size = 100
-        else:
-            size = 35
-        self._app.set_js_property('radius_4', ('d', size))
+        size = 100 if result else 35
+        self._app.set_property_for_ball_type('radius', self._app.BallType.DIAMOND, ('d', size))
 
     def do_level6_gravity_negative(self, result):
-        if result:
-            gravity = -25
-        else:
-            gravity = -200
-        self._app.set_js_property('gravity_0', ('i', gravity))
+        gravity = -25 if result else -200
+        self._app.set_property_for_ball_type('gravity', self._app.BallType.PLAYER, ('i', gravity))
 
     def do_level6_repel(self, result):
-        if result:
-            repel = -30
-        else:
-            repel = 0
-        self._app.set_socialforce_for_ball_to_ball(self._app.BallType.ROCK.value,
-                                                   self._app.BallType.PLAYER.value, repel)
+        repel = -30 if result else 0
+        self._app.set_socialforce_for_ball_to_ball(self._app.BallType.ROCK,
+                                                   self._app.BallType.PLAYER, ('i', repel))
 
     # # # # # # # # # # # #
     # # # QUEST STEPS # # #
@@ -143,17 +105,17 @@ class FizzicsKey(Quest):
         self.set_tools()
         # this is narrative, don't let the player win early!
         self._app.disable_tool('create')
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
         return self.step_level1_pre
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level1_pre(self):
         self.wait_confirm('LEVELS1')
         self.wait_confirm('LEVELS1_B')
-        self._app.set_js_property('gravity_0', ('i', 50))
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=True)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=True)
+        self._app.set_property_for_ball_type('gravity', self._app.BallType.PLAYER, ('i', 50))
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=True)
         return self.step_level1_pre2
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
@@ -164,8 +126,8 @@ class FizzicsKey(Quest):
         self._app.reset()
         self.pause(0.2)
         self.set_tools()
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
         # ok, now we go to gameplay, give the player a tool
         self._app.disable_tool('create', disabled='False')
         return self.step_level1
@@ -187,20 +149,20 @@ class FizzicsKey(Quest):
 
         self.wait_confirm('LEVELS1_GO')
         # unfreeze the orange ball
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=True)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
             self._app.set_js_property('preset', ('i', cl - 1))
             self._app.reset()
             self.pause(0.2)
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
             self.set_tools()
             self.wait_confirm('LEVELS1_FAIL')
             return self.step_level1
         else:
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
             self.pause(0.2)
             self.wait_confirm('LEVELS1_FINISH')
             return self.step_level2_pre
@@ -209,12 +171,12 @@ class FizzicsKey(Quest):
     def step_level2_pre(self):
         # level 18
         self._app.set_js_property('preset', ('i', self.PRESET_NUM_BASE + 1))
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
         self.pause(0.1)
         self._app.reset()
         self.pause(0.1)
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
         self.set_tools()
         self.wait_confirm('LEVELS2')
         return self.step_level2
@@ -233,21 +195,21 @@ class FizzicsKey(Quest):
         self.show_choices_message('LEVELS2_Q2', choiceHigh, choiceLow).wait()
 
         self.wait_confirm('LEVELS2_GO')
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=True)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
             self._app.set_js_property('preset', ('i', cl - 1))
             self._app.reset()
             self.pause(0.2)
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
             self.set_tools()
             self.wait_confirm('LEVELS2_FAIL')
             return self.step_level2
         else:
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
             self.pause(0.2)
             self.wait_confirm('LEVELS2_FINISH')
             return self.step_level3_pre
@@ -261,9 +223,9 @@ class FizzicsKey(Quest):
         self.pause(0.2)
         self._app.reset()
         self.pause(0.2)
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
-        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
         self.set_tools()
         self.wait_confirm('LEVELS3')
         return self.step_level3
@@ -282,24 +244,24 @@ class FizzicsKey(Quest):
         self.show_choices_message('LEVELS3_Q2', choiceHigh, choiceLow).wait()
 
         self.wait_confirm('LEVELS3_GO')
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=True)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=True)
-        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
             self._app.set_js_property('preset', ('i', cl - 1))
             self._app.reset()
             self.pause(0.2)
             self.set_tools()
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
             self.wait_confirm('LEVELS3_FAIL')
             return self.step_level3
         else:
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
             self.pause(0.2)
             self.wait_confirm('LEVELS3_FINISH')
             return self.step_level4_pre
@@ -311,9 +273,9 @@ class FizzicsKey(Quest):
         self.pause(0.2)
         self._app.reset()
         self.pause(0.2)
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
-        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
         self.set_tools()
         self.wait_confirm('LEVELS4')
         return self.step_level4
@@ -335,24 +297,24 @@ class FizzicsKey(Quest):
 
         self.wait_confirm('LEVELS4_GO')
         cl = int(self._app.get_current_level())
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=True)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=True)
-        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
             self._app.set_js_property('preset', ('i', cl - 1))
             self._app.reset()
             self.pause(0.2)
             self.set_tools()
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
             self.wait_confirm('LEVELS4_FAIL')
             return self.step_level4
         else:
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
             self.pause(0.2)
             self.wait_confirm('LEVELS4_FINISH')
             return self.step_level5_pre
@@ -364,9 +326,9 @@ class FizzicsKey(Quest):
         self.pause(0.2)
         self._app.reset()
         self.pause(0.1)
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
-        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
         self.set_tools()
         self.wait_confirm('LEVELS5')
         return self.step_level5
@@ -385,24 +347,24 @@ class FizzicsKey(Quest):
 
         self.wait_confirm('LEVELS5_GO')
         cl = int(self._app.get_current_level())
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=True)
-        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=True)
-        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
             self._app.set_js_property('preset', ('i', cl - 1))
             self._app.reset()
             self.pause(0.1)
             self.set_tools()
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
             self.wait_confirm('LEVELS5_FAIL')
             return self.step_level5
         else:
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.DIAMOND, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
             self.pause(0.1)
             self.wait_confirm('LEVELS5_FINISH')
             return self.step_level6_pre
@@ -414,8 +376,8 @@ class FizzicsKey(Quest):
         self.pause(0.1)
         self._app.reset()
         self.pause(0.1)
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
         self.set_tools()
         self.wait_confirm('LEVELS6')
         return self.step_level6
@@ -434,21 +396,21 @@ class FizzicsKey(Quest):
 
         self.wait_confirm('LEVELS6_GO')
         cl = int(self._app.get_current_level())
-        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=True)
-        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=True)
+        self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
             self._app.set_js_property('preset', ('i', cl - 1))
             self._app.reset()
             self.pause(0.1)
             self.set_tools()
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
             self.wait_confirm('LEVELS6_FAIL')
             return self.step_level6
         else:
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER.value, enable=False)
-            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL.value, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
+            self._app.enable_physics_for_ball_type(self._app.BallType.GOAL, enable=False)
             self.pause(0.1)
             return self.step_success
 
