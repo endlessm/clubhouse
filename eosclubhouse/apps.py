@@ -1,3 +1,4 @@
+from enum import Enum
 from eosclubhouse.system import App, GameStateService
 from gi.repository import Gio, GLib
 
@@ -15,7 +16,17 @@ class Fizzics(App):
     APP_NAME = 'com.endlessm.Fizzics'
     _TOOLS = ['fling', 'move', 'create', 'delete']
     _TOOL_DISABLED_SUFFIX = 'ToolDisabled'
+    _TOOL_ACTIVE_SUFFIX = 'ToolActive'
     _DISABLE_ADD_FOR_BALL_TEMPLATE = 'createType{}Disabled'
+    _BALL_PROPERTIES = ['collision', 'friction', 'gravity', 'radius', 'usePhysics']
+    _MULTIBALL_PROPERTIES = ['socialForce']
+
+    class BallType(Enum):
+        PLAYER = 0
+        GOAL = 1
+        ENEMY = 2
+        ROCK = 3
+        DIAMOND = 4
 
     def __init__(self):
         """Clubhouse App that represents the Fizzics app.
@@ -54,13 +65,50 @@ class Fizzics(App):
         self._current_level = level
         return level
 
+    def set_current_level(self, level, debug_skip=False):
+        # Convert to 0-based index:
+        level -= 1
+
+        if debug_skip:
+            self._current_level = level
+            return
+
+        self.set_js_property('preset', ('i', level))
+
     def disable_tool(self, tool, disabled=True):
         assert tool in self._TOOLS
-        return self.set_js_property(tool + self._TOOL_DISABLED_SUFFIX, disabled)
+        self.set_js_property(tool + self._TOOL_DISABLED_SUFFIX, disabled)
+        if not disabled:
+            self.set_js_property(tool + self._TOOL_ACTIVE_SUFFIX, not disabled)
 
-    def disable_add_tool_for_ball_type(self, ball_type, disabled=True):
-        assert ball_type in range(5)
-        return self.set_js_property(self._DISABLE_ADD_FOR_BALL_TEMPLATE.format(ball_type), disabled)
+    def disable_add_tool_for_ball_type(self, ball_type_or_list, disabled=True):
+        if isinstance(ball_type_or_list, self.BallType):
+            ball_type_or_list = [ball_type_or_list]
+        for ball_type in ball_type_or_list:
+            assert isinstance(ball_type, self.BallType)
+            property_str = self._DISABLE_ADD_FOR_BALL_TEMPLATE.format(ball_type.value)
+            self.set_js_property(property_str, disabled)
+
+    def set_property_for_ball_type(self, property_, ball_type, value):
+        assert isinstance(ball_type, self.BallType)
+        assert property_ in self._BALL_PROPERTIES
+        property_str = '{}_{}'.format(property_, ball_type.value)
+        return self.set_js_property(property_str, value)
+
+    def set_property_for_ball_to_ball(self, property_, ball_type_a, ball_type_b, value):
+        assert isinstance(ball_type_a, self.BallType) and isinstance(ball_type_b, self.BallType)
+        assert property_ in self._MULTIBALL_PROPERTIES
+        property_str = '{}_{}_{}'.format(property_, ball_type_a.value, ball_type_b.value)
+        return self.set_js_property(property_str, value)
+
+    def enable_physics_for_ball_type(self, ball_type_or_list, enable=True):
+        if isinstance(ball_type_or_list, self.BallType):
+            ball_type_or_list = [ball_type_or_list]
+        for ball_type in ball_type_or_list:
+            self.set_property_for_ball_type('usePhysics', ball_type, enable)
+
+    def set_socialforce_for_ball_to_ball(self, ball_type_a, ball_type_b, value):
+        return self.set_property_for_ball_to_ball('socialForce', ball_type_a, ball_type_b, value)
 
     def _connect_level_change(self, property_changed_cb, *args):
         def _on_level_changed():
