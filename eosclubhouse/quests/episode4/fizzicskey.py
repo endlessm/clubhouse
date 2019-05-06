@@ -161,7 +161,7 @@ class FizzicsKey(Quest):
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_js_property('preset', ('i', cl - 1))
+            self._app.set_current_level(cl)
             self._app.reset()
             self.pause(0.2)
             self._app.enable_physics_for_ball_type([
@@ -213,7 +213,7 @@ class FizzicsKey(Quest):
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_js_property('preset', ('i', cl - 1))
+            self._app.set_current_level(cl)
             self._app.reset()
             self.pause(0.2)
             self._app.enable_physics_for_ball_type([
@@ -271,7 +271,7 @@ class FizzicsKey(Quest):
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_js_property('preset', ('i', cl - 1))
+            self._app.set_current_level(cl)
             self._app.reset()
             self.pause(0.2)
             self.set_tools()
@@ -332,7 +332,7 @@ class FizzicsKey(Quest):
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_js_property('preset', ('i', cl - 1))
+            self._app.set_current_level(cl)
             self._app.reset()
             self.pause(0.2)
             self.set_tools()
@@ -390,7 +390,7 @@ class FizzicsKey(Quest):
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_js_property('preset', ('i', cl - 1))
+            self._app.set_current_level(cl)
             self._app.reset()
             self.pause(0.1)
             self.set_tools()
@@ -446,7 +446,7 @@ class FizzicsKey(Quest):
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_js_property('preset', ('i', cl - 1))
+            self._app.set_current_level(cl)
             self._app.reset()
             self.pause(0.1)
             self.set_tools()
