@@ -504,5 +504,70 @@ class AccountService(GObject.GObject):
         self._call_async('InitAccounts', self._init_callback)
 
 
+class ToolBoxTopic(GObject.GObject):
+
+    __gsignals__ = {
+        'clicked': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
+
+    _INTERFACE_NAME = 'com.endlessm.HackToolbox.topic'
+    _proxy = None
+    _properties_proxy = None
+
+    def _get_proxy(self):
+        if self._proxy is None:
+            self._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                         0,
+                                                         None,
+                                                         'com.endlessm.HackToolbox',
+                                                         self._dbus_path,
+                                                         self._INTERFACE_NAME,
+                                                         None)
+
+        return self._proxy
+
+    def _get_properties_proxy(self):
+        if self._properties_proxy is None:
+            self._properties_proxy = Gio.DBusProxy.new_for_bus_sync(
+                Gio.BusType.SESSION,
+                0,
+                None,
+                'com.endlessm.HackToolbox',
+                self._dbus_path,
+                'org.freedesktop.DBus.Properties',
+                None,
+            )
+
+        return self._properties_proxy
+
+    # @todo: This is becoming a proxy of a proxy, so we should try to use a
+    # more direct later
+    def __init__(self, app_name, topic):
+        super().__init__()
+        self._dbus_path = '/com/endlessm/HackToolbox/window/{}/topic/{}'.format(app_name, topic)
+        self._get_gss_proxy().connect('g-signal', self._g_signal_cb)
+
+    def _g_signal_cb(self, proxy, sender_name, signal_name, params):
+        if signal_name == 'clicked':
+            self.emit('clicked')
+
+    def reveal(self, reveal=True):
+        self._get_proxy().reveal('(b)', GLib.Variant('b', reveal))
+
+    def get_sensitive(self):
+        variant = GLib.Variant('(ss)', (self._INTERFACE_NAME, 'sensitive'))
+        sensitive = self._get_properties_proxy().call_sync('Get', variant,
+                                                           Gio.DBusCallFlags.NONE, -1, None)
+        return sensitive is not None and sensitive.unpack()[0]
+
+    def set_sensitive(self, sensitive=True):
+        variant = GLib.Variant('(ssv)', (self._INTERFACE_NAME, 'sensitive',
+                                         GLib.Variant('b', sensitive)))
+        return self._get_properties_proxy().call_sync('Set', variant,
+                                                      Gio.DBusCallFlags.NONE, -1, None)
+
+
 # Allow to import the HackSoundServer from the system while using a more friendly name
 Sound = HackSoundServer
