@@ -17,20 +17,21 @@ class FizzicsKey(Quest):
     # # UTILITY FXNS  # #
     # # # # # # # # # # #
 
-    def set_tools(self):
+    def set_tools(self, create_disabled=False):
         self._app.disable_tool('fling')
         self._app.disable_tool('delete')
         self._app.disable_tool('move')
         # make sure we can create, because this is turned off sometimes
-        self._app.disable_tool('create', disabled=False)
-        # disable adding not-rocks
-        # can't disable this until AFTER the create tool is set up
-        self._app.disable_add_tool_for_ball_type([
-            self._app.BallType.PLAYER,
-            self._app.BallType.GOAL,
-            self._app.BallType.ENEMY,
-            self._app.BallType.DIAMOND,
-        ])
+        self._app.disable_tool('create', disabled=create_disabled)
+        if not create_disabled:
+            # disable adding not-rocks
+            # can't disable this until AFTER the create tool is set up
+            self._app.disable_add_tool_for_ball_type([
+                self._app.BallType.PLAYER,
+                self._app.BallType.GOAL,
+                self._app.BallType.ENEMY,
+                self._app.BallType.DIAMOND,
+            ])
 
     # # # # # # # # # # # # #
     # # QUESTION RESULTS  # #
@@ -104,9 +105,8 @@ class FizzicsKey(Quest):
     def step_ingame(self):
         # level 17, 16 internally
         self._app.set_js_property('preset', ('i', self.PRESET_NUM_BASE))
-        self.set_tools()
         # this is narrative, don't let the player win early!
-        self._app.disable_tool('create')
+        self.set_tools(create_disabled=True)
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
             self._app.BallType.DIAMOND,
@@ -136,8 +136,6 @@ class FizzicsKey(Quest):
             self._app.BallType.PLAYER,
             self._app.BallType.DIAMOND,
         ], enable=False)
-        # ok, now we go to gameplay, give the player a tool
-        self._app.disable_tool('create', disabled='False')
         return self.step_level1
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
