@@ -78,7 +78,8 @@ class Fizzics(App):
     def disable_tool(self, tool, disabled=True):
         assert tool in self._TOOLS
         self.set_js_property(tool + self._TOOL_DISABLED_SUFFIX, disabled)
-        self.set_js_property(tool + self._TOOL_ACTIVE_SUFFIX, not disabled)
+        if not disabled:
+            self.set_js_property(tool + self._TOOL_ACTIVE_SUFFIX, not disabled)
 
     def disable_add_tool_for_ball_type(self, ball_type_or_list, disabled=True):
         if isinstance(ball_type_or_list, self.BallType):
