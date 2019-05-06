@@ -70,10 +70,13 @@ class Fizzics(App):
         self.set_js_property(tool + self._TOOL_DISABLED_SUFFIX, disabled)
         self.set_js_property(tool + self._TOOL_ACTIVE_SUFFIX, not disabled)
 
-    def disable_add_tool_for_ball_type(self, ball_type, disabled=True):
-        assert isinstance(ball_type, self.BallType)
-        property_str = self._DISABLE_ADD_FOR_BALL_TEMPLATE.format(ball_type.value)
-        return self.set_js_property(property_str, disabled)
+    def disable_add_tool_for_ball_type(self, ball_type_or_list, disabled=True):
+        if isinstance(ball_type_or_list, self.BallType):
+            ball_type_or_list = [ball_type_or_list]
+        for ball_type in ball_type_or_list:
+            assert isinstance(ball_type, self.BallType)
+            property_str = self._DISABLE_ADD_FOR_BALL_TEMPLATE.format(ball_type.value)
+            self.set_js_property(property_str, disabled)
 
     def set_property_for_ball_type(self, property_, ball_type, value):
         assert isinstance(ball_type, self.BallType)
@@ -87,8 +90,11 @@ class Fizzics(App):
         property_str = '{}_{}_{}'.format(property_, ball_type_a.value, ball_type_b.value)
         return self.set_js_property(property_str, value)
 
-    def enable_physics_for_ball_type(self, ball_type, enable=True):
-        return self.set_property_for_ball_type('usePhysics', ball_type, enable)
+    def enable_physics_for_ball_type(self, ball_type_or_list, enable=True):
+        if isinstance(ball_type_or_list, self.BallType):
+            ball_type_or_list = [ball_type_or_list]
+        for ball_type in ball_type_or_list:
+            self.set_property_for_ball_type('usePhysics', ball_type, enable)
 
     def set_socialforce_for_ball_to_ball(self, ball_type_a, ball_type_b, value):
         return self.set_property_for_ball_to_ball('socialForce', ball_type_a, ball_type_b, value)
