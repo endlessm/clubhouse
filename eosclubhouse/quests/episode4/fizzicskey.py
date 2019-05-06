@@ -140,8 +140,7 @@ class FizzicsKey(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level1(self):
-        cl = int(self._app.get_current_level())
-        logger.debug("current level %i", cl)
+        current_level = self._app.get_current_level()
         # ensure correct tools are set
         self.set_tools()
         self.show_confirm_message('LEVELS1_READY', confirm_label='Ready!').wait()
@@ -161,7 +160,7 @@ class FizzicsKey(Quest):
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_current_level(cl)
+            self._app.set_current_level(current_level)
             self._app.reset()
             self.pause(0.2)
             self._app.enable_physics_for_ball_type([
@@ -195,7 +194,7 @@ class FizzicsKey(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level2(self):
-        cl = int(self._app.get_current_level())
+        current_level = self._app.get_current_level()
         self.set_tools()
         self.show_confirm_message('LEVELS2_READY', confirm_label='Ready!').wait()
 
@@ -213,7 +212,7 @@ class FizzicsKey(Quest):
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_current_level(cl)
+            self._app.set_current_level(current_level)
             self._app.reset()
             self.pause(0.2)
             self._app.enable_physics_for_ball_type([
@@ -252,7 +251,7 @@ class FizzicsKey(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level3(self):
-        cl = int(self._app.get_current_level())
+        current_level = self._app.get_current_level()
         self.set_tools()
         self.show_confirm_message('LEVELS3_READY', confirm_label='Ready!').wait()
 
@@ -271,7 +270,7 @@ class FizzicsKey(Quest):
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_current_level(cl)
+            self._app.set_current_level(current_level)
             self._app.reset()
             self.pause(0.2)
             self.set_tools()
@@ -324,7 +323,7 @@ class FizzicsKey(Quest):
         self.show_choices_message('LEVELS4_Q3', choiceHigh, choiceLow).wait()
 
         self.wait_confirm('LEVELS4_GO')
-        cl = int(self._app.get_current_level())
+        current_level = self._app.get_current_level()
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
             self._app.BallType.DIAMOND,
@@ -332,7 +331,7 @@ class FizzicsKey(Quest):
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_current_level(cl)
+            self._app.set_current_level(current_level)
             self._app.reset()
             self.pause(0.2)
             self.set_tools()
@@ -382,7 +381,7 @@ class FizzicsKey(Quest):
         self.show_choices_message('LEVELS5_Q2', choiceHigh, choiceLow).wait()
 
         self.wait_confirm('LEVELS5_GO')
-        cl = int(self._app.get_current_level())
+        current_level = self._app.get_current_level()
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
             self._app.BallType.DIAMOND,
@@ -390,7 +389,7 @@ class FizzicsKey(Quest):
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_current_level(cl)
+            self._app.set_current_level(current_level)
             self._app.reset()
             self.pause(0.1)
             self.set_tools()
@@ -439,14 +438,14 @@ class FizzicsKey(Quest):
         self.show_choices_message('LEVELS6_Q2', choiceHigh, choiceLow).wait()
 
         self.wait_confirm('LEVELS6_GO')
-        cl = int(self._app.get_current_level())
+        current_level = self._app.get_current_level()
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
             self._app.BallType.GOAL,
         ], enable=True)
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self._app.set_current_level(cl)
+            self._app.set_current_level(current_level)
             self._app.reset()
             self.pause(0.1)
             self.set_tools()
