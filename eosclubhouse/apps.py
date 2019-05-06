@@ -65,6 +65,16 @@ class Fizzics(App):
         self._current_level = level
         return level
 
+    def set_current_level(self, level, debug_skip=False):
+        # Convert to 0-based index:
+        level -= 1
+
+        if debug_skip:
+            self._current_level = level
+            return
+
+        self.set_js_property('preset', ('i', level))
+
     def disable_tool(self, tool, disabled=True):
         assert tool in self._TOOLS
         self.set_js_property(tool + self._TOOL_DISABLED_SUFFIX, disabled)
