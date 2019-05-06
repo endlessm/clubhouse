@@ -87,6 +87,9 @@
                 </style>
               </object>
             </child>
+            <style>
+              <class name="episode_row_details_box" />
+            </style>
           </object>
         </child>
       </object>

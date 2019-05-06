@@ -1153,6 +1153,12 @@ class EpisodeRow(Gtk.ListBoxRow):
         is_revealed = self._revealer.get_reveal_child()
         self._revealer.set_reveal_child(not is_revealed)
 
+        row_selected_style_class = 'episode-row-selected'
+        if is_revealed:
+            self.get_style_context().remove_class(row_selected_style_class)
+        else:
+            self.get_style_context().add_class(row_selected_style_class)
+
     def _setup_badge(self):
         if not self._episode.is_available:
             return
