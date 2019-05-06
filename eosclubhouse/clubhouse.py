@@ -864,6 +864,10 @@ class ClubhousePage(Gtk.EventBox):
         actions = self._actions
         action = self._actions.get(action_key)
 
+        # We close the popup once we get a response from the user, otherwise the dialog would just
+        # keep getting displayed until closed or replaced from elsewhere.
+        self._shell_close_popup_message()
+
         if action is None:
             logger.debug('Failed to get action for key %s', action_key)
             logger.debug('Current actions: %s', actions)
