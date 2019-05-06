@@ -105,6 +105,8 @@ class FizzicsKey(Quest):
     def step_ingame(self):
         # level 17, 16 internally
         self._app.set_current_level(self.FIRST_LEVEL)
+        self._app.reset()
+        self.pause(0.2)
         # this is narrative, don't let the player win early!
         self.set_tools(create_disabled=True)
         self._app.enable_physics_for_ball_type([
@@ -154,6 +156,7 @@ class FizzicsKey(Quest):
 
         self.wait_confirm('LEVELS1_GO')
         # unfreeze the orange ball
+        self._app.set_property_for_ball_type('gravity', self._app.BallType.PLAYER, ('i', 50))
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
             self._app.BallType.DIAMOND,
