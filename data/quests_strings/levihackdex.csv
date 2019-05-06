@@ -3,7 +3,7 @@ LEVIHACKDEX_DUMMY2,"hackdex dummy text 2, longer (If you see this in master it's
 LEVIHACKDEX_DUMMY3,"hackdex dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Ada,,,
 LEVIHACKDEX_QUESTION,"Hey there, Would you like to see what's in these files? ",Ada,,,
 LEVIHACKDEX_QUEST_ACCEPT,Yes! ,Ada,,,
-LEVIHACKDEX_LAUNCH,The files should be there on the dektop - Launch the *Leviathan* app.,Ada,,,
+LEVIHACKDEX_LAUNCH,The files should be there on the desktop - Launch the *Leviathan* app.,Ada,,,
 LEVIHACKDEX_OPENINTRO,"Whew. so glad to see these! You’ve heard about Leviathan, right? We’re all Leviathan fans around here.  
 
 These files hold some of my research on Leviathan. So let’s see what we have here.",Ada,,,
@@ -19,12 +19,19 @@ LEVIHACKDEX_OPENINTRO3,"Let's see. Mmm hmm.  think I can move this along. I've d
 
 I see you’ve been keeping a dossier on Leviathan! I know a bit about this illustrious figure myself. ",Estelle,,,quests/teaching
 LEVIHACKDEX_GIVEKEY,"
-First thing we’ll need is this key. hmmm, 
-",Estelle,,,quests/teaching
+The first thing we’ll need is this key.",Estelle,,,quests/teaching
+LEVIHACKDEX_FLIP,Now let's flip this data and see what we can hack.,Estelle,,,quests/teaching
+LEVIHACKDEX_UNLOCK,Use the key I just gave you to gain access.,Estelle,,,quests/teaching
+LEVIHACKDEX_DECRYPT,"Ah hah. Look down there, there's some kind of encryption value.
+
+Try changing it and see what we get!",Estelle,,,quests/teaching
+LEVIHACKDEX_DECRYPT_SUCCESS,"Excellent! Look at all these files...
+
+You've been working on this a while, haven't you, Ada?",Estelle,,,quests/teaching
 LEVIHACKDEX_BACKGROUND,I think of Leviathan as ancestor! I'm always digging up whatever I can about him. ,Ada,,,quests/teaching
 LEVIHACKDEX_PUSHINSTRUCTION,"Ah yes. This is a signature Leviathan move. Removing an obstacle. 
 
-What we’re looking at is a *Sidetrack* Instruction called `push`.",Estelle,,,quests/teaching
+What we’re looking at is a *Sidetrack* *Instruction called `push`.",Estelle,,,quests/teaching
 LEVIHACKDEX_PUSHINSTRUCTION2,"Tight! I knew you'd be able to help us with this, Estelle! Thank you!",Faber,,,quests/teaching
 LEVIHACKDEX_PUSHINSTRUCTION3,"Amazing. Thank you, Estelle. I remember seeing that in Leviathan's notes.
 

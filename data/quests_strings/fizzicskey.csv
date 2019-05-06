@@ -11,21 +11,21 @@ It didn't even have the hacking panel back then. And Fizzics isn't backward comp
 Basically what I'm saying is that we can't hack directly to solve these levels. 
 
 We have to do it a clunkier way. Let's get started. It's easier to demonstrate than explain.",Saniel,,,
-FIZZICSKEY_LEVELS1_B,"Right now this level is in suspended animation. 
+FIZZICSKEY_LEVELS1_B,"Right now this level is in suspended animation. It's been inactive for so long. 
 
-I've got my hands in the back of the box, and when I twist this knob, 
+Okay, so just let me make a few adjustments over here to get everything moving again. 
 
-everything will start moving. Are you ready?",Saniel,,,
+Are you ready?",Saniel,,,
 FIZZICSKEY_LEVELS1_C,"Okay! So that didn't work. We need get the orange ball to touch the goal, 
 
 This configuration doesn't accomplish that. See how there's no Fling tool and no Drag tool?
 
-Hardly any of the tools worked back when this level was made. All you have is the Add tool. 
+Hardly any of the tools worked back when this level was made. All you have is the *Add* tool. 
 
-And, you can only add boulders! 
+And you can only *Add* boulders! It's that ancient! 
 
 ",Saniel,,,
-FIZZICSKEY_LEVELS1_READY,"Use the Add tool to add boulders until you think the level is in a good configuration. 
+FIZZICSKEY_LEVELS1_READY,"Use the *Add* tool to *Add* boulders until you think the level is in a good configuration. 
 
 Tell me when you're ready.",Saniel,,,
 FIZZICSKEY_LEVELS1_READY_ACCEPT,I'm ready!,Saniel,,,
@@ -51,25 +51,27 @@ This one is very much like the last, except the orange ball isn't bouncy.
 I can control a couple things from here. I can make the orange ball and spikey things repel each other. 
 
 And I can give the orange ball some friction.",Saniel,,,
-FIZZICSKEY_LEVELS2_READY,"Use the Add tool to add boulders until you think the level is in a good configuration. 
+FIZZICSKEY_LEVELS2_READY,"Use the *Add* tool to *Add* boulders until you think the level is in a good configuration. 
 
 Tell me when you're ready.",Saniel,,,
 FIZZICSKEY_LEVELS2_READY_ACCEPT,I'm ready!,Saniel,,,
-FIZZICSKEY_LEVELS2_Q1,Do you want the the spikey things to repel the orange balls as if magnetically?,Saniel,,,
+FIZZICSKEY_LEVELS2_Q1,Do you want the the spikey balls to repel the orange balls?,Saniel,,,
 FIZZICSKEY_LEVELS2_Q1_A1,Yes,Saniel,,,
 FIZZICSKEY_LEVELS2_Q1_A2,No,Saniel,,,
 FIZZICSKEY_LEVELS2_Q2,Should the orange ball have any friction?,Saniel,,,
 FIZZICSKEY_LEVELS2_Q2_A1,A little,Saniel,,,
 FIZZICSKEY_LEVELS2_Q2_A2,None,Saniel,,,
 FIZZICSKEY_LEVELS2_GO,Let's try it out!,Saniel,,,
-FIZZICSKEY_LEVELS2_FAIL,"Curses! Well, let's try adding different boulders, or perhaps a different settings to the parameters I can change?",Saniel,,,
+FIZZICSKEY_LEVELS2_FAIL,"Curses! Well, let's try adding different boulders, or perhaps we can add different settings to the available parameters?",Saniel,,,
 FIZZICSKEY_LEVELS2_FINISH,Sensational! I'm pleased to see your skill and accumen at this task.,Saniel,hurray,,
-FIZZICSKEY_LEVELS3,"On this level, the orange ball can either have *positive* or *negative* gravity. Negative gravity causes it to ""drop"" upwards intstead of downwards.
+FIZZICSKEY_LEVELS3,"On this level, the orange ball can either have *positive* or *negative* gravity. 
 
-Also note the two goals are overlapping. As soon as I start the level, they will go flying away from each other!
+With negative gravity intstead of dropping downwards, the ball floats upwards. 
 
-One last thing. Diamonds are attracted to each other in this level, so they will tend to clump together.",Saniel,,,
-FIZZICSKEY_LEVELS3_READY,Use the Add tool to add boulders until you think the level is in a good configuration. Tell me when you're ready.,Saniel,,,
+Also note the two goals are overlapping. As soon as the level starts, they will fly away from each other!
+
+Also, you'll see that the diamonds tend to clump together. That's because of their attraction setting!",Saniel,,,
+FIZZICSKEY_LEVELS3_READY,Use the *Add* tool to add boulders until you think the level is in a good configuration. Tell me when you're ready.,Saniel,,,
 FIZZICSKEY_LEVELS3_READY_ACCEPT,I'm ready!,Saniel,,,
 FIZZICSKEY_LEVELS3_Q1,Should the orange ball have positive or negative gravity?,Saniel,,,
 FIZZICSKEY_LEVELS3_Q1_A1,Positive,Saniel,,,
@@ -87,7 +89,7 @@ FIZZICSKEY_LEVELS4,"This is another level in which the goal is mobile. That boul
 Here's a nice thing though. All the diamonds are attracted to the orange ball! Very handy!
 
 Let's see... I can give gravity to the goal and the diamonds, if you'd like.",Saniel,,,
-FIZZICSKEY_LEVELS4_READY,"Use the Add tool to add boulders until you think the level is in a good configuration. 
+FIZZICSKEY_LEVELS4_READY,"Use the *Add* tool to add boulders until you think the level is in a good configuration. 
 
 Tell me when you're ready.",Saniel,,,
 FIZZICSKEY_LEVELS4_READY_ACCEPT,I'm ready!,Saniel,,,
@@ -108,7 +110,7 @@ FIZZICSKEY_LEVELS5,"This time the orange ball is all set to launch like a catapu
 That should be fun. Watch out, though, it's VERY bouncy!
 
 I can give the goal gravity if you'd like. Hmmm look at this! I can also make the diamonds HUGE!",Saniel,,,
-FIZZICSKEY_LEVELS5_READY,"Use the Add tool to add boulders until you think the level is in a good configuration. 
+FIZZICSKEY_LEVELS5_READY,"Use the *Add* tool to *Add* boulders until you think the level is in a good configuration. 
 
 Tell me when you're ready.",Saniel,,,
 FIZZICSKEY_LEVELS5_READY_ACCEPT,I'm ready!,Saniel,,,
@@ -128,7 +130,7 @@ The goal has normal gravity. But the orange ball has NEGATIVE gravity.
 I can increase its negative gravity to cause it to fall upwards with greater force.
 
 If you'd like, I can also cause boulders to repel the orange ball.",Saniel,,,
-FIZZICSKEY_LEVELS6_READY,"Use the Add tool to add boulders until you think the level is in a good configuration. 
+FIZZICSKEY_LEVELS6_READY,"Use the *Add* tool to add boulders until you think the level is in a good configuration. 
 
 Tell me when you're ready.",Saniel,,,
 FIZZICSKEY_LEVELS6_READY_ACCEPT,I'm ready!,Saniel,,,
