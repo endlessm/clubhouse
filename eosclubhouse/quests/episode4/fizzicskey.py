@@ -7,7 +7,7 @@ from eosclubhouse import logger
 class FizzicsKey(Quest):
 
     __available_after_completing_quests__ = ['MazePt3']
-    PRESET_NUM_BASE = 16
+    FIRST_LEVEL = 17
 
     def __init__(self):
         super().__init__('FizzicsKey', 'saniel')
@@ -104,7 +104,7 @@ class FizzicsKey(Quest):
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_ingame(self):
         # level 17, 16 internally
-        self._app.set_js_property('preset', ('i', self.PRESET_NUM_BASE))
+        self._app.set_current_level(self.FIRST_LEVEL)
         # this is narrative, don't let the player win early!
         self.set_tools(create_disabled=True)
         self._app.enable_physics_for_ball_type([
@@ -128,7 +128,7 @@ class FizzicsKey(Quest):
     def step_level1_pre2(self):
         self.pause(7)
         self.wait_confirm('LEVELS1_C')
-        self._app.set_js_property('preset', ('i', self.PRESET_NUM_BASE))
+        self._app.set_current_level(self.FIRST_LEVEL)
         self._app.reset()
         self.pause(0.2)
         self.set_tools()
@@ -180,7 +180,7 @@ class FizzicsKey(Quest):
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level2_pre(self):
         # level 18
-        self._app.set_js_property('preset', ('i', self.PRESET_NUM_BASE + 1))
+        self._app.set_current_level(self.FIRST_LEVEL + 1)
         self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
         self.pause(0.1)
         self._app.reset()
@@ -235,7 +235,7 @@ class FizzicsKey(Quest):
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level3_pre(self):
         # level 19
-        self._app.set_js_property('preset', ('i', self.PRESET_NUM_BASE + 2))
+        self._app.set_current_level(self.FIRST_LEVEL + 2)
         self.pause(0.2)
         self._app.reset()
         self.pause(0.2)
@@ -295,7 +295,7 @@ class FizzicsKey(Quest):
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level4_pre(self):
         # level 20
-        self._app.set_js_property('preset', ('i', self.PRESET_NUM_BASE + 3))
+        self._app.set_current_level(self.FIRST_LEVEL + 3)
         self.pause(0.2)
         self._app.reset()
         self.pause(0.2)
@@ -356,7 +356,7 @@ class FizzicsKey(Quest):
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level5_pre(self):
         # level 21
-        self._app.set_js_property('preset', ('i', self.PRESET_NUM_BASE + 4))
+        self._app.set_current_level(self.FIRST_LEVEL + 4)
         self.pause(0.2)
         self._app.reset()
         self.pause(0.1)
@@ -414,7 +414,7 @@ class FizzicsKey(Quest):
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level6_pre(self):
         # level 22
-        self._app.set_js_property('preset', ('i', self.PRESET_NUM_BASE + 5))
+        self._app.set_current_level(self.FIRST_LEVEL + 5)
         self.pause(0.1)
         self._app.reset()
         self.pause(0.1)
