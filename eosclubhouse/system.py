@@ -504,5 +504,82 @@ class AccountService(GObject.GObject):
         self._call_async('InitAccounts', self._init_callback)
 
 
+class ToolBoxTopic(GObject.GObject):
+
+    _INTERFACE_NAME = 'com.endlessm.HackToolbox.Topic'
+    _PATH_TEMPLATE = '/com/endlessm/HackToolbox/window/{}/topic/{}'
+    _proxy = None
+    _properties_proxy = None
+
+    @classmethod
+    def _build_dbus_path(klass, app_name, topic_name):
+        return klass._PATH_TEMPLATE.format(app_name.replace('.', '_'),
+                                           topic_name)
+
+    def _get_proxy(self):
+        if self._proxy is None:
+            self._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                         0,
+                                                         None,
+                                                         'com.endlessm.HackToolbox',
+                                                         self._dbus_path,
+                                                         self._INTERFACE_NAME,
+                                                         None)
+
+        return self._proxy
+
+    def _get_properties_proxy(self):
+        if self._properties_proxy is None:
+            self._properties_proxy = Gio.DBusProxy.new_for_bus_sync(
+                Gio.BusType.SESSION,
+                0,
+                None,
+                'com.endlessm.HackToolbox',
+                self._dbus_path,
+                'org.freedesktop.DBus.Properties',
+                None,
+            )
+
+        return self._properties_proxy
+
+    def __init__(self, app_name, topic_name):
+        super().__init__()
+        self._app_name = app_name
+        self._topic_name = topic_name
+        self._dbus_path = self._build_dbus_path(app_name, topic_name)
+
+    def reveal(self, reveal=True):
+        self._get_proxy().reveal('(b)', GLib.Variant('b', reveal))
+
+    def connect_clicked(self, on_clicked_cb, *args):
+
+        def _clicked_cb(_proxy, _owner, signal_name, params, on_clicked_cb, *args):
+            if signal_name != 'clicked':
+                return
+
+            on_clicked_cb(self._app_name, self._topic_name, *args)
+
+        return self._get_proxy().connect('g-signal', _clicked_cb, on_clicked_cb, *args)
+
+    def disconnect_clicked(self, handler_id):
+        self._get_proxy().disconnect(handler_id)
+
+    def get_sensitive(self):
+        variant = GLib.Variant('(ss)', (self._INTERFACE_NAME, 'sensitive'))
+        sensitive = self._get_properties_proxy().call_sync('Get', variant,
+                                                           Gio.DBusCallFlags.NONE, -1, None)
+        if sensitive is None:
+            logger.warning("Failed to get 'sensitive' property"
+                           " from toolbox topic %s", self._dbus_path)
+
+        return sensitive is not None and sensitive.unpack()[0]
+
+    def set_sensitive(self, sensitive=True):
+        variant = GLib.Variant('(ssv)', (self._INTERFACE_NAME, 'sensitive',
+                                         GLib.Variant('b', sensitive)))
+        return self._get_properties_proxy().call_sync('Set', variant,
+                                                      Gio.DBusCallFlags.NONE, -1, None)
+
+
 # Allow to import the HackSoundServer from the system while using a more friendly name
 Sound = HackSoundServer
