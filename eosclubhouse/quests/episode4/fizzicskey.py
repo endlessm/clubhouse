@@ -143,9 +143,6 @@ class FizzicsKey(Quest):
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level1(self):
         current_level = self._app.get_current_level()
-        # ensure correct tools are set
-        # FIXME not needed?
-        # self.set_tools()
         self.show_confirm_message('LEVELS1_READY', confirm_label='Ready!').wait()
 
         choiceHigh = ('LEVELS1_Q1_A1', self.do_level1_friction, True)
@@ -190,8 +187,6 @@ class FizzicsKey(Quest):
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level2(self):
         current_level = self._app.get_current_level()
-        # FIXME not needed?
-        # self.set_tools()
         self.show_confirm_message('LEVELS2_READY', confirm_label='Ready!').wait()
 
         choiceHigh = ('LEVELS2_Q1_A1', self.do_level2_repel, True)
@@ -240,8 +235,6 @@ class FizzicsKey(Quest):
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level3(self):
         current_level = self._app.get_current_level()
-        # FIXME not needed?
-        # self.set_tools()
         self.show_confirm_message('LEVELS3_READY', confirm_label='Ready!').wait()
 
         choiceHigh = ('LEVELS3_Q1_A1', self.do_level3_gravity, True)
@@ -291,8 +284,7 @@ class FizzicsKey(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level4(self):
-        # FIXME not needed?
-        # self.set_tools()
+        current_level = self._app.get_current_level()
         self.show_confirm_message('LEVELS4_READY', confirm_label='Ready!').wait()
 
         choiceHigh = ('LEVELS4_Q1_A1', self.do_level4_gravity_goal, True)
@@ -306,7 +298,6 @@ class FizzicsKey(Quest):
         self.show_choices_message('LEVELS4_Q3', choiceHigh, choiceLow).wait()
 
         self.wait_confirm('LEVELS4_GO')
-        current_level = self._app.get_current_level()
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
             self._app.BallType.DIAMOND,
@@ -346,8 +337,7 @@ class FizzicsKey(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level5(self):
-        # FIXME not needed?
-        # self.set_tools()
+        current_level = self._app.get_current_level()
         self.show_confirm_message('LEVELS5_READY', confirm_label='Ready!').wait()
 
         choiceHigh = ('LEVELS5_Q1_A1', self.do_level5_gravity_goal, True)
@@ -358,7 +348,6 @@ class FizzicsKey(Quest):
         self.show_choices_message('LEVELS5_Q2', choiceHigh, choiceLow).wait()
 
         self.wait_confirm('LEVELS5_GO')
-        current_level = self._app.get_current_level()
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
             self._app.BallType.DIAMOND,
@@ -380,7 +369,7 @@ class FizzicsKey(Quest):
                 self._app.BallType.DIAMOND,
                 self._app.BallType.GOAL,
             ], enable=False)
-            self.pause(0.1)
+            self.pause(0.2)
             self.wait_confirm('LEVELS5_FINISH')
             return self.step_level6_pre
 
@@ -397,8 +386,7 @@ class FizzicsKey(Quest):
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level6(self):
-        # FIXME not needed?
-        # self.set_tools()
+        current_level = self._app.get_current_level()
         self.show_confirm_message('LEVELS6_READY', confirm_label='Ready!').wait()
 
         choiceHigh = ('LEVELS6_Q1_A1', self.do_level6_gravity_negative, True)
@@ -409,7 +397,6 @@ class FizzicsKey(Quest):
         self.show_choices_message('LEVELS6_Q2', choiceHigh, choiceLow).wait()
 
         self.wait_confirm('LEVELS6_GO')
-        current_level = self._app.get_current_level()
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
             self._app.BallType.GOAL,
@@ -428,7 +415,7 @@ class FizzicsKey(Quest):
                 self._app.BallType.PLAYER,
                 self._app.BallType.GOAL,
             ], enable=False)
-            self.pause(0.1)
+            self.pause(0.2)
             return self.step_success
 
     def step_success(self):
