@@ -122,7 +122,6 @@ class FizzicsKey(Quest):
     def step_level1_pre(self):
         self.wait_confirm('LEVELS1')
         self.wait_confirm('LEVELS1_B')
-        self._app.set_property_for_ball_type('gravity', self._app.BallType.PLAYER, ('i', 50))
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
             self._app.BallType.DIAMOND,
@@ -153,7 +152,6 @@ class FizzicsKey(Quest):
         self.show_choices_message('LEVELS1_Q2', choiceHigh, choiceLow).wait()
 
         self.wait_confirm('LEVELS1_GO')
-        self._app.set_property_for_ball_type('gravity', self._app.BallType.PLAYER, ('i', 50))
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
             self._app.BallType.DIAMOND,
@@ -197,7 +195,6 @@ class FizzicsKey(Quest):
         self.show_choices_message('LEVELS2_Q2', choiceHigh, choiceLow).wait()
 
         self.wait_confirm('LEVELS2_GO')
-        self._app.set_property_for_ball_type('gravity', self._app.BallType.PLAYER, ('i', 20))
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
             self._app.BallType.DIAMOND,
