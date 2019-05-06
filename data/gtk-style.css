@@ -282,6 +282,18 @@ window.poster {
 
 .episode-row-expand-button {
     background: rgba(239, 230, 218, 0.2);
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.episode-row-selected .episode-row-expand-button,
+.episode-row-selected .episode-row-expand-button:hover {
+    background: rgba(239, 230, 218, 0.6);
+}
+
+.episode_row_details_box {
+    background: rgba(239, 230, 218, 0.4);
 }
 
 .episode-row-expand-button:hover {
