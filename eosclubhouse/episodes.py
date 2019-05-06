@@ -22,10 +22,18 @@ class BadgeButton(Gtk.Button):
         style_context = self.get_style_context()
         style_context.add_class('badge')
 
+        self.connect('state-flags-changed', self._style_flags_changed_cb)
+
         self._update()
 
         self._episode.connect('notify::percentage-complete',
                               lambda *args: self._update())
+
+    def _style_flags_changed_cb(self, _button, previous_flags):
+        # If the prelight flag of the current or previous states differ, then we update the image.
+        current_flags = self.get_state_flags()
+        if previous_flags & Gtk.StateFlags.PRELIGHT != current_flags & Gtk.StateFlags.PRELIGHT:
+            self._update()
 
     def _setup_ui(self):
         self._image = Gtk.Image()
@@ -43,7 +51,10 @@ class BadgeButton(Gtk.Button):
     def _update(self):
         percentage_complete = self._episode.percentage_complete
         if percentage_complete == 100:
-            badgename = '{}.png'.format(self._episode.id)
+            if self.get_state_flags() & Gtk.StateFlags.PRELIGHT:
+                badgename = '{}_hover.png'.format(self._episode.id)
+            else:
+                badgename = '{}.png'.format(self._episode.id)
         elif self._episode.is_current:
             progress = self._get_progress_for_percentage(percentage_complete)
             badgename = 'episode_progress_{}.png'.format(progress)
