@@ -19,7 +19,6 @@ class TestRegistry(ClubhouseTestCase):
 
         def _complete_quest(quest, complete=True):
             quest.complete = complete
-            print('::::', quest.__complete_episode__)
             return complete
 
         # Set all quests as not completed
