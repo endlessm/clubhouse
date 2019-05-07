@@ -1,4 +1,5 @@
 from enum import Enum
+from eosclubhouse import logger
 from eosclubhouse.system import App, GameStateService
 from gi.repository import Gio, GLib
 
@@ -143,10 +144,15 @@ class Fizzics(App):
         return handlers
 
     def reset(self):
-        self.get_gtk_actions_proxy().call_sync('Activate',
-                                               GLib.Variant('(sava{sv})', ('reset', (), {})),
-                                               Gio.DBusCallFlags.NO_AUTO_START,
-                                               -1, None)
+        proxy = self.get_gtk_actions_proxy()
+        if proxy.props.g_name_owner is None:
+            logger.warning('Cannot call reset on Fizzics. It is not running.')
+            return
+
+        proxy.call_sync('Activate',
+                        GLib.Variant('(sava{sv})', ('reset', (), {})),
+                        Gio.DBusCallFlags.NO_AUTO_START,
+                        -1, None)
 
 
 class LightSpeed(App):

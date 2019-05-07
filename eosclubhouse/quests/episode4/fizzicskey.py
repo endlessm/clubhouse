@@ -1,7 +1,6 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
 from eosclubhouse.apps import Fizzics
-from eosclubhouse import logger
 
 
 class FizzicsKey(Quest):
