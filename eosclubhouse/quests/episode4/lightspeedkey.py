@@ -27,7 +27,6 @@ class LightspeedKey(Quest):
         # for some reason SET_JS_PROPERTY does not work, I need to use the inner function
         # turn on all the topic panels, this will end up changing per-level
         self._app.reveal_topic('spawn')
-        self._app.set_topic_sensitive('spawn', False)
         self._app.reveal_topic('updateAsteroid')
         self._app.reveal_topic('updateSpinner')
         self._app.reveal_topic('updateSquid')
@@ -64,8 +63,7 @@ class LightspeedKey(Quest):
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_incode(self):
-        # waiting for new hooks and functionality here
-        #
+        self._app.set_topic_sensitive('spawn', False)
         # if the user flips the app and clicks on a coding panel, Faber responds as follows:
         # LIGHTSPEEDKEY_PANEL_LOCKED - if the panel they've clicked on is not available this level
         # LIGHTSPEEDKEY_PANEL_GAME- if they click on the Game panel
