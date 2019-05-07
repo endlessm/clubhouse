@@ -1178,10 +1178,15 @@ class EpisodeRow(Gtk.ListBoxRow):
                 self._expand_button.connect('size-allocate',
                                             lambda _widget, _alloc: self._update_badge_position())
 
+            # Update the badges position when the badges box is realized to make sure we place the
+            # badges when both the rows' button + the badges box have valid dimensions.
+            self._badges_box.connect_after('realize',
+                                           lambda _widget: self._update_badge_position())
+
         self._badge.connect('clicked', self._badge_clicked_cb)
 
     def _update_badge_position(self):
-        if not self.get_realized():
+        if not self.get_realized() or not self._badges_box.get_realized():
             return
 
         # We only use the button's allocation for getting the vertical position on which to set
