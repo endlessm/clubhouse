@@ -205,6 +205,7 @@ class LightSpeed(App):
         '''Sets a key in the game state so that the given topic ID is revealed
         in Lightspeed's toolbox.'''
 
+        # @todo: we can now use: ToolBoxTopic.reveal()
         self.gss.set('lightspeed.topic.{}'.format(topic), {'visible': True})
 
     def set_topic_sensitive(self, topic_name, sensitive=True):
