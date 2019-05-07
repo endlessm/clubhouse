@@ -43,6 +43,12 @@ class MazePt4(Quest):
             if not self._app.get_js_property('success'):
                 return self.step_play_level
             else:
+                # felix escapes!
+                self._app.set_js_property('escapeCutscene', ('b', True))
+                logger.debug("started escape cutscene")
+                self.pause(1)
+                self.wait_for_app_js_props_changed(self._app, ['escapeCutscene'])
+                logger.debug("detected cutscene state change")
                 self.wait_confirm('END1')
                 self.wait_confirm('END2')
                 self.wait_confirm('END3')
