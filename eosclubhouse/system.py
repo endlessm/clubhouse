@@ -547,7 +547,7 @@ class ToolBoxTopic(GObject.GObject):
     def __init__(self, app_name, topic):
         super().__init__()
         self._dbus_path = '/com/endlessm/HackToolbox/window/{}/topic/{}'.format(app_name, topic)
-        self._get_gss_proxy().connect('g-signal', self._g_signal_cb)
+        self._get_proxy().connect('g-signal', self._g_signal_cb)
 
     def _g_signal_cb(self, proxy, sender_name, signal_name, params):
         if signal_name == 'clicked':
