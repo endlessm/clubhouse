@@ -8,59 +8,52 @@ class LightspeedKey(Quest):
 
     __available_after_completing_quests__ = ['MazePt1']
 
+    FIRST_LEVEL = 15
+    LAST_LEVEL = 17
+
     def __init__(self):
         super().__init__('LightspeedKey', 'faber')
         self._app = LightSpeed()
 
     def step_begin(self):
-        # quest starts by clicking on Faber in the clubhouse
-        # Faber asks:  LIGHTSPEEDKEY_QUESTION
-        # user can reply:  LIGHTSPEEDKEY_QUESTION_ACCEPT  or _ABORT
-        # if user does _ACCEPT, then Faber says LIGHTSPEEDKEY_LAUNCH which has _HINT1
-        logger.debug('start step_begin')
         self.ask_for_app_launch(self._app, message_id='LIGHTSPEEDKEY_LAUNCH')
-        logger.debug('end step_begin')
         return self.step_initiallevel
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_initiallevel(self):
-        logger.debug('start step_initiallevel')
         self._app.set_object_property(
             'view.JSContext.globalParameters', 'availableLevels', ('u', 7))
         # self._app.set_js_property('availableLevels', ('u', '7'))
         # for some reason SET_JS_PROPERTY does not work, I need to use the inner function
         # turn on all the topic panels, this will end up changing per-level
         self._app.reveal_topic('spawn')
+        self._app.set_topic_sensitive('spawn', False)
         self._app.reveal_topic('updateAsteroid')
         self._app.reveal_topic('updateSpinner')
         self._app.reveal_topic('updateSquid')
         self._app.reveal_topic('updateBeam')
         self._app.reveal_topic('activatePowerup')
-        self._app.set_level(1)
-        logger.debug('end step_initiallevel')
+        self._app.set_level(self.FIRST_LEVEL)
         return self.step_inlevel
 
     # Decorator can't use self._app since self is not evaluated at function definition time
     @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_inlevel(self):
-        logger.debug('in step_inlevel, we are somewhere in the game')
-        cl = int(self._app.get_js_property('currentLevel', 0))
-        logger.debug('currentlevel = ' + str(cl))
-        level_id = "LEVELS" + str(cl)
-        logger.debug('level_id = ' + level_id)
+        current_level = self._app.get_js_property('currentLevel', 0)
+        level_id = "LEVELS{}".format(int(current_level - self.FIRST_LEVEL + 1))
         # there are 5 levels to the Lightspeed quest.  for each level #:
         # at the beginning of the level, Faber says LIGHTSPEEDKEY_LEVELS# which has _HINT1
         # python has no switch statement so we have to do this gross way
-        if cl == 0:
+        if current_level == 0:
             logger.debug('at main menu, do nothing')
             self.wait_for_app_js_props_changed(self._app, ['currentLevel'])
             return self.step_inlevel
-        elif cl > 0 and cl < 6:
+        elif self.FIRST_LEVEL <= current_level <= self.LAST_LEVEL:
             self.show_hints_message(level_id)
             self.wait_for_app_js_props_changed(self._app, ['flipped', 'currentLevel'])
             if self._app.get_js_property('flipped'):
                 return self.step_incode
-            elif self._app.get_js_property('currentLevel', 0) != cl:
+            elif self._app.get_js_property('currentLevel', 0) != current_level:
                 return self.step_inlevel
             else:
                 logger.warning(
@@ -71,8 +64,6 @@ class LightspeedKey(Quest):
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_incode(self):
-        logger.debug('in step_incode, should be in the code panel')
-
         # waiting for new hooks and functionality here
         #
         # if the user flips the app and clicks on a coding panel, Faber responds as follows:
@@ -89,12 +80,8 @@ class LightspeedKey(Quest):
         return self.step_inlevel
 
     def step_success(self):
-        logger.debug('in step_success, should be still in Lightspeed but playing victory dialogue')
-        # when the user beats level 5, Faber says LIGHTSPEEDKEY_SUCCESS
         self.wait_confirm('SUCCESS')
-        # give the player the key: Riley Maze Instructions Panel
-        # items are stored in the text spreadsheet
-        self.give_item('item.reward.testreward')
+        self.give_item('item.key.sidetrack.1')
         self.complete = True
         self.available = False
         Sound.play('quests/quest-complete')
