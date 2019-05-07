@@ -1305,7 +1305,7 @@ class EpisodesPage(Gtk.EventBox):
 
     def _episode_badge_clicked_cb(self, episode_row):
         episode = episode_row.get_episode()
-        if episode.percentage_complete == 100:
+        if episode.is_complete():
             episode_row.show_poster()
             return
 
