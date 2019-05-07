@@ -1320,6 +1320,25 @@ class EpisodesPage(Gtk.EventBox):
         episode = self._get_current_episode()
         episode.percentage_complete = libquest.Registry.get_current_episode_progress() * 100
 
+        if episode.is_complete():
+            self._shell_popup_episode_badge(episode.id)
+
+    def _shell_popup_episode_badge(self, episode_id):
+        notification = Gio.Notification()
+        notification.set_body("You have a new badge! You can find it in the Episodes tab.")
+        notification.set_title('')
+
+        icon_path = os.path.join(config.EPISODES_DIR, 'badges', '{}.png'.format(episode_id))
+        icon_file = Gio.File.new_for_path(icon_path)
+        icon_bytes = icon_file.load_bytes(None)
+        icon = Gio.BytesIcon.new(icon_bytes[0])
+
+        notification.set_icon(icon)
+
+        notification.add_button('Show me', 'app.episode-award-accept-answer(true)')
+
+        Gio.Application.get_default().send_quest_item_notification(notification)
+
     def _update_episode_badges(self):
         current_episode = libquest.Registry.get_current_episode()
 
@@ -1658,7 +1677,9 @@ class ClubhouseApplication(Gtk.Application):
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
                           ('item-accept-answer', self._item_accept_action_cb,
-                           GLib.VariantType.new('b')),
+                           GLib.VariantType.new('b'), 'inventory'),
+                          ('episode-award-accept-answer', self._item_accept_action_cb,
+                           GLib.VariantType.new('b'), 'episodes'),
                           ('quest-debug-skip', self._quest_debug_skip, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('quest-view-close', self._quest_view_close_action_cb, None),
@@ -1668,9 +1689,9 @@ class ClubhouseApplication(Gtk.Application):
                           ('stop-quest', self._stop_quest, None),
                           ]
 
-        for name, callback, variant_type in simple_actions:
+        for name, callback, variant_type, *callback_args in simple_actions:
             action = Gio.SimpleAction.new(name, variant_type)
-            action.connect('activate', callback)
+            action.connect('activate', callback, *callback_args)
             self.add_action(action)
 
         # Make sure that we create a user account if there's none
@@ -1734,11 +1755,11 @@ class ClubhouseApplication(Gtk.Application):
             self._window.clubhouse_page.stop_quest()
         self.close_quest_msg_notification()
 
-    def _item_accept_action_cb(self, action, arg_variant):
+    def _item_accept_action_cb(self, action, arg_variant, page_to_select):
         Sound.play('quests/key-confirm')
         show_inventory = arg_variant.unpack()
         if show_inventory and self._window:
-            self._window.set_page('inventory')
+            self._window.set_page(page_to_select)
             self._show_and_focus_window()
 
     def _debug_mode_action_cb(self, action, arg_variant):
