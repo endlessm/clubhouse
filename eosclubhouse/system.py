@@ -560,6 +560,10 @@ class ToolBoxTopic(GObject.GObject):
         variant = GLib.Variant('(ss)', (self._INTERFACE_NAME, 'sensitive'))
         sensitive = self._get_properties_proxy().call_sync('Get', variant,
                                                            Gio.DBusCallFlags.NONE, -1, None)
+        if sensitive is None:
+            logger.warning("Failed to get 'sensitive' property"
+                           " from toolbox topic %s", self._dbus_path)
+
         return sensitive is not None and sensitive.unpack()[0]
 
     def set_sensitive(self, sensitive=True):
