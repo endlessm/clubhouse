@@ -1,6 +1,6 @@
 from enum import Enum
 from eosclubhouse import logger
-from eosclubhouse.system import App, GameStateService
+from eosclubhouse.system import App, GameStateService, ToolBoxTopic
 from gi.repository import Gio, GLib
 
 
@@ -206,6 +206,10 @@ class LightSpeed(App):
         in Lightspeed's toolbox.'''
 
         self.gss.set('lightspeed.topic.{}'.format(topic), {'visible': True})
+
+    def set_topic_sensitive(self, topic_name, sensitive=True):
+        topic = ToolBoxTopic('LightSpeed', topic_name)
+        topic.set_sensitive(sensitive=sensitive)
 
     def _count_properties(self, type_, suffix, *elements):
         assert all(elem in type_ for elem in elements)
