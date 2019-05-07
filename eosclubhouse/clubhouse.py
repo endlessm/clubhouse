@@ -378,8 +378,7 @@ class ClubhousePage(Gtk.EventBox):
         self._app_window.connect('key-press-event', self._key_press_event_cb)
         self._app_window.connect('notify::visible', self._on_window_visibility_changed)
 
-        self._app = self._app_window.get_application()
-        assert self._app is not None
+        self._app = Gio.Application.get_default()
 
         self._setup_ui()
         self.get_style_context().add_class('clubhouse-page')
