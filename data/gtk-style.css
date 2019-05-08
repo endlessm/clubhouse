@@ -287,8 +287,8 @@ window.poster {
     box-shadow: none;
 }
 
-.episode-row-selected .episode-row-expand-button,
-.episode-row-selected .episode-row-expand-button:hover {
+.episode-row:selected .episode-row-expand-button,
+.episode-row:selected .episode-row-expand-button:hover {
     background: rgba(239, 230, 218, 0.6);
 }
 

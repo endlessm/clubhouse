@@ -1104,7 +1104,7 @@ class EpisodeRow(Gtk.ListBoxRow):
     BADGE_INNER_MARGIN = 25
 
     def __init__(self, episode, badges_box):
-        super().__init__()
+        super().__init__(selectable=(episode.is_complete() or episode.is_current))
         self._episode = episode
 
         self._badges_box = badges_box
@@ -1116,6 +1116,8 @@ class EpisodeRow(Gtk.ListBoxRow):
         self._setup_ui()
 
     def _setup_ui(self):
+        self.get_style_context().add_class('episode-row')
+
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/episode-row.ui')
 
@@ -1144,7 +1146,9 @@ class EpisodeRow(Gtk.ListBoxRow):
 
             self._revealer = builder.get_object('episode_row_revealer')
 
-            self._expand_button.connect('clicked', lambda _button: self._toggle_expand())
+            self._expand_button.connect('clicked', lambda _button: self._toggle_selection())
+
+        self.connect('state-flags-changed', self._on_state_changed)
 
         self._expand_button.set_size_request(-1, height)
 
@@ -1152,15 +1156,23 @@ class EpisodeRow(Gtk.ListBoxRow):
 
         self._setup_badge()
 
-    def _toggle_expand(self):
-        is_revealed = self._revealer.get_reveal_child()
-        self._revealer.set_reveal_child(not is_revealed)
+    def _on_state_changed(self, _row, previous_flags):
+        previously_selected = previous_flags & Gtk.StateFlags.SELECTED
+        currently_selected = self.get_state_flags() & Gtk.StateFlags.SELECTED
 
-        row_selected_style_class = 'episode-row-selected'
-        if is_revealed:
-            self.get_style_context().remove_class(row_selected_style_class)
+        # Only reveal the description if the row got selected or unselected
+        if previously_selected ^ currently_selected:
+            self._revealer.set_reveal_child(currently_selected != 0)
+
+    def _toggle_selection(self):
+        list_box = self.get_parent()
+        if list_box is None:
+            return
+
+        if self.is_selected():
+            list_box.unselect_row(self)
         else:
-            self.get_style_context().add_class(row_selected_style_class)
+            list_box.select_row(self)
 
     def _setup_badge(self):
         if not self._episode.is_available:
