@@ -611,6 +611,8 @@ class Quest(GObject.GObject):
 
         self._confirmed_step = False
 
+        self._toolbox_topic_clicked = None
+
         self._run_context = None
 
         self.reset_hints_given_once()
@@ -915,6 +917,32 @@ class Quest(GObject.GObject):
 
         return async_action
 
+    def connect_toolbox_topic_clicked(self, toolbox_topic):
+        assert self._run_context is not None
+
+        async_action = self._run_context.new_async_action()
+        if async_action.is_cancelled():
+            return async_action
+
+        clicked_handler_id = 0
+
+        def _disconnect_clicked(_future):
+            nonlocal clicked_handler_id
+            nonlocal toolbox_topic
+            if clicked_handler_id > 0:
+                toolbox_topic.disconnect_clicked(clicked_handler_id)
+                clicked_handler_id = 0
+
+        def _on_clicked_cb(app_name, topic_name):
+            self._toolbox_topic_clicked = {'app': app_name, 'topic': topic_name}
+            async_action.resolve()
+
+        async_action.future.add_done_callback(_disconnect_clicked)
+
+        clicked_handler_id = toolbox_topic.connect_clicked(_on_clicked_cb)
+
+        return async_action
+
     def pause(self, secs):
         assert self._run_context is not None
         return self._run_context.pause(secs)
@@ -996,6 +1024,11 @@ class Quest(GObject.GObject):
         confirmed = self._confirmed_step
         self._confirmed_step = False
         return confirmed
+
+    def toolbox_topic_clicked(self):
+        toolbox_topic_clicked = self._toolbox_topic_clicked
+        self._toolbox_topic_clicked = None
+        return toolbox_topic_clicked
 
     def abort(self):
         # Notify we're going to stop soon
