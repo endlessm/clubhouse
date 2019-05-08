@@ -2,6 +2,7 @@ MAZEPT3_DUMMY1,mazept3 dummy text 1,Ada,,,
 MAZEPT3_DUMMY2,"mazept3 dummy text 2, longer",Ada,,,
 MAZEPT3_DUMMY3,"mazept3 dummy text 3, even longer still, with many more letters",Ada,,,
 MAZEPT3_HELLO,You know what.  I don’t think it’s possible to solve this level.  Not even with Push!,Riley,,,
+MAZEPT3_LAUNCH,"OK, launch *Sidetrack*!",,,,
 MAZEPT3_HELLO2,"
 That’s correct.",Ada,,,
 MAZEPT3_QUESTION,Ready to dive back into *Sidetrack* to help Riley free herself from the maze?,Ada,,,
@@ -10,7 +11,7 @@ MAZEPT3_RILEYPUSH,"Check out this `push` *Instruction Estelle told me about! So 
 
 The *Wall* just moves out of the way! That's what I'm talking about! 
 ",Riley,,,
-MAZEPT3_RILEYPUSH_HINT1,Click the Flip key.,Riley,,,
+MAZEPT3_RILEYPUSH_HINT1,Click the *Flip key.,Riley,,,
 MAZEPT3_RILEYPUSH_HINT2,"Type in `riley.push();` That's the cool new *Instruction that Estelle found in Ada's research about Leviathan.
 
 You might as well replace that `riley.jump;` at position 2, right?

@@ -1,23 +1,25 @@
 BONUSROUND_DUMMY1,bonus round dummy text 1 (If you see this in master it's a bug!),Riley,,,
 BONUSROUND_DUMMY2,"bonus round dummy text 2, longer (If you see this in master it's a bug!)",Riley,,,
 BONUSROUND_DUMMY3,"bonus round dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Riley,,,
-BONUSROUND_QUESTION,I'm dying to get back into *Sidetrack*. Wanna come with me?,Riley,,,
+BONUSROUND_QUESTION,Sidetrack was actually pretty fun. Want to go back there with me?,Riley,,,
 BONUSROUND_QUEST_ACCEPT,Sure!,Riley,,,
-BONUSROUND_LAUNCH,Let's start the *Sidetrack* app.,,,,
+BONUSROUND_LAUNCH,A.maze.ing! Launch the *Sidetrack* app.,,,,
 BONUSROUND_LAUNCH_HINT1,Click the *Sidetrack* icon. ,,,,
-BONUSROUND_LEVELS1,"Okay, look, it's true. I was really happy to get out of that maze. It was scary at the time.
+BONUSROUND_LEVELS1,"Soooo relieved to be out of that maze! It was beyond scary at times in there. I kind of want to go back in there! 
 
-But I dunno, I kinda miss it now? Also that AI thing, whatever it was, honestly seemed p cool.
+Don't judge me ;)  I enjoy a good challenge! Guessing you do too. Also I wouldn't have met that AI thing. */ᐠ｡ꞈ｡ᐟ\*
 
-But here's the important thing: I found evidence of another key. The best key yet!
+I noticed some things I want to investigate. Like, I saw evidence of another key. One that would be super useful. 
 
-If we get this key, we'll be able to hack the maze and make our own levels. Let's go!",,,,
-BONUSROUND_LEVELS1_B,"We need to beat more levels, and these levels are HARD. What is this, some kind of robot dance party!?
+If we get this key, we'll be able to hack the maze and make our own levels. Let's check it out!",,,,
+BONUSROUND_LEVELS1_B,"Uh oh, first we have more levels to beat! And these are extra tricky! 
 
-And for this one, we can't even edit *Instructions!",,,,
-BONUSROUND_LEVELS1_B_HINT1,"We can't edit *Instructions, but we can still edit Units! And we can reorder the *Instructions.",,,,
-BONUSROUND_LEVELS1_B_HINT2,"Sometimes it's good to try out different solutions and see how far you get. Figure out what's wrong, tweak some things, then try again.",,,,
-BONUSROUND_LEVELS2,Sweet! You nailed it! Hopefully the final key turns up if we finish a few more levels.,,hurray,,
+What is this, some kind of robot dance party!? And for this one, we can't even edit *Instructions!",,,,
+BONUSROUND_LEVELS1_B_HINT1,"Okay, we can't edit *Instructions, but we _can_ still edit Units! And we can reorder the *Instructions.",,,,
+BONUSROUND_LEVELS1_B_HINT2,"Sometimes it's good to try out different solutions and see how far you can get. 
+
+Then you go back in, figure out what's wrong, tweak some things, then try again. It's all part of it!",,,,
+BONUSROUND_LEVELS2,Sweet! You nailed it! We should just be a few levels from finding that key! Fingers crossed. ,,hurray,,
 BONUSROUND_LEVELS2_B,"Now we have to beat THIS level, and the Units panel is locked!",,,,
 BONUSROUND_LEVELS2_B_HINT1,I'm worried about all those *Robots* in column 7. There's got to be a way to get rid of some of them.,,,,
 BONUSROUND_LEVELS2_B_HINT2,We can still edit *Instructions. We don't have to stick with the ones they gave us. Although I sense these could probably work. Maybe not in this order.,,,,

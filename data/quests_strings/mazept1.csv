@@ -85,13 +85,13 @@ MAZEPT1_AUTO3,"I can foresee how executing this set of *Instructions won't get y
 To solve this level, you'll need to decide on a strategy and reorder the *Instructions accordingly.",Saniel,,,
 MAZEPT1_AUTO3_HINT1,You’ll need to drag and drop those *Instructions to put them in a new order.,Saniel,,,
 MAZEPT1_AUTO3_HINT2,Press PLAY when you’re ready.,Saniel,,,
-MAZEPT1_AUTO3_SUCCESS, Excellent! Riley sailed right through! Thanks to your strategic thinking! ,Saniel,hurray,,
+MAZEPT1_AUTO3_SUCCESS,Excellent! Riley sailed right through! Thanks to your strategic thinking! ,Saniel,hurray,,
 MAZEPT1_AUTO3_FAILURE,"Good try! Let's try that again. Review the order of the *Instructions. 
 
 What order of *Instructions will take Riley safely to the exit?
 
 Once you press PLAY you can no longer change the *Instructions!",Saniel,,,
-MAZEPT1_AUTO4_BACKSTORY,"This whole system is really behaving strangely. I should have been able to get Riley out by now. 
+MAZEPT1_AUTO4_BACKSTORY,"This whole system is really behaving strangely. I should have gotten Riley out of there by now. 
 
 ",Saniel,,,
 MAZEPT1_AUTO4_BACKSTORY2,"Saniel, we're all trying to figure this thing out. Don't be so hard on yourself.
@@ -139,7 +139,7 @@ MAZEPT1_ONEJUMP_ADA_HINT1,"If you only have one JUMP, then you need to use it on
 MAZEPT1_ONEFORWARD,"Ugh, here I am again! At least this time, I have two JUMP *Instructions.",Riley,,,
 MAZEPT1_ONEFORWARD_ADA,"Yes, but now you only have one FORWARD Instruction! Where should it go?",Faber,,,
 MAZEPT1_ONEFORWARD_ADA_HINT1,"There's one place in this level that you *must* move forward, not up or down. Use FORWARD there!",Faber,,,
-MAZEPT1_SLIDING,"Oh, real nice. So many DOWN *Instructions and I need to move forward! 
+MAZEPT1_SLIDING,"Oh, truly awesome. So many DOWN *Instructions and I need to move forward! 
 
 I wonder what happens when I use DOWN when I'm already at the bottom.
 
@@ -153,28 +153,26 @@ MAZEPT1_DRAMA_ADA2,"Don't you think it's strange that he's just telling us this 
 Riley's been in this trap for a long time!",Ada,,,
 MAZEPT1_DRAMA_FABER2,"That's such a good point, Ada. Yeah, why couldn't he just, like, open it?
 
-That's totally not like Dr. Rowe. He is usually so quick to at least offer a solution. ",Faber,,,
-MAZEPT1_DRAMA_ADA3,"Exactly. I have a hypothesis I've been investigating. I've been wanting to talk to you about it. 
+That's totally not like Dr. Rowe. He is usually so quick to at least try to offer a solution. ",Faber,,,
+MAZEPT1_DRAMA_ADA3,"Exactly. I have a hypothesis I've been investigating. I've been wanting to float this question with you. 
 
-Something is starting to click, but I'm stil missing some key elements. ",Ada,,,
-MAZEPT1_AUTO5,"Um, hello? Guys? What’s _that_ Instruction!? The one at position 3. 
+The more details I uncover, the more I think I'm onto something.  ",Ada,,,
+MAZEPT1_AUTO5,"Um, hello? Guys? Can you maybe discuss hypothetical matters later? I'm _actually_ in this maze right now. 
 
-Something's totally _wrong_ with it!",Riley,,,
+What’s _that_ Instruction!? The one at position 3. Something's totally _wrong_ with it!",Riley,,,
 MAZEPT1_AUTO5_ADA,Try pressing PLAY just to see if you can get through anyway.,Ada,,,
 MAZEPT1_AUTO5_ADA_HINT1,There's no way forward unless we at least try! Press PLAY.,Ada,,,
-MAZEPT1_AUTO5_FAILURE_ADA,"That *Instruction does some bi_Zarre_ things to me! Not digging it at all. 
+MAZEPT1_AUTO5_FAILURE_ADA,"That *Instruction does some B_ZAR_ things to me! Not digging it at all. 
 
 And I for sure can’t get through this level with that *Instruction in the mix.",Riley,,,
 MAZEPT1_AUTO5_FAILURE_ADA2,"Right. There must be a syntax error, but to be sure we’ll need to see the code.
 
 To see the code, we’ll need the *Instructions panel key. Oh boy, here we go. Saniel probably has it. ",Ada,,,
-MAZEPT1_SUCCESS,"Hey guys! I just checked in with Saniel. He was indeed half asleep.
+MAZEPT1_SUCCESS,"I just checked in with Saniel. He was indeed half asleep.
 
-But he says we can find that key inside Lightspeed.  
+But he says we can find that key inside Lightspeed.  He stashed it there long ago ""to keep it safe,"" LOL.
 
-He stashed it there long ago ""to keep it safe,"" LOL. Saniel never forgets anything!
-
-Meet me at the clubhouse, and we’ll go find it together.",Faber,hurray,,
+Saniel never forgets anything! Meet me at the clubhouse, and we’ll go find it together.",Faber,hurray,,
 MAZEPT1_ABORT,Come find me later and we can keep working on this! ,Ada,,,
 MAZEPT1_ROBOTSPITS,"More *Pits*, and *Robots* too. Nothing you haven't seen before, though.
 
