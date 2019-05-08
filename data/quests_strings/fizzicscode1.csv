@@ -2,8 +2,8 @@ FIZZICSCODE1_QUESTION,Hello there. Glad you're still here! I have a bonus challe
 FIZZICSCODE1_QUEST_ACCEPT,Ready! ,,,,
 FIZZICSCODE1_LAUNCH,Great. Go ahead and launch Fizzics and we'll try out some cool new skills. ,,,,
 FIZZICSCODE1_LAUNCH_HINT1,Click on the Fizzics icon on the desktop.,,,,
-FIZZICSCODE1_FLIP,"Okay, remember the Flip button? Click it to get to the hacking panel. You know the drill.",,,,
-FIZZICSCODE1_FLIP_HINT1,Click the Flip button on the left side of the screen.,,,,
+FIZZICSCODE1_FLIP,"Okay, remember the *Flip button? Click it to get to the hacking panel. You know the drill.",,,,
+FIZZICSCODE1_FLIP_HINT1,Click the *Flip button on the left side of the screen.,,,,
 FIZZICSCODE1_UNLOCK,"Look familiar?  Well, now we're going to explore some new possibilitites. Click on the lock screen and the code section will open.",,,,
 FIZZICSCODE1_UNLOCK_HINT1,Click on the lock.,,,,
 FIZZICSCODE1_EXPLANATION1,"Okay, so we're in! Don't worry if it looks strange at first! Take your time to get more familiar with what you see here. 

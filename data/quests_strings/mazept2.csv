@@ -26,10 +26,10 @@ It should be riley.jump(); not riley.Jump();`  See that? lower case j: `jump` no
 MAZEPT2_FIXANDREORDER,More syntax errors! I guess someone was under some pressure to get this done quickly!,Riley,,,
 MAZEPT2_FIXANDREORDER_FIXED,"Well. I fixed the errors in the code, but I still need to be on my toes here about getting the order of the *Instructions right.  
 
-All of these details matters if I'm going to get to the exit! It's amazing how if I just pause I can see the way through. ",Riley,,,
+All of these details matter if I'm going to get to the exit! It's amazing how if I just pause I can see the way through. Deep! ",Riley,,,
 MAZEPT2_LEVELS3,"Hmm, look carefully. There’s no way this set of *Instructions could _ever_ finish this level.
 
-But good news, click the Flip button, and you can type any *Instructions you want!
+But good news, click the *Flip button, and you can type any *Instructions you want!
 
 This gives you more choice. You don’t have to just rearrange the ones you’re given anymore.",Faber,,,
 MAZEPT2_LEVELS3_HINT1,Flip to hack so you can edit the code for *Instructions.,Faber,,,
