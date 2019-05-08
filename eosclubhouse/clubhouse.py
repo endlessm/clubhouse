@@ -1314,6 +1314,11 @@ class EpisodesPage(Gtk.EventBox):
             # the current episode object accessible).
             self._episodes[episode.id] = row
 
+            # If this is the row for the current episode, we select it, so it shows the
+            # description by default.
+            if episode.is_current:
+                self._list_box.select_row(row)
+
         self.update_current_episode()
 
     def _episode_badge_clicked_cb(self, episode_row):
