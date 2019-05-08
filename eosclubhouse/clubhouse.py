@@ -1117,6 +1117,8 @@ class EpisodeRow(Gtk.ListBoxRow):
 
     def _setup_ui(self):
         self.get_style_context().add_class('episode-row')
+        if not self._episode.is_complete() and not self._episode.is_current:
+            self.get_style_context().add_class('episode-row-locked')
 
         builder = Gtk.Builder()
         builder.add_from_resource('/com/endlessm/Clubhouse/episode-row.ui')
