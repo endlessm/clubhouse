@@ -288,7 +288,11 @@ window.poster {
     background: rgba(239, 230, 218, 0.2);
     border: 0;
     border-radius: 0;
-    box-shadow: none;
+    box-shadow: 0 2px rgba(0, 0, 0, .1);
+}
+
+.episode-row:selected .episode-row-expand-button {
+    box-shadow: 0 1px rgba(0, 0, 0, .2);
 }
 
 .episode-row:selected .episode-row-expand-button,
