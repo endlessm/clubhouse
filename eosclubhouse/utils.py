@@ -185,6 +185,9 @@ class Episode(GObject.Object):
         self.is_available = False
         self.is_current = False
 
+    def is_complete(self):
+        return self.percentage_complete == 100
+
     percentage_complete = GObject.Property(type=int, default=0)
 
 

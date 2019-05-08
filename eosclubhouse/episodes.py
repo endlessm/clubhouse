@@ -49,14 +49,13 @@ class BadgeButton(Gtk.Button):
         return self.PROGRESS_BADGES[progress_index]
 
     def _update(self):
-        percentage_complete = self._episode.percentage_complete
-        if percentage_complete == 100:
+        if self._episode.is_complete():
             if self.get_state_flags() & Gtk.StateFlags.PRELIGHT:
                 badgename = '{}_hover.png'.format(self._episode.id)
             else:
                 badgename = '{}.png'.format(self._episode.id)
         elif self._episode.is_current:
-            progress = self._get_progress_for_percentage(percentage_complete)
+            progress = self._get_progress_for_percentage(self._episode.percentage_complete)
             badgename = 'episode_progress_{}.png'.format(progress)
         else:
             self.hide()

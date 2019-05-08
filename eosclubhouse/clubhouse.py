@@ -378,8 +378,7 @@ class ClubhousePage(Gtk.EventBox):
         self._app_window.connect('key-press-event', self._key_press_event_cb)
         self._app_window.connect('notify::visible', self._on_window_visibility_changed)
 
-        self._app = self._app_window.get_application()
-        assert self._app is not None
+        self._app = Gio.Application.get_default()
 
         self._setup_ui()
         self.get_style_context().add_class('clubhouse-page')
@@ -1178,10 +1177,15 @@ class EpisodeRow(Gtk.ListBoxRow):
                 self._expand_button.connect('size-allocate',
                                             lambda _widget, _alloc: self._update_badge_position())
 
+            # Update the badges position when the badges box is realized to make sure we place the
+            # badges when both the rows' button + the badges box have valid dimensions.
+            self._badges_box.connect_after('realize',
+                                           lambda _widget: self._update_badge_position())
+
         self._badge.connect('clicked', self._badge_clicked_cb)
 
     def _update_badge_position(self):
-        if not self.get_realized():
+        if not self.get_realized() or not self._badges_box.get_realized():
             return
 
         # We only use the button's allocation for getting the vertical position on which to set
@@ -1300,7 +1304,7 @@ class EpisodesPage(Gtk.EventBox):
 
     def _episode_badge_clicked_cb(self, episode_row):
         episode = episode_row.get_episode()
-        if episode.percentage_complete == 100:
+        if episode.is_complete():
             episode_row.show_poster()
             return
 
@@ -1314,6 +1318,25 @@ class EpisodesPage(Gtk.EventBox):
     def update_current_episode(self):
         episode = self._get_current_episode()
         episode.percentage_complete = libquest.Registry.get_current_episode_progress() * 100
+
+        if episode.is_complete():
+            self._shell_popup_episode_badge(episode.id)
+
+    def _shell_popup_episode_badge(self, episode_id):
+        notification = Gio.Notification()
+        notification.set_body("You have a new badge! You can find it in the Episodes tab.")
+        notification.set_title('')
+
+        icon_path = os.path.join(config.EPISODES_DIR, 'badges', '{}.png'.format(episode_id))
+        icon_file = Gio.File.new_for_path(icon_path)
+        icon_bytes = icon_file.load_bytes(None)
+        icon = Gio.BytesIcon.new(icon_bytes[0])
+
+        notification.set_icon(icon)
+
+        notification.add_button('Show me', 'app.episode-award-accept-answer(true)')
+
+        Gio.Application.get_default().send_quest_item_notification(notification)
 
     def _update_episode_badges(self):
         current_episode = libquest.Registry.get_current_episode()
@@ -1653,7 +1676,9 @@ class ClubhouseApplication(Gtk.Application):
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
                           ('item-accept-answer', self._item_accept_action_cb,
-                           GLib.VariantType.new('b')),
+                           GLib.VariantType.new('b'), 'inventory'),
+                          ('episode-award-accept-answer', self._item_accept_action_cb,
+                           GLib.VariantType.new('b'), 'episodes'),
                           ('quest-debug-skip', self._quest_debug_skip, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('quest-view-close', self._quest_view_close_action_cb, None),
@@ -1663,9 +1688,9 @@ class ClubhouseApplication(Gtk.Application):
                           ('stop-quest', self._stop_quest, None),
                           ]
 
-        for name, callback, variant_type in simple_actions:
+        for name, callback, variant_type, *callback_args in simple_actions:
             action = Gio.SimpleAction.new(name, variant_type)
-            action.connect('activate', callback)
+            action.connect('activate', callback, *callback_args)
             self.add_action(action)
 
         # Make sure that we create a user account if there's none
@@ -1729,11 +1754,11 @@ class ClubhouseApplication(Gtk.Application):
             self._window.clubhouse_page.stop_quest()
         self.close_quest_msg_notification()
 
-    def _item_accept_action_cb(self, action, arg_variant):
+    def _item_accept_action_cb(self, action, arg_variant, page_to_select):
         Sound.play('quests/key-confirm')
         show_inventory = arg_variant.unpack()
         if show_inventory and self._window:
-            self._window.set_page('inventory')
+            self._window.set_page(page_to_select)
             self._show_and_focus_window()
 
     def _debug_mode_action_cb(self, action, arg_variant):
