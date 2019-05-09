@@ -4,23 +4,18 @@ LIGHTSPEEDKEY_LAUNCH,First let's launch Lightspeed.,,,,
 LIGHTSPEEDKEY_LAUNCH_HINT1,Click on the Lightspeed icon on the desktop.        ,,,,
 LIGHTSPEEDKEY_LEVELSINTRO,"Okay, just letting you know this isn’t going to be easy! 
 
-Each of the next 5 levels has a new challenge you haven't seen before. 
+Each of the next 3 levels has a new challenge you haven't seen before. 
 
 You won’t be able to see all the Topics either!
 
 But when you do see a Topic, that's your chance to use it to hack the level! ",,,,
-LIGHTSPEEDKEY_LEVELS1,"I recommend you try each level out first so you can see what challenge it poses. 
+LIGHTSPEEDKEY_LEVELS1,"I recommend you try each level out first so you can see what challenge it poses.
 
 Then when you flip to the panels, I'll be standing by if you'd like a hint!",,,,
 LIGHTSPEEDKEY_LEVELS1_HINT1,Play this level to see why it's hard. Then click the Flip button.,,,,
-LIGHTSPEEDKEY_LEVELS2,"Good work!  One level down, four to go!",,,,
-LIGHTSPEEDKEY_LEVELS2_HINT1,See what's up with this level. Then flip to hack.,,,,
-LIGHTSPEEDKEY_LEVELS3,"Smart work!  Two levels down, three to go!",,,,
-LIGHTSPEEDKEY_LEVELS3_HINT1,"Play this level to see what challenge it presents. Then, click the Flip button!",,,,
-LIGHTSPEEDKEY_LEVELS4,"Good work!  Three levels down, two to go!",,,,
-LIGHTSPEEDKEY_LEVELS4_HINT1,Play the level to see what's up. Then flip to hack.,,,,
-LIGHTSPEEDKEY_LEVELS5,Last level! Almost there! The key waits for you when you win this level!,,,,
-LIGHTSPEEDKEY_LEVELS5_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
+LIGHTSPEEDKEY_LEVELS2,"Good work! One level down, two to go! See what's up with this level. Then flip to hack.",,,,
+LIGHTSPEEDKEY_LEVELS3,Last level! Almost there! The key waits for you when you win this level!,,,,
+LIGHTSPEEDKEY_LEVELS3_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,
 LIGHTSPEEDKEY_PANEL_LOCKED,This panel isn't available on this level!  How can you solve it with another panel?,,,,
 LIGHTSPEEDKEY_PANEL_GAME,"You change the size of your ship and the astronauts in this panel!
 
@@ -39,5 +34,5 @@ LIGHTSPEEDKEY_PANEL_BEAM,The code in these panels creates behaviors of an enemy 
 LIGHTSPEEDKEY_PANEL_POWERUPS,The code in this panel changes how Power-ups work.,,,,
 LIGHTSPEEDKEY_SUCCESS,"Such skillful work getting through those levels! 
 
-And excellent work getting that key! We can use that back in Sidetrack!",,hurray,,
+And excellent work getting that key! We can use that back in *Sidetrack*!",,hurray,,
 LIGHTSPEEDKEY_ABORT,No problem. Come back when you're ready.,,,,
