@@ -15,6 +15,14 @@ class BreakingIn(Quest):
         super().__init__('BreakingIn', 'riley')
         self._app = App(self.APP_NAME)
 
+        # Make sure the quest is doable, if it was left incomplete but with Riley trapped (early
+        # aborted).
+        self._ensure_is_unblocked()
+
+    def _ensure_is_unblocked(self):
+        if not self.complete and self.gss.get('clubhouse.character.Riley', {}).get('in_trap'):
+            self.gss.set('clubhouse.character.Riley', {'in_trap': False})
+
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
         return self.step_explanation
@@ -83,3 +91,11 @@ class BreakingIn(Quest):
         self.complete = True
         self.available = False
         self.stop()
+
+    # Override the default finish
+    def run_finished(self):
+        super().run_finished()
+
+        # Make sure we don't leave the quest in a state there the quest is not finished but Riley
+        # is no longer available because of being in the trap.
+        self._ensure_is_unblocked()
