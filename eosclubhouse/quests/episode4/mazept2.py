@@ -1,7 +1,6 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
 from eosclubhouse.apps import Sidetrack
-from eosclubhouse import logger
 
 
 class MazePt2(Quest):
@@ -15,7 +14,10 @@ class MazePt2(Quest):
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH')
         self._app.set_js_property('availableLevels', ('u', 28))
-        logger.debug('available levels = %i', int(self._app.get_js_property('currentLevel')))
+        highest_level = self._app.get_js_property('highestAchievedLevel')
+        if 23 > highest_level > 28:
+            self._app.set_js_property('highestAchievedLevel', ('u', 23))
+        self._app.set_js_property('showHackdex', ('b', highest_level <= 26))
         return self.step_play_level
 
     @Quest.with_app_launched(Sidetrack.APP_NAME)
@@ -26,20 +28,21 @@ class MazePt2(Quest):
             self.wait_for_app_js_props_changed(self._app, ['flipped'])
             self.show_hints_message('INSTRUCTIONS')
         elif current_level == 24:
-            self.show_hints_message('LEVELS2')
+            self.wait_confirm('LEVELS2')
         elif current_level == 25:
             # this text needs to be reworked at some point
-            self.show_hints_message('FIXANDREORDER')
+            self.wait_confirm('FIXANDREORDER')
             self.pause(7)
-            self.show_hints_message('FIXANDREORDER_FIXED')
+            self.wait_confirm('FIXANDREORDER_FIXED')
         elif current_level == 26:
-            # gain hackdex here?
             self.wait_for_app_js_props_changed(self._app, ['currentLevel'])
-            self.wait_confirm('RESEARCH1')
-            self.wait_confirm('RESEARCH2')
+            if self._app.get_js_property('success'):
+                self._app.set_js_property('showHackdex', ('b', False))
+                self.wait_confirm('RESEARCH1')
+                self.wait_confirm('RESEARCH2')
             return self.step_play_level
+
         elif current_level == 28:
-            # we can't have decrypted the hackdex yet
             for message_id in ['IMPASSABLE', 'IMPASSABLE_FABER', 'IMPASSABLE_RILEY']:
                 self.wait_confirm(message_id)
             return self.step_success

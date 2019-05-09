@@ -1,7 +1,6 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
 from eosclubhouse.apps import Sidetrack
-from eosclubhouse import logger
 
 
 class MazePt3(Quest):
@@ -13,7 +12,8 @@ class MazePt3(Quest):
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH')
         self._app.set_js_property('availableLevels', ('u', 36))
-        logger.debug('available levels = %i', int(self._app.get_js_property('currentLevel')))
+        if self._app.get_js_property('highestAchievedLevel') > 36:
+            self._app.set_js_property('highestAchievedLevel', ('u', 28))
         return self.step_play_level
 
     @Quest.with_app_launched(Sidetrack.APP_NAME)
@@ -26,14 +26,17 @@ class MazePt3(Quest):
             self.wait_confirm('RILEYPUSH2')
             self.wait_confirm('RILEYPUSH3')
         if current_level == 29:
+            self.dismiss_message()
             self.show_hints_message('RILEYPUSH3_B')
         if current_level == 30:
+            self.dismiss_message()
             self.show_hints_message('RILEYPUSH3_C')
         if current_level == 31:
             for i in range(4, 10):
                 msgid = 'RILEYPUSH{}'.format(i)
                 self.wait_confirm(msgid)
         if current_level == 34:
+            self.dismiss_message()
             for message_id in ['DRAMA', 'DRAMA_FELIX', 'DRAMA_FABER', 'DRAMA_RILEY', 'DRAMA_ADA']:
                 self.wait_confirm(message_id)
         if current_level == 36:

@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Sound, GameStateService
+from eosclubhouse.system import Sound
 from eosclubhouse.apps import Sidetrack
 # from eosclubhouse import logger
 
@@ -11,14 +11,14 @@ class BonusRound(Quest):
     def __init__(self):
         super().__init__('BonusRound', 'riley')
         self._app = Sidetrack()
-        self._gss = GameStateService()
+
+    def is_unlocked(self):
+        lock_state = self.gss.get('lock.sidetrack.3')
+        return lock_state is not None and not lock_state.get('locked', True)
 
     def step_begin(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=3, message_id='LAUNCH')
+        self.ask_for_app_launch(self._app, pause_after_launch=2)
         self._app.set_js_property('availableLevels', ('u', 50))
-        if int(self._app.get_js_property('currentLevel')) <= 41:
-            self._app.set_js_property('highestAchievedLevel', ('u', 41))
-            self._app.set_js_property('nextLevel', ('u', 41))
         return self.step_inlevel
 
     @Quest.with_app_launched(Sidetrack.APP_NAME)
@@ -39,7 +39,8 @@ class BonusRound(Quest):
         elif current_level == 47:
             self.wait_confirm('LEVELS7')
             # give the Sidetrack level editing key
-            self.give_item('item.key.sidetrack.3')
+            if not self.is_unlocked():
+                self.give_item('item.key.sidetrack.3')
             self.wait_confirm('LEVELS7_B')
             self.wait_confirm('LEVELS7_FLIP')
             self.wait_for_app_js_props_changed(self._app, ['flipped'])
@@ -59,8 +60,8 @@ class BonusRound(Quest):
     @Quest.with_app_launched(Sidetrack.APP_NAME)
     def step_level47_lock(self):
         # have to split this out so it can loop
-        lock_state = self._gss.get('lock.sidetrack.3')
-        if lock_state is not None and lock_state.get('locked', True):
+        if not self.is_unlocked():
+            self.pause(1)
             return self.step_level47_lock
         self.wait_confirm('LEVELS7_LEVELCODE1')
         self.wait_confirm('LEVELS7_LEVELCODE2')
