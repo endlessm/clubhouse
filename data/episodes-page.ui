@@ -19,7 +19,7 @@
         <child>
           <object class="GtkListBox" id="episodes_list_box">
             <property name="visible">True</property>
-            <property name="selection-mode">none</property>
+            <property name="selection-mode">single</property>
             <style>
               <class name="episodes-list"/>
             </style>

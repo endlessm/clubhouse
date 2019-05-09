@@ -280,15 +280,23 @@ window.poster {
     -gtk-icon-shadow: 0 10px 10px alpha(black,0.4);
 }
 
+.episode-row, .episode-row:selected {
+    background: transparent;
+}
+
 .episode-row-expand-button {
     background: rgba(239, 230, 218, 0.2);
     border: 0;
     border-radius: 0;
-    box-shadow: none;
+    box-shadow: 0 2px rgba(0, 0, 0, .1);
 }
 
-.episode-row-selected .episode-row-expand-button,
-.episode-row-selected .episode-row-expand-button:hover {
+.episode-row:selected .episode-row-expand-button {
+    box-shadow: 0 1px rgba(0, 0, 0, .2);
+}
+
+.episode-row:selected .episode-row-expand-button,
+.episode-row:selected .episode-row-expand-button:hover {
     background: rgba(239, 230, 218, 0.6);
 }
 
@@ -298,6 +306,10 @@ window.poster {
 
 .episode-row-expand-button:hover {
     background: rgba(239, 230, 218, 0.4);
+}
+
+.episode-row-locked .episode-row-expand-button:hover {
+    background: rgba(239, 230, 218, 0.2);
 }
 
 .episode-row-comingsoon-label,
