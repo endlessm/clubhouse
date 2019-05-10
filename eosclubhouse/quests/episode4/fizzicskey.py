@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Sound
+from eosclubhouse.system import Sound, ToolBoxTopic
 from eosclubhouse.apps import Fizzics
 
 
@@ -104,6 +104,8 @@ class FizzicsKey(Quest):
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
+        toolbox_topic = ToolBoxTopic(self._app.APP_NAME, 'main')
+        toolbox_topic.set_sensitive(False)
         return self.step_ingame
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
