@@ -95,34 +95,37 @@ def _get_rows_for_quest(quest, rows):
     return (r for r in rows if r[Columns.MESSAGE_ID.value].startswith(quest.upper()))
 
 
+def _cleanup_and_validate(quest, rows):
+    is_valid = True
+    for r in rows:
+        # Data cleanup:
+        if not r[Columns.SFX.value].startswith('quests/'):
+            r[Columns.SFX.value] = ''
+        if not r[Columns.BG.value].startswith('quests/'):
+            r[Columns.BG.value] = ''
+
+        # Data validation:
+        character_animations = get_character_animations()
+        speaker = r[Columns.SPEAKER.value].lower().strip()
+        if speaker not in ('', 'speaker'):
+            if speaker not in character_animations:
+                is_valid = False
+                print('WARNING! Character "{}" is invalid.'
+                      ''.format(r[Columns.SPEAKER.value]))
+            else:
+                animation = r[Columns.ANIMATION.value].lower().strip()
+                if animation is not '' and animation not in character_animations[speaker]:
+                    is_valid = False
+                    print('WARNING! Animation "{}" for character "{}" is invalid.'
+                          ''.format(r[Columns.ANIMATION.value], r[Columns.SPEAKER.value]))
+    return is_valid
+
+
 def _write_csv_file(filename, rows):
-    success = True
     with open(filename, 'w') as out_file:
         writer = csv.writer(out_file)
         for r in rows:
-            # Data cleanup:
-            if not r[Columns.SFX.value].startswith('quests/'):
-                r[Columns.SFX.value] = ''
-            if not r[Columns.BG.value].startswith('quests/'):
-                r[Columns.BG.value] = ''
-
-            # Data validation:
-            character_animations = get_character_animations()
-            speaker = r[Columns.SPEAKER.value].lower().strip()
-            if speaker not in ('', 'speaker'):
-                if speaker not in character_animations:
-                    success = False
-                    print('WARNING! Character "{}" is invalid.'
-                          ''.format(r[Columns.SPEAKER.value]))
-                else:
-                    animation = r[Columns.ANIMATION.value].lower().strip()
-                    if animation is not '' and animation not in character_animations[speaker]:
-                        success = False
-                        print('WARNING! Animation "{}" for character "{}" is invalid.'
-                              ''.format(r[Columns.ANIMATION.value], r[Columns.SPEAKER.value]))
-
             writer.writerow(r)
-    return success
 
 
 def write_quests(quests, rows, use_alternative_path=False):
@@ -144,15 +147,17 @@ def write_quests(quests, rows, use_alternative_path=False):
             for r in quest_rows:
                 del remaining_rows[r[0]]
         filename = os.path.join(csv_path, quest + '.csv')
-        write_success = _write_csv_file(filename, quest_rows)
-        success = success and write_success
+        is_valid = _cleanup_and_validate(quest, quest_rows)
+        success = success and is_valid
+        _write_csv_file(filename, quest_rows)
 
     if remaining_rows is not None:
         remaining_rows = list(remaining_rows.values())
         remaining_rows.sort()
         filename = os.path.join(csv_path, 'remaining.csv')
-        write_success = _write_csv_file(filename, remaining_rows)
-        success = success and write_success
+        is_valid = _cleanup_and_validate(None, remaining_rows)
+        success = success and is_valid
+        _write_csv_file(filename, remaining_rows)
 
     return success
 
