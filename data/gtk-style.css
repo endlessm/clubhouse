@@ -341,3 +341,9 @@ window.poster {
     font-style: italic;
     font-size: 18px;
 }
+
+.episode-row-progress-label  {
+    color: #1e0c62;
+    font: 28px "Metropolis, Sans-Serif";
+    font-weight: bold;
+}
