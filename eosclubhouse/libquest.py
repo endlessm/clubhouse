@@ -1158,6 +1158,10 @@ class Quest(GObject.GObject):
         return self._last_bg_sound_uuid
 
     def give_item(self, item_name, notification_text=None, consume_after_use=False):
+        if self.is_cancelled():
+            logger.debug('Not giving item "%s" because the quest has been cancelled.', item_name)
+            return
+
         current_state = self.gss.get(item_name)
         if current_state is not None and current_state.get('used', False):
             logger.warning('Attempt to give item %s failed, it was already given and used',
