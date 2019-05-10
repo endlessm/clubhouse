@@ -4,6 +4,7 @@ import argparse
 import csv
 from enum import Enum
 import io
+from itertools import permutations
 import os
 import re
 import requests
@@ -110,7 +111,32 @@ def _cleanup_and_validate(quest, rows):
             r[Columns.BG.value] = ''
 
         # Data validation:
+        def validate_single_paragraph(r):
+            nonlocal is_valid
+            txt = r[Columns.TEXT.value]
+            if '\n\n' in txt:
+                is_valid = False
+                print('WARNING! Message "{}" should not have multiple paragraphs.'
+                      ''.format(r[Columns.MESSAGE_ID.value]))
+
+        if quest is not None:
+            for template in ['{}_QUESTION', '{}_QUEST_ACCEPT', '{}_QUEST_REJECT']:
+                message_id = template.format(quest.upper())
+                if r[Columns.MESSAGE_ID.value] == message_id:
+                    validate_single_paragraph(r)
+
         character_animations = get_character_animations()
+
+        for character in character_animations:
+            message_id = 'NOQUEST_{}_NOTHING'.format(character.upper())
+            if r[Columns.MESSAGE_ID.value] == message_id:
+                validate_single_paragraph(r)
+
+        for char_a, char_b in permutations(character_animations, 2):
+            message_id = 'NOQUEST_{}_{}'.format(char_a.upper(), char_b.upper())
+            if r[Columns.MESSAGE_ID.value] == message_id:
+                validate_single_paragraph(r)
+
         speaker = r[Columns.SPEAKER.value].lower().strip()
         if speaker not in ('', 'speaker'):
             if speaker not in character_animations:
