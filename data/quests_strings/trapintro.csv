@@ -1,8 +1,8 @@
-TRAPINTRO_QUESTION,"{{{fx /\ /\#  t r a n s c o d i n g 
-((∞) =∞=     COMPLETE 
+TRAPINTRO_QUESTION,"{{{fx /\ /\#  _t r a n s c o d i n g_ 
+((∞) =∞=   _c o m p l e t e_ 
 ?=))∞)))§    PLEASE 
-=}{,,,}{,,,}    CONFIRM  §}}}",Riley,talk_glitched,,quests/transcoding-loop
+=}{,,,}{,,,}     CONFIRM  §§§",Riley,talk_glitched,,quests/transcoding-loop
 TRAPINTRO_QUESTION_ACCEPT,"{,,,}{,,,} CONFIRMED! /\ /\",Riley,talk_glitched,,
 TRAPINTRO_SUCCESS,"TRANSFER TO DESKTOP: 100% SUCCESSFUL
 
-SIDETRACK ENGAGED",Riley,talk_glitched,quests/transfer-complete,
+*SIDETRACK* ENGAGED",Riley,talk_glitched,quests/transfer-complete,

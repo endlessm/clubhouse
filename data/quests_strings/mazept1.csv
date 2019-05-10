@@ -1,185 +1,134 @@
-MAZEPT1_QUESTION,"Whoa! That whole trap jumped from the Clubhouse to the desktop! With Riley still inside it!
+MAZEPT1_QUESTION,"Whoa! That whole trap jumped from the Clubhouse to the desktop with Riley still inside it!
 
-Hope Riley's okay in there! Now the trap is a new app called *Sidetrack*! 
+Now it's a new app called *Sidetrack*!
 
-So that's what the ""TRANSCODING"" was all about. Let's launch it and see what it does!
-
-",Ada,,,quests/horse-tale
+So that's what the _TRANSCODING_ was all about. Let's launch it and see what it does!",Ada,,,quests/horse-tale
 MAZEPT1_QUEST_ACCEPT,Ready!,,,,quests/horse-tale
 MAZEPT1_LAUNCH_ADA,Go ahead and Launch *Sidetrack*,Ada,,,quests/horse-tale
 MAZEPT1_LAUNCH_ADA_HINT1,Click the *Sidetrack* icon on the desktop.,,,,quests/horse-tale
-MAZEPT1_RILEYHELLO,"Oh, heyyy, wassup? But, srsly, YOU GUYS!!! So glad to see you! 
+MAZEPT1_RILEYHELLO,"Oh, hheeeyyy, wassup? But, srsly, YOU GUYS!!! So glad to see you! Whew. That last part was pretty rough! 
 
-Whew. That last part was pretty rough! Wasn't sure I'd make it through! 
+Suddenly I'm just here in this maze 24/7. My life rn? Running. Looking for me? Catch me here, running! 
 
-Actually though, it's rad in here, but suddenly I'm just here in this maze 24/7. My life rn? Running. 
-
-Looking for me? Catch me here, running! Forward, and up, forward, and down. Yep, even on the diagonal. ",Riley,,,
+Forward, and up, Forward, and down. On the diagonal, I mean, actually it's not totally uncool. You'll see. ",Riley,,,
 MAZEPT1_EXIT,"I'm learning tons in here, but I do hope to get back to my _actual_ classes one day. 
 
-Kind of forgot about my homework in here, but I'm hoping Ada and Estelle might understand!
-
 Hope all this counts for some extra credit in my ""Foundations of Machine Learning"" class, LOL.",Riley,,,
-MAZEPT1_MANUAL1,"See that *Exit*? That's my dream, to get to that exit. 
+MAZEPT1_MANUAL1_INTRO,"See that *Exit*? That's my dream, to get to that *Exit*. And you can help me get there!",Riley,,,
+MAZEPT1_MANUAL1,"Use the FORWARD, UP, and DOWN *Instructions* to move me through these obstacles.",Riley,,,
+MAZEPT1_MANUAL1_HINT1,"I always run one space to the right, but I can also move UP or DOWN at the same time.",Riley,,,
+MAZEPT1_MANUAL1_HINT2,Watch out for those *Walls*!,Riley,,,
+MAZEPT1_DIED_RESTART,Ooopff. Let's try to avoid these *Walls*!,Riley,,,
+MAZEPT1_MANUAL2,"Hey, that's not fair! Another level? I thought I just had to get the exit! But okay, let's do this. ",Riley,,,
+MAZEPT1_MANUAL3,This maze should have only ONE level! ,Saniel,talk_anger,,
+MAZEPT1_MANUAL4,"*Pits*? This is preposterous! There were no *Pits* before! I mean, i never, let's say–
 
-And you can help me by getting me through these levels!",Riley,,,
-MAZEPT1_MANUAL1_HINT1,"Use the FORWARD, UP, and DOWN *Instructions to move me through the maze.",Riley,,,
-MAZEPT1_MANUAL1_HINT2,"I always run one space to the right, but I can also move UP or DOWN at the same time.",Riley,,,
-MAZEPT1_MANUAL1_HINT3,Watch out for those *Walls*!,Riley,,,
-MAZEPT1_DIED_RESTART,"Ouch! I might look virtual, but it still smarts when I bump into *Walls*!",Riley,,,
-MAZEPT1_MANUAL2,"Oh no! Another level? I thought I just had to get the exit!
+What I mean is, _previously_, in my experience with a maze like this one, you'd have only *Walls*. 
 
-How many levels can there be? Okay, I'm ready for whatever's next. ",Riley,,,
-MAZEPT1_MANUAL3,"This is preposterous! This maze should have only one level!
+Riley will have to use her JUMP *Instruction*  to cross the *Pits*!",Saniel,,,
+MAZEPT1_MANUAL5,"Are you kidding me? *Pits*? Well at least I'm a good jumper! There's a trick to the JUMP though!
 
-Clearly something's been wreaking havoc with it!",Saniel,talk_anger,,
-MAZEPT1_MANUAL4,"*Pits*? What is this? There were no *Pits before when I – How does a *Pit just suddenly crack open in the ground?  
+JUMP only works if the *Pit* is directly in front of you. You can only use a JUMP to go forward! ",Riley,,,
+MAZEPT1_ROBOTS1,"What are these? *Robot* insects? Insects, really? LOL. Hi! My. Name. Is. Riley. What's. Your. Name.",Riley,,,
+MAZEPT1_ROBOTS2,"Okay, Riley, very funny. Be careful. Study how they move. See what you can learn about their rules. ",Saniel,,,
+MAZEPT1_ROBOTS3,Watch their movement carefully to understand their programming. That's the way to proceed safely to the exit!,Saniel,,,
+MAZEPT1_ROBOTS3_HINT1,"These *Robots* only move DOWN, never left or right. Try to use their own rules to get past them. ",Saniel,,,
+MAZEPT1_ROBOTS3_HINT2,"And when they walk off the bottom, they reappear at the top! So keep your eye out for that!",Saniel,,,
+MAZEPT1_MOREROBOTS,"Uh oh, looks like somebody's got a *Robot* friend. And this new type of *Robot* only moves UP.  
 
-I never – let's say, previously, in my experience with mazes of this type, you'd have only *Walls*. ",Saniel,,,
-MAZEPT1_MANUAL4_HINT1,Riley will have to use her JUMP *Instruction to cross the *Pits*!,Saniel,,,
-MAZEPT1_MANUAL5,"Are you kidding me? *Pits*? Well at least I'm a good jumper!
-
-I'll have to make sure I know how the JUMP instruction works. Probably going to be some extra trick to it. ",Riley,,,
-MAZEPT1_MANUAL5_HINT1,The JUMP *Instruction only allows you to move forward. It works only if the *Pit is directly in front of you. ,Faber,,,
-MAZEPT1_ROBOTS1,"Um, hello. What are these? *Robot* insects? OMG. Insects, really? 
-
-What's next? Lions? Actually, that could actually be cool. I'd be so down to hang out in here with lions. 
-
-But okay, so *Robots*. LOL. Hi! My. Name. Is. Riley. What's. Your. Name.  ",Riley,,,
-MAZEPT1_ROBOTS2,"Okay, Riley, very funny. Be careful though. See what you can learn about their rules. 
-
-Maybe you can use their own rules _against_ them. Whatever you do, try not to wind up in the same space as them!",Saniel,,,
-MAZEPT1_ROBOTS3,"Watch their movement carefully to understand their programming. 
-
-That's the way to proceed safely to the exit!",Saniel,,,
-MAZEPT1_ROBOTS3_HINT1,"These *Robots* only move DOWN, never left or right.",Saniel,,,
-MAZEPT1_ROBOTS3_HINT2,"And when they walk off the bottom, it's as if they swim under the maze.
-
-And then they reappear at the top! So keep your eye out for that!",Saniel,,,
-MAZEPT1_MOREROBOTS,"Uh oh, looks like somebody's got a *Robot friend. Cuuuute! 
-
-So this new type of *Robot only moves UP.  And the first one only moves DOWN. 
-
-Okay, good to know! Must be really fun to go on a walk with them.",Riley,,,
-MAZEPT1_AUTO1,"Alright, so we've got some *Robots.* And we've got some *Pits*, and some *Walls*. No prob. 
-
-Saniel, my friend, I've got this. I'll be bouncing this maze in no time!",Riley,hurray,,
+And the first one only moves DOWN. And they glow in the direction they're going! Wish I could do that!",Riley,,,
+MAZEPT1_AUTO1,"*Robots!* & *Pits!* & *Walls,* oh my! Saniel, my friend, I've got this. I'll be bouncing this maze in no time ;)",Riley,hurray,,
 MAZEPT1_AUTO1_FELIX,mjau ^ = ^ mjav //\\ ngiyaw /\ ^  miav,FelixNet,,quests/glitch-meow,
-MAZEPT1_AUTO1_FABER,"Hold up. Listen. Did I just hear more meowing coming from in there? 
-
-Did one of Saniel's cats follow Riley into the trap?",Faber,,,
+MAZEPT1_AUTO1_FABER,Hold up. Listen. Was that more meowing? Did one of Saniel's cats follow Riley into the trap?,Faber,,,
 MAZEPT1_AUTO1_ADA,"Sounds like it! Hold on. Riley? What just happened? I'm not seeing your manual controls. 
 
-They just totally disappeared. Do you see that? ",Ada,,,
+They just totally disappeared. Something must be messing with your controls!",Ada,,,
 MAZEPT1_AUTO1_RILEY,How am I ever going to get out of this maze if I can't move?,Riley,,,
-MAZEPT1_AUTO1_SANIEL,This is most irregular! Now I see that the maze has given you a set of *Instructions already.,Saniel,,,
-MAZEPT1_AUTO1_SANIEL_HINT1,See that PLAY button? Try pushing that.,Saniel,,,
-MAZEPT1_AUTO2,"Good news! You can still move, but now you've got a new challenge. You have to plan all your moves in advance.
+MAZEPT1_AUTO1_SANIEL_REACTION,This is most irregular! But look! I see that the maze has given you a set of *Instructions* already.,Saniel,,,
+MAZEPT1_AUTO1_SANIEL,See that PLAY button? Try pushing that.,Saniel,,,
+MAZEPT1_AUTO1_SANIEL_HINT1,Press the PLAY button to activate the *Instructions*,Saniel,,,
+MAZEPT1_AUTO2_INTRO,"Good news! You can still move, but now you have to plan all your moves in advance.
 
-You can do this! You just have to give yourself time to think it through. 
+You can do this! It's a new kind of challenge, but you just have to give yourself time to think it through. ",Saniel,,,
+MAZEPT1_AUTO2,"After you have the *Instructions* lined up, you press PLAY and that moves you through the maze.",,,,
+MAZEPT1_AUTO2_HINT1,Press PLAY to execute the *Instructions* and get through the level.,Saniel,,,
+MAZEPT1_AUTO3_INTRO,"I can foresee how executing this set of *Instructions* won't get you to the *Exit* in one piece.
 
-And then, after you have the *Instructions lined up, you press PLAY and that moves you through the maze.",Saniel,,,
-MAZEPT1_AUTO2_HINT1,Press PLAY to execute the *Instructions and get through the level.,Saniel,,,
-MAZEPT1_AUTO3,"I can foresee how executing this set of *Instructions won't get you to the Exit in one piece.
-
-To solve this level, you'll need to decide on a strategy and reorder the *Instructions accordingly.",Saniel,,,
-MAZEPT1_AUTO3_HINT1,You’ll need to drag and drop those *Instructions to put them in a new order.,Saniel,,,
+To solve this level, you'll need to decide on a strategy and reorder the *Instructions* accordingly",,,,
+MAZEPT1_AUTO3,Study the obstacles and put the *Instructions* in a new order. ,Saniel,,,
+MAZEPT1_AUTO3_HINT1,You’ll need to drag and drop those *Instructions* to put them in a new order.,Saniel,,,
 MAZEPT1_AUTO3_HINT2,Press PLAY when you’re ready.,Saniel,,,
 MAZEPT1_AUTO3_SUCCESS,Excellent! Riley sailed right through! Thanks to your strategic thinking! ,Saniel,hurray,,
-MAZEPT1_AUTO3_FAILURE,"Good try! Let's try that again. Review the order of the *Instructions. 
+MAZEPT1_AUTO3_FAILURE,"Good try! Let's review the order of the *Instructions* and try again. Do you see a different order to try?
 
-What order of *Instructions will take Riley safely to the exit?
-
-Once you press PLAY you can no longer change the *Instructions!",Saniel,,,
-MAZEPT1_AUTO4_BACKSTORY,"This whole system is really behaving strangely. I should have gotten Riley out of there by now. 
-
-",Saniel,,,
+And keep in mind, once you press PLAY you can no longer change the *Instructions!*",Saniel,,,
+MAZEPT1_AUTO4_BACKSTORY,I feel awful that Riley's stuck in there! I'm afraid it's all my own fault. I should know how to get her through this!,Saniel,,,
 MAZEPT1_AUTO4_BACKSTORY2,"Saniel, we're all trying to figure this thing out. Don't be so hard on yourself.
 
-This box has just been sitting there with a bunch of other defunct components forever.
+How could you know this ancient thing would suddenly light up and swallow Riley? 
 
-How could you know it would suddenly light up and swallow Riley? 
-
-You didn't know there were levels and levels of mazes in there! It's not like you built it! ",Faber,,,
+You didn't know there were levels and levels of mazes in there! It's not like you built it!",Faber,,,
 MAZEPT1_AUTO4_BACKSTORY3,I’m afraid I did. ,Saniel,,,quests/san-backstory
-MAZEPT1_AUTO4_BACKSTORY4,"Wait. You did know about the mazes? Or do you mean you did BUILD IT?
-
-Saniel, hold on, are you saying you built this trap?",Ada,,,quests/san-backstory
-MAZEPT1_AUTO4_BACKSTORY5,"You built this? Saniel, but then why–",Faber,,,quests/san-backstory
-MAZEPT1_AUTO4_BACKSTORY6,"Yes. that’s exactly what I’m saying. This disaster is on me. I built this trap. And others!
-
-The whole purpose of this one is to deflect rogue AIs!  It lures the AI with alot of power and memory. 
-
-And then, essentially, it just keeps AI busy doing whatever it's trained to do. 
+MAZEPT1_AUTO4_BACKSTORY4,Wait. You did know about the mazes? Or do you mean you did BUILD IT?,Ada,,,quests/san-backstory
+MAZEPT1_AUTO4_BACKSTORY5,"Hold on, Saniel, are you saying you built this trap? But then why–",Faber,,,quests/san-backstory
+MAZEPT1_AUTO4_BACKSTORY6,"Yes. that’s exactly what I’m saying. This disaster is on me. I built this trap to confine and shut down rogue AIs!
 
 It works by diverting and exhausting the AI, hence the name.",Saniel,,,quests/san-backstory
-MAZEPT1_AUTO4_BACKSTORY7,"Oh, I get it, by  _Sidetrack_ing them, nice. I'm starting to understand. 
+MAZEPT1_AUTO4_BACKSTORY7,"Oh, I get it, by  _Sidetrack_ing them, nice, Saniel. I'm starting to understand. 
 
 Saniel, when did you say you made this trap? ",Ada,,,quests/san-backstory
-MAZEPT1_AUTO4_BACKSTORY8,"Ancient history, Ada. If you're really interested, maybe I can tell you more sometime. 
+MAZEPT1_AUTO4_BACKSTORY8,"Ancient history, Ada. Right now, I know we all want to get Riley out of there and back to her studies!
 
-Right now, I'm trying to figure out what activated this trap again. 
+I'm reviewing the commit logs, trying to see when this became active again. 
 
-I've been reviewing the commit logs and something is very irregular.
+Something's wreaking havoc in there! Propagating levels and finding new ways to make them harder! ",Saniel,,,quests/san-backstory
+MAZEPT1_AUTO4_BACKSTORY9,"So many times I told Riley, _Don't go poking around in the Windows area_. Now we're really in a fix.
 
-It appears that someone – or some_thing_ – has been in here generating endless new levels.",Saniel,,,quests/san-backstory
-MAZEPT1_AUTO4_BACKSTORY9,"Looks like it's been in here for quite some time, propagating levels and finding new ways to make them harder! 
-
-I wish Riley had listened to me and not gone poking around in the Windows area. Now we're really in a fix.
-
-I won't let her down! I'm going to solve this the fastest, surest way I know: I'm going to go take a catnap.",Saniel,,,quests/san-backstory
+I won't let her down! I'm going to solve this the fastest, surest way I know: I'm going to go take _a catnap_.",Saniel,,,quests/san-backstory
 MAZEPT1_AUTO4_BACKSTORY10,"I've seen that work before, Saniel!  I know you'll dream up a solution.
 
 Hey Riley, how's it going in there? ",Faber,,,
-MAZEPT1_ONEJUMP,"Oh, hey Faber, you know, just chillin' in here! Any hope I might see the exit soon?
+MAZEPT1_ONEJUMP,"Oh, hey Faber, you know, just chillin' in here! Any hope I might see the *Exit* soon?
 
 At least this next level looks familiar. Should be a snap. ",Riley,,,
 MAZEPT1_ONEJUMP_ADA,But look closely. You only have one JUMP. Think strategically!,Faber,,,
 MAZEPT1_ONEJUMP_ADA_HINT1,"If you only have one JUMP, then you need to use it on the only pit you can't walk around.",Faber,,,
 MAZEPT1_ONEFORWARD,"Ugh, here I am again! At least this time, I have two JUMP *Instructions.",Riley,,,
 MAZEPT1_ONEFORWARD_ADA,"Yes, but now you only have one FORWARD Instruction! Where should it go?",Faber,,,
-MAZEPT1_ONEFORWARD_ADA_HINT1,"There's one place in this level that you *must* move forward, not up or down. Use FORWARD there!",Faber,,,
-MAZEPT1_SLIDING,"Oh, truly awesome. So many DOWN *Instructions and I need to move forward! 
+MAZEPT1_ONEFORWARD_ADA_HINT1,"There's one place in this level that you _must_ move forward, not up or down. Use FORWARD there!",Faber,,,
+MAZEPT1_SLIDING,"Oh, truly awesome. So many DOWN *Instructions* and I need to move FORWARD! 
 
-I wonder what happens when I use DOWN when I'm already at the bottom.
+Hmmm, I wonder what happens when I use DOWN when I'm already at the bottom.
 
 Hope I don't fall off. Maybe I'll sort of slide along the bottom edge? Only one way to find out!",Riley,,,
 MAZEPT1_DRAMA_ADA1,"Hey Faber, wasn't that so intense when Saniel told us about making the trap! ",Ada,,,
 MAZEPT1_DRAMA_FABER1,"Yeah, I always thought there was something about him he wasn't telling us. 
 
 But can't you totally picture him back in the day stopping rogue AIs in their tracks?",Faber,,,
-MAZEPT1_DRAMA_ADA2,"Don't you think it's strange that he's just telling us this now? 
-
-Riley's been in this trap for a long time!",Ada,,,
-MAZEPT1_DRAMA_FABER2,"That's such a good point, Ada. Yeah, why couldn't he just, like, open it?
-
-That's totally not like Dr. Rowe. He is usually so quick to at least try to offer a solution. ",Faber,,,
-MAZEPT1_DRAMA_ADA3,"Exactly. I have a hypothesis I've been investigating. I've been wanting to float this question with you. 
-
-The more details I uncover, the more I think I'm onto something.  ",Ada,,,
+MAZEPT1_DRAMA_ADA2,Don't you think it's strange that he's just telling us this now? Riley's been in this trap for so long!,Ada,,,
+MAZEPT1_DRAMA_FABER2,"Yeah, why couldn't he just, like, open it? That's totally not like Dr. Rowe. He always has a solution. ",Faber,,,
+MAZEPT1_DRAMA_ADA3,"Exactly. I have a hypothesis I've been investigating. The more I uncover, the more I think I'm onto something.  ",Ada,,,
 MAZEPT1_AUTO5,"Um, hello? Guys? Can you maybe discuss hypothetical matters later? I'm _actually_ in this maze right now. 
 
-What’s _that_ Instruction!? The one at position 3. Something's totally _wrong_ with it!",Riley,,,
+What’s _that_  *Instruction*? The one at position 3. Something's totally _wrong_ with it!",Riley,,,
 MAZEPT1_AUTO5_ADA,Try pressing PLAY just to see if you can get through anyway.,Ada,,,
 MAZEPT1_AUTO5_ADA_HINT1,There's no way forward unless we at least try! Press PLAY.,Ada,,,
-MAZEPT1_AUTO5_FAILURE_ADA,"That *Instruction does some B_ZAR_ things to me! Not digging it at all. 
+MAZEPT1_AUTO5_FAILURE_ADA,"That *Instruction* does some B_ZAR_ things to me! Not digging it at all. 
 
-And I for sure can’t get through this level with that *Instruction in the mix.",Riley,,,
-MAZEPT1_AUTO5_FAILURE_ADA2,"Right. There must be a syntax error, but to be sure we’ll need to see the code.
+And I for sure can’t get through this level with that *Instruction* in the mix.",Riley,,,
+MAZEPT1_AUTO5_FAILURE_ADA2,"Right. There must be an error, but to be sure we’ll need to see the code.
 
-To see the code, we’ll need the *Instructions panel key. Oh boy, here we go. Saniel probably has it. ",Ada,,,
+To see the code, we’ll need the *Instructions* panel key. Oh boy, here we go. Saniel probably has it. ",Ada,,,
 MAZEPT1_SUCCESS,"I just checked in with Saniel. He was indeed half asleep.
 
 But he says we can find that key inside Lightspeed.  He stashed it there long ago ""to keep it safe,"" LOL.
 
 Saniel never forgets anything! Meet me at the clubhouse, and we’ll go find it together.",Faber,hurray,,
 MAZEPT1_ABORT,Come find me later and we can keep working on this! ,Ada,,,
-MAZEPT1_ROBOTSPITS,"More *Pits*, and *Robots* too. Nothing you haven't seen before, though.
-
-You got this, Riley! You can fly right through this level. ",Faber,,,
-MAZEPT1_MOREROBOTSPITS,"I suppose we should have expected this. There seems to be a pattern in the way these challenges build on each other.
+MAZEPT1_ROBOTSPITS,"More *Pits*, and *Robots* too. Nothing you haven't seen before, Riley! You can fly right through this level. ",Faber,,,
+MAZEPT1_MOREROBOTSPITS,"I suppose we should have expected this. These challenges build on each other in some kind of pattern.
 
 You know how to handle this one. Do you see a solution? Go for it!",Ada,,,
-MAZEPT1_WASTEJUMPS,"Hmm. You know, you don't have to have a *Pit* in front of you to use a JUMP. 
+MAZEPT1_WASTEJUMPS,"Think about it, you don't have to have a *Pit* in front of you to use a JUMP. 
 
 Maybe you could use a JUMP to go forward? You never know when that will come in handy!",Ada,,,

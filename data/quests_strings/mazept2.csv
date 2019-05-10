@@ -4,41 +4,39 @@ MAZEPT2_LAUNCH,You and Faber found the key? That's going to really help us! Laun
 MAZEPT2_LAUNCH_HINT1,Go to the desktop and click on the *Sidetrack* icon.,,,,
 MAZEPT2_FLIP,This key is going to come in so handy! Let's use it to see what's in the *Toolbox*!,,,,
 MAZEPT2_FLIP_HINT1,Press the Flip button.,,,,
-MAZEPT2_INSTRUCTIONS,"Ah. Here are the *Instructions. It's the same as the icons on the front, just written in code.
+MAZEPT2_INSTRUCTIONS,"Ah. Here are the *Instructions*. It's the same as the icons on the front, just written in code.
 
-See that! Someone spelled `jump` wrong. No wonder that *Instruction doesn't work.
+See that! Someone spelled `jump` wrong. No wonder that *Instruction*  doesn't work. The language has to be super exact. 
 
-We call that a syntax error. The language has to be super exact. 
-
-So, pay attention to each letter and fix the code. And then try running the level again!",,,,
+Pay attention to each letter and correct the spelling in the code. And then try running the level again!",,,,
 MAZEPT2_INSTRUCTIONS_HINT1,"See in the code where it says `riley.jumpp();`?
 
 See how jump has two p's? There's only one *p* in jump!",,,,
 MAZEPT2_INSTRUCTIONS_HINT2,Change it to say `riley.jump();` Then flip back over and press PLAY.,,,,
 MAZEPT2_LEVELS2,"Awesome! That was scary, but thanks to you, I got through.",Riley,,,
 MAZEPT2_LEVELS2_B,"Looks like this level has another error, though! Two of them! We need to fix both of them.",,,,
-MAZEPT2_LEVELS2_B_HINT1,Look at the *Instructions code by flipping the app to the back.,Riley,,,
-MAZEPT2_LEVELS2_B_HINT2,Then look for *Instructions that are spelled wrong or that don't match the other *Instructions.,Riley,,,
+MAZEPT2_LEVELS2_B_HINT1,Look at the *Instructions* code by flipping the app to the back.,Riley,,,
+MAZEPT2_LEVELS2_B_HINT2,Then look for *Instructions* that are spelled wrong or that don't match the other *Instructions.,Riley,,,
 MAZEPT2_LEVELS2_B_HINT3,See where it says `riley.fooorward();`? Forward has way too many o's! Change it to `riley.forward();`,Riley,,,
 MAZEPT2_LEVELS2_B_HINT4,"Oh, wait, there's another one. Do you see it? Code is case sensitive so that's always something to check.
 
-It should be riley.jump(); not riley.Jump();`  See that? lower case j: `jump` not `Jump`    *=^.‿.^=*",Riley,,,
-MAZEPT2_FIXANDREORDER,More syntax errors! I guess someone was under some pressure to get this done quickly!,Riley,,,
-MAZEPT2_FIXANDREORDER_FIXED,"Well. I fixed the errors in the code, but I still need to be on my toes here about getting the order of the *Instructions right.  
+It should be `riley.jump();` not `riley.Jump();`  See that? lower case j: `jump` not `Jump`    *=^.‿.^=*",Riley,,,
+MAZEPT2_FIXANDREORDER,More spelling errors! I guess someone was under some pressure to get this done quickly!,Riley,,,
+MAZEPT2_FIXANDREORDER_FIXED,"Well. I fixed the errors in the code, but I still need to be on my toes here about getting the order of the *Instructions* right.  
 
 All of these details matter if I'm going to get to the exit! It's amazing how if I just pause I can see the way through. Deep! ",Riley,,,
-MAZEPT2_LEVELS3,"Hmm, look carefully. There’s no way this set of *Instructions could _ever_ finish this level.
+MAZEPT2_LEVELS3,"Hmm, look carefully. There’s no way this set of *Instructions* could _ever_ finish this level.
 
-But good news, click the *Flip button, and you can type any *Instructions you want!
+But good news, click the *Flip button, and you can type any *Instructions* you want!
 
 This gives you more choice. You don’t have to just rearrange the ones you’re given anymore.",Faber,,,
-MAZEPT2_LEVELS3_HINT1,Flip to hack so you can edit the code for *Instructions.,Faber,,,
+MAZEPT2_LEVELS3_HINT1,Flip to hack so you can edit the code for *Instructions.*,Faber,,,
 MAZEPT2_LEVELS3_HINT2,"Because this level has a *Pit*, you'll need to add at least one `jump` Instruction. ",Faber,,,
-MAZEPT2_LEVELS3_HINT3,Delete one of the *Instructions and replace it with `riley.jump();` See how that works?,Faber,,,
-MAZEPT2_LEVELS3_HINT4,"Make sure when you're done that there are 8 *Instructions total. No more, no less!",Faber,,,
+MAZEPT2_LEVELS3_HINT3,Delete one of the *Instructions* and replace it with `riley.jump();` See how that works?,Faber,,,
+MAZEPT2_LEVELS3_HINT4,"Make sure when you're done that there are 8 *Instructions* total. No more, no less!",Faber,,,
 MAZEPT2_LEVELS5,"Hold on, Riley, Remember how my research files were missing a while ago? I think I see them!
 
-How did the files get in here? It's over near the *Exit!  That’s definitely my missing research!
+How did the files get in here? It's over near the *Exit*!  That’s definitely my missing research!
 
 You said you saw strange activity in she System area, remember, Riley? I wonder how it's all connected! ",Ada,,,
 MAZEPT2_LEVELS5_RILEY,"Whoa, yes, I def remember that. That's why I went back into the System. I was trying to help you find your files. 

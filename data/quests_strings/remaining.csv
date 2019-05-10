@@ -1,4 +1,4 @@
-,,,,,quests/ep4end1
+,Drama,,,,
 ID,Text,Speaker,Animation,,
 INTRO_EPISODESTAB,"The Episodes tab helps you keep track of where you are. It's good to check here when you start to play. 
 
@@ -11,3 +11,4 @@ INTRO_EXPLANATION,"Before we get started on new challenges, let’s go check out
 Click on the Clubhouse and then on the Episodes tab.",,,,quests/quest2-riley-hi
 INTRO_QUESTION,Hi there! Glad you’re here  =^._.^=   Ready to do some more exploring?,Riley,,,
 INTRO_QUEST_ACCEPT,Yes!,,,,quests/quest2-riley-hi
+intntst,Text,Speaker,Animation,,
