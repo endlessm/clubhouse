@@ -10,7 +10,7 @@ class BadgeButton(Gtk.Button):
 
     WIDTH = HEIGHT = 164
 
-    PROGRESS_BADGES = [15, 30, 50, 70, 85]
+    NUM_PROGRESS_BADGES = 11
 
     def __init__(self, episode):
         super().__init__(halign=Gtk.Align.START,
@@ -36,19 +36,31 @@ class BadgeButton(Gtk.Button):
             self._update()
 
     def _setup_ui(self):
-        self._image = Gtk.Image()
-        self._image.show()
-        self.add(self._image)
+        overlay = Gtk.Overlay(visible=True)
+        self._image = Gtk.Image(visible=True)
+        overlay.add(self._image)
+
+        self._progress_label = Gtk.Label()
+        self._progress_label.get_style_context().add_class('episode-row-progress-label')
+        overlay.add_overlay(self._progress_label)
+        overlay.set_overlay_pass_through(self._progress_label, True)
+
+        self.add(overlay)
 
     def _get_progress_for_percentage(self, percentage):
         if percentage == 0:
             return 0
 
-        step = 100 // len(self.PROGRESS_BADGES)
-        progress_index = int(percentage // step)
-        return self.PROGRESS_BADGES[progress_index]
+        step = 100 // self.NUM_PROGRESS_BADGES
+        progress_index = int(percentage // step) + 1  # Add 1 as progress badges start from 1.
+        # Ensure we don't overflow the index for the badges. This shouldn't happen for all regular
+        # values, but it's good to have as a safeguard in this case.
+        return min(progress_index, self.NUM_PROGRESS_BADGES)
 
     def _update(self):
+        # Reset the progress label visibilty because it's not to be always visible.
+        self._progress_label.hide()
+
         if self._episode.is_complete():
             if self.get_state_flags() & Gtk.StateFlags.PRELIGHT:
                 badgename = '{}_hover.png'.format(self._episode.id)
@@ -57,6 +69,10 @@ class BadgeButton(Gtk.Button):
         elif self._episode.is_current:
             progress = self._get_progress_for_percentage(self._episode.percentage_complete)
             badgename = 'episode_progress_{}.png'.format(progress)
+
+            if progress > 0:
+                self._progress_label.set_text('{}%'.format(self._episode.percentage_complete))
+                self._progress_label.show()
         else:
             self.hide()
             return
