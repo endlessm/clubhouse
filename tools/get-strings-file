@@ -224,6 +224,8 @@ def main(sheets=None, quests=None, commit=False, use_alternative_path=False):
 
     success = write_quests(quests, rows, use_alternative_path)
     if not success:
+        if commit:
+            print('Not commiting because of the errors above.')
         return 1
 
     if not commit or use_alternative_path:
