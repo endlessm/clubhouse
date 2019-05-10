@@ -99,6 +99,11 @@ def _cleanup_and_validate(quest, rows):
     is_valid = True
     for r in rows:
         # Data cleanup:
+        r[Columns.MESSAGE_ID.value] = r[Columns.MESSAGE_ID.value].upper()
+        r[Columns.SPEAKER.value] = r[Columns.SPEAKER.value].lower()
+        r[Columns.ANIMATION.value] = r[Columns.ANIMATION.value].lower()
+        r[Columns.SFX.value] = r[Columns.SFX.value].lower()
+        r[Columns.BG.value] = r[Columns.BG.value].lower()
         if not r[Columns.SFX.value].startswith('quests/'):
             r[Columns.SFX.value] = ''
         if not r[Columns.BG.value].startswith('quests/'):
