@@ -2,8 +2,9 @@
 
 import argparse
 import csv
-from enum import Enum
+from enum import IntEnum
 import io
+from itertools import permutations
 import os
 import re
 import requests
@@ -30,7 +31,7 @@ character_animations = None
 
 
 # Spreadsheet columns:
-class Columns(Enum):
+class Columns(IntEnum):
     MESSAGE_ID = 0
     TEXT = 1
     SPEAKER = 2
@@ -92,37 +93,70 @@ def get_rows_from_sheet(sheet):
 
 
 def _get_rows_for_quest(quest, rows):
-    return (r for r in rows if r[Columns.MESSAGE_ID.value].startswith(quest.upper()))
+    return (r for r in rows if r[Columns.MESSAGE_ID].startswith(quest.upper()))
+
+
+def _cleanup_and_validate(quest, rows):
+    is_valid = True
+    for r in rows:
+        # Data cleanup:
+        r[Columns.MESSAGE_ID] = r[Columns.MESSAGE_ID].upper()
+        r[Columns.SPEAKER] = r[Columns.SPEAKER].lower()
+        r[Columns.ANIMATION] = r[Columns.ANIMATION].lower()
+        r[Columns.SFX] = r[Columns.SFX].lower()
+        r[Columns.BG] = r[Columns.BG].lower()
+        if not r[Columns.SFX].startswith('quests/'):
+            r[Columns.SFX] = ''
+        if not r[Columns.BG].startswith('quests/'):
+            r[Columns.BG] = ''
+
+        # Data validation:
+        def validate_single_paragraph(r):
+            nonlocal is_valid
+            txt = r[Columns.TEXT]
+            if '\n\n' in txt:
+                is_valid = False
+                print('WARNING! Message "{}" should not have multiple paragraphs.'
+                      ''.format(r[Columns.MESSAGE_ID]))
+
+        if quest is not None:
+            for template in ['{}_QUESTION', '{}_QUEST_ACCEPT', '{}_QUEST_REJECT']:
+                message_id = template.format(quest.upper())
+                if r[Columns.MESSAGE_ID] == message_id:
+                    validate_single_paragraph(r)
+
+        character_animations = get_character_animations()
+
+        for character in character_animations:
+            message_id = 'NOQUEST_{}_NOTHING'.format(character.upper())
+            if r[Columns.MESSAGE_ID] == message_id:
+                validate_single_paragraph(r)
+
+        for char_a, char_b in permutations(character_animations, 2):
+            message_id = 'NOQUEST_{}_{}'.format(char_a.upper(), char_b.upper())
+            if r[Columns.MESSAGE_ID] == message_id:
+                validate_single_paragraph(r)
+
+        speaker = r[Columns.SPEAKER].lower().strip()
+        if speaker not in ('', 'speaker'):
+            if speaker not in character_animations:
+                is_valid = False
+                print('WARNING! Character "{}" is invalid.'
+                      ''.format(r[Columns.SPEAKER]))
+            else:
+                animation = r[Columns.ANIMATION].lower().strip()
+                if animation is not '' and animation not in character_animations[speaker]:
+                    is_valid = False
+                    print('WARNING! Animation "{}" for character "{}" is invalid.'
+                          ''.format(r[Columns.ANIMATION], r[Columns.SPEAKER]))
+    return is_valid
 
 
 def _write_csv_file(filename, rows):
-    success = True
     with open(filename, 'w') as out_file:
         writer = csv.writer(out_file)
         for r in rows:
-            # Data cleanup:
-            if not r[Columns.SFX.value].startswith('quests/'):
-                r[Columns.SFX.value] = ''
-            if not r[Columns.BG.value].startswith('quests/'):
-                r[Columns.BG.value] = ''
-
-            # Data validation:
-            character_animations = get_character_animations()
-            speaker = r[Columns.SPEAKER.value].lower().strip()
-            if speaker not in ('', 'speaker'):
-                if speaker not in character_animations:
-                    success = False
-                    print('WARNING! Character "{}" is invalid.'
-                          ''.format(r[Columns.SPEAKER.value]))
-                else:
-                    animation = r[Columns.ANIMATION.value].lower().strip()
-                    if animation is not '' and animation not in character_animations[speaker]:
-                        success = False
-                        print('WARNING! Animation "{}" for character "{}" is invalid.'
-                              ''.format(r[Columns.ANIMATION.value], r[Columns.SPEAKER.value]))
-
             writer.writerow(r)
-    return success
 
 
 def write_quests(quests, rows, use_alternative_path=False):
@@ -144,15 +178,17 @@ def write_quests(quests, rows, use_alternative_path=False):
             for r in quest_rows:
                 del remaining_rows[r[0]]
         filename = os.path.join(csv_path, quest + '.csv')
-        write_success = _write_csv_file(filename, quest_rows)
-        success = success and write_success
+        is_valid = _cleanup_and_validate(quest, quest_rows)
+        success = success and is_valid
+        _write_csv_file(filename, quest_rows)
 
     if remaining_rows is not None:
         remaining_rows = list(remaining_rows.values())
         remaining_rows.sort()
         filename = os.path.join(csv_path, 'remaining.csv')
-        write_success = _write_csv_file(filename, remaining_rows)
-        success = success and write_success
+        is_valid = _cleanup_and_validate(None, remaining_rows)
+        success = success and is_valid
+        _write_csv_file(filename, remaining_rows)
 
     return success
 
@@ -188,6 +224,8 @@ def main(sheets=None, quests=None, commit=False, use_alternative_path=False):
 
     success = write_quests(quests, rows, use_alternative_path)
     if not success:
+        if commit:
+            print('Not commiting because of the errors above.')
         return 1
 
     if not commit or use_alternative_path:
