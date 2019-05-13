@@ -114,7 +114,7 @@ class MazePt1(Quest):
 
         confirmed = False
         level_changed = False
-        level_succeed = None
+        next_level_succeed = None
         if self.confirmed_step():
             confirmed = True
             self.confirmed_messages.append(message_id)
@@ -124,10 +124,16 @@ class MazePt1(Quest):
         else:
             # Current level hasn't changed, so either the player
             # completed the level or died:
-            level_succeed = self._app.get_js_property('success')
+            success = self._app.get_js_property('success')
+            # After the player dies the 'success' flag is put back
+            # to True, ignore it:
+            if level_succeed is not False:
+                next_level_succeed = success
+            else:
+                print('FALSE ALARM')
 
-        print('DEBUG %s %s %s' % (confirmed, level_changed, level_succeed))
-        return self.step_play_level, level_changed, level_succeed
+        print('DEBUG %s %s %s' % (confirmed, level_changed, next_level_succeed))
+        return self.step_play_level, level_changed, next_level_succeed
 
     @Quest.with_app_launched(Sidetrack.APP_NAME)
     def last_level(self):
