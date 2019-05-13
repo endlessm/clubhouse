@@ -532,6 +532,9 @@ class Quest(GObject.GObject):
             GObject.SignalFlags.RUN_FIRST, None, (str, str, GObject.TYPE_PYOBJECT,
                                                   str, str, str, str)
         ),
+        'dismiss-message': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
         'item-given': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str)
         ),
@@ -1116,6 +1119,9 @@ class Quest(GObject.GObject):
                   options.get('character_id') or self._main_character_id,
                   options.get('mood') or self._main_mood,
                   sfx_sound, bg_sound)
+
+    def dismiss_message(self):
+        self.emit('dismiss-message')
 
     def reset_hints_given_once(self):
         self._hints_given_once = set()
