@@ -532,6 +532,9 @@ class Quest(GObject.GObject):
             GObject.SignalFlags.RUN_FIRST, None, (str, str, GObject.TYPE_PYOBJECT,
                                                   str, str, str, str)
         ),
+        'dismiss-message': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
         'item-given': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str)
         ),
@@ -1036,6 +1039,7 @@ class Quest(GObject.GObject):
 
         abort_info = QuestStringCatalog.get_info('{}_ABORT'.format(self._qs_base_id))
         if abort_info:
+            # self.dismiss_message()
             self.show_message('ABORT')
             self.pause(5)
 
@@ -1116,6 +1120,9 @@ class Quest(GObject.GObject):
                   options.get('character_id') or self._main_character_id,
                   options.get('mood') or self._main_mood,
                   sfx_sound, bg_sound)
+
+    def dismiss_message(self):
+        self.emit('dismiss-message')
 
     def reset_hints_given_once(self):
         self._hints_given_once = set()
@@ -1301,6 +1308,8 @@ class Quest(GObject.GObject):
                     if not app.is_running():
                         app.disconnect_running_change(handler_id)
                         app_was_quit = True
+                        logger.debug('APP QUIT CALLBACK')
+                        print('APP QUIT CALLBACK')
                         app_quit_callback()
 
                 # Check if the app is quit while the wrapped function is being run
