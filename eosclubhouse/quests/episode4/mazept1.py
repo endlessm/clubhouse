@@ -16,6 +16,10 @@ class MazePt1(Quest):
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH_ADA')
         self._app.set_js_property('availableLevels', ('u', 23))
         logger.debug('available levels = %i', int(self._app.get_js_property('currentLevel')))
+        return self.step_intro
+
+    @Quest.with_app_launched(Sidetrack.APP_NAME)
+    def step_intro(self):
         self.wait_confirm('RILEYHELLO')
         self.wait_confirm('EXIT')
         return self.step_play_level
