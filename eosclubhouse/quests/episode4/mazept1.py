@@ -112,9 +112,11 @@ class MazePt1(Quest):
 
         self.wait_for_one(actions)
 
+        confirmed = False
         level_changed = False
         level_succeed = None
         if self.confirmed_step():
+            confirmed = True
             self.confirmed_messages.append(message_id)
         elif current_level != self._app.get_js_property('currentLevel'):
             level_changed = True
@@ -124,6 +126,7 @@ class MazePt1(Quest):
             # completed the level or died:
             level_succeed = self._app.get_js_property('success')
 
+        print('DEBUG %s %s %s' % (confirmed, level_changed, level_succeed))
         return self.step_play_level, level_changed, level_succeed
 
     @Quest.with_app_launched(Sidetrack.APP_NAME)
