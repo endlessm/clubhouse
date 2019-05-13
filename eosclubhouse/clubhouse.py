@@ -563,12 +563,14 @@ class ClubhousePage(Gtk.EventBox):
         self._gss.handler_block(self._gss_hander_id)
 
         quest.connect('message', self._quest_message_cb)
+        quest.connect('dismiss-message', self._quest_dismiss_message_cb)
         quest.connect('schedule-quest', self._quest_scheduled_cb)
         quest.connect('item-given', self._quest_item_given_cb)
 
     def disconnect_quest(self, quest):
         self._gss.handler_unblock(self._gss_hander_id)
         quest.disconnect_by_func(self._quest_message_cb)
+        quest.disconnect_by_func(self._quest_dismiss_message_cb)
         quest.disconnect_by_func(self._quest_scheduled_cb)
         quest.disconnect_by_func(self._quest_item_given_cb)
 
@@ -653,6 +655,9 @@ class ClubhousePage(Gtk.EventBox):
         character.mood = character_mood
 
         self._shell_popup_message(message_txt, character, sfx_sound, bg_sound)
+
+    def _quest_dismiss_message_cb(self, quest):
+        self._shell_close_popup_message()
 
     def _reset_delayed_message(self):
         if self._delayed_message_handler > 0:
