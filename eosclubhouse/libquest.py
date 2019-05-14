@@ -715,7 +715,7 @@ class Quest(GObject.GObject):
         assert self._run_context is not None
         self._run_context.set_next_step(step_func, delay, args)
 
-    def ask_for_app_launch(self, app, timeout=None, pause_after_launch=0, message_id='LAUNCH',
+    def ask_for_app_launch(self, app, timeout=None, pause_after_launch=2, message_id='LAUNCH',
                            give_app_icon=True):
         if app.is_running() or self.is_cancelled():
             return
