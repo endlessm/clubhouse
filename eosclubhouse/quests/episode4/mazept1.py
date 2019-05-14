@@ -25,6 +25,8 @@ class MazePt1(Quest):
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH_ADA')
         self._app.set_js_property('availableLevels', ('u', 23))
+        if self._app.get_js_property('highestAchievedLevel') > 1:
+            self._app.set_js_property('highestAchievedLevel', ('u', 1))
         self._reset_confirmed_messages()
         self.cutscene_played = False
         return self.step_play_level, False
@@ -56,9 +58,10 @@ class MazePt1(Quest):
                 self.show_hints_message('ROBOTS3')
         elif current_level == 10:
             message_id = self._get_unconfirmed_message(['MOREROBOTS'])
+        elif current_level == 13:
+            message_id = self._get_unconfirmed_message(['AUTO1'])
         elif current_level == 14:
             if not self.cutscene_played:
-                self.wait_confirm('AUTO1')
                 # felix destroys the controls here
                 self._app.set_js_property('controlsCutscene', ('b', True))
                 self.pause(1)
@@ -75,17 +78,15 @@ class MazePt1(Quest):
         elif current_level == 16:
             if level_changed:
                 self.show_hints_message('AUTO3')
-            elif level_succeed is True:
-                message_id = self._get_unconfirmed_message(['AUTO3_SUCCESS'])
             elif level_succeed is False:
                 message_id = self._get_unconfirmed_message(['AUTO3_FAILURE'])
         elif current_level == 17:
             message_id = self._get_unconfirmed_message([
-                'AUTO4_BACKSTORY',
+                'AUTO3_SUCCESS', 'AUTO4_BACKSTORY',
                 *('AUTO4_BACKSTORY{}'.format(i) for i in range(2, 11)),
             ])
         elif current_level == 18:
-            message_id = self._get_unconfirmed_message(['ONEJUMP'])
+            message_id = self._get_unconfirmed_message(['ONEJUMP_PRE', 'ONEJUMP'])
             if message_id is None:
                 self.show_hints_message('ONEJUMP_ADA')
         elif current_level == 19:
