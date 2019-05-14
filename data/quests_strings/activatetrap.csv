@@ -1,4 +1,4 @@
-ACTIVATETRAP_QUESTION,How very odd. All three panels are activated. But the box is still closed. Not liking the looks of this. ,Saniel,,,
+ACTIVATETRAP_QUESTION,How very odd. All three panels are activated. But the box is still closed. Not liking the looks of this. ,saniel,,,
 ACTIVATETRAP_QUEST_ACCEPT,Let's keep trying!,,,,
 ACTIVATETRAP_OPEN_CLUBHOUSE,"That's what I like to hear! Okay, so open the clubhouse first.",,,,
 ACTIVATETRAP_OPEN_CLUBHOUSE_HINT1,Click on the button at the right to open the clubhouse.,,,,
@@ -9,19 +9,19 @@ Let's consider everything we have. Each time we activated a fob, Riley spoke to 
 Something was scrambling her speech, but somewhere in there, she's giving us clues. I know her!
 
 ",,,,
-ACTIVATETRAP_TRY2,"When I was in there, I distinctly heard Riley say MEOW!",Ada,,,
-ACTIVATETRAP_TRY3,"Exactly! That's the one word, as it were, that came forth clearly for me as well. MEOW!",Saniel,,,
+ACTIVATETRAP_TRY2,"When I was in there, I distinctly heard Riley say MEOW!",ada,,,
+ACTIVATETRAP_TRY3,"Exactly! That's the one word, as it were, that came forth clearly for me as well. MEOW!",saniel,,,
 ACTIVATETRAP_TRY4,"MEOW! Whoa. I totally caught that too, but I was all like, why is Riley meowing?
 
 But that's _gotta_ mean something! MEOW. MEOW. And again, MEOW. 
 
-",Faber,,,
+",faber,,,
 ACTIVATETRAP_TRY5,"MEOWMEOWMEOW. I must say, this password gives me pause. 
 
 But let's enter it now. Okay, M – E – O – W – M – E – O – W – M – E – O – W ––––––––––––
 
 This ordeal is almost over! The opening protocol has started. Watch the box closely now!
-",Saniel,,,
+",saniel,,,
 ACTIVATETRAP_TRANSCODING,"Wait – What's all this? The display says it's  _TRANSCODING_ . Okay. Transcoding. Not thrilled.
 
 Not thrilled at all. I must say, this really has me stumped. I had hoped we would free Riley today.

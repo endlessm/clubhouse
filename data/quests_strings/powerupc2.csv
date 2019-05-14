@@ -1,4 +1,4 @@
-POWERUPC2_QUESTION,Let's do some more work on that Power-up.,Saniel,,,
+POWERUPC2_QUESTION,Let's do some more work on that Power-up.,saniel,,,
 POWERUPC2_QUEST_ACCEPT,I'm ready,,,,
 POWERUPC2_LAUNCH,Launch Lightspeed now.,,,,
 POWERUPC2_EXPLAIN,"We're going to make it so Power-up `'upgrade'` doesn't always shrink the ship: It gives a random bonus!

@@ -1,10 +1,10 @@
-MAZEPT4_DUMMY1,mazept4 dummy text 1 (If you see this in master it's a bug!),Ada,,,
-MAZEPT4_DUMMY2,"mazept4 dummy text 2, longer (If you see this in master it's a bug!)",Ada,,,
-MAZEPT4_DUMMY3,"mazept4 dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Ada,,,
-MAZEPT4_QUESTION,"Ready to get back in to the *Sidetrack* app and help Riley escape, once and for all?",Ada,,,
-MAZEPT4_QUEST_ACCEPT,Let's do it!,Ada,,,
-MAZEPT4_LAUNCH,Let's launch *Sidetrack*.,Ada,,,
-MAZEPT4_LAUNCH_HINT1,Click the *Sidetrack* icon. ,Ada,,,
+MAZEPT4_DUMMY1,mazept4 dummy text 1 (If you see this in master it's a bug!),ada,,,
+MAZEPT4_DUMMY2,"mazept4 dummy text 2, longer (If you see this in master it's a bug!)",ada,,,
+MAZEPT4_DUMMY3,"mazept4 dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",ada,,,
+MAZEPT4_QUESTION,"Ready to get back in to the *Sidetrack* app and help Riley escape, once and for all?",ada,,,
+MAZEPT4_QUEST_ACCEPT,Let's do it!,ada,,,
+MAZEPT4_LAUNCH,Let's launch *Sidetrack*.,ada,,,
+MAZEPT4_LAUNCH_HINT1,Click the *Sidetrack* icon. ,ada,,,
 MAZEPT4_FLIP,"That key you and Saniel recovered from *Fizzics* will unlock Unit editing. 
 
 That's how Riley will get past this level.",,,,
@@ -20,67 +20,67 @@ MAZEPT4_UNITS_HINT2,"Set *Robot* Type A to UP. You might also need to change *In
 Then flip back around and press Play.",,,,
 MAZEPT4_LEVELS2,"I remember this level. It used to be hard! But now I can edit *Instructions. 
 
-And I have PUSH, and I can even edit *Units* to change both *Robot* types. This should be a breeze!",Riley,,,
+And I have PUSH, and I can even edit *Units* to change both *Robot* types. This should be a breeze!",riley,,,
 MAZEPT4_LEVELS3,"Don't forget when you edit *Units*, you can change the direction of BOTH robot types.  
 
-That's sometimes necessary.",Saniel,,,
-MAZEPT4_LEVELS3_FABER,Hello Saniel. Glad to see you’re back. How was your nap? Any discoveries?,Faber,,,
-MAZEPT4_LEVELS3_ADA,"Saniel, Faber and I have a few questions for you.",Ada,,,
-MAZEPT4_LEVELS3_SANIEL,They'll have to wait till later! Riley's almost all the way through the maze!,Saniel,,,
+That's sometimes necessary.",saniel,,,
+MAZEPT4_LEVELS3_FABER,Hello Saniel. Glad to see you’re back. How was your nap? Any discoveries?,faber,,,
+MAZEPT4_LEVELS3_ADA,"Saniel, Faber and I have a few questions for you.",ada,,,
+MAZEPT4_LEVELS3_SANIEL,They'll have to wait till later! Riley's almost all the way through the maze!,saniel,,,
 MAZEPT4_LEVELS4,"Hey guys. I caught sight of the AI. It was just a flash. I always just manage to see part of it!
 
-It brushed past me in that last level. I'm not seeing it now, but I know it's around somewhere. ",Riley,,,quests/ep4end1
+It brushed past me in that last level. I'm not seeing it now, but I know it's around somewhere. ",riley,,,quests/ep4end1
 MAZEPT4_LEVELS4_SANIEL,"Okay, let's be very careful in this level. The AI is probably tracking you closely, Riley.  
 
-It's imperative that we keep this AI contained! ",Saniel,,,quests/ep4end1
+It's imperative that we keep this AI contained! ",saniel,,,quests/ep4end1
 MAZEPT4_LEVELS5,"Huge bummer! All the *Instructions* in this level are missing! 
 
-You'll need to type the *Instructions* yourself from scratch.",Faber,,,quests/ep4end1
-MAZEPT4_LEVELS5_RILEY,"That AI-whatever is *right */\‿/\* behind *∫∫* me.* 
+You'll need to type the *Instructions* yourself from scratch.",faber,,,quests/ep4end1
+MAZEPT4_LEVELS5_RILEY,"That AI-whatever is *right */\‿/\* behind *∫∫* me. 
 
-I think it's following me*/ᐠ｡｡ᐟ\*!",Riley,,,quests/ep4end1
+I think it's following me*/ᐠ｡｡ᐟ\*!",riley,,,quests/ep4end1
 MAZEPT4_LEVELS5_SANIEL,"Okay, Riley. We're tracking you super closely now. This is the level that's going to finally lead to the outside! 
 
-When you reach that *Exit*, you're going to need to jump clear! Don't look back now, Riley!",Saniel,,,quests/ep4end1
+When you reach that *Exit*, you're going to need to jump clear! Don't look back now, Riley!",saniel,,,quests/ep4end1
 MAZEPT4_INSTRUCTIONS,"Oh this is awesome!  Now we can make the down *Instructions* into up *Instructions!  
 
-And we can flip the up *Robots* to move down instead!  We can even make both move in the same direction!",Riley,,,quests/ep4end1
+And we can flip the up *Robots* to move down instead!  We can even make both move in the same direction!",riley,,,quests/ep4end1
 MAZEPT4_INSTRUCTIONS_HINT1,hint,,,,quests/ep4end1
 MAZEPT4_INSTRUCTIONS1,"Don’t forget you can still edit *Instructions* _and_ *Units*.  And use the Push *Instruction*!  
 
 You can trivialize a challenging problem.
-",Saniel,,,quests/ep4end1
-MAZEPT4_SANIELRETURNS,Hello Saniel. Glad to see you’re back.,Faber,,,quests/ep4end1
-MAZEPT4_SANIELRETURNS2,Faber and I had some questions for you.,Ada,,,quests/ep4end1
-MAZEPT4_RILEYESCAPE,They will have to wait til later! Riley has nearly escaped the maze!,Saniel,,,quests/ep4end1
+",saniel,,,quests/ep4end1
+MAZEPT4_SANIELRETURNS,Hello Saniel. Glad to see you’re back.,faber,,,quests/ep4end1
+MAZEPT4_SANIELRETURNS2,Faber and I had some questions for you.,ada,,,quests/ep4end1
+MAZEPT4_RILEYESCAPE,They will have to wait til later! Riley has nearly escaped the maze!,saniel,,,quests/ep4end1
 MAZEPT4_RILEYESCAPE2,,,,,quests/ep4end1
 MAZEPT4_RILEYESCAPE3,"Hey guys.  That AI is still lurking around.  I’ve seen it sneaking behind me the past couple levels.  Just thought you might want to know.
-",Riley,,,quests/ep4end2
-MAZEPT4_RILEYESCAPE4,Hmmm very peculiar. ,Saniel,,,quests/ep4end2
+",riley,,,quests/ep4end2
+MAZEPT4_RILEYESCAPE4,Hmmm very peculiar. ,saniel,,,quests/ep4end2
 MAZEPT4_RILEYESCAPE5,more,,,,quests/ep4end2
 MAZEPT4_RILEYESCAPE6,more,,,,quests/ep4end2
 MAZEPT4_RILEYESCAPE7,"Riley:  There’s that AI again!  It’s right behind me!
-",Riley,,,quests/ep4end2
-MAZEPT4_RILEYESCAPE8,No time to ponder!  This the last level!  Finally you’re almost escaped from this confounded trap!,Saniel,,,quests/ep4end2
+",riley,,,quests/ep4end2
+MAZEPT4_RILEYESCAPE8,No time to ponder!  This the last level!  Finally you’re almost escaped from this confounded trap!,saniel,,,quests/ep4end2
 MAZEPT4_RILEYESCAPE9,more,,,,quests/ep4end2
-MAZEPT4_END1,We did it! Riley's out! Hooray! Amazing work everyone!,Ada,,,quests/ep4end3
+MAZEPT4_END1,We did it! Riley's out! Hooray! Amazing work everyone!,ada,,,quests/ep4end3
 MAZEPT4_END2,"So relieved to see all of you! That was quite an adventure! 
 
 I'm so grateful for all your help in getting me out of there! 
 
-But something tells me it wasn't just me that jumped out! ",Riley,,,quests/ep4end3
+But something tells me it wasn't just me that jumped out! ",riley,,,quests/ep4end3
 MAZEPT4_END3,"Yes, you're right about that, Riley. Maybe you see now why I discouraged you from going there. 
 
 But here we are. And I see it all too clearly now. This whole thing - 
 It's all connected – your getting trapped in the maze, Riley, and then Ada's research files turning up in there – 
 
-All this chaos around the Conservatory was all part of the AI's scheme to escape!",Saniel,,,quests/ep4end4
-MAZEPT4_END4,Must be pretty smart if it outsmarted all of us!,Riley,,,quests/ep4end4
+All this chaos around the Conservatory was all part of the AI's scheme to escape!",saniel,,,quests/ep4end4
+MAZEPT4_END4,Must be pretty smart if it outsmarted all of us!,riley,,,quests/ep4end4
 MAZEPT4_SUCCESS,"I understand your admiration, to a degree, Riley, It learns incredibly fast. That's exactly what it does.  
 
 And I do believe it played us, Riley. But we're onto it now. 
 
 The whole Conservatory is going to need to be on high alert with an AI on the loose! 
 
-I'm sure it will wreak havoc! I'm counting on you, Riley, to keep your sharp eye out for any unusual activity. ",Saniel,,,quests/ep4end5
-MAZEPT4_ABORT,"Okay, but come back to help as soon as you can!",Ada,,,
+I'm sure it will wreak havoc! I'm counting on you, Riley, to keep your sharp eye out for any unusual activity. ",saniel,,,quests/ep4end5
+MAZEPT4_ABORT,"Okay, but come back to help as soon as you can!",ada,,,

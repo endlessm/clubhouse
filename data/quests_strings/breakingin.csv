@@ -1,4 +1,4 @@
-BREAKINGIN_QUESTION,Got the Stealth Device? Ready to investigate the System again?,Riley,,,
+BREAKINGIN_QUESTION,Got the Stealth Device? Ready to investigate the System again?,riley,,,
 BREAKINGIN_QUEST_ACCEPT,I've got it right here!,,,,quests/quest2-werk-before-stealth
 BREAKINGIN_LAUNCH,Cool. Let's launch the System.,,,,quests/quest2-werk-before-stealth
 BREAKINGIN_EXPLAIN,"Here we are. Wait, don't move. I'm turning the Stealth Device on right now.
@@ -15,5 +15,5 @@ BREAKINGIN_ARCHIVIST,"What's going on here? Didn't I tell you two – Wait that'
 This trap has been inactive for years. What set it off? Very concerning. 
 
 We've got to rescue Riley! I'm going to need your help for that. 
-",Saniel,talk_anger,,
+",saniel,talk_anger,,
 BREAKINGIN_ABORT,Not up for it right now? Hope you can come back later!,,,,

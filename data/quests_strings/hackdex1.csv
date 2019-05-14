@@ -1,4 +1,4 @@
-HACKDEX1_QUESTION,Well hello there. Something very peculiar is happening with Roster. Can you have a look at it with me?,Saniel,,,
+HACKDEX1_QUESTION,Well hello there. Something very peculiar is happening with Roster. Can you have a look at it with me?,saniel,,,
 HACKDEX1_QUEST_ACCEPT,I'd love to,,,,
 HACKDEX1_PRELAUNCH,Roster is behaving strangely. I think something has gotten in and corrupted it. ,,,,quests/shutdown-start
 HACKDEX1_LAUNCH,So let's see how this goes. Launch the Roster app.,,,,quests/shutdown-start
@@ -14,6 +14,6 @@ HACKDEX1_SUCCESS,"Ah, much better! I see you've got a knack for hacking! For tha
 HACKDEX1_AFTERKEY,This key will let you start doing some actual coding to keep your skills sharp. See you at the Clubhouse.,,,,
 HACKDEX1_RILEY,"Smart solution! Wait a sec, what's this strange item?
 
-How did this get into Roster? Or did Saniel drop it again? Weird. Anyway, take it.",Riley,,,
+How did this get into Roster? Or did Saniel drop it again? Weird. Anyway, take it.",riley,,,
 HACKDEX1_RILEY_BYE,It's been fun to explore things with you! Hope you'll come back ;),,,,
-HACKDEX1_ABORT,"All done already? Okay then, Come back soon. We've got our work cut out for us!",Saniel,,,
+HACKDEX1_ABORT,"All done already? Okay then, Come back soon. We've got our work cut out for us!",saniel,,,

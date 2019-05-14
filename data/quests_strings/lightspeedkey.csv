@@ -1,4 +1,4 @@
-LIGHTSPEEDKEY_QUESTION,Ready to go get that key from *Lightspeed*?,Faber,,,
+LIGHTSPEEDKEY_QUESTION,Ready to go get that key from *Lightspeed*?,faber,,,
 LIGHTSPEEDKEY_QUEST_ACCEPT,Can't wait. Let's go!,,,,
 LIGHTSPEEDKEY_LAUNCH,First let's launch *Lightspeed*.,,,,
 LIGHTSPEEDKEY_LAUNCH_HINT1,Click on the *Lightspeed* icon on the desktop.        ,,,,
@@ -8,7 +8,7 @@ Aaaand, not _all_ of the *Topics* will be available! But when you do see a *Topi
 LIGHTSPEEDKEY_LEVELS1,"I recommend you try each level out first so you can see what challenge it poses.
 
 Then when you flip to the panels, I'll be standing by if you'd like a hint!",,,,
-LIGHTSPEEDKEY_LEVELS1_HINT1,Play this level and see what approach it requires. Then click the Flip button and get in there!,,,,
+LIGHTSPEEDKEY_LEVELS1_HINT1,Play this level and see what approach it requires. Then click the *Flip* button and get in there!,,,,
 LIGHTSPEEDKEY_LEVELS2,"Good work! One level down, two to go! See what's up with this level. Then flip to hack.",,,,
 LIGHTSPEEDKEY_LEVELS3,Last level! Almost there! The key waits for you when you win this level!,,,,
 LIGHTSPEEDKEY_LEVELS3_HINT1,Play this level to see why it's hard. Then flip to hack.,,,,

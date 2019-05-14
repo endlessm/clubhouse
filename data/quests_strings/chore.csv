@@ -1,4 +1,4 @@
-CHORE_QUESTION,"Oh, hello there! I'm still neck deep in this investigation. For now, I have some background work for you.",Saniel,,,quests/quest2-saniel-chore
+CHORE_QUESTION,"Oh, hello there! I'm still neck deep in this investigation. For now, I have some background work for you.",saniel,,,quests/quest2-saniel-chore
 CHORE_QUEST_ACCEPT,Let's get started!,,,,quests/quest2-saniel-chore
 CHORE_LAUNCH,"You'd think we would have gotten this file debacle sorted out by now! 
 
@@ -29,6 +29,6 @@ CHORE_KEY,"What was up with that quiz? We need to help solve Ada's data problem 
 Saniel warned us not to go too deep into the system but that's exactly where I spotted some unusual activity earlier.
 
 I'm just going to borrow Saniel's key. We'll be super careful, and return the key before he misses it.
-",Riley,,,
-CHORE_END,We'll definitely come back later to do some more investigating. I know Ada will appreciate it. ,Riley,,,
+",riley,,,
+CHORE_END,We'll definitely come back later to do some more investigating. I know Ada will appreciate it. ,riley,,,
 CHORE_ABORT,No prob. Find me later! ,,,,

@@ -1,8 +1,8 @@
-BONUSROUND_DUMMY1,bonus round dummy text 1 (If you see this in master it's a bug!),Riley,,,
-BONUSROUND_DUMMY2,"bonus round dummy text 2, longer (If you see this in master it's a bug!)",Riley,,,
-BONUSROUND_DUMMY3,"bonus round dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Riley,,,
-BONUSROUND_QUESTION,Sidetrack was actually pretty fun. Want to go back there with me?,Riley,,,
-BONUSROUND_QUEST_ACCEPT,Sure!,Riley,,,
+BONUSROUND_DUMMY1,bonus round dummy text 1 (If you see this in master it's a bug!),riley,,,
+BONUSROUND_DUMMY2,"bonus round dummy text 2, longer (If you see this in master it's a bug!)",riley,,,
+BONUSROUND_DUMMY3,"bonus round dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",riley,,,
+BONUSROUND_QUESTION,Sidetrack was actually pretty fun. Want to go back there with me?,riley,,,
+BONUSROUND_QUEST_ACCEPT,Sure!,riley,,,
 BONUSROUND_LAUNCH,A.maze.ing! Launch the *Sidetrack* app.,,,,
 BONUSROUND_LAUNCH_HINT1,Click the *Sidetrack* icon. ,,,,
 BONUSROUND_LEVELS1,"Soooo relieved to be out of that maze! It was beyond scary at times in there. I kind of want to go back in there! 
@@ -93,5 +93,5 @@ BONUSROUND_LEVELS10_B_HINT5,"When I have a level I really like, I will sometimes
 Check out the little Gedit icon in the bottom left.",,,,
 BONUSROUND_SUCCESS,"Haha, you beat your own level! Keep editing it to make it more interesting. 
 
-You can always go back and change any of the earlier levels too. Have fun!",Riley,hurray,,
-BONUSROUND_ABORT,"Okay but trust me, it's gonna be cool. Come back when you have more time!",Riley,,,
+You can always go back and change any of the earlier levels too. Have fun!",riley,hurray,,
+BONUSROUND_ABORT,"Okay but trust me, it's gonna be cool. Come back when you have more time!",riley,,,
