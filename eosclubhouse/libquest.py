@@ -1181,6 +1181,10 @@ class Quest(GObject.GObject):
         self.gss.set(item_name, variant)
         self.emit('item-given', item_name, notification_text)
 
+    def is_panel_unlocked(self, lock_id):
+        lock_state = self.gss.get(lock_id)
+        return lock_state is not None and not lock_state.get('locked', True)
+
     def schedule_quest(self, quest_name, confirm_before=True, start_after=3):
         self.emit('schedule-quest', quest_name, confirm_before, start_after)
 

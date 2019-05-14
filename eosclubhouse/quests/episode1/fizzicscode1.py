@@ -5,6 +5,8 @@ from eosclubhouse.system import Sound
 
 class FizzicsCode1(Quest):
 
+    LOCK = 'lock.fizzics.2'
+
     def __init__(self):
         super().__init__('Fizzics Code 1', 'ada')
         self._app = Fizzics()
@@ -25,18 +27,14 @@ class FizzicsCode1(Quest):
 
         return self.step_unlock
 
-    def _is_panel_unlocked(self):
-        lock_state = self.gss.get('lock.fizzics.2')
-        return lock_state is not None and not lock_state.get('locked', True)
-
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_unlock(self):
-        if self._is_panel_unlocked():
+        if self.is_panel_unlocked(self.LOCK):
             return self.step_explanation1
 
         Sound.play('quests/step-forward')
         self.show_hints_message('UNLOCK')
-        while not self._is_panel_unlocked() and not self.is_cancelled():
+        while not self.is_panel_unlocked(self.LOCK) and not self.is_cancelled():
             self.connect_gss_changes().wait()
 
         return self.step_explanation1
