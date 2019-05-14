@@ -13,7 +13,7 @@ class FizzicsIntro(Quest):
         return self._app.get_effective_level(self.debug_skip())
 
     def step_begin(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=1)
+        self.ask_for_app_launch(self._app)
         return self.step_explanation
 
     def _connect_level_changed(self):

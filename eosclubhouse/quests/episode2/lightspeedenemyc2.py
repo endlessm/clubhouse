@@ -14,7 +14,7 @@ class LightSpeedEnemyC2(Quest):
     def step_begin(self):
         self._app.reveal_topic('spawn')
 
-        self.ask_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app)
 
         self._app.set_level(8)
         self.show_hints_message('EXPLAIN')

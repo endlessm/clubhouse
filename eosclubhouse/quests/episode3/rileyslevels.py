@@ -28,7 +28,7 @@ class RileysLevels(Quest):
         return 'currentLevel'
 
     def step_begin(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app)
         return self.step_explain_reach_previous_level
 
     @Quest.with_app_launched(Fizzics.APP_NAME)

@@ -12,7 +12,7 @@ class MakerQuest(Quest):
         self._app = Fizzics()
 
     def step_begin(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app)
 
         self._app.set_js_property('preset', ('i', self.GAME_PRESET))
         self.show_hints_message('EXPLANATION')

@@ -14,7 +14,7 @@ class LightSpeedEnemyA1(Quest):
         self._app = LightSpeed()
 
     def step_begin(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app)
         return self.step_newlevel
 
     @Quest.with_app_launched(APP_NAME)

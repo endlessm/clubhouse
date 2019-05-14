@@ -24,7 +24,7 @@ class BreakingIn(Quest):
             self.gss.set('clubhouse.character.Riley', {'in_trap': False})
 
     def step_begin(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app)
         return self.step_explanation
 
     @Quest.with_app_launched(APP_NAME)

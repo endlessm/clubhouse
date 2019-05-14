@@ -10,7 +10,7 @@ class FizzicsCode1(Quest):
         self._app = Fizzics()
 
     def step_begin(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app)
         return self.step_flip
 
     @Quest.with_app_launched(Fizzics.APP_NAME)

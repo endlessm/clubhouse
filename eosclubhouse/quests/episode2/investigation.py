@@ -15,7 +15,7 @@ class Investigation(Quest):
         self._try_attempts = 0
 
     def step_begin(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app)
         return self.step_wait_for_flip
 
     @Quest.with_app_launched(APP_NAME)

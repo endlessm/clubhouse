@@ -18,7 +18,7 @@ class BreakSomething(Quest):
         self.settings = Gio.Settings.new("org.gnome.desktop.interface")
 
     def step_begin(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=1)
+        self.ask_for_app_launch(self._app)
         return self.step_explanation
 
     @Quest.with_app_launched(APP_NAME)
