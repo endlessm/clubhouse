@@ -15,7 +15,7 @@ class Fizzics2(Quest):
         if self._app.is_running():
             return self.step_alreadyrunning
 
-        self.ask_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app)
         return self.step_set_level
 
     @Quest.with_app_launched(Fizzics.APP_NAME)

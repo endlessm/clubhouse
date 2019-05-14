@@ -13,7 +13,7 @@ class PowerUpA2(Quest):
         self._app = LightSpeed()
 
     def step_begin(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app)
 
         self._app.reveal_topic('spawn')
         self._app.set_level(11)

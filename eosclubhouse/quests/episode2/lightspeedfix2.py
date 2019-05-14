@@ -16,7 +16,7 @@ class LightSpeedFix2(Quest):
         # place to reveal it, because it's never used in any of the quests.
         self._app.reveal_topic('updateAsteroid')
 
-        self.ask_for_app_launch(self._app, pause_after_launch=2)
+        self.ask_for_app_launch(self._app)
         return self.step_explanation
 
     @Quest.with_app_launched(APP_NAME)
