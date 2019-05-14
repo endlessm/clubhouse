@@ -1,4 +1,4 @@
-MAKERINTRO_QUESTION,"Oh, hey! My name's Faber, I run the Maker Space here at the Conservatory. Want to try solving a puzzle?",Faber,,,quests/faber-theme
+MAKERINTRO_QUESTION,"Oh, hey! My name's Faber, I run the Maker Space here at the Conservatory. Want to try solving a puzzle?",faber,,,quests/faber-theme
 MAKERINTRO_QUEST_ACCEPT,Sure!,,,,quests/faber-theme
 MAKERINTRO_LAUNCH,"Good to meet you!  You must be the Fizzics whiz Riley told me about. I almost didn't hear you come in! 
 
@@ -12,14 +12,14 @@ MAKERINTRO_EXPLANATION_HINT3,Could you make the orange ball be attracted towards
 MAKERINTRO_FLING,Hey! No cheating! You're not allowed to use the Fling tool. Reset the level and try again.,,,,
 MAKERINTRO_FLING_HINT1,Press the reset button on top. The one with the arrow.,,,,
 MAKERINTRO_SUCCESS,That's what I'm talking about! Way to go! Riley certainly was right about you.,,hurray,,quests/quest2-fabers-fizzics
-MAKERINTRO_WHATISIT,"Hey Faber, since we're here, do you have any clue what this weird rusty thingamajig might be?",Riley,,,
+MAKERINTRO_WHATISIT,"Hey Faber, since we're here, do you have any clue what this weird rusty thingamajig might be?",riley,,,
 MAKERINTRO_GIVEITEM,"Hmmm, let me see. Let me immerse it in this clarifying solution. 
 
 Whoa! This stuff really works! Hold up! Riley, I think this is a *Perception Deflector* for a Stealth Device! 
 
 I can't believe you found this! This is so major. Totally cool to actually hold this in my hands!
 ",,,,
-MAKERINTRO_STEALTHQUESTION,"What exactly is a Stealth Device, Faber?",Riley,,,
+MAKERINTRO_STEALTHQUESTION,"What exactly is a Stealth Device, Faber?",riley,,,
 MAKERINTRO_STEALTHEXPLANATION,"A Stealth Device lets you go anywhere undetected. Not that you'd ever want something like that, Riley! 
 
 I once glimpsed some schematics of one of these deflectors! 
@@ -30,5 +30,5 @@ MAKERINTRO_THANKS,"Let me get this right. A device that lets us go anywhere unde
 
 We just might have a use for that! Purely for research purposes of course. ʌ˽ʌ 
 
-Thanks Faber! You rule. ",Riley,,,
+Thanks Faber! You rule. ",riley,,,
 MAKERINTRO_ABORT,"Okay, see ya later!",,,,

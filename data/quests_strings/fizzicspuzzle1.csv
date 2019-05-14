@@ -1,4 +1,4 @@
-FIZZICSPUZZLE1_QUESTION,"Hey, good job! Two fobs down, one to go! Ready to solve a Fizzics puzzle? ",Faber,,,
+FIZZICSPUZZLE1_QUESTION,"Hey, good job! Two fobs down, one to go! Ready to solve a Fizzics puzzle? ",faber,,,
 FIZZICSPUZZLE1_QUEST_ACCEPT,Definitely. Let's go. ,,,,
 FIZZICSPUZZLE1_LAUNCH,Launch Fizzics,,,,
 FIZZICSPUZZLE1_GOAL,"Okay, now, your challenge here is to collect 50 points.  Each diamond is worth 2 points.

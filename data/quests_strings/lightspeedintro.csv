@@ -1,5 +1,5 @@
 LIGHTSPEEDINTRO_QUESTION,"So nice to see you again! I've got a new game for you to work on. Want to try it?
-",Ada,,,quests/quest2-ada-hi
+",ada,,,quests/quest2-ada-hi
 LIGHTSPEEDINTRO_QUEST_ACCEPT,Of course!,,,,quests/quest2-ada-hi
 LIGHTSPEEDINTRO_LAUNCH,"We're all still heads down in this data corruption. Such a mess! Enough of that for now. 
 

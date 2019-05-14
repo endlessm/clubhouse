@@ -1,17 +1,17 @@
-STEALTHDEVICE_QUESTION,"Oh, hello there. You're back! Can I help you with something?",Faber,,,quests/quest2-faber-conga-build
+STEALTHDEVICE_QUESTION,"Oh, hello there. You're back! Can I help you with something?",faber,,,quests/quest2-faber-conga-build
 STEALTHDEVICE_QUEST_ACCEPT,"As a matter of fact, you can!",,,,quests/quest2-faber-conga-build
 STEALTHDEVICE_RILEYQUESTION,"So, Faber, about that stealth device you mentioned. Just as an experiment, how about if we make one?
 
-Not that we'd ever use it _for real_ or anything!",Riley,,,quests/quest2-faber-conga-build
+Not that we'd ever use it _for real_ or anything!",riley,,,quests/quest2-faber-conga-build
 STEALTHDEVICE_EXPLANATION,"Oh, yeah, the stealth device. Hmmm. These are very tricky, but I have studied them quite extensively. 
 
 Pretty sure I can make one for you. For experimentation only! 
 
 Riley, my friend, promise me, you're not going to get in any trouble with it, are you?",,,,quests/quest2-faber-werks
-STEALTHDEVICE_RILEYTROUBLE,Trouble? Faber. We will treat it with the utmost care.,Riley,,,quests/quest2-faber-werks
+STEALTHDEVICE_RILEYTROUBLE,Trouble? Faber. We will treat it with the utmost care.,riley,,,quests/quest2-faber-werks
 STEALTHDEVICE_EXPLANATION2,"OK, cool. Just making sure. I'll have to get my hands on a few necessary components.
 
 I'm going to need you to get me some *hush rivets* and a *ratchet wheel* the size of a penny. 
 
 Oh, right, and a small quantity of *cloaking glaze*. Think you can find those things?",,,,quests/quest2-faber-werks
-STEALTHDEVICE_END,"Sure. We're on it. Thanks, Faber!",Riley,,,quests/quest2-faber-werks
+STEALTHDEVICE_END,"Sure. We're on it. Thanks, Faber!",riley,,,quests/quest2-faber-werks
