@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import IntEnum
 from eosclubhouse import logger
 from eosclubhouse.system import App, GameStateService
 from gi.repository import Gio, GLib
@@ -22,7 +22,7 @@ class Fizzics(App):
     _BALL_PROPERTIES = ['collision', 'friction', 'gravity', 'radius', 'usePhysics']
     _MULTIBALL_PROPERTIES = ['socialForce']
 
-    class BallType(Enum):
+    class BallType(IntEnum):
         PLAYER = 0
         GOAL = 1
         ENEMY = 2
@@ -87,19 +87,19 @@ class Fizzics(App):
             ball_type_or_list = [ball_type_or_list]
         for ball_type in ball_type_or_list:
             assert isinstance(ball_type, self.BallType)
-            property_str = self._DISABLE_ADD_FOR_BALL_TEMPLATE.format(ball_type.value)
+            property_str = self._DISABLE_ADD_FOR_BALL_TEMPLATE.format(ball_type)
             self.set_js_property(property_str, disabled)
 
     def set_property_for_ball_type(self, property_, ball_type, value):
         assert isinstance(ball_type, self.BallType)
         assert property_ in self._BALL_PROPERTIES
-        property_str = '{}_{}'.format(property_, ball_type.value)
+        property_str = '{}_{}'.format(property_, ball_type)
         return self.set_js_property(property_str, value)
 
     def set_property_for_ball_to_ball(self, property_, ball_type_a, ball_type_b, value):
         assert isinstance(ball_type_a, self.BallType) and isinstance(ball_type_b, self.BallType)
         assert property_ in self._MULTIBALL_PROPERTIES
-        property_str = '{}_{}_{}'.format(property_, ball_type_a.value, ball_type_b.value)
+        property_str = '{}_{}_{}'.format(property_, ball_type_a, ball_type_b)
         return self.set_js_property(property_str, value)
 
     def enable_physics_for_ball_type(self, ball_type_or_list, enable=True):
