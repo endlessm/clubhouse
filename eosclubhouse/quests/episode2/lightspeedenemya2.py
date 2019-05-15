@@ -50,24 +50,57 @@ class LightSpeedEnemyA2(Quest):
     @Quest.with_app_launched(APP_NAME)
     def step_play(self):
         self.show_hints_message('PLAYING')
-        self.pause(10)
 
-        if self.debug_skip():
-            return self.step_success
+        enemy_count_start = self._app.get_js_property('enemyType1SpawnedCount', 0)
 
-        enemy_count = self._app.get_js_property('enemyType1SpawnedCount', 0)
-        min_y = self._app.get_js_property('enemyType1MinY', +10000)
-        max_y = self._app.get_js_property('enemyType1MaxY', -10000)
+        self.wait_for_app_js_props_changed(self._app, [
+            'enemyType1SpawnedCount',
+            'flipped',
+            'playing',
+        ], timeout=10)
 
-        if enemy_count == 0 or min_y > max_y:
-            self.show_hints_message('NOENEMIES')
-            return self.step_wait_for_flip, 'ADD_ENEMY_CODE'
-        if min_y == max_y:
+        enemy_count_end = self._app.get_js_property('enemyType1SpawnedCount', 0)
+
+        if self._app.get_js_property('flipped') or not self._app.get_js_property('playing'):
+            # step_code is actually "is flipped or is in a Restart or Continue screen"
+            return self.step_code, 'CODE'
+
+        if enemy_count_start < enemy_count_end:
+            # The enemy was spawned, advance:
+            return self.step_check_direction
+
+        # The waiter timed out and enemy didn't spawn:
+        self.show_hints_message('NOENEMIES')
+        return self.step_wait_for_flip, 'ADD_ENEMY_CODE'
+
+    def step_check_direction(self):
+        min_y_start = self._app.get_js_property('enemyType1MinY')
+        max_y_start = self._app.get_js_property('enemyType1MaxY')
+
+        self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing'], timeout=10)
+
+        min_y_end = self._app.get_js_property('enemyType1MinY')
+        max_y_end = self._app.get_js_property('enemyType1MaxY')
+
+        if self._app.get_js_property('flipped') or not self._app.get_js_property('playing'):
+            # step_code is actually "is flipped or is in a Restart or Continue screen"
+            return self.step_code, 'CODE'
+
+        # The waiter timed out, so we can test if it moved more to the
+        # up or down:
+
+        if min_y_start == min_y_end and max_y_start == max_y_end:
             self.show_hints_message('NOTMOVING')
             return self.step_wait_for_flip
-        if min_y > 0:
+
+        going_up = abs(min_y_end - min_y_start) < abs(max_y_end - max_y_start)
+
+        if going_up:
             self.show_hints_message('GOINGUP')
             return self.step_wait_for_flip
+
+        # Otherwise it must be going down, and this is the goal of the
+        # quest:
         return self.step_success
 
     def step_success(self):
