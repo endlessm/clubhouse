@@ -7,6 +7,64 @@ class FizzicsKey(Quest):
 
     __available_after_completing_quests__ = ['MazePt3']
     FIRST_LEVEL = 17
+    LAST_LEVEL = FIRST_LEVEL + 5
+
+    QUESTIONS = {
+        FIRST_LEVEL: [
+            ('LEVELS1_Q1', 'LEVELS1_Q1_A1', 'LEVELS1_Q1_A2', 'do_level1_friction'),
+            ('LEVELS1_Q2', 'LEVELS1_Q2_A1', 'LEVELS1_Q2_A2', 'do_level1_bounce'),
+        ],
+        FIRST_LEVEL + 1: [
+            ('LEVELS2_Q1', 'LEVELS2_Q1_A1', 'LEVELS2_Q1_A2', 'do_level2_repel'),
+            ('LEVELS2_Q2', 'LEVELS2_Q2_A1', 'LEVELS2_Q2_A2', 'do_level2_friction'),
+        ],
+        FIRST_LEVEL + 2: [
+            ('LEVELS3_Q1', 'LEVELS3_Q1_A1', 'LEVELS3_Q1_A2', 'do_level3_gravity'),
+            ('LEVELS3_Q2', 'LEVELS3_Q2_A1', 'LEVELS3_Q2_A2', 'do_level3_repel'),
+        ],
+        FIRST_LEVEL + 3: [
+            ('LEVELS4_Q1', 'LEVELS4_Q1_A1', 'LEVELS4_Q1_A2', 'do_level4_gravity_goal'),
+            ('LEVELS4_Q2', 'LEVELS4_Q2_A1', 'LEVELS4_Q2_A2', 'do_level4_gravity_diamond'),
+            ('LEVELS4_Q3', 'LEVELS4_Q3_A1', 'LEVELS4_Q3_A2', 'do_level4_friction_diamond'),
+        ],
+        FIRST_LEVEL + 4: [
+            ('LEVELS5_Q1', 'LEVELS5_Q1_A1', 'LEVELS5_Q1_A2', 'do_level5_gravity_goal'),
+            ('LEVELS5_Q2', 'LEVELS5_Q2_A1', 'LEVELS5_Q2_A2', 'do_level5_size_diamond'),
+        ],
+        FIRST_LEVEL + 5: [
+            ('LEVELS6_Q1', 'LEVELS6_Q1_A1', 'LEVELS6_Q1_A2', 'do_level6_gravity_negative'),
+            ('LEVELS6_Q2', 'LEVELS6_Q2_A1', 'LEVELS6_Q2_A2', 'do_level6_repel'),
+        ],
+    }
+
+    BALLS_TO_UNFREEZE = {
+        FIRST_LEVEL: [
+            Fizzics.BallType.PLAYER,
+        ],
+        FIRST_LEVEL + 1: [
+            Fizzics.BallType.PLAYER,
+            Fizzics.BallType.DIAMOND,
+        ],
+        FIRST_LEVEL + 2: [
+            Fizzics.BallType.PLAYER,
+            Fizzics.BallType.DIAMOND,
+            Fizzics.BallType.GOAL,
+        ],
+        FIRST_LEVEL + 3: [
+            Fizzics.BallType.PLAYER,
+            Fizzics.BallType.DIAMOND,
+            Fizzics.BallType.GOAL,
+        ],
+        FIRST_LEVEL + 4: [
+            Fizzics.BallType.PLAYER,
+            Fizzics.BallType.DIAMOND,
+            Fizzics.BallType.GOAL,
+        ],
+        FIRST_LEVEL + 5: [
+            Fizzics.BallType.PLAYER,
+            Fizzics.BallType.GOAL,
+        ],
+    }
 
     def __init__(self):
         super().__init__('FizzicsKey', 'saniel')
@@ -122,218 +180,54 @@ class FizzicsKey(Quest):
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
         ])
-        return self.step_level1_pre2
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level1_pre2(self):
         self.pause(7)
-        self.wait_confirm('LEVELS1_C')
-        self.setup_level_and_tools(self.FIRST_LEVEL)
-        return self.step_level1
+        return self.step_level_pre, self.FIRST_LEVEL, 'LEVELS1_C'
+
+    def _get_strings_level(self, level_number):
+        # This is the string corresponding to the level as used by
+        # messages.
+        return int(level_number) - 16
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level1(self):
-        current_level = self._app.get_current_level()
-        self.show_confirm_message('LEVELS1_READY', confirm_label='Ready!').wait()
+    def step_level_pre(self, level_number, message_id=None):
+        if message_id is None:
+            strings_level = self._get_strings_level(level_number)
+            message_id = 'LEVELS{}'.format(strings_level)
 
-        choiceHigh = ('LEVELS1_Q1_A1', self.do_level1_friction, True)
-        choiceLow = ('LEVELS1_Q1_A2', self.do_level1_friction, False)
-        self.show_choices_message('LEVELS1_Q1', choiceHigh, choiceLow).wait()
-        choiceHigh = ('LEVELS1_Q2_A1', self.do_level1_bounce, True)
-        choiceLow = ('LEVELS1_Q2_A2', self.do_level1_bounce, False)
-        self.show_choices_message('LEVELS1_Q2', choiceHigh, choiceLow).wait()
+        self.setup_level_and_tools(level_number)
+        self.wait_confirm(message_id)
+        return self.step_level, level_number
 
-        self.wait_confirm('LEVELS1_GO')
-        self._app.enable_physics_for_ball_type([
-            self._app.BallType.PLAYER,
-        ])
+    @Quest.with_app_launched(Fizzics.APP_NAME)
+    def step_level(self, level_number):
+        strings_level = self._get_strings_level(level_number)
+        self.show_confirm_message('LEVELS{}_READY'.format(strings_level),
+                                  confirm_label='Ready!').wait()
+
+        for description, option_true, option_false, callback_name in self.QUESTIONS[level_number]:
+            callback = getattr(self, callback_name)
+            choice_true = (option_true, callback, True)
+            choice_false = (option_false, callback, False)
+            self.show_choices_message(description, choice_true, choice_false).wait()
+
+        self.wait_confirm('LEVELS{}_GO'.format(strings_level))
+
+        self._app.enable_physics_for_ball_type(self.BALLS_TO_UNFREEZE[level_number])
+
         self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
         if not self._app.get_js_property('levelSuccess'):
-            self.setup_level_and_tools(current_level)
-            self.wait_confirm('LEVELS1_FAIL')
-            return self.step_level1
-        else:
-            self._app.enable_physics_for_ball_type(self._app.BallType.PLAYER, enable=False)
-            self.pause(0.2)
-            self.wait_confirm('LEVELS1_FINISH')
-            return self.step_level2_pre
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level2_pre(self):
-        # level 18
-        self.setup_level_and_tools(self.FIRST_LEVEL + 1)
-        self.wait_confirm('LEVELS2')
-        return self.step_level2
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level2(self):
-        current_level = self._app.get_current_level()
-        self.show_confirm_message('LEVELS2_READY', confirm_label='Ready!').wait()
-
-        choiceHigh = ('LEVELS2_Q1_A1', self.do_level2_repel, True)
-        choiceLow = ('LEVELS2_Q1_A2', self.do_level2_repel, False)
-        self.show_choices_message('LEVELS2_Q1', choiceHigh, choiceLow).wait()
-        choiceHigh = ('LEVELS2_Q2_A1', self.do_level2_friction, True)
-        choiceLow = ('LEVELS2_Q2_A2', self.do_level2_friction, False)
-        self.show_choices_message('LEVELS2_Q2', choiceHigh, choiceLow).wait()
-
-        self.wait_confirm('LEVELS2_GO')
-        self._app.enable_physics_for_ball_type([
-            self._app.BallType.PLAYER,
-            self._app.BallType.DIAMOND,
-        ])
-        self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
-        if not self._app.get_js_property('levelSuccess'):
-            self.setup_level_and_tools(current_level)
-            self.wait_confirm('LEVELS2_FAIL')
-            return self.step_level2
-        else:
-            self.pause(0.2)
-            self.wait_confirm('LEVELS2_FINISH')
-            return self.step_level3_pre
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level3_pre(self):
-        # level 19
-        self.setup_level_and_tools(self.FIRST_LEVEL + 2)
-        self.wait_confirm('LEVELS3')
-        return self.step_level3
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level3(self):
-        current_level = self._app.get_current_level()
-        self.show_confirm_message('LEVELS3_READY', confirm_label='Ready!').wait()
-
-        choiceHigh = ('LEVELS3_Q1_A1', self.do_level3_gravity, True)
-        choiceLow = ('LEVELS3_Q1_A2', self.do_level3_gravity, False)
-        self.show_choices_message('LEVELS3_Q1', choiceHigh, choiceLow).wait()
-        choiceHigh = ('LEVELS3_Q2_A1', self.do_level3_repel, True)
-        choiceLow = ('LEVELS3_Q2_A2', self.do_level3_repel, False)
-        self.show_choices_message('LEVELS3_Q2', choiceHigh, choiceLow).wait()
-
-        self.wait_confirm('LEVELS3_GO')
-        self._app.enable_physics_for_ball_type([
-            self._app.BallType.PLAYER,
-            self._app.BallType.DIAMOND,
-            self._app.BallType.GOAL,
-        ])
-        self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
-        if not self._app.get_js_property('levelSuccess'):
-            self.setup_level_and_tools(current_level)
-            self.wait_confirm('LEVELS3_FAIL')
-            return self.step_level3
-        else:
-            self.pause(0.2)
-            self.wait_confirm('LEVELS3_FINISH')
-            return self.step_level4_pre
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level4_pre(self):
-        # level 20
-        self.setup_level_and_tools(self.FIRST_LEVEL + 3)
-        self.wait_confirm('LEVELS4')
-        return self.step_level4
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level4(self):
-        current_level = self._app.get_current_level()
-        self.show_confirm_message('LEVELS4_READY', confirm_label='Ready!').wait()
-
-        choiceHigh = ('LEVELS4_Q1_A1', self.do_level4_gravity_goal, True)
-        choiceLow = ('LEVELS4_Q1_A2', self.do_level4_gravity_goal, False)
-        self.show_choices_message('LEVELS4_Q1', choiceHigh, choiceLow).wait()
-        choiceHigh = ('LEVELS4_Q2_A1', self.do_level4_gravity_diamond, True)
-        choiceLow = ('LEVELS4_Q2_A2', self.do_level4_gravity_diamond, False)
-        self.show_choices_message('LEVELS4_Q2', choiceHigh, choiceLow).wait()
-        choiceHigh = ('LEVELS4_Q3_A1', self.do_level4_friction_diamond, True)
-        choiceLow = ('LEVELS4_Q3_A2', self.do_level4_friction_diamond, False)
-        self.show_choices_message('LEVELS4_Q3', choiceHigh, choiceLow).wait()
-
-        self.wait_confirm('LEVELS4_GO')
-        self._app.enable_physics_for_ball_type([
-            self._app.BallType.PLAYER,
-            self._app.BallType.DIAMOND,
-            self._app.BallType.GOAL,
-        ])
-        self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
-        if not self._app.get_js_property('levelSuccess'):
-            self.setup_level_and_tools(current_level)
-            self.wait_confirm('LEVELS4_FAIL')
-            return self.step_level4
-        else:
-            self.pause(0.2)
-            self.wait_confirm('LEVELS4_FINISH')
-            return self.step_level5_pre
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level5_pre(self):
-        # level 21
-        self.setup_level_and_tools(self.FIRST_LEVEL + 4)
-        self.wait_confirm('LEVELS5')
-        return self.step_level5
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level5(self):
-        current_level = self._app.get_current_level()
-        self.show_confirm_message('LEVELS5_READY', confirm_label='Ready!').wait()
-
-        choiceHigh = ('LEVELS5_Q1_A1', self.do_level5_gravity_goal, True)
-        choiceLow = ('LEVELS5_Q1_A2', self.do_level5_gravity_goal, False)
-        self.show_choices_message('LEVELS5_Q1', choiceHigh, choiceLow).wait()
-        choiceHigh = ('LEVELS5_Q2_A1', self.do_level5_size_diamond, True)
-        choiceLow = ('LEVELS5_Q2_A2', self.do_level5_size_diamond, False)
-        self.show_choices_message('LEVELS5_Q2', choiceHigh, choiceLow).wait()
-
-        self.wait_confirm('LEVELS5_GO')
-        self._app.enable_physics_for_ball_type([
-            self._app.BallType.PLAYER,
-            self._app.BallType.DIAMOND,
-            self._app.BallType.GOAL,
-        ])
-        self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
-        if not self._app.get_js_property('levelSuccess'):
-            self.setup_level_and_tools(current_level)
-            self.wait_confirm('LEVELS5_FAIL')
-            return self.step_level5
-        else:
-            self.pause(0.2)
-            self.wait_confirm('LEVELS5_FINISH')
-            return self.step_level6_pre
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level6_pre(self):
-        # level 22
-        self.setup_level_and_tools(self.FIRST_LEVEL + 5)
-        self.wait_confirm('LEVELS6')
-        return self.step_level6
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level6(self):
-        current_level = self._app.get_current_level()
-        self.show_confirm_message('LEVELS6_READY', confirm_label='Ready!').wait()
-
-        choiceHigh = ('LEVELS6_Q1_A1', self.do_level6_gravity_negative, True)
-        choiceLow = ('LEVELS6_Q1_A2', self.do_level6_gravity_negative, False)
-        self.show_choices_message('LEVELS6_Q1', choiceHigh, choiceLow).wait()
-        choiceHigh = ('LEVELS6_Q2_A1', self.do_level6_repel, True)
-        choiceLow = ('LEVELS6_Q2_A2', self.do_level6_repel, False)
-        self.show_choices_message('LEVELS6_Q2', choiceHigh, choiceLow).wait()
-
-        self.wait_confirm('LEVELS6_GO')
-        self._app.enable_physics_for_ball_type([
-            self._app.BallType.PLAYER,
-            self._app.BallType.GOAL,
-        ])
-        self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
-        if not self._app.get_js_property('levelSuccess'):
-            self.setup_level_and_tools(current_level)
-            self.wait_confirm('LEVELS6_FAIL')
-            return self.step_level6
-        else:
-            self.pause(0.2)
+            self.setup_level_and_tools(level_number)
+            self.wait_confirm('LEVELS{}_FAIL'.format(strings_level))
+            return self.step_level, level_number
+        elif level_number == self.LAST_LEVEL:
             return self.step_success
+        else:
+            self.pause(0.2)
+            self.wait_confirm('LEVELS{}_FINISH'.format(strings_level))
+            return self.step_level_pre, level_number + 1
 
     def step_success(self):
+        self.pause(0.2)
         self.wait_confirm('SUCCESS')
         self.complete = True
         self.available = False
