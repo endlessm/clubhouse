@@ -20,13 +20,11 @@ class LeviHackdex(Quest):
         lock_state = self.gss.get('lock.com.endlessm.Hackdex_chapter_two.1')
         return lock_state is not None and not lock_state.get('locked')
 
+    @Quest.with_app_launched(APP_NAME)
     def step_detect_progress(self):
         # new quest flow to better guide users -
         # ask the user to flip, then give the key
         # detect 2 flips and give further hints if the user hasn't gotten it
-        # is the app running? launch it
-        if not self._app.is_running():
-            return self.step_begin
         # app is running, have they already unlocked it?
         if self.is_unlocked():
             return self.step_wait_until_solved
