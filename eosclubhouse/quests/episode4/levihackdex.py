@@ -71,7 +71,7 @@ class LeviHackdex(Quest):
         # The HackDex app is restarted when its parameters are changed and the app is flipped
         # back, so we check that and give it time before considering it has stopped running.
         self.connect_app_quit(self._app).wait()
-        self.wait_for_app_launch(self._app, timeout=2)
+        self.wait_for_app_launch(self._app, timeout=10)
         self.RESTART_COUNTER += 1
         return self.step_wait_until_solved
 
