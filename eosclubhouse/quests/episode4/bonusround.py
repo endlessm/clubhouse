@@ -52,8 +52,16 @@ class BonusRound(Quest):
         elif current_level == 50:
             self.show_hints_message('LEVELS10')
             self.show_hints_message('LEVELS10_B')
-            self.wait_for_app_js_props_changed(self._app, ['currentLevel'])
-            return self.step_success
+            self.wait_for_app_js_props_changed(self._app, ['playing'])
+
+            current_level = int(self._app.get_js_property('currentLevel'))
+            playing = bool(self._app.get_js_property('playing'))
+            success = bool(self._app.get_js_property('success'))
+            if current_level == 50 and not playing and success:
+                return self.step_success
+
+            return self.step_inlevel
+
         self.wait_for_app_js_props_changed(self._app, ['currentLevel'])
         return self.step_inlevel
 
