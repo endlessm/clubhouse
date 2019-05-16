@@ -16,27 +16,27 @@ class FizzicsKey(Quest):
     # # UTILITY FXNS  # #
     # # # # # # # # # # #
 
-    def set_tools(self, create_disabled=False):
+    def setup_level_and_tools(self, level, create_disabled=False):
+        self._app.set_current_level(level)
+        self.pause(0.2)
+        if self._app.get_js_property('levelLoading', True):
+            self.wait_for_app_js_props_changed(self._app, ['levelLoading'])
+
         self._app.disable_tool('fling')
         self._app.disable_tool('delete')
         self._app.disable_tool('move')
-        # make sure we can create, because this is turned off sometimes
         self._app.disable_tool('create', disabled=create_disabled)
+
         if not create_disabled:
             # disable adding not-rocks
             # can't disable this until AFTER the create tool is set up
+            self.pause(0.2)
             self._app.disable_add_tool_for_ball_type([
                 self._app.BallType.PLAYER,
                 self._app.BallType.GOAL,
                 self._app.BallType.ENEMY,
                 self._app.BallType.DIAMOND,
             ])
-
-    def setup_level_and_tools(self, level, create_disabled=False):
-        self._app.set_current_level(level)
-        self._app.reset()
-        self.pause(0.2)
-        self.set_tools(create_disabled)
 
     # # # # # # # # # # # # #
     # # QUESTION RESULTS  # #
