@@ -46,10 +46,12 @@ class MazePt1(Quest):
                     self.show_hints_message('MANUAL1')
         elif current_level == 2:
             message_id = self._get_unconfirmed_message(['MANUAL2'])
+        elif current_level == 3:
+            message_id = self._get_unconfirmed_message(['MANUAL3'])
         elif current_level == 4:
-            self.show_hints_message('MANUAL4')
+            message_id = self._get_unconfirmed_message(['MANUAL4'])
         elif current_level == 6:
-            self.show_hints_message('MANUAL5')
+            message_id = self._get_unconfirmed_message(['MANUAL5'])
         elif current_level == 7:
             message_id = self._get_unconfirmed_message(['ROBOTS1', 'ROBOTS2'])
             if message_id is None:
@@ -72,7 +74,9 @@ class MazePt1(Quest):
             if message_id is None:
                 self.show_hints_message('AUTO1_SANIEL')
         elif current_level == 15:
-            self.show_hints_message('AUTO2')
+            message_id = self._get_unconfirmed_message(['AUTO2_INTRO'])
+            if message_id is None:
+                self.show_hints_message('AUTO2')
         elif current_level == 16:
             if level_changed:
                 self.show_hints_message('AUTO3')
@@ -98,7 +102,7 @@ class MazePt1(Quest):
         elif current_level == 22:
             message_id = self._get_unconfirmed_message([
                 'DRAMA_ADA1', 'DRAMA_FABER1', 'DRAMA_ADA2',
-                'DRAMA_FABER2', 'DRAMA_ADA3',
+                'DRAMA_FABER2', 'DRAMA_ADA3', 'DRAMA_RILEY'
             ])
         elif current_level == 23:
             return self.last_level
