@@ -50,6 +50,12 @@ class LeviHackdex(Quest):
     def step_wait_until_solved(self):
         if not self._app.is_running():
             return self.abort
+
+        # now check rotation
+        data = self.gss.get('app.com_endlessm_Hackdex_chapter_two.encryption')
+        if data is not None and data.get('rotation') == 5:
+            return self.step_part2
+
         # how many times did we flip, this session?
         if self.FLIP_COUNTER == 0:
             self.pause(3)
@@ -60,10 +66,7 @@ class LeviHackdex(Quest):
         if self.FLIP_COUNTER == 2:
             self.pause(3)
             self.wait_confirm('DECRYPT_TWO')
-        # now check rotation
-        data = self.gss.get('app.com_endlessm_Hackdex_chapter_two.encryption')
-        if data is not None and data.get('rotation') == 5:
-            return self.step_part2
+
         # (From Hackdex 1)
         # The HackDex app is restarted when its parameters are changed and the app is flipped
         # back, so we check that and give it time before considering it has stopped running.
