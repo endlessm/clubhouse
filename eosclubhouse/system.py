@@ -344,6 +344,8 @@ class App:
             _notify_obj, notify_prop, value = params.unpack()
 
             if notify_prop in props and value != values[notify_prop]:
+                logger.debug('Property %s changed from %s to %s', notify_prop,
+                             values[notify_prop], value)
                 values[notify_prop] = value
                 js_property_changed_cb(*args)
 
