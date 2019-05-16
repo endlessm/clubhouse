@@ -1,16 +1,9 @@
-MAZEPT3_DUMMY1,mazept3 dummy text 1,ada,,,
-MAZEPT3_DUMMY2,"mazept3 dummy text 2, longer",ada,,,
-MAZEPT3_DUMMY3,"mazept3 dummy text 3, even longer still, with many more letters",ada,,,
-MAZEPT3_HELLO,You know what.  I don’t think it’s possible to solve this level.  Not even with Push!,riley,,,
 MAZEPT3_LAUNCH,"OK, launch *Sidetrack*!",,,,
-MAZEPT3_HELLO2,"
-That’s correct.",ada,,,
 MAZEPT3_QUESTION,Ready to dive back into *Sidetrack* to help Riley free herself from the maze?,ada,,,
 MAZEPT3_QUEST_ACCEPT,"Okay, let's get started!",ada,,,
 MAZEPT3_RILEYPUSH,"Check out this `push` *Instruction*  Estelle told me about! So cool. 
 
-The *Wall* just moves out of the way! That's what I'm talking about! 
-",riley,,,
+The *Wall* just moves out of the way! That's what I'm talking about! ",riley,,,
 MAZEPT3_RILEYPUSH_HINT1,Click the *Flip* button.,riley,,,
 MAZEPT3_RILEYPUSH_HINT2,"Type in `riley.push();` That's the cool new *Instruction*  that Estelle found in Ada's research about Leviathan.
 
@@ -27,12 +20,12 @@ MAZEPT3_RILEYPUSH3_B,"Look at all these `jump`s! Not useful at all! _Obvi_ you c
 
 Whoever put all these `jumps` here must not have had access to the `push` *Instruction*. ",,,,
 MAZEPT3_RILEYPUSH3_B_HINT1,"If I change all the `jump` *Instructions* to `push` in the Hack panel, I think these *Instructions* will work!",,,,
-MAZEPT3_RILEYPUSH3_CPUSHINTRO,"One more thing – for `push` to work, you need to have space next to the obstacle you're pushing. 
+MAZEPT3_RILEYPUSH3_C_PUSHINTRO,"One more thing – for `push` to work, you need to have space next to the obstacle you're pushing. 
 
 In other words, whatever you `push` needs a space to move to! It makes sense, right?
 
 To get through this level, only use `push` for *one* column of *Walls* at a time.",estelle,,,
-MAZEPT3_RILEYPUSH3_C_,"If the space to the right of what you're pushing is blocked, `push` won't work!",,,,
+MAZEPT3_RILEYPUSH3_C,"If the space to the right of what you're pushing is blocked, `push` won't work!",,,,
 MAZEPT3_RILEYPUSH3_C_HINT1,Rewrite the *Instruction* in the Hack panel until you've got the *Instructions* you need.,estelle,,,
 MAZEPT3_RILEYPUSH4,Brilliant work! This trap Saniel made is quite challenging!,ada,,,
 MAZEPT3_RILEYPUSH5,That `push` *Instruction*  def did the trick! Estelle basically snaps her fingers and *Walls* move! ,faber,,,

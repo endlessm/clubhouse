@@ -2,7 +2,7 @@ TRAPINTRO_QUESTION,"{{{fx /\ /\#  _transcoding_
 ((∞) =∞=   _complete_ 
 ?=))∞)))§    PLEASE 
 =}{,,,}{,,,}     CONFIRM  §§§",riley,talk_glitched,,quests/transcoding-loop
-TRAPINTRO_QUESTION_ACCEPT,"{,,,}{,,,} CONFIRMED! /\ /\	",,talk_glitched,,
+TRAPINTRO_QUESTION_ACCEPT,"{,,,}{,,,} CONFIRMED! /\ /\        ",riley,talk_glitched,,
 TRAPINTRO_SUCCESS,"TRANSFER TO DESKTOP: 100% SUCCESSFUL
 
 *SIDETRACK* ENGAGED",riley,talk_glitched,quests/transfer-complete,

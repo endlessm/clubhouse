@@ -1,6 +1,3 @@
-BONUSROUND_DUMMY1,bonus round dummy text 1 (If you see this in master it's a bug!),riley,,,
-BONUSROUND_DUMMY2,"bonus round dummy text 2, longer (If you see this in master it's a bug!)",riley,,,
-BONUSROUND_DUMMY3,"bonus round dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",riley,,,
 BONUSROUND_QUESTION,Sidetrack was actually pretty fun. Want to go back there with me?,riley,,,
 BONUSROUND_QUEST_ACCEPT,Sure!,riley,,,
 BONUSROUND_LAUNCH,A.maze.ing! Launch the *Sidetrack* app.,,,,
@@ -14,7 +11,7 @@ I noticed some things I want to investigate. Like, I saw evidence of another key
 If we get this key, we'll be able to hack the maze and make our own levels. Let's check it out!",,,,
 BONUSROUND_LEVELS1_B,"Uh oh, first we have more levels to beat! And these are extra tricky! 
 
-What is this, some kind of robot dance party!? And for this one, we can't even edit *Instructions!",,,,
+What is this, some kind of robot dance party!? And for this one, we can't even edit *Instructions*!",,,,
 BONUSROUND_LEVELS1_B_HINT1,"Okay, we can't edit *Instructions*, but we _can_ still edit Units! And we can reorder the *Instructions*.",,,,
 BONUSROUND_LEVELS1_B_HINT2,"Sometimes it's good to try out different solutions and see how far you can get. 
 
@@ -76,8 +73,12 @@ BONUSROUND_LEVELS8_HINT2,Don't delete `rileyPosition = 2;` and `goalPosition = 2
 BONUSROUND_LEVELS9,This out of control level got even MORE crowded. Madness! But edit the Level code and we'll finish it in no time.,,,,
 BONUSROUND_LEVELS10,"This is it! We've arrived at the END!
 
-A glorious blank canvas! Nothing here except what we decide to `add`.",,hurray,,
-BONUSROUND_LEVELS10_B,Let's make our own level. Go to the Level panel and write your own code!,,,,
+A glorious blank canvas! Nothing here except what we decide to `add`.
+
+Let's make our own level. Go to the Level panel and write your own code!",,hurray,,
+BONUSROUND_LEVELS10_B,"Awesome! Stick with me here and I'll teach everything I know about making your own level.
+
+Once you flip back around, you won't have this information anymore, so maybe write it down!",,,,
 BONUSROUND_LEVELS10_B_HINT1,"`rileyPosition = 2;` and `goalPosition = 2;` say which Y coordinate, meaning which ROW, me and the goal start on. 
 
 You can change both numbers. 0 to 4!",,,,
@@ -91,7 +92,7 @@ See if your friend can beat your level!",,,,
 BONUSROUND_LEVELS10_B_HINT5,"When I have a level I really like, I will sometimes copy and paste the level code into a text document so I can never lose it. 
 
 Check out the little Gedit icon in the bottom left.",,,,
-BONUSROUND_SUCCESS,"Haha, you beat your own level! Keep editing it to make it more interesting. 
+BONUSROUND_SUCCESS,"Good luck beating your own level! Keep editing it to make it more interesting. 
 
 You can always go back and change any of the earlier levels too. Have fun!",riley,hurray,,
 BONUSROUND_ABORT,"Okay but trust me, it's gonna be cool. Come back when you have more time!",riley,,,

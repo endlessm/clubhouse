@@ -1,6 +1,3 @@
-LEVIHACKDEX_DUMMY1,hackdex dummy text 1 (If you see this in master it's a bug!),ada,,,
-LEVIHACKDEX_DUMMY2,"hackdex dummy text 2, longer (If you see this in master it's a bug!)",ada,,,
-LEVIHACKDEX_DUMMY3,"hackdex dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",ada,,,
 LEVIHACKDEX_QUESTION,"Hey there, Would you like to see what's in these files? ",ada,,,
 LEVIHACKDEX_QUEST_ACCEPT,Yes! ,ada,,,
 LEVIHACKDEX_LAUNCH,The files should be there on the desktop - Launch the *Leviathan* app.,ada,,,

@@ -4,11 +4,11 @@ MAZEPT2_LAUNCH,You and Faber found the key? That's going to really help us! Laun
 MAZEPT2_LAUNCH_HINT1,Go to the desktop and click on the *Sidetrack* icon.,,,,
 MAZEPT2_FLIP,This key is going to come in so handy! Let's use it to see what's in the *Toolbox*!,,,,
 MAZEPT2_FLIP_HINT1,Press the *Flip* button.,,,,
-MAZEPT2_INSTRUCTIONS,"Ah. Here are the *Instructions*. It's the same as the icons on the front, just written in code.
+MAZEPT2_INSTRUCTIONS,"Ah. Now we can access the *Instructions*. It's the same as the icons on the front, just written in code.
 
-See that! Someone spelled `jump` wrong. No wonder that *Instruction*  doesn't work. The language has to be super exact. 
+See that? Someone spelled `jump` wrong, no wonder that *Instruction* doesn't work. The language has to be super exact. 
 
-Pay attention to each letter and correct the spelling in the code. And then try running the level again!",,,,
+Pay attention to each letter and correct the spelling in the code. Then try running the level again!",,,,
 MAZEPT2_INSTRUCTIONS_HINT1,"See in the code where it says `riley.jumpp();`?
 
 See how jump has two p's? There's only one *p* in jump!",,,,
@@ -21,7 +21,9 @@ MAZEPT2_LEVELS2_B_HINT3,See where it says `riley.fooorward();`? Forward has way 
 MAZEPT2_LEVELS2_B_HINT4,"Oh, wait, there's another one. Do you see it? Code is case sensitive so that's always something to check.
 
 It should be `riley.jump();` not `riley.Jump();`  See that? lower case j: `jump` not `Jump`    *=^.‿.^=*",riley,,,
-MAZEPT2_FIXANDREORDER,More spelling errors! I guess someone was under some pressure to get this done quickly!,riley,,,
+MAZEPT2_FIXANDREORDER,"More spelling errors! I guess someone was under some pressure to get this done quickly!
+
+Not only that, but once I fix the errors, I'll still need to get the order of the *Instructions* right.",riley,,,
 MAZEPT2_FIXANDREORDER_FIXED,"Well. I fixed the errors in the code, but I still need to be on my toes here about getting the order of the *Instructions* right.  
 
 All of these details matter if I'm going to get to the exit! It's amazing how if I just pause I can see the way through. Deep! ",riley,,,
@@ -55,7 +57,7 @@ Prhzzhhhhzzhhhhrrrrrrrrr //\\
 myaaaaaoo ^ = ^ ",felixnet,,,quests/cat-loop
 MAZEPT2_IMPASSABLE_FABER,"Whoa, wait a minute! How's Riley gonna get past a solid column of *Walls* like that?",faber,,,
 MAZEPT2_IMPASSABLE_RILEY,A solid *Wall*! Let's see how we figure this one out! Would love to get out some day soon!,riley,,,
-MAZEPT2_SUCCESS,"Yes, that solid wall's not going anywhere! Which means you're not going anywhere! 
+MAZEPT2_SUCCESS,"I have an idea to get past that wall. An obscure *Instruction* I recall from my missing research. 
 
-I have an idea though. I've never tried it but I think it's going to work! Come meet me in the Clubhouse.",ada,,,
+Come meet me in the Clubhouse and we'll go track it down together.",ada,,,
 MAZEPT2_ABORT,Come back whenever you're feeling up for it!,ada,,,
