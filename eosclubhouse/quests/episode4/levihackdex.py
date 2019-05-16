@@ -75,7 +75,6 @@ class LeviHackdex(Quest):
         self.RESTART_COUNTER += 1
         return self.step_wait_until_solved
 
-    @Quest.with_app_launched(APP_NAME)
     def step_part2(self):
         self.pause(3)
         for message_id in ['DECRYPT_SUCCESS', 'BACKGROUND', 'PUSHINSTRUCTION',
