@@ -6,7 +6,7 @@ class LeviHackdex(Quest):
 
     APP_NAME = 'com.endlessm.Hackdex_chapter_two'
     ROTATION = 'app.com_endlessm_Hackdex_chapter_two.encryption'
-    FLIP_COUNTER = 0
+    RESTART_COUNTER = 0
     TOOLBOX_PANEL = 'lock.com.endlessm.Hackdex_chapter_two.1'
 
     def __init__(self):
@@ -57,13 +57,13 @@ class LeviHackdex(Quest):
             return self.step_part2
 
         # how many times did we flip, this session?
-        if self.FLIP_COUNTER == 0:
+        if self.RESTART_COUNTER == 0:
             self.pause(3)
             self.show_hints_message("DECRYPT")
-        if self.FLIP_COUNTER == 1:
+        elif self.RESTART_COUNTER == 1:
             self.pause(3)
             self.show_hints_message("DECRYPT_ONE")
-        if self.FLIP_COUNTER == 2:
+        elif self.RESTART_COUNTER == 2:
             self.pause(3)
             self.wait_confirm('DECRYPT_TWO')
 
@@ -72,7 +72,7 @@ class LeviHackdex(Quest):
         # back, so we check that and give it time before considering it has stopped running.
         self.connect_app_quit(self._app).wait()
         self.wait_for_app_launch(self._app, timeout=2)
-        self.FLIP_COUNTER += 1
+        self.RESTART_COUNTER += 1
         return self.step_wait_until_solved
 
     @Quest.with_app_launched(APP_NAME)
