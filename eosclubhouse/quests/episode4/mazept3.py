@@ -22,9 +22,9 @@ class MazePt3(Quest):
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH')
-        self._app.set_js_property('availableLevels', ('u', 36))
         if self._app.get_js_property('highestAchievedLevel') > 36:
             self._app.set_js_property('highestAchievedLevel', ('u', 28))
+        self._app.set_js_property('availableLevels', ('u', 36))
         self._reset_confirmed_messages()
         return self.step_play_level, False
 

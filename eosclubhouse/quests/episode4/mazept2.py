@@ -34,7 +34,6 @@ class MazePt2(Quest):
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH')
-        self._app.set_js_property('availableLevels', ('u', 28))
         highest_level = self._app.get_js_property('highestAchievedLevel')
         if highest_level < 27:
             self._app.set_js_property('showHackdex', ('b', True))
@@ -42,6 +41,7 @@ class MazePt2(Quest):
             self._app.set_js_property('showHackdex', ('b', False))
         if highest_level < 23 or highest_level > 28:
             self._app.set_js_property('highestAchievedLevel', ('u', 23))
+        self._app.set_js_property('availableLevels', ('u', 28))
         if self.is_panel_unlocked('lock.sidetrack.1'):
             self.unlocked = True
         self._reset_confirmed_messages()
