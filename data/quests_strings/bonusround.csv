@@ -75,10 +75,8 @@ BONUSROUND_LEVELS10,"This is it! We've arrived at the END!
 
 A glorious blank canvas! Nothing here except what we decide to `add`.
 
-Let's make our own level. Go to the Level panel and write your own code!",,hurray,,
-BONUSROUND_LEVELS10_B,"Awesome! Stick with me here and I'll teach everything I know about making your own level.
-
-Once you flip back around, you won't have this information anymore, so maybe write it down!",,,,
+Let's make our own level. Go to the Level panel and write your own code, and beat it to finish!",,hurray,,
+BONUSROUND_LEVELS10_B,Awesome! Stick with me here and I'll teach everything I know about making your own level.,,,,
 BONUSROUND_LEVELS10_B_HINT1,"`rileyPosition = 2;` and `goalPosition = 2;` say which Y coordinate, meaning which ROW, me and the goal start on. 
 
 You can change both numbers. 0 to 4!",,,,

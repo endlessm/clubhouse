@@ -1,4 +1,4 @@
-MAZEPT4_QUESTION,"Ready to get back in to the *Sidetrack* app and help Riley escape, once and for all?",ada,,,
+MAZEPT4_QUESTION,"Ready to get back in to the Sidetrack app and help Riley escape, once and for all?",ada,,,
 MAZEPT4_QUEST_ACCEPT,Let's do it!,ada,,,
 MAZEPT4_LAUNCH,Let's launch *Sidetrack*.,ada,,,
 MAZEPT4_LAUNCH_HINT1,Click the *Sidetrack* icon. ,ada,,,
