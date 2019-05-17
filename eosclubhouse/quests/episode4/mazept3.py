@@ -8,46 +8,80 @@ class MazePt3(Quest):
     def __init__(self):
         super().__init__('MazePt3', 'ada')
         self._app = Sidetrack()
+        self.confirmed_messages = []
+        self.level36_hasfailed = False
+
+    def _reset_confirmed_messages(self):
+        self.confirmed_messages = []
+
+    def _get_unconfirmed_message(self, message_id_list):
+        for message_id in message_id_list:
+            if message_id not in self.confirmed_messages:
+                return message_id
+        return None
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH')
-        self._app.set_js_property('availableLevels', ('u', 36))
         if self._app.get_js_property('highestAchievedLevel') > 36:
             self._app.set_js_property('highestAchievedLevel', ('u', 28))
-        return self.step_play_level
+        self._app.set_js_property('availableLevels', ('u', 36))
+        self._reset_confirmed_messages()
+        return self.step_play_level, False
 
     @Quest.with_app_launched(Sidetrack.APP_NAME)
-    def step_play_level(self):
-        current_level = int(self._app.get_js_property('currentLevel'))
+    def step_play_level(self, level_changed, level_success=None):
+        current_level = self._app.get_js_property('currentLevel')
+        message_id = None
         if current_level == 28:
-            # this set of lines needs to be reorganized
-            self.show_hints_message('RILEYPUSH')
-            self.wait_for_app_js_props_changed(self._app, ['flipped'])
-            self.wait_confirm('RILEYPUSH2')
-            self.wait_confirm('RILEYPUSH3')
-        if current_level == 29:
+            message_id = self._get_unconfirmed_message(['RILEYPUSH2', 'RILEYPUSH3'])
+        elif current_level == 29:
             self.dismiss_message()
             self.show_hints_message('RILEYPUSH3_B')
-        if current_level == 30:
+        elif current_level == 30:
             self.dismiss_message()
-            self.show_hints_message('RILEYPUSH3_C')
-        if current_level == 31:
-            for i in range(4, 10):
-                msgid = 'RILEYPUSH{}'.format(i)
-                self.wait_confirm(msgid)
-        if current_level == 34:
+            message_id = self._get_unconfirmed_message(['RILEYPUSH3_C_PUSHINTRO'])
+            if message_id is None:
+                self.show_hints_message('RILEYPUSH3_C')
+        elif current_level == 31:
             self.dismiss_message()
-            for message_id in ['DRAMA', 'DRAMA_FELIX', 'DRAMA_FABER', 'DRAMA_RILEY', 'DRAMA_ADA']:
-                self.wait_confirm(message_id)
-        if current_level == 36:
-            for message_id in ['FELIXINTRO', 'FELIXINTRO1', 'FELIXINTRO2', 'FELIXINTRO3']:
-                self.wait_confirm(message_id)
-            # wait for failure
-            self.wait_for_app_js_props_changed(self._app, ['success'])
-            self.wait_confirm('FELIXINTRO_FAILURE')
-            return self.step_success
-        self.wait_for_app_js_props_changed(self._app, ['currentLevel'])
-        return self.step_play_level
+            message_id = self._get_unconfirmed_message([
+                *('RILEYPUSH{}'.format(i) for i in range(4, 10))])
+        elif current_level == 34:
+            message_id = self._get_unconfirmed_message(['DRAMA', 'DRAMA_FELIX',
+                                                        'DRAMA_FABER', 'DRAMA_RILEY',
+                                                        'DRAMA_ADA'])
+        elif current_level == 36:
+            return self.step_lastlevel
+        else:
+            self.dismiss_message()
+
+        actions = [self.connect_app_js_props_changes(self._app, ['currentLevel', 'success'])]
+        if message_id is not None:
+            actions.append(self.show_confirm_message(message_id))
+
+        self.wait_for_one(actions)
+
+        level_changed = False
+        level_success = None
+        if self.confirmed_step():
+            self.confirmed_messages.append(message_id)
+        elif current_level != self._app.get_js_property('currentLevel'):
+            level_changed = True
+            self._reset_confirmed_messages()
+        else:
+            # Current level hasn't changed, so either the player
+            # completed the level or died:
+            level_success = self._app.get_js_property('success')
+
+        return self.step_play_level, level_changed, level_success
+
+    @Quest.with_app_launched(Sidetrack.APP_NAME)
+    def step_lastlevel(self):
+        for msg_id in ['FELIXINTRO', 'FELIXINTRO1', 'FELIXINTRO2', 'FELIXINTRO3']:
+            self.wait_confirm(msg_id)
+        self.wait_for_app_js_props_changed(self._app, ['success'])
+        self.wait_confirm('FELIXINTRO_FAILURE')
+        return self.step_success
 
     def step_success(self):
         self.wait_confirm('SUCCESS')

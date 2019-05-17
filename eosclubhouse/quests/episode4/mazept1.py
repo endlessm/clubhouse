@@ -24,9 +24,9 @@ class MazePt1(Quest):
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH_ADA')
-        self._app.set_js_property('availableLevels', ('u', 23))
         if self._app.get_js_property('highestAchievedLevel') > 1:
             self._app.set_js_property('highestAchievedLevel', ('u', 1))
+        self._app.set_js_property('availableLevels', ('u', 23))
         self._reset_confirmed_messages()
         self.cutscene_played = False
         return self.step_play_level, False
@@ -46,8 +46,6 @@ class MazePt1(Quest):
                     self.show_hints_message('MANUAL1')
         elif current_level == 2:
             message_id = self._get_unconfirmed_message(['MANUAL2'])
-        elif current_level == 3:
-            message_id = self._get_unconfirmed_message(['MANUAL3'])
         elif current_level == 4:
             self.show_hints_message('MANUAL4')
         elif current_level == 6:
