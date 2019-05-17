@@ -46,8 +46,6 @@ class MazePt1(Quest):
                     self.show_hints_message('MANUAL1')
         elif current_level == 2:
             message_id = self._get_unconfirmed_message(['MANUAL2'])
-        elif current_level == 3:
-            message_id = self._get_unconfirmed_message(['MANUAL3'])
         elif current_level == 4:
             self.show_hints_message('MANUAL4')
         elif current_level == 6:
