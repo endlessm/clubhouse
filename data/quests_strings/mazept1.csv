@@ -1,4 +1,4 @@
-MAZEPT1_QUESTION,"Whoa! The trap jumped to the desktop, as a new app called *Sidetrack*! Let's launch it!",ada,,,quests/horse-tale
+MAZEPT1_QUESTION,"Whoa! The trap jumped to the desktop, as a new app called Sidetrack! Let's launch it!",ada,,,quests/horse-tale
 MAZEPT1_QUEST_ACCEPT,Ready!,,,,quests/horse-tale
 MAZEPT1_LAUNCH_ADA,Go ahead and Launch *Sidetrack*.,ada,,,quests/horse-tale
 MAZEPT1_LAUNCH_ADA_HINT1,Click the *Sidetrack* icon on the desktop.,,,,quests/horse-tale
@@ -25,7 +25,7 @@ MAZEPT1_ROBOTS2,"Okay, Riley, very funny. Be careful. Study how they move. Keep 
 MAZEPT1_ROBOTS3,Watch their movement carefully to plan your next move. Think about the space they open when they move.,saniel,,,
 MAZEPT1_ROBOTS3_HINT1,"These *Robots* only move DOWN, never left or right. Try to use their own rules to get past them. ",saniel,,,
 MAZEPT1_ROBOTS3_HINT2,"And when they walk off the bottom, they reappear at the top! So keep your eye out for that!",saniel,,,
-MAZEPT1_MOREROBOTS,One *Robot* only moves UP. And the first one only moves DOWN. And they glow in the direction they're going!,riley,,,
+MAZEPT1_MOREROBOTS,"Another *Robot*! This new type only moves UP, just like the first only moves DOWN. They glow in the direction they're facing!",riley,,,
 MAZEPT1_AUTO1,"*Robots!* & *Pits!* & *Walls,* oh my! Saniel, my friend, I've got this. I'll be bouncing this maze in no time ;)",riley,hurray,,
 MAZEPT1_AUTO1_FELIX,mjau ^ = ^ mjav //\\ ngiyaw /\ ^  miav,felixnet,,quests/glitch-meow,
 MAZEPT1_AUTO1_FABER,Hold up. Listen. Was that more meowing? Did one of Saniel's cats follow Riley into the trap?,faber,,,
@@ -38,11 +38,10 @@ MAZEPT1_AUTO2_INTRO,"You can still move, but now you have to plan all your moves
 
 It's a new kind of challenge – you just have to give yourself time to think it through. ",saniel,,,
 MAZEPT1_AUTO2,"After you have the *Instructions* lined up, you press PLAY and that moves you through the maze.",,,,
-MAZEPT1_AUTO2_HINT1,You’ll need to drag and drop those *Instructions* to put them in a new order.,saniel,,,
-MAZEPT1_AUTO3_INTRO,"To solve this level, you'll need to work out a strategy and reorder the *Instructions* accordingly.",,,,
-MAZEPT1_AUTO3,Study the obstacles and put the *Instructions* in a new order.,saniel,,,
-MAZEPT1_AUTO3_HINT1,Press PLAY to execute the *Instructions* and get through the level.,saniel,,,
-MAZEPT1_AUTO3_HINT2,"And keep in mind, once you press PLAY you can no longer change the *Instructions!*",saniel,,,
+MAZEPT1_AUTO3,This set of *Instructions* won't cut it! Study the obstacles and put the *Instructions* in a new order.,saniel,,,
+MAZEPT1_AUTO3_HINT1,You’ll need to drag and drop those *Instructions* to put them in a new order.,saniel,,,
+MAZEPT1_AUTO3_HINT2,Press PLAY to execute the *Instructions* and get through the level.,saniel,,,
+MAZEPT1_AUTO3_HINT3,"And keep in mind, once you press PLAY you can no longer change the *Instructions!*",saniel,,,
 MAZEPT1_AUTO3_SUCCESS,Excellent! Riley sailed right through! Thanks to your strategic thinking! ,saniel,hurray,,
 MAZEPT1_AUTO3_FAILURE,Good try! Let's review the order of the *Instructions* and try again. Do you see a different order to try?,saniel,,,
 MAZEPT1_AUTO4_BACKSTORY,I feel awful that Riley's stuck in there! I'm afraid it's all my own fault. I should know how to get her through this!,saniel,,,
@@ -66,7 +65,7 @@ MAZEPT1_AUTO4_BACKSTORY9,"So many times I told Riley, _Don't go poking around in
 I won't let her down! I'm going to solve this the surest way I know: I'm going to go take _a catnap_.",saniel,,,quests/san-backstory
 MAZEPT1_AUTO4_BACKSTORY10,"I've seen that work before, Saniel!  I know you'll dream up a solution.",faber,,,
 MAZEPT1_ONEJUMP_PRE,"
-Hey Riley, how's it going in there? ",,,,
+Hey Riley, how's it going in there? ",faber,,,
 MAZEPT1_ONEJUMP,"Oh, hey Faber, you know, just chillin' in here! Any hope I might see the *Exit* soon?
 
 At least this next level looks familiar. Should be a snap. ",riley,,,

@@ -1,9 +1,9 @@
-MAZEPT2_QUESTION,Let's get back into *Sidetrack* and work with Riley so she can get out!,ada,,,
+MAZEPT2_QUESTION,Let's get back into Sidetrack and work with Riley so she can get out!,ada,,,
 MAZEPT2_QUEST_ACCEPT,"Okay, let's go!",,,,
 MAZEPT2_LAUNCH,You and Faber found the key? That's going to really help us! Launch *Sidetrack*.,,,,
 MAZEPT2_LAUNCH_HINT1,Go to the desktop and click on the *Sidetrack* icon.,,,,
 MAZEPT2_FLIP,This key is going to come in so handy! Let's use it to see what's in the *Toolbox*!,,,,
-MAZEPT2_FLIP_HINT1,Press the *Flip* button.,,,,
+MAZEPT2_FLIP_HINT1,Press the *Flip* button so we can see the *Sidetrack Toolbox*.,,,,
 MAZEPT2_INSTRUCTIONS,"Ah. Now we can access the *Instructions*. It's the same as the icons on the front, just written in code.
 
 See that? Someone spelled `jump` wrong, no wonder that *Instruction* doesn't work. The language has to be super exact. 
@@ -14,9 +14,9 @@ MAZEPT2_INSTRUCTIONS_HINT1,"See in the code where it says `riley.jumpp();`?
 See how jump has two p's? There's only one *p* in jump!",,,,
 MAZEPT2_INSTRUCTIONS_HINT2,Change it to say `riley.jump();` Then flip back over and press PLAY.,,,,
 MAZEPT2_LEVELS2,"Awesome! That was scary, but thanks to you, I got through.",riley,,,
-MAZEPT2_LEVELS2_B,"Looks like this level has another error, though! Two of them! We need to fix both of them.",,,,
+MAZEPT2_LEVELS2_B,"Looks like this level has another error, though! Two of them! We need to fix both of them.",riley,,,
 MAZEPT2_LEVELS2_B_HINT1,Look at the *Instructions* code by flipping the app to the back.,riley,,,
-MAZEPT2_LEVELS2_B_HINT2,Then look for *Instructions* that are spelled wrong or that don't match the other *Instructions.,riley,,,
+MAZEPT2_LEVELS2_B_HINT2,Then look for *Instructions* that are spelled wrong or that don't match the other *Instructions*.,riley,,,
 MAZEPT2_LEVELS2_B_HINT3,See where it says `riley.fooorward();`? Forward has way too many o's! Change it to `riley.forward();`,riley,,,
 MAZEPT2_LEVELS2_B_HINT4,"Oh, wait, there's another one. Do you see it? Code is case sensitive so that's always something to check.
 
