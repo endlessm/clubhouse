@@ -164,19 +164,15 @@ class FizzicsKey(Quest):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
         toolbox_topic = ToolBoxTopic(self._app.APP_NAME, 'main')
         toolbox_topic.set_sensitive(False)
-        return self.step_ingame
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_ingame(self):
-        # level 17, 16 internally
-        # this is narrative, don't let the player win early!
-        self.setup_level_and_tools(self.FIRST_LEVEL, create_disabled=True)
         return self.step_level1_pre
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level1_pre(self):
+        # this is narrative, don't let the player win early!
+        self.setup_level_and_tools(self.FIRST_LEVEL, create_disabled=True)
         self.wait_confirm('LEVELS1')
         self.wait_confirm('LEVELS1_B')
+
         self._app.enable_physics_for_ball_type([
             self._app.BallType.PLAYER,
         ])
