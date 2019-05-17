@@ -28,6 +28,12 @@ sed -e "s|@GIT_CLONE_BRANCH@|${GIT_CLONE_BRANCH}|g" \
 # Add any extra options from the user to the flatpak-builder command (e.g. --install)
 flatpak-builder build --user --force-clean com.endlessm.Clubhouse.json --repo=${REPO} $@ || ret=$?
 
+# Reload the GSS to make sure we have the freshest changes in case it was modified for testing
+# this Clubhouse build.
+echo
+echo Restarting the GSS
+gdbus call -e -d com.endlessm.GameStateService -o /com/endlessm/GameStateService -m com.endlessm.GameStateService.Reload > /dev/null
+
 popd
 
 exit $ret
