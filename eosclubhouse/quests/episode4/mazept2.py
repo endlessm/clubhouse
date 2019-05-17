@@ -45,10 +45,7 @@ class MazePt2(Quest):
         elif current_level == 24:
             self.wait_confirm('LEVELS2')
         elif current_level == 25:
-            # this text needs to be reworked at some point
             self.wait_confirm('FIXANDREORDER')
-            self.pause(7)
-            self.wait_confirm('FIXANDREORDER_FIXED')
         elif current_level == 26:
             self.wait_for_app_js_props_changed(self._app, ['currentLevel'])
             if self._app.get_js_property('success'):
