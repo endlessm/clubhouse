@@ -78,13 +78,8 @@ class BonusRound(Quest):
                 self.wait_confirm('LEVELS7_B')
                 self.pause(0.5)
                 self.give_item('item.key.sidetrack.3')
-                self.state_level47 = 'needflip'
-            # waiting for the the player to flip
-            elif self.state_level47 == 'needflip':
-                if level_flipped:
-                    self.state_level47 = 'needunlock'
-                else:
-                    self.wait_confirm('LEVELS7_FLIP')
+                self.wait_confirm('LEVELS7_FLIP')
+                self.state_level47 = 'needunlock'
             # wait to unlock
             elif self.state_level47 == 'needunlock':
                 return self.step_level47_lock
@@ -97,15 +92,11 @@ class BonusRound(Quest):
         elif current_level == 48:
             self.show_hints_message('LEVELS8')
         elif current_level == 49:
-            self.wait_confirm('LEVELS9')
+            message_id = self._get_unconfirmed_message(['LEVELS9'])
         elif current_level == 50:
-            if self.level50_fliptracker:
-                return self.step_success
+            message_id = self._get_unconfirmed_message(['LEVELS10'])
             if level_flipped:
-                self.show_hints_message('LEVELS10_B')
-                self.level50_fliptracker = True
-            else:
-                message_id = self._get_unconfirmed_message(['LEVELS10'])
+                return self.step_final
         else:
             self.dismiss_message()
 
@@ -144,6 +135,16 @@ class BonusRound(Quest):
         else:
             self.pause(1)
             return self.step_level47_lock
+
+    @Quest.with_app_launched(Sidetrack.APP_NAME)
+    def step_final(self):
+        self.show_hints_message('LEVELS10_B')
+        self.wait_for_app_js_props_changed(self._app, ['playing'])
+        playing = bool(self._app.get_js_property('playing'))
+        success = bool(self._app.get_js_property('success'))
+        if not playing and success:
+            return self.step_success
+        return self.step_final
 
     def step_success(self):
         self.wait_confirm('SUCCESS')
