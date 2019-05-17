@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Sound
+from eosclubhouse.system import Sound, ToolBoxTopic
 from eosclubhouse.apps import Sidetrack
 # from eosclubhouse import logger
 
@@ -29,6 +29,10 @@ class BonusRound(Quest):
             self._app.set_js_property('highestAchievedLevel', ('u', 41))
         self._app.set_js_property('availableLevels', ('u', 50))
         self._reset_confirmed_messages()
+        self.topic_instructions = ToolBoxTopic(self._app.APP_NAME, 'instructions')
+        self.topic_units = ToolBoxTopic(self._app.APP_NAME, 'unit')
+        self.instructions_editing = True
+        self.units_editing = True
         self.level50_fliptracker = False
         if self.is_panel_unlocked('lock.sidetrack.3'):
             self.state_level47 = 'unlocked'
@@ -36,23 +40,30 @@ class BonusRound(Quest):
 
     @Quest.with_app_launched(Sidetrack.APP_NAME)
     def step_play_level(self, level_changed, level_success=None, level_flipped=False):
+        self.instructions_editing = True
+        self.units_editing = True
         current_level = int(self._app.get_js_property('currentLevel'))
         message_id = None
         if current_level == 41:
+            self.instructions_editing = False
             message_id = self._get_unconfirmed_message(['LEVELS1'])
             if message_id is None:
                 self.show_hints_message('LEVELS1_B')
         elif current_level == 42:
+            self.units_editing = False
             message_id = self._get_unconfirmed_message(['LEVELS2'])
             if message_id is None:
                 self.show_hints_message('LEVELS2_B')
         elif current_level == 43:
             message_id = self._get_unconfirmed_message(['LEVELS3'])
         elif current_level == 44:
+            self.instructions_editing = False
             message_id = self._get_unconfirmed_message(['LEVELS4'])
         elif current_level == 45:
+            self.instructions_editing = False
             message_id = self._get_unconfirmed_message(['LEVELS5'])
         elif current_level == 46:
+            self.units_editing = False
             message_id = self._get_unconfirmed_message(['LEVELS6'])
             if message_id is None:
                 self.show_hints_message('LEVELS6_B')
@@ -111,6 +122,8 @@ class BonusRound(Quest):
         level_flipped = False
         if self._app.get_js_property('flipped') is True:
             level_flipped = True
+            self.topic_instructions.set_sensitive(self.instructions_editing)
+            self.topic_units.set_sensitive(self.units_editing)
         if self.confirmed_step():
             self.confirmed_messages.append(message_id)
         elif current_level != self._app.get_js_property('currentLevel'):
