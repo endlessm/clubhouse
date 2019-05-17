@@ -1,7 +1,7 @@
 import os
 from gi.repository import Gdk, Gio, GLib, Gtk
 
-from eosclubhouse import config, libquest, logger, utils
+from eosclubhouse import config, logger, utils
 from eosclubhouse.system import Sound
 
 
@@ -113,7 +113,6 @@ class PosterWindow(Gtk.Window):
 
         container = builder.get_object('container')
         title_label = builder.get_object('title')
-        subtitle_label = builder.get_object('subtitle')
         bg = builder.get_object('bg_image')
         image = builder.get_object('episode_image')
 
@@ -123,16 +122,6 @@ class PosterWindow(Gtk.Window):
         text = "End of episode {} | <b>{}</b>".format(self._episode.number,
                                                       self._episode.name)
         title_label.set_markup(text)
-
-        text = "Episode {} coming soon…".format(self._episode.number + 1)
-        if self._next:
-            available_episodes = libquest.Registry.get_available_episodes()
-            if self._next.id not in available_episodes:
-                text = "<i>coming soon ⭑  Episode {} | {}</i>".format(self._next.number,
-                                                                      self._next.name)
-            else:
-                text = ""
-        subtitle_label.set_markup(text)
 
         container.show_all()
         self._modal.get_content_area().add(container)

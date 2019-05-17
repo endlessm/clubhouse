@@ -252,18 +252,10 @@ window.poster {
     background: rgba(0,0,0,0.4) radial-gradient(1920px 1080px ellipse at center, alpha(black,0.2), alpha(black,0.8));
 }
 
-.poster .title,
-.poster .subtitle {
-    color: white;
-    font: 15px "Metropolis, Sans-Serif";
-}
-
 .poster .title {
-    font-size: 40px;
-}
-
-.poster .subtitle {
-    font-size: 25px;
+    font: 40px "Metropolis, Sans-Serif";
+    color: white;
+    text-shadow: 1.5px 1.5px 2px rgba(17, 0, 55, 0.3);
 }
 
 .badge {
