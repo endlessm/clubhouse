@@ -14,10 +14,6 @@ class BonusRound(Quest):
         self.confirmed_messages = []
         self.state_level47 = 'initial'
 
-    def is_unlocked(self):
-        lock_state = self.gss.get('lock.sidetrack.3')
-        return lock_state is not None and not lock_state.get('locked', True)
-
     def _reset_confirmed_messages(self):
         self.confirmed_messages = []
 
@@ -34,7 +30,7 @@ class BonusRound(Quest):
         self._app.set_js_property('availableLevels', ('u', 50))
         self._reset_confirmed_messages()
         self.level50_fliptracker = False
-        if self.is_unlocked():
+        if self.is_panel_unlocked('lock.sidetrack.3'):
             self.state_level47 = 'unlocked'
         return self.step_play_level, False
 
@@ -62,7 +58,7 @@ class BonusRound(Quest):
                 self.show_hints_message('LEVELS6_B')
         elif current_level == 47:
             # check to see if we're resuming
-            if self.is_unlocked():
+            if self.is_panel_unlocked('lock.sidetrack.3'):
                 self.state_level47 = 'unlocked'
             # intial state
             if self.state_level47 == 'initial':
@@ -129,7 +125,7 @@ class BonusRound(Quest):
 
     @Quest.with_app_launched(Sidetrack.APP_NAME)
     def step_level47_lock(self):
-        if self.is_unlocked():
+        if self.is_panel_unlocked('lock.sidetrack.3'):
             self.state_level47 = 'unlocked'
             return self.step_play_level, False, False, True
         else:
