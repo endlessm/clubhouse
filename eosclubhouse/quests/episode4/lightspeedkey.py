@@ -98,7 +98,7 @@ class LightspeedKey(Quest):
             suffix = 'LOCKED'
         else:
             suffix = self.MESSAGES_FOR_PANELS[topic_clicked]
-        self.show_message('PANEL_' + suffix)
+        self.show_hints_message('PANEL_' + suffix)
 
         return self.step_incode
 
