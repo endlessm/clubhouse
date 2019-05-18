@@ -5,13 +5,13 @@ MAZEPT3_RILEYPUSH,"Check out this `push` *Instruction*  Estelle told me about! S
 
 The *Wall* just moves out of the way! That's what I'm talking about! ",riley,,,
 MAZEPT3_RILEYPUSH_HINT1,Click the *Flip* button.,riley,,,
-MAZEPT3_RILEYPUSH_HINT2,"Type in `riley.push();` That's the cool new *Instruction*  that Estelle found in Ada's research about Leviathan.
+MAZEPT3_RILEYPUSH2,"Type in `riley.push();` That's the cool new *Instruction*  that Estelle found in Ada's research about Leviathan.
 
 You might as well replace that `riley.jump;` at position 2, right? A `jump` *Instruction*  won't help us in this level.",riley,,,
-MAZEPT3_RILEYPUSH2,"When I’m lined up with a *Wall* and about to crash into a wall, PUSH is just what I need. 
+MAZEPT3_RILEYPUSH2_HINT1,"When I’m lined up with a *Wall* and about to crash into a wall, PUSH is just what I need. 
 
 Suddenly I'm so strong I can actually move *Walls*! Let’s give it a try! ",riley,,,
-MAZEPT3_RILEYPUSH3,"When you add a `push` Instruction, you'll see it on the front of the app.  
+MAZEPT3_RILEYPUSH2_HINT2,"When you add a `push` Instruction, you'll see it on the front of the app.  
 
 That means you can drag and drop the *Instruction*  into a different position. ",riley,,,
 MAZEPT3_RILEYPUSH3_B,"Look at all these `jump`s! Not useful at all! _Obvi_ you can't jump over a *Wall* or a *Robot!*
