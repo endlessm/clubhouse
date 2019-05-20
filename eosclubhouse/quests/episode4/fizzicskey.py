@@ -70,6 +70,7 @@ class FizzicsKey(Quest):
         super().__init__('FizzicsKey', 'saniel')
         self._app = Fizzics()
         self._intro_cutscene_played = False
+        self._toolbox_topic = None
 
     # # # # # # # # # # #
     # # UTILITY FXNS  # #
@@ -163,8 +164,7 @@ class FizzicsKey(Quest):
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
-        toolbox_topic = ToolBoxTopic(self._app.APP_NAME, 'main')
-        toolbox_topic.set_sensitive(False)
+        self._toolbox_topic = ToolBoxTopic(self._app.APP_NAME, 'main')
         self._intro_cutscene_played = False
         return self.step_level1_pre
 
@@ -178,16 +178,27 @@ class FizzicsKey(Quest):
 
         actions = [
             action,
-            self.connect_app_js_props_changes(self._app, ['currentLevel']),
+            self.connect_app_js_props_changes(self._app, ['currentLevel', 'flipped']),
         ]
 
         self.wait_for_one(actions, timeout)
+
+        flipped = self._app.get_js_property('flipped', False)
+        if flipped:
+            return self.step_flipped, None
 
         level = self._app.get_current_level()
         if level != current_level:
             return self.step_decide_level, {'level_number': level}
 
         return None, None
+
+    @Quest.with_app_launched(Fizzics.APP_NAME)
+    def step_flipped(self, options=None):
+        self._toolbox_topic.set_sensitive(False)
+        self.connect_app_js_props_changes(self._app, ['flipped']).wait()
+        level = self._app.get_current_level()
+        return self.step_decide_level, {'level_number': level}
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_decide_level(self, options):
