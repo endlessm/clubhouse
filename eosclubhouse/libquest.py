@@ -994,8 +994,8 @@ class Quest(GObject.GObject):
 
         return async_action
 
-    def wait_for_one(self, action_list):
-        self._run_context.wait_for_one(action_list)
+    def wait_for_one(self, action_list, timeout=None):
+        self._run_context.wait_for_one(action_list, timeout)
 
     def set_to_background(self):
         if self._run_context is not None:
