@@ -47,10 +47,11 @@ class LightspeedKey(Quest):
         if not self._app.get_js_property('playing'):
             self.wait_for_app_js_props_changed(self._app, ['playing', 'flipped'])
 
-        if self._app.get_js_property('flipped'):
-            return self.step_incode
-
         current_level = self._app.get_js_property('currentLevel', 0)
+
+        if self._app.get_js_property('flipped'):
+            return self.step_incode, current_level
+
         if current_level > self.LAST_LEVEL:
             return self.step_success
         elif current_level < self.FIRST_LEVEL:
@@ -66,7 +67,7 @@ class LightspeedKey(Quest):
         self.wait_for_app_js_props_changed(self._app, ['flipped', 'playing', 'success'])
 
         if self._app.get_js_property('flipped'):
-            return self.step_incode
+            return self.step_incode, current_level
 
         if self._app.get_js_property('success') and current_level == self.LAST_LEVEL:
             return self.step_success
@@ -77,8 +78,25 @@ class LightspeedKey(Quest):
         return self.step_inlevel, current_level
 
     @Quest.with_app_launched(LightSpeed.APP_NAME)
-    def step_incode(self):
-        self._toolbox_topics['spawn'].set_sensitive(False)
+    def step_incode(self, current_level):
+        if current_level == 15:
+            self._toolbox_topics['spawn'].set_sensitive(False)
+            self._toolbox_topics['updateAsteroid'].set_sensitive(True)
+            self._toolbox_topics['updateSpinner'].set_sensitive(True)
+            self._toolbox_topics['updateSquid'].set_sensitive(True)
+            self._toolbox_topics['updateBeam'].set_sensitive(True)
+        elif current_level == 16:
+            self._toolbox_topics['spawn'].set_sensitive(False)
+            self._toolbox_topics['updateAsteroid'].set_sensitive(False)
+            self._toolbox_topics['updateSpinner'].set_sensitive(False)
+            self._toolbox_topics['updateSquid'].set_sensitive(False)
+            self._toolbox_topics['updateBeam'].set_sensitive(False)
+        elif current_level == 17:
+            self._toolbox_topics['spawn'].set_sensitive(True)
+            self._toolbox_topics['updateAsteroid'].set_sensitive(False)
+            self._toolbox_topics['updateSpinner'].set_sensitive(False)
+            self._toolbox_topics['updateSquid'].set_sensitive(False)
+            self._toolbox_topics['updateBeam'].set_sensitive(False)
 
         clicked_actions = []
         for toolbox_topic in self._toolbox_topics.values():
@@ -98,11 +116,17 @@ class LightspeedKey(Quest):
             suffix = 'LOCKED'
         else:
             suffix = self.MESSAGES_FOR_PANELS[topic_clicked]
-        self.show_message('PANEL_' + suffix)
+        self.show_hints_message('PANEL_' + suffix)
 
-        return self.step_incode
+        return self.step_incode, current_level
 
     def step_success(self):
+        self._toolbox_topics['spawn'].set_sensitive(True)
+        self._toolbox_topics['updateAsteroid'].set_sensitive(True)
+        self._toolbox_topics['updateSpinner'].set_sensitive(True)
+        self._toolbox_topics['updateSquid'].set_sensitive(True)
+        self._toolbox_topics['updateBeam'].set_sensitive(True)
+
         self.wait_confirm('SUCCESS')
         self.give_item('item.key.sidetrack.1')
         self.complete = True

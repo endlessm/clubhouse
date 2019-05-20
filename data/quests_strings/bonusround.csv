@@ -57,7 +57,7 @@ See `add (pit, 1, 2);`? That's what creates the *Pit* right near the beginning. 
 
 Coordinate (1,2) means x = 1, y = 2. X is the column, so that's why the pit appears in column 1.
 
-Y = 2 is for the row. The bottom row is y = 0, and the top row is y = 4. We hackers like to start counting from 0 instead of 1.",,,,
+Y = 2 is for the row. The top row is y = 0, and the bottom row is y = 4. We hackers like to start counting from 0 instead of 1.",,,,
 BONUSROUND_LEVELS7_LEVELCODE2,"If we want to move that *Pit* out of our way, we can give it a new coordinate.
 
 Try changing the coordinate to something like x = 1, y = 4 by editing the code to say `add (pit, 1, 4);`",,,,

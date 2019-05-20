@@ -5,7 +5,7 @@ MAZEPT4_LAUNCH_HINT1,Click the *Sidetrack* icon. ,ada,,,
 MAZEPT4_FLIP,"That key you and Saniel recovered from *Fizzics* will unlock Unit editing. 
 
 That's how Riley will get past this level.",,,,
-MAZEPT4_FLIP_HINT1,Press the *Flip* button.,,,,
+MAZEPT4_FLIP_HINT1,Press the *Flip* button on *Sidetrack* so we can see *Sidetrack's Toolbox*.,,,,
 MAZEPT4_UNITS,"Look at that. With this panel, we can edit ""Units"" which in this case means *Robots*!
 
 We can change which way the *Robots* face!",,,,
@@ -17,7 +17,7 @@ MAZEPT4_UNITS_HINT2,"Set *Robot* Type A to UP. You might also need to change *In
 Then flip back around and press Play.",,,,
 MAZEPT4_LEVELS2,"I remember this level. It used to be hard! But now I can edit *Instructions*. 
 
-And I have PUSH, and I can even edit *Units* to change both *Robot* types. This should be a breeze!",riley,,,
+And I have `push`, and I can even edit *Units* to change both *Robot* types. This should be a breeze!",riley,,,
 MAZEPT4_LEVELS3,"Don't forget when you edit *Units*, you can change the direction of BOTH robot types.  
 
 That's sometimes necessary.",saniel,,,
