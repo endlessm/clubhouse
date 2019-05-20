@@ -44,6 +44,8 @@
                 "-Dsession-bus-services-dir=/app/share/dbus-1/services"
             ],
             "run-tests": true,
+            "test-rule": "",
+            "test-commands": ["meson test --timeout-multiplier=10"],
             "sources": [
                 {
                     "type": "git",
