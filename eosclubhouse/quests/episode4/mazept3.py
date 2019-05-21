@@ -33,7 +33,8 @@ class MazePt3(Quest):
         current_level = self._app.get_js_property('currentLevel')
         message_id = None
         if current_level == 28:
-            message_id = self._get_unconfirmed_message(['RILEYPUSH2', 'RILEYPUSH3'])
+            self.show_hints_message('RILEYPUSH')
+            return self.step_level28, False, False, False
         elif current_level == 29:
             self.dismiss_message()
             self.show_hints_message('RILEYPUSH3_B')
@@ -47,6 +48,7 @@ class MazePt3(Quest):
             message_id = self._get_unconfirmed_message([
                 *('RILEYPUSH{}'.format(i) for i in range(4, 10))])
         elif current_level == 34:
+            self.dismiss_message()
             message_id = self._get_unconfirmed_message(['DRAMA', 'DRAMA_FELIX',
                                                         'DRAMA_FABER', 'DRAMA_RILEY',
                                                         'DRAMA_ADA'])
@@ -74,6 +76,29 @@ class MazePt3(Quest):
             level_success = self._app.get_js_property('success')
 
         return self.step_play_level, level_changed, level_success
+
+    @Quest.with_app_launched(Sidetrack.APP_NAME)
+    def step_level28(self, level28_changed, level28_success, level28_flipped):
+        if level28_changed:  # or level28_success:
+            return self.step_play_level, level28_changed, level28_success
+        if level28_flipped:
+            self.show_hints_message('RILEYPUSH2')
+
+        level28_actions = [self.connect_app_js_props_changes(self._app, ['currentLevel',
+                                                                         'success', 'flipped'])]
+        self.wait_for_one(level28_actions)
+        level28_changed = False
+        level28_success = None
+        level28_flipped = False
+        if self._app.get_js_property('currentLevel') != 28:
+            level28_changed = True
+        else:
+            # Current level hasn't changed, so either the player
+            # completed the level or died:
+            level28_success = self._app.get_js_property('success')
+        if self._app.get_js_property('flipped'):
+            level28_flipped = True
+        return self.step_level28, level28_changed, level28_success, level28_flipped
 
     @Quest.with_app_launched(Sidetrack.APP_NAME)
     def step_lastlevel(self):
