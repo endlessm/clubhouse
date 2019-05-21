@@ -44,7 +44,8 @@ class MazePt4(Quest):
             self.dismiss_message()
             message_id = self._get_unconfirmed_message(['LEVELS2'])
         elif current_level == 38:
-            message_id = self._get_unconfirmed_message(['LEVELS3'])
+            message_id = self._get_unconfirmed_message(['LEVELS3', 'LEVELS3_FABER',
+                                                        'LEVELS3_ADA', 'LEVELS3_SANIEL'])
         elif current_level == 39:
             message_id = self._get_unconfirmed_message(['LEVELS4', 'LEVELS4_SANIEL'])
         elif current_level == 40:
