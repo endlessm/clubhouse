@@ -16,7 +16,7 @@ item.stealth_device,stealth-device.png,,Stealth Device,Use this with care!
 item.fob.1,item-fob1.png,,Fob #1,Apply it to the trap
 item.fob.2,item-fob2.png,,Fob #2,Apply it to the trap
 item.fob.3,item-fob3.png,,Fob #3,Apply it to the trap
-item.key.levi_hackdex.1,leviathan-key-level-1-blue.png,leviathan-key-level-1-orange.png,Encryption Key,From Estelle
-item.key.sidetrack.1,sidetrack-key-level-1-blue.png,sidetrack-key-level-1-orange.png,Instructions Key,"if(haskey), sidetrack.code = true"
-item.key.sidetrack.2,sidetrack-key-level-2-blue.png,sidetrack-key-level-2-orange.png,Units Key,Sidetrack.unlockunits()
-item.key.sidetrack.3,sidetrack-key-level-3-blue.png,sidetrack-key-level-3-orange.png,Level Editor Key,Sidetrack.unlockall()
+item.key.levi_hackdex.1,leviathan-key-level-1-blue.png,leviathan-key-level-1-orange.png,Decryption Key,Decipher text!
+item.key.sidetrack.1,sidetrack-key-level-1-blue.png,sidetrack-key-level-1-orange.png,Sidetrack.unlockCode(),Write your own Instructions! 
+item.key.sidetrack.2,sidetrack-key-level-2-blue.png,sidetrack-key-level-2-orange.png,Sidetrack.unlockUnits(),Modify Obstacles! 
+item.key.sidetrack.3,sidetrack-key-level-3-blue.png,sidetrack-key-level-3-orange.png,Sidetrack.unlockAll(),Redesign Levels! 
