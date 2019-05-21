@@ -2,7 +2,7 @@ MAZEPT1_QUESTION,"Whoa! The trap jumped to the desktop, as a new app called Side
 MAZEPT1_QUEST_ACCEPT,Ready!,,,,quests/horse-tale
 MAZEPT1_LAUNCH_ADA,Go ahead and Launch *Sidetrack*.,ada,,,quests/horse-tale
 MAZEPT1_LAUNCH_ADA_HINT1,Click the *Sidetrack* icon on the desktop.,,,,quests/horse-tale
-MAZEPT1_RILEYHELLO,"Oh, hheeeyyy, wassup? But, srsly, YOU GUYS!!! So glad to see you! Whew. That last part was pretty rough! 
+MAZEPT1_RILEYHELLO,"Oh, hheeeyyy, wassup? But, srsly, YOU GUYS!!! So glad to see you! That last part was pretty rough! 
 
 Suddenly I'm just here in this maze 24/7. My life rn? Running. Looking for me? Catch me here, running! 
 
@@ -16,6 +16,7 @@ MAZEPT1_MANUAL1_HINT1,"I always run one space to the right, but I can also move 
 MAZEPT1_MANUAL1_HINT2,Watch out for those *Walls*!,riley,,,
 MAZEPT1_DIED_RESTART,Ooopff. Let's try to avoid these *Walls*!,riley,,,
 MAZEPT1_MANUAL2,"Hey, that's not fair! Another level? I thought I just had to get the exit! But okay, let's do this. ",riley,,,
+MAZEPT1_MANUAL3,This maze should have only ONE level!,saniel,talk_anger,,
 MAZEPT1_MANUAL4,"*Pits*? This is preposterous!  Riley will have to use her JUMP *Instruction*  to cross the *Pits*!
 
 There's a trick to the JUMP though! JUMP only works if the *Pit* is _directly_ in front of you. ",saniel,talk_anger,,
@@ -80,13 +81,13 @@ Hmmm, I wonder what happens when I use DOWN when I'm already at the bottom.
 
 Hope I don't fall off. Maybe I'll sort of slide along the bottom edge? Only one way to find out!",riley,,,
 MAZEPT1_DRAMA_ADA1,"Hey Faber, wasn't that so intense when Saniel told us about making the trap! ",ada,,,
-MAZEPT1_DRAMA_FABER1,"Yeah, I always thought there was something he wasn't telling us. 
+MAZEPT1_DRAMA_FABER1,"Yeah, Saniel has always been a bit mysterious. 
 
-But can't you totally picture him back in the day stopping rogue AIs in their tracks?",faber,,,
+Can't you totally picture him back in the day stopping rogue AIs in their tracks?",faber,,,
 MAZEPT1_DRAMA_ADA2,Don't you think it's strange that he's just telling us this now? Riley's been in this trap for so long!,ada,,,
 MAZEPT1_DRAMA_FABER2,"Yeah, why couldn't he just, like, open it? That's totally not like Dr. Rowe. He always has a solution. ",faber,,,
 MAZEPT1_DRAMA_ADA3,"Exactly. I have a hypothesis I've been investigating. The more I uncover, the more I think I'm onto something.  ",ada,,,
-MAZEPT1_DRAMA_RILEY,"Um, hello? Guys? Can you maybe discuss hypothetical matters later? I'm _actually_ in this maze right now. ",,,,
+MAZEPT1_DRAMA_RILEY,"Um, hello? Guys? Can you maybe discuss hypothetical matters later? I'm _actually_ in this maze right now. ",riley,,,
 MAZEPT1_AUTO5,What’s _that_  *Instruction*? The one at position 3. Something's totally _wrong_ with it!,riley,,,
 MAZEPT1_AUTO5_ADA,Try pressing PLAY just to see if you can get through anyway.,ada,,,
 MAZEPT1_AUTO5_ADA_HINT1,There's no way forward unless we at least try! Press PLAY.,ada,,,

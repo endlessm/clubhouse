@@ -7,15 +7,15 @@ These files hold some of my research on a mysterious historical hacker known as 
 
 *Document 1103* covers Leviathan's takedown of an especially wily AI. But to read it, we need to decrypt it!",ada,,,
 LEVIHACKDEX_OPENINTRO1,Maybe Estelle can help us with this! She's a total genius with ciphers.,faber,,,
-LEVIHACKDEX_OPENINTRO2,Did I hear that someone is having trouble with a cipher?,estelle,,,
+LEVIHACKDEX_OPENINTRO2,Did I hear that someone is having trouble with a cipher?,estelle,,,quests/teaching
 LEVIHACKDEX_OPENINTRO3,"Estelle! That was fast even for you, thanks for responding so quickly. 
 
 We'd like your eyes on this puzzle - Something tells me you'll be able to help.",faber,,,
-LEVIHACKDEX_OPENINTRO4,"Let's see. Mmm hmm. I think I can move this along, I've done a bit of this in my day.",estelle,,,quests/teaching
-LEVIHACKDEX_PREFLIP,Let's find out what the trouble is. We need to get in there and adjust some settings in the Hacking panel. ,estelle,,,quests/teaching
+LEVIHACKDEX_OPENINTRO4,"Let's see. Mmm hmm. I think I can move this along, I've done a bit of this in my day.",estelle,,,
+LEVIHACKDEX_PREFLIP,Let's find out what the trouble is. We need to get in there and adjust some settings in the Hacking panel. ,estelle,,,
 LEVIHACKDEX_GIVEKEY,Try this key and see if it gets us where we need to go - Flip the App and see if it's locked!,estelle,,,
-LEVIHACKDEX_UNLOCK,"Ah, beautiful. ",estelle,,,quests/teaching
-LEVIHACKDEX_DECRYPT,"So, here we are. See that number labeled *Cipher*, in the *Effects panel*? Try changing that and see what happens.",estelle,,,quests/teaching
+LEVIHACKDEX_UNLOCK,"Ah, beautiful. ",estelle,,,
+LEVIHACKDEX_DECRYPT,"So, here we are. See that number labeled *Cipher*, in the *Effects panel*? Try changing that and see what happens.",estelle,,,
 LEVIHACKDEX_DECRYPT_HINT1,Try any number. Even the wrong guess will give us more information about what we're working with. ,estelle,,,
 LEVIHACKDEX_DECRYPT_HINT2,"Once you try a number, Flip back to see if anything changed.",estelle,,,
 LEVIHACKDEX_DECRYPT2,"Aha! Look at the letters in the files - They've changed. They have also changed in *Cipher Output*, as well. Interesting!
@@ -28,19 +28,19 @@ LEVIHACKDEX_DECRYPT3,"This looks like it might be a long, difficult process. Any
 LEVIHACKDEX_DECRYPT3_HINT1,"Ciphers like this one only change letters, not where letters appear in words. I think I see some patterns in the data...",estelle,,,
 LEVIHACKDEX_DECRYPT3_HINT2,"*OCZ* appears many times. If we compare *OCZ* to a common 3-letter word like *THE*, we might find the solution.",estelle,,,
 LEVIHACKDEX_DECRYPT3_HINT3,Putting *OCZ* into *Cipher Input* and then counting letters until you get *THE* in *Cipher Output* could decode the cipher.,estelle,,,
-LEVIHACKDEX_DECRYPT_SUCCESS,Excellent! That did the trick! Look at all these files. ,estelle,,,quests/estelle-theme
-LEVIHACKDEX_BACKGROUND,"Hey, check out that sketch at the bottom right. I was wondering if that might be useful. ",ada,,,quests/estelle-theme
+LEVIHACKDEX_DECRYPT_SUCCESS,Excellent! That did the trick! Look at all these files. ,estelle,,,
+LEVIHACKDEX_BACKGROUND,"Hey, check out that sketch at the bottom right. I was wondering if that might be useful. ",ada,,,
 LEVIHACKDEX_PUSHINSTRUCTION,"Ah, yes. What we’re looking at is a *Sidetrack Instruction* called `push`.
 
-Now that's a signature Leviathan move - Removing an obstacle.",estelle,,,quests/estelle-theme
-LEVIHACKDEX_PUSHINSTRUCTION2,"Tiiiight! I knew you'd be able to help us with this, Estelle! Thank you!",faber,,,quests/estelle-theme
-LEVIHACKDEX_PUSHINSTRUCTION3,"Amazing. Thank you, Estelle. What does this new instruction do?",ada,,,quests/estelle-theme
+Now that's a signature Leviathan move - Removing an obstacle.",estelle,,,
+LEVIHACKDEX_PUSHINSTRUCTION2,"Tiiiight! I knew you'd be able to help us with this, Estelle! Thank you!",faber,,,
+LEVIHACKDEX_PUSHINSTRUCTION3,"Amazing. Thank you, Estelle. What does this new instruction do?",ada,,,
 LEVIHACKDEX_PUSHINSTRUCTION4,"It does just what it says. You can use it to move a *Wall* that's blocking you. 
 
-Riley can use it in *Sidetrack* to push *Walls* out of her way. It’s going to be essential in getting her past obstacles.",estelle,,,quests/estelle-theme
-LEVIHACKDEX_PUSHINSTRUCTION5,"Well, this is getting very interesting! Why was there a note about Saniel's AI trap in Leviathan's code sketchbooks?",ada,,,quests/estelle-theme
-LEVIHACKDEX_PUSHINSTRUCTION6,"Ada, I think that's something you're going to have to ask Saniel about! ",estelle,,,quests/estelle-theme
+Riley can use it in *Sidetrack* to push *Walls* out of her way. It’s going to be essential in getting her past obstacles.",estelle,,,
+LEVIHACKDEX_PUSHINSTRUCTION5,"Well, this is getting very interesting! Why was there a note about Saniel's AI trap in Leviathan's code sketchbooks?",ada,,,
+LEVIHACKDEX_PUSHINSTRUCTION6,"Ada, I think that's something you're going to have to ask Saniel about! ",estelle,,,
 LEVIHACKDEX_SUCCESS,"I am totally going to do that. Right now, we've got to get back to Riley!
 
-Come find me in the Clubhouse when you're ready!",ada,,,quests/estelle-theme
+Come find me in the Clubhouse when you're ready!",ada,,,
 LEVIHACKDEX_ABORT,"Okay, come back when you're ready! Riley still needs our help to get through the maze, so come back soon!",ada,,,
