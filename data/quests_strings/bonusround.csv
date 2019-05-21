@@ -1,12 +1,12 @@
-BONUSROUND_QUESTION,Sidetrack was actually pretty fun. Want to go back there with me?,riley,,,
+BONUSROUND_QUESTION,Sidetrack was _actually_ pretty fun. Want to go back there with me?,riley,,,
 BONUSROUND_QUEST_ACCEPT,Sure!,riley,,,
-BONUSROUND_LAUNCH,A.maze.ing! Launch the *Sidetrack* app.,,,,
+BONUSROUND_LAUNCH,"A.maze.ing! Sorry, couldn't resist */\‿/\*  Okay, so launch the *Sidetrack* app.",,,,
 BONUSROUND_LAUNCH_HINT1,Click the *Sidetrack* icon. ,,,,
-BONUSROUND_LEVELS1,"Soooo relieved to be out of that maze! It was beyond scary at times in there. I kind of want to go back in there! 
+BONUSROUND_LEVELS1,"Yes, yes, it was beyond scary at times in here. But it was also cool to have to strategize like that! 
 
-Don't judge me ;)  I enjoy a good challenge! Guessing you do too. Also I wouldn't have met that AI thing. */ᐠ｡ꞈ｡ᐟ\*
+So I'm kind of... glad to be back? Don't judge me ;)  I enjoy a good challenge! Guessing you do too?
 
-I noticed some things I want to investigate. Like, I saw evidence of another key I can definitely use. 
+Also I wouldn't have met that AI thing. */ᐠ｡ꞈ｡ᐟ\* And I noticed a key I want to investigate.
 
 If we get this key, we'll be able to hack the maze and make our own levels. Let's check it out!",,,,
 BONUSROUND_LEVELS1_B,"Uh oh, first we have more levels to beat! And these are extra tricky! 
@@ -17,7 +17,7 @@ BONUSROUND_LEVELS1_B_HINT2,"Sometimes it's good to try out different solutions a
 
 Then you go back in, figure out what's wrong, tweak some things, then try again. It's all part of it!",,,,
 BONUSROUND_LEVELS2,Sweet! You nailed it! We should just be a few levels from finding that key! Fingers crossed. ,,hurray,,
-BONUSROUND_LEVELS2_B,"Now we have to beat THIS level, and the *Units* panel is locked!",,,,
+BONUSROUND_LEVELS2_B,"Now we have to beat _this_ level, and the *Units* panel is locked!",,,,
 BONUSROUND_LEVELS2_B_HINT1,I'm worried about all those *Robots* in column 7. There's got to be a way to get rid of some of them.,,,,
 BONUSROUND_LEVELS2_B_HINT2,We can still edit *Instructions*. We don't have to use the ones they gave us. Let's just try a different order first.,,,,
 BONUSROUND_LEVELS3,"Nice, this level has no restrictions! We can edit *Units* and *Instructions* all we want.",,,,

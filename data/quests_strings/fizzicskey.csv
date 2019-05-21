@@ -1,27 +1,21 @@
 FIZZICSKEY_QUESTION,Are you ready to go recover that key from the most ancient levels in Fizzics?,saniel,,,
 FIZZICSKEY_QUEST_ACCEPT,Always ready for Fizzics!,,,,
 FIZZICSKEY_LAUNCH,Launch Fizzics!,saniel,,,
-FIZZICSKEY_LEVELS1,"Okay, here's the situation. I stashed the key back in the dark ages when Fizzics was brand new.
+FIZZICSKEY_LEVELS1,"Okay, so when I stashed the key in these early levels, Fizzics didn't even have a hacking panel.
 
-It didn't even have the hacking panel back then. And Fizzics isn't backward compatible.
+So you're not going to be able to use some of the solutions you've used before. You'll have to improvise. 
 
-Basically what I'm saying is that we can't hack directly to solve these levels. 
-
-We have to do it a clunkier way. Let's get started. It's easier to demonstrate than explain.",saniel,,,
+it's fun to try out some clunkier solutions sometimes. Let's get started. It's easier to demonstrate than explain.",saniel,,,
 FIZZICSKEY_LEVELS1_B,"Right now this level is in suspended animation. It's been inactive for so long. 
 
 Okay, so just let me make a few adjustments over here to get everything moving again. 
 
-Are you ready?",saniel,,,
+Ready?",saniel,,,
 FIZZICSKEY_LEVELS1_C,"Okay! So that didn't work. We need get the orange ball to touch the goal, 
 
-This configuration doesn't accomplish that. See how there's no *Fling* tool and no *Drag* tool?
+See how there's no *Fling* tool and no *Drag* tool? All you have is the *Add* tool. 
 
-Hardly any of the tools worked back when this level was made. All you have is the *Add* tool. 
-
-And you can only *Add* boulders! It's that ancient! 
-
-",saniel,,,
+And you can only *Add* boulders! That's how ancient it is!",saniel,,,
 FIZZICSKEY_LEVELS1_READY,"Use the *Add* tool to *Add* boulders until you think the level is in a good configuration. 
 
 Tell me when you're ready.",saniel,,,
