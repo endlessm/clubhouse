@@ -71,6 +71,8 @@ class RileysLevels(Quest):
     def step_ball_died(self, message):
         self.show_hints_message(message, give_once=True)
         self.wait_for_app_js_props_changed(self._app, ['ballDied'])
+        # Give time for the currentLevel to change if it's the case.
+        self.pause(.250)
         return self.step_check_previous_levels
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
