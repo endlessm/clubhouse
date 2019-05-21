@@ -69,6 +69,8 @@ class FizzicsKey(Quest):
     def __init__(self):
         super().__init__('FizzicsKey', 'saniel')
         self._app = Fizzics()
+        self._intro_cutscene_played = False
+        self._toolbox_topic = None
 
     # # # # # # # # # # #
     # # UTILITY FXNS  # #
@@ -162,31 +164,75 @@ class FizzicsKey(Quest):
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
-        toolbox_topic = ToolBoxTopic(self._app.APP_NAME, 'main')
-        toolbox_topic.set_sensitive(False)
-        return self.step_ingame
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_ingame(self):
-        # level 17, 16 internally
-        # this is narrative, don't let the player win early!
-        self.setup_level_and_tools(self.FIRST_LEVEL, create_disabled=True)
+        self._toolbox_topic = ToolBoxTopic(self._app.APP_NAME, 'main')
+        self._intro_cutscene_played = False
         return self.step_level1_pre
-
-    @Quest.with_app_launched(Fizzics.APP_NAME)
-    def step_level1_pre(self):
-        self.wait_confirm('LEVELS1')
-        self.wait_confirm('LEVELS1_B')
-        self._app.enable_physics_for_ball_type([
-            self._app.BallType.PLAYER,
-        ])
-        self.pause(7)
-        return self.step_level_pre, self.FIRST_LEVEL, 'LEVELS1_C'
 
     def _get_strings_level(self, level_number):
         # This is the string corresponding to the level as used by
         # messages.
         return int(level_number) - 16
+
+    def _wait_for_action_or_level_change(self, action, timeout=None):
+        current_level = self._app.get_current_level()
+
+        actions = [
+            action,
+            self.connect_app_js_props_changes(self._app, ['currentLevel', 'flipped']),
+        ]
+
+        self.wait_for_one(actions, timeout)
+
+        flipped = self._app.get_js_property('flipped', False)
+        if flipped:
+            return self.step_flipped, None
+
+        level = self._app.get_current_level()
+        if level != current_level:
+            return self.step_decide_level, {'level_number': level}
+
+        return None, None
+
+    @Quest.with_app_launched(Fizzics.APP_NAME)
+    def step_flipped(self, options=None):
+        self._toolbox_topic.set_sensitive(False)
+        self.connect_app_js_props_changes(self._app, ['flipped']).wait()
+        level = self._app.get_current_level()
+        return self.step_decide_level, {'level_number': level}
+
+    @Quest.with_app_launched(Fizzics.APP_NAME)
+    def step_decide_level(self, options):
+        level_number = options['level_number']
+        if self.FIRST_LEVEL == level_number and not self._intro_cutscene_played:
+            return self.step_level1_pre
+
+        if self.FIRST_LEVEL <= level_number <= self.LAST_LEVEL:
+            message_id = 'LEVELS1_C' if level_number == self.FIRST_LEVEL else None
+            return self.step_level_pre, level_number, message_id
+
+        # The player went to a level outside of the range this quest
+        # handles, so begin again:
+        if self._intro_cutscene_played:
+            return self.step_level_pre, self.FIRST_LEVEL, 'LEVELS1_C'
+        return self.step_begin
+
+    @Quest.with_app_launched(Fizzics.APP_NAME)
+    def step_level1_pre(self):
+        # this is narrative, don't let the player win early!
+        self.setup_level_and_tools(self.FIRST_LEVEL, create_disabled=True)
+
+        for message_id in ['LEVELS1', 'LEVELS1_B']:
+            action = self.show_confirm_message(message_id)
+            next_step, options = self._wait_for_action_or_level_change(action)
+            if next_step is not None:
+                return next_step, options
+
+        self._app.enable_physics_for_ball_type([
+            self._app.BallType.PLAYER,
+        ])
+        self.pause(7)
+        self._intro_cutscene_played = True
+        return self.step_level_pre, self.FIRST_LEVEL, 'LEVELS1_C'
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level_pre(self, level_number, message_id=None):
@@ -195,36 +241,61 @@ class FizzicsKey(Quest):
             message_id = 'LEVELS{}'.format(strings_level)
 
         self.setup_level_and_tools(level_number)
-        self.wait_confirm(message_id)
+
+        action = self.show_confirm_message(message_id)
+        next_step, options = self._wait_for_action_or_level_change(action)
+        if next_step is not None:
+            return next_step, options
+
         return self.step_level, level_number
 
     @Quest.with_app_launched(Fizzics.APP_NAME)
     def step_level(self, level_number):
         strings_level = self._get_strings_level(level_number)
-        self.show_confirm_message('LEVELS{}_READY'.format(strings_level),
-                                  confirm_label='Ready!').wait()
+        action_ready = self.show_confirm_message('LEVELS{}_READY'.format(strings_level),
+                                                 confirm_label='Ready!')
+        next_step, options = self._wait_for_action_or_level_change(action_ready)
+        if next_step is not None:
+            return next_step, options
 
         for description, option_true, option_false, callback_name in self.QUESTIONS[level_number]:
             callback = getattr(self, callback_name)
             choice_true = (option_true, callback, True)
             choice_false = (option_false, callback, False)
-            self.show_choices_message(description, choice_true, choice_false).wait()
+            action_choice = self.show_choices_message(description, choice_true, choice_false)
+            next_step, options = self._wait_for_action_or_level_change(action_choice)
+            if next_step is not None:
+                return next_step, options
 
-        self.wait_confirm('LEVELS{}_GO'.format(strings_level))
+        action_go = self.show_confirm_message('LEVELS{}_GO'.format(strings_level))
+        next_step, options = self._wait_for_action_or_level_change(action_go)
+        if next_step is not None:
+            return next_step, options
 
         self._app.enable_physics_for_ball_type(self.BALLS_TO_UNFREEZE[level_number])
 
-        self.wait_for_app_js_props_changed(self._app, ['levelSuccess', 'ballDied'], timeout=15)
+        action_play = self.connect_app_js_props_changes(self._app, ['levelSuccess', 'ballDied'])
+        next_step, options = self._wait_for_action_or_level_change(action_play, timeout=15)
+        if next_step is not None:
+            return next_step, options
+
+        # Has failed?
         if not self._app.get_js_property('levelSuccess'):
-            self.setup_level_and_tools(level_number)
-            self.wait_confirm('LEVELS{}_FAIL'.format(strings_level))
-            return self.step_level, level_number
-        elif level_number == self.LAST_LEVEL:
+            message_id = 'LEVELS{}_FAIL'.format(strings_level)
+            return self.step_level_pre, level_number, message_id
+
+        # Has beated the final level?
+        if level_number == self.LAST_LEVEL:
             return self.step_success
-        else:
-            self.pause(0.2)
-            self.wait_confirm('LEVELS{}_FINISH'.format(strings_level))
-            return self.step_level_pre, level_number + 1
+
+        # Must have beated a previous level then:
+        self.pause(0.2)
+        action_finish = self.show_confirm_message('LEVELS{}_FINISH'.format(strings_level))
+        next_step, options = self._wait_for_action_or_level_change(action_finish)
+        if next_step is not None:
+            return next_step, options
+
+        return self.step_level_pre, level_number + 1
 
     def step_success(self):
         self.pause(0.2)
