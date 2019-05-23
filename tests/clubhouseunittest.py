@@ -7,7 +7,6 @@ from eosclubhouse.utils import QuestStringCatalog
 from gi.repository import Gio, GObject
 from unittest import mock
 
-
 class _GSSMockProxy(GObject.GObject):
 
     __state__ = {}
