@@ -50,7 +50,7 @@ class LightspeedKey(Quest):
             message_id = self.all_messages.pop()
             print(message_id)
             self.show_hints_message(message_id)
-            self.wait_confirm('ABORT')
+            self.pause(15)
             return self.step_test
         except IndexError:
             return self.step_success
