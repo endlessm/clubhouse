@@ -52,15 +52,20 @@ and install it in the user installation base, you can do:
 
 ### Coding Style
 
-The `run-lint` script can be used to verify the codebase's coding style.
-Before sending a PR on Github, please verify the coding style with this tool.
-In the future we will be running it as part of the Continuous Integration for
-PRs.
+The `run-lint` script can be used to verify the codebase's coding style. The
+lint check is run by the local build script mentioned above, so the build
+should fail if there are lint issues. It also means that the lint is run on
+any PR on Github.
 
-Since it's easy to forget to run it, there's also a convenience script to set
-up a git commit hook that runs the mentioned lint script: `setup-git-hooks`.
-If `flake8` (the lint tool that `run-lint` uses) is not in installed, it will
-use Python's `virtual-env` to install it locally.
+There's also a convenience script to set up a git commit hook that runs the
+mentioned lint script: `setup-git-hooks`. It will use Python's `virtual-env`
+to install the lint module locally with `pip` which also ensures that all
+developers run the same version of the lint module.
+
+**Pro tip:** If you work frequently in the Clubhouse, it may be time consuming
+to have the lint check running on every build, thus, in order to avoid that, the
+lint check is actually turned off by the `build-local-flatpak.sh` script if the
+git pre-commit hook is set up.
 
 ## Quest Dialog Information
 
