@@ -5,9 +5,9 @@ LIGHTSPEEDKEY_LAUNCH_HINT1,Click on the *Lightspeed* icon on the desktop.       
 LIGHTSPEEDKEY_LEVELSINTRO,"The next three levels are OLD ones, so the challenges are weird! But the key we need is at the end.
 
 Aaaand, some of the *Topics* aren't available! When you do see a *Topic*, jump on your chance to hack the level! ",,,,
-LIGHTSPEEDKEY_LEVELS1,"I recommend you try each level out first so you can see what challenge it poses.
+LIGHTSPEEDKEY_LEVELS1,"A good strategy is just to try out each level first so you can see the nature of the challenge it poses.
 
-Then when you flip to the *Toolbox*, I'll be standing by to help. Maybe we can change these Squids!",,,,
+Then when you flip to the *Toolbox*, I'll be standing by to help. Maybe we can improve this Squid situation!",,,,
 LIGHTSPEEDKEY_LEVELS1_HINT1,Play this level and see what approach it requires. Then click the *Flip* button and get in there!,,,,
 LIGHTSPEEDKEY_LEVELS2,"Good work! One level down, two to go! See what's up with this level. Then flip to hack.",,hurray,,
 LIGHTSPEEDKEY_LEVELS2_HINT1,"Wow, the astronauts are tiny and they zoom super fast! Maybe a Power-Up can attract them?",,,,
@@ -25,20 +25,20 @@ Let's see, what kind of changes can you make here? ",,,,
 LIGHTSPEEDKEY_PANEL_SPAWN_HINT1,"See where it says `return` and then an enemy type like `asteroid`? That's the type of enemy that gets spawned.
 
 So you could change the word after `return` to change which enemy type appears.",,,,
-LIGHTSPEEDKEY_PANEL_SPAWN_HINT2,"Or sometimes you see an `if` statement, which checks to see if something is true or not.
+LIGHTSPEEDKEY_PANEL_SPAWN_HINT2,"Or sometimes, you'll see an `if` statement, which checks to see if something's true or not.
 
-For example `if (r === 2) return 'spinner';` tests to see if r equals 2, and if it does that's true so it `return`s spinner. 
+For example `if (r === 2) return 'spinner';` tests to see if r equals 2, and if it does, that's true, so it `return`s spinner. 
 
-The part that says `(r === 2)` is called the condition. You could change it, like `if (r === ` some other number maybe.
+The part that says `(r === 2)` is called the _condition_. You could change it, like `if (r ===` some other number maybe.
 
 Or you can just change it to say `if (true)` or `if (false)` which will automatically pass or fail the condition test.",,,,
-LIGHTSPEEDKEY_PANEL_ASTEROID,The code in these *Topics* creates behaviors of an enemy type. This *Topic* works for Asteroids.,,,,
+LIGHTSPEEDKEY_PANEL_ASTEROID,The code in these *Topics* changes the behaviors of an enemy type. This *Topic* works for Asteroids.,,,,
 LIGHTSPEEDKEY_PANEL_ASTEROID_HINT1,"Do you see where it says `enemy.position.y`? That tells the Asteroid where to be on the screen.
 
 If `enemy.position.y` is 0, that's the bottom of the screen. Higher numbers are towards the top.
 
 This code gets called every instant to tell the Asteroid what new screen position it should have.",,,,
-LIGHTSPEEDKEY_PANEL_SPINNER,The code in these *Topics* creates behaviors of an enemy type. This *Topic* works for Spinners.,,,,
+LIGHTSPEEDKEY_PANEL_SPINNER,The code in these *Topics*  changes the behaviors of an enemy type. This *Topic* works for Spinners.,,,,
 LIGHTSPEEDKEY_PANEL_SPINNER_HINT1,"Do you see where it says `enemy.position.y`? That tells the Spinner where to be on the screen.
 
 If `enemy.position.y` is 0, that's the bottom of the screen. Higher numbers are towards the top.
@@ -62,23 +62,23 @@ LIGHTSPEEDKEY_PANEL_SQUID_HINT3,"So you can tell every Squid where to be on the 
 They would move upwards with `enemy.position.y = enemy.position.y + 5;` or a higher number than 5.
 
 Or you could just set their position to a fixed number with NO changes like `enemy.position.y = 500;`",,,,
-LIGHTSPEEDKEY_PANEL_BEAM,The code in these *Topics* creates behaviors of an enemy type. This *Topic* works for Beams.,,,,
+LIGHTSPEEDKEY_PANEL_BEAM,The code in these *Topics*  changes the behaviors of an enemy type. This *Topic* works for Beams.,,,,
 LIGHTSPEEDKEY_PANEL_BEAM_HINT1,"Do you see where it says `enemy.position.y`? That tells the Beam where to be on the screen.
 
-If `enemy.position.y` is 0, that's the bottom of the screen. Higher numbers are towards the top.
+If `enemy.position.y` is 0, that means it's at the bottom of the screen. Higher numbers are towards the top.
 
 This code gets called every instant to tell the Beam what new screen position it should have.",,,,
 LIGHTSPEEDKEY_PANEL_POWERUPS,"The code in this *Topic* changes what special powers you get when you collide with a Power-Up.
 
-Power-Ups make it easier to pick up astronauts, or they can blow up enemies. Stuff like that!",,,,
+Power-Ups make it easier to pick up astronauts, or they can blow up enemies. Useful stuff like that!",,,,
 LIGHTSPEEDKEY_PANEL_POWERUPS_HINT1,"Look for `if` statements, which check to see if something is either true or false.
 
-For example `if (powerUpType === 'blowup')` tests to see if powerUpType equals blowup. It can be true or false.
+For example `if (powerUpType === 'blowup')` tests to see if `powerUpType` equals blowup. It can be true or false.
 
 `(powerUpType === 'blowup')` is called a condition. The code after it only happens if the condition is true.
 
 For example, `if (powerUpType === 'blowup') blowUpEnemies();` means if the condition is true, then `blowUpEnemies();`",,,,
-LIGHTSPEEDKEY_PANEL_POWERUPS_HINT2,"One thing you could do is change which effect happens for each possible value of powerUpType.
+LIGHTSPEEDKEY_PANEL_POWERUPS_HINT2,"One thing you could do is change which effect happens for each possible value of `powerUpType`.
 
 `ship.attractTimer = 5;` is the code which makes the ship attract astronauts from further away.
 
