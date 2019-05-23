@@ -2,3 +2,9 @@ option('session-bus-services-dir',
        description: 'the directory to install D-Bus services',
        type: 'string'
 )
+
+option('run-lint',
+       description: 'whether to run lint on every build',
+       type: 'boolean',
+       value: true
+)
