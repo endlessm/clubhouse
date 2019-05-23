@@ -65,7 +65,7 @@ class MazePt1(Quest):
                 # felix destroys the controls here
                 self._app.set_js_property('controlsCutscene', ('b', True))
                 self.pause(1)
-                self.wait_for_app_js_props_changed(self._app, ['controlsCutscene'])
+                self.wait_for_app_js_props_changed(self._app, ['controlsCutscene'], timeout=20)
                 self.cutscene_played = True
             message_id = self._get_unconfirmed_message([
                 'AUTO1_FELIX', 'AUTO1_FABER',
