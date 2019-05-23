@@ -29,6 +29,18 @@ sources = []
 
 subdir('data')
 
+if get_option('run-lint')
+    lint_tool = find_program(['./tools/run-lint', 'run-lint'], required: true)
+
+    message('Running Lint...')
+    lint_result = run_command(lint_tool, 'tests', 'eosclubhouse')
+    if lint_result.returncode() != 0
+        error('Lint Failed:\n' + lint_result.stderr().strip())
+    endif
+
+    message('Lint Succeeded!')
+endif
+
 subdir('eosclubhouse')
 
 install_data(

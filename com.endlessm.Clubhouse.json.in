@@ -40,8 +40,14 @@
         {
             "name": "clubhouse",
             "buildsystem": "meson",
+            "build-options": {
+              "build-args": [
+                  "--share=network"
+              ]
+            },
             "config-opts" : [
-                "-Dsession-bus-services-dir=/app/share/dbus-1/services"
+                "-Dsession-bus-services-dir=/app/share/dbus-1/services",
+                "-Drun-lint=true"
             ],
             "run-tests": true,
             "test-rule": "",

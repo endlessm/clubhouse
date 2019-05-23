@@ -10,13 +10,16 @@
 # Pre-commit hook
 
 source_dir="$(git rev-parse --show-toplevel)"
-precommit_hook_file="$source_dir/.git/hooks/pre-commit"
+precommit_hook_path="$source_dir/.git/hooks/pre-commit"
+precommit_hook_file="$source_dir/tools/pre-commit-hook.sh"
 
-source "$source_dir/tools/setup-lint"
-setup_lint || true
-echo "Installing git pre-commit hook"
+# Only set it up if we're running the script directly
+if [ "$0" = "$BASH_SOURCE" ]; then
+    source "$source_dir/tools/setup-lint"
+    setup_lint || true
+    echo "Installing git pre-commit hook"
 
-cp "$source_dir/tools/pre-commit.in" "$precommit_hook_file"
-chmod +x "$precommit_hook_file"
+    ln -s "$precommit_hook_file" "$precommit_hook_path"
+fi
 
 # End pre-commit hook

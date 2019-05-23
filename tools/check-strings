@@ -15,7 +15,7 @@ git diff --exit-code -- $check_files || ret=$?
 git checkout -- $check_files
 
 if [ ! -z "$ret" ] && [ $ret -ne 0 ]; then
-    message="The strings are not in sync. Please import them before commiting. Or to ignore this check, run: git commit --no-verify"
+    message="The strings are not in sync. Please import them before commiting. Or to ignore this check, run: SKIP_STRINGS_CHECK=true git commit"
     echo -e "\e[01;31m$message\e[0m"
 fi
 exit $ret

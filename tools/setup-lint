@@ -10,10 +10,20 @@
 # install or upgrade flake8 from Flatpak's GNOME Runtime
 
 source_dir="$(git rev-parse --show-toplevel)"
-virtualenv_dir="${source_dir}/.python-virtual-env"
+
+# append the Flatpak build id (FLATPAK_ID) to the name of the virtual env, to
+# ensure that it won't pick any existing local virtual env (which happens when
+# building locally) since it needs to be properly set up from within the sandbox.
+virtualenv_dir="${source_dir}/.python-virtual-env$FLATPAK_ID"
 
 runtime="org.gnome.Platform//3.30"
 flatpak_shell="flatpak run --filesystem=$source_dir --share=network --command=bash $runtime"
+
+# if this is being called while building flatpak, then we run the command directly, and do not
+# attempt to run another flatpak sandbox.
+if [ ! -z $FLATPAK_ID ]; then
+    flatpak_shell="bash"
+fi
 
 function run_in_python_venv {
     return $($flatpak_shell <<EOF
@@ -27,8 +37,8 @@ EOF
 }
 
 function setup_lint {
-    if [ ! -d $virtualenv_dir ]; then
-        echo "Setting up virtual env"
+    if [ ! -f $virtualenv_dir/bin/flake8 ]; then
+        echo "Setting up virtual env $virtualenv_dir"
         $flatpak_shell <<EOF
             python3 -mvenv "$virtualenv_dir"
 EOF
@@ -43,7 +53,7 @@ EOF
 }
 
 function upgrade_lint {
-    if [ -d $virtualenv_dir ]; then
+    if [ -f $virtualenv_dir/bin/flake8 ]; then
         echo "Upgrading pip"
 	run_in_python_venv pip install --upgrade pip
         echo "Upgrading flake8"

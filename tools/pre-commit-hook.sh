@@ -10,4 +10,6 @@
 source_dir="$(git rev-parse --show-toplevel)"
 
 $source_dir/tools/run-lint || exit
-$source_dir/tools/check-strings || exit
+if [ -z $SKIP_STRINGS_CHECK ]; then
+    $source_dir/tools/check-strings || exit
+fi
