@@ -45,10 +45,10 @@ class LightspeedKey(Quest):
         ]
         return self.step_test
 
-    @Quest.with_app_launched(LightSpeed.APP_NAME)
     def step_test(self):
         try:
             message_id = self.all_messages.pop()
+            print(message_id)
             self.show_hints_message(message_id)
             self.pause(3)
             return self.step_test
