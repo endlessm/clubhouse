@@ -9,7 +9,11 @@
 #
 
 set -e
+
 source_dir="$(git rev-parse --show-toplevel)"
+
+# Import the precommit_hook_* vars
+source "$source_dir/tools/setup-git-hooks"
 
 pushd "$source_dir"
 
@@ -19,9 +23,16 @@ pushd "$source_dir"
 GIT_CLONE_BRANCH=${GIT_CLONE_BRANCH:-'", "type": "dir'}
 REPO=${REPO:-repo}
 BRANCH=${BRANCH:-master}
+RUN_LINT="true"
+
+pre_commit_target=$(readlink "$precommit_hook_path") || true
+if [ "$pre_commit_target" = "$precommit_hook_file" ]; then
+    RUN_LINT="false"
+fi
 
 sed -e "s|@GIT_CLONE_BRANCH@|${GIT_CLONE_BRANCH}|g" \
     -e "s|@BRANCH@|${BRANCH}|g" \
+    -e "s|-Drun-lint=true|-Drun-lint=$RUN_LINT|g" \
   com.endlessm.Clubhouse.json.in > com.endlessm.Clubhouse.json
 
 # Add any extra options from the user to the flatpak-builder command (e.g. --install)
