@@ -118,6 +118,11 @@ class Registry:
         else:
             quest_name = name
 
+        # If we don't have a QuestSet name specified, then try to quickly get the
+        # quest directly by name.
+        if quest_set_name is None:
+            return class_.get_current_quests().get(quest_name)
+
         for quest_set in class_.get_quest_sets():
             if quest_set_name is not None and quest_set_name != quest_set.get_id():
                 continue
