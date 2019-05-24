@@ -1206,10 +1206,12 @@ class Quest(GObject.GObject):
     def get_last_bg_sound_event_id(self):
         return self._last_bg_sound_uuid
 
-    def give_item(self, item_name, notification_text=None, consume_after_use=False):
-        assert item_name in self.__items_on_completion__, \
-            ("The item {} is not being given as optional and it is not declared in the "
-             "quest's __items_on_completion__!".format(item_name))
+    def give_item(self, item_name, notification_text=None, consume_after_use=False,
+                  optional=False):
+        if not optional:
+            assert item_name in self.__items_on_completion__, \
+                ("The item {} is not being given as optional and it is not declared in the "
+                 "quest's __items_on_completion__!".format(item_name))
 
         if self.is_cancelled():
             logger.debug('Not giving item "%s" because the quest has been cancelled.', item_name)
