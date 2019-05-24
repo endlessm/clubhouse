@@ -4,6 +4,8 @@ from eosclubhouse.system import App, Sound
 
 class LeviHackdex(Quest):
 
+    __items_on_completion__ = {'item.key.levi_hackdex.1': {}}
+
     APP_NAME = 'com.endlessm.Hackdex_chapter_two'
     ROTATION = 'app.com_endlessm_Hackdex_chapter_two.encryption'
     TOOLBOX_PANEL = 'lock.com.endlessm.Hackdex_chapter_two.1'

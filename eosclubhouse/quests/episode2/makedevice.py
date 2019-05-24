@@ -8,6 +8,8 @@ class MakeDevice(Quest):
 
     STEALTH_PARTS = ['item.stealth.1', 'item.stealth.2', 'item.stealth.3', 'item.stealth.4']
 
+    __items_on_completion__ = {'item.stealth_device': {}}
+
     def __init__(self):
         super().__init__('MakeDevice', 'faber')
 

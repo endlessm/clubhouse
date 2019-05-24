@@ -5,6 +5,8 @@ from eosclubhouse.system import Sound
 
 class FizzicsIntro(Quest):
 
+    __items_on_completion__ = {'item.key.fizzics.1': {}}
+
     def __init__(self):
         super().__init__('Fizzics Intro', 'ada')
         self._app = Fizzics()

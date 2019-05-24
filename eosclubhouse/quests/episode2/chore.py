@@ -8,6 +8,8 @@ class Chore(Quest):
 
     APP_NAME = 'com.endlessm.OperatingSystemApp'
 
+    __items_on_completion__ = {'item.key.OperatingSystemApp.2': {}}
+
     def __init__(self):
         super().__init__('Chore', 'saniel')
         self._app = App(self.APP_NAME)

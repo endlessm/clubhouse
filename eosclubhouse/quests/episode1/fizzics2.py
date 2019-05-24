@@ -5,6 +5,8 @@ from eosclubhouse.system import Sound
 
 class Fizzics2(Quest):
 
+    __items_on_completion__ = {'item.key.hackdex1.1': {}}
+
     GAME_PRESET = 1000
 
     def __init__(self):

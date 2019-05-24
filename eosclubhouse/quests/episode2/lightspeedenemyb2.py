@@ -7,6 +7,8 @@ class LightSpeedEnemyB2(Quest):
 
     APP_NAME = 'com.endlessm.LightSpeed'
 
+    __items_on_completion__ = {'item.stealth.4': {'consume_after_use': True}}
+
     def __init__(self):
         super().__init__('LightSpeedEnemyB2', 'saniel')
         self._app = LightSpeed()

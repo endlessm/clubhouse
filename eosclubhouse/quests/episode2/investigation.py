@@ -8,6 +8,7 @@ class Investigation(Quest):
     LEVEL2_LOCK = 'lock.OperatingSystemApp.2'
 
     __available_after_completing_quests__ = ['Chore']
+    __items_on_completion__ = {'item.key.unknown_item': {}}
 
     def __init__(self):
         super().__init__('Investigation', 'riley')

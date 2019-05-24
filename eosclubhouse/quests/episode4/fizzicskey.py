@@ -6,6 +6,7 @@ from eosclubhouse.apps import Fizzics
 class FizzicsKey(Quest):
 
     __available_after_completing_quests__ = ['MazePt3']
+    __items_on_completion__ = {'item.key.sidetrack.2': {}}
     FIRST_LEVEL = 17
     LAST_LEVEL = FIRST_LEVEL + 5
 

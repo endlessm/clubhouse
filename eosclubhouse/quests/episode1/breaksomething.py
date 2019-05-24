@@ -11,6 +11,7 @@ class BreakSomething(Quest):
     CURSOR_HUGE_SIZE = 200
 
     __available_after_completing_quests__ = ['OSIntro']
+    __items_on_completion__ = {'item.key.OperatingSystemApp.1': {}}
 
     def __init__(self):
         super().__init__('Break Something', 'riley')

@@ -8,6 +8,7 @@ class MakerIntro(Quest):
     GAME_PRESET = 1001
 
     __available_after_completing_quests__ = ['Investigation']
+    __items_on_completion__ = {'item.stealth.1': {'consume_after_use': True}}
 
     def __init__(self):
         super().__init__('MakerIntro', 'faber')
