@@ -15,7 +15,7 @@ class TestRegistry(ClubhouseTestCase):
         def _compare_completion_quests(quest):
             return 1 if quest.__complete_episode__ else 0
 
-        quests = sorted(Registry.get_current_quests(), key=_compare_completion_quests)
+        quests = sorted(Registry.get_current_quests().values(), key=_compare_completion_quests)
 
         def _complete_quest(quest, complete=True):
             quest.complete = complete

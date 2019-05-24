@@ -21,11 +21,11 @@
 import asyncio
 import functools
 import glibcoro
-import itertools
 import os
 import pkgutil
 import sys
 
+from collections import OrderedDict
 from enum import Enum
 from eosclubhouse import config, logger
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
@@ -194,11 +194,15 @@ class Registry:
     @classmethod
     def get_current_quests(class_):
         quest_sets = class_.get_quest_sets()
-        return list(itertools.chain(*(quest_set.get_quests() for quest_set in quest_sets)))
+        quests_dict = OrderedDict()
+        for quest_set in quest_sets:
+            for quest in quest_set.get_quests():
+                quests_dict[quest.get_id()] = quest
+        return quests_dict
 
     @classmethod
     def get_current_episode_progress(class_):
-        all_quests = class_.get_current_quests()
+        all_quests = class_.get_current_quests().values()
         complete_quests = len(list(filter(lambda quest: quest.complete, all_quests)))
         return complete_quests / len(all_quests)
 
