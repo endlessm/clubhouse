@@ -559,6 +559,9 @@ class Quest(GObject.GObject):
     __available_after_completing_quests__ = []
     __complete_episode__ = False
     __advance_episode__ = False
+    # Should be in the form 'key': {...} , a dict of the key's content, or an empty dict for
+    # using the default key's content.
+    __items_on_completion__ = {}
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
     _DEFAULT_MOOD = 'talk'
@@ -1208,18 +1211,24 @@ class Quest(GObject.GObject):
             logger.debug('Not giving item "%s" because the quest has been cancelled.', item_name)
             return
 
-        current_state = self.gss.get(item_name)
-        if current_state is not None and current_state.get('used', False):
-            logger.warning('Attempt to give item %s failed, it was already given and used',
-                           item_name)
-            return
-
-        variant = GLib.Variant('a{sb}', {
-            'consume_after_use': consume_after_use,
-            'used': False
-        })
-        self.gss.set(item_name, variant)
+        self._set_item(item_name, {'consume_after_use': consume_after_use})
         self.emit('item-given', item_name, notification_text)
+
+    def _set_item(self, item_name, extra_info={}, skip_if_exists=False):
+        current_state = self.gss.get(item_name)
+        if current_state is not None:
+            if skip_if_exists:
+                return
+            if current_state.get('used', False):
+                logger.warning('Attempt to give item %s failed, it was already given and used',
+                               item_name)
+                return
+
+        info = {'consume_after_use': False,
+                'used': False}
+        info.update(extra_info)
+
+        self.gss.set(item_name, GLib.Variant('a{sb}', info))
 
     def is_panel_unlocked(self, lock_id):
         lock_state = self.gss.get(lock_id)
@@ -1309,6 +1318,10 @@ class Quest(GObject.GObject):
         key = self._get_conf_key()
         variant = GLib.Variant('a{sb}', {'complete': self.complete})
         self.gss.set_async(key, variant)
+
+        if self.complete:
+            for item_id, extra_info in self.__items_on_completion__.items():
+                self._set_item(item_id, extra_info, skip_if_exists=True)
 
     def set_conf(self, key, value):
         self.conf[key] = value
