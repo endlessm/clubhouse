@@ -48,6 +48,8 @@ class MazePt4(Quest):
         elif current_level == 39:
             message_id = self._get_unconfirmed_message(['LEVELS4', 'LEVELS4_SANIEL'])
         elif current_level == 40:
+            self._app.set_js_property('willPlayFelixEscapeAnimation', True)
+
             message_id = self._get_unconfirmed_message([
                 'LEVELS5', 'LEVELS5_RILEY', 'LEVELS5_SANIEL'])
         else:
@@ -55,6 +57,7 @@ class MazePt4(Quest):
 
         actions = [self.connect_app_js_props_changes(self._app, ['currentLevel',
                                                                  'success',
+                                                                 'willPlayFelixEscapeAnimation',
                                                                  'playing'])]
         if message_id is not None:
             actions.append(self.show_confirm_message(message_id))
@@ -74,8 +77,12 @@ class MazePt4(Quest):
             playing = self._app.get_js_property('playing')
 
         # Check if goal was reached:
-        if new_level == 40 and success and not playing:
-            return self.step_cutscene
+        if new_level == 40:
+            if current_level == new_level and success and playing \
+               and not self._app.get_js_property('willPlayFelixEscapeAnimation'):
+                return self.step_cutscene
+        else:
+            self._app.set_js_property('willPlayFelixEscapeAnimation', False)
 
         level_changed = False
         level_success = None
@@ -93,7 +100,6 @@ class MazePt4(Quest):
 
     @Quest.with_app_launched(Sidetrack.APP_NAME)
     def step_cutscene(self):
-        self._app.set_js_property('willPlayFelixEscapeAnimation', True)
         self._app.set_js_property('escapeCutscene', True)
         self.wait_for_app_js_props_changed(self._app, ['escapeCutscene'])
         return self.step_final
