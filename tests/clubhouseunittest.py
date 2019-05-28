@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from eosclubhouse.libquest import Registry
+from eosclubhouse.libquest import Registry, Quest
 from eosclubhouse.system import GameStateService
 from eosclubhouse.utils import QuestStringCatalog
 from gi.repository import Gio, GObject
@@ -95,3 +95,11 @@ def test_on_episodes(episodes=[]):
 
 def test_all_episodes(func):
     return test_on_episodes([])(func)
+
+
+def define_quest(quest_id, character_id, available_after=[]):
+    def constructor(self):
+        self.__available_after_completing_quests__ = available_after
+        Quest.__init__(self, quest_id, character_id)
+
+    return type(quest_id, (Quest,), {'__init__': constructor})
