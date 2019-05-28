@@ -120,3 +120,9 @@ def define_quest_set(quest_set_id, character_id, quest_id_deps_list=[]):
 
     return type(quest_set_id, (QuestSet,), {'__init__': constructor,
                                             'step_begin': step_begin})
+
+
+def setup_episode(quest_set_list, episode_name='tests-phony-episode'):
+    Registry._reset()
+    Registry._quest_sets = quest_set_list
+    Registry._loaded_episode = episode_name
