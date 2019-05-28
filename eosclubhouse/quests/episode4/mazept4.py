@@ -65,6 +65,14 @@ class MazePt4(Quest):
         success = self._app.get_js_property('success')
         playing = self._app.get_js_property('playing')
 
+        if not playing:
+            # 'playing' quickly changes into False and then True again
+            # switching levels, and remains in False in the modals
+            # "Game Over" or "Level Complete". So Wait a little bit to
+            # see if this is a false alarm:
+            self.wait_for_app_js_props_changed(self._app, ['playing'], timeout=0.5)
+            playing = self._app.get_js_property('playing')
+
         # Check if goal was reached:
         if new_level == 40 and success and not playing:
             return self.step_cutscene
