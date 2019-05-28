@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from eosclubhouse.libquest import Registry, Quest
+from eosclubhouse.libquest import Registry, Quest, QuestSet
 from eosclubhouse.system import GameStateService
 from eosclubhouse.utils import QuestStringCatalog
 from gi.repository import Gio, GObject
@@ -103,3 +103,20 @@ def define_quest(quest_id, character_id, available_after=[]):
         Quest.__init__(self, quest_id, character_id)
 
     return type(quest_id, (Quest,), {'__init__': constructor})
+
+
+def define_quest_set(quest_set_id, character_id, quest_id_deps_list=[]):
+    quests = []
+    for quest_id, dependencies in quest_id_deps_list:
+        quests.append(define_quest(quest_id, character_id, dependencies))
+
+    def constructor(self):
+        self.__character_id__ = character_id
+        self.__quests__ = quests
+        QuestSet.__init__(self)
+
+    def step_begin(self):
+        print('Nothing to see here!')
+
+    return type(quest_set_id, (QuestSet,), {'__init__': constructor,
+                                            'step_begin': step_begin})
