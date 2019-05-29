@@ -6,6 +6,8 @@ class LightSpeedIntro(Quest):
 
     APP_NAME = 'com.endlessm.LightSpeed'
 
+    __items_on_completion__ = {'item.key.lightspeed.1': {}}
+
     def __init__(self):
         super().__init__('LightSpeed Intro', 'ada')
         self._app = App(self.APP_NAME)

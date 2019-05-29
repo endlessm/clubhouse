@@ -7,6 +7,7 @@ from eosclubhouse.apps import Sidetrack
 class BonusRound(Quest):
 
     __available_after_completing_quests__ = ['MazePt4']
+    __items_on_completion__ = {'item.key.sidetrack.3': {}}
 
     def __init__(self):
         super().__init__('BonusRound', 'riley')

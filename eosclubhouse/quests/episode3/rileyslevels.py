@@ -6,6 +6,7 @@ from eosclubhouse.system import Sound
 class RileysLevels(Quest):
 
     __available_after_completing_quests__ = ['SetUp']
+    __items_on_completion__ = {'item.fob.1': {'consume_after_use': True}}
 
     FIRST_RILEY_LEVEL = 12
     SECOND_RILEY_LEVEL = FIRST_RILEY_LEVEL + 1

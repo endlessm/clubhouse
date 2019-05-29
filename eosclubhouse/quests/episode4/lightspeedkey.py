@@ -6,6 +6,7 @@ from eosclubhouse.apps import LightSpeed
 class LightspeedKey(Quest):
 
     __available_after_completing_quests__ = ['MazePt1']
+    __items_on_completion__ = {'item.key.sidetrack.1': {}}
 
     FIRST_LEVEL = 15
     LAST_LEVEL = 17

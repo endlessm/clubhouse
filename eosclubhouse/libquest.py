@@ -21,11 +21,11 @@
 import asyncio
 import functools
 import glibcoro
-import itertools
 import os
 import pkgutil
 import sys
 
+from collections import OrderedDict
 from enum import Enum
 from eosclubhouse import config, logger
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
@@ -118,6 +118,11 @@ class Registry:
         else:
             quest_name = name
 
+        # If we don't have a QuestSet name specified, then try to quickly get the
+        # quest directly by name.
+        if quest_set_name is None:
+            return class_.get_current_quests().get(quest_name)
+
         for quest_set in class_.get_quest_sets():
             if quest_set_name is not None and quest_set_name != quest_set.get_id():
                 continue
@@ -194,11 +199,15 @@ class Registry:
     @classmethod
     def get_current_quests(class_):
         quest_sets = class_.get_quest_sets()
-        return list(itertools.chain(*(quest_set.get_quests() for quest_set in quest_sets)))
+        quests_dict = OrderedDict()
+        for quest_set in quest_sets:
+            for quest in quest_set.get_quests():
+                quests_dict[quest.get_id()] = quest
+        return quests_dict
 
     @classmethod
     def get_current_episode_progress(class_):
-        all_quests = class_.get_current_quests()
+        all_quests = class_.get_current_quests().values()
         complete_quests = len(list(filter(lambda quest: quest.complete, all_quests)))
         return complete_quests / len(all_quests)
 
@@ -235,10 +244,10 @@ class Registry:
         }
 
     @classmethod
-    def set_current_episode(class_, episode_name):
+    def set_current_episode(class_, episode_name, force=False):
         if episode_name not in class_.get_available_episodes():
             raise KeyError
-        if episode_name == class_.get_current_episode()['name']:
+        if not force and episode_name == class_.get_current_episode()['name']:
             return
 
         episode_folder = class_._get_episode_folder(episode_name)
@@ -550,6 +559,9 @@ class Quest(GObject.GObject):
     __available_after_completing_quests__ = []
     __complete_episode__ = False
     __advance_episode__ = False
+    # Should be in the form 'key': {...} , a dict of the key's content, or an empty dict for
+    # using the default key's content.
+    __items_on_completion__ = {}
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
     _DEFAULT_MOOD = 'talk'
@@ -659,6 +671,37 @@ class Quest(GObject.GObject):
         if all(self.is_named_quest_complete(q)
                for q in self.__available_after_completing_quests__):
             self.available = True
+
+    def get_dependency_quests(self):
+        # We use an OrderedDict here to make sure we don't repeat the quests in the final
+        # list but we still keep the order.
+        quest_dependencies = OrderedDict()
+
+        def get_close_dependencies(quest):
+            quests_before = quest.quest_set.get_quests_before(quest.get_id())
+            quest_before = [quests_before[-1]] if quests_before else []
+            return [Registry.get_quest_by_name(quest_id) for quest_id
+                    in quest.__available_after_completing_quests__] + quest_before
+
+        # Get the dependencies for the quest, and their own dependencies too.
+        dependencies = get_close_dependencies(self)
+        while dependencies:
+            quest_dep = dependencies.pop()
+            # This avoids checking dependencies that have been processed already. This shouldn't
+            # be common but can happen and doesn't represent a circular dependency, like the B1
+            # which is a dependency of A2 but also of C1 (and it could be processed twice if we're
+            # going through the full dependency graph of C1):
+            #  A1 <- B1 <- C1
+            #         <    /
+            #          \  <
+            #           A2
+            if quest_dep in quest_dependencies.keys():
+                continue
+
+            quest_dependencies[quest_dep.get_id()] = quest_dep
+            dependencies += get_close_dependencies(quest_dep)
+
+        return list(quest_dependencies.values())
 
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
@@ -1163,23 +1206,35 @@ class Quest(GObject.GObject):
     def get_last_bg_sound_event_id(self):
         return self._last_bg_sound_uuid
 
-    def give_item(self, item_name, notification_text=None, consume_after_use=False):
+    def give_item(self, item_name, notification_text=None, consume_after_use=False,
+                  optional=False):
+        if not optional:
+            assert item_name in self.__items_on_completion__, \
+                ("The item {} is not being given as optional and it is not declared in the "
+                 "quest's __items_on_completion__!".format(item_name))
+
         if self.is_cancelled():
             logger.debug('Not giving item "%s" because the quest has been cancelled.', item_name)
             return
 
-        current_state = self.gss.get(item_name)
-        if current_state is not None and current_state.get('used', False):
-            logger.warning('Attempt to give item %s failed, it was already given and used',
-                           item_name)
-            return
-
-        variant = GLib.Variant('a{sb}', {
-            'consume_after_use': consume_after_use,
-            'used': False
-        })
-        self.gss.set(item_name, variant)
+        self._set_item(item_name, {'consume_after_use': consume_after_use})
         self.emit('item-given', item_name, notification_text)
+
+    def _set_item(self, item_name, extra_info={}, skip_if_exists=False):
+        current_state = self.gss.get(item_name)
+        if current_state is not None:
+            if skip_if_exists:
+                return
+            if current_state.get('used', False):
+                logger.warning('Attempt to give item %s failed, it was already given and used',
+                               item_name)
+                return
+
+        info = {'consume_after_use': False,
+                'used': False}
+        info.update(extra_info)
+
+        self.gss.set(item_name, GLib.Variant('a{sb}', info))
 
     def is_panel_unlocked(self, lock_id):
         lock_state = self.gss.get(lock_id)
@@ -1269,6 +1324,10 @@ class Quest(GObject.GObject):
         key = self._get_conf_key()
         variant = GLib.Variant('a{sb}', {'complete': self.complete})
         self.gss.set_async(key, variant)
+
+        if self.complete:
+            for item_id, extra_info in self.__items_on_completion__.items():
+                self._set_item(item_id, extra_info, skip_if_exists=True)
 
     def set_conf(self, key, value):
         self.conf[key] = value
@@ -1485,6 +1544,14 @@ class QuestSet(GObject.GObject):
 
     def _set_body_animation(self, body_animation):
         self.set_body_animation(body_animation)
+
+    def get_quests_before(self, quest_id):
+        quests_before = []
+        for quest in self.get_quests():
+            if quest.get_id() == quest_id:
+                break
+            quests_before.append(quest)
+        return quests_before
 
     def get_empty_message(self):
         msg_id_suffix = None

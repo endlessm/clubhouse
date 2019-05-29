@@ -1591,6 +1591,10 @@ class ClubhouseApplication(Gtk.Application):
                              'Print the current episode', None)
         self.add_main_option('set-episode', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
                              'Switch to this episode, marking it as not complete', 'EPISODE_NAME')
+        self.add_main_option('set-quest', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
+                             'Make a quest available to be started. This completes all the '
+                             'quests before the given one, making it available.',
+                             '[EPISODE_NAME.]QUEST_NAME')
         self.add_main_option('reset', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Reset all quests state and game progress', None)
         self.add_main_option('debug', ord('d'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
@@ -1666,6 +1670,23 @@ class ClubhouseApplication(Gtk.Application):
 
             GameStateService().reset()
             libquest.Registry.set_current_episode(episode_name)
+            return 0
+
+        if options.contains('set-quest'):
+            episode_value = options.lookup_value('set-quest', GLib.VariantType('s'))
+            full_name = episode_value.get_string()
+
+            # The quest can be set with the episode name prefix, e.g. episode1.Fizzics2 .
+            full_name_split = full_name.split('.', 1)
+
+            if len(full_name_split) == 1:
+                episode_name = None
+                quest_id = full_name_split[0]
+            else:
+                episode_name, quest_id = full_name_split
+
+            self._setup_quest(episode_name, quest_id)
+
             return 0
 
         if options.contains('reset'):
@@ -1924,6 +1945,35 @@ class ClubhouseApplication(Gtk.Application):
             print(quest_set.get_id())
             for quest in quest_set.get_quests():
                 print('\t{}'.format(quest.get_id()))
+
+    def _setup_quest(self, episode_name, quest_id):
+        # Only load the episode if it's not already loaded.
+        if episode_name is not None:
+            available_episodes = libquest.Registry.get_available_episodes()
+            if episode_name not in available_episodes:
+                logger.error('Episode %s is not available.', episode_name)
+                return 1
+        else:
+            episode_name = libquest.Registry.get_loaded_episode_name()
+
+        GameStateService().reset()
+        libquest.Registry.set_current_episode(episode_name, force=True)
+        libquest.Registry.load_current_episode()
+
+        quests = libquest.Registry.get_current_quests()
+
+        print('Setting up {} as available'.format(quest_id))
+
+        # Reset all quests as not completed so we then only get the desired quest's dependencies
+        # as completed.
+        for quest in quests.values():
+            quest.complete = False
+            quest.save_conf()
+
+        for quest in quests[quest_id].get_dependency_quests():
+            print(' completing', quest)
+            quest.complete = True
+            quest.save_conf()
 
     def _reset(self):
         try:

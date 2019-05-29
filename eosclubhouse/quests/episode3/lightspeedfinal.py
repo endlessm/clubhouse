@@ -5,6 +5,8 @@ from eosclubhouse.system import Sound
 
 class LightspeedFinal(Quest):
 
+    __items_on_completion__ = {'item.fob.2': {'consume_after_use': True}}
+
     def __init__(self):
         super().__init__('LightspeedFinal', 'saniel')
         self.auto_offer = True

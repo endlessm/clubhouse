@@ -7,6 +7,7 @@ class Hackdex1(Quest):
     APP_NAME = 'com.endlessm.Hackdex_chapter_one'
 
     __available_after_completing_quests__ = ['BreakSomething', 'Roster']
+    __items_on_completion__ = {'item.key.fizzics.2': {}}
 
     def __init__(self):
         self._is_corrupt_setup = False
