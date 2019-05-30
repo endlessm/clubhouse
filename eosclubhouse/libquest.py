@@ -67,17 +67,27 @@ class Registry:
     @classmethod
     @Performance.timeit
     def load(class_, quest_folder):
-        sys.path.append(quest_folder)
+        parent_dir = os.path.dirname(quest_folder)
+        if parent_dir in sys.path:
+            parent_dir = None
+        else:
+            sys.path.append(parent_dir)
 
         for _unused, modname, _unused in pkgutil.walk_packages([quest_folder]):
-            __import__(modname)
-            class_._loaded_modules.add(modname)
+            # Import the module with the episode name as its prefix to make sure we use the right
+            # quests when included them by name (without the episode prefix, we could end up
+            # including a quest that is not the right one if there are two quests with the same
+            # name across episodes that have been loaded).
+            module_with_episode = os.path.basename(quest_folder) + '.' + modname
+            __import__(module_with_episode)
+            class_._loaded_modules.add(module_with_episode)
 
         for quest_set_class in class_._quest_sets_to_register:
             class_._quest_sets.append(quest_set_class())
             logger.debug('QuestSet registered: %s', quest_set_class)
 
-        del sys.path[sys.path.index(quest_folder)]
+        if parent_dir is not None:
+            del sys.path[sys.path.index(parent_dir)]
         class_._quest_sets_to_register = []
 
     @classmethod
@@ -1467,6 +1477,8 @@ class QuestSet(GObject.GObject):
 
         self._quest_objs = []
         for quest_class in self.__quests__:
+            if isinstance(quest_class, str):
+                quest_class = self._get_quest_class_by_name(quest_class)
             quest = quest_class()
             quest.quest_set = self
 
@@ -1476,6 +1488,18 @@ class QuestSet(GObject.GObject):
             quest.connect('dismissed', self._update_highlighted)
 
         self._update_highlighted()
+
+    def _get_quest_class_by_name(self, name):
+        current_episode = Registry.get_loaded_episode_name()
+        for subclass in Quest.__subclasses__():
+            # Avoid matching subclasses with the same name but in different episodes
+            episode = subclass.__module__.split('.', 1)[0]
+            if episode != current_episode:
+                continue
+
+            if subclass.__name__ == name:
+                return subclass
+        raise TypeError('Quest {} not found'.format(name))
 
     @classmethod
     def get_character(class_):
