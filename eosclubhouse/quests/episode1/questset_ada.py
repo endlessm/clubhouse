@@ -1,19 +1,13 @@
 
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse.quests.episode1.firstcontact import FirstContact
-from eosclubhouse.quests.episode1.roster import Roster
-from eosclubhouse.quests.episode1.fizzicsintro import FizzicsIntro
-from eosclubhouse.quests.episode1.osintro import OSIntro
-from eosclubhouse.quests.episode1.lostfiles import LostFiles
-from eosclubhouse.quests.episode1.fizzicscode1 import FizzicsCode1
-from eosclubhouse.quests.episode1.welcome import Welcome
 
 
 class AdaQuestSet(QuestSet):
 
     __character_id__ = 'ada'
-    __quests__ = [FirstContact, Welcome, FizzicsIntro, OSIntro, Roster, LostFiles, FizzicsCode1]
+    __quests__ = ['FirstContact', 'Welcome', 'FizzicsIntro', 'OSIntro', 'Roster', 'LostFiles',
+                  'FizzicsCode1']
 
     def get_empty_message(self):
         if Registry.get_quest_set_by_name('RileyQuestSet').is_active():

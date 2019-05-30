@@ -1,12 +1,11 @@
 from eosclubhouse.libquest import Registry, QuestSet
 from eosclubhouse.system import GameStateService
-from eosclubhouse.quests.episode4.bonusround import BonusRound
 
 
 class RileyQuestSet(QuestSet):
 
     __character_id__ = 'riley'
-    __quests__ = [BonusRound]
+    __quests__ = ['BonusRound']
 
     def __init__(self):
         super().__init__()
