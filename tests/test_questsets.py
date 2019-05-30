@@ -1,4 +1,6 @@
 import itertools
+import os
+import tempfile
 
 from eosclubhouse.libquest import Registry, Quest, QuestSet
 from eosclubhouse.utils import QS, QuestStringCatalog
@@ -175,3 +177,44 @@ class TestQuestSets(ClubhouseTestCase):
             self.assertEqual(empty_message, message,
                              'Failed while checking empty message from {} for '
                              'active {}'.format(test_quest_set, quest_set))
+
+    def test_load_mixed_quest_definitions(self):
+        '''Tests loading a QuestSet with quests defined as strings and as classes.'''
+        quest_set_source = '''
+from phonyep.aquest import AQuest
+from eosclubhouse.libquest import Registry, QuestSet
+
+class TestQuestSet(QuestSet):
+    __character_id__ = 'phony'
+    __quests__ = [AQuest, 'ZQuest']
+
+Registry.register_quest_set(TestQuestSet)
+'''
+        quest_source_template = '''
+from eosclubhouse.libquest import Quest
+class {}(Quest):
+
+    def __init__(self):
+        super().__init__(self.__class__, 'phony')
+'''
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            episode_name = 'phonyep'
+            dir_name = os.path.join(tmpdir, episode_name)
+            os.mkdir(dir_name)
+
+            quest_names = ['AQuest', 'ZQuest']
+            for name in quest_names:
+                with open(os.path.join(dir_name, name.lower() + '.py'), 'w') as quest_set_file:
+                    quest_set_file.write(quest_source_template.format(name))
+
+            # Set the quests for the QuestSet, the first is given as a string, the second as a
+            # symbol.
+            with open(os.path.join(dir_name, 'testquestset.py'), 'w') as quest_set_file:
+                quest_set_file.write(quest_set_source)
+
+            Registry._reset()
+            Registry._loaded_episode = episode_name
+            Registry.load(dir_name)
+            self.assertIn('TestQuestSet',
+                          [quest_set.get_id() for quest_set in Registry.get_quest_sets()])
