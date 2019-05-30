@@ -31,6 +31,12 @@ class TestQuestSets(ClubhouseTestCase):
         return None
 
     @test_all_episodes
+    def test_questset_contents(self):
+        """Tests if any QuestSets are loaded."""
+        quest_sets = Registry.get_quest_sets()
+        self.assertGreater(len(quest_sets), 0)
+
+    @test_all_episodes
     def test_empty_message_with_inactive_questsets(self):
         """Tests the QuestSets empty messages when other QuestSets are inactive."""
         quest_sets = Registry.get_quest_sets()

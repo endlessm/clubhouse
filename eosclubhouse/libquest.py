@@ -40,6 +40,7 @@ glibcoro.install()
 
 class Registry:
 
+    _quest_sets_to_register = []
     _quest_sets = []
     _loaded_modules = set()
     _loaded_episode = None
@@ -72,13 +73,19 @@ class Registry:
             __import__(modname)
             class_._loaded_modules.add(modname)
 
+        for quest_set_class in class_._quest_sets_to_register:
+            class_._quest_sets.append(quest_set_class())
+            logger.debug('QuestSet registered: %s', quest_set_class)
+
         del sys.path[sys.path.index(quest_folder)]
+        class_._quest_sets_to_register = []
 
     @classmethod
     def _reset(class_):
         class_._loaded_episode = None
         class_._autorun_quest = None
         class_._next_episode = None
+        class_._quest_sets_to_register = []
         class_._quest_sets = []
         for module in class_._loaded_modules:
             del sys.modules[module]
@@ -89,8 +96,7 @@ class Registry:
     def register_quest_set(class_, quest_set):
         if not issubclass(quest_set, QuestSet):
             raise TypeError('{} is not a of type {}'.format(quest_set, QuestSet))
-        class_._quest_sets.append(quest_set())
-        logger.debug('QuestSet registered: %s', quest_set)
+        class_._quest_sets_to_register.append(quest_set)
 
     @classmethod
     def get_quest_sets(class_):
