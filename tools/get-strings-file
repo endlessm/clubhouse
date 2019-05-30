@@ -24,7 +24,7 @@ URL_PARAMS = {
     'range': 'A:F'
 }
 
-ALL_SHEETS = ['Episode1', 'Episode2', 'Episode3', 'Episode4']
+ALL_SHEETS = ['Episode1', 'Episode2', 'Episode3', 'Episode4', 'EpisodeNext']
 
 quest_codes = None
 character_animations = None
@@ -145,7 +145,7 @@ def _cleanup_and_validate(quest, rows):
                       ''.format(r[Columns.SPEAKER]))
             else:
                 animation = r[Columns.ANIMATION].lower().strip()
-                if animation is not '' and animation not in character_animations[speaker]:
+                if animation != '' and animation not in character_animations[speaker]:
                     is_valid = False
                     print('WARNING! Animation "{}" for character "{}" is invalid.'
                           ''.format(r[Columns.ANIMATION], r[Columns.SPEAKER]))
