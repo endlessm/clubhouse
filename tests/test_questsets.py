@@ -2,8 +2,7 @@ import itertools
 
 from eosclubhouse.libquest import Registry, Quest, QuestSet
 from eosclubhouse.utils import QS, QuestStringCatalog
-from clubhouseunittest import ClubhouseTestCase, test_all_episodes
-from unittest import mock
+from clubhouseunittest import ClubhouseTestCase, test_all_episodes, setup_episode
 
 
 class PhonyQuest(Quest):
@@ -72,8 +71,7 @@ class TestQuestSets(ClubhouseTestCase):
         alice = PhonyAlice()
         bob = PhonyBob()
 
-        Registry.get_loaded_episode_name = mock.Mock(return_value='phonyep')
-        Registry.get_quest_sets = mock.Mock(return_value=[alice])
+        setup_episode([alice], episode_name='phonyep')
 
         string_catalog = QuestStringCatalog._csv_dict
         QuestStringCatalog.set_key_value_from_csv_row(('NOQUEST_ALICE_NOTHING',
@@ -106,7 +104,7 @@ class TestQuestSets(ClubhouseTestCase):
         self.assertEqual(alice.get_empty_message(), noquest_info['txt'])
 
         # There's an episode specific noquest message and an other quest-set active.
-        Registry.get_quest_sets = mock.Mock(return_value=[alice, bob])
+        Registry._quest_sets = [alice, bob]
         self.assertEqual(alice.get_empty_message(), ep_noquest_alice_bob_info['txt'])
 
         # There's no episode specific noquest message and an other quest-set active.
