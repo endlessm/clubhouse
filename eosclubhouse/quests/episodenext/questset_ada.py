@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse.quests.episodenext.AdaQuest1 import AdaQuest1
+from eosclubhouse.quests.episodenext.adaquest1 import AdaQuest1
 
 
 class AdaQuestSet(QuestSet):

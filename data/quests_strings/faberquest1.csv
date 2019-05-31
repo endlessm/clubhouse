@@ -1,0 +1,8 @@
+FABERQUEST1_QUESTION,"Hey, want to do a little quest with me?",faber,,,
+FABERQUEST1_QUEST_ACCEPT,Awesome!,faber,,,
+FABERQUEST1_LAUNCH,"OK, launch *Sidetrack*.",faber,,,
+FABERQUEST1_LAUNCH_HINT1,"It's the app with the maze, you know, the one Felix was stuck in?",faber,,,
+FABERQUEST1_INITIALTEXT,"Cool, here we are.
+
+I just wanted to tell you that you're doing a great job! Keep it up!",faber,,,
+FABERQUEST1_SUCCESS,"Ok, bye for now!",faber,,,

@@ -1,0 +1,24 @@
+ADAQUEST1_QUESTION,"Hey, I just found out some cool info.",ada,,,
+ADAQUEST1_QUEST_ACCEPT,Tell me!,ada,,,
+ADAQUEST1_LAUNCH,"OK, let's go into Sidetrack.",ada,,,
+ADAQUEST1_LAUNCH_HINT1,Click the Sidetrack icon on the desktop.,ada,,,
+ADAQUEST1_INITIALTEXT,"I just found out about the King of Sweden recently.
+
+What a fascinating guy...",ada,,,
+ADAQUEST1_DEEPTEXT1,The way the goat lottery determines the King's succession is truly fascinating - But stop me if you've heard this before.,ada,,,
+ADAQUEST1_DEEPTEXT2,"Well, you see, the Royal Goats of Sweden are gathered in the palace courtyard when the king is on his deathbed...
+
+<Ada explains the fascinating and capricious method of succession in fake Sweden>
+
+<It's a very long discussion.>",ada,,,
+ADAQUEST1_DEEPTEXT3,"Of course, they have to feed all the goats Goldschlager to activate their perceptrons...
+
+<Ada falls down a wikipedia hole about making liquour with precious metals in it>
+
+<It's a surprisingly detailed subject.>",ada,,,
+ADAQUEST1_REVENON,"... anyway, back to what we were originally talking about.",ada,,,
+ADAQUEST1_PROCEED,Continue!,ada,,,
+ADAQUEST1_CANCEL,That's enough.,ada,,,
+ADAQUEST1_SUCCESS,"Wait, what *WERE* we talking about?
+
+... It must not have been too important. Until next time!",ada,,,

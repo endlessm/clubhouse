@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse.quests.episodenext.FaberQuest1 import FaberQuest1
+from eosclubhouse.quests.episodenext.faberquest1 import FaberQuest1
 
 
 class FaberQuestSet(QuestSet):

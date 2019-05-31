@@ -9,6 +9,7 @@ class AdaQuest1(Quest):
     def __init__(self):
         super().__init__('AdaQuest1', 'ada')
         self._app = App(self.APP_NAME)
+        # self.deep_messages = []
 
     def step_begin(self):
         self.ask_for_app_launch(self._app, pause_after_launch=2)
@@ -18,19 +19,18 @@ class AdaQuest1(Quest):
         self.wait_confirm('REVENON')
         # return self.step_success
 
-    # def proceed_deeper(self, deep_messages):
-    #     self.show_deepness(deep_messages)
+    def proceed_deeper(self, deep_messages):
+        for message in deep_messages:
+            self.wait_confirm(message)
 
     def show_deepness(self, deep_messages):
-        message_id = deep_messages.pop(0)
-        if message_id is not None:
-            proceed = ('PROCEED', self.show_deepness(deep_messages), 1)
-            cancel = ('CANCEL', self.cancel_deepness, 1)
-            self.show_choices_message(message_id, proceed, cancel).wait()
+        proceed = ('PROCEED', self.proceed_deeper(deep_messages), 1)
+        cancel = ('CANCEL', self.cancel_deepness, 1)
+        self.show_choices_message('INITIALTEXT', proceed, cancel).wait()
 
     @Quest.with_app_launched(APP_NAME)
     def step_main(self):
-        self.wait_confirm('INITIALTEXT')
+        # self.wait_confirm('INITIALTEXT')
         self.show_deepness(['DEEPTEXT1', 'DEEPTEXT2', 'DEEPTEXT3'])
         return self.step_success
 

@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse.quests.episodenext.SanielQuest1 import SanielQuest1
+from eosclubhouse.quests.episodenext.sanielquest1 import SanielQuest1
 
 
 class SanielQuestSet(QuestSet):

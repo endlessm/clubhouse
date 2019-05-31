@@ -1,12 +1,12 @@
 from eosclubhouse.libquest import Registry, QuestSet
 from eosclubhouse.system import GameStateService
-from eosclubhouse.quests.episodenext.TrapQuest1 import TrapQuest1
+# from eosclubhouse.quests.episodenext.trapquest1 import TrapQuest1
 
 
 class TrapQuestSet(QuestSet):
 
     __character_id__ = 'trap'
-    __quests__ = [TrapQuest1]
+    __quests__ = []  # TrapQuest1]
 
     def __init__(self):
         super().__init__()

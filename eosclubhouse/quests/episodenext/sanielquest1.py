@@ -4,6 +4,8 @@ from eosclubhouse.system import App, Sound
 
 class SanielQuest1(Quest):
 
+    __complete_episode__ = True
+    __available_after_completing_quests__ = ['AdaQuest1', 'FaberQuest1', 'RileyQuest1']
     APP_NAME = 'com.endlessm.Sidetrack'
 
     def __init__(self):

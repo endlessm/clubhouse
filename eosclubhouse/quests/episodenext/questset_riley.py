@@ -1,6 +1,6 @@
 from eosclubhouse.libquest import Registry, QuestSet
 from eosclubhouse.system import GameStateService
-from eosclubhouse.quests.episodenext.RileyQuest1 import RileyQuest1
+from eosclubhouse.quests.episodenext.rileyquest1 import RileyQuest1
 
 
 class RileyQuestSet(QuestSet):
@@ -23,11 +23,8 @@ class RileyQuestSet(QuestSet):
     def update_visibility(self, gss):
         riley_state = self._gss.get('clubhouse.character.Riley')
         # if the state has no data (i.e. is not in the JSON yet) or the state is NOT should_hide,
-        # we will show Riley. In case the get fails we will assume false.
-        # NOTE: Not sure why the get() has to be validated if we're already short-circuiting on the
-        # 'no data' case...
-        self.visible = riley_state is None or not riley_state.get('should_hide',
-                                                                  value_if_missing=False)
+        # we will show Riley. If get() fails (no property of that value exists) it returns false.
+        self.visible = riley_state is None or not riley_state.get('should_hide', False)
 
 
 Registry.register_quest_set(RileyQuestSet)

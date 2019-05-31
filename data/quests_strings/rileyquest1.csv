@@ -1,0 +1,10 @@
+RILEYQUEST1_QUESTION,"Hey, I got a secret for you!",riley,,,
+RILEYQUEST1_QUEST_ACCEPT,Oooh...,riley,,,
+RILEYQUEST1_LAUNCH,"Ok, get us into Sidetrack.",riley,,,
+RILEYQUEST1_LAUNCH_HINT1,The icon was on the desktop when I saw it last.,riley,,,
+RILEYQUEST1_INITIALTEXT,"Now nobody else can hear us. I just wanted to say... thanks for being my friend.
+
+It's been really cool to have someone else around the Conservatory, and to tackle puzzles with.
+
+Here's to many more hours of fun together!",riley,,,
+RILEYQUEST1_SUCCESS,See you soon!,riley,,,
