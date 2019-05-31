@@ -51,7 +51,7 @@
             ],
             "run-tests": true,
             "test-rule": "",
-            "test-commands": ["meson test --timeout-multiplier=10"],
+            "test-commands": ["meson test --timeout-multiplier=10 --print-errorlogs"],
             "sources": [
                 {
                     "type": "git",
