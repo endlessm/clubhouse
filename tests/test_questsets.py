@@ -1,4 +1,3 @@
-import itertools
 import os
 import tempfile
 
@@ -133,10 +132,7 @@ class TestQuestSets(ClubhouseTestCase):
     @test_all_episodes
     def test_can_complete_episode(self):
         """Tests there is at least one Quest in the QuestSets that complete the episode."""
-        quest_sets = Registry.get_quest_sets()
-
-        all_quests = itertools.chain.from_iterable((quest_set.get_quests()
-                                                    for quest_set in quest_sets))
+        all_quests = Registry.get_current_quests().values()
         has_quest_with_complete = any(quest.__complete_episode__ for quest in all_quests)
         self.assertTrue(has_quest_with_complete,
                         "Episode " + Registry.get_loaded_episode_name() +
