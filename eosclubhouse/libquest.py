@@ -594,12 +594,12 @@ class Quest(GObject.GObject):
 
     stopping = GObject.Property(type=bool, default=False)
 
-    quest_set = GObject.Property(type=GObject.TYPE_PYOBJECT, default=None)
-
     auto_offer = GObject.Property(type=bool, default=False)
 
-    def __init__(self):
+    def __init__(self, quest_set):
         super().__init__()
+
+        self.quest_set = quest_set
 
         # We declare these variables here, instead of looking them up in the registry when
         # we need them because this way we ensure we get the values when the quest was loaded,
@@ -1498,8 +1498,7 @@ class QuestSet(GObject.GObject):
         for quest_class in self.__quests__:
             if isinstance(quest_class, str):
                 quest_class = self._get_quest_class_by_name(quest_class)
-            quest = quest_class()
-            quest.quest_set = self
+            quest = quest_class(self)
 
             self._quest_objs.append(quest)
             quest.connect('notify',

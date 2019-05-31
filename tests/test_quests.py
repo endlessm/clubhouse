@@ -11,7 +11,7 @@ class TestQuests(ClubhouseTestCase):
     def test_show_message_can_raise_custom_error(self):
         """Tests that Quests raise a custom error when a message ID is not in the catalog."""
 
-        quest = define_quest('PhonyQuest', 'Alice')()
+        quest = define_quest('PhonyQuest', 'Alice')(None)
 
         string_catalog = QuestStringCatalog._csv_dict
         QuestStringCatalog.set_key_value_from_csv_row(('PHONYQUEST_HELLO',

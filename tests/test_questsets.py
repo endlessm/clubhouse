@@ -138,7 +138,7 @@ class TestQuestSets(ClubhouseTestCase):
                         " doesn't have any quest with __complete_episode__ = True.")
 
     def activate_quest_set(self, quest_set):
-        quest_set.get_quests().insert(0, PhonyQuest())
+        quest_set.get_quests().insert(0, PhonyQuest(quest_set))
         quest_set.visible = True
 
     def deactivate_quest_set(self, quest_set):
