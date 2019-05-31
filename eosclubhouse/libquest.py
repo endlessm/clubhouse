@@ -597,9 +597,13 @@ class Quest(GObject.GObject):
 
     auto_offer = GObject.Property(type=bool, default=False)
 
-    def __init__(self, name, main_character_id='', proposal_message_id='QUESTION'):
+    def __init__(self, name=None, main_character_id='', proposal_message_id='QUESTION'):
         super().__init__()
-        self._name = name
+
+        if name is not None:
+            logger.warning('The name argument is deprecated in the Quest; if you need to '
+                           'use a different name (only for printing purposes) you should '
+                           'override the __repr__ method.')
 
         # We declare these variables here, instead of looking them up in the registry when
         # we need them because this way we ensure we get the values when the quest was loaded,
@@ -1299,7 +1303,7 @@ class Quest(GObject.GObject):
             self._run_context.debug_dispatch()
 
     def __repr__(self):
-        return self._name
+        return self.get_id()
 
     def set_cancellable(self, cancellable):
         self._cancellable = cancellable
