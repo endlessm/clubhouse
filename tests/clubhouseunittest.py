@@ -99,10 +99,14 @@ def test_all_episodes(func):
 
 def define_quest(quest_id, character_id, available_after=[]):
     def constructor(self):
-        self.__available_after_completing_quests__ = available_after
         Quest.__init__(self, quest_id, character_id)
 
-    return type(quest_id, (Quest,), {'__init__': constructor})
+    def step_begin(self):
+        print('Nothing to see here!')
+
+    return type(quest_id, (Quest,), {'__init__': constructor,
+                                     '__available_after_completing_quests__': available_after,
+                                     'step_begin': step_begin})
 
 
 def define_quest_set(quest_set_id, character_id, quest_id_deps_list=[]):
@@ -110,16 +114,8 @@ def define_quest_set(quest_set_id, character_id, quest_id_deps_list=[]):
     for quest_id, dependencies in quest_id_deps_list:
         quests.append(define_quest(quest_id, character_id, dependencies))
 
-    def constructor(self):
-        self.__character_id__ = character_id
-        self.__quests__ = quests
-        QuestSet.__init__(self)
-
-    def step_begin(self):
-        print('Nothing to see here!')
-
-    return type(quest_set_id, (QuestSet,), {'__init__': constructor,
-                                            'step_begin': step_begin})
+    return type(quest_set_id, (QuestSet,), {'__quests__': quests,
+                                            '__character_id__': character_id})
 
 
 def setup_episode(quest_set_list, episode_name='tests-phony-episode'):
