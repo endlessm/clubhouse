@@ -1,4 +1,4 @@
-from eosclubhouse.libquest import Registry, NoMessageIdError, Quest
+from eosclubhouse.libquest import Registry, NoMessageIdError
 from eosclubhouse.utils import QuestStringCatalog
 from clubhouseunittest import ClubhouseTestCase, define_quest, define_quest_set, setup_episode
 
@@ -56,25 +56,20 @@ class TestQuests(ClubhouseTestCase):
 
     def test_main_character(self):
         '''Tests what the main character is when quests are initialized.'''
-        QuestA = define_quest('QuestA', '')
-        QuestB = define_quest('QuestB', 'Bob')
+        QuestA = define_quest('QuestA')
 
         PhonyAlice = define_quest_set('PhonyAlice', 'alice')
-        PhonyAlice.__quests__ = [QuestA, QuestB]
+        PhonyAlice.__quests__ = [QuestA]
 
         setup_episode([PhonyAlice()])
 
         quest_a = Registry.get_quest_by_name('QuestA')
         self.assertEqual(quest_a.get_main_character(), 'alice')
 
-        quest_b = Registry.get_quest_by_name('QuestB')
-        self.assertEqual(quest_b.get_main_character(), 'bob')
-
     def test_proposal_message_id(self):
         '''Tests overriding the proposal message ID of quests.'''
         a_proposal = 'a quest question'
         b_proposal = 'b quest welcome'
-        c_proposal = 'c quest init'
 
         string_catalog = QuestStringCatalog._csv_dict
         QuestStringCatalog.set_key_value_from_csv_row(('QUESTA_QUESTION',
@@ -85,22 +80,13 @@ class TestQuests(ClubhouseTestCase):
                                                        b_proposal, 'bob',
                                                        'talk', '', ''),
                                                       string_catalog)
-        QuestStringCatalog.set_key_value_from_csv_row(('QUESTC_INIT',
-                                                       c_proposal, 'charlie',
-                                                       'talk', '', ''),
-                                                      string_catalog)
 
         QuestA = define_quest('QuestA', 'alice')
         QuestB = define_quest('QuestB', 'bob')
         QuestB.__proposal_message_id__ = 'WELCOME'
 
-        class QuestC(Quest):
-
-            def __init__(self):
-                super().__init__(main_character_id='charlie', proposal_message_id='INIT')
-
         PhonySet = define_quest_set('PhonySet', 'alice')
-        PhonySet.__quests__ = [QuestA, QuestB, QuestC]
+        PhonySet.__quests__ = [QuestA, QuestB]
 
         setup_episode([PhonySet()])
 
@@ -109,6 +95,3 @@ class TestQuests(ClubhouseTestCase):
 
         quest_b = Registry.get_quest_by_name('QuestB')
         self.assertEqual(quest_b.proposal_message, b_proposal)
-
-        quest_c = Registry.get_quest_by_name('QuestC')
-        self.assertEqual(quest_c.proposal_message, c_proposal)

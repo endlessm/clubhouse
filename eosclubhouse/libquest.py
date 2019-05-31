@@ -598,16 +598,8 @@ class Quest(GObject.GObject):
 
     auto_offer = GObject.Property(type=bool, default=False)
 
-    def __init__(self, name=None, main_character_id='', proposal_message_id=None):
+    def __init__(self):
         super().__init__()
-
-        if name is not None:
-            logger.warning('The name argument is deprecated in the Quest; if you need to '
-                           'use a different name (only for printing purposes) you should '
-                           'override the __repr__ method.')
-
-        if proposal_message_id is None:
-            proposal_message_id = self.__proposal_message_id__
 
         # We declare these variables here, instead of looking them up in the registry when
         # we need them because this way we ensure we get the values when the quest was loaded,
@@ -627,12 +619,12 @@ class Quest(GObject.GObject):
 
         self._characters = {}
 
-        self._main_character_id = main_character_id.lower()
+        self._main_character_id = ''
         self._main_mood = self._DEFAULT_MOOD
         self._main_open_dialog_sound = 'clubhouse/dialog/open'
         self._default_abort_sound = 'quests/quest-aborted'
 
-        self._setup_proposal_message(proposal_message_id)
+        self._setup_proposal_message()
 
         self.gss = GameStateService()
         self.conf = {}
@@ -673,7 +665,8 @@ class Quest(GObject.GObject):
         '''
         pass
 
-    def _setup_proposal_message(self, message_id):
+    def _setup_proposal_message(self):
+        message_id = self.__proposal_message_id__
         message_info = QuestStringCatalog.get_info('{}_{}'.format(self._qs_base_id, message_id))
 
         if message_info is None:

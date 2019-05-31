@@ -97,22 +97,18 @@ def test_all_episodes(func):
     return test_on_episodes([])(func)
 
 
-def define_quest(quest_id, character_id, available_after=[]):
-    def constructor(self):
-        Quest.__init__(self, quest_id, character_id)
-
+def define_quest(quest_id, available_after=[]):
     def step_begin(self):
         print('Nothing to see here!')
 
-    return type(quest_id, (Quest,), {'__init__': constructor,
-                                     '__available_after_completing_quests__': available_after,
+    return type(quest_id, (Quest,), {'__available_after_completing_quests__': available_after,
                                      'step_begin': step_begin})
 
 
 def define_quest_set(quest_set_id, character_id, quest_id_deps_list=[]):
     quests = []
     for quest_id, dependencies in quest_id_deps_list:
-        quests.append(define_quest(quest_id, character_id, dependencies))
+        quests.append(define_quest(quest_id, dependencies))
 
     return type(quest_set_id, (QuestSet,), {'__quests__': quests,
                                             '__character_id__': character_id})

@@ -188,9 +188,7 @@ Registry.register_quest_set(TestQuestSet)
         quest_source_template = '''
 from eosclubhouse.libquest import Quest
 class {}(Quest):
-
-    def __init__(self):
-        super().__init__(self.__class__, 'phony')
+    pass
 '''
 
         with tempfile.TemporaryDirectory() as tmpdir:
