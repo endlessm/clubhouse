@@ -7,8 +7,7 @@ class LightspeedFinal(Quest):
 
     __items_on_completion__ = {'item.fob.2': {'consume_after_use': True}}
 
-    def __init__(self):
-        super().__init__('LightspeedFinal', 'saniel')
+    def setup(self):
         self.auto_offer = True
         self._app = LightSpeed()
 

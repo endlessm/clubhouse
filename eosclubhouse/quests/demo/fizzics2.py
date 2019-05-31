@@ -9,8 +9,7 @@ class Fizzics2(Quest):
 
     GAME_PRESET = 1000
 
-    def __init__(self):
-        super().__init__('Fizzics 2', 'riley')
+    def setup(self):
         self._app = Fizzics()
 
     def step_begin(self):

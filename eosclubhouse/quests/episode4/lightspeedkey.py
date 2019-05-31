@@ -22,8 +22,7 @@ class LightspeedKey(Quest):
         'activatePowerup': 'POWERUPS',
     }
 
-    def __init__(self):
-        super().__init__('LightspeedKey', 'faber')
+    def setup(self):
         self._app = LightSpeed()
 
     def step_begin(self):

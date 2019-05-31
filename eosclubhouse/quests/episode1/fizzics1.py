@@ -7,8 +7,7 @@ class Fizzics1(Quest):
 
     __available_after_completing_quests__ = ['FizzicsIntro']
 
-    def __init__(self):
-        super().__init__('Fizzics 1', 'riley')
+    def setup(self):
         self._app = Fizzics()
         self.already_in_level_8 = False
 

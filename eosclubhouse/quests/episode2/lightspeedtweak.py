@@ -8,8 +8,7 @@ class LightSpeedTweak(Quest):
     APP_NAME = 'com.endlessm.LightSpeed'
     LEVEL_ID = 2
 
-    def __init__(self):
-        super().__init__('LightSpeed Tweak', 'ada')
+    def setup(self):
         self._app = LightSpeed()
         self._step_to_continue = None
 

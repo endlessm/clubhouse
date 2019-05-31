@@ -5,11 +5,10 @@ class Welcome(Quest):
 
     # The quest doesn't show any messages immediately to the user, so let's silence it when it runs.
     __sound_on_run_begin__ = None
+    # This quest starts directly. There's no prompting.
+    __proposal_message_id__ = ''
 
-    def __init__(self):
-        # This quest starts directly. There's no prompting.
-        super().__init__('Welcome', 'ada', '')
-
+    def setup(self):
         # This will prevent the quest from ever being shown in the Clubhouse
         # because it should just be run directly (not by the user)
         self.available = False

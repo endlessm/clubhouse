@@ -7,8 +7,9 @@ class FirstContact(Quest):
     APP_NAME = 'com.endlessm.HackUnlock'
 
     # This quest starts already in the first step. There's no prompting.
-    def __init__(self):
-        super().__init__('First Contact', 'ada', '')
+    __proposal_message_id__ = ''
+
+    def setup(self):
         self._app = App(self.APP_NAME)
 
         # This will prevent the quest from ever being shown in the Clubhouse

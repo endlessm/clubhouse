@@ -10,8 +10,7 @@ class Chore(Quest):
 
     __items_on_completion__ = {'item.key.OperatingSystemApp.2': {}}
 
-    def __init__(self):
-        super().__init__('Chore', 'saniel')
+    def setup(self):
         self._app = App(self.APP_NAME)
         self._ask_question = True
 

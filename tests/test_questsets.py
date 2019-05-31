@@ -8,8 +8,7 @@ from clubhouseunittest import ClubhouseTestCase, test_all_episodes, setup_episod
 
 class PhonyQuest(Quest):
 
-    def __init__(self, quest_set):
-        super().__init__('PhonyQuest for {}'.format(quest_set), quest_set.get_character())
+    def setup(self):
         self.available = True
 
     def step_begin(self):
@@ -139,7 +138,7 @@ class TestQuestSets(ClubhouseTestCase):
                         " doesn't have any quest with __complete_episode__ = True.")
 
     def activate_quest_set(self, quest_set):
-        quest_set.get_quests().insert(0, PhonyQuest(quest_set))
+        quest_set.get_quests().insert(0, PhonyQuest())
         quest_set.visible = True
 
     def deactivate_quest_set(self, quest_set):

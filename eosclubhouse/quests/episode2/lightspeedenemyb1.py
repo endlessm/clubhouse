@@ -14,8 +14,7 @@ class LightSpeedEnemyB1(Quest):
 
     __available_after_completing_quests__ = ['LightSpeedEnemyA3']
 
-    def __init__(self):
-        super().__init__('LightSpeedEnemyB1', 'saniel')
+    def setup(self):
         self._app = LightSpeed()
 
     def step_begin(self):

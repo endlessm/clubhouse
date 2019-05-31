@@ -8,8 +8,7 @@ class LightSpeedIntro(Quest):
 
     __items_on_completion__ = {'item.key.lightspeed.1': {}}
 
-    def __init__(self):
-        super().__init__('LightSpeed Intro', 'ada')
+    def setup(self):
         self._app = App(self.APP_NAME)
 
     def get_current_score(self):

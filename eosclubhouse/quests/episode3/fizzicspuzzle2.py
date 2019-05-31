@@ -9,8 +9,7 @@ class FizzicsPuzzle2(Quest):
 
     __items_on_completion__ = {'item.fob.3': {'consume_after_use': True}}
 
-    def __init__(self):
-        super().__init__('FizzicsPuzzle2', 'faber')
+    def setup(self):
         self._app = Fizzics()
 
     def step_begin(self):

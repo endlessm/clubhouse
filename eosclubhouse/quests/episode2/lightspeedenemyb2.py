@@ -9,8 +9,7 @@ class LightSpeedEnemyB2(Quest):
 
     __items_on_completion__ = {'item.stealth.4': {'consume_after_use': True}}
 
-    def __init__(self):
-        super().__init__('LightSpeedEnemyB2', 'saniel')
+    def setup(self):
         self._app = LightSpeed()
 
     def step_begin(self):

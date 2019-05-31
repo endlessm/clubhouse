@@ -9,8 +9,7 @@ class MakerQuest(Quest):
 
     __items_on_completion__ = {'item.stealth.3': {'consume_after_use': True}}
 
-    def __init__(self):
-        super().__init__('MakerQuest', 'faber')
+    def setup(self):
         self._app = Fizzics()
 
     def step_begin(self):

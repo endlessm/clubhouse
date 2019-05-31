@@ -5,8 +5,7 @@ from eosclubhouse.apps import Sidetrack
 
 class MazePt3(Quest):
 
-    def __init__(self):
-        super().__init__('MazePt3', 'ada')
+    def setup(self):
         self._app = Sidetrack()
         self.confirmed_messages = []
         self.level36_hasfailed = False

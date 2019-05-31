@@ -9,8 +9,7 @@ class LightSpeedEnemyA1(Quest):
 
     __available_after_completing_quests__ = ['LightSpeedFix2', 'StealthDevice']
 
-    def __init__(self):
-        super().__init__('LightSpeedEnemyA1', 'ada')
+    def setup(self):
         self._app = LightSpeed()
 
     def step_begin(self):

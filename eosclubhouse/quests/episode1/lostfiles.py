@@ -7,9 +7,6 @@ class LostFiles(Quest):
     __available_after_completing_quests__ = ['Hackdex1']
     __complete_episode__ = True
 
-    def __init__(self):
-        super().__init__('Lost Files', 'ada')
-
     def step_begin(self):
         self.wait_confirm('EXPLANATION1')
         self.wait_confirm('EXPLANATION2')

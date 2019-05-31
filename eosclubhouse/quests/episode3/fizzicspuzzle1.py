@@ -8,8 +8,7 @@ class FizzicsPuzzle1(Quest):
     __available_after_completing_quests__ = ['ApplyFob2']
     GAME_PRESET = 1003
 
-    def __init__(self):
-        super().__init__('FizzicsPuzzle1', 'faber')
+    def setup(self):
         self._app = Fizzics()
 
     def step_begin(self):

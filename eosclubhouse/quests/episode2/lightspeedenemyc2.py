@@ -7,8 +7,7 @@ class LightSpeedEnemyC2(Quest):
 
     APP_NAME = 'com.endlessm.LightSpeed'
 
-    def __init__(self):
-        super().__init__('LightSpeedEnemyC2', 'riley')
+    def setup(self):
         self._app = LightSpeed()
 
     def step_begin(self):

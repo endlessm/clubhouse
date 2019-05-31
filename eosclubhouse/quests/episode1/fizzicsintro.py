@@ -7,8 +7,7 @@ class FizzicsIntro(Quest):
 
     __items_on_completion__ = {'item.key.fizzics.1': {}}
 
-    def __init__(self):
-        super().__init__('Fizzics Intro', 'ada')
+    def setup(self):
         self._app = Fizzics()
 
     def get_current_level(self):

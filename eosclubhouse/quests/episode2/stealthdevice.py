@@ -4,9 +4,6 @@ from eosclubhouse.system import Sound
 
 class StealthDevice(Quest):
 
-    def __init__(self):
-        super().__init__('StealthDevice', 'faber')
-
     def step_begin(self):
         self.wait_confirm('RILEYQUESTION')
         self.wait_confirm('EXPLANATION')

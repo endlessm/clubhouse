@@ -9,8 +9,7 @@ class LightSpeedFix1(Quest):
 
     __available_after_completing_quests__ = ['LightSpeedTweak']
 
-    def __init__(self):
-        super().__init__('LightSpeedFix1', 'saniel')
+    def setup(self):
         self._app = LightSpeed()
 
     def step_begin(self):

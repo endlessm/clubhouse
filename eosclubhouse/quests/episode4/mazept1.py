@@ -7,8 +7,7 @@ class MazePt1(Quest):
 
     __available_after_completing_quests__ = ['TrapIntro']
 
-    def __init__(self):
-        super().__init__('MazePt1', 'ada')
+    def setup(self):
         self._app = Sidetrack()
         self.confirmed_messages = []
         self.cutscene_played = False
