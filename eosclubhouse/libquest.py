@@ -578,6 +578,7 @@ class Quest(GObject.GObject):
     # Should be in the form 'key': {...} , a dict of the key's content, or an empty dict for
     # using the default key's content.
     __items_on_completion__ = {}
+    __proposal_message_id__ = 'QUESTION'
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
     _DEFAULT_MOOD = 'talk'
@@ -597,13 +598,16 @@ class Quest(GObject.GObject):
 
     auto_offer = GObject.Property(type=bool, default=False)
 
-    def __init__(self, name=None, main_character_id='', proposal_message_id='QUESTION'):
+    def __init__(self, name=None, main_character_id='', proposal_message_id=None):
         super().__init__()
 
         if name is not None:
             logger.warning('The name argument is deprecated in the Quest; if you need to '
                            'use a different name (only for printing purposes) you should '
                            'override the __repr__ method.')
+
+        if proposal_message_id is None:
+            proposal_message_id = self.__proposal_message_id__
 
         # We declare these variables here, instead of looking them up in the registry when
         # we need them because this way we ensure we get the values when the quest was loaded,
