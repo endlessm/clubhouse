@@ -597,7 +597,7 @@ class Quest(GObject.GObject):
 
     auto_offer = GObject.Property(type=bool, default=False)
 
-    def __init__(self, name, main_character_id, proposal_message_id='QUESTION'):
+    def __init__(self, name, main_character_id='', proposal_message_id='QUESTION'):
         super().__init__()
         self._name = name
 
@@ -1109,7 +1109,10 @@ class Quest(GObject.GObject):
             self._cancellable.cancel()
 
     def get_main_character(self):
-        return self._main_character_id
+        character_id = self._main_character_id
+        if not character_id and self.quest_set:
+            character_id = self.quest_set.get_character()
+        return character_id
 
     def play_stop_bg_sound(self, sound_event_id=None):
         """
@@ -1175,7 +1178,7 @@ class Quest(GObject.GObject):
         # information here, so it would be better to pass the dict
         # directly.
         self.emit('message', info_id or '', options['txt'], possible_answers,
-                  options.get('character_id') or self._main_character_id,
+                  options.get('character_id') or self.get_main_character(),
                   options.get('mood') or self._main_mood,
                   sfx_sound, bg_sound)
 

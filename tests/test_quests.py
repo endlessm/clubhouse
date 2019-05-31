@@ -53,3 +53,19 @@ class TestQuests(ClubhouseTestCase):
         self.assertEqual(get_dependencies('QuestC0'), ['QuestB0', 'QuestA0'])
 
         self.assertEqual(get_dependencies('QuestA1'), [])
+
+    def test_main_character(self):
+        '''Tests what the main character is when quests are initialized.'''
+        QuestA = define_quest('QuestA', '')
+        QuestB = define_quest('QuestB', 'Bob')
+
+        PhonyAlice = define_quest_set('PhonyAlice', 'alice')
+        PhonyAlice.__quests__ = [QuestA, QuestB]
+
+        setup_episode([PhonyAlice()])
+
+        quest_a = Registry.get_quest_by_name('QuestA')
+        self.assertEqual(quest_a.get_main_character(), 'alice')
+
+        quest_b = Registry.get_quest_by_name('QuestB')
+        self.assertEqual(quest_b.get_main_character(), 'bob')
