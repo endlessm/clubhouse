@@ -658,6 +658,21 @@ class Quest(GObject.GObject):
 
         self.clubhouse_state = ClubhouseState()
 
+        self.setup()
+
+    def setup(self):
+        '''Initialize/setup anything that is related to the quest implementation
+
+        Instead of having to define a constructor, subclasses of Quest should set up anything
+        related to their construction in this method. This way Quest implementations should
+        only define a constructor when needed, which simplifies the quests making them more
+        readable.
+
+        This method is called just once (in the Quest's base constructor). Code that needs
+        to be called on every quest run, should be added to the `step_begin` method.
+        '''
+        pass
+
     def _setup_proposal_message(self, message_id):
         message_info = QuestStringCatalog.get_info('{}_{}'.format(self._qs_base_id, message_id))
 
