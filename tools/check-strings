@@ -11,12 +11,33 @@ ignored_files=(data/quests_strings/remaining.csv)
 check_files="${quest_string_files[@]/$ignored_files}"
 
 ./tools/get-strings-file
-git diff --exit-code -- $check_files || ret=$?
+ret=0
+updated_files=$(git diff --exit-code --name-only -- $check_files) || ret=$?
 git checkout -- $check_files
 git checkout -- "${ignored_files[@]}"
 
-if [ ! -z "$ret" ] && [ $ret -ne 0 ]; then
-    message="The strings are not in sync. Please import them before commiting. Or to ignore this check, run: SKIP_STRINGS_CHECK=true git commit"
+if [ $ret -ne 0 ]; then
+    message="The following quests' strings are not in sync:\n"
+    message+="$updated_files\n"
     echo -e "\e[01;31m$message\e[0m"
 fi
-exit $ret
+
+sheets=('quests_items' 'episodes')
+for sheet in ${sheets[@]}; do
+    ./tools/get-info-file $sheet
+    ret=0
+    sheet_file=$(git diff --exit-code --name-only -- "data/$sheet.csv") || ret=$?
+    if [ $ret -ne 0 ]; then
+        git checkout -- "$sheet_file"
+        message="The $sheet_file file is not in sync.\n"
+        echo -e "\e[01;31m$message\e[0m"
+    fi
+done
+
+if [ ! -z "$message" ]; then
+    message="Please commit the out-of-sync files; or to ignore this check, run:\n"
+    message+=" SKIP_STRINGS_CHECK=true git commit"
+    echo -e "\e[01;31m$message\e[0m"
+
+    exit 1
+fi
