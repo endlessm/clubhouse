@@ -13,6 +13,7 @@ check_files="${quest_string_files[@]/$ignored_files}"
 ./tools/get-strings-file
 git diff --exit-code -- $check_files || ret=$?
 git checkout -- $check_files
+git checkout -- "${ignored_files[@]}"
 
 if [ ! -z "$ret" ] && [ $ret -ne 0 ]; then
     message="The strings are not in sync. Please import them before commiting. Or to ignore this check, run: SKIP_STRINGS_CHECK=true git commit"
