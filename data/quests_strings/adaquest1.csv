@@ -1,11 +1,11 @@
-ADAQUEST1_QUESTION,"Hey, I just found out some cool info.",ada,,,
+ADAQUEST1_QUESTION,"Hey, I just found out some cool info. (Depth-on-Demand test)",ada,,,
 ADAQUEST1_QUEST_ACCEPT,Tell me!,ada,,,
 ADAQUEST1_LAUNCH,"OK, let's go into Sidetrack.",ada,,,
 ADAQUEST1_LAUNCH_HINT1,Click the Sidetrack icon on the desktop.,ada,,,
 ADAQUEST1_INITIALTEXT,"I just found out about the King of Sweden recently.
 
 What a fascinating guy...",ada,,,
-ADAQUEST1_DEEPTEXT1,The way the goat lottery determines the King's succession is truly fascinating - But stop me if you've heard this before.,ada,,,
+ADAQUEST1_DEEPTEXT1,The way the goat lottery determines the King's succession is truly fascinating.,ada,,,
 ADAQUEST1_DEEPTEXT2,"Well, you see, the Royal Goats of Sweden are gathered in the palace courtyard when the king is on his deathbed...
 
 <Ada explains the fascinating and capricious method of succession in fake Sweden>
