@@ -1,5 +1,6 @@
 from eosclubhouse.libquest import Registry, NoMessageIdError
 from eosclubhouse.utils import QuestStringCatalog
+from eosclubhouse.system import GameStateService
 from clubhouseunittest import ClubhouseTestCase, define_quest, define_quest_set, setup_episode
 
 
@@ -95,3 +96,33 @@ class TestQuests(ClubhouseTestCase):
 
         quest_b = Registry.get_quest_by_name('QuestB')
         self.assertEqual(quest_b.proposal_message, b_proposal)
+
+    def test_items_on_completion(self):
+        '''Tests the __items_on_completion__ use.'''
+        values_to_test = [({}, {'consume_after_use': False, 'used': False}),
+                          ({'consume_after_use': True}, {'consume_after_use': True, 'used': False}),
+                          ({'used': True}, {'consume_after_use': False, 'used': True}),
+                          ({'consume_after_use': True, 'used': True}, {'consume_after_use': True,
+                                                                       'used': True}),
+                          ({'consume_after_use': False, 'used': False}, {'consume_after_use': False,
+                                                                         'used': False})]
+
+        for i in range(len(values_to_test)):
+            value_to_set, value_to_expect = values_to_test[i]
+
+            quest_class = define_quest('Quest{}'.format(i))
+            key_name = 'item.key.{}'.format(i)
+            quest_class.__items_on_completion__ = {key_name: value_to_set}
+
+            quest = quest_class(None)
+            # Saving without completing the quest.
+            quest.save_conf()
+
+            self.assertIsNone(GameStateService().get(key_name))
+
+            # Saving after completing the quest.
+            quest.complete = True
+            quest.save_conf()
+
+            value_in_gss = GameStateService().get(key_name)
+            self.assertEqual(value_in_gss, value_to_expect)
