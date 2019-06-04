@@ -463,6 +463,7 @@ class ClubhousePage(Gtk.EventBox):
         if self._current_quest is None:
             return
 
+        self._current_quest.quest_set.highlighted = False
         self._message.reset()
         self._message.set_character(self._current_quest.get_main_character())
 
@@ -892,6 +893,7 @@ class ClubhousePage(Gtk.EventBox):
     def set_quest_to_background(self):
         if self._current_quest:
             self._current_quest.set_to_background()
+            self._current_quest.quest_set.highlighted = True
         else:
             # If the quest proposal dialog in the Shell has been dismissed, then we
             # should reset the "proposing_quest" flag.
