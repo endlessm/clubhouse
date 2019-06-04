@@ -578,6 +578,7 @@ class Quest(GObject.GObject):
     # Should be in the form 'key': {...} , a dict of the key's content, or an empty dict for
     # using the default key's content.
     __items_on_completion__ = {}
+    __conf_on_completion__ = {}
     __proposal_message_id__ = 'QUESTION'
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
@@ -1363,6 +1364,9 @@ class Quest(GObject.GObject):
         if self.complete:
             for item_id, extra_info in self.__items_on_completion__.items():
                 self._set_item(item_id, extra_info, skip_if_exists=True)
+
+            for item_id, info in self.__conf_on_completion__.items():
+                self.gss.set(item_id, info)
 
     def set_conf(self, key, value):
         self.conf[key] = value

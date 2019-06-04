@@ -126,3 +126,21 @@ class TestQuests(ClubhouseTestCase):
 
             value_in_gss = GameStateService().get(key_name)
             self.assertEqual(value_in_gss, value_to_expect)
+
+    def test_conf_on_completion(self):
+        key_name = 'special.key.1'
+        quest_class = define_quest('QuestA')
+        quest_class.__conf_on_completion__ = {key_name: {'answer': 42}}
+
+        quest = quest_class(None)
+        # Saving without completing the quest.
+        quest.save_conf()
+
+        self.assertIsNone(GameStateService().get(key_name))
+
+        # Saving after completing the quest.
+        quest.complete = True
+        quest.save_conf()
+
+        value_in_gss = GameStateService().get(key_name)
+        self.assertTrue(value_in_gss, {'answer': 42})
