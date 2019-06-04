@@ -1,12 +1,13 @@
 from eosclubhouse.libquest import Registry, QuestSet
 from eosclubhouse.system import GameStateService
+from eosclubhouse.quests.episodenext.quest_template import QuestTemplate
 from eosclubhouse.quests.episodenext.rileyquest1 import RileyQuest1
 
 
 class RileyQuestSet(QuestSet):
 
     __character_id__ = 'riley'
-    __quests__ = [RileyQuest1]
+    __quests__ = [QuestTemplate, RileyQuest1]
 
     def __init__(self):
         super().__init__()

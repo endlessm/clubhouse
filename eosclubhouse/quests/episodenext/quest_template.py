@@ -8,7 +8,7 @@ class QuestTemplate(Quest):
     APP_NAME = 'com.endlessm.Sidetrack'
 
     def __init__(self):
-        super().__init__('QuestTemplate', 'ada')
+        super().__init__('QuestTemplate', 'riley')
         self._app = App(self.APP_NAME)
         self.choiceval = False
 
@@ -29,8 +29,8 @@ class QuestTemplate(Quest):
     def step_part2(self):
         self.show_hints_message('HELP1')
         self.pause(10)
-        choice1 = ('ANS1', self.do_choice(True), 1)
-        choice2 = ('ANS2', self.do_choice(False), 1)
+        choice1 = ('ANS1', self.do_choice, True)
+        choice2 = ('ANS2', self.do_choice, False)
         self.show_choices_message('CHOICEQUESTION', choice1, choice2).wait()
 
         self.wait_confirm('CHOICE1') if self.choiceval else self.wait_confirm('CHOICE2')
@@ -40,7 +40,7 @@ class QuestTemplate(Quest):
 
     def step_success(self):
         self.wait_confirm('SUCCESS')
-        self.complete = True
-        self.available = False
+        # self.complete = True
+        # self.available = False
         Sound.play('quests/quest-complete')
         self.stop()

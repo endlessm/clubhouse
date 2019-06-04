@@ -36,7 +36,7 @@ class AdaQuest1(Quest):
 
     def step_success(self):
         self.wait_confirm('SUCCESS')
-        # self.complete = True
-        # self.available = False
+        self.complete = True
+        self.available = False
         Sound.play('quests/quest-complete')
         self.stop()
