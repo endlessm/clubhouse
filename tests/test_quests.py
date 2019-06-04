@@ -11,7 +11,7 @@ class TestQuests(ClubhouseTestCase):
     def test_show_message_can_raise_custom_error(self):
         """Tests that Quests raise a custom error when a message ID is not in the catalog."""
 
-        quest = define_quest('PhonyQuest', 'Alice')()
+        quest = define_quest('PhonyQuest', 'Alice')(None)
 
         string_catalog = QuestStringCatalog._csv_dict
         QuestStringCatalog.set_key_value_from_csv_row(('PHONYQUEST_HELLO',
@@ -53,3 +53,45 @@ class TestQuests(ClubhouseTestCase):
         self.assertEqual(get_dependencies('QuestC0'), ['QuestB0', 'QuestA0'])
 
         self.assertEqual(get_dependencies('QuestA1'), [])
+
+    def test_main_character(self):
+        '''Tests what the main character is when quests are initialized.'''
+        QuestA = define_quest('QuestA')
+
+        PhonyAlice = define_quest_set('PhonyAlice', 'alice')
+        PhonyAlice.__quests__ = [QuestA]
+
+        setup_episode([PhonyAlice()])
+
+        quest_a = Registry.get_quest_by_name('QuestA')
+        self.assertEqual(quest_a.get_main_character(), 'alice')
+
+    def test_proposal_message_id(self):
+        '''Tests overriding the proposal message ID of quests.'''
+        a_proposal = 'a quest question'
+        b_proposal = 'b quest welcome'
+
+        string_catalog = QuestStringCatalog._csv_dict
+        QuestStringCatalog.set_key_value_from_csv_row(('QUESTA_QUESTION',
+                                                       a_proposal, 'alice',
+                                                       'talk', '', ''),
+                                                      string_catalog)
+        QuestStringCatalog.set_key_value_from_csv_row(('QUESTB_WELCOME',
+                                                       b_proposal, 'bob',
+                                                       'talk', '', ''),
+                                                      string_catalog)
+
+        QuestA = define_quest('QuestA', 'alice')
+        QuestB = define_quest('QuestB', 'bob')
+        QuestB.__proposal_message_id__ = 'WELCOME'
+
+        PhonySet = define_quest_set('PhonySet', 'alice')
+        PhonySet.__quests__ = [QuestA, QuestB]
+
+        setup_episode([PhonySet()])
+
+        quest_a = Registry.get_quest_by_name('QuestA')
+        self.assertEqual(quest_a.proposal_message, a_proposal)
+
+        quest_b = Registry.get_quest_by_name('QuestB')
+        self.assertEqual(quest_b.proposal_message, b_proposal)

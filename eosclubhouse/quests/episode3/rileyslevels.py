@@ -12,8 +12,7 @@ class RileysLevels(Quest):
     SECOND_RILEY_LEVEL = FIRST_RILEY_LEVEL + 1
     LAST_RILEY_LEVEL = 16
 
-    def __init__(self):
-        super().__init__('RileysLevels', 'ada')
+    def setup(self):
         self._app = Fizzics()
 
     def _wait_for_app_changes(self):

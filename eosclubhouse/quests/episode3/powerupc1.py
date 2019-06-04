@@ -7,8 +7,7 @@ class PowerUpC1(Quest):
 
     CHECK_GOAL_TIMEOUT = 10
 
-    def __init__(self):
-        super().__init__('PowerUpC1', 'saniel')
+    def setup(self):
         self.auto_offer = True
         self._app = LightSpeed()
 

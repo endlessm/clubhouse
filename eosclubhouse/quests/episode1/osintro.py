@@ -6,8 +6,7 @@ class OSIntro(Quest):
 
     APP_NAME = 'com.endlessm.OperatingSystemApp'
 
-    def __init__(self):
-        super().__init__('OS Intro', 'ada')
+    def setup(self):
         self._app = App(self.APP_NAME)
 
     def step_begin(self):

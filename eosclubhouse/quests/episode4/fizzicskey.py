@@ -67,8 +67,7 @@ class FizzicsKey(Quest):
         ],
     }
 
-    def __init__(self):
-        super().__init__('FizzicsKey', 'saniel')
+    def setup(self):
         self._app = Fizzics()
         self._intro_cutscene_played = False
         self._toolbox_topic = None

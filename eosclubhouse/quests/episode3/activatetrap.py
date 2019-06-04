@@ -8,9 +8,6 @@ class ActivateTrap(Quest):
     __complete_episode__ = True
     __advance_episode__ = True
 
-    def __init__(self):
-        super().__init__('ActivateTrap', 'saniel')
-
     def step_begin(self):
         if not self.clubhouse_state.window_is_visible:
             self.show_hints_message('OPEN_CLUBHOUSE')

@@ -7,8 +7,7 @@ class FizzicsCode1(Quest):
 
     LOCK = 'lock.fizzics.2'
 
-    def __init__(self):
-        super().__init__('Fizzics Code 1', 'ada')
+    def setup(self):
         self._app = Fizzics()
 
     def step_begin(self):

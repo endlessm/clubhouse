@@ -5,8 +5,7 @@ from eosclubhouse.apps import Sidetrack
 
 class TrapIntro(Quest):
     # This quest just goes straight through with no stopping
-    def __init__(self):
-        super().__init__('TrapIntro', 'trap')
+    def setup(self):
         self._gss = GameStateService()
         self._app = Sidetrack()
 

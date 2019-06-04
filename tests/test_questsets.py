@@ -1,15 +1,14 @@
-import itertools
+import os
+import tempfile
 
 from eosclubhouse.libquest import Registry, Quest, QuestSet
 from eosclubhouse.utils import QS, QuestStringCatalog
-from clubhouseunittest import ClubhouseTestCase, test_all_episodes
-from unittest import mock
+from clubhouseunittest import ClubhouseTestCase, test_all_episodes, setup_episode
 
 
 class PhonyQuest(Quest):
 
-    def __init__(self, quest_set):
-        super().__init__('PhonyQuest for {}'.format(quest_set), quest_set.get_character())
+    def setup(self):
         self.available = True
 
     def step_begin(self):
@@ -29,6 +28,12 @@ class TestQuestSets(ClubhouseTestCase):
             if quest_set.active:
                 return quest_set
         return None
+
+    @test_all_episodes
+    def test_questset_contents(self):
+        """Tests if any QuestSets are loaded."""
+        quest_sets = Registry.get_quest_sets()
+        self.assertGreater(len(quest_sets), 0)
 
     @test_all_episodes
     def test_empty_message_with_inactive_questsets(self):
@@ -66,8 +71,7 @@ class TestQuestSets(ClubhouseTestCase):
         alice = PhonyAlice()
         bob = PhonyBob()
 
-        Registry.get_loaded_episode_name = mock.Mock(return_value='phonyep')
-        Registry.get_quest_sets = mock.Mock(return_value=[alice])
+        setup_episode([alice], episode_name='phonyep')
 
         string_catalog = QuestStringCatalog._csv_dict
         QuestStringCatalog.set_key_value_from_csv_row(('NOQUEST_ALICE_NOTHING',
@@ -100,7 +104,7 @@ class TestQuestSets(ClubhouseTestCase):
         self.assertEqual(alice.get_empty_message(), noquest_info['txt'])
 
         # There's an episode specific noquest message and an other quest-set active.
-        Registry.get_quest_sets = mock.Mock(return_value=[alice, bob])
+        Registry._quest_sets = [alice, bob]
         self.assertEqual(alice.get_empty_message(), ep_noquest_alice_bob_info['txt'])
 
         # There's no episode specific noquest message and an other quest-set active.
@@ -127,10 +131,7 @@ class TestQuestSets(ClubhouseTestCase):
     @test_all_episodes
     def test_can_complete_episode(self):
         """Tests there is at least one Quest in the QuestSets that complete the episode."""
-        quest_sets = Registry.get_quest_sets()
-
-        all_quests = itertools.chain.from_iterable((quest_set.get_quests()
-                                                    for quest_set in quest_sets))
+        all_quests = Registry.get_current_quests().values()
         has_quest_with_complete = any(quest.__complete_episode__ for quest in all_quests)
         self.assertTrue(has_quest_with_complete,
                         "Episode " + Registry.get_loaded_episode_name() +
@@ -171,3 +172,42 @@ class TestQuestSets(ClubhouseTestCase):
             self.assertEqual(empty_message, message,
                              'Failed while checking empty message from {} for '
                              'active {}'.format(test_quest_set, quest_set))
+
+    def test_load_mixed_quest_definitions(self):
+        '''Tests loading a QuestSet with quests defined as strings and as classes.'''
+        quest_set_source = '''
+from phonyep.aquest import AQuest
+from eosclubhouse.libquest import Registry, QuestSet
+
+class TestQuestSet(QuestSet):
+    __character_id__ = 'phony'
+    __quests__ = [AQuest, 'ZQuest']
+
+Registry.register_quest_set(TestQuestSet)
+'''
+        quest_source_template = '''
+from eosclubhouse.libquest import Quest
+class {}(Quest):
+    pass
+'''
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            episode_name = 'phonyep'
+            dir_name = os.path.join(tmpdir, episode_name)
+            os.mkdir(dir_name)
+
+            quest_names = ['AQuest', 'ZQuest']
+            for name in quest_names:
+                with open(os.path.join(dir_name, name.lower() + '.py'), 'w') as quest_set_file:
+                    quest_set_file.write(quest_source_template.format(name))
+
+            # Set the quests for the QuestSet, the first is given as a string, the second as a
+            # symbol.
+            with open(os.path.join(dir_name, 'testquestset.py'), 'w') as quest_set_file:
+                quest_set_file.write(quest_set_source)
+
+            Registry._reset()
+            Registry._loaded_episode = episode_name
+            Registry.load(dir_name)
+            self.assertIn('TestQuestSet',
+                          [quest_set.get_id() for quest_set in Registry.get_quest_sets()])

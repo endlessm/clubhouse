@@ -7,8 +7,7 @@ class LightSpeedFix2(Quest):
 
     APP_NAME = 'com.endlessm.LightSpeed'
 
-    def __init__(self):
-        super().__init__('LightSpeedFix2', 'saniel')
+    def setup(self):
         self._app = LightSpeed()
 
     def step_begin(self):

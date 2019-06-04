@@ -1,14 +1,10 @@
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse.quests.episode2.makerintro import MakerIntro
-from eosclubhouse.quests.episode2.stealthdevice import StealthDevice
-from eosclubhouse.quests.episode2.makerquest import MakerQuest
-from eosclubhouse.quests.episode2.makedevice import MakeDevice
 
 
 class FaberQuestSet(QuestSet):
 
     __character_id__ = 'faber'
-    __quests__ = [MakerIntro, StealthDevice, MakerQuest, MakeDevice]
+    __quests__ = ['MakerIntro', 'StealthDevice', 'MakerQuest', 'MakeDevice']
 
     def __init__(self):
         super().__init__()

@@ -7,8 +7,7 @@ class MazePt2(Quest):
 
     __available_after_completing_quests__ = ['LightspeedKey']
 
-    def __init__(self):
-        super().__init__('MazePt2', 'ada')
+    def setup(self):
         self._app = Sidetrack()
         self.confirmed_messages = []
         self.unlocked = False

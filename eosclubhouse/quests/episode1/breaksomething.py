@@ -13,8 +13,7 @@ class BreakSomething(Quest):
     __available_after_completing_quests__ = ['OSIntro']
     __items_on_completion__ = {'item.key.OperatingSystemApp.1': {}}
 
-    def __init__(self):
-        super().__init__('Break Something', 'riley')
+    def setup(self):
         self._app = App(self.APP_NAME)
         self.settings = Gio.Settings.new("org.gnome.desktop.interface")
 

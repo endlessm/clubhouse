@@ -10,8 +10,7 @@ class Investigation(Quest):
     __available_after_completing_quests__ = ['Chore']
     __items_on_completion__ = {'item.key.unknown_item': {}}
 
-    def __init__(self):
-        super().__init__('Investigation', 'riley')
+    def setup(self):
         self._app = App(self.APP_NAME)
         self._try_attempts = 0
 

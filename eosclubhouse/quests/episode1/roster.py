@@ -7,8 +7,7 @@ class Roster(Quest):
     APP_NAME = 'com.endlessm.Hackdex_chapter_one'
     SANIEL_CLICKED_KEY = 'app.com_endlessm_Hackdex_chapter_one.saniel_clicked'
 
-    def __init__(self):
-        super().__init__('Roster', 'ada')
+    def setup(self):
         self._app = App(self.APP_NAME)
 
     def is_saniel_page_read(self):

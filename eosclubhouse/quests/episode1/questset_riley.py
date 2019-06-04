@@ -1,15 +1,11 @@
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse.quests.episode1.fizzics1 import Fizzics1
-from eosclubhouse.quests.episode1.breaksomething import BreakSomething
-from eosclubhouse.quests.episode1.fizzics2 import Fizzics2
-from eosclubhouse.quests.episode1.fizzicscode2 import FizzicsCode2
 
 
 class RileyQuestSet(QuestSet):
 
     __character_id__ = 'riley'
-    __quests__ = [Fizzics1, BreakSomething, Fizzics2, FizzicsCode2]
+    __quests__ = ['Fizzics1', 'BreakSomething', 'Fizzics2', 'FizzicsCode2']
 
     def __init__(self):
         super().__init__()

@@ -11,8 +11,7 @@ class BreakingIn(Quest):
     __complete_episode__ = True
     __advance_episode__ = True
 
-    def __init__(self):
-        super().__init__('BreakingIn', 'riley')
+    def setup(self):
         self._app = App(self.APP_NAME)
 
         # Make sure the quest is doable, if it was left incomplete but with Riley trapped (early

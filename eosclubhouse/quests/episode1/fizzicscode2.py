@@ -8,8 +8,7 @@ class FizzicsCode2(Quest):
     __available_after_completing_quests__ = ['FizzicsCode1']
     __advance_episode__ = True
 
-    def __init__(self):
-        super().__init__('Fizzics Code 2', 'riley')
+    def setup(self):
         self._app = Fizzics()
 
     def step_begin(self):

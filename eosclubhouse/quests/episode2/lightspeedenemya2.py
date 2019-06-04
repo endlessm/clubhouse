@@ -7,8 +7,7 @@ class LightSpeedEnemyA2(Quest):
 
     APP_NAME = 'com.endlessm.LightSpeed'
 
-    def __init__(self):
-        super().__init__('LightSpeedEnemyA2', 'ada')
+    def setup(self):
         self._app = LightSpeed()
 
     def step_begin(self):

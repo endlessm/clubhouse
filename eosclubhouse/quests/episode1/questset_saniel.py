@@ -1,13 +1,12 @@
 
 from eosclubhouse.utils import QS
 from eosclubhouse.libquest import Registry, QuestSet
-from eosclubhouse.quests.episode1.hackdex1 import Hackdex1
 
 
 class SanielQuestSet(QuestSet):
 
     __character_id__ = 'saniel'
-    __quests__ = [Hackdex1]
+    __quests__ = ['Hackdex1']
 
     def __init__(self):
         super().__init__()

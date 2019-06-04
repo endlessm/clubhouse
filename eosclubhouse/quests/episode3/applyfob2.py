@@ -4,9 +4,6 @@ from eosclubhouse.system import Sound
 
 class ApplyFob2(Quest):
 
-    def __init__(self):
-        super().__init__('ApplyFob2', 'saniel')
-
     def step_begin(self):
         if not self.clubhouse_state.window_is_visible:
             self.show_hints_message('OPEN_CLUBHOUSE')

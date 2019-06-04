@@ -8,8 +8,7 @@ class PowerUpA1(Quest):
     __available_after_completing_quests__ = ['ApplyFob1']
     CHECK_GOAL_TIMEOUT = 10
 
-    def __init__(self):
-        super().__init__('PowerUpA1', 'saniel')
+    def setup(self):
         self._app = LightSpeed()
 
     def step_begin(self):

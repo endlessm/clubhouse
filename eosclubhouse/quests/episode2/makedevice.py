@@ -10,9 +10,6 @@ class MakeDevice(Quest):
 
     __items_on_completion__ = {'item.stealth_device': {}}
 
-    def __init__(self):
-        super().__init__('MakeDevice', 'faber')
-
     def has_all_stealth_parts(self):
         for item in self.STEALTH_PARTS:
             if self.gss.get(item) is None:

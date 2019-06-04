@@ -9,10 +9,9 @@ class Hackdex1(Quest):
     __available_after_completing_quests__ = ['BreakSomething', 'Roster']
     __items_on_completion__ = {'item.key.fizzics.2': {}}
 
-    def __init__(self):
-        self._is_corrupt_setup = False
+    _is_corrupt_setup = False
 
-        super().__init__('Hackdex Corruption', 'saniel')
+    def setup(self):
         self._app = App(self.APP_NAME)
 
     def update_availability(self, _gss=None):

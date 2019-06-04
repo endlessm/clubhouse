@@ -10,8 +10,7 @@ class LeviHackdex(Quest):
     ROTATION = 'app.com_endlessm_Hackdex_chapter_two.encryption'
     TOOLBOX_PANEL = 'lock.com.endlessm.Hackdex_chapter_two.1'
 
-    def __init__(self):
-        super().__init__('LeviHackdex', 'ada')
+    def setup(self):
         self._app = App(self.APP_NAME)
 
     def step_begin(self):

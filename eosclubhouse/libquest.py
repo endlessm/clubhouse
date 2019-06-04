@@ -40,6 +40,7 @@ glibcoro.install()
 
 class Registry:
 
+    _quest_sets_to_register = []
     _quest_sets = []
     _loaded_modules = set()
     _loaded_episode = None
@@ -66,19 +67,35 @@ class Registry:
     @classmethod
     @Performance.timeit
     def load(class_, quest_folder):
-        sys.path.append(quest_folder)
+        parent_dir = os.path.dirname(quest_folder)
+        if parent_dir in sys.path:
+            parent_dir = None
+        else:
+            sys.path.append(parent_dir)
 
         for _unused, modname, _unused in pkgutil.walk_packages([quest_folder]):
-            __import__(modname)
-            class_._loaded_modules.add(modname)
+            # Import the module with the episode name as its prefix to make sure we use the right
+            # quests when included them by name (without the episode prefix, we could end up
+            # including a quest that is not the right one if there are two quests with the same
+            # name across episodes that have been loaded).
+            module_with_episode = os.path.basename(quest_folder) + '.' + modname
+            __import__(module_with_episode)
+            class_._loaded_modules.add(module_with_episode)
 
-        del sys.path[sys.path.index(quest_folder)]
+        for quest_set_class in class_._quest_sets_to_register:
+            class_._quest_sets.append(quest_set_class())
+            logger.debug('QuestSet registered: %s', quest_set_class)
+
+        if parent_dir is not None:
+            del sys.path[sys.path.index(parent_dir)]
+        class_._quest_sets_to_register = []
 
     @classmethod
     def _reset(class_):
         class_._loaded_episode = None
         class_._autorun_quest = None
         class_._next_episode = None
+        class_._quest_sets_to_register = []
         class_._quest_sets = []
         for module in class_._loaded_modules:
             del sys.modules[module]
@@ -89,8 +106,7 @@ class Registry:
     def register_quest_set(class_, quest_set):
         if not issubclass(quest_set, QuestSet):
             raise TypeError('{} is not a of type {}'.format(quest_set, QuestSet))
-        class_._quest_sets.append(quest_set())
-        logger.debug('QuestSet registered: %s', quest_set)
+        class_._quest_sets_to_register.append(quest_set)
 
     @classmethod
     def get_quest_sets(class_):
@@ -562,6 +578,7 @@ class Quest(GObject.GObject):
     # Should be in the form 'key': {...} , a dict of the key's content, or an empty dict for
     # using the default key's content.
     __items_on_completion__ = {}
+    __proposal_message_id__ = 'QUESTION'
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
     _DEFAULT_MOOD = 'talk'
@@ -577,13 +594,12 @@ class Quest(GObject.GObject):
 
     stopping = GObject.Property(type=bool, default=False)
 
-    quest_set = GObject.Property(type=GObject.TYPE_PYOBJECT, default=None)
-
     auto_offer = GObject.Property(type=bool, default=False)
 
-    def __init__(self, name, main_character_id, proposal_message_id='QUESTION'):
+    def __init__(self, quest_set):
         super().__init__()
-        self._name = name
+
+        self.quest_set = quest_set
 
         # We declare these variables here, instead of looking them up in the registry when
         # we need them because this way we ensure we get the values when the quest was loaded,
@@ -603,12 +619,12 @@ class Quest(GObject.GObject):
 
         self._characters = {}
 
-        self._main_character_id = main_character_id.lower()
+        self._main_character_id = ''
         self._main_mood = self._DEFAULT_MOOD
         self._main_open_dialog_sound = 'clubhouse/dialog/open'
         self._default_abort_sound = 'quests/quest-aborted'
 
-        self._setup_proposal_message(proposal_message_id)
+        self._setup_proposal_message()
 
         self.gss = GameStateService()
         self.conf = {}
@@ -634,7 +650,23 @@ class Quest(GObject.GObject):
 
         self.clubhouse_state = ClubhouseState()
 
-    def _setup_proposal_message(self, message_id):
+        self.setup()
+
+    def setup(self):
+        '''Initialize/setup anything that is related to the quest implementation
+
+        Instead of having to define a constructor, subclasses of Quest should set up anything
+        related to their construction in this method. This way Quest implementations should
+        only define a constructor when needed, which simplifies the quests making them more
+        readable.
+
+        This method is called just once (in the Quest's base constructor). Code that needs
+        to be called on every quest run, should be added to the `step_begin` method.
+        '''
+        pass
+
+    def _setup_proposal_message(self):
+        message_id = self.__proposal_message_id__
         message_info = QuestStringCatalog.get_info('{}_{}'.format(self._qs_base_id, message_id))
 
         if message_info is None:
@@ -1093,7 +1125,10 @@ class Quest(GObject.GObject):
             self._cancellable.cancel()
 
     def get_main_character(self):
-        return self._main_character_id
+        character_id = self._main_character_id
+        if not character_id and self.quest_set:
+            character_id = self.quest_set.get_character()
+        return character_id
 
     def play_stop_bg_sound(self, sound_event_id=None):
         """
@@ -1159,7 +1194,7 @@ class Quest(GObject.GObject):
         # information here, so it would be better to pass the dict
         # directly.
         self.emit('message', info_id or '', options['txt'], possible_answers,
-                  options.get('character_id') or self._main_character_id,
+                  options.get('character_id') or self.get_main_character(),
                   options.get('mood') or self._main_mood,
                   sfx_sound, bg_sound)
 
@@ -1280,7 +1315,7 @@ class Quest(GObject.GObject):
             self._run_context.debug_dispatch()
 
     def __repr__(self):
-        return self._name
+        return self.get_id()
 
     def set_cancellable(self, cancellable):
         self._cancellable = cancellable
@@ -1461,8 +1496,9 @@ class QuestSet(GObject.GObject):
 
         self._quest_objs = []
         for quest_class in self.__quests__:
-            quest = quest_class()
-            quest.quest_set = self
+            if isinstance(quest_class, str):
+                quest_class = self._get_quest_class_by_name(quest_class)
+            quest = quest_class(self)
 
             self._quest_objs.append(quest)
             quest.connect('notify',
@@ -1470,6 +1506,18 @@ class QuestSet(GObject.GObject):
             quest.connect('dismissed', self._update_highlighted)
 
         self._update_highlighted()
+
+    def _get_quest_class_by_name(self, name):
+        current_episode = Registry.get_loaded_episode_name()
+        for subclass in Quest.__subclasses__():
+            # Avoid matching subclasses with the same name but in different episodes
+            episode = subclass.__module__.split('.', 1)[0]
+            if episode != current_episode:
+                continue
+
+            if subclass.__name__ == name:
+                return subclass
+        raise TypeError('Quest {} not found'.format(name))
 
     @classmethod
     def get_character(class_):
