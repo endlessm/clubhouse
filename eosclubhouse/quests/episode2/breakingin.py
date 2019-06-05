@@ -8,6 +8,7 @@ class BreakingIn(Quest):
     LEVEL2_LOCK = 'lock.OperatingSystemApp.2'
 
     __available_after_completing_quests__ = ['MakeDevice']
+    __conf_on_completion__ = {'clubhouse.character.Riley': {'in_trap': True}}
     __complete_episode__ = True
     __advance_episode__ = True
 

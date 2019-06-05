@@ -6,6 +6,7 @@ from eosclubhouse.apps import Sidetrack
 class MazePt4(Quest):
 
     __available_after_completing_quests__ = ['FizzicsKey']
+    __conf_on_completion__ = {'clubhouse.character.Riley': {'in_trap': False}}
     __complete_episode__ = True
 
     def setup(self):

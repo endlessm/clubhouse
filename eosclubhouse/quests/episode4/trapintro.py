@@ -4,6 +4,9 @@ from eosclubhouse.apps import Sidetrack
 
 
 class TrapIntro(Quest):
+
+    __conf_on_completion__ = {'clubhouse.character.Trap': {'deployed': True}}
+
     # This quest just goes straight through with no stopping
     def setup(self):
         self._gss = GameStateService()
