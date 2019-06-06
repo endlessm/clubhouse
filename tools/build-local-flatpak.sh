@@ -23,7 +23,7 @@ pushd "$source_dir"
 GIT_CLONE_BRANCH=${GIT_CLONE_BRANCH:-'", "type": "dir'}
 REPO=${REPO:-repo}
 BRANCH=${BRANCH:-master}
-RUN_LINT="true"
+RUN_LINT=${CLUBHOUSE_BUILD_RUN_LINT:-true}
 
 pre_commit_target=$(readlink "$precommit_hook_path") || true
 if [ "$pre_commit_target" = "$precommit_hook_file" ]; then
