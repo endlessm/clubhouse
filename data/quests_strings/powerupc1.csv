@@ -1,15 +1,15 @@
 POWERUPC1_QUESTION,One more Power-up to go. Ready?,saniel,,,
 POWERUPC1_QUEST_ACCEPT,Always!,,,,
 POWERUPC1_LAUNCH,Start by launching Lightspeed.,,,,
-POWERUPC1_EXPLAIN,Now we're going to create Power-up `'upgrade'`. Go to the coding panel.,,,,
-POWERUPC1_CODE,"This level is already spawning Power-ups of type `'upgrade'`. So let's change its special power. 
+POWERUPC1_EXPLAIN,Now we're going to create Power-up `upgrade`. Go to the coding panel.,,,,
+POWERUPC1_CODE,"This level is already spawning Power-ups of type `upgrade`. So let's change its special power. 
 
 Click on the Power-up tab and look for the `activatePowerup()` function.
 
-We need to add a new `if` statement for type `'upgrade'`. Let's try shrinking the ship! 
+We need to add a new `if` statement for type `upgrade`. Let's try shrinking the ship! 
 
 It's on a timer, like invulnerability, so we'll use `ship.shrinkTimer = 5;`",,,,
-POWERUPC1_CODE_HINT1,"Just before the final `}` on the last line, type in `if (powerUpType === 'upgrade')`",,,,
+POWERUPC1_CODE_HINT1,"Just before the final `}` on the last line, type in `if (powerUpType === upgrade)`",,,,
 POWERUPC1_CODE_HINT2,And then `ship.shrinkTimer = 5;`. Then flip back around to see if that worked.,,,,
 POWERUPC1_ABOUTTOPLAY,Let's play the level now.,,,,
 POWERUPC1_ABOUTTOPLAY_HINT1,Press the *Restart* button.,,,,

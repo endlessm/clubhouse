@@ -15,7 +15,7 @@ Right now it's empty, so it does nothing. Let's make the ship invulnerable there
 There's a variable called `ship.invulnerableTimer`. Set it to 5 seconds. This is a bit tricky. 
 
 It's totally okay to ask for a hint if you're not sure how to do this! ",,,,
-POWERUPA2_CODE_HINT1,"Beneath `if (powerUpType === 'invulnerable') {`, type in `ship.invulnerableTimer = 5;`",,,,
+POWERUPA2_CODE_HINT1,"Beneath `if (powerUpType === invulnerable) {`, type in `ship.invulnerableTimer = 5;`",,,,
 POWERUPA2_CODE_HINT2,Now start the level as usual.,,,,
 POWERUPA2_PLAYTEST,Let's see if that worked. Try picking up a Power-up when you see it.,,,,
 POWERUPA2_ABOUTTOPLAY,Go ahead and play the level now.,,,,

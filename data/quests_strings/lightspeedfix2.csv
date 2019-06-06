@@ -6,8 +6,8 @@ LIGHTSPEEDFIX2_EXPLANATION,"Level 4 is somehow quite sparse! We could really use
 Go ahead and flip to hack just as we did before.",,,,
 LIGHTSPEEDFIX2_CODE,"Click on the Spawn tab again. The `spawnEnemy()` function is returning null! No wonder there are no asteroids.
 
-Try changing it to `return 'asteroid';` and running Level 4. What do you think will happen?",,,,
-LIGHTSPEEDFIX2_CODE_HINT1,Don't forget the quotes around `'asteroid'` and the semicolon at the end.,,,,
+Try changing it to `return asteroid;` and running Level 4. What do you think will happen?",,,,
+LIGHTSPEEDFIX2_CODE_HINT1,Don't forget the semicolon at the end.,,,,
 LIGHTSPEEDFIX2_CODE_HINT2,"When it looks good, press the Flip button again and try your level.",,,,
 LIGHTSPEEDFIX2_ABOUTTOPLAY,Go ahead and test your code by playing Level 4.,,,,
 LIGHTSPEEDFIX2_PLAYTEST,Let's see those asteroids now.,,,,
@@ -25,7 +25,7 @@ See that line that says `if (ticksSinceSpawn > 0)`? That executes the line below
 
 Let's change that 0 to 30 and we'll get one asteroid about every second.",,,,
 LIGHTSPEEDFIX2_CODE2_HINT1,The condition would be `ticksSinceSpawn > 30`,,,,
-LIGHTSPEEDFIX2_CODE2_HINT2,The code should be `if (ticksSinceSpawn > 30) { return 'asteroid'; }`,,,,
+LIGHTSPEEDFIX2_CODE2_HINT2,The code should be `if (ticksSinceSpawn > 30) { return asteroid; }`,,,,
 LIGHTSPEEDFIX2_CODE2_HINT3,Go back to the game when you're ready and test it out.,,,,
 LIGHTSPEEDFIX2_FINISHLEVEL,"Fantastic. Nice work spawning those asteroids! Now, go back in there and beat the level!",,hurray,,
 LIGHTSPEEDFIX2_SUCCESS,Smart work there! Clearly you're ready for something more challenging. Stop by the Clubhouse for more.,,,,

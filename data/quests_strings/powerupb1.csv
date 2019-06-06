@@ -7,13 +7,13 @@ Let's go in the coding panel and I'll show you how this works. ",,,,
 POWERUPB1_EXPLAIN_HINT1,Click the Flip button.,,,,
 POWERUPB1_CODE,"Click the Spawn tab. Remember that `spawnPowerup()` function? 
 
-Last time we changed it to say `return 'invulnerable';` 
+Last time we changed it to say `return invulnerable;` 
 
 This time we'll use `pickOne()` to create a Power-up randomly. 
 
-So if you want to return either one or the other, you would say `pickOne('invulnerable', 'blowup')`.",,,,
-POWERUPB1_CODE_HINT1,"Instead of returning `'invulnerable'`, return `pickOne('invulnerable', 'blowup')` ",,,,
-POWERUPB1_CODE_HINT2,"Change `return 'invulnerable';` to say `return pickOne('invulnerable', 'blowup');`.",,,,
+So if you want to return either one or the other, you would say `pickOne(invulnerable, blowup)`.",,,,
+POWERUPB1_CODE_HINT1,"Instead of returning `invulnerable`, return `pickOne(invulnerable, blowup)` ",,,,
+POWERUPB1_CODE_HINT2,"Change `return invulnerable;` to say `return pickOne(invulnerable, blowup);`.",,,,
 POWERUPB1_ABOUTTOPLAY,Go ahead and play the level.,,,,
 POWERUPB1_ABOUTTOPLAY_HINT1,Press the *Restart* button.,,,,
 POWERUPB1_PLAY_AGAIN,How about if we try that again.,,,,

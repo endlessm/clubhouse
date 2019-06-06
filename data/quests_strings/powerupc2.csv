@@ -1,17 +1,17 @@
 POWERUPC2_QUESTION,Let's do some more work on that Power-up.,saniel,,,
 POWERUPC2_QUEST_ACCEPT,I'm ready,,,,
 POWERUPC2_LAUNCH,Launch Lightspeed now.,,,,
-POWERUPC2_EXPLAIN,"We're going to make it so Power-up `'upgrade'` doesn't always shrink the ship: It gives a random bonus!
+POWERUPC2_EXPLAIN,"We're going to make it so Power-up `upgrade' doesn't always shrink the ship: It gives a random bonus!
 
 Let's go to the code panel and I'll explain it there.",,,,
 POWERUPC2_CODE,"Alright, start by clicking the Power-up tab and looking for the `activatePowerup()` function.
 
-See where we left off with the `if (powerUpType === 'upgrade')`? We now want to pick a bonus at random.
+See where we left off with the `if (powerUpType === upgrade)`? We now want to pick a bonus at random.
 
 Either we'll shrink the ship as before, or we'll increase the astronaut attraction with `ship.attractTimer = 5;`
 
 We'll make a random number between 1 and 2, like this: `var r = random(1, 2);`. Then check it with `if`. Ready for hints?",,,,
-POWERUPC2_CODE_HINT1,"After `if (powerUpType === 'upgrade')` type in a `{`. Then on the next line type `var r=random(1,2);`",,,,
+POWERUPC2_CODE_HINT1,"After `if (powerUpType === upgrade)` type in a `{`. Then on the next line type `var r=random(1,2);`",,,,
 POWERUPC2_CODE_HINT2,"On the next line after that type: `if (r === 1) ship.shrinkTimer = 5;` If you already see part of that, maybe you only need to type in the `if (r === 1)` part.",,,,
 POWERUPC2_CODE_HINT3,And on the next line type `if (r === 2) ship.attractTimer = 5;`   And on the next line just `}`,,,,
 POWERUPC2_ABOUTTOPLAY,Play the level now.,,,,
@@ -24,7 +24,7 @@ POWERUPC2_NO_UPGRADE,That Power-up didn't give any upgrade to the ship. Go back 
 POWERUPC2_OTHER_PICKED,Did you mean to pick a Power-up of a different type?,,,,
 POWERUPC2_NOT_PICKED,"Alright, start by clicking the Power-up tab and looking for the `activatePowerup()` function.
 
-See where we left off with the `if (powerUpType === 'upgrade')`? We now want to pick a bonus at random.
+See where we left off with the `if (powerUpType === upgrade)`? We now want to pick a bonus at random.
 
 Either we'll shrink the ship as before, or we'll increase the astronaut attraction with `ship.attractTimer = 5;`
 

@@ -8,10 +8,10 @@ LIGHTSPEEDFINAL_CODE,"All right, now we need to give it everything. Let's spawn 
 
 Click on the Spawn tab and look at the `spawnEnemy()` function.
 
-Let's change it so it randomly spawns any of the 4 enemies: `'asteroid'`, `'spinner'`, `'squid'` or `'beam'`. I'm ready to give you hints.",,,,
-LIGHTSPEEDFINAL_CODE_HINT1,See where we return `'asteroid'`? Instead we'll return by using the `pickOne()` function.,,,,
-LIGHTSPEEDFINAL_CODE_HINT2,"Inside the `pickOne()` we will list the 4 enemies, `'asteroid', 'spinner', 'squid', 'beam'`.",,,,
-LIGHTSPEEDFINAL_CODE_HINT3,"So the whole thing should say `return pickOne('asteroid', 'spinner', 'squid', 'beam');`",,,,
+Let's change it so it randomly spawns any of the 4 enemies: `asteroid`, `spinner`, `squid` or `beam`. I'm ready to give you hints.",,,,
+LIGHTSPEEDFINAL_CODE_HINT1,See where we return `asteroid`? Instead we'll return by using the `pickOne()` function.,,,,
+LIGHTSPEEDFINAL_CODE_HINT2,"Inside the `pickOne()` we will list the 4 enemies, `asteroid, spinner, squid, beam`.",,,,
+LIGHTSPEEDFINAL_CODE_HINT3,"So the whole thing should say `return pickOne(asteroid, spinner, squid, beam);`",,,,
 LIGHTSPEEDFINAL_ABOUTTOPLAY,Ready. Let's play!,,,,
 LIGHTSPEEDFINAL_PLAYTEST,You should get all 4 enemies in this level.,,,,
 LIGHTSPEEDFINAL_ABOUTTOPLAY_HINT1,Click the trusty *Restart* button.,,,,

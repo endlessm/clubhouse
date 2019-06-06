@@ -10,7 +10,7 @@ LIGHTSPEEDENEMYB2_CODE_HINT1,How do you pick one random number? That's right: th
 LIGHTSPEEDENEMYB2_CODE_HINT2,"And how do use it to pick one of two things? We could do `random(1,2)`.",,,,
 LIGHTSPEEDENEMYB2_CODE_HINT3,And all of that in an `if` statement to pick one enemy or the other.,,,,
 LIGHTSPEEDENEMYB2_CODE_HINT4,"So when it's time to spawn: 
-`if (random(1,2) === 1) { return 'asteroid'; }
+`if (random(1,2) === 1) { return asteroid; }
 return 'squid';`",,,,
 LIGHTSPEEDENEMYB2_CODE_HINT5,All of that after `if (ticksSinceSpawn > 40) {...}` of course.,,,,
 LIGHTSPEEDENEMYB2_CODE_HINT6,Make sure you go back and test your code in the game!,,,,

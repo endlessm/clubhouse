@@ -1,25 +1,25 @@
 MAZEPT3_LAUNCH,"OK, launch *Sidetrack*!",,,,
-MAZEPT3_QUESTION,Ready to dive back into Sidetrack to help Riley free herself from the maze?,ada,,,
+MAZEPT3_QUESTION,Ready to dive back into *Sidetrack* to help Riley free herself from the maze?,ada,,,
 MAZEPT3_QUEST_ACCEPT,"Okay, let's get started!",ada,,,
-MAZEPT3_RILEYPUSH,"Check out this `push` *Instruction*  Estelle told me about! So cool. 
+MAZEPT3_RILEYPUSH,"Check out this `push` *Instruction* Estelle told me about! So cool. 
 
-The *Wall* just moves out of the way! That's what I'm talking about! ",riley,,,
+The *Wall* just moves right out of the way! That's what I'm talking about! ",riley,,,
 MAZEPT3_RILEYPUSH_HINT1,Click the *Flip* button.,riley,,,
 MAZEPT3_RILEYPUSH2,"Type in `riley.push();` That's the cool new *Instruction*  that Estelle found in Ada's research about Leviathan.
 
-You might as well replace that `riley.jump;` at position 2, right? A `jump` *Instruction*  won't help us in this level.",riley,,,
-MAZEPT3_RILEYPUSH2_HINT1,"When I’m lined up with a *Wall* and about to crash into a wall, PUSH is just what I need. 
+You might as well replace that `riley.jump;` at position 2, right? We won't need a  `jump` *Instruction* in this level.",riley,,,
+MAZEPT3_RILEYPUSH2_HINT1,"When I’m lined up with a *Wall*, `push` is exactly the *Instruction* I need. 
 
-Suddenly I'm so strong I can actually move *Walls*! Let’s give it a try! ",riley,,,
-MAZEPT3_RILEYPUSH2_HINT2,"When you add a `push` Instruction, you'll see it on the front of the app.  
+Suddenly I'm so strong I can move *Walls*! LOL Let’s give it a try! ",riley,,,
+MAZEPT3_RILEYPUSH2_HINT2,"When you add a `push` *Instruction*, you'll see it on the front of the app.  
 
-That means you can drag and drop the *Instruction*  into a different position. ",riley,,,
+That means you can drag and drop the *Instruction* into a different position. ",riley,,,
 MAZEPT3_RILEYPUSH3_B,"Look at all these `jump`s! Not useful at all! _Obvi_ you can't jump over a *Wall* or a *Robot!*
 
-`jump` only works for *Pits*. However, you _can_ `push` *Walls* and *Robots*! 
+`jump` only works for *Pits*. However, keep in mind that you _can_ `push` *Walls* and *Robots*! 
 
 Whoever put all these `jumps` here must not have had access to the `push` *Instruction*. ",riley,,,
-MAZEPT3_RILEYPUSH3_B_HINT1,"If I change all the `jump` *Instructions* to `push` in the Hack panel, I think these *Instructions* will work!",riley,,,
+MAZEPT3_RILEYPUSH3_B_HINT1,"If I change all the `jump` *Instructions* to `push` in the Hack panel, I think this sequence of *Instructions* will work!",riley,,,
 MAZEPT3_RILEYPUSH3_C_PUSHINTRO,"One more thing – for `push` to work, you need to have space next to the obstacle you're pushing. 
 
 In other words, whatever you `push` needs a space to move to! It makes sense, right?
@@ -28,13 +28,19 @@ To get through this level, only use `push` for *one* column of *Walls* at a time
 MAZEPT3_RILEYPUSH3_C,"If the space to the right of what you're pushing is blocked, `push` won't work!",estelle,,,
 MAZEPT3_RILEYPUSH3_C_HINT1,Rewrite the *Instructions* in the Hack panel until you've got the *Instructions* you need.,estelle,,,
 MAZEPT3_RILEYPUSH4,Brilliant work! This trap Saniel made is quite challenging!,ada,,,
-MAZEPT3_RILEYPUSH5,That `push` *Instruction*  def did the trick! Estelle basically snaps her fingers and *Walls* move! ,faber,,,
-MAZEPT3_RILEYPUSH6,"Are you thinking what I'm thinking, though? First Saniel tells us he built the trap.
+MAZEPT3_RILEYPUSH5,"That `push` *Instruction*  def did the trick! Estelle basically snaps her fingers and *Walls* move! 
+
+And it's interesting that the sketch for a Sidetrack *Instruction* was in Leviathan's notebooks. ",faber,,,
+MAZEPT3_RILEYPUSH6,"Yes, it certainly is an odd coincidence! Are you thinking what I'm thinking? Maybe it's not so random? 
+
+I mean, think about it. First Saniel tells us he built the trap.
 
 And then we find this secret `push` *Instruction* for the trap in Leviathan's code sketchbook. ",ada,,,
 MAZEPT3_RILEYPUSH7,Oh snap! Maybe Saniel and Leviathan worked together! ,faber,,,
 MAZEPT3_RILEYPUSH8,"Or let's take that one step further, Faber. Maybe Saniel is Levia –",ada,,,
-MAZEPT3_RILEYPUSH9,Mind. Blown. Saniel is Leviathan? Leviathan is Saniel? Whaaat. What if that's true? ,faber,,,
+MAZEPT3_RILEYPUSH9,"Mind. Blown. Saniel is Leviathan? Leviathan is Saniel? Whaaat. What if that's true?  
+
+Okay, whoa, back to Riley! Who knows what challenges she still faces in there! Riley, we're with you all the way!",faber,,,
 MAZEPT3_DRAMA,Sssshhhhhhh! I hear something. Do you hear that?,riley,,,
 MAZEPT3_DRAMA_FELIX,^__MEOW__^ ,felixnet,,,quests/glitch-meow
 MAZEPT3_DRAMA_FABER,"There it is again! Riley, can you hear that? Is something in there with you?",faber,,,
@@ -49,16 +55,14 @@ What if this is the AI Saniel was telling us about? Maybe it's still in there!
 ",faber,,,
 MAZEPT3_FELIXINTRO2,"My hypothesis exactly! What if the AI has been restoring its powers in the trap? Sounds like it's getting restless!
 
-We don't know how long it's been there. From what Saniel was saying, it's been building levels all this time.
-
-",ada,,,
+We don't know how long it's been there. From what Saniel was saying, it's been building levels all this time.",ada,,,
 MAZEPT3_FELIXINTRO3,"Still wondering about how your files ended up inside this maze. So many things have been glitching out around here lately!  
 
 Maybe whatever's been in there has been causing all these aberrations! ",faber,,,
 MAZEPT3_FELIXINTRO4,"Well, we can't figure it out right now. We've got to get  Riley through this next level. 
 
 Which of course, the AI has once again made super difficult!",ada,,,
-MAZEPT3_FELIXINTRO_FAILURE,"I don't see any way that _ANY_ set of *Instructions* could ever solve this level!
+MAZEPT3_FELIXINTRO_FAILURE,"I don't see any way that _any_ set of *Instructions* could ever solve this level!
 
 That AI has made it basically impossible, at least with the tools we have. ",faber,,,
 MAZEPT3_SUCCESS,"Whew, so where are we? Must say I really needed that nap! Everything is much clearer now!  

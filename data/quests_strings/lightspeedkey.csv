@@ -27,7 +27,7 @@ LIGHTSPEEDKEY_PANEL_SPAWN_HINT1,"See where it says `return` and then an enemy ty
 So you could change the word after `return` to change which enemy type appears.",,,,
 LIGHTSPEEDKEY_PANEL_SPAWN_HINT2,"Or sometimes, you'll see an `if` statement, which checks to see if something's true or not.
 
-For example `if (r === 2) return 'spinner';` tests to see if r equals 2, and if it does, that's true, so it `return`s spinner. 
+For example `if (r === 2) return spinner;` tests to see if r equals 2, and if it does, that's true, so it `return`s spinner. 
 
 The part that says `(r === 2)` is called the _condition_. You could change it, like `if (r ===` some other number maybe.
 
@@ -73,11 +73,11 @@ LIGHTSPEEDKEY_PANEL_POWERUPS,"The code in this *Topic* changes what special powe
 Power-Ups make it easier to pick up astronauts, or they can blow up enemies. Useful stuff like that!",,,,
 LIGHTSPEEDKEY_PANEL_POWERUPS_HINT1,"Look for `if` statements, which check to see if something is either true or false.
 
-For example `if (powerUpType === 'blowup')` tests to see if `powerUpType` equals blowup. It can be true or false.
+For example `if (powerUpType === blowup)` tests to see if `powerUpType` equals blowup. It can be true or false.
 
-`(powerUpType === 'blowup')` is called a condition. The code after it only happens if the condition is true.
+`(powerUpType === blowup)` is called a condition. The code after it only happens if the condition is true.
 
-For example, `if (powerUpType === 'blowup') blowUpEnemies();` means if the condition is true, then `blowUpEnemies();`",,,,
+For example, `if (powerUpType === blowup) blowUpEnemies();` means if the condition is true, then `blowUpEnemies();`",,,,
 LIGHTSPEEDKEY_PANEL_POWERUPS_HINT2,"One thing you could do is change which effect happens for each possible value of `powerUpType`.
 
 `ship.attractTimer = 5;` is the code which makes the ship attract astronauts from further away.
