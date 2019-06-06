@@ -1,5 +1,8 @@
-TRAPINTRO_QUESTION,"((( ( ( (  TRANSCODING SEQUENCE COMPLETE ) ) ) )))) )
+TRAPINTRO_QUESTION,"{{{fx /\ /\#  _transcoding_ 
+((∞) =∞=   _complete_ 
+?=))∞)))§    PLEASE 
+=}{,,,}{,,,}     CONFIRM  §§§",Riley,talk_glitched,,quests/transcoding-loop
+TRAPINTRO_QUESTION_ACCEPT,"{,,,}{,,,} CONFIRMED! /\ /\        ",Riley,talk_glitched,,
+TRAPINTRO_SUCCESS,"TRANSFER TO DESKTOP: 100% SUCCESSFUL
 
-§(∞((∞((∞( AWAITING CONFIRMATION )∞))∞))∞)§ ",Riley,talk_glitched,,
-TRAPINTRO_QUESTION_ACCEPT,CONFIRMED!,Riley,talk_glitched,,
-TRAPINTRO_SUCCESS,TRANSFER TO DESKTOP: 100% SUCCESSFUL,Riley,talk_glitched,,
+*SIDETRACK* ENGAGED",Riley,talk_glitched,quests/transfer-complete,

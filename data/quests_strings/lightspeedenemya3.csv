@@ -6,7 +6,7 @@ LIGHTSPEEDENEMYA3_EXPLANATION,"Now that *spinner* enemy moves in a diagonal and 
 Let's go to the coding panel again.",,,,
 LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE,Select the Spawn tab and make sure the `spawnEnemy` function creates a *spinner* enemy!,,,,
 LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE_HINT1,Make sure to return a `spinner` enemy in the `spawnEnemy` function!,,,,
-LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE_HINT2,Change the `spawnEnemy` function so it produces *spinner* enemies: `return 'spinner';`,,,,
+LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE_HINT2,Change the `spawnEnemy` function so it produces *spinner* enemies: `return spinner;`,,,,
 LIGHTSPEEDENEMYA3_CODE,"Select the Spinner tab and look for the `updateSpinner()` function.
 
 Let's stop making `y` smaller when it becomes less than 0 (the bottom of the screen). Oh look, there's an `if` statement already.

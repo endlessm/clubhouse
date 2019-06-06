@@ -1,24 +1,50 @@
-LEVIHACKDEX_DUMMY1,hackdex dummy text 1 (If you see this in master it's a bug!),Ada,,,
-LEVIHACKDEX_DUMMY2,"hackdex dummy text 2, longer (If you see this in master it's a bug!)",Ada,,,
-LEVIHACKDEX_DUMMY3,"hackdex dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Ada,,,
-LEVIHACKDEX_QUESTION,"Hey there, Would you like to see what's in these files? ",Ada,,,
+LEVIHACKDEX_QUESTION,"Hey there, would you like to join me in looking at my research files?",Ada,,,
 LEVIHACKDEX_QUEST_ACCEPT,Yes! ,Ada,,,
-LEVIHACKDEX_OPENINTRO,"Whew. so glad to see these! You’ve heard about Leviathan, right? We’re all Leviathan fans around here.  
+LEVIHACKDEX_LAUNCH,The files should be there on the desktop. Launch the *Leviathan* app.,Ada,,,
+LEVIHACKDEX_OPENINTRO,"Whew, so glad to see –– wait, all the text is encrypted! I *finally* get my research back and now I can't read it!
 
-These files hold some of my research on Leviathan. So let’s see what we have here.",Ada,,,
-LEVIHACKDEX_OPENINTRO1,"Wait, what’s going on? This is illegible. Everything’s scrambled. 
+I've been gathering materials on the mysterious historical hacker known as *Leviathan* for quite some time. 
 
-Finally got these back and now they’re not legible.",Ada,,,
-LEVIHACKDEX_OPENINTRO2,"That looks challenging, but I think I can help move this along. Solving cryptology puzzles is one of my side studies. 
+*Document 1103* covers Leviathan's takedown of an especially wily AI. But to read it, we need to decrypt it!",Ada,,,
+LEVIHACKDEX_OPENINTRO1,Maybe Estelle can help us with this! She's a total genius with ciphers.,Faber,,,
+LEVIHACKDEX_OPENINTRO2,Did I hear that someone is having trouble with a cipher?,Estelle,,,quests/teaching
+LEVIHACKDEX_OPENINTRO3,"Estelle! That was fast even for you, thanks for responding so quickly. 
 
-So fascinating! I see you’ve been keeping a dossier on Leviathan! I know a bit about this illustrious figure myself. ",Estelle,,,quests/teaching
-LEVIHACKDEX_GIVEKEY,"
-First thing we’ll need is this. hmmm, 
-",,,,quests/teaching
-LEVIHACKDEX_BACKGROUND,Yes. Leviathan is one of our ancestors. He’s a hero of mine. ,Ada,,,quests/teaching
-LEVIHACKDEX_PUSHINSTRUCTION,Well this might be handy. It turns out that what we’re looking at is an instruction for the Riley Maze app. It’s called Push.,Estelle,,,quests/teaching
-LEVIHACKDEX_PUSHINSTRUCTION2,So cool.   I remember finding that in an old folder that belonged to Leviathan. What does it do?,Ada,,,quests/teaching
-LEVIHACKDEX_PUSHINSTRUCTION3,Riley can use it in the maze to push walls out of her way. It’s going to be essential in getting her past this obstacle. ,Estelle,,,quests/teaching
-LEVIHACKDEX_END,Well this is a good development! Let’s go back to RileyMaze and see if Riley needs more help. ,Ada,,,quests/teaching
-LEVIHACKDEX_SUCCESS,levihackdex complete (dummytext),Ada,,,
-LEVIHACKDEX_ABORT,levihackdex abort (dummytext),Ada,,,
+We'd like your eyes on this puzzle - Something tells me you'll be able to help.",Faber,,,
+LEVIHACKDEX_OPENINTRO4,"Let's see. Mmm hmm. I think I can move this along, I've done a bit of this in my day.",Estelle,,,
+LEVIHACKDEX_PREFLIP,Let's find out what the trouble is. We need to get in there and adjust some settings in the hacking panel. ,Estelle,,,
+LEVIHACKDEX_GIVEKEY,Try this key and see if it gets us where we need to go. Click the Flip button and see if it's locked!,Estelle,,,
+LEVIHACKDEX_UNLOCK,"Ah, beautiful. ",Estelle,,,
+LEVIHACKDEX_DECRYPT,"So, here we are. See that number labeled *Cipher*, in the *Effects panel*? Try changing that and see what happens.",Estelle,,,
+LEVIHACKDEX_DECRYPT_HINT1,Try any number. Even the wrong guess will give us more information about what we're working with. ,Estelle,,,
+LEVIHACKDEX_DECRYPT_HINT2,"Once you try a number, Flip back to see what effect it has on the text.",Estelle,,,
+LEVIHACKDEX_DECRYPT2,"Aha! Look at the letters in the files. They've changed. They've also changed in *Cipher Output*, as well. Interesting!
+
+This confirms my theory. This is encoded with a rotational cipher, where the letters are shifted over in the alphabet.
+
+For example, if you take the word *CAT* and shift all the letters over one, you get *DBU*. ",Estelle,,,
+LEVIHACKDEX_DECRYPT2_ADA,"Maybe the page holds some clues? What can we still see clearly? Just for fun, try counting the cat tails! ",Ada,,,
+LEVIHACKDEX_DECRYPT3,"This looks like it might be a long, difficult process. Any tips, Estelle?",Ada,,,
+LEVIHACKDEX_DECRYPT3_HINT1,"Ciphers like this one only change letters, not where letters appear in words. I think I see some patterns in the data.",Estelle,,,
+LEVIHACKDEX_DECRYPT3_HINT2,"Think about it. *OCZ* appears many times. 
+
+So, if we compare *OCZ* to a common 3-letter word like *THE*, that will actually tell us alot!",Estelle,,,
+LEVIHACKDEX_DECRYPT3_HINT3,"Enter *OCZ* into *Cipher Input* and try different numbers until you get *THE* in *Cipher Output*. 
+
+Solving the cipher for OCZ will help you solve the whole cipher!",Estelle,,,
+LEVIHACKDEX_DECRYPT_SUCCESS,Excellent! That did the trick! Now we can read all these files. ,Estelle,,,
+LEVIHACKDEX_BACKGROUND,"Hey, check out that sketch at the bottom right. I was wondering if that might be useful. ",Ada,,,
+LEVIHACKDEX_PUSHINSTRUCTION,"Ah, yes. What we’re looking at is a *Sidetrack Instruction* called `push`.
+
+Now that's a signature Leviathan move – removing an obstacle.",Estelle,,,
+LEVIHACKDEX_PUSHINSTRUCTION2,"Tiiiiight! I knew you'd be able to help us with this, Estelle! Thank you!",Faber,,,
+LEVIHACKDEX_PUSHINSTRUCTION3,"Amazing. Thank you, Estelle. What does this new instruction do?",Ada,,,
+LEVIHACKDEX_PUSHINSTRUCTION4,"It does just what it says. You can use it to move a *Wall* that's blocking you. 
+
+Riley can use it in *Sidetrack* to push *Walls* out of her way. It’s going to be essential in getting her past obstacles.",Estelle,,,
+LEVIHACKDEX_PUSHINSTRUCTION5,"Well, this is getting very interesting! Why was there a note about Saniel's AI trap in Leviathan's code sketchbooks?",Ada,,,
+LEVIHACKDEX_PUSHINSTRUCTION6,"Ada, I think that's something you're going to have to ask Saniel about! ",Estelle,,,
+LEVIHACKDEX_SUCCESS,"I am totally going to do that. Right now, we've got to get back to Riley!
+
+Come find me in the Clubhouse when you're ready!",Ada,,,
+LEVIHACKDEX_ABORT,"Okay, come back when you're ready! Riley still needs our help to get through the maze, so come back soon!",Ada,,,

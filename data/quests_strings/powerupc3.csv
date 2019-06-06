@@ -6,9 +6,9 @@ POWERUPC3_CODE,"Go to the `activatePowerup()` function on the Power-Up tab. We w
 
 Then we'll use `ship.engineTimer = 5;` to make the new third upgrade work!  I'm ready to give you hints.",,,,
 POWERUPC3_CODE_HINT1,"Change `var r = random(1,2);` to `var r = random(1,3);`",,,,
-POWERUPC3_CODE_HINT2,"Then below `ship.attractTimer = 5;`, add a new line that says `if (r == 3)`",,,,
+POWERUPC3_CODE_HINT2,"Then below `ship.attractTimer = 5;`, add a new line that says `if (r === 3)`",,,,
 POWERUPC3_CODE_HINT3,Then after that add `ship.engineTimer = 5;`,,,,
-POWERUPC3_CODE_HINT4,So the whole thing will say `if (r == 3) ship.engineTimer = 5;`  Then flip back around to test!,,,,
+POWERUPC3_CODE_HINT4,So the whole thing will say `if (r === 3) ship.engineTimer = 5;`  Then flip back around to test!,,,,
 POWERUPC3_ABOUTTOPLAY,Go ahead and try the level as usual.,,,,
 POWERUPC3_PLAYTEST,You should be able to get all 3 types of upgrades as you play the level...,,,,
 POWERUPC3_ABOUTTOPLAY_HINT1,Press *Restart.*,,,,

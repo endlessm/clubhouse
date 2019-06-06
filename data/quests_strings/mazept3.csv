@@ -1,40 +1,75 @@
-MAZEPT3_DUMMY1,mazept3 dummy text 1,Ada,,,
-MAZEPT3_DUMMY2,"mazept3 dummy text 2, longer",Ada,,,
-MAZEPT3_DUMMY3,"mazept3 dummy text 3, even longer still, with many more letters",Ada,,,
-MAZEPT3_HELLO,You know what.  I don’t think it’s possible to solve this level.  Not even with Push!,Riley,,,
-MAZEPT3_HELLO2,"
-That’s correct.",Saniel,,,
-MAZEPT3_QUESTION,Meet me in the Clubhouse so we can obtain the key Riley needs!,Saniel,,,
+MAZEPT3_LAUNCH,"OK, launch *Sidetrack*!",,,,
+MAZEPT3_QUESTION,Ready to dive back into *Sidetrack* to help Riley free herself from the maze?,Ada,,,
 MAZEPT3_QUEST_ACCEPT,"Okay, let's get started!",Ada,,,
-MAZEPT3_RILEYPUSH,"Check out this Push Instruction Estelle told me about! So cool! We can use it to get past this column of walls!
-",Riley,,,
-MAZEPT3_RILEYPUSH_HINT1,Click the Flip key.  Type in Riley.Push(),Riley,,,
-MAZEPT3_RILEYPUSH2,"Push is exactly the thing for when I’m lined up with a wall and about to crash into it. 
-Suddenly I'm so strong I can actually move walls!  Flip the app back over! & let’s give it a try! ",Riley,,,
-MAZEPT3_RILEYPUSH3,"Once you add a Push Instruction, you can see it on the front of the app.  
-That means you can drag it into a different position. ",Riley,,,
-MAZEPT3_RILEYPUSH4,"You guys are doing such brilliant work!  This trap of Saniel's turns out to be quite challenging!
-",Ada,,,
-MAZEPT3_RILEYPUSH5,"That Push Instruction sure did come in handy.  Wait, how did you find that?
+MAZEPT3_RILEYPUSH,"Check out this `push` *Instruction* Estelle told me about! So cool. 
 
-",Faber,,,
-MAZEPT3_RILEYPUSH6,"Oh, I came across that in this ancient folder that belonged to Leviathan, that illustrious hacker.  
+The *Wall* just moves right out of the way! That's what I'm talking about! ",Riley,,,
+MAZEPT3_RILEYPUSH_HINT1,Click the *Flip* button.,Riley,,,
+MAZEPT3_RILEYPUSH2,"Type in `riley.push();` That's the cool new *Instruction*  that Estelle found in Ada's research about Leviathan.
 
-I had no idea what it was but I took note of it, and stored it in my research file.",Ada,,,
-MAZEPT3_RILEYPUSH7,"Oh, snap. And then your research vanished!. The question is, how did your files end up inside this maze? 
-This is for sure no amateur we're dealing with if they got past your encryption protocols, Ada!
-",Faber,,,
-MAZEPT3_RILEYPUSH8,"I'm detecting a pattern in all this. So many things have been glitching out around the Conservatory lately!  
+You might as well replace that `riley.jump;` at position 2, right? We won't need a  `jump` *Instruction* in this level.",Riley,,,
+MAZEPT3_RILEYPUSH2_HINT1,"When I’m lined up with a *Wall*, `push` is exactly the *Instruction* I need. 
 
-Maybe something inside the box is causing all these aberrations! ",Ada,,,
-MAZEPT3_FELIXINTRO,,,,,
+Suddenly I'm so strong I can move *Walls*! LOL Let’s give it a try! ",Riley,,,
+MAZEPT3_RILEYPUSH2_HINT2,"When you add a `push` *Instruction*, you'll see it on the front of the app.  
+
+That means you can drag and drop the *Instruction* into a different position. ",Riley,,,
+MAZEPT3_RILEYPUSH3_B,"Look at all these `jump`s! Not useful at all! _Obvi_ you can't jump over a *Wall* or a *Robot!*
+
+`jump` only works for *Pits*. However, keep in mind that you _can_ `push` *Walls* and *Robots*! 
+
+Whoever put all these `jumps` here must not have had access to the `push` *Instruction*. ",Riley,,,
+MAZEPT3_RILEYPUSH3_B_HINT1,"If I change all the `jump` *Instructions* to `push` in the Hack panel, I think this sequence of *Instructions* will work!",Riley,,,
+MAZEPT3_RILEYPUSH3_C_PUSHINTRO,"One more thing – for `push` to work, you need to have space next to the obstacle you're pushing. 
+
+In other words, whatever you `push` needs a space to move to! It makes sense, right?
+
+To get through this level, only use `push` for *one* column of *Walls* at a time.",Estelle,,,
+MAZEPT3_RILEYPUSH3_C,"If the space to the right of what you're pushing is blocked, `push` won't work!",Estelle,,,
+MAZEPT3_RILEYPUSH3_C_HINT1,Rewrite the *Instructions* in the Hack panel until you've got the *Instructions* you need.,Estelle,,,
+MAZEPT3_RILEYPUSH4,Brilliant work! This trap Saniel made is quite challenging!,Ada,,,
+MAZEPT3_RILEYPUSH5,"That `push` *Instruction*  def did the trick! Estelle basically snaps her fingers and *Walls* move! 
+
+And it's interesting that the sketch for a Sidetrack *Instruction* was in Leviathan's notebooks. ",Faber,,,
+MAZEPT3_RILEYPUSH6,"Yes, it certainly is an odd coincidence! Are you thinking what I'm thinking? Maybe it's not so random? 
+
+I mean, think about it. First Saniel tells us he built the trap.
+
+And then we find this secret `push` *Instruction* for the trap in Leviathan's code sketchbook. ",Ada,,,
+MAZEPT3_RILEYPUSH7,Oh snap! Maybe Saniel and Leviathan worked together! ,Faber,,,
+MAZEPT3_RILEYPUSH8,"Or let's take that one step further, Faber. Maybe Saniel is Levia –",Ada,,,
+MAZEPT3_RILEYPUSH9,"Mind. Blown. Saniel is Leviathan? Leviathan is Saniel? Whaaat. What if that's true?  
+
+Okay, whoa, back to Riley! Who knows what challenges she still faces in there! Riley, we're with you all the way!",Faber,,,
+MAZEPT3_DRAMA,Sssshhhhhhh! I hear something. Do you hear that?,Riley,,,
+MAZEPT3_DRAMA_FELIX,^__MEOW__^ ,FelixNet,,,quests/glitch-meow
+MAZEPT3_DRAMA_FABER,"There it is again! Riley, can you hear that? Is something in there with you?",Faber,,,
+MAZEPT3_DRAMA_RILEY,"Yes! I saw something – I wouldn't quite say it's a cat – it went by so fast. I'm so not worried about it. 
+
+Hello? I've dodged *Robot* beetles, sailed over *Pits* and moved *Walls*! Pretty sure I can handle this _house_cat.",Riley,,,
+MAZEPT3_DRAMA_ADA,"Whatever it is, maybe that's what’s making this maze harder! This level is really, um, _next level_!",Ada,,,
+MAZEPT3_FELIXINTRO,^__MEOW__^ ,FelixNet,,,
 MAZEPT3_FELIXINTRO1,"Ah!  There it is again!
-[Faber recounts story from Saniel about Felix]
-",Faber,,,
-MAZEPT3_FELIXINTRO2,The AI has learned to “think outside the box”  ,Saniel,,,
-MAZEPT3_FELIXINTRO3,"Ada expresses a bit of concern that Riley is getting too close to Felix
-(threat?)  She explains that it's just doing what it's programmed to do, but that it's getting out of scale.
 
-She implies that she knows alot about this because of her research into Leviathan.  ",Ada,,,
-MAZEPT3_SUCCESS,mazept3 complete (dummytext),Ada,,,
-MAZEPT3_ABORT,mazept3 abort (dummytext),Ada,,,
+What if this is the AI Saniel was telling us about? Maybe it's still in there! 
+",Faber,,,
+MAZEPT3_FELIXINTRO2,"My hypothesis exactly! What if the AI has been restoring its powers in the trap? Sounds like it's getting restless!
+
+We don't know how long it's been there. From what Saniel was saying, it's been building levels all this time.",Ada,,,
+MAZEPT3_FELIXINTRO3,"Still wondering about how your files ended up inside this maze. So many things have been glitching out around here lately!  
+
+Maybe whatever's been in there has been causing all these aberrations! ",Faber,,,
+MAZEPT3_FELIXINTRO4,"Well, we can't figure it out right now. We've got to get  Riley through this next level. 
+
+Which of course, the AI has once again made super difficult!",Ada,,,
+MAZEPT3_FELIXINTRO_FAILURE,"I don't see any way that _any_ set of *Instructions* could ever solve this level!
+
+That AI has made it basically impossible, at least with the tools we have. ",Faber,,,
+MAZEPT3_SUCCESS,"Whew, so where are we? Must say I really needed that nap! Everything is much clearer now!  
+
+Just in time, too! This level is indeed unbeatable, but I have a new strategy to hack it!
+
+And we can finally can defeat this rogue AI and help Riley free herself!
+
+Great job so far! Come meet me at the Clubhouse when you're ready to proceed.",Saniel,hurray,,
+MAZEPT3_ABORT,Come back when you're ready to see the powerful new *Instruction*  Saniel has for Riley! ,Ada,,,

@@ -6,7 +6,7 @@ LIGHTSPEEDENEMYA1_NEWLEVEL,"OK, I just created Level 5. But it's just like the o
 Let's use the new enemy *spinner*. Go to the coding panel.",,,,
 LIGHTSPEEDENEMYA1_NEWLEVEL_HINT1,Press the flip to hack button on the left.,,,,
 LIGHTSPEEDENEMYA1_CHANGEENEMY,Click on the Spawn tab. See that `spawnEnemy()` function? Right now it returns 'asteroid'. We want to return `'spinner'` for this level.        ,,,,
-LIGHTSPEEDENEMYA1_CHANGEENEMY_HINT1,Change `'asteroid'` to `'spinner'` in the spawn function.,,,,
+LIGHTSPEEDENEMYA1_CHANGEENEMY_HINT1,Change `asteroid` to `spinner` in the spawn function.,,,,
 LIGHTSPEEDENEMYA1_CHANGEENEMY_HINT2,Flip back to the app and start playing the level.,,,,
 LIGHTSPEEDENEMYA1_ABOUTTOPLAY,Awesome. Now go ahead and play the level to check on your changes. ,,,,
 LIGHTSPEEDENEMYA1_PLAYTEST,Let's see if the *spinners* are there!,,,,

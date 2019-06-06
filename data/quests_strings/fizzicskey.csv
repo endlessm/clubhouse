@@ -1,13 +1,139 @@
-FIZZICSKEY_DUMMY1,fizzics key dummy text 1 (If you see this in master it's a bug!),Saniel,,,
-FIZZICSKEY_DUMMY2,"fizzics key dummy text 2, longer (If you see this in master it's a bug!)",Saniel,,,
-FIZZICSKEY_DUMMY3,"fizzics key dummy text 3, even longer still, also the end (If you see this in master it's a bug!)",Saniel,,,
-FIZZICSKEY_QUESTION,want to start FIZZICSKEY? (dummytext),Saniel,,,
-FIZZICSKEY_QUEST_ACCEPT,(dummyaccept),Saniel,,,
-FIZZICSKEY_SUCCESS,FIZZICSKEY complete (dummytext),Saniel,,,
-FIZZICSKEY_ABORT,FIZZICSKEY abort (dummytext),Saniel,,,
-FIZZICSKEY_SETGRAV,Do you want high or low gravity?,Saniel,,,
-FIZZICSKEY_SETFRIC,Do you want high or low friction?,Saniel,,,
-FIZZICSKEY_SETBOUNCE,"Do you want high bounce for the ball, or low?",Saniel,,,
-FIZZICSKEY_CHOICEHIGH,High,Saniel,,,
-FIZZICSKEY_CHOICELOW,Low,Saniel,,,
-FIZZICSKEY_LAUNCH,Launch Fizzics.,Saniel,,,
+FIZZICSKEY_QUESTION,Are you ready to go recover that key from the most ancient levels in Fizzics?,Saniel,,,
+FIZZICSKEY_QUEST_ACCEPT,Always ready for Fizzics!,,,,
+FIZZICSKEY_LAUNCH,Launch Fizzics!,Saniel,,,
+FIZZICSKEY_LEVELS1,"Okay, so when I stashed the key in these early levels, Fizzics didn't even have a hacking panel.
+
+So you're not going to be able to use some of the solutions you've used before. You'll have to improvise. 
+
+it's fun to try out some clunkier solutions sometimes. Let's get started. It's easier to demonstrate than explain.",Saniel,,,
+FIZZICSKEY_LEVELS1_B,"Right now this level is in suspended animation. It's been inactive for so long. 
+
+Okay, so just let me make a few adjustments over here to get everything moving again. 
+
+Ready?",Saniel,,,
+FIZZICSKEY_LEVELS1_C,"Okay! So that didn't work. We need get the orange ball to touch the goal, 
+
+See how there's no *Fling* tool and no *Drag* tool? All you have is the *Add* tool. 
+
+And you can only *Add* boulders! That's how ancient it is!",Saniel,,,
+FIZZICSKEY_LEVELS1_READY,"Use the *Add* tool to *Add* boulders until you think the level is in a good configuration. 
+
+Tell me when you're ready.",Saniel,,,
+FIZZICSKEY_LEVELS1_READY_ACCEPT,I'm ready!,Saniel,,,
+FIZZICSKEY_LEVELS1_Q1,"Great, I'll take the level out of suspended animation. 
+
+Just a couple more questions. What should the *Friction* on the orange ball be?",Saniel,,,
+FIZZICSKEY_LEVELS1_Q1_A1,Low.,Saniel,,,
+FIZZICSKEY_LEVELS1_Q1_A2,None!,Saniel,,,
+FIZZICSKEY_LEVELS1_Q2,And how bouncy should the orange ball be?,Saniel,,,
+FIZZICSKEY_LEVELS1_Q2_A1,Only a little.,Saniel,,,
+FIZZICSKEY_LEVELS1_Q2_A2,MAXIMUM BOUNCY!,Saniel,,,
+FIZZICSKEY_LEVELS1_GO,Okay here we go!,Saniel,,,
+FIZZICSKEY_LEVELS1_FAIL,"Hmmm... guess that configuration wasn't quite right. 
+
+Nothing to do but try it again with a modified solution.",Saniel,,,
+FIZZICSKEY_LEVELS1_FINISH,"Great job! You succeeded, even with a very limited set of tools.
+
+Don't get TOO excited, though. We have a ways to go, still.",Saniel,hurray,,
+FIZZICSKEY_LEVELS2,"Here's the next level. We have to get through all six!
+
+This one is very much like the last, except the orange ball isn't bouncy.
+
+I can control a couple things from here. I can make the orange ball and spikey things repel each other. 
+
+And I can give the orange ball some friction.",Saniel,,,
+FIZZICSKEY_LEVELS2_READY,"Use the *Add* tool to *Add* boulders until you think the level is in a good configuration. 
+
+Tell me when you're ready.",Saniel,,,
+FIZZICSKEY_LEVELS2_READY_ACCEPT,I'm ready!,Saniel,,,
+FIZZICSKEY_LEVELS2_Q1,Do you want the the spiky balls to repel the orange balls?,Saniel,,,
+FIZZICSKEY_LEVELS2_Q1_A1,Yes,Saniel,,,
+FIZZICSKEY_LEVELS2_Q1_A2,No,Saniel,,,
+FIZZICSKEY_LEVELS2_Q2,Should the orange ball have any friction?,Saniel,,,
+FIZZICSKEY_LEVELS2_Q2_A1,A little,Saniel,,,
+FIZZICSKEY_LEVELS2_Q2_A2,None,Saniel,,,
+FIZZICSKEY_LEVELS2_GO,Let's try it out!,Saniel,,,
+FIZZICSKEY_LEVELS2_FAIL,"Curses! Well, let's try adding different boulders, or perhaps we can add different settings to the available parameters?",Saniel,,,
+FIZZICSKEY_LEVELS2_FINISH,Sensational! I'm pleased to see your skill and acumen at this task.,Saniel,hurray,,
+FIZZICSKEY_LEVELS3,"On this level, the orange ball can either have *positive* or *negative* *Gravity*. 
+
+With negative *Gravity* intstead of dropping downwards, the ball floats upwards. 
+
+Also note the two goals are overlapping. As soon as the level starts, they will fly away from each other!
+
+Also, you'll see that the diamonds tend to clump together. That's because of their *Attraction* setting!",Saniel,,,
+FIZZICSKEY_LEVELS3_READY,Use the *Add* tool to add boulders until you think the level is in a good configuration. Tell me when you're ready.,Saniel,,,
+FIZZICSKEY_LEVELS3_READY_ACCEPT,I'm ready!,Saniel,,,
+FIZZICSKEY_LEVELS3_Q1,Should the orange ball have positive or negative *Gravity*?,Saniel,,,
+FIZZICSKEY_LEVELS3_Q1_A1,Positive,Saniel,,,
+FIZZICSKEY_LEVELS3_Q1_A2,Negative,Saniel,,,
+FIZZICSKEY_LEVELS3_Q2,Also if you'd like I can make diamonds be repelled by boulders. That might be interesting.,Saniel,,,
+FIZZICSKEY_LEVELS3_Q2_A1,Yes,Saniel,,,
+FIZZICSKEY_LEVELS3_Q2_A2,No,Saniel,,,
+FIZZICSKEY_LEVELS3_GO,Let's try it out!,Saniel,,,
+FIZZICSKEY_LEVELS3_FAIL,"Blast. Well it's rare to get something right without trying a few times. 
+
+So-called failure can be a great teacher! Let's attempt it again.",Saniel,,,
+FIZZICSKEY_LEVELS3_FINISH,Aha! A worthy solution!,Saniel,,,
+FIZZICSKEY_LEVELS4,"This is another level in which the goal is mobile. That boulder is about to send it flying! 
+
+Here's a nice thing though. All the diamonds are attracted to the orange ball! Very handy!
+
+Let's see... I can increase the *Gravity* settings for the goal and the diamonds, if you'd like.",Saniel,,,
+FIZZICSKEY_LEVELS4_READY,"Use the *Add* tool to add boulders until you think the level is in a good configuration. 
+
+Tell me when you're ready.",Saniel,,,
+FIZZICSKEY_LEVELS4_READY_ACCEPT,I'm ready!,Saniel,,,
+FIZZICSKEY_LEVELS4_Q1,Do you want the goal object to have any *Gravity*?,Saniel,,,
+FIZZICSKEY_LEVELS4_Q1_A1,Yes,Saniel,,,
+FIZZICSKEY_LEVELS4_Q1_A2,No,Saniel,,,
+FIZZICSKEY_LEVELS4_Q2,How about the diamonds. Do you want them to have gravity?,Saniel,,,
+FIZZICSKEY_LEVELS4_Q2_A1,Yes,Saniel,,,
+FIZZICSKEY_LEVELS4_Q2_A2,No,Saniel,,,
+FIZZICSKEY_LEVELS4_Q3,"Okay, hmm. These diamonds are bouncy. Do you want them to have friction?",Saniel,,,
+FIZZICSKEY_LEVELS4_Q3_A1,Yes,Saniel,,,
+FIZZICSKEY_LEVELS4_Q3_A2,No,Saniel,,,
+FIZZICSKEY_LEVELS4_GO,Let's see how that worked!,Saniel,,,
+FIZZICSKEY_LEVELS4_FAIL,"What a bother. But no worries, let's try again.",Saniel,,,
+FIZZICSKEY_LEVELS4_FINISH,You never fail to impress! Just two more levels to go!,Saniel,hurray,,
+FIZZICSKEY_LEVELS5,"This time the orange ball is all set to launch like a catapult! 
+
+That should be fun. Watch out, though, it's VERY bouncy!
+
+I can give the goal *Gravity* if you'd like. Hmmm look at this! I can also make the diamonds HUGE!",Saniel,,,
+FIZZICSKEY_LEVELS5_READY,"Use the *Add* tool to *Add* boulders until you think the level is in a good configuration. 
+
+Tell me when you're ready.",Saniel,,,
+FIZZICSKEY_LEVELS5_READY_ACCEPT,I'm ready!,Saniel,,,
+FIZZICSKEY_LEVELS5_Q1,Do you want the goal to have *Gravity*?,Saniel,,,
+FIZZICSKEY_LEVELS5_Q1_A1,Yes,Saniel,,,
+FIZZICSKEY_LEVELS5_Q1_A2,No,Saniel,,,
+FIZZICSKEY_LEVELS5_Q2,Should the diamonds be HUGE?,Saniel,,,
+FIZZICSKEY_LEVELS5_Q2_A1,Yes,Saniel,,,
+FIZZICSKEY_LEVELS5_Q2_A2,No,Saniel,,,
+FIZZICSKEY_LEVELS5_GO,Here we go!,Saniel,,,
+FIZZICSKEY_LEVELS5_FAIL,Alas! Well it was an excellent attempt. Let's get back in and try again.,Saniel,talk_anger,,
+FIZZICSKEY_LEVELS5_FINISH,"Nailed it! Excellent, we're ready for the final level! We'll recover that key soon enough!",Saniel,,,
+FIZZICSKEY_LEVELS6,"The key is here! We just need to beat the level! This one is peculiar however.
+
+The goal has normal gravity. But the orange ball has NEGATIVE *Gravity*. 
+
+I can increase its negative *Gravity* to cause it to fall upwards with greater force.
+
+If you'd like, I can also cause boulders to repel the orange ball.",Saniel,,,
+FIZZICSKEY_LEVELS6_READY,"Use the *Add* tool to add boulders until you think the level is in a good configuration. 
+
+Tell me when you're ready.",Saniel,,,
+FIZZICSKEY_LEVELS6_READY_ACCEPT,I'm ready!,Saniel,,,
+FIZZICSKEY_LEVELS6_Q1,How much negative *Gravity* should the orange ball have?,Saniel,,,
+FIZZICSKEY_LEVELS6_Q1_A1,Some,Saniel,,,
+FIZZICSKEY_LEVELS6_Q1_A2,Lots!,Saniel,,,
+FIZZICSKEY_LEVELS6_Q2,Should the orange ball be repelled by boulders?,Saniel,,,
+FIZZICSKEY_LEVELS6_Q2_A1,Yes,Saniel,,,
+FIZZICSKEY_LEVELS6_Q2_A2,No,Saniel,,,
+FIZZICSKEY_LEVELS6_GO,Let's hope this works!,Saniel,,,
+FIZZICSKEY_LEVELS6_FAIL,"This level seems quite the challenge. Don't fret, however. Let's just try again.",Saniel,,,
+FIZZICSKEY_SUCCESS,"You are unstoppable! That task required a great deal of creativity, and you came through. 
+
+And Voila! Here is the key we need!",Saniel,hurray,,
+FIZZICSKEY_ABORT,"Come back when you're ready! Until then, Riley's stuck inside the maze! ",Saniel,,,

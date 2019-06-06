@@ -14,8 +14,8 @@ POWERUPA1_CODE,"Click on the Spawn tab. See that `spawnPowerup()` function? That
 
 It creates the type of Power-up you return. For example, `return null;` means _no_ Power-up. 
 
-So now, let's replace `return null;` with `return 'invulnerable';` and try the level.",,,,
-POWERUPA1_CODE_HINT1,Change `return null;` to `return 'invulnerable';` Don't forget the quotes! Then try the level.,,,,
+So now, let's replace `return null;` with `return invulnerable;` and try the level.",,,,
+POWERUPA1_CODE_HINT1,Change `return null;` to `return invulnerable;` Then try the level.,,,,
 POWERUPA1_ABOUTTOPLAY,Start playing the level.,,,,
 POWERUPA1_ABOUTTOPLAY_HINT1,Press *Restart.* ,,,,
 POWERUPA1_PLAY_AGAIN,Let's try that level again.,,,,
