@@ -1382,6 +1382,12 @@ class Quest(GObject.GObject):
         self.emit('dismissed')
 
     def is_named_quest_complete(self, class_name):
+        # First, try to obtain it from the Registry:
+        quest = Registry.get_quest_by_name(class_name)
+        if quest is not None:
+            return quest.complete
+
+        # Otherwise, obtain it from the Game State Service:
         key = self._get_quest_conf_prefix() + class_name
         data = self.gss.get(key)
         return data is not None and data['complete']
