@@ -8,6 +8,7 @@ class MazePt1(Quest):
     __available_after_completing_quests__ = ['TrapIntro']
 
     def setup(self):
+        self.auto_offer = True
         self._app = Sidetrack()
         self.confirmed_messages = []
         self.cutscene_played = False

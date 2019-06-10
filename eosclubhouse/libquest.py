@@ -86,6 +86,11 @@ class Registry:
             class_._quest_sets.append(quest_set_class())
             logger.debug('QuestSet registered: %s', quest_set_class)
 
+        for quest_set in class_._quest_sets:
+            quest_set.update_highlighted()
+            for quest in quest_set.get_quests():
+                quest.update_availability()
+
         if parent_dir is not None:
             del sys.path[sys.path.index(parent_dir)]
         class_._quest_sets_to_register = []
@@ -634,7 +639,6 @@ class Quest(GObject.GObject):
         self._available = self.__available_after_completing_quests__ == []
         if self.__available_after_completing_quests__ != []:
             self.gss.connect('changed', self.update_availability)
-            self.update_availability()
 
         self._cancellable = None
 
@@ -701,7 +705,7 @@ class Quest(GObject.GObject):
     def update_availability(self, _gss=None):
         if self.complete:
             return
-        if all(self.is_named_quest_complete(q)
+        if all(Registry.get_quest_by_name(q).complete
                for q in self.__available_after_completing_quests__):
             self.available = True
 
@@ -1378,6 +1382,12 @@ class Quest(GObject.GObject):
         self.emit('dismissed')
 
     def is_named_quest_complete(self, class_name):
+        # First, try to obtain it from the Registry:
+        quest = Registry.get_quest_by_name(class_name)
+        if quest is not None:
+            return quest.complete
+
+        # Otherwise, obtain it from the Game State Service:
         key = self._get_quest_conf_prefix() + class_name
         data = self.gss.get(key)
         return data is not None and data['complete']
@@ -1507,9 +1517,7 @@ class QuestSet(GObject.GObject):
             self._quest_objs.append(quest)
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
-            quest.connect('dismissed', self._update_highlighted)
-
-        self._update_highlighted()
+            quest.connect('dismissed', self.update_highlighted)
 
     def _get_quest_class_by_name(self, name):
         current_episode = Registry.get_loaded_episode_name()
@@ -1540,6 +1548,7 @@ class QuestSet(GObject.GObject):
     def get_next_quest(self):
         for quest in self.get_quests():
             if not quest.conf['complete']:
+                quest.update_availability()
                 if quest.available:
                     return quest
                 if not quest.skippable:
@@ -1563,7 +1572,7 @@ class QuestSet(GObject.GObject):
             if self.body_animation == self.HIGHLIGHTED_ANIMATION:
                 self.body_animation = self._unhighlighted_body_animation
 
-    def _update_highlighted(self, _current_quest=None):
+    def update_highlighted(self, _current_quest=None):
         next_quest = self.get_next_quest()
         self.highlighted = next_quest is not None and next_quest.available
         if self.highlighted:
