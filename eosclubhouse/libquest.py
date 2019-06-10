@@ -1548,6 +1548,7 @@ class QuestSet(GObject.GObject):
     def get_next_quest(self):
         for quest in self.get_quests():
             if not quest.conf['complete']:
+                quest.update_availability()
                 if quest.available:
                     return quest
                 if not quest.skippable:
