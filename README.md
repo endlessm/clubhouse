@@ -541,10 +541,14 @@ The quest code is made simpler than the Clubhouse code due to the use of
 libquest to abstract away some of the details, but there is still room
 to make it even simpler.
 
-This architecture has proved difficult for the development of quests,
-since the quest code is capable of crashing the whole Clubhouse if
-something goes wrong.
-A future revision might address this problem by creating a
-domain-specific language in which to write state machines for quests,
-which is asynchronous by default, and ensuring that it isn't possible to
-crash the Clubhouse with quest code.
+Writing quests with Python code still means the quest writer has to be
+at least familiar with this language and paradigm. Moreover, for
+stability reasons we still follow a review process for the quests code,
+which can extend the time required for a quest to be fully integrated.
+This solution limits who we can hire to write the quests and
+makes the time for writing them slower than it could be.
+Thus, ours plans include changing the quests system so they can be
+written by a domain-specific language or a different paradigm like
+flow-based programming; this would allow us to even move the quests
+out of the Clubhouse so they're completely managed by a third party,
+and it lowers the requirements for the quest writer's profile/knowledge.
