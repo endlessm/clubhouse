@@ -506,3 +506,45 @@ performance regressions:
 ``` bash
 CLUBHOUSE_PERF_DEBUG=yes com.endlessm.Clubhouse
 ```
+
+## Future Work ##
+
+### Clubhouse Real Estate ###
+
+As mentioned above, the Clubhouse includes an application window that is
+treated specially by GNOME Shell, as a side panel.
+As we added more characters, the space in the Clubhouse has become a bit
+cramped.
+There is not really space for them to do anything but stand around.
+
+The original art for the Clubhouse included a much larger background, so
+there is a possibility of having the Clubhouse expand to a larger size,
+either immediately, or with some sort of expand UX.
+
+### Resolution independence ###
+
+The Clubhouse is one of the components in Hack that is not independent
+of resolution.
+The background art and the characters are at a fixed resolution and
+positions.
+If you try to run it on a resolution other than 1080px, the buttons in
+the bottom of the Clubhouse will fall off the screen.
+
+A future revision should try to scale the Clubhouse art based on the
+vertical resolution of the monitor.
+
+### Separating the Quests from the Clubhouse ###
+
+The quests consist of Python code that is run in-process with the
+Clubhouse.
+The quest code is made simpler than the Clubhouse code due to the use of
+libquest to abstract away some of the details, but there is still room
+to make it even simpler.
+
+This architecture has proved difficult for the development of quests,
+since the quest code is capable of crashing the whole Clubhouse if
+something goes wrong.
+A future revision might address this problem by creating a
+domain-specific language in which to write state machines for quests,
+which is asynchronous by default, and ensuring that it isn't possible to
+crash the Clubhouse with quest code.
