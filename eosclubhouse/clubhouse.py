@@ -672,9 +672,6 @@ class ClubhousePage(Gtk.EventBox):
         quest.save_conf()
         quest.dismiss()
 
-        if quest.complete and self._app_window.episodes_page:
-            self._app_window.episodes_page.update_current_episode()
-
         # Ensure we reset the running quest (only if we haven't started a different quest in the
         # meanwhile) quest and close any eventual message popups
         if self._is_current_quest(quest):
@@ -927,12 +924,6 @@ class ClubhousePage(Gtk.EventBox):
         episode_name = libquest.Registry.get_current_episode()['name']
         if self._current_episode != episode_name:
             self.load_episode(episode_name)
-
-            # @todo: Instead of reloading the Episodes page directly, it should use a common
-            # path for checking that an episode has been loaded (possibly using the
-            # ClubhouseState), and update the Episodes page from within itself.
-            if self._app_window.episodes_page is not None:
-                self._app_window.episodes_page.reload()
 
     running_quest = GObject.Property(_get_running_quest,
                                      type=GObject.TYPE_PYOBJECT,
@@ -1420,7 +1411,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self.clubhouse_page = ClubhousePage(self)
         self.inventory_page = InventoryPage(self)
-        self.episodes_page = EpisodesPage(self)
 
         self.set_size_request(DEFAULT_WINDOW_WIDTH, -1)
         self._setup_ui()
@@ -1442,9 +1432,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._clubhouse_state = ClubhouseState()
 
-        self.episodes_page.connect('play-episode',
-                                   lambda _page: self.continue_playing())
-
     def continue_playing(self):
         self.clubhouse_page.continue_playing()
         # Select main page so the user can see whether a character is now offering a quest.
@@ -1458,11 +1445,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._clubhouse_button = builder.get_object('main_window_button_clubhouse')
         self._inventory_button = builder.get_object('main_window_button_inventory')
-        self._episodes_button = builder.get_object('main_window_button_episodes')
 
         pages_data = [(self._clubhouse_button, ClubhouseState.Page.CLUBHOUSE, self.clubhouse_page),
-                      (self._inventory_button, ClubhouseState.Page.INVENTORY, self.inventory_page),
-                      (self._episodes_button, ClubhouseState.Page.EPISODES, self.episodes_page)]
+                      (self._inventory_button, ClubhouseState.Page.INVENTORY, self.inventory_page)]
 
         for button, page_id, page_widget in pages_data:
             self._main_window_stack.add_named(page_widget, page_id.name)
@@ -1488,8 +1473,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def set_page(self, page_name):
         page_buttons = {'clubhouse': self._clubhouse_button,
-                        'inventory': self._inventory_button,
-                        'episodes': self._episodes_button}
+                        'inventory': self._inventory_button}
 
         button = page_buttons.get(page_name)
 
