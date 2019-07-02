@@ -5,6 +5,33 @@
     <property name="halign">fill</property>
     <property name="valign">fill</property>
     <child type="overlay">
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <property name="visible">True</property>
+        <property name="halign">fill</property>
+        <property name="hexpand">True</property>
+        <property name="valign">start</property>
+        <property name="vexpand">True</property>
+	<child>
+	  <object class="GtkLabel">
+	    <property name="visible">True</property>
+	    <property name="label">Hack:</property>
+	  </object>
+	  <packing>
+            <property name="pack_type">start</property>
+          </packing>
+	</child>
+	<child>
+	  <object class="GtkSwitch" id="main_window_switch_hack_mode">
+	    <property name="visible">True</property>
+	  </object>
+	  <packing>
+            <property name="pack_type">start</property>
+          </packing>
+	</child>
+      </object>
+    </child>
+    <child type="overlay">
       <object class="GtkButtonBox">
         <property name="visible">True</property>
         <property name="halign">center</property>

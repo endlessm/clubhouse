@@ -1416,6 +1416,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
             self.connect('realize', self._window_realize_cb)
 
+        self._shell_settings = Gio.Settings('org.gnome.shell')
+
         self.set_keep_above(True)
 
         self.clubhouse_page = ClubhousePage(self)
@@ -1456,6 +1458,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._main_window_stack = builder.get_object('main_window_stack')
 
+        self._hack_switch = builder.get_object('main_window_switch_hack_mode')
+        self._hack_switch_handler = self._hack_switch.connect('notify::active',
+                                                              self._hack_mode_switch_activate_cb)
+        self._shell_settings.connect('changed::hack-mode-enabled', self._settings_changed_cb)
+        self._update_hack_mode_swith_state()
+
         self._clubhouse_button = builder.get_object('main_window_button_clubhouse')
         self._inventory_button = builder.get_object('main_window_button_inventory')
         self._episodes_button = builder.get_object('main_window_button_episodes')
@@ -1469,6 +1477,19 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             button.connect('clicked', self._page_switch_button_clicked_cb, page_id)
 
         self.add(builder.get_object('main_window_overlay'))
+
+    def _update_hack_mode_swith_state(self):
+        self._hack_switch.handler_block(self._hack_switch_handler)
+
+        self._hack_switch.set_active(self._shell_settings.get_boolean('hack-mode-enabled'))
+
+        self._hack_switch.handler_unblock(self._hack_switch_handler)
+
+    def _hack_mode_switch_activate_cb(self, switch, _pspec):
+         self._shell_settings.set_boolean('hack-mode-enabled', self._hack_switch.get_active())
+
+    def _settings_changed_cb(self, settings, _key):
+        self._update_hack_mode_swith_state()
 
     def _window_realize_cb(self, window):
         def _window_focus_out_event_cb(_window, _event):
@@ -1505,7 +1526,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         width = DEFAULT_WINDOW_WIDTH
 
         geometry = Gdk.Rectangle()
-        geometry.x = workarea.x + workarea.width - width
+        geometry.x = workarea.x + (workarea.width - width) * .5
         geometry.y = workarea.y
         geometry.width = width
         geometry.height = workarea.height
