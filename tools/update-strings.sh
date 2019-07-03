@@ -71,7 +71,7 @@ fi
 if $PUSH; then
     # Try to update again since getting the files could have taken some time and this way we
     # minimize the chances of getting outdated and failing to push.
-    git pull --rebase origin HEAD 2> /dev/null || true
+    git pull --rebase origin $branch_name 2> /dev/null || true
     echo "Pushing string updates $(git rev-parse HEAD) to $branch_name remote branch"
-    git push origin HEAD
+    git push origin $branch_name
 fi
