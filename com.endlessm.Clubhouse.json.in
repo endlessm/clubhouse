@@ -13,11 +13,14 @@
         "--socket=session-bus",
         "--own-name=com.endlessm.Clubhouse",
         "--filesystem=xdg-run/dconf",
+        "--filesystem=host:ro",
+        "--nofilesystem=~/*",
         "--filesystem=~/.config/dconf:ro",
         "--talk-name=ca.desrt.dconf",
         "--talk-name=org.freedesktop.Flatpak",
         "--talk-name=org.gtk.Notifications",
         "--env=GNOTIFICATION_BACKEND=gtk",
+        "--env=XDG_DATA_DIRS=$XDG_DATA_DIRS:/run/host/usr/share",
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
     ],
     "modules": [
