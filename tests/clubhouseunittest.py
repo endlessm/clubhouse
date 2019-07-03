@@ -93,8 +93,18 @@ def test_on_episodes(episodes=[]):
     return func_wrapper
 
 
-def test_all_episodes(func):
-    return test_on_episodes([])(func)
+def test_all_episodes(*args, **kwargs):
+    skip_episodes = kwargs.get('skip', [])
+    episodes = Registry.get_available_episodes()
+    episodes = [episode for episode in episodes if episode not in skip_episodes]
+
+    def func_wrapper(function):
+        def wrapper(*args, **kwargs):
+            test_on_episodes(episodes)(function)
+
+        return wrapper
+
+    return func_wrapper
 
 
 def define_quest(quest_id, available_after=[]):
