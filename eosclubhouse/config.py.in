@@ -6,4 +6,4 @@ EPISODES_DIR=@episodes_dir@
 EPISODES_CSV=@episodes_csv@
 DATA_DIR=@data_dir@
 RESET_SCRIPT_PATH=@reset_script_path@
-DEFAULT_EPISODE_NAME='episode1'
+DEFAULT_EPISODE_NAME='hack2'
