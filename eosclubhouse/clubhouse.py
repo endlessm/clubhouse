@@ -1429,7 +1429,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._hack_switch = builder.get_object('main_window_switch_hack_mode')
         self._hack_switch_handler = self._hack_switch.connect('notify::active',
                                                               self._hack_mode_switch_activate_cb)
-        self._shell_settings.connect('changed::hack-mode-enabled', self._settings_changed_cb)
+
+        Desktop.get_shell_settings().connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
+                                             self._settings_changed_cb)
         self._update_hack_mode_swith_state()
 
         self._clubhouse_button = builder.get_object('main_window_button_clubhouse')
@@ -1447,12 +1449,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _update_hack_mode_swith_state(self):
         self._hack_switch.handler_block(self._hack_switch_handler)
 
-        self._hack_switch.set_active(self._shell_settings.get_boolean('hack-mode-enabled'))
+        self._hack_switch.set_active(Desktop.get_hack_mode())
 
         self._hack_switch.handler_unblock(self._hack_switch_handler)
 
     def _hack_mode_switch_activate_cb(self, switch, _pspec):
-        self._shell_settings.set_boolean('hack-mode-enabled', self._hack_switch.get_active())
+        Desktop.set_hack_mode(self._hack_switch.get_active())
 
     def _settings_changed_cb(self, settings, _key):
         self._update_hack_mode_swith_state()
