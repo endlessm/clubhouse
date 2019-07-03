@@ -373,6 +373,9 @@ class App:
         stamp = timestamp or int(time.time())
         self.get_clippy_proxy().Highlight('(su)', obj, stamp)
 
+    def launch(self):
+        return Desktop.launch_app(self.dbus_name)
+
 
 class GameStateService(GObject.GObject):
 
