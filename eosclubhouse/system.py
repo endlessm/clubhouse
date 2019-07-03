@@ -31,10 +31,13 @@ from gi.repository import GLib, GObject, Gio, Json
 
 class Desktop:
 
+    SETTINGS_HACK_MODE_KEY = 'hack-mode-enabled'
+
     _dbus_proxy = None
     _app_launcher_proxy = None
     _shell_app_store_proxy = None
     _shell_proxy = None
+    _shell_settings = None
 
     @classmethod
     def get_dbus_proxy(klass):
@@ -207,6 +210,21 @@ class Desktop:
     def disconnect_app_in_foreground_change(klass, handler_id):
         shell_proxy = klass.get_shell_proxy()
         return shell_proxy.disconnect(handler_id)
+
+    @classmethod
+    def get_shell_settings(klass):
+        if klass._shell_settings is None:
+            klass._shell_settings = Gio.Settings('org.gnome.shell')
+
+        return klass._shell_settings
+
+    @classmethod
+    def get_hack_mode(klass):
+        return klass.get_shell_settings().get_boolean(klass.SETTINGS_HACK_MODE_KEY)
+
+    @classmethod
+    def set_hack_mode(klass, enabled):
+        return klass.get_shell_settings().set_boolean(klass.SETTINGS_HACK_MODE_KEY, enabled)
 
 
 class App:
