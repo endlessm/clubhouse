@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App
+from eosclubhouse.system import App, Desktop
 
 
 class FirstContact(Quest):
@@ -32,9 +32,9 @@ class FirstContact(Quest):
         self.stop()
 
     def step_begin(self):
-        # @todo: Always turn hack mode on here so we're sure that the user will see the FtH button.
-        self._app.launch()
+        Desktop.set_hack_mode(True)
 
+        self._app.launch()
         self.wait_for_app_launch(self._app, pause_after_launch=3)
 
         if self._is_app_flipped():
