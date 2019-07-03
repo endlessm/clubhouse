@@ -6,6 +6,8 @@ class FirstContact(Quest):
 
     APP_NAME = 'com.endlessm.HackUnlock'
 
+    __tags__ = ['mission:ada']
+
     # This quest starts already in the first step. There's no prompting.
     __proposal_message_id__ = ''
 
