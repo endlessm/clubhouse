@@ -17,8 +17,8 @@ usage() {
 Usage: $0 [OPTION]
 Update the strings CSV files.
 
-  --push                    Push the current branch if any commits were created
-  -h, --help                display this help and exit
+  --push                    Push to the branch specified in GIT_BRANCH or otherwise to master, if any commits were created
+  -h, --help                Display this help and exit
 
 EOF
 }
@@ -51,7 +51,9 @@ if [ $# -ne 0 ]; then
   exit 1
 fi
 
-branch_name=$(git rev-parse --abbrev-ref HEAD)
+branch_name=${GIT_BRANCH:-'origin/master'}
+# Strip "origin/"
+branch_name=${branch_name#origin/}
 
 # Try to update the branch in case a remote one exists already.
 git pull --rebase origin HEAD 2> /dev/null || true
@@ -73,5 +75,5 @@ if $PUSH; then
     # minimize the chances of getting outdated and failing to push.
     git pull --rebase origin $branch_name 2> /dev/null || true
     echo "Pushing string updates $(git rev-parse HEAD) to $branch_name remote branch"
-    git push origin $branch_name
+    git push origin HEAD:$branch_name
 fi
