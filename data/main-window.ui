@@ -51,6 +51,18 @@
           </object>
         </child>
         <child>
+          <object class="GtkRadioButton" id="main_window_button_pathways">
+            <property name="visible">True</property>
+            <property name="halign">fill</property>
+            <property name="hexpand">True</property>
+            <property name="valign">fill</property>
+            <property name="vexpand">True</property>
+            <property name="draw-indicator">False</property>
+            <property name="group">main_window_button_clubhouse</property>
+            <property name="label" translatable="yes">Pathways</property>
+          </object>
+        </child>
+        <child>
           <object class="GtkRadioButton" id="main_window_button_inventory">
             <property name="visible">True</property>
             <property name="halign">fill</property>
