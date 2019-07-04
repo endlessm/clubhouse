@@ -1009,6 +1009,68 @@ class InventoryItem(Gtk.Button):
         self._label.set_text(self.item_name)
 
 
+class PathwayQuestButton(Gtk.Button):
+
+    def __init__(self, quest):
+        # @todo: Add names to quests
+        super().__init__(label='{}'.format(quest))
+
+        self._quest = quest
+
+    def get_quest(self):
+        return self._quest
+
+
+class PathwaysPage(Gtk.EventBox):
+    def __init__(self, app_window):
+        super().__init__(visible=True)
+
+        self._app_window = app_window
+
+        self._setup_ui()
+
+    def _setup_ui(self):
+        self.get_style_context().add_class('pathways-page')
+
+        # @todo: add UI file and use GtkBuilder
+        self._box = Gtk.Box(halign=Gtk.Align.FILL,
+                            orientation=Gtk.Orientation.VERTICAL)
+        self.add(self._box)
+        self._box.show()
+
+    def load_episode(self):
+        # @todo: Add special getter in Registry
+        for pathway in libquest.Registry.get_quest_sets():
+            if pathway.get_character() is None:
+                self._add_pathway(pathway)
+
+    def _quest_button_clicked_cb(self, button):
+        # @todo: Run the quest
+        logger.debug('Run quest %s', button.get_quest())
+
+    def _add_pathway(self, pathway):
+        vbox = Gtk.Box(halign=Gtk.Align.FILL,
+                       orientation=Gtk.Orientation.VERTICAL)
+        self._box.add(vbox)
+        vbox.show()
+
+        label = Gtk.Label(wrap=True,
+                          hexpand=False,
+                          halign=Gtk.Align.CENTER,
+                          justify=Gtk.Justification.CENTER)
+
+        # @todo: Add getter when subclassing QuestSet
+        label.set_text(pathway.__pathway_name__)
+        vbox.add(label)
+        label.show()
+
+        for quest in pathway.get_quests():
+            button = PathwayQuestButton(quest)
+            button.connect('clicked', self._quest_button_clicked_cb)
+            vbox.add(button)
+            button.show()
+
+
 class InventoryPage(Gtk.EventBox):
 
     def __init__(self, app_window):
@@ -1403,6 +1465,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._shell_settings = Gio.Settings('org.gnome.shell')
 
         self.clubhouse_page = ClubhousePage(self)
+        self.pathways_page = PathwaysPage(self)
         self.inventory_page = InventoryPage(self)
 
         self.set_size_request(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
@@ -1436,9 +1499,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._update_hack_mode_swith_state()
 
         self._clubhouse_button = builder.get_object('main_window_button_clubhouse')
+        self._pathways_button = builder.get_object('main_window_button_pathways')
         self._inventory_button = builder.get_object('main_window_button_inventory')
 
         pages_data = [(self._clubhouse_button, ClubhouseState.Page.CLUBHOUSE, self.clubhouse_page),
+                      (self._pathways_button, ClubhouseState.Page.PATHWAYS, self.pathways_page),
                       (self._inventory_button, ClubhouseState.Page.INVENTORY, self.inventory_page)]
 
         for button, page_id, page_widget in pages_data:
@@ -1473,6 +1538,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def set_page(self, page_name):
         page_buttons = {'clubhouse': self._clubhouse_button,
+                        'pathways': self._pathways_button,
                         'inventory': self._inventory_button}
 
         button = page_buttons.get(page_name)
@@ -1716,6 +1782,11 @@ class ClubhouseApplication(Gtk.Application):
                 self.send_suggest_open(True)
                 break
 
+    def _load_episode(self):
+        # @todo: Move staff from clubhouse_page.load_episode() here
+        self._window.clubhouse_page.load_episode()
+        self._window.pathways_page.load_episode()
+
     def _ensure_window(self):
         if self._window:
             return
@@ -1725,7 +1796,7 @@ class ClubhouseApplication(Gtk.Application):
         self._window.clubhouse_page.connect('notify::running-quest',
                                             self._running_quest_notify_cb)
 
-        self._window.clubhouse_page.load_episode()
+        self._load_episode()
 
     def send_quest_msg_notification(self, notification):
         self.send_notification(self.QUEST_MSG_NOTIFICATION_ID, notification)
