@@ -1,22 +1,22 @@
-ID,Icon,Icon used,Name,Description,
-item.key.fizzics.1,fizzics-key-level-1-blue.png,fizzics-key-level-1-orange.png,Fizzics Level 1 Key,Unlocks the Fizzics app's hacking panel,
-item.key.fizzics.2,fizzics-key-level-3-blue.png,fizzics-key-level-3-orange.png,Fizzics Level 2 Key,,
-item.key.OperatingSystemApp.1,system-key-1-blue.png,system-key-1-orange.png,System Level 1 Key,,
-item.key.OperatingSystemApp.2,system-key-2-blue.png,system-key-2-orange.png,System Level 2 Key,,
-item.key.hackdex1.1,hackdex-key-level-1-blue.png,hackdex-key-level-1-orange.png,Roster Level 1 Key,,
-item.key.testkey,fizzics-key-level-1-blue.png,fizzics-key-level-1-orange.png,Test key,This is a debug item. If you have this it's a bug!,
-item.reward.testreward,frameworks-key-level-1-blue.png,frameworks-key-level-1-orange.png,Test reward,This is a debug item. If you have this it's a bug!,
-item.key.lightspeed.1,lightspeed-key-level-1-blue.png,lightspeed-key-level-1-orange.png,LightSpeed Controls Key,,
-item.key.unknown_item,unknown-item.png,,Riley's Discovery,What could this be? ,
-item.stealth.1,stealth-part-1.png,,Perception Deflector,Scrambles visibility,
-item.stealth.2,stealth-part-2.png,,Ratchet Wheel,Keeps internal time,
-item.stealth.3,stealth-part-3.png,,Cloaking Glaze,Prevents all tracking,
-item.stealth.4,stealth-part-4.png,,Hush Rivets,Soften footfalls,
-item.stealth_device,stealth-device.png,,Stealth Device,Use this with care!,
-item.fob.1,item-fob1.png,,Fob #1,Apply it to the trap,
-item.fob.2,item-fob2.png,,Fob #2,Apply it to the trap,
-item.fob.3,item-fob3.png,,Fob #3,Apply it to the trap,
-item.key.levi_hackdex.1,leviathan-key-level-1-blue.png,leviathan-key-level-1-orange.png,Decryption Key,Decipher text!,
-item.key.sidetrack.1,sidetrack-key-level-1-blue.png,sidetrack-key-level-1-orange.png,Sidetrack.unlockCode(),Write your own Instructions! ,S-1 Instructions Key
-item.key.sidetrack.2,sidetrack-key-level-2-blue.png,sidetrack-key-level-2-orange.png,Sidetrack.unlockUnits(),Modify Obstacles! ,S-2 Units Key
-item.key.sidetrack.3,sidetrack-key-level-3-blue.png,sidetrack-key-level-3-orange.png,Sidetrack.unlockAll(),Redesign Levels! ,S-3 Levels Key
+ID,Icon,Icon used,Name,Description
+item.key.fizzics.1,fizzics-key-level-1-blue.png,fizzics-key-level-1-orange.png,Fizzics Level 1 Key,Unlocks the Fizzics app's hacking panel
+item.key.fizzics.2,fizzics-key-level-3-blue.png,fizzics-key-level-3-orange.png,Fizzics Level 2 Key,
+item.key.OperatingSystemApp.1,system-key-1-blue.png,system-key-1-orange.png,System Level 1 Key,
+item.key.OperatingSystemApp.2,system-key-2-blue.png,system-key-2-orange.png,System Level 2 Key,
+item.key.hackdex1.1,hackdex-key-level-1-blue.png,hackdex-key-level-1-orange.png,Roster Level 1 Key,
+item.key.testkey,fizzics-key-level-1-blue.png,fizzics-key-level-1-orange.png,Test key,This is a debug item. If you have this it's a bug!
+item.reward.testreward,frameworks-key-level-1-blue.png,frameworks-key-level-1-orange.png,Test reward,This is a debug item. If you have this it's a bug!
+item.key.lightspeed.1,lightspeed-key-level-1-blue.png,lightspeed-key-level-1-orange.png,LightSpeed Controls Key,
+item.key.unknown_item,unknown-item.png,,Riley's Discovery,What could this be? 
+item.stealth.1,stealth-part-1.png,,Perception Deflector,Scrambles visibility
+item.stealth.2,stealth-part-2.png,,Ratchet Wheel,Keeps internal time
+item.stealth.3,stealth-part-3.png,,Cloaking Glaze,Prevents all tracking
+item.stealth.4,stealth-part-4.png,,Hush Rivets,Soften footfalls
+item.stealth_device,stealth-device.png,,Stealth Device,Use this with care!
+item.fob.1,item-fob1.png,,Fob #1,Apply it to the trap
+item.fob.2,item-fob2.png,,Fob #2,Apply it to the trap
+item.fob.3,item-fob3.png,,Fob #3,Apply it to the trap
+item.key.levi_hackdex.1,leviathan-key-level-1-blue.png,leviathan-key-level-1-orange.png,Decryption Key,Decipher text!
+item.key.sidetrack.1,sidetrack-key-level-1-blue.png,sidetrack-key-level-1-orange.png,Sidetrack.unlockCode(),Write your own Instructions! 
+item.key.sidetrack.2,sidetrack-key-level-2-blue.png,sidetrack-key-level-2-orange.png,Sidetrack.unlockUnits(),Modify Obstacles! 
+item.key.sidetrack.3,sidetrack-key-level-3-blue.png,sidetrack-key-level-3-orange.png,Sidetrack.unlockAll(),Redesign Levels! 

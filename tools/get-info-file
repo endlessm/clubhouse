@@ -21,12 +21,17 @@ URL_TEMPLATE = ('https://docs.google.com/spreadsheets/d/{key}/' +
                 'gviz/tq?tqx=out:csv&sheet={sheet}&range={range}')
 URL_PARAMS = {
     'key': '162yiw_kW3lgLEIUwBq3PgiZxWTtcVBUHqpZKUXtF8qY',
-    'range': 'A:F'
+}
+
+RANGES_FOR_SHEET = {
+    'Items': 'A:E',
+    'Episodes': 'A:F',
 }
 
 
 def get_rows_from_sheet(sheet):
     url_params = URL_PARAMS.copy()
+    url_params['range'] = RANGES_FOR_SHEET[sheet]
     url_params['sheet'] = sheet
 
     url = URL_TEMPLATE.format(**url_params)
