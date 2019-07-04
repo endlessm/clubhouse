@@ -71,12 +71,17 @@ class ClubhouseTestCase(unittest.TestCase):
         GameStateService().reset()
 
 
-def test_on_episodes(episodes=[]):
-    def func_wrapper(function):
-        def wrapper(*args, **kwargs):
-            _episodes = episodes or Registry.get_available_episodes()
+def test_all_episodes(skip=[]):
 
-            for episode in _episodes:
+    def decorator(function):
+
+        def test_on_episodes(*args, **kwargs):
+            episodes = Registry.get_available_episodes()
+
+            for episode in episodes:
+                if episode in skip:
+                    continue
+
                 # Load the next episode.
                 Registry.set_current_episode(episode)
                 Registry.load_current_episode()
@@ -88,23 +93,10 @@ def test_on_episodes(episodes=[]):
                     # Inform about which episode failed and propagate the failure.
                     print('Failed test in episode "{}"'.format(episode))
                     raise
-        return wrapper
 
-    return func_wrapper
+        return test_on_episodes
 
-
-def test_all_episodes(*args, **kwargs):
-    skip_episodes = kwargs.get('skip', [])
-    episodes = Registry.get_available_episodes()
-    episodes = [episode for episode in episodes if episode not in skip_episodes]
-
-    def func_wrapper(function):
-        def wrapper(*args, **kwargs):
-            test_on_episodes(episodes)(function)
-
-        return wrapper
-
-    return func_wrapper
+    return decorator
 
 
 def define_quest(quest_id, available_after=[]):
