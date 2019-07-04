@@ -1399,7 +1399,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
 
-        self.set_keep_above(True)
         self.connect('realize', self._window_realize_cb)
 
         self.clubhouse_page = ClubhousePage(self)
