@@ -1480,8 +1480,7 @@ class Quest(GObject.GObject):
 class QuestSet(GObject.GObject):
 
     __quests__ = []
-    # @todo: Default character; should be set to None in the future
-    __character_id__ = 'aggretsuko'
+    __character_id__ = None
     # The __position__ can override the character's position by using a tuple here e.g. (10, 12)
     __position__ = None
     __empty_message__ = 'Nothing to see here!'
