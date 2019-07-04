@@ -919,7 +919,8 @@ class ClubhousePage(Gtk.EventBox):
 
         libquest.Registry.load_current_episode()
         for quest_set in libquest.Registry.get_quest_sets():
-            self.add_quest_set(quest_set)
+            if quest_set.get_character() is not None:
+                self.add_quest_set(quest_set)
 
     def _update_episode_if_needed(self):
         episode_name = libquest.Registry.get_current_episode()['name']
