@@ -64,6 +64,7 @@ ClubhouseIface = ('<node>'
                   '</node>')
 
 DEFAULT_WINDOW_WIDTH = 480
+DEFAULT_WINDOW_HEIGHT = 1000
 
 
 class Character(GObject.GObject):
@@ -1404,23 +1405,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.clubhouse_page = ClubhousePage(self)
         self.inventory_page = InventoryPage(self)
 
-        self.set_size_request(DEFAULT_WINDOW_WIDTH, -1)
+        self.set_size_request(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
+        self.set_resizable(False)
+
         self._setup_ui()
 
         self._page_reset_timeout = 0
         self._ambient_sound_uuid = None
         self.connect('notify::visible', self._on_visibile_property_changed)
-
-        display = Gdk.Display.get_default()
-        display.connect('monitor-added',
-                        lambda disp, monitor: self._update_geometry())
-
-        monitor = display.get_primary_monitor()
-        if monitor:
-            monitor.connect('notify::workarea',
-                            lambda klass, args: self._update_geometry())
-
-        self._update_geometry()
 
         self._clubhouse_state = ClubhouseState()
 
@@ -1473,23 +1465,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if button is not None:
             button.set_active(True)
 
-    def _update_geometry(self):
-        monitor = Gdk.Display.get_default().get_primary_monitor()
-        if not monitor:
-            return
-
-        workarea = monitor.get_workarea()
-        width = DEFAULT_WINDOW_WIDTH
-
-        geometry = Gdk.Rectangle()
-        geometry.x = workarea.x + (workarea.width - width) * .5
-        geometry.y = workarea.y
-        geometry.width = width
-        geometry.height = workarea.height
-
-        self.move(geometry.x, geometry.y)
-        self.resize(geometry.width, geometry.height)
-
     def _select_main_page_on_timeout(self):
         self._clubhouse_button.set_active(True)
         self._page_reset_timeout = 0
@@ -1535,10 +1510,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def hide(self):
         super().hide()
-        # We update the geometry here to ensure the window will still slide in to the right place
-        # the second time it's opened (for some reason, without this it will slide all the way to
-        # the left of the screen)
-        self._update_geometry()
 
 
 class ClubhouseApplication(Gtk.Application):
