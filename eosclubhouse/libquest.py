@@ -113,6 +113,14 @@ class Registry:
         return class_._quest_sets
 
     @classmethod
+    def get_character_missions(class_):
+        return [q for q in class_._quest_sets if isinstance(q, CharacterMission)]
+
+    @classmethod
+    def get_pathways(class_):
+        return [q for q in class_._quest_sets if isinstance(q, PathWay)]
+
+    @classmethod
     def get_quest_set_by_name(class_, name):
         for quest_set in class_.get_quest_sets():
             if quest_set.get_id() == name:
@@ -122,7 +130,7 @@ class Registry:
 
     @classmethod
     def has_quest_sets_highlighted(class_):
-        return any(qs.highlighted for qs in class_._quest_sets)
+        return any(qs.highlighted for qs in class_.get_character_missions())
 
     @classmethod
     def get_quest_by_name(class_, name):
@@ -1480,6 +1488,55 @@ class Quest(GObject.GObject):
 class QuestSet(GObject.GObject):
 
     __quests__ = []
+
+    def __init__(self):
+        super().__init__()
+
+        self._quest_objs = []
+        for quest_class in self.__quests__:
+            if isinstance(quest_class, str):
+                quest_class = self._get_quest_class_by_name(quest_class)
+            quest = quest_class(self)
+
+            self._quest_objs.append(quest)
+
+    def _get_quest_class_by_name(self, name):
+        current_episode = Registry.get_loaded_episode_name()
+        for subclass in Quest.__subclasses__():
+            # Avoid matching subclasses with the same name but in different episodes
+            episode = subclass.__module__.split('.', 1)[0]
+            if episode != current_episode:
+                continue
+
+            if subclass.__name__ == name:
+                return subclass
+        raise TypeError('Quest {} not found'.format(name))
+
+    @classmethod
+    def get_id(class_):
+        return class_.__name__
+
+    def get_quests(self):
+        return self._quest_objs
+
+    def __repr__(self):
+        return self.get_id()
+
+
+class PathWay(QuestSet):
+
+    __pathway_name__ = None
+
+    def __init__(self):
+        super().__init__()
+
+    @classmethod
+    def get_name(class_):
+        return class_.__pathway_name__
+
+
+class CharacterMission(QuestSet):
+
     __character_id__ = None
     # The __position__ can override the character's position by using a tuple here e.g. (10, 12)
     __position__ = None
@@ -1497,44 +1554,16 @@ class QuestSet(GObject.GObject):
         self._unhighlighted_body_animation = self.body_animation
         self._highlighted = False
 
-        self._quest_objs = []
-        for quest_class in self.__quests__:
-            if isinstance(quest_class, str):
-                quest_class = self._get_quest_class_by_name(quest_class)
-            quest = quest_class(self)
-
-            self._quest_objs.append(quest)
+        for quest in self.get_quests():
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
             quest.connect('dismissed', self._update_highlighted)
 
         self._update_highlighted()
 
-    def _get_quest_class_by_name(self, name):
-        current_episode = Registry.get_loaded_episode_name()
-        for subclass in Quest.__subclasses__():
-            # Avoid matching subclasses with the same name but in different episodes
-            episode = subclass.__module__.split('.', 1)[0]
-            if episode != current_episode:
-                continue
-
-            if subclass.__name__ == name:
-                return subclass
-        raise TypeError('Quest {} not found'.format(name))
-
     @classmethod
     def get_character(class_):
         return class_.__character_id__
-
-    def get_quests(self):
-        return self._quest_objs
-
-    @classmethod
-    def get_id(class_):
-        return class_.__name__
-
-    def __repr__(self):
-        return self.get_id()
 
     def get_next_quest(self):
         for quest in self.get_quests():

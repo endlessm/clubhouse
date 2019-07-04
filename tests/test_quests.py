@@ -1,7 +1,8 @@
 from eosclubhouse.libquest import Registry, NoMessageIdError
 from eosclubhouse.utils import QuestStringCatalog
 from eosclubhouse.system import GameStateService
-from clubhouseunittest import ClubhouseTestCase, define_quest, define_quest_set, setup_episode
+from clubhouseunittest import ClubhouseTestCase, define_quest, \
+    define_character_mission, setup_episode
 
 
 class TestQuests(ClubhouseTestCase):
@@ -30,7 +31,7 @@ class TestQuests(ClubhouseTestCase):
         '''Tests what the main character is when quests are initialized.'''
         QuestA = define_quest('QuestA')
 
-        PhonyAlice = define_quest_set('PhonyAlice', 'alice')
+        PhonyAlice = define_character_mission('PhonyAlice', 'alice')
         PhonyAlice.__quests__ = [QuestA]
 
         setup_episode([PhonyAlice()])
@@ -57,7 +58,7 @@ class TestQuests(ClubhouseTestCase):
         QuestB = define_quest('QuestB')
         QuestB.__proposal_message_id__ = 'WELCOME'
 
-        PhonySet = define_quest_set('PhonySet', 'alice')
+        PhonySet = define_character_mission('PhonySet', 'alice')
         PhonySet.__quests__ = [QuestA, QuestB]
 
         setup_episode([PhonySet()])

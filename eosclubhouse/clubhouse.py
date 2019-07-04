@@ -918,9 +918,8 @@ class ClubhousePage(Gtk.EventBox):
             child.destroy()
 
         libquest.Registry.load_current_episode()
-        for quest_set in libquest.Registry.get_quest_sets():
-            if quest_set.get_character() is not None:
-                self.add_quest_set(quest_set)
+        for quest_set in libquest.Registry.get_character_missions():
+            self.add_quest_set(quest_set)
 
     def _update_episode_if_needed(self):
         episode_name = libquest.Registry.get_current_episode()['name']
@@ -1039,10 +1038,8 @@ class PathwaysPage(Gtk.EventBox):
         self._box.show()
 
     def load_episode(self):
-        # @todo: Add special getter in Registry
-        for pathway in libquest.Registry.get_quest_sets():
-            if pathway.get_character() is None:
-                self._add_pathway(pathway)
+        for pathway in libquest.Registry.get_pathways():
+            self._add_pathway(pathway)
 
     def _quest_button_clicked_cb(self, button):
         # @todo: Run the quest
@@ -1059,8 +1056,7 @@ class PathwaysPage(Gtk.EventBox):
                           halign=Gtk.Align.CENTER,
                           justify=Gtk.Justification.CENTER)
 
-        # @todo: Add getter when subclassing QuestSet
-        label.set_text(pathway.__pathway_name__)
+        label.set_text(pathway.get_name())
         vbox.add(label)
         label.show()
 
@@ -1776,7 +1772,7 @@ class ClubhouseApplication(Gtk.Application):
             self._registry_loaded = True
 
     def _ensure_suggesting_open(self):
-        quest_sets = libquest.Registry.get_quest_sets()
+        quest_sets = libquest.Registry.get_character_missions()
         for quest_set in quest_sets:
             if quest_set.highlighted:
                 self.send_suggest_open(True)
