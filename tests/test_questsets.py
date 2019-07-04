@@ -128,15 +128,6 @@ class TestQuestSets(ClubhouseTestCase):
         for quest_set in quest_sets_to_test:
             self.check_empty_message_with_active_questsets(quest_sets_to_test, quest_set)
 
-    @test_all_episodes(skip=['hack2'])
-    def test_can_complete_episode(self):
-        """Tests there is at least one Quest in the QuestSets that complete the episode."""
-        all_quests = Registry.get_current_quests().values()
-        has_quest_with_complete = any(quest.__complete_episode__ for quest in all_quests)
-        self.assertTrue(has_quest_with_complete,
-                        "Episode " + Registry.get_loaded_episode_name() +
-                        " doesn't have any quest with __complete_episode__ = True.")
-
     def activate_quest_set(self, quest_set):
         quest_set.get_quests().insert(0, PhonyQuest(quest_set))
         quest_set.visible = True
