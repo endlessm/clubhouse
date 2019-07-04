@@ -26,35 +26,6 @@ class TestQuests(ClubhouseTestCase):
         with self.assertRaises(NoMessageIdError):
             quest.show_message('INEXISTENT_MESSAGE')
 
-    def test_verify_dependencies(self):
-        """Tests that Quests compute their dependencies correctly, taking into account the
-        quests coming before them in the QuestSet but also their own dependencies."""
-
-        def get_dependencies(quest_id):
-            quest = Registry.get_quest_by_name(quest_id)
-            return [quest_dep.get_id() for quest_dep in quest.get_dependency_quests()]
-
-        PhonyAlice = define_quest_set('PhonyAlice', 'Alice',
-                                      [('QuestA0', []),
-                                       ('QuestB0', []),
-                                       ('QuestC0', []),
-                                       ('QuestD0', ['QuestB1'])])
-
-        PhonyBob = define_quest_set('PhonyBob', 'Bob',
-                                    [('QuestA1', []),
-                                     ('QuestB1', ['QuestC0'])])
-
-        setup_episode([PhonyAlice(), PhonyBob()])
-
-        self.assertEqual(get_dependencies('QuestD0'),
-                         ['QuestC0', 'QuestB0', 'QuestA0', 'QuestB1', 'QuestA1'])
-
-        self.assertEqual(get_dependencies('QuestB1'), ['QuestA1', 'QuestC0', 'QuestB0', 'QuestA0'])
-
-        self.assertEqual(get_dependencies('QuestC0'), ['QuestB0', 'QuestA0'])
-
-        self.assertEqual(get_dependencies('QuestA1'), [])
-
     def test_main_character(self):
         '''Tests what the main character is when quests are initialized.'''
         QuestA = define_quest('QuestA')
