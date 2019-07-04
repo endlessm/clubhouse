@@ -1396,18 +1396,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _MAIN_PAGE_RESET_TIMEOUT = 60  # sec
 
     def __init__(self, app):
-        if os.environ.get('CLUBHOUSE_NO_SIDE_COMPONENT'):
-            super().__init__(application=app, title='Clubhouse')
-        else:
-            super().__init__(application=app, title='Clubhouse',
-                             type_hint=Gdk.WindowTypeHint.NORMAL,
-                             role='eos-side-component',
-                             skip_taskbar_hint=True,
-                             decorated=False)
-
-            self.connect('realize', self._window_realize_cb)
+        super().__init__(application=app, title='Clubhouse')
 
         self.set_keep_above(True)
+        self.connect('realize', self._window_realize_cb)
 
         self.clubhouse_page = ClubhousePage(self)
         self.inventory_page = InventoryPage(self)
@@ -1461,7 +1453,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             return False
 
         gdk_window = self.get_window()
-        gdk_window.set_functions(0)
+        gdk_window.set_functions(Gdk.WMFunction.CLOSE | Gdk.WMFunction.MINIMIZE |
+                                 Gdk.WMFunction.MOVE)
         gdk_window.set_events(gdk_window.get_events() | Gdk.EventMask.FOCUS_CHANGE_MASK)
 
         if os.environ.get('CLUBHOUSE_NO_AUTO_HIDE') is None:
