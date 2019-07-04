@@ -1439,17 +1439,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.add(builder.get_object('main_window_overlay'))
 
     def _window_realize_cb(self, window):
-        def _window_focus_out_event_cb(_window, _event):
-            self.hide()
-            return False
-
         gdk_window = self.get_window()
         gdk_window.set_functions(Gdk.WMFunction.CLOSE | Gdk.WMFunction.MINIMIZE |
                                  Gdk.WMFunction.MOVE)
-        gdk_window.set_events(gdk_window.get_events() | Gdk.EventMask.FOCUS_CHANGE_MASK)
-
-        if os.environ.get('CLUBHOUSE_NO_AUTO_HIDE') is None:
-            self.connect('focus-out-event', _window_focus_out_event_cb)
 
     def _page_switch_button_clicked_cb(self, button, page_id):
         self._main_window_stack.set_visible_child_name(page_id.name)
