@@ -145,20 +145,7 @@ class Registry:
         else:
             quest_name = name
 
-        # If we don't have a QuestSet name specified, then try to quickly get the
-        # quest directly by name.
-        if quest_set_name is None:
-            return class_.get_current_quests().get(quest_name)
-
-        for quest_set in class_.get_quest_sets():
-            if quest_set_name is not None and quest_set_name != quest_set.get_id():
-                continue
-
-            for quest in quest_set.get_quests():
-                if quest.get_id() == quest_name:
-                    return quest
-
-        return None
+        return class_.get_current_quests().get(quest_name)
 
     @classmethod
     def _get_episode_folder(class_, episode_name):
@@ -767,7 +754,7 @@ class Quest(GObject.GObject):
         next_quest = self.get_next_quest()
         if next_quest and next_quest.auto_offer and next_quest is not self:
             logger.debug('Proposing next quest: %s', next_quest)
-            self.schedule_quest(next_quest.get_full_id())
+            self.schedule_quest(next_quest.get_id())
 
     def set_next_step(self, step_func, delay=0, args=()):
         assert self._run_context is not None
@@ -1420,11 +1407,6 @@ class Quest(GObject.GObject):
         that the quest returned is not the very same quest, or a quest that's availabel in the
         quest set and comes before this one.
         """
-        if self.quest_set:
-            next_quest = self.quest_set.get_next_quest()
-            if next_quest:
-                return next_quest
-
         for quest_set in Registry.get_quest_sets():
             quest = quest_set.get_next_quest()
             if quest:
@@ -1445,11 +1427,6 @@ class Quest(GObject.GObject):
     @classmethod
     def get_id(class_):
         return class_.__name__
-
-    def get_full_id(self):
-        if self.quest_set is not None:
-            return '{}.{}'.format(self.quest_set.get_id(), self.get_id())
-        return self.get_id()
 
     available = GObject.Property(_get_available, _set_available, type=bool, default=True,
                                  flags=GObject.ParamFlags.READWRITE |
