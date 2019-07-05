@@ -120,6 +120,15 @@ class Registry:
         return [q for q in class_._quest_sets if isinstance(q, CharacterMission)]
 
     @classmethod
+    def get_character_mission_for_quest(class_, quest):
+        # Note: this assumes that the character missions don't share
+        # quests. If not, it will return the first mission matching.
+        for qs in class_.get_character_missions():
+            if quest in qs.get_quests():
+                return qs
+        return None
+
+    @classmethod
     def get_pathways(class_):
         return [q for q in class_._quest_sets if isinstance(q, PathWay)]
 
@@ -597,10 +606,8 @@ class Quest(GObject.GObject):
 
     auto_offer = GObject.Property(type=bool, default=False)
 
-    def __init__(self, quest_set):
+    def __init__(self):
         super().__init__()
-
-        self.quest_set = quest_set
 
         # We declare these variables here, instead of looking them up in the registry when
         # we need them because this way we ensure we get the values when the quest was loaded,
@@ -1447,14 +1454,14 @@ class QuestSet(GObject.GObject):
         self._quest_objs = []
 
         for quest_class in self._get_matching_quests_classes():
-            quest = quest_class(self)
+            quest = quest_class()
             self._quest_objs.append(quest)
 
         # @todo: Remove old behavior.
         for quest_class in self.__quests__:
             if isinstance(quest_class, str):
                 quest_class = self._get_quest_class_by_name(quest_class)
-            quest = quest_class(self)
+            quest = quest_class()
 
             self._quest_objs.append(quest)
 

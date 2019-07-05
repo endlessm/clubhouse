@@ -13,7 +13,8 @@ class TestQuests(ClubhouseTestCase):
     def test_show_message_can_raise_custom_error(self):
         """Tests that Quests raise a custom error when a message ID is not in the catalog."""
 
-        quest = define_quest('PhonyQuest')(None)
+        quest_class = define_quest('PhonyQuest')
+        quest = quest_class()
 
         string_catalog = QuestStringCatalog._csv_dict
         QuestStringCatalog.set_key_value_from_csv_row(('PHONYQUEST_HELLO',
@@ -105,7 +106,7 @@ class TestQuests(ClubhouseTestCase):
             key_name = 'item.key.{}'.format(i)
             quest_class.__items_on_completion__ = {key_name: value_to_set}
 
-            quest = quest_class(None)
+            quest = quest_class()
             # Saving without completing the quest.
             quest.save_conf()
 
@@ -123,7 +124,7 @@ class TestQuests(ClubhouseTestCase):
         quest_class = define_quest('QuestA')
         quest_class.__conf_on_completion__ = {key_name: {'answer': 42}}
 
-        quest = quest_class(None)
+        quest = quest_class()
         # Saving without completing the quest.
         quest.save_conf()
 
