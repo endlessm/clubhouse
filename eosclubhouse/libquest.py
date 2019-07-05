@@ -715,37 +715,6 @@ class Quest(GObject.GObject):
                for q in self.__available_after_completing_quests__):
             self.available = True
 
-    def get_dependency_quests(self):
-        # We use an OrderedDict here to make sure we don't repeat the quests in the final
-        # list but we still keep the order.
-        quest_dependencies = OrderedDict()
-
-        def get_close_dependencies(quest):
-            quests_before = quest.quest_set.get_quests_before(quest.get_id())
-            quest_before = [quests_before[-1]] if quests_before else []
-            return [Registry.get_quest_by_name(quest_id) for quest_id
-                    in quest.__available_after_completing_quests__] + quest_before
-
-        # Get the dependencies for the quest, and their own dependencies too.
-        dependencies = get_close_dependencies(self)
-        while dependencies:
-            quest_dep = dependencies.pop()
-            # This avoids checking dependencies that have been processed already. This shouldn't
-            # be common but can happen and doesn't represent a circular dependency, like the B1
-            # which is a dependency of A2 but also of C1 (and it could be processed twice if we're
-            # going through the full dependency graph of C1):
-            #  A1 <- B1 <- C1
-            #         <    /
-            #          \  <
-            #           A2
-            if quest_dep in quest_dependencies.keys():
-                continue
-
-            quest_dependencies[quest_dep.get_id()] = quest_dep
-            dependencies += get_close_dependencies(quest_dep)
-
-        return list(quest_dependencies.values())
-
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
 
@@ -1670,14 +1639,6 @@ class CharacterMission(QuestSet):
 
     def _set_body_animation(self, body_animation):
         self.set_body_animation(body_animation)
-
-    def get_quests_before(self, quest_id):
-        quests_before = []
-        for quest in self.get_quests():
-            if quest.get_id() == quest_id:
-                break
-            quests_before.append(quest)
-        return quests_before
 
     def get_empty_message(self):
         msg_id_suffix = None
