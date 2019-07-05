@@ -32,6 +32,14 @@ from gi.repository import GLib, GObject, Gio, Json
 class Desktop:
 
     SETTINGS_HACK_MODE_KEY = 'hack-mode-enabled'
+    # TODO: don't hardcode the background url, in othe installations can have other path
+    HACK_BACKGROUND = (
+        'file:///var/lib/flatpak/app/com.endlessm.HackComponents/'
+        'x86_64/stable/active/files/share/backgrounds/'
+        'Desktop-BGs-Beta-Sketch_Blue.png'
+    )
+    HACK_CURSOR = 'cursor-glitchy'
+    HACK_THEME = 'Adwaita-dark'
 
     _dbus_proxy = None
     _app_launcher_proxy = None
@@ -219,11 +227,34 @@ class Desktop:
         return klass._shell_settings
 
     @classmethod
+    def personalize_desktop(klass, enabled):
+        '''
+        This changes some settings to make the desktop looks more hacky
+         * Change the background
+         * Change the cursor
+         * Set the dark theme by default
+        '''
+
+        desktop = Gio.Settings('org.gnome.desktop.background')
+        interface = Gio.Settings('org.gnome.desktop.interface')
+
+        if enabled:
+            desktop.set_string('picture-uri', klass.HACK_BACKGROUND)
+            interface.set_string('cursor-theme', klass.HACK_CURSOR)
+            interface.set_string('gtk-theme', klass.HACK_THEME)
+        else:
+            interface.reset('cursor-theme')
+            interface.reset('gtk-theme')
+            desktop.reset('picture-uri')
+
+    @classmethod
     def get_hack_mode(klass):
         return klass.get_shell_settings().get_boolean(klass.SETTINGS_HACK_MODE_KEY)
 
     @classmethod
     def set_hack_mode(klass, enabled):
+        if enabled != klass.get_hack_mode():
+            klass.personalize_desktop(enabled)
         return klass.get_shell_settings().set_boolean(klass.SETTINGS_HACK_MODE_KEY, enabled)
 
 

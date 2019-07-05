@@ -1622,6 +1622,9 @@ class ClubhouseApplication(Gtk.Application):
 
     @Performance.timeit
     def do_activate(self):
+        # set hack-mode always, if the clubhouse is running we should set this key
+        Desktop.set_hack_mode(True)
+
         self.show(Gdk.CURRENT_TIME)
 
     def _run_episode_autorun_quest_if_needed(self):
