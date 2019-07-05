@@ -464,7 +464,10 @@ class ClubhousePage(Gtk.EventBox):
         if self._current_quest is None:
             return
 
-        self._current_quest.quest_set.highlighted = False
+        quest_set = libquest.Registry.get_character_mission_for_quest(self._current_quest)
+        if quest_set is not None:
+            quest_set.highlighted = False
+
         self._message.reset()
         self._message.set_character(self._current_quest.get_main_character())
 
@@ -537,10 +540,11 @@ class ClubhousePage(Gtk.EventBox):
 
     def continue_playing(self):
         # If there is a running quest, we ask the quest's character whether to continue/stop it.
-        if self._current_quest and self._current_quest.available and \
-           self._current_quest.quest_set is not None:
-            self.ask_character(self._current_quest.quest_set)
-            return
+        if self._current_quest:
+            quest_set = libquest.Registry.get_character_mission_for_quest(self._current_quest)
+            if self._current_quest.available and quest_set is not None:
+                self.ask_character(quest_set)
+                return
 
         # Ask the first character that is active what to do (start/continue a quest, etc.).
         for quest_set in libquest.Registry.get_quest_sets():
@@ -724,7 +728,7 @@ class ClubhousePage(Gtk.EventBox):
                                                                          _run_quest_after_timeout)
 
     def _propose_next_quest(self, quest):
-        quest_set = quest.quest_set
+        quest_set = libquest.Registry.get_character_mission_for_quest(quest)
 
         self._reset_quest_actions()
 
@@ -891,7 +895,9 @@ class ClubhousePage(Gtk.EventBox):
     def set_quest_to_background(self):
         if self._current_quest:
             self._current_quest.set_to_background()
-            self._current_quest.quest_set.highlighted = True
+            quest_set = libquest.Registry.get_character_mission_for_quest(self._current_quest)
+            if quest_set is not None:
+                quest_set.highlighted = True
         else:
             # If the quest proposal dialog in the Shell has been dismissed, then we
             # should reset the "proposing_quest" flag.
