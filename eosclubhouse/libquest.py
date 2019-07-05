@@ -592,6 +592,8 @@ class Quest(GObject.GObject):
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
     _DEFAULT_MOOD = 'talk'
 
+    __tags__ = []
+
     skippable = GObject.Property(type=bool, default=False)
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
     continue_message = GObject.Property(type=str, default="You haven't completed my challenge yet!")
@@ -1302,6 +1304,10 @@ class Quest(GObject.GObject):
         self.gss.set('clubhouse.CurrentEpisode', current_episode_info)
 
     @classmethod
+    def get_tags(class_):
+        return class_.__tags__
+
+    @classmethod
     def give_app_icon(class_, app_name):
         if not Desktop.is_app_in_grid(app_name):
             Sound.play('quests/new-icon')
@@ -1493,6 +1499,12 @@ class QuestSet(GObject.GObject):
         super().__init__()
 
         self._quest_objs = []
+
+        for quest_class in self._get_matching_quests_classes():
+            quest = quest_class(self)
+            self._quest_objs.append(quest)
+
+        # @todo: Remove old behavior.
         for quest_class in self.__quests__:
             if isinstance(quest_class, str):
                 quest_class = self._get_quest_class_by_name(quest_class)
@@ -1500,16 +1512,32 @@ class QuestSet(GObject.GObject):
 
             self._quest_objs.append(quest)
 
-    def _get_quest_class_by_name(self, name):
+    @classmethod
+    def get_tag(class_):
+        # @todo: This should be only implemented in the subclasses,
+        # but leaving here for now to make the tests pass.
+        return ''
+
+    def _get_episode_quests_classes(self):
         current_episode = Registry.get_loaded_episode_name()
         for subclass in Quest.__subclasses__():
             # Avoid matching subclasses with the same name but in different episodes
             episode = subclass.__module__.split('.', 1)[0]
             if episode != current_episode:
                 continue
+            yield subclass
 
+    def _get_matching_quests_classes(self):
+        tag = self.get_tag()
+        for subclass in self._get_episode_quests_classes():
+            if tag in subclass.get_tags():
+                yield subclass
+
+    def _get_quest_class_by_name(self, name):
+        for subclass in self._get_episode_quests_classes():
             if subclass.__name__ == name:
                 return subclass
+
         raise TypeError('Quest {} not found'.format(name))
 
     @classmethod
@@ -1518,6 +1546,16 @@ class QuestSet(GObject.GObject):
 
     def get_quests(self):
         return self._quest_objs
+
+    # @todo: Remove this by moving all uses of QuestSet to
+    # CharacterMission.
+    def is_active(self):
+        return False
+
+    # @todo: Remove this by moving all uses of QuestSet to
+    # CharacterMission.
+    def get_next_quest(self):
+        return None
 
     def __repr__(self):
         return self.get_id()
@@ -1529,6 +1567,10 @@ class PathWay(QuestSet):
 
     def __init__(self):
         super().__init__()
+
+    @classmethod
+    def get_tag(class_):
+        return 'pathway:' + class_.__pathway_name__.lower()
 
     @classmethod
     def get_name(class_):
@@ -1560,6 +1602,10 @@ class CharacterMission(QuestSet):
             quest.connect('dismissed', self._update_highlighted)
 
         self._update_highlighted()
+
+    @classmethod
+    def get_tag(class_):
+        return 'mission:' + class_.__character_id__.lower()
 
     @classmethod
     def get_character(class_):
