@@ -2000,11 +2000,6 @@ class ClubhouseApplication(Gtk.Application):
             quest.complete = False
             quest.save_conf()
 
-        for quest in quests[quest_id].get_dependency_quests():
-            print(' completing', quest)
-            quest.complete = True
-            quest.save_conf()
-
     def _reset(self):
         try:
             subprocess.run(config.RESET_SCRIPT_PATH, check=True)
