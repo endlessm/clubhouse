@@ -1530,8 +1530,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.pathways_page = PathwaysPage(self)
         self.inventory_page = InventoryPage(self)
 
-        self.set_size_request(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
-        self.set_resizable(False)
+        # @todo: Disable resizing the window once the UI is settled.
+        self.set_size_request(DEFAULT_WINDOW_WIDTH, -1)
+        # self.set_size_request(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
+        # self.set_resizable(True)
 
         self._setup_ui()
 
