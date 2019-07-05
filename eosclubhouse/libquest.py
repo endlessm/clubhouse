@@ -38,6 +38,9 @@ from gi.repository import GObject, GLib
 glibcoro.install()
 
 
+DEFAULT_CHARACTER = 'ada'
+
+
 class Registry:
 
     _quest_sets_to_register = []
@@ -630,7 +633,7 @@ class Quest(GObject.GObject):
 
         self._characters = {}
 
-        self._main_character_id = ''
+        self._main_character_id = DEFAULT_CHARACTER
         self._main_mood = self._DEFAULT_MOOD
         self._main_open_dialog_sound = 'clubhouse/dialog/open'
         self._default_abort_sound = 'quests/quest-aborted'
@@ -1105,10 +1108,7 @@ class Quest(GObject.GObject):
             self._cancellable.cancel()
 
     def get_main_character(self):
-        character_id = self._main_character_id
-        if not character_id and self.quest_set:
-            character_id = self.quest_set.get_character()
-        return character_id
+        return self._main_character_id
 
     def play_stop_bg_sound(self, sound_event_id=None):
         """

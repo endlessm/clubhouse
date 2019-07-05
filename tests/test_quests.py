@@ -27,9 +27,28 @@ class TestQuests(ClubhouseTestCase):
         with self.assertRaises(NoMessageIdError):
             quest.show_message('INEXISTENT_MESSAGE')
 
-    def test_main_character(self):
-        '''Tests what the main character is when quests are initialized.'''
+    def test_default_main_character(self):
+        '''Tests there is some default main character when not provided in the catalog.'''
         QuestA = define_quest('QuestA')
+
+        PhonyAlice = define_character_mission('PhonyAlice', 'alice')
+        PhonyAlice.__quests__ = [QuestA]
+
+        setup_episode([PhonyAlice()])
+
+        quest_a = Registry.get_quest_by_name('QuestA')
+        self.assertNotEqual(quest_a.get_main_character(), 'alice')
+        self.assertNotEqual(quest_a.get_main_character(), '')
+
+    def test_main_character(self):
+        '''Tests the main character is obtained from the catalog.'''
+        QuestA = define_quest('QuestA')
+
+        string_catalog = QuestStringCatalog._csv_dict
+        QuestStringCatalog.set_key_value_from_csv_row(('QUESTA_QUESTION',
+                                                       'wanna hack?', 'alice',
+                                                       'talk', '', ''),
+                                                      string_catalog)
 
         PhonyAlice = define_character_mission('PhonyAlice', 'alice')
         PhonyAlice.__quests__ = [QuestA]
