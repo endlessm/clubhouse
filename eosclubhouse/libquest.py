@@ -591,6 +591,7 @@ class Quest(GObject.GObject):
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
     _DEFAULT_MOOD = 'talk'
 
+    __quest_name__ = None
     __tags__ = []
 
     skippable = GObject.Property(type=bool, default=False)
@@ -1265,6 +1266,15 @@ class Quest(GObject.GObject):
 
         current_episode_info.update({'completed': True})
         self.gss.set('clubhouse.CurrentEpisode', current_episode_info)
+
+    @classmethod
+    def get_name(class_):
+        if class_.__quest_name__ is not None:
+            return class_.__quest_name__
+
+        # Fallback to the class name:
+        logger.warning('The quest "%s" doesn\'t have a name!', class_)
+        return class_.__name__
 
     @classmethod
     def get_tags(class_):
