@@ -593,6 +593,8 @@ class Quest(GObject.GObject):
 
     __quest_name__ = None
     __tags__ = []
+    __mission_order__ = 0
+    __pathway_order__ = 0
 
     skippable = GObject.Property(type=bool, default=False)
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
@@ -1475,11 +1477,18 @@ class QuestSet(GObject.GObject):
 
             self._quest_objs.append(quest)
 
+        self._sort_quests()
+
     @classmethod
     def get_tag(class_):
         # @todo: This should be only implemented in the subclasses,
         # but leaving here for now to make the tests pass.
         return ''
+
+    def _sort_quests(self):
+        # @todo: This should be only implemented in the subclasses,
+        # but leaving here for now to make the tests pass.
+        self._quest_objs.sort()
 
     def _get_episode_quests_classes(self):
         current_episode = Registry.get_loaded_episode_name()
@@ -1541,6 +1550,12 @@ class PathWay(QuestSet):
     def get_name(class_):
         return class_.__pathway_name__
 
+    def _sort_quests(self):
+        def by_order(quest):
+            return quest.__pathway_order__
+
+        self._quest_objs.sort(key=by_order)
+
 
 class CharacterMission(QuestSet):
 
@@ -1571,6 +1586,12 @@ class CharacterMission(QuestSet):
     @classmethod
     def get_tag(class_):
         return 'mission:' + class_.__character_id__.lower()
+
+    def _sort_quests(self):
+        def by_order(quest):
+            return quest.__mission_order__
+
+        self._quest_objs.sort(key=by_order)
 
     @classmethod
     def get_character(class_):
