@@ -308,11 +308,15 @@ class Message(Gtk.Bin):
 
 class CharacterMissionButton(Gtk.Button):
 
-    def __init__(self, quest):
+    def __init__(self, quest_set, quest):
         # @todo: Add names to quests
         super().__init__(label='{}'.format(quest))
 
+        self._quest_set = quest_set
         self._quest = quest
+
+    def get_quest_set(self):
+        return self._quest_set
 
     def get_quest(self):
         return self._quest
@@ -883,7 +887,7 @@ class ClubhousePage(Gtk.EventBox):
         self._message.clear_list_buttons()
 
         for quest in quest_set.get_quests():
-            button = CharacterMissionButton(quest)
+            button = CharacterMissionButton(quest_set, quest)
             button.connect('clicked', self._quest_button_clicked_cb)
             self._message.add_list_button(button)
 
@@ -895,8 +899,9 @@ class ClubhousePage(Gtk.EventBox):
         self._overlay_msg_box.show_all()
 
     def _quest_button_clicked_cb(self, button):
-        # @todo: Run the quest
-        logger.debug('Run quest %s', button.get_quest())
+        quest_set = button.get_quest_set()
+        new_quest = button.get_quest()
+        return self._accept_quest_message(quest_set, new_quest)
 
     def show_message(self, txt, answer_choices=[], sfx_sound=None):
         self._message.clear_buttons()
