@@ -595,7 +595,7 @@ class ClubhousePage(Gtk.EventBox):
         self._overlay_msg_box.hide()
         logger.info('Start quest {}'.format(new_quest))
         quest_set.set_property('highlighted', False)
-        self.run_quest(new_quest)
+        self._app_window.run_quest(new_quest)
 
     def connect_quest(self, quest):
         # Don't update the episode if we're running a quest; this is so we avoid reloading the
@@ -1110,8 +1110,8 @@ class PathwaysPage(Gtk.EventBox):
             self._add_pathway(pathway)
 
     def _quest_button_clicked_cb(self, button):
-        # @todo: Run the quest
-        logger.debug('Run quest %s', button.get_quest())
+        new_quest = button.get_quest()
+        self._app_window.run_quest(new_quest)
 
     def _add_pathway(self, pathway):
         vbox = Gtk.Box(halign=Gtk.Align.FILL,
@@ -1655,6 +1655,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def hide(self):
         super().hide()
+
+    def run_quest(self, quest):
+        logger.info('Start quest {}'.format(quest))
+        self.clubhouse_page.run_quest(quest)
 
 
 class ClubhouseApplication(Gtk.Application):
