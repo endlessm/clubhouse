@@ -24,6 +24,7 @@ gi.require_version('Json', '1.0')
 import time
 
 from eosclubhouse import logger
+from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer
 from gi.repository import GLib, GObject, Gio, Json
 
@@ -392,6 +393,9 @@ class App:
 
     def launch(self):
         return Desktop.launch_app(self.dbus_name)
+
+    def pulse_flip_to_hack_button(self, enable):
+        HackableAppsManager.get_hackable_app(self._app_dbus_name).pulse_flip_to_hack_button(enable)
 
 
 class GameStateService(GObject.GObject):
