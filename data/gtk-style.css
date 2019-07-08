@@ -30,6 +30,10 @@
     font: 15px "Metropolis Medium, Sans-Serif";
 }
 
+.clubhouse-message-list-button-box {
+    margin: 0 153px 17.5px 30px;
+}
+
 .clubhouse-message-character {
     margin: 0 20px 5.5px 0;
 }

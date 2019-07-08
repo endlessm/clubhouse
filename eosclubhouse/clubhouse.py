@@ -215,6 +215,8 @@ class Message(Gtk.Bin):
 
         self._button_box = builder.get_object('message_button_box')
 
+        self._list_button_box = builder.get_object('message_list_button_box')
+
     def _close_button_clicked_cb(self, button):
         self.close()
 
@@ -292,6 +294,28 @@ class Message(Gtk.Bin):
             self._animator.load(character.get_moods_path(), character.id)
 
         self._animator.play(animation_id)
+
+    def clear_list_buttons(self):
+        for child in self._list_button_box:
+            child.destroy()
+        self._list_button_box.hide()
+
+    def add_list_button(self, button):
+        self._list_button_box.show()
+        self._list_button_box.pack_start(button, False, False, 0)
+        button.show()
+
+
+class CharacterMissionButton(Gtk.Button):
+
+    def __init__(self, quest):
+        # @todo: Add names to quests
+        super().__init__(label='{}'.format(quest))
+
+        self._quest = quest
+
+    def get_quest(self):
+        return self._quest
 
 
 class QuestSetButton(Gtk.Button):
@@ -498,6 +522,12 @@ class ClubhousePage(Gtk.EventBox):
 
     def ask_character(self, quest_set):
         self._message.reset()
+
+        if isinstance(quest_set, libquest.CharacterMission):
+            self.show_mission_list(quest_set)
+            return
+
+        # @todo: Remove old behavior below.
 
         # If a quest from this quest_set is already running, then just hide the window so the
         # user focuses on the Shell's quest dialog
@@ -840,6 +870,33 @@ class ClubhousePage(Gtk.EventBox):
         Sound.play('quests/key-given')
 
         self._app.send_quest_item_notification(notification)
+
+    def show_mission_list(self, quest_set):
+        self._stop_quest_proposal()
+
+        character_id = quest_set.get_character()
+        character = Character.get_or_create(character_id)
+        character.mood = None
+        self._message.set_character(character_id)
+
+        self._message.clear_buttons()
+        self._message.clear_list_buttons()
+
+        for quest in quest_set.get_quests():
+            button = CharacterMissionButton(quest)
+            button.connect('clicked', self._quest_button_clicked_cb)
+            self._message.add_list_button(button)
+
+        self._message.set_text("Do you want a mission?")
+        self._message.add_button("Not now…", self._message.close)
+        sfx_sound = self._message.OPEN_DIALOG_SOUND
+        Sound.play(sfx_sound)
+
+        self._overlay_msg_box.show_all()
+
+    def _quest_button_clicked_cb(self, button):
+        # @todo: Run the quest
+        logger.debug('Run quest %s', button.get_quest())
 
     def show_message(self, txt, answer_choices=[], sfx_sound=None):
         self._message.clear_buttons()
