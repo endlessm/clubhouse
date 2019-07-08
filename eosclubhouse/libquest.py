@@ -45,6 +45,7 @@ class Registry:
 
     _quest_sets_to_register = []
     _quest_sets = []
+    _quest_instances = {}
     _loaded_modules = set()
     _loaded_episode = None
     _autorun_quest = None
@@ -100,6 +101,7 @@ class Registry:
         class_._next_episode = None
         class_._quest_sets_to_register = []
         class_._quest_sets = []
+        class_._quest_instances = {}
         for module in class_._loaded_modules:
             del sys.modules[module]
         class_._loaded_modules = set()
@@ -303,7 +305,9 @@ class Registry:
     def get_matching_quests(class_, tag):
         for subclass in class_._get_episode_quests_classes():
             if tag in subclass.get_tags():
-                yield subclass()
+                if subclass not in class_._quest_instances:
+                    class_._quest_instances[subclass] = subclass()
+                yield class_._quest_instances[subclass]
 
     @classmethod
     def get_quest_class_by_name(class_, name):
