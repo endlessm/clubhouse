@@ -1497,8 +1497,10 @@ class QuestSet(GObject.GObject):
     def get_id(class_):
         return class_.__name__
 
-    def get_quests(self):
-        return self._quest_objs
+    def get_quests(self, also_skippable=True):
+        if also_skippable:
+            return self._quest_objs
+        return [q for q in self._quest_objs if not q.skippable]
 
     # @todo: Remove this by moving all uses of QuestSet to
     # CharacterMission.

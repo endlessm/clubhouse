@@ -886,7 +886,7 @@ class ClubhousePage(Gtk.EventBox):
         self._message.clear_buttons()
         self._message.clear_list_buttons()
 
-        for quest in quest_set.get_quests():
+        for quest in quest_set.get_quests(also_skippable=False):
             button = CharacterMissionButton(quest_set, quest)
             button.connect('clicked', self._quest_button_clicked_cb)
             self._message.add_list_button(button)
@@ -1128,7 +1128,7 @@ class PathwaysPage(Gtk.EventBox):
         vbox.add(label)
         label.show()
 
-        for quest in pathway.get_quests():
+        for quest in pathway.get_quests(also_skippable=False):
             button = PathwayQuestButton(quest)
             button.connect('clicked', self._quest_button_clicked_cb)
             vbox.add(button)
