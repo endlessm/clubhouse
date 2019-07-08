@@ -289,6 +289,30 @@ class Registry:
         current_episode_info.update({'teaser-viewed': viewed})
         GameStateService().set('clubhouse.CurrentEpisode', current_episode_info)
 
+    @classmethod
+    def _get_episode_quests_classes(class_):
+        current_episode = class_.get_loaded_episode_name()
+        for subclass in Quest.__subclasses__():
+            # Avoid matching subclasses with the same name but in different episodes
+            episode = subclass.__module__.split('.', 1)[0]
+            if episode != current_episode:
+                continue
+            yield subclass
+
+    @classmethod
+    def get_matching_quests(class_, tag):
+        for subclass in class_._get_episode_quests_classes():
+            if tag in subclass.get_tags():
+                yield subclass()
+
+    @classmethod
+    def get_quest_class_by_name(class_, name):
+        for subclass in class_._get_episode_quests_classes():
+            if subclass.__name__ == name:
+                return subclass
+
+        raise TypeError('Quest {} not found'.format(name))
+
 
 class _QuestRunContext:
 
@@ -1465,14 +1489,14 @@ class QuestSet(GObject.GObject):
 
         self._quest_objs = []
 
-        for quest_class in self._get_matching_quests_classes():
-            quest = quest_class()
+        tag = self.get_tag()
+        for quest in Registry.get_matching_quests(tag):
             self._quest_objs.append(quest)
 
         # @todo: Remove old behavior.
         for quest_class in self.__quests__:
             if isinstance(quest_class, str):
-                quest_class = self._get_quest_class_by_name(quest_class)
+                quest_class = Registry.get_quest_class_by_name(quest_class)
             quest = quest_class()
 
             self._quest_objs.append(quest)
@@ -1489,28 +1513,6 @@ class QuestSet(GObject.GObject):
         # @todo: This should be only implemented in the subclasses,
         # but leaving here for now to make the tests pass.
         self._quest_objs.sort()
-
-    def _get_episode_quests_classes(self):
-        current_episode = Registry.get_loaded_episode_name()
-        for subclass in Quest.__subclasses__():
-            # Avoid matching subclasses with the same name but in different episodes
-            episode = subclass.__module__.split('.', 1)[0]
-            if episode != current_episode:
-                continue
-            yield subclass
-
-    def _get_matching_quests_classes(self):
-        tag = self.get_tag()
-        for subclass in self._get_episode_quests_classes():
-            if tag in subclass.get_tags():
-                yield subclass
-
-    def _get_quest_class_by_name(self, name):
-        for subclass in self._get_episode_quests_classes():
-            if subclass.__name__ == name:
-                return subclass
-
-        raise TypeError('Quest {} not found'.format(name))
 
     @classmethod
     def get_id(class_):
