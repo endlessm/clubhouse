@@ -309,8 +309,7 @@ class Message(Gtk.Bin):
 class CharacterMissionButton(Gtk.Button):
 
     def __init__(self, quest_set, quest):
-        # @todo: Add names to quests
-        super().__init__(label='{}'.format(quest))
+        super().__init__(label=quest.get_name())
 
         self._quest_set = quest_set
         self._quest = quest
@@ -1079,8 +1078,7 @@ class InventoryItem(Gtk.Button):
 class PathwayQuestButton(Gtk.Button):
 
     def __init__(self, quest):
-        # @todo: Add names to quests
-        super().__init__(label='{}'.format(quest))
+        super().__init__(label=quest.get_name())
 
         self._quest = quest
 
