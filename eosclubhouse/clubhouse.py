@@ -1454,7 +1454,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._hack_switch.handler_unblock(self._hack_switch_handler)
 
     def _hack_mode_switch_activate_cb(self, switch, _pspec):
-        Desktop.set_hack_mode(self._hack_switch.get_active())
+        enabled = self._hack_switch.get_active()
+        Desktop.set_hack_mode(enabled)
+        Desktop.personalize_desktop(enabled)
 
     def _settings_changed_cb(self, settings, _key):
         self._update_hack_mode_swith_state()
@@ -1595,6 +1597,7 @@ class ClubhouseApplication(Gtk.Application):
 
             quest = libquest.Registry.get_quest_by_name(autorun_quest)
             if not quest.complete:
+                self._window.hide()
                 # Run the quest in the app's main instance
                 self.activate_action('run-quest', GLib.Variant('(sb)', (autorun_quest, True)))
 
