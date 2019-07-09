@@ -25,7 +25,6 @@ import time
 
 from eosclubhouse import logger
 from eosclubhouse.soundserver import HackSoundServer
-from eosclubhouse.utils import Performance
 from gi.repository import GLib, GObject, Gio, Json
 
 
@@ -479,52 +478,6 @@ class GameStateService(GObject.GObject):
     @staticmethod
     def _is_key_error(error):
         return Gio.DBusError.get_remote_error(error) == 'com.endlessm.GameStateService.KeyError'
-
-
-class AccountService(GObject.GObject):
-
-    _proxy = None
-
-    @classmethod
-    def _get_proxy_and_call(klass, method, callback, *params):
-        Gio.DBusProxy.new_for_bus(Gio.BusType.SESSION,
-                                  0,
-                                  None,
-                                  'com.endlessm.HackAccountService',
-                                  '/com/endlessm/HackAccountService',
-                                  'com.endlessm.HackAccountService',
-                                  None,
-                                  klass._get_proxy_finish,
-                                  method, callback, *params)
-
-    @classmethod
-    def _get_proxy_finish(klass, proxy, res, method, callback, *params):
-        try:
-            klass._proxy = proxy.new_for_bus_finish(res)
-        except GLib.Error as e:
-            logger.error('Cannot get proxy for HackAccountService: %s', e.message)
-            return
-
-        klass._call_async(method, callback, *params)
-
-    @classmethod
-    def _call_async(klass, method, callback, *params):
-        if not klass._proxy:
-            klass._get_proxy_and_call(method, callback, *params)
-            return
-
-        klass._proxy.call(method, None, Gio.DBusCallFlags.NONE, -1, None,
-                          callback, *params)
-
-    def _init_callback(self, proxy, res):
-        try:
-            proxy.call_finish(res)
-        except GLib.Error as e:
-            logger.error('Cannot start the HackAccountService: %s', e.message)
-
-    @Performance.timeit
-    def init_accounts(self):
-        self._call_async('InitAccounts', self._init_callback)
 
 
 class ToolBoxTopic(GObject.GObject):
