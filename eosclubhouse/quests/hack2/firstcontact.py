@@ -27,6 +27,7 @@ class FirstContact(Quest):
         return self._app.get_js_property('mode', default_value=0) >= 4
 
     def step_reward(self):
+        Desktop.personalize_desktop(True)
         self.complete = True
         self.available = False
         self.stop()
@@ -35,6 +36,7 @@ class FirstContact(Quest):
         Desktop.set_hack_mode(True)
 
         self._app.launch()
+
         self.wait_for_app_launch(self._app, pause_after_launch=3)
 
         if self._is_app_flipped():
@@ -42,7 +44,7 @@ class FirstContact(Quest):
 
         return self.step_wait_for_flip
 
-    @Quest.with_app_launched(APP_NAME, otherwise='step_reward')
+    @Quest.with_app_launched(APP_NAME)
     def step_wait_for_flip(self):
         for hint_msg_id in ['WELCOME', 'WELCOME_HINT1']:
             if self._is_app_flipped() or self.is_cancelled():
@@ -56,7 +58,7 @@ class FirstContact(Quest):
 
         return self.step_wait_for_hack
 
-    @Quest.with_app_launched(APP_NAME, otherwise='step_reward')
+    @Quest.with_app_launched(APP_NAME)
     def step_wait_for_hack(self):
         self.show_message('GOAL')
 
@@ -72,7 +74,7 @@ class FirstContact(Quest):
 
         return self.step_wait_for_flipback
 
-    @Quest.with_app_launched(APP_NAME, otherwise='step_reward')
+    @Quest.with_app_launched(APP_NAME)
     def step_wait_for_flipback(self):
         self.show_message('FLIPBACK')
 
@@ -85,3 +87,7 @@ class FirstContact(Quest):
             self.wait_for_app_js_props_changed(self._app, ['mode'])
 
         return self.step_reward
+
+    def abort(self):
+        Desktop.set_hack_mode(False)
+        super().abort()
