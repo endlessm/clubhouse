@@ -1,1 +1,1 @@
-AUTORUN_QUEST = 'AdaQuestSet.FirstContact'
+AUTORUN_QUEST = 'AdaMission.FirstContact'

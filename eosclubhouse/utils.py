@@ -282,7 +282,7 @@ class _ClubhouseStateImpl(GObject.GObject):
 class ClubhouseState:
     '''Singleton that represents a Clubhouse state.'''
 
-    Page = Enum('Page', ['CLUBHOUSE', 'INVENTORY', 'EPISODES'])
+    Page = Enum('Page', ['CLUBHOUSE', 'PATHWAYS', 'INVENTORY'])
 
     _impl = None
 

@@ -38,10 +38,14 @@ from gi.repository import GObject, GLib
 glibcoro.install()
 
 
+DEFAULT_CHARACTER = 'ada'
+
+
 class Registry:
 
     _quest_sets_to_register = []
     _quest_sets = []
+    _quest_instances = {}
     _loaded_modules = set()
     _loaded_episode = None
     _autorun_quest = None
@@ -97,6 +101,7 @@ class Registry:
         class_._next_episode = None
         class_._quest_sets_to_register = []
         class_._quest_sets = []
+        class_._quest_instances = {}
         for module in class_._loaded_modules:
             del sys.modules[module]
         class_._loaded_modules = set()
@@ -113,6 +118,23 @@ class Registry:
         return class_._quest_sets
 
     @classmethod
+    def get_character_missions(class_):
+        return [q for q in class_._quest_sets if isinstance(q, CharacterMission)]
+
+    @classmethod
+    def get_character_mission_for_quest(class_, quest):
+        # Note: this assumes that the character missions don't share
+        # quests. If not, it will return the first mission matching.
+        for qs in class_.get_character_missions():
+            if quest in qs.get_quests():
+                return qs
+        return None
+
+    @classmethod
+    def get_pathways(class_):
+        return [q for q in class_._quest_sets if isinstance(q, PathWay)]
+
+    @classmethod
     def get_quest_set_by_name(class_, name):
         for quest_set in class_.get_quest_sets():
             if quest_set.get_id() == name:
@@ -122,7 +144,7 @@ class Registry:
 
     @classmethod
     def has_quest_sets_highlighted(class_):
-        return any(qs.highlighted for qs in class_._quest_sets)
+        return any(qs.highlighted for qs in class_.get_character_missions())
 
     @classmethod
     def get_quest_by_name(class_, name):
@@ -134,20 +156,7 @@ class Registry:
         else:
             quest_name = name
 
-        # If we don't have a QuestSet name specified, then try to quickly get the
-        # quest directly by name.
-        if quest_set_name is None:
-            return class_.get_current_quests().get(quest_name)
-
-        for quest_set in class_.get_quest_sets():
-            if quest_set_name is not None and quest_set_name != quest_set.get_id():
-                continue
-
-            for quest in quest_set.get_quests():
-                if quest.get_id() == quest_name:
-                    return quest
-
-        return None
+        return class_.get_current_quests().get(quest_name)
 
     @classmethod
     def _get_episode_folder(class_, episode_name):
@@ -281,6 +290,32 @@ class Registry:
 
         current_episode_info.update({'teaser-viewed': viewed})
         GameStateService().set('clubhouse.CurrentEpisode', current_episode_info)
+
+    @classmethod
+    def _get_episode_quests_classes(class_):
+        current_episode = class_.get_loaded_episode_name()
+        for subclass in Quest.__subclasses__():
+            # Avoid matching subclasses with the same name but in different episodes
+            episode = subclass.__module__.split('.', 1)[0]
+            if episode != current_episode:
+                continue
+            yield subclass
+
+    @classmethod
+    def get_matching_quests(class_, tag):
+        for subclass in class_._get_episode_quests_classes():
+            if tag in subclass.get_tags():
+                if subclass not in class_._quest_instances:
+                    class_._quest_instances[subclass] = subclass()
+                yield class_._quest_instances[subclass]
+
+    @classmethod
+    def get_quest_class_by_name(class_, name):
+        for subclass in class_._get_episode_quests_classes():
+            if subclass.__name__ == name:
+                return subclass
+
+        raise TypeError('Quest {} not found'.format(name))
 
 
 class _QuestRunContext:
@@ -584,6 +619,11 @@ class Quest(GObject.GObject):
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
     _DEFAULT_MOOD = 'talk'
 
+    __quest_name__ = None
+    __tags__ = []
+    __mission_order__ = 0
+    __pathway_order__ = 0
+
     skippable = GObject.Property(type=bool, default=False)
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
     continue_message = GObject.Property(type=str, default="You haven't completed my challenge yet!")
@@ -597,10 +637,8 @@ class Quest(GObject.GObject):
 
     auto_offer = GObject.Property(type=bool, default=False)
 
-    def __init__(self, quest_set):
+    def __init__(self):
         super().__init__()
-
-        self.quest_set = quest_set
 
         # We declare these variables here, instead of looking them up in the registry when
         # we need them because this way we ensure we get the values when the quest was loaded,
@@ -620,7 +658,7 @@ class Quest(GObject.GObject):
 
         self._characters = {}
 
-        self._main_character_id = ''
+        self._main_character_id = DEFAULT_CHARACTER
         self._main_mood = self._DEFAULT_MOOD
         self._main_open_dialog_sound = 'clubhouse/dialog/open'
         self._default_abort_sound = 'quests/quest-aborted'
@@ -705,37 +743,6 @@ class Quest(GObject.GObject):
                for q in self.__available_after_completing_quests__):
             self.available = True
 
-    def get_dependency_quests(self):
-        # We use an OrderedDict here to make sure we don't repeat the quests in the final
-        # list but we still keep the order.
-        quest_dependencies = OrderedDict()
-
-        def get_close_dependencies(quest):
-            quests_before = quest.quest_set.get_quests_before(quest.get_id())
-            quest_before = [quests_before[-1]] if quests_before else []
-            return [Registry.get_quest_by_name(quest_id) for quest_id
-                    in quest.__available_after_completing_quests__] + quest_before
-
-        # Get the dependencies for the quest, and their own dependencies too.
-        dependencies = get_close_dependencies(self)
-        while dependencies:
-            quest_dep = dependencies.pop()
-            # This avoids checking dependencies that have been processed already. This shouldn't
-            # be common but can happen and doesn't represent a circular dependency, like the B1
-            # which is a dependency of A2 but also of C1 (and it could be processed twice if we're
-            # going through the full dependency graph of C1):
-            #  A1 <- B1 <- C1
-            #         <    /
-            #          \  <
-            #           A2
-            if quest_dep in quest_dependencies.keys():
-                continue
-
-            quest_dependencies[quest_dep.get_id()] = quest_dep
-            dependencies += get_close_dependencies(quest_dep)
-
-        return list(quest_dependencies.values())
-
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
 
@@ -785,7 +792,7 @@ class Quest(GObject.GObject):
         next_quest = self.get_next_quest()
         if next_quest and next_quest.auto_offer and next_quest is not self:
             logger.debug('Proposing next quest: %s', next_quest)
-            self.schedule_quest(next_quest.get_full_id())
+            self.schedule_quest(next_quest.get_id())
 
     def set_next_step(self, step_func, delay=0, args=()):
         assert self._run_context is not None
@@ -1126,10 +1133,7 @@ class Quest(GObject.GObject):
             self._cancellable.cancel()
 
     def get_main_character(self):
-        character_id = self._main_character_id
-        if not character_id and self.quest_set:
-            character_id = self.quest_set.get_character()
-        return character_id
+        return self._main_character_id
 
     def play_stop_bg_sound(self, sound_event_id=None):
         """
@@ -1294,6 +1298,19 @@ class Quest(GObject.GObject):
         self.gss.set('clubhouse.CurrentEpisode', current_episode_info)
 
     @classmethod
+    def get_name(class_):
+        if class_.__quest_name__ is not None:
+            return class_.__quest_name__
+
+        # Fallback to the class name:
+        logger.warning('The quest "%s" doesn\'t have a name!', class_)
+        return class_.__name__
+
+    @classmethod
+    def get_tags(class_):
+        return class_.__tags__
+
+    @classmethod
     def give_app_icon(class_, app_name):
         if not Desktop.is_app_in_grid(app_name):
             Sound.play('quests/new-icon')
@@ -1437,11 +1454,6 @@ class Quest(GObject.GObject):
         that the quest returned is not the very same quest, or a quest that's availabel in the
         quest set and comes before this one.
         """
-        if self.quest_set:
-            next_quest = self.quest_set.get_next_quest()
-            if next_quest:
-                return next_quest
-
         for quest_set in Registry.get_quest_sets():
             quest = quest_set.get_next_quest()
             if quest:
@@ -1463,11 +1475,6 @@ class Quest(GObject.GObject):
     def get_id(class_):
         return class_.__name__
 
-    def get_full_id(self):
-        if self.quest_set is not None:
-            return '{}.{}'.format(self.quest_set.get_id(), self.get_id())
-        return self.get_id()
-
     available = GObject.Property(_get_available, _set_available, type=bool, default=True,
                                  flags=GObject.ParamFlags.READWRITE |
                                  GObject.ParamFlags.EXPLICIT_NOTIFY)
@@ -1480,8 +1487,85 @@ class Quest(GObject.GObject):
 class QuestSet(GObject.GObject):
 
     __quests__ = []
-    # @todo: Default character; should be set to None in the future
-    __character_id__ = 'aggretsuko'
+
+    def __init__(self):
+        super().__init__()
+
+        self._quest_objs = []
+
+        tag = self.get_tag()
+        for quest in Registry.get_matching_quests(tag):
+            self._quest_objs.append(quest)
+
+        # @todo: Remove old behavior.
+        for quest_class in self.__quests__:
+            if isinstance(quest_class, str):
+                quest_class = Registry.get_quest_class_by_name(quest_class)
+            quest = quest_class()
+
+            self._quest_objs.append(quest)
+
+        self._sort_quests()
+
+    @classmethod
+    def get_tag(class_):
+        # @todo: This should be only implemented in the subclasses,
+        # but leaving here for now to make the tests pass.
+        return ''
+
+    def _sort_quests(self):
+        # @todo: This should be only implemented in the subclasses,
+        # but leaving here for now to make the tests pass.
+        self._quest_objs.sort()
+
+    @classmethod
+    def get_id(class_):
+        return class_.__name__
+
+    def get_quests(self, also_skippable=True):
+        if also_skippable:
+            return self._quest_objs
+        return [q for q in self._quest_objs if not q.skippable]
+
+    # @todo: Remove this by moving all uses of QuestSet to
+    # CharacterMission.
+    def is_active(self):
+        return False
+
+    # @todo: Remove this by moving all uses of QuestSet to
+    # CharacterMission.
+    def get_next_quest(self):
+        return None
+
+    def __repr__(self):
+        return self.get_id()
+
+
+class PathWay(QuestSet):
+
+    __pathway_name__ = None
+
+    def __init__(self):
+        super().__init__()
+
+    @classmethod
+    def get_tag(class_):
+        return 'pathway:' + class_.__pathway_name__.lower()
+
+    @classmethod
+    def get_name(class_):
+        return class_.__pathway_name__
+
+    def _sort_quests(self):
+        def by_order(quest):
+            return quest.__pathway_order__
+
+        self._quest_objs.sort(key=by_order)
+
+
+class CharacterMission(QuestSet):
+
+    __character_id__ = None
     # The __position__ can override the character's position by using a tuple here e.g. (10, 12)
     __position__ = None
     __empty_message__ = 'Nothing to see here!'
@@ -1498,44 +1582,26 @@ class QuestSet(GObject.GObject):
         self._unhighlighted_body_animation = self.body_animation
         self._highlighted = False
 
-        self._quest_objs = []
-        for quest_class in self.__quests__:
-            if isinstance(quest_class, str):
-                quest_class = self._get_quest_class_by_name(quest_class)
-            quest = quest_class(self)
-
-            self._quest_objs.append(quest)
+        for quest in self.get_quests():
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
             quest.connect('dismissed', self._update_highlighted)
 
         self._update_highlighted()
 
-    def _get_quest_class_by_name(self, name):
-        current_episode = Registry.get_loaded_episode_name()
-        for subclass in Quest.__subclasses__():
-            # Avoid matching subclasses with the same name but in different episodes
-            episode = subclass.__module__.split('.', 1)[0]
-            if episode != current_episode:
-                continue
+    @classmethod
+    def get_tag(class_):
+        return 'mission:' + class_.__character_id__.lower()
 
-            if subclass.__name__ == name:
-                return subclass
-        raise TypeError('Quest {} not found'.format(name))
+    def _sort_quests(self):
+        def by_order(quest):
+            return quest.__mission_order__
+
+        self._quest_objs.sort(key=by_order)
 
     @classmethod
     def get_character(class_):
         return class_.__character_id__
-
-    def get_quests(self):
-        return self._quest_objs
-
-    @classmethod
-    def get_id(class_):
-        return class_.__name__
-
-    def __repr__(self):
-        return self.get_id()
 
     def get_next_quest(self):
         for quest in self.get_quests():
@@ -1596,14 +1662,6 @@ class QuestSet(GObject.GObject):
 
     def _set_body_animation(self, body_animation):
         self.set_body_animation(body_animation)
-
-    def get_quests_before(self, quest_id):
-        quests_before = []
-        for quest in self.get_quests():
-            if quest.get_id() == quest_id:
-                break
-            quests_before.append(quest)
-        return quests_before
 
     def get_empty_message(self):
         msg_id_suffix = None

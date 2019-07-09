@@ -215,6 +215,8 @@ class Message(Gtk.Bin):
 
         self._button_box = builder.get_object('message_button_box')
 
+        self._list_button_box = builder.get_object('message_list_button_box')
+
     def _close_button_clicked_cb(self, button):
         self.close()
 
@@ -292,6 +294,31 @@ class Message(Gtk.Bin):
             self._animator.load(character.get_moods_path(), character.id)
 
         self._animator.play(animation_id)
+
+    def clear_list_buttons(self):
+        for child in self._list_button_box:
+            child.destroy()
+        self._list_button_box.hide()
+
+    def add_list_button(self, button):
+        self._list_button_box.show()
+        self._list_button_box.pack_start(button, False, False, 0)
+        button.show()
+
+
+class CharacterMissionButton(Gtk.Button):
+
+    def __init__(self, quest_set, quest):
+        super().__init__(label=quest.get_name())
+
+        self._quest_set = quest_set
+        self._quest = quest
+
+    def get_quest_set(self):
+        return self._quest_set
+
+    def get_quest(self):
+        return self._quest
 
 
 class QuestSetButton(Gtk.Button):
@@ -464,7 +491,10 @@ class ClubhousePage(Gtk.EventBox):
         if self._current_quest is None:
             return
 
-        self._current_quest.quest_set.highlighted = False
+        quest_set = libquest.Registry.get_character_mission_for_quest(self._current_quest)
+        if quest_set is not None:
+            quest_set.highlighted = False
+
         self._message.reset()
         self._message.set_character(self._current_quest.get_main_character())
 
@@ -495,6 +525,12 @@ class ClubhousePage(Gtk.EventBox):
 
     def ask_character(self, quest_set):
         self._message.reset()
+
+        if isinstance(quest_set, libquest.CharacterMission):
+            self.show_mission_list(quest_set)
+            return
+
+        # @todo: Remove old behavior below.
 
         # If a quest from this quest_set is already running, then just hide the window so the
         # user focuses on the Shell's quest dialog
@@ -537,10 +573,11 @@ class ClubhousePage(Gtk.EventBox):
 
     def continue_playing(self):
         # If there is a running quest, we ask the quest's character whether to continue/stop it.
-        if self._current_quest and self._current_quest.available and \
-           self._current_quest.quest_set is not None:
-            self.ask_character(self._current_quest.quest_set)
-            return
+        if self._current_quest:
+            quest_set = libquest.Registry.get_character_mission_for_quest(self._current_quest)
+            if self._current_quest.available and quest_set is not None:
+                self.ask_character(quest_set)
+                return
 
         # Ask the first character that is active what to do (start/continue a quest, etc.).
         for quest_set in libquest.Registry.get_quest_sets():
@@ -557,7 +594,7 @@ class ClubhousePage(Gtk.EventBox):
         self._overlay_msg_box.hide()
         logger.info('Start quest {}'.format(new_quest))
         quest_set.set_property('highlighted', False)
-        self.run_quest(new_quest)
+        self._app_window.run_quest(new_quest)
 
     def connect_quest(self, quest):
         # Don't update the episode if we're running a quest; this is so we avoid reloading the
@@ -724,7 +761,7 @@ class ClubhousePage(Gtk.EventBox):
                                                                          _run_quest_after_timeout)
 
     def _propose_next_quest(self, quest):
-        quest_set = quest.quest_set
+        quest_set = libquest.Registry.get_character_mission_for_quest(quest)
 
         self._reset_quest_actions()
 
@@ -837,6 +874,34 @@ class ClubhousePage(Gtk.EventBox):
 
         self._app.send_quest_item_notification(notification)
 
+    def show_mission_list(self, quest_set):
+        self._stop_quest_proposal()
+
+        character_id = quest_set.get_character()
+        character = Character.get_or_create(character_id)
+        character.mood = None
+        self._message.set_character(character_id)
+
+        self._message.clear_buttons()
+        self._message.clear_list_buttons()
+
+        for quest in quest_set.get_quests(also_skippable=False):
+            button = CharacterMissionButton(quest_set, quest)
+            button.connect('clicked', self._quest_button_clicked_cb)
+            self._message.add_list_button(button)
+
+        self._message.set_text("Do you want a mission?")
+        self._message.add_button("Not now…", self._message.close)
+        sfx_sound = self._message.OPEN_DIALOG_SOUND
+        Sound.play(sfx_sound)
+
+        self._overlay_msg_box.show_all()
+
+    def _quest_button_clicked_cb(self, button):
+        quest_set = button.get_quest_set()
+        new_quest = button.get_quest()
+        return self._accept_quest_message(quest_set, new_quest)
+
     def show_message(self, txt, answer_choices=[], sfx_sound=None):
         self._message.clear_buttons()
         self._message.set_text(txt)
@@ -891,7 +956,9 @@ class ClubhousePage(Gtk.EventBox):
     def set_quest_to_background(self):
         if self._current_quest:
             self._current_quest.set_to_background()
-            self._current_quest.quest_set.highlighted = True
+            quest_set = libquest.Registry.get_character_mission_for_quest(self._current_quest)
+            if quest_set is not None:
+                quest_set.highlighted = True
         else:
             # If the quest proposal dialog in the Shell has been dismissed, then we
             # should reset the "proposing_quest" flag.
@@ -918,7 +985,7 @@ class ClubhousePage(Gtk.EventBox):
             child.destroy()
 
         libquest.Registry.load_current_episode()
-        for quest_set in libquest.Registry.get_quest_sets():
+        for quest_set in libquest.Registry.get_character_missions():
             self.add_quest_set(quest_set)
 
     def _update_episode_if_needed(self):
@@ -1006,6 +1073,64 @@ class InventoryItem(Gtk.Button):
     def _deactivate_on_timeout(self):
         self.get_style_context().remove_class('active')
         self._label.set_text(self.item_name)
+
+
+class PathwayQuestButton(Gtk.Button):
+
+    def __init__(self, quest):
+        super().__init__(label=quest.get_name())
+
+        self._quest = quest
+
+    def get_quest(self):
+        return self._quest
+
+
+class PathwaysPage(Gtk.EventBox):
+    def __init__(self, app_window):
+        super().__init__(visible=True)
+
+        self._app_window = app_window
+
+        self._setup_ui()
+
+    def _setup_ui(self):
+        self.get_style_context().add_class('pathways-page')
+
+        # @todo: add UI file and use GtkBuilder
+        self._box = Gtk.Box(halign=Gtk.Align.FILL,
+                            orientation=Gtk.Orientation.VERTICAL)
+        self.add(self._box)
+        self._box.show()
+
+    def load_episode(self):
+        for pathway in libquest.Registry.get_pathways():
+            self._add_pathway(pathway)
+
+    def _quest_button_clicked_cb(self, button):
+        new_quest = button.get_quest()
+        self._app_window.run_quest(new_quest)
+
+    def _add_pathway(self, pathway):
+        vbox = Gtk.Box(halign=Gtk.Align.FILL,
+                       orientation=Gtk.Orientation.VERTICAL)
+        self._box.add(vbox)
+        vbox.show()
+
+        label = Gtk.Label(wrap=True,
+                          hexpand=False,
+                          halign=Gtk.Align.CENTER,
+                          justify=Gtk.Justification.CENTER)
+
+        label.set_text(pathway.get_name())
+        vbox.add(label)
+        label.show()
+
+        for quest in pathway.get_quests(also_skippable=False):
+            button = PathwayQuestButton(quest)
+            button.connect('clicked', self._quest_button_clicked_cb)
+            vbox.add(button)
+            button.show()
 
 
 class InventoryPage(Gtk.EventBox):
@@ -1402,10 +1527,13 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._shell_settings = Gio.Settings('org.gnome.shell')
 
         self.clubhouse_page = ClubhousePage(self)
+        self.pathways_page = PathwaysPage(self)
         self.inventory_page = InventoryPage(self)
 
-        self.set_size_request(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
-        self.set_resizable(False)
+        # @todo: Disable resizing the window once the UI is settled.
+        self.set_size_request(DEFAULT_WINDOW_WIDTH, -1)
+        # self.set_size_request(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
+        # self.set_resizable(True)
 
         self._setup_ui()
 
@@ -1435,9 +1563,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._update_hack_mode_swith_state()
 
         self._clubhouse_button = builder.get_object('main_window_button_clubhouse')
+        self._pathways_button = builder.get_object('main_window_button_pathways')
         self._inventory_button = builder.get_object('main_window_button_inventory')
 
         pages_data = [(self._clubhouse_button, ClubhouseState.Page.CLUBHOUSE, self.clubhouse_page),
+                      (self._pathways_button, ClubhouseState.Page.PATHWAYS, self.pathways_page),
                       (self._inventory_button, ClubhouseState.Page.INVENTORY, self.inventory_page)]
 
         for button, page_id, page_widget in pages_data:
@@ -1472,6 +1602,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def set_page(self, page_name):
         page_buttons = {'clubhouse': self._clubhouse_button,
+                        'pathways': self._pathways_button,
                         'inventory': self._inventory_button}
 
         button = page_buttons.get(page_name)
@@ -1524,6 +1655,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def hide(self):
         super().hide()
+
+    def run_quest(self, quest):
+        logger.info('Start quest {}'.format(quest))
+        self.clubhouse_page.run_quest(quest)
 
 
 class ClubhouseApplication(Gtk.Application):
@@ -1709,11 +1844,16 @@ class ClubhouseApplication(Gtk.Application):
             self._registry_loaded = True
 
     def _ensure_suggesting_open(self):
-        quest_sets = libquest.Registry.get_quest_sets()
+        quest_sets = libquest.Registry.get_character_missions()
         for quest_set in quest_sets:
             if quest_set.highlighted:
                 self.send_suggest_open(True)
                 break
+
+    def _load_episode(self):
+        # @todo: Move staff from clubhouse_page.load_episode() here
+        self._window.clubhouse_page.load_episode()
+        self._window.pathways_page.load_episode()
 
     def _ensure_window(self):
         if self._window:
@@ -1724,7 +1864,7 @@ class ClubhouseApplication(Gtk.Application):
         self._window.clubhouse_page.connect('notify::running-quest',
                                             self._running_quest_notify_cb)
 
-        self._window.clubhouse_page.load_episode()
+        self._load_episode()
 
     def send_quest_msg_notification(self, notification):
         self.send_notification(self.QUEST_MSG_NOTIFICATION_ID, notification)
@@ -1930,11 +2070,6 @@ class ClubhouseApplication(Gtk.Application):
         # as completed.
         for quest in quests.values():
             quest.complete = False
-            quest.save_conf()
-
-        for quest in quests[quest_id].get_dependency_quests():
-            print(' completing', quest)
-            quest.complete = True
             quest.save_conf()
 
     def _reset(self):
