@@ -1541,6 +1541,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._ambient_sound_uuid = None
         self.connect('notify::visible', self._on_visibile_property_changed)
 
+        def _on_delete(widget, _event):
+            widget.hide()
+            return True
+        self.connect('delete_event', _on_delete)
+
         self._clubhouse_state = ClubhouseState()
 
     def continue_playing(self):
