@@ -44,6 +44,12 @@ class FirstContact(Quest):
         if self._is_app_flipped():
             return self.step_wait_for_hack
 
+        return self.step_wait_and_pulse
+
+    @Quest.with_app_launched(APP_NAME)
+    def step_wait_and_pulse(self):
+        self._app.pulse_flip_to_hack_button(True)
+
         return self.step_wait_for_flip
 
     @Quest.with_app_launched(APP_NAME)
@@ -58,6 +64,7 @@ class FirstContact(Quest):
         while not self._is_app_flipped() and not self.is_cancelled():
             self.wait_for_app_js_props_changed(self._app, ['mode'])
 
+        self._app.pulse_flip_to_hack_button(False)
         return self.step_wait_for_hack
 
     @Quest.with_app_launched(APP_NAME)
@@ -74,6 +81,7 @@ class FirstContact(Quest):
         while not self._is_app_hacked() and not self.is_cancelled():
             self.wait_for_app_js_props_changed(self._app, ['mode'])
 
+        self._app.pulse_flip_to_hack_button(True)
         return self.step_wait_for_flipback
 
     @Quest.with_app_launched(APP_NAME)
@@ -88,6 +96,7 @@ class FirstContact(Quest):
         while not self._is_app_flipped_back() and not self.is_cancelled():
             self.wait_for_app_js_props_changed(self._app, ['mode'])
 
+        self._app.pulse_flip_to_hack_button(False)
         return self.step_reward
 
     def abort(self):
