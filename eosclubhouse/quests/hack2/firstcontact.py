@@ -1,5 +1,6 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App, Desktop
+from eosclubhouse.utils import ClubhouseState
 
 
 class FirstContact(Quest):
@@ -32,6 +33,16 @@ class FirstContact(Quest):
         Desktop.personalize_desktop(True)
         self.complete = True
         self.available = False
+
+        return self.step_show_clubhouse
+
+    def step_show_clubhouse(self):
+        self.pause(3)
+
+        # show the clubhouse after the first contact quest
+        clubhouse_state = ClubhouseState()
+        clubhouse_state.window_is_visible = True
+
         self.stop()
 
     def step_begin(self):
@@ -97,6 +108,10 @@ class FirstContact(Quest):
             self.wait_for_app_js_props_changed(self._app, ['mode'])
 
         self._app.pulse_flip_to_hack_button(False)
+        return self.step_wait_for_finish
+
+    def step_wait_for_finish(self):
+        self.connect_app_quit(self._app).wait()
         return self.step_reward
 
     def abort(self):
