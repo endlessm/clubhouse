@@ -24,7 +24,7 @@ URL_PARAMS = {
     'range': 'A:F'
 }
 
-ALL_SHEETS = ['Episode1', 'Episode2', 'Episode3', 'Episode4']
+ALL_SHEETS = ['Episode1', 'Episode2', 'Episode3', 'Episode4', 'Hack2']
 
 quest_codes = None
 character_animations = None
