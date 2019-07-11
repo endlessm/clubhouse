@@ -6,6 +6,9 @@ gdbus call --session \
     --object-path /com/endlessm/GameStateService \
     --method com.endlessm.GameStateService.Reset
 
+echo "Resetting the hack-mode"
+gsettings reset org.gnome.shell hack-mode-enabled
+
 echo "Removing com.endlessm.Fizzics state"
 flatpak-spawn --host rm -rf ~/.var/app/com.endlessm.Fizzics/data/webkitgtk/localstorage/
 
@@ -16,11 +19,14 @@ echo "Resetting cursor"
 gsettings reset org.gnome.desktop.interface cursor-size
 gsettings reset org.gnome.desktop.interface cursor-theme
 
+echo "Resetting the desktop background"
+gsettings reset org.gnome.desktop.background picture-uri
+
 echo "Resetting wobbly windows"
-dconf reset /org/gnome/shell/wobbly-effect
-dconf reset /org/gnome/shell/wobbly-object-movement-range
-dconf reset /org/gnome/shell/wobbly-slowdown-factor
-dconf reset /org/gnome/shell/wobbly-spring-frictiont
-dconf reset /org/gnome/shell/wobbly-spring-k
+gsettings reset org.gnome.shell wobbly-effect
+gsettings reset org.gnome.shell wobbly-object-movement-range
+gsettings reset org.gnome.shell wobbly-slowdown-factor
+gsettings reset org.gnome.shell wobbly-spring-friction
+gsettings reset org.gnome.shell wobbly-spring-k
 
 echo "Done"
