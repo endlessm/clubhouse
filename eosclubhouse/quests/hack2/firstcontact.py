@@ -35,22 +35,6 @@ class FirstContact(Quest):
             return False
         return self._app.get_js_property('mode', default_value=0) >= 4
 
-    def step_reward(self):
-        Desktop.personalize_desktop(True)
-        self.complete = True
-        self.available = False
-
-        return self.step_show_clubhouse
-
-    def step_show_clubhouse(self):
-        self.pause(3)
-
-        # show the clubhouse after the first contact quest
-        clubhouse_state = ClubhouseState()
-        clubhouse_state.window_is_visible = True
-
-        self.stop()
-
     def step_begin(self):
         Desktop.set_hack_mode(True)
 
@@ -118,7 +102,29 @@ class FirstContact(Quest):
 
     def step_wait_for_finish(self):
         self.connect_app_quit(self._app).wait()
-        return self.step_reward
+        return self.enter_hack_mode
+
+    def enter_hack_mode(self):
+        Desktop.personalize_desktop(True)
+        return self.step_show_clubhouse
+
+    def step_show_clubhouse(self):
+        self.pause(3)
+
+        # show the clubhouse after the first contact quest
+        clubhouse_state = ClubhouseState()
+        clubhouse_state.window_is_visible = True
+        return self.step_welcome
+
+    def step_welcome(self):
+        self.pause(3)
+        self.wait_confirm('CLUBHOUSE')
+        return self.step_end
+
+    def step_end(self):
+        self.complete = True
+        self.available = False
+        self.stop()
 
     def abort(self):
         Desktop.set_hack_mode(False)
