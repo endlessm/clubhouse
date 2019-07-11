@@ -66,6 +66,10 @@ ClubhouseIface = ('<node>'
 DEFAULT_WINDOW_WIDTH = 480
 DEFAULT_WINDOW_HEIGHT = 1000
 
+# Load Resources
+resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
+Gio.Resource._register(resource)
+
 
 class Character(GObject.GObject):
     _characters = {}
@@ -1513,9 +1517,17 @@ class EpisodesPage(Gtk.EventBox):
             libquest.Registry.set_current_episode_teaser_viewed(True)
 
 
+@Gtk.Template.from_resource('/com/endlessm/Clubhouse/clubhouse-window.ui')
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
+    __gtype_name__ = 'ClubhouseWindow'
     _MAIN_PAGE_RESET_TIMEOUT = 60  # sec
+
+    _stack = Gtk.Template.Child()
+    _hack_switch = Gtk.Template.Child()
+    _clubhouse_page = Gtk.Template.Child()
+    _pathways_page = Gtk.Template.Child()
+    _inventory_page = Gtk.Template.Child()
 
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
@@ -1525,11 +1537,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.clubhouse_page = ClubhousePage(self)
         self.pathways_page = PathwaysPage(self)
         self.inventory_page = InventoryPage(self)
-
-        # @todo: Disable resizing the window once the UI is settled.
-        self.set_size_request(DEFAULT_WINDOW_WIDTH, -1)
-        # self.set_size_request(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
-        # self.set_resizable(True)
 
         self._setup_ui()
 
@@ -1556,44 +1563,30 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def continue_playing(self):
         self.clubhouse_page.continue_playing()
         # Select main page so the user can see whether a character is now offering a quest.
-        self._clubhouse_button.set_active(True)
+        self._stack.set_visible_child(self._clubhouse_page)
 
     def _setup_ui(self):
-        builder = Gtk.Builder()
-        builder.add_from_resource('/com/endlessm/Clubhouse/main-window.ui')
-
-        self._main_window_stack = builder.get_object('main_window_stack')
-
-        self._hack_switch = builder.get_object('main_window_switch_hack_mode')
-        self._hack_switch_handler = self._hack_switch.connect('notify::active',
-                                                              self._hack_mode_switch_activate_cb)
-
         Desktop.get_shell_settings().connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
                                              self._settings_changed_cb)
         self._update_hack_mode_swith_state()
 
-        self._clubhouse_button = builder.get_object('main_window_button_clubhouse')
-        self._pathways_button = builder.get_object('main_window_button_pathways')
-        self._inventory_button = builder.get_object('main_window_button_inventory')
+        self._clubhouse_page.pack_start(self.clubhouse_page, True, True, 0)
+        self._pathways_page.pack_start(self.pathways_page, True, True, 0)
+        self._inventory_page.pack_start(self.inventory_page, True, True, 0)
 
-        pages_data = [(self._clubhouse_button, ClubhouseState.Page.CLUBHOUSE, self.clubhouse_page),
-                      (self._pathways_button, ClubhouseState.Page.PATHWAYS, self.pathways_page),
-                      (self._inventory_button, ClubhouseState.Page.INVENTORY, self.inventory_page)]
-
-        for button, page_id, page_widget in pages_data:
-            self._main_window_stack.add_named(page_widget, page_id.name)
-            button.connect('clicked', self._page_switch_button_clicked_cb, page_id)
-
-        self.add(builder.get_object('main_window_overlay'))
+    @Gtk.Template.Callback()
+    def _on_stack_button_clicked(self, view):
+        self._stack.set_visible_child(view)
 
     def _update_hack_mode_swith_state(self):
-        self._hack_switch.handler_block(self._hack_switch_handler)
-
+        self._on_hack_mode_switch = True
         self._hack_switch.set_active(Desktop.get_hack_mode())
+        self._on_hack_mode_switch = False
 
-        self._hack_switch.handler_unblock(self._hack_switch_handler)
-
+    @Gtk.Template.Callback()
     def _hack_mode_switch_activate_cb(self, switch, _pspec):
+        if self._on_hack_mode_switch:
+            return
         enabled = self._hack_switch.get_active()
         Desktop.set_hack_mode(enabled)
         Desktop.set_hack_background(enabled)
@@ -1607,22 +1600,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         gdk_window.set_functions(Gdk.WMFunction.CLOSE | Gdk.WMFunction.MINIMIZE |
                                  Gdk.WMFunction.MOVE)
 
-    def _page_switch_button_clicked_cb(self, button, page_id):
-        self._main_window_stack.set_visible_child_name(page_id.name)
-        self._clubhouse_state.current_page = page_id
-
     def set_page(self, page_name):
-        page_buttons = {'clubhouse': self._clubhouse_button,
-                        'pathways': self._pathways_button,
-                        'inventory': self._inventory_button}
-
-        button = page_buttons.get(page_name)
-
-        if button is not None:
-            button.set_active(True)
+        self._stack.set_visible_child_name(page_name.upper())
 
     def _select_main_page_on_timeout(self):
-        self._clubhouse_button.set_active(True)
+        self._stack.set_visible_child(self._clubhouse_page)
         self._page_reset_timeout = 0
 
         return GLib.SOURCE_REMOVE
@@ -1635,7 +1617,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _reset_selected_page_on_timeout(self):
         self._stop_page_reset_timeout()
 
-        if self._clubhouse_button.get_active():
+        if self._stack.get_visible_child() == self._clubhouse_page:
             return
 
         self._page_reset_timeout = GLib.timeout_add_seconds(self._MAIN_PAGE_RESET_TIMEOUT,
@@ -1689,9 +1671,6 @@ class ClubhouseApplication(Gtk.Application):
         self._registry_loaded = False
         self._suggesting_open = False
         self._session_mode = None
-
-        resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
-        Gio.Resource._register(resource)
 
         self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'List existing quest sets and quests', None)

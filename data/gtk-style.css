@@ -1,5 +1,8 @@
 .clubhouse-page {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.png');
+    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .inventory-page {
@@ -118,44 +121,9 @@
     box-shadow: none;
 }
 
-.clubhouse-button-box {
-    margin-bottom: 15px;
-}
-
-.clubhouse-button-box > button > label {
-    color: white;
-    text-shadow: none;
-}
-
 .clubhouse-button-box > button {
-    background: rgba(40, 40, 40, .9);
     border: none;
-    border-left: 1px solid black;
-    border-radius: 0;
     box-shadow: none;
-}
-
-.clubhouse-button-box > button:first-child {
-    border: none;
-    border-radius: 20px 0 0 20px;
-}
-
-.clubhouse-button-box > button:last-child {
-    border: none;
-    border-left: 1px solid black;
-    border-radius: 0 20px 20px 0;
-}
-
-.clubhouse-button-box > button:checked {
-    background: rgba(244, 228, 216, .9);
-}
-
-.clubhouse-button-box > button:checked > label {
-    color: black;
-}
-
-.clubhouse-button-box > button:hover:not(:checked) {
-    background: rgba(40, 40, 40, .6);
 }
 
 .inventory-item {
@@ -343,3 +311,23 @@ window.poster {
     font: 28px "Metropolis, Sans-Serif";
     font-weight: bold;
 }
+
+/* Hack mode switch */
+#hack-switch {
+  padding: 1em 1em;
+  margin: 1em 1em;
+  background-color: darkblue;
+  border-radius: 8px;
+}
+
+#hack-switch > label {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 1ex;
+}
+
+/* Disable text inside switch */
+#hack-switch > switch {
+  font-size: 0px;
+}
+
