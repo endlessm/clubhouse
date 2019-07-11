@@ -97,6 +97,7 @@ class FirstContact(Quest):
         while not self._is_app_flipped_back() and not self.is_cancelled():
             self.wait_for_app_js_props_changed(self._app, ['mode'])
 
+        self.dismiss_message()
         self._app.pulse_flip_to_hack_button(False)
         return self.step_wait_for_finish
 
