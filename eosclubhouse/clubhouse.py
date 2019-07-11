@@ -1717,34 +1717,21 @@ class ClubhouseApplication(Gtk.Application):
 
     @Performance.timeit
     def do_activate(self):
-        self.show(Gdk.CURRENT_TIME)
+        if not self._run_episode_autorun_quest_if_needed():
+            self.show(Gdk.CURRENT_TIME)
 
     def _run_episode_autorun_quest_if_needed(self):
-        def _run_autorun_quest_if_user_session(proxy=None):
-            if proxy is not None:
-                self._session_mode = proxy.get_cached_property('Mode').unpack()
+        autorun_quest = libquest.Registry.get_autorun_quest()
+        if autorun_quest is None:
+            return
 
-            assert self._session_mode is not None, 'Session mode not set up'
+        quest = libquest.Registry.get_quest_by_name(autorun_quest)
+        if not quest.complete:
+            # Run the quest in the app's main instance
+            self.activate_action('run-quest', GLib.Variant('(sb)', (autorun_quest, True)))
+            return True
 
-            # Restrict the autorun quest to only normal sessions (since we don't want to auto-run
-            # quests in the initial setup and other cases)
-            if self._session_mode != 'user':
-                return
-
-            autorun_quest = libquest.Registry.get_autorun_quest()
-            if autorun_quest is None:
-                return
-
-            quest = libquest.Registry.get_quest_by_name(autorun_quest)
-            if not quest.complete:
-                self._window.hide()
-                # Run the quest in the app's main instance
-                self.activate_action('run-quest', GLib.Variant('(sb)', (autorun_quest, True)))
-
-        if self._session_mode is None:
-            Desktop.get_shell_proxy_async(_run_autorun_quest_if_user_session)
-        else:
-            _run_autorun_quest_if_user_session()
+        return False
 
     def do_handle_local_options(self, options):
         self.register(None)
@@ -1800,20 +1787,11 @@ class ClubhouseApplication(Gtk.Application):
 
         if options.contains('debug'):
             self.activate_action('debug-mode', GLib.Variant('b', True))
-            # We still try to run the Episode's auto-run quest since this option is only be
-            # called for turning the debug mode on (as opposed to other options that have an
-            # end functionality on their own).
-            self._run_episode_autorun_quest_if_needed()
             return 0
 
         if options.contains('quit'):
             self.activate_action('quit', None)
             return 0
-
-        # We call this here, instead of the startup method since we want to avoid eventually
-        # running a quest if the application is only being started for any of the options above
-        # (except for debug).
-        self._run_episode_autorun_quest_if_needed()
 
         return -1
 
