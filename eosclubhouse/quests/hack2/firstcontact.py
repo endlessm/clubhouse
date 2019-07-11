@@ -102,11 +102,12 @@ class FirstContact(Quest):
         return self.step_wait_for_finish
 
     def step_wait_for_finish(self):
+        Desktop.set_hack_background(True)
         self.connect_app_quit(self._app).wait()
         return self.enter_hack_mode
 
     def enter_hack_mode(self):
-        Desktop.personalize_desktop(True)
+        Desktop.set_hack_cursor(True)
         return self.step_show_clubhouse
 
     def step_show_clubhouse(self):

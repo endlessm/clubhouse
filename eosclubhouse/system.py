@@ -226,22 +226,26 @@ class Desktop:
         return klass._shell_settings
 
     @classmethod
-    def personalize_desktop(klass, enabled):
-        '''
-        This changes some settings to make the desktop looks more hacky
-         * Change the background
-         * Change the cursor
-        '''
+    def set_hack_background(klass, enabled):
+        ''' This changes the background to the Hack one '''
 
         desktop = Gio.Settings('org.gnome.desktop.background')
-        interface = Gio.Settings('org.gnome.desktop.interface')
 
         if enabled:
             desktop.set_string('picture-uri', klass.HACK_BACKGROUND)
+        else:
+            desktop.reset('picture-uri')
+
+    @classmethod
+    def set_hack_cursor(klass, enabled):
+        ''' This changes the cursor to the Hack one '''
+
+        interface = Gio.Settings('org.gnome.desktop.interface')
+
+        if enabled:
             interface.set_string('cursor-theme', klass.HACK_CURSOR)
         else:
             interface.reset('cursor-theme')
-            desktop.reset('picture-uri')
 
     @classmethod
     def get_hack_mode(klass):
