@@ -6,6 +6,9 @@ gdbus call --session \
     --object-path /com/endlessm/GameStateService \
     --method com.endlessm.GameStateService.Reset
 
+echo "Resetting the hack-mode"
+gsettings reset org.gnome.shell hack-mode-enabled
+
 echo "Removing com.endlessm.Fizzics state"
 flatpak-spawn --host rm -rf ~/.var/app/com.endlessm.Fizzics/data/webkitgtk/localstorage/
 
