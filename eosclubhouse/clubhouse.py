@@ -1600,7 +1600,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _hack_mode_switch_activate_cb(self, switch, _pspec):
         enabled = self._hack_switch.get_active()
         Desktop.set_hack_mode(enabled)
-        Desktop.personalize_desktop(enabled)
+        Desktop.set_hack_background(enabled)
+        Desktop.set_hack_cursor(enabled)
 
     def _settings_changed_cb(self, settings, _key):
         self._update_hack_mode_swith_state()
