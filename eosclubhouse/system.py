@@ -420,7 +420,9 @@ class App:
         return Desktop.launch_app(self.dbus_name)
 
     def pulse_flip_to_hack_button(self, enable):
-        HackableAppsManager.get_hackable_app(self._app_dbus_name).pulse_flip_to_hack_button(enable)
+        app = HackableAppsManager.get_hackable_app(self._app_dbus_name)
+        if app:
+            app.pulse_flip_to_hack_button(enable)
 
 
 class GameStateService(GObject.GObject):
