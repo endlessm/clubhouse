@@ -21,12 +21,18 @@ class FirstContact(Quest):
         self.skippable = True
 
     def _is_app_flipped(self):
+        if not self._app.is_running():
+            return False
         return self._app.get_js_property('mode', default_value=0) >= 1
 
     def _is_app_hacked(self):
+        if not self._app.is_running():
+            return False
         return self._app.get_js_property('mode', default_value=0) >= 2
 
     def _is_app_flipped_back(self):
+        if not self._app.is_running():
+            return False
         return self._app.get_js_property('mode', default_value=0) >= 4
 
     def step_reward(self):
