@@ -1548,6 +1548,15 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._clubhouse_state = ClubhouseState()
 
+        self._clubhouse_state.connect('notify::window-is-visible',
+                                      self._on_clubhouse_window_visibility_changed_cb)
+
+    def _on_clubhouse_window_visibility_changed_cb(self, state, _param):
+        if state.window_is_visible:
+            self.show()
+        else:
+            self.hide()
+
     def continue_playing(self):
         self.clubhouse_page.continue_playing()
         # Select main page so the user can see whether a character is now offering a quest.
