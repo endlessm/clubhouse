@@ -60,6 +60,7 @@ ClubhouseIface = ('<node>'
                   '<property name="Visible" type="b" access="read"/>'
                   '<property name="RunningQuest" type="s" access="read"/>'
                   '<property name="SuggestingOpen" type="b" access="read"/>'
+                  '<property name="SideComponent" type="b" access="readwrite"/>'
                   '</interface>'
                   '</node>')
 
@@ -1523,6 +1524,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
+        self.app = app
+
+        self.connect('realize', self._window_realize_cb)
 
         self._shell_settings = Gio.Settings('org.gnome.shell')
 
@@ -1551,11 +1555,31 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._clubhouse_state.connect('notify::window-is-visible',
                                       self._on_clubhouse_window_visibility_changed_cb)
 
+        self._set_side_component(app.is_side_component)
+        app.connect('notify::is-side-component', self._on_side_component_changed_cb, app)
+
     def _on_clubhouse_window_visibility_changed_cb(self, state, _param):
         if state.window_is_visible:
             self.show()
         else:
             self.hide()
+
+    def _set_side_component(self, enabled):
+        if enabled:
+            self.enable_side_component()
+        else:
+            self.disable_side_component()
+
+    def _on_side_component_changed_cb(self, _window, _param, app):
+        self._set_side_component(app.is_side_component)
+
+    def enable_side_component(self):
+        self.props.decorated = False
+        self.props.role = 'eos-side-component'
+
+    def disable_side_component(self):
+        self.props.decorated = True
+        self.props.role = None
 
     def continue_playing(self):
         self.clubhouse_page.continue_playing()
@@ -1606,9 +1630,18 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._update_hack_mode_swith_state()
 
     def _window_realize_cb(self, window):
+        def _window_focus_out_event_cb(_window, _event):
+            if self.app.is_side_component:
+                self.hide()
+            return False
+
         gdk_window = self.get_window()
         gdk_window.set_functions(Gdk.WMFunction.CLOSE | Gdk.WMFunction.MINIMIZE |
                                  Gdk.WMFunction.MOVE)
+        gdk_window.set_events(gdk_window.get_events() | Gdk.EventMask.FOCUS_CHANGE_MASK)
+
+        if os.environ.get('CLUBHOUSE_NO_AUTO_HIDE') is None:
+            self.connect('focus-out-event', _window_focus_out_event_cb)
 
     def _page_switch_button_clicked_cb(self, button, page_id):
         self._main_window_stack.set_visible_child_name(page_id.name)
@@ -1893,6 +1926,9 @@ class ClubhouseApplication(Gtk.Application):
             self._window.clubhouse_page.stop_quest()
         self.close_quest_msg_notification()
 
+    def _side_component_cb(self, action, arg_variant):
+        self.props.is_side_component = arg_variant.unpack()
+
     def _item_accept_action_cb(self, action, arg_variant, page_to_select):
         Sound.play('quests/key-confirm')
         show_inventory = arg_variant.unpack()
@@ -1962,7 +1998,8 @@ class ClubhouseApplication(Gtk.Application):
         connection.register_object(path,
                                    introspection_data.interfaces[0],
                                    self.handle_method_call,
-                                   self.handle_get_property)
+                                   self.handle_get_property,
+                                   self.handle_set_property)
         return Gtk.Application.do_dbus_register(self, connection, path)
 
     def handle_method_call(self, connection, sender, object_path, interface_name,
@@ -1983,8 +2020,18 @@ class ClubhouseApplication(Gtk.Application):
             return GLib.Variant('b', self._suggesting_open)
         elif key == 'RunningQuest':
             return GLib.Variant('s', self._get_running_quest_name())
+        elif key == 'SideComponent':
+            return GLib.Variant('b', self.is_side_component)
 
         return None
+
+    def handle_set_property(self, connection, sender, object_path,
+                            interface, key, value):
+        if key == 'SideComponent':
+            self.is_side_component = value
+        else:
+            return False
+        return True
 
     def _running_quest_notify_cb(self, _clubhouse_page, _pspec):
         changed_props = {'RunningQuest': GLib.Variant('s', self._get_running_quest_name())}
@@ -2074,6 +2121,10 @@ class ClubhouseApplication(Gtk.Application):
 
     def has_debug_mode(self):
         return self._debug_mode
+
+    is_side_component = GObject.Property(type=bool,
+                                         default=False,
+                                         flags=GObject.ParamFlags.READWRITE)
 
 
 if __name__ == '__main__':
