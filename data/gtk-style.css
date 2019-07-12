@@ -1,19 +1,19 @@
-.clubhouse-page {
+.clubhouse-view {
     background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-.inventory-page {
+.inventory-view {
     background-image: url('resource:///com/endlessm/Clubhouse/images/inventory_bg.png');
 }
 
-.episodes-page {
+.episodes-view {
     background-image: url('resource:///com/endlessm/Clubhouse/images/episodes_bg.png');
 }
 
-.episodes-page .episodes-list {
+.episodes-view .episodes-list {
     background: transparent;
     margin-top: 36px;
 }

@@ -4,6 +4,8 @@
   <requires lib="gtk+" version="3.20"/>
   <template class="ClubhouseWindow" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
+    <signal name="delete-event" handler="_on_delete" swapped="no"/>
+    <signal name="notify::visible" handler="_on_visibile_property_changed" swapped="no"/>
     <child>
       <object class="GtkStack" id="_stack">
         <property name="visible">True</property>
@@ -83,7 +85,7 @@
                     <property name="orientation">vertical</property>
                     <property name="layout_style">center</property>
                     <child>
-                      <object class="GtkButton" id="_pathways_button">
+                      <object class="GtkButton">
                         <property name="label" translatable="yes">Pathways</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -97,7 +99,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="_inventory_button">
+                      <object class="GtkButton">
                         <property name="label" translatable="yes">Inventory</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -138,21 +140,60 @@
           <object class="GtkBox" id="_pathways_page">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkButton" id="_pathways_return_button">
-                <property name="label" translatable="yes">Clubhouse</property>
+              <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="halign">center</property>
-                <property name="valign">end</property>
-                <signal name="clicked" handler="_on_stack_button_clicked" object="_clubhouse_page" swapped="no"/>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Pathways</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">Back</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="halign">end</property>
+                    <property name="valign">end</property>
+                    <signal name="clicked" handler="_on_stack_button_clicked" object="_clubhouse_page" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="pack_type">end</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="pack_type">end</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="_pathways_sw">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
@@ -166,22 +207,49 @@
           <object class="GtkBox" id="_inventory_page">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkButton" id="_inventory_return_button">
-                <property name="label" translatable="yes">Clubhouse</property>
+              <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="halign">end</property>
-                <property name="valign">end</property>
-                <signal name="clicked" handler="_on_stack_button_clicked" object="_clubhouse_page" swapped="no"/>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Inventory</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">Back</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="halign">end</property>
+                    <property name="valign">end</property>
+                    <signal name="clicked" handler="_on_stack_button_clicked" object="_clubhouse_page" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="pack_type">end</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="pack_type">end</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
           </object>
           <packing>
