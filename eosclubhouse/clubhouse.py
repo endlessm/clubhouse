@@ -516,7 +516,6 @@ class ClubhousePage(Gtk.EventBox):
 
         quest.set_to_foreground()
         self._shell_show_current_popup_message()
-        self._app_window.hide()
         # Hide the message here because it may be showing from another quest set
         self._overlay_msg_box.hide()
 
@@ -636,9 +635,6 @@ class ClubhousePage(Gtk.EventBox):
         quest.set_cancellable(Gio.Cancellable())
 
         self._set_current_quest(quest)
-
-        # Hide the window so the user focuses on the Shell Quest View
-        self._app_window.hide()
 
         self._current_quest.run(self.on_quest_finished)
         return GLib.SOURCE_REMOVE

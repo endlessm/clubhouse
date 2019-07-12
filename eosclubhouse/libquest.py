@@ -624,6 +624,8 @@ class Quest(GObject.GObject):
     __mission_order__ = 0
     __pathway_order__ = 0
 
+    __auto_offer_info__ = {'confirm_before': True, 'start_after': 3}
+
     skippable = GObject.Property(type=bool, default=False)
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
     continue_message = GObject.Property(type=str, default="You haven't completed my challenge yet!")
@@ -789,10 +791,10 @@ class Quest(GObject.GObject):
         if not self.complete:
             return
 
-        next_quest = self.get_next_quest()
-        if next_quest and next_quest.auto_offer and next_quest is not self:
+        next_quest = self.get_next_auto_offer_quest()
+        if next_quest:
             logger.debug('Proposing next quest: %s', next_quest)
-            self.schedule_quest(next_quest.get_id())
+            self.schedule_quest(next_quest.get_id(), **next_quest.get_auto_offer_info())
 
     def set_next_step(self, step_func, delay=0, args=()):
         assert self._run_context is not None
@@ -1311,6 +1313,10 @@ class Quest(GObject.GObject):
         return class_.__tags__
 
     @classmethod
+    def get_auto_offer_info(class_):
+        return class_.__auto_offer_info__
+
+    @classmethod
     def give_app_icon(class_, app_name):
         if not Desktop.is_app_in_grid(app_name):
             Sound.play('quests/new-icon')
@@ -1446,17 +1452,10 @@ class Quest(GObject.GObject):
 
         return wrapper
 
-    def get_next_quest(self):
-        """Return the next quest that should be run.
-
-        This gets the next quest to be run, first by looking in the quest's set up quest-set, or
-        otherwise in other quest sets. Note that the original implementation doesn't guarantee
-        that the quest returned is not the very same quest, or a quest that's availabel in the
-        quest set and comes before this one.
-        """
+    def get_next_auto_offer_quest(self):
         for quest_set in Registry.get_quest_sets():
             quest = quest_set.get_next_quest()
-            if quest:
+            if quest and quest is not self and quest.auto_offer:
                 return quest
 
         return None

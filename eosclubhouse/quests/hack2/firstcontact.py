@@ -116,11 +116,6 @@ class FirstContact(Quest):
         # show the clubhouse after the first contact quest
         clubhouse_state = ClubhouseState()
         clubhouse_state.window_is_visible = True
-        return self.step_welcome
-
-    def step_welcome(self):
-        self.pause(3)
-        self.wait_confirm('CLUBHOUSE')
         return self.step_end
 
     def step_end(self):
