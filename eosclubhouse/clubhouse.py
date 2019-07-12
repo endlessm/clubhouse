@@ -1544,6 +1544,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
 
+        self.connect('realize', self._window_realize_cb)
+
         self._shell_settings = Gio.Settings('org.gnome.shell')
 
         self._page_reset_timeout = 0
@@ -1560,6 +1562,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         Desktop.get_shell_settings().connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
                                              self._settings_changed_cb)
         self._update_hack_mode_swith_state()
+        self.enable_side_component()
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::window-is-visible',
                                       self._on_clubhouse_window_visibility_changed_cb)
@@ -1569,6 +1572,23 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.show()
         else:
             self.hide()
+
+    def enable_side_component(self):
+        self.props.decorated = False
+        self.props.role = 'eos-side-component'
+        self._update_geometry()
+
+    def _update_geometry(self):
+        monitor = Gdk.Display.get_default().get_primary_monitor()
+        if not monitor:
+            return
+
+        workarea = monitor.get_workarea()
+        width, _ = self.get_size()
+
+        x = workarea.x + (workarea.width - width) * .5
+        y = workarea.y
+        self.move(x, y)
 
     def continue_playing(self):
         self.clubhouse.continue_playing()
@@ -1601,6 +1621,19 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _settings_changed_cb(self, settings, _key):
         self._update_hack_mode_swith_state()
 
+    def _window_realize_cb(self, window):
+        def _window_focus_out_event_cb(_window, _event):
+            self.hide()
+            return False
+
+        gdk_window = self.get_window()
+        gdk_window.set_functions(Gdk.WMFunction.CLOSE | Gdk.WMFunction.MINIMIZE |
+                                 Gdk.WMFunction.MOVE)
+        gdk_window.set_events(gdk_window.get_events() | Gdk.EventMask.FOCUS_CHANGE_MASK)
+
+        if os.environ.get('CLUBHOUSE_NO_AUTO_HIDE') is None:
+            self.connect('focus-out-event', _window_focus_out_event_cb)
+
     def set_page(self, page_name):
         self._stack.set_visible_child_name(page_name.upper())
 
@@ -1627,6 +1660,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     @Gtk.Template.Callback()
     def _on_visibile_property_changed(self, _window, _param):
         if self.props.visible:
+            # If not updating the geometry here, the window is postionated at
+            # another position.
+            self._update_geometry()
             self._stop_page_reset_timeout()
             Sound.play('clubhouse/ambient', self._ambient_sound_uuid_cb)
         else:
