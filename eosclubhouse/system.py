@@ -21,9 +21,10 @@
 import gi
 import json
 gi.require_version('Json', '1.0')
+import subprocess
 import time
 
-from eosclubhouse import logger
+from eosclubhouse import config, logger
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer
 from gi.repository import GLib, GObject, Gio, Json
@@ -311,6 +312,21 @@ class App:
                                                None)
 
         return self._gtk_actions_proxy
+
+    def is_installed(self):
+        def _get_installed_flatpak_names():
+            sandbox = subprocess.check_output(
+                ['/usr/bin/findmnt', '-T', '/app', '-l', '-o', 'FSROOT', '-n'],
+                text=True)
+            script = config.INSTALLED_FLATPAKS_SCRIPT_PATH.replace(
+                '/app', '/var/lib' + sandbox.strip())
+            proc = subprocess.run(
+                ['/usr/bin/flatpak-spawn', '--host', 'python3', script],
+                capture_output=True,
+                text=True)
+            return proc.stdout.split()
+
+        return self.dbus_name in _get_installed_flatpak_names()
 
     def is_running(self):
         return self.get_gtk_app_proxy().props.g_name_owner is not None

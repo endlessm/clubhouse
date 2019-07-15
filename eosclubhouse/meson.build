@@ -16,6 +16,10 @@ conf.set_quoted(
     'reset_script_path',
     join_paths(clubhouse_data_dir, 'tools', 'eos-hack-reset-clubhouse')
 )
+conf.set_quoted(
+    'installed_flatpaks_script_path',
+    join_paths(clubhouse_data_dir, 'tools', 'get_installed_flatpaks.py')
+)
 
 configure_file(
     input: 'config.py.in',
