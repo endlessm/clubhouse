@@ -16,8 +16,14 @@ class T2Launcher(Quest):
         self._app = App(self.APP_NAME)
 
     def step_begin(self):
+        if not self._app.is_installed():
+            return self.step_install
+
         self.wait_confirm('BEGIN')
         self.show_message('END', choices=[('Bye', self.step_launch)])
+
+    def step_install(self):
+        self.show_message('INSTALL', choices=[('Bye', self.stop)])
 
     def step_launch(self):
         Sound.play('quests/quest-complete')
