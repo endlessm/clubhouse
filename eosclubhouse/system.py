@@ -263,6 +263,7 @@ class App:
     _clippy = None
     _gtk_app_proxy = None
     _gtk_actions_proxy = None
+    _gtk_launch_app_proxy = None
 
     def __init__(self, app_dbus_name, app_dbus_path=None):
         self._app_dbus_name = app_dbus_name
@@ -311,6 +312,19 @@ class App:
                                                None)
 
         return self._gtk_actions_proxy
+
+    def get_gtk_launch_app_proxy(self):
+        if self._gtk_launch_app_proxy is None:
+            self._gtk_launch_app_proxy = \
+                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                               Gio.DBusProxyFlags.DO_NOT_AUTO_START_AT_CONSTRUCTION,
+                                               None,
+                                               self._app_dbus_name,
+                                               self._app_dbus_path,
+                                               'org.gtk.Application',
+                                               None)
+
+        return self._gtk_launch_app_proxy
 
     def is_running(self):
         return self.get_gtk_app_proxy().props.g_name_owner is not None
@@ -421,7 +435,17 @@ class App:
         self.get_clippy_proxy().Highlight('(su)', obj, stamp)
 
     def launch(self):
-        return Desktop.launch_app(self.dbus_name)
+        if not Desktop.launch_app(self.dbus_name):
+            return self.launch_gapp()
+        return True
+
+    def launch_gapp(self):
+        try:
+            self.get_gtk_launch_app_proxy().Activate('(a{sv})', [])
+        except GLib.Error as e:
+            logger.error(e)
+            return False
+        return True
 
     def pulse_flip_to_hack_button(self, enable):
         app = HackableAppsManager.get_hackable_app(self._app_dbus_name)
