@@ -1,9 +1,9 @@
 {
     "app-id": "com.endlessm.Clubhouse",
     "branch": "@BRANCH@",
-    "runtime": "com.endlessm.apps.Platform",
-    "runtime-version": "5",
-    "sdk": "com.endlessm.apps.Sdk",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "3.32",
+    "sdk": "org.gnome.Sdk",
     "command": "eos-clubhouse",
     "rename-desktop-file": "eos-clubhouse.desktop",
     "finish-args": [

@@ -2,13 +2,14 @@ project('eos-clubhouse',
         ['c'],
         version: '0.1',
         license: 'GPLv2',
-        meson_version: '>= 0.45.0',
+        meson_version: '>= 0.50.0',
 )
 
 cc = meson.get_compiler('c')
 gnome = import('gnome')
 i18n = import('i18n')
-python3 = import('python3')
+pymod = import('python')
+python = pymod.find_installation('python3')
 
 #@todo: CHECK_IF_NEEDED
 #
@@ -21,7 +22,7 @@ local_state_dir = join_paths(prefix, get_option('localstatedir'))
 libexec_dir = join_paths(prefix, get_option('libexecdir'))
 source_root = join_paths(meson.source_root(), 'gnome-initial-setup')
 pkgdata_dir = join_paths(prefix, meson.project_name())
-pythondir = join_paths(prefix, python3.sysconfig_path('purelib'))
+pythondir = python.get_install_dir()
 clubhouse_data_dir = join_paths(data_dir, meson.project_name())
 
 install_dir = join_paths(pythondir, 'eosclubhouse')
