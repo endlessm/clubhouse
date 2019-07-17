@@ -66,6 +66,10 @@ ClubhouseIface = ('<node>'
 DEFAULT_WINDOW_WIDTH = 480
 DEFAULT_WINDOW_HEIGHT = 1000
 
+# Load Resources
+resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
+Gio.Resource._register(resource)
+
 
 class Character(GObject.GObject):
     _characters = {}
@@ -169,7 +173,10 @@ class Character(GObject.GObject):
     body_animation = GObject.Property(_get_body_animation, _set_body_animation, type=str)
 
 
-class Message(Gtk.Bin):
+@Gtk.Template.from_resource('/com/endlessm/Clubhouse/message.ui')
+class Message(Gtk.Overlay):
+
+    __gtype_name__ = 'Message'
 
     __gsignals__ = {
         'closed': (
@@ -177,13 +184,11 @@ class Message(Gtk.Bin):
         ),
     }
 
-    _LABEL_MARGIN = 70
-    _MESSAGE_MARGIN = 49
-
-    CHARACTER_HEIGHT = 155
-    BUTTON_HEIGHT = 35
-    LABEL_WIDTH = DEFAULT_WINDOW_WIDTH - _LABEL_MARGIN
-    MESSAGE_HEIGHT = CHARACTER_HEIGHT + BUTTON_HEIGHT / 2 + _MESSAGE_MARGIN
+    _label = Gtk.Template.Child()
+    _character_image = Gtk.Template.Child()
+    _button_box = Gtk.Template.Child()
+    _list_button_box = Gtk.Template.Child()
+    close_button = Gtk.Template.Child()
 
     OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
 
@@ -191,32 +196,10 @@ class Message(Gtk.Bin):
         super().__init__()
         self._character = None
         self._character_mood_change_handler = 0
-        self._setup_ui()
         self._animator = Animator(self._character_image)
         self.connect("show", lambda _: Sound.play('clubhouse/dialog/open'))
 
-    def _setup_ui(self):
-        builder = Gtk.Builder()
-        builder.add_from_resource('/com/endlessm/Clubhouse/message.ui')
-
-        overlay = builder.get_object('character_talk_box')
-        self.add(overlay)
-
-        self.set_size_request(-1, self.MESSAGE_HEIGHT)
-
-        self._label = builder.get_object('message_label')
-        self._label.set_size_request(self.LABEL_WIDTH, -1)
-
-        self.close_button = builder.get_object('character_message_close_button')
-        self.close_button.connect('clicked', self._close_button_clicked_cb)
-
-        self._character_image = builder.get_object('character_image')
-        overlay.set_overlay_pass_through(self._character_image, True)
-
-        self._button_box = builder.get_object('message_button_box')
-
-        self._list_button_box = builder.get_object('message_list_button_box')
-
+    @Gtk.Template.Callback()
     def _close_button_clicked_cb(self, button):
         self.close()
 
@@ -383,7 +366,14 @@ class QuestSetButton(Gtk.Button):
     position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
 
 
-class ClubhousePage(Gtk.EventBox):
+@Gtk.Template.from_resource('/com/endlessm/Clubhouse/clubhouse-view.ui')
+class ClubhouseView(Gtk.EventBox):
+
+    __gtype_name__ = 'ClubhouseView'
+
+    _overlay_msg_box = Gtk.Template.Child()
+    _main_characters_box = Gtk.Template.Child()
+    _main_box = Gtk.Template.Child()
 
     class _QuestScheduleInfo:
         def __init__(self, quest, confirm_before, timeout, handler_id):
@@ -408,8 +398,9 @@ class ClubhousePage(Gtk.EventBox):
 
         self._app = Gio.Application.get_default()
 
-        self._setup_ui()
-        self.get_style_context().add_class('clubhouse-page')
+        self._message = Message()
+        self._message.connect('closed', self._hide_message_overlay_cb)
+        self._overlay_msg_box.add(self._message)
         self._reset_quest_actions()
 
         self._current_episode = None
@@ -421,20 +412,6 @@ class ClubhousePage(Gtk.EventBox):
         self._gss_hander_id = self._gss.connect('changed',
                                                 lambda _gss: self._update_episode_if_needed())
 
-    def _setup_ui(self):
-        builder = Gtk.Builder()
-        builder.add_from_resource('/com/endlessm/Clubhouse/clubhouse-page.ui')
-        self._message = Message()
-        self._message.connect('closed', self._hide_message_overlay_cb)
-        self._overlay_msg_box = builder.get_object('clubhouse_overlay_msg_box')
-        self._main_characters_box = builder.get_object('clubhouse_main_characters_box')
-        self._overlay_msg_box.add(self._message)
-
-        self.add(builder.get_object('clubhouse_overlay'))
-
-        self._main_box = builder.get_object('clubhouse_main_box')
-        self._main_box.connect('button-press-event', self._on_button_press_event_cb)
-
     def _on_window_visibility_changed(self, _window, _param):
         if not self._app_window.props.visible:
             self._overlay_msg_box.hide()
@@ -442,6 +419,7 @@ class ClubhousePage(Gtk.EventBox):
     def _hide_message_overlay_cb(self, message):
         self._overlay_msg_box.hide()
 
+    @Gtk.Template.Callback()
     def _on_button_press_event_cb(self, main_box, event):
         if event.get_button().button == 1:
             self._message.close()
@@ -1082,22 +1060,12 @@ class PathwayQuestButton(Gtk.Button):
         return self._quest
 
 
-class PathwaysPage(Gtk.EventBox):
+class PathwaysView(Gtk.ListBox):
     def __init__(self, app_window):
         super().__init__(visible=True)
 
         self._app_window = app_window
-
-        self._setup_ui()
-
-    def _setup_ui(self):
-        self.get_style_context().add_class('pathways-page')
-
-        # @todo: add UI file and use GtkBuilder
-        self._box = Gtk.Box(halign=Gtk.Align.FILL,
-                            orientation=Gtk.Orientation.VERTICAL)
-        self.add(self._box)
-        self._box.show()
+        self.get_style_context().add_class('pathways-view')
 
     def load_episode(self):
         for pathway in libquest.Registry.get_pathways():
@@ -1110,15 +1078,13 @@ class PathwaysPage(Gtk.EventBox):
     def _add_pathway(self, pathway):
         vbox = Gtk.Box(halign=Gtk.Align.FILL,
                        orientation=Gtk.Orientation.VERTICAL)
-        self._box.add(vbox)
-        vbox.show()
 
         label = Gtk.Label(wrap=True,
                           hexpand=False,
                           halign=Gtk.Align.CENTER,
-                          justify=Gtk.Justification.CENTER)
+                          justify=Gtk.Justification.CENTER,
+                          label=pathway.get_name())
 
-        label.set_text(pathway.get_name())
         vbox.add(label)
         label.show()
 
@@ -1128,8 +1094,11 @@ class PathwaysPage(Gtk.EventBox):
             vbox.add(button)
             button.show()
 
+        self.add(vbox)
+        vbox.show()
 
-class InventoryPage(Gtk.EventBox):
+
+class InventoryView(Gtk.EventBox):
 
     def __init__(self, app_window):
         super().__init__(visible=True)
@@ -1148,10 +1117,10 @@ class InventoryPage(Gtk.EventBox):
         self._load_items()
 
     def _setup_ui(self):
-        self.get_style_context().add_class('inventory-page')
+        self.get_style_context().add_class('inventory-view')
 
         builder = Gtk.Builder()
-        builder.add_from_resource('/com/endlessm/Clubhouse/inventory-page.ui')
+        builder.add_from_resource('/com/endlessm/Clubhouse/inventory-view.ui')
 
         self._inventory_stack = builder.get_object('inventory_stack')
 
@@ -1362,7 +1331,7 @@ class EpisodeRow(Gtk.ListBoxRow):
         self._poster.present()
 
 
-class EpisodesPage(Gtk.EventBox):
+class EpisodesView(Gtk.EventBox):
 
     __gsignals__ = {
         'play-episode': (
@@ -1388,10 +1357,10 @@ class EpisodesPage(Gtk.EventBox):
         GameStateService().connect('changed', lambda _gss: self._update_episode_badges())
 
     def _setup_ui(self):
-        self.get_style_context().add_class('episodes-page')
+        self.get_style_context().add_class('episodes-view')
 
         builder = Gtk.Builder()
-        builder.add_from_resource('/com/endlessm/Clubhouse/episodes-page.ui')
+        builder.add_from_resource('/com/endlessm/Clubhouse/episodes-view.ui')
 
         self._badges_box = builder.get_object('badges_box')
         self._badges_box.show_all()
@@ -1513,37 +1482,38 @@ class EpisodesPage(Gtk.EventBox):
             libquest.Registry.set_current_episode_teaser_viewed(True)
 
 
+@Gtk.Template.from_resource('/com/endlessm/Clubhouse/clubhouse-window.ui')
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
+    __gtype_name__ = 'ClubhouseWindow'
     _MAIN_PAGE_RESET_TIMEOUT = 60  # sec
+
+    _stack = Gtk.Template.Child()
+    _hack_switch = Gtk.Template.Child()
+    _clubhouse_page = Gtk.Template.Child()
+    _inventory_page = Gtk.Template.Child()
+    _pathways_sw = Gtk.Template.Child()
 
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
 
         self._shell_settings = Gio.Settings('org.gnome.shell')
 
-        self.clubhouse_page = ClubhousePage(self)
-        self.pathways_page = PathwaysPage(self)
-        self.inventory_page = InventoryPage(self)
-
-        # @todo: Disable resizing the window once the UI is settled.
-        self.set_size_request(DEFAULT_WINDOW_WIDTH, -1)
-        # self.set_size_request(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
-        # self.set_resizable(True)
-
-        self._setup_ui()
-
         self._page_reset_timeout = 0
         self._ambient_sound_uuid = None
-        self.connect('notify::visible', self._on_visibile_property_changed)
 
-        def _on_delete(widget, _event):
-            widget.hide()
-            return True
-        self.connect('delete_event', _on_delete)
+        self.clubhouse = ClubhouseView(self)
+        self.pathways = PathwaysView(self)
+        self.inventory = InventoryView(self)
 
+        self._clubhouse_page.pack_start(self.clubhouse, True, True, 0)
+        self._inventory_page.pack_start(self.inventory, True, True, 0)
+        self._pathways_sw.add(self.pathways)
+
+        Desktop.get_shell_settings().connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
+                                             self._settings_changed_cb)
+        self._update_hack_mode_swith_state()
         self._clubhouse_state = ClubhouseState()
-
         self._clubhouse_state.connect('notify::window-is-visible',
                                       self._on_clubhouse_window_visibility_changed_cb)
 
@@ -1554,46 +1524,28 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.hide()
 
     def continue_playing(self):
-        self.clubhouse_page.continue_playing()
+        self.clubhouse.continue_playing()
         # Select main page so the user can see whether a character is now offering a quest.
-        self._clubhouse_button.set_active(True)
+        self._stack.set_visible_child(self._clubhouse_page)
 
-    def _setup_ui(self):
-        builder = Gtk.Builder()
-        builder.add_from_resource('/com/endlessm/Clubhouse/main-window.ui')
+    @Gtk.Template.Callback()
+    def _on_delete(self, widget, _event):
+        widget.hide()
+        return True
 
-        self._main_window_stack = builder.get_object('main_window_stack')
-
-        self._hack_switch = builder.get_object('main_window_switch_hack_mode')
-        self._hack_switch_handler = self._hack_switch.connect('notify::active',
-                                                              self._hack_mode_switch_activate_cb)
-
-        Desktop.get_shell_settings().connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
-                                             self._settings_changed_cb)
-        self._update_hack_mode_swith_state()
-
-        self._clubhouse_button = builder.get_object('main_window_button_clubhouse')
-        self._pathways_button = builder.get_object('main_window_button_pathways')
-        self._inventory_button = builder.get_object('main_window_button_inventory')
-
-        pages_data = [(self._clubhouse_button, ClubhouseState.Page.CLUBHOUSE, self.clubhouse_page),
-                      (self._pathways_button, ClubhouseState.Page.PATHWAYS, self.pathways_page),
-                      (self._inventory_button, ClubhouseState.Page.INVENTORY, self.inventory_page)]
-
-        for button, page_id, page_widget in pages_data:
-            self._main_window_stack.add_named(page_widget, page_id.name)
-            button.connect('clicked', self._page_switch_button_clicked_cb, page_id)
-
-        self.add(builder.get_object('main_window_overlay'))
+    @Gtk.Template.Callback()
+    def _on_stack_button_clicked(self, view):
+        self._stack.set_visible_child(view)
 
     def _update_hack_mode_swith_state(self):
-        self._hack_switch.handler_block(self._hack_switch_handler)
-
+        self._on_hack_mode_switch = True
         self._hack_switch.set_active(Desktop.get_hack_mode())
+        self._on_hack_mode_switch = False
 
-        self._hack_switch.handler_unblock(self._hack_switch_handler)
-
+    @Gtk.Template.Callback()
     def _hack_mode_switch_activate_cb(self, switch, _pspec):
+        if self._on_hack_mode_switch:
+            return
         enabled = self._hack_switch.get_active()
         Desktop.set_hack_mode(enabled)
         Desktop.set_hack_background(enabled)
@@ -1607,22 +1559,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         gdk_window.set_functions(Gdk.WMFunction.CLOSE | Gdk.WMFunction.MINIMIZE |
                                  Gdk.WMFunction.MOVE)
 
-    def _page_switch_button_clicked_cb(self, button, page_id):
-        self._main_window_stack.set_visible_child_name(page_id.name)
-        self._clubhouse_state.current_page = page_id
-
     def set_page(self, page_name):
-        page_buttons = {'clubhouse': self._clubhouse_button,
-                        'pathways': self._pathways_button,
-                        'inventory': self._inventory_button}
-
-        button = page_buttons.get(page_name)
-
-        if button is not None:
-            button.set_active(True)
+        self._stack.set_visible_child_name(page_name.upper())
 
     def _select_main_page_on_timeout(self):
-        self._clubhouse_button.set_active(True)
+        self._stack.set_visible_child(self._clubhouse_page)
         self._page_reset_timeout = 0
 
         return GLib.SOURCE_REMOVE
@@ -1635,12 +1576,13 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _reset_selected_page_on_timeout(self):
         self._stop_page_reset_timeout()
 
-        if self._clubhouse_button.get_active():
+        if self._stack.get_visible_child() == self._clubhouse_page:
             return
 
         self._page_reset_timeout = GLib.timeout_add_seconds(self._MAIN_PAGE_RESET_TIMEOUT,
                                                             self._select_main_page_on_timeout)
 
+    @Gtk.Template.Callback()
     def _on_visibile_property_changed(self, _window, _param):
         if self.props.visible:
             self._stop_page_reset_timeout()
@@ -1669,7 +1611,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def run_quest(self, quest):
         logger.info('Start quest {}'.format(quest))
-        self.clubhouse_page.run_quest(quest)
+        self.clubhouse.run_quest(quest)
 
 
 class ClubhouseApplication(Gtk.Application):
@@ -1689,9 +1631,6 @@ class ClubhouseApplication(Gtk.Application):
         self._registry_loaded = False
         self._suggesting_open = False
         self._session_mode = None
-
-        resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
-        Gio.Resource._register(resource)
 
         self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'List existing quest sets and quests', None)
@@ -1841,8 +1780,8 @@ class ClubhouseApplication(Gtk.Application):
 
     def _load_episode(self):
         # @todo: Move staff from clubhouse_page.load_episode() here
-        self._window.clubhouse_page.load_episode()
-        self._window.pathways_page.load_episode()
+        self._window.clubhouse.load_episode()
+        self._window.pathways.load_episode()
 
     def _ensure_window(self):
         if self._window:
@@ -1850,8 +1789,8 @@ class ClubhouseApplication(Gtk.Application):
 
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._visibility_notify_cb)
-        self._window.clubhouse_page.connect('notify::running-quest',
-                                            self._running_quest_notify_cb)
+        self._window.clubhouse.connect('notify::running-quest',
+                                       self._running_quest_notify_cb)
 
         self._load_episode()
 
@@ -1887,7 +1826,7 @@ class ClubhouseApplication(Gtk.Application):
 
     def _stop_quest(self, *args):
         if (self._window):
-            self._window.clubhouse_page.stop_quest()
+            self._window.clubhouse.stop_quest()
         self.close_quest_msg_notification()
 
     def _item_accept_action_cb(self, action, arg_variant, page_to_select):
@@ -1907,20 +1846,20 @@ class ClubhouseApplication(Gtk.Application):
 
     def _quest_user_answer(self, action, action_id):
         if self._window:
-            self._window.clubhouse_page.quest_action(action_id.unpack())
+            self._window.clubhouse.quest_action(action_id.unpack())
 
     def _quest_view_close_action_cb(self, _action, _action_id):
         logger.debug('Shell quest view closed')
         if self._window:
-            self._window.clubhouse_page.set_quest_to_background()
+            self._window.clubhouse.set_quest_to_background()
 
     def _quest_debug_skip(self, action, action_id):
         if self._window:
-            self._window.clubhouse_page.quest_debug_skip()
+            self._window.clubhouse.quest_debug_skip()
 
     def _run_quest_by_name(self, quest_name):
         self._ensure_window()
-        self._window.clubhouse_page.run_quest_by_name(quest_name)
+        self._window.clubhouse.run_quest_by_name(quest_name)
 
     def _run_quest_action_cb(self, action, arg_variant):
         quest_name, _obsolete = arg_variant.unpack()
@@ -1983,13 +1922,13 @@ class ClubhouseApplication(Gtk.Application):
 
         return None
 
-    def _running_quest_notify_cb(self, _clubhouse_page, _pspec):
+    def _running_quest_notify_cb(self, _clubhouse, _pspec):
         changed_props = {'RunningQuest': GLib.Variant('s', self._get_running_quest_name())}
         self._emit_dbus_props_changed(changed_props)
 
     def _get_running_quest_name(self):
         if self._window is not None:
-            quest = self._window.clubhouse_page.props.running_quest
+            quest = self._window.clubhouse.props.running_quest
             if quest is not None:
                 return quest.get_id()
         return ''
