@@ -1488,6 +1488,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     __gtype_name__ = 'ClubhouseWindow'
     _MAIN_PAGE_RESET_TIMEOUT = 60  # sec
 
+    _close_button = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
     _hack_switch = Gtk.Template.Child()
     _clubhouse_page = Gtk.Template.Child()
@@ -1516,12 +1517,16 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::window-is-visible',
                                       self._on_clubhouse_window_visibility_changed_cb)
+        self._close_button.connect('clicked', self._close_button_clicked_cb)
 
     def _on_clubhouse_window_visibility_changed_cb(self, state, _param):
         if state.window_is_visible:
             self.show()
         else:
             self.hide()
+
+    def _close_button_clicked_cb(self, button):
+        self.hide()
 
     def continue_playing(self):
         self.clubhouse.continue_playing()
