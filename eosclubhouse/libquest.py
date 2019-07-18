@@ -587,6 +587,9 @@ class NoMessageIdError(Exception):
 
 class Quest(GObject.GObject):
 
+    Difficulty = Enum('Difficulty', ['EASY', 'NORMAL', 'HARD'])
+    DEFAULT_DIFFICULTY = Difficulty.NORMAL
+
     __gsignals__ = {
         'message': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str, GObject.TYPE_PYOBJECT,
@@ -1315,6 +1318,20 @@ class Quest(GObject.GObject):
     @classmethod
     def get_auto_offer_info(class_):
         return class_.__auto_offer_info__
+
+    @classmethod
+    def get_difficulty(class_):
+        for tag in class_.get_tags():
+            if not tag.startswith('difficulty:'):
+                continue
+
+            difficulty = tag.split(':')[1].upper()
+            try:
+                return getattr(class_.Difficulty, difficulty)
+            except AttributeError:
+                continue
+
+        return class_.DEFAULT_DIFFICULTY
 
     @classmethod
     def give_app_icon(class_, app_name):
