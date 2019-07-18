@@ -24,6 +24,7 @@ import glob
 import itertools
 import os
 import re
+import subprocess
 import time
 
 from collections import OrderedDict
@@ -314,3 +315,14 @@ class MessageTemplate(Template):
        (?P<invalid>)
     )
     '''
+
+
+def get_flatpak_sandbox():
+    sandbox = subprocess.check_output(
+        ['/usr/bin/findmnt', '-T', '/app', '-l', '-o', 'FSROOT', '-n'],
+        text=True)
+    # replace the current commit id with 'active'
+    sandbox = ['', 'var', 'lib'] + sandbox.split('/')[1:-2] + ['active', 'files']
+    sandbox = '/'.join(sandbox)
+
+    return sandbox

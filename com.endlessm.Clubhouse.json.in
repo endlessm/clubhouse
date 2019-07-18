@@ -16,6 +16,7 @@
         "--filesystem=host:ro",
         "--nofilesystem=~/*",
         "--filesystem=~/.config/dconf:ro",
+        "--filesystem=~/.local/share/flatpak",
         "--talk-name=ca.desrt.dconf",
         "--talk-name=org.freedesktop.Flatpak",
         "--talk-name=org.gtk.Notifications",
@@ -24,6 +25,21 @@
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
     ],
     "modules": [
+        /** clippy ext **/
+        {
+          "name": "clippy",
+          "buildsystem": "meson",
+          "config-opts": [
+            "-Dgtk-modules-path=/app/clippy/lib"
+          ],
+          "sources": [
+            {
+              "type": "git",
+              "url": "https://github.com/endlessm/clippy.git",
+            }
+          ]
+        },
+
         {
             "name": "glibcoro",
             "buildsystem": "simple",
