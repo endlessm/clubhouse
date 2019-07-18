@@ -5,7 +5,7 @@ from eosclubhouse.system import Sound
 class TestA2(Quest):
 
     __quest_name__ = 'Game Quest #2'
-    __tags__ = ['pathway:games']
+    __tags__ = ['pathway:games', 'difficulty:hard']
     __pathway_order__ = 200
 
     def step_begin(self):

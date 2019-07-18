@@ -5,7 +5,7 @@ from eosclubhouse.system import Sound
 class TestA3(Quest):
 
     __quest_name__ = 'Game Quest #3'
-    __tags__ = ['mission:ada', 'pathway:games']
+    __tags__ = ['mission:ada', 'pathway:games', 'difficulty:normal']
     __mission_order__ = 200
     __pathway_order__ = 300
 
