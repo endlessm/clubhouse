@@ -63,9 +63,6 @@ ClubhouseIface = ('<node>'
                   '</interface>'
                   '</node>')
 
-DEFAULT_WINDOW_WIDTH = 480
-DEFAULT_WINDOW_HEIGHT = 1000
-
 # Load Resources
 resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
 Gio.Resource._register(resource)
@@ -138,10 +135,10 @@ class Character(GObject.GObject):
         image_file = Gio.File.new_for_path(mood_image)
         return Gio.FileIcon.new(image_file)
 
-    def load(self):
+    def load(self, scale=1):
         body_path = os.path.join(self._id, 'fullbody')
         self._load_position()
-        self._body_image = AnimationImage(body_path)
+        self._body_image = AnimationImage(body_path, scale)
         self._body_image.play(self.DEFAULT_BODY_ANIMATION)
 
     def _load_position(self):
@@ -306,7 +303,7 @@ class CharacterMissionButton(Gtk.Button):
 
 class QuestSetButton(Gtk.Button):
 
-    def __init__(self, quest_set):
+    def __init__(self, quest_set, scale=1):
         super().__init__(halign=Gtk.Align.START,
                          relief=Gtk.ReliefStyle.NONE)
 
@@ -314,11 +311,7 @@ class QuestSetButton(Gtk.Button):
 
         self._quest_set = quest_set
         self._character = Character.get_or_create(self._quest_set.get_character())
-        self._character.load()
-
-        image = self._character.get_body_image()
-        image.show()
-        self.add(image)
+        self.reload(scale)
 
         self._set_highlighted(self._quest_set.highlighted)
         self._character.body_animation = self._quest_set.body_animation
@@ -331,6 +324,20 @@ class QuestSetButton(Gtk.Button):
         self._quest_set.bind_property('visible', self, 'visible',
                                       GObject.BindingFlags.BIDIRECTIONAL |
                                       GObject.BindingFlags.SYNC_CREATE)
+
+    def reload(self, scale):
+        self._scale = scale
+        self._character.load(scale)
+
+        child = self.get_child()
+        if child is not None:
+            self.remove(child)
+
+        image = self._character.get_body_image()
+        self.add(image)
+        image.show()
+
+        self.notify('position')
 
     def get_quest_set(self):
         return self._quest_set
@@ -346,7 +353,8 @@ class QuestSetButton(Gtk.Button):
             if animation_image is not None:
                 anchor = animation_image.get_anchor()
 
-        return (position[0] - anchor[0], position[1] - anchor[1])
+        return ((position[0] - anchor[0]) * self._scale,
+                (position[1] - anchor[1]) * self._scale)
 
     def _on_quest_set_highlighted_changed(self, _quest_set, _param):
         self._set_highlighted(self._quest_set.highlighted)
@@ -412,6 +420,8 @@ class ClubhouseView(Gtk.EventBox):
         self._gss_hander_id = self._gss.connect('changed',
                                                 lambda _gss: self._update_episode_if_needed())
 
+        self.connect('screen-changed', self._on_screen_changed)
+
     def _on_window_visibility_changed(self, _window, _param):
         if not self._app_window.props.visible:
             self._overlay_msg_box.hide()
@@ -426,6 +436,32 @@ class ClubhouseView(Gtk.EventBox):
             return True
 
         return False
+
+    def _on_screen_size_changed(self, screen):
+        BG_WIDTH = 1000
+        BG_HEIGHT = 810
+
+        # Clamp resolution to 75% of 720p-1080p
+        height = max(720, min(screen.get_height(), 1080)) * 0.75
+
+        # Calculate widget scale
+        self.scale = height / BG_HEIGHT
+
+        # Set widget size
+        self._main_characters_box.set_size_request(height * BG_WIDTH / BG_HEIGHT, height)
+
+        # Update children
+        for child in self._main_characters_box.get_children():
+            if isinstance(child, QuestSetButton):
+                child.reload(self.scale)
+
+    def _on_screen_changed(self, widget, previous_screen):
+        if previous_screen is not None:
+            previous_screen.disconnect_by_func(self._on_screen_size_changed)
+
+        screen = self.get_screen()
+        self._on_screen_size_changed(screen)
+        screen.connect('size-changed', self._on_screen_size_changed)
 
     def stop_quest(self):
         self._cancel_ongoing_task()
@@ -450,7 +486,7 @@ class ClubhouseView(Gtk.EventBox):
         self._main_characters_box.move(button, *button.position)
 
     def add_quest_set(self, quest_set):
-        button = QuestSetButton(quest_set)
+        button = QuestSetButton(quest_set, self.scale)
         quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
         button.connect('clicked', self._button_clicked_cb)
 
@@ -1305,9 +1341,10 @@ class EpisodeRow(Gtk.ListBoxRow):
         # the badge (and not the width), otherwise the badges would move when the scrollbar
         # appears (because the buttons are shortened horizontally when that happens).
         height = self._expand_button.get_allocation().height
+        width = self.get_parent().get_allocation().width
 
         pos_x, pos_y = self._expand_button.translate_coordinates(self._badges_box,
-                                                                 DEFAULT_WINDOW_WIDTH,
+                                                                 width,
                                                                  height / 2.0)
 
         # Place the badge horizontally as if aligned to the right.
@@ -1563,11 +1600,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def _settings_changed_cb(self, settings, _key):
         self._update_hack_mode_swith_state()
-
-    def _window_realize_cb(self, window):
-        gdk_window = self.get_window()
-        gdk_window.set_functions(Gdk.WMFunction.CLOSE | Gdk.WMFunction.MINIMIZE |
-                                 Gdk.WMFunction.MOVE)
 
     def set_page(self, page_name):
         self._stack.set_visible_child_name(page_name.upper())

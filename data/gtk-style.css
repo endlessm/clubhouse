@@ -86,17 +86,17 @@
     box-shadow: none;
     -gtk-icon-shadow: none;
     padding-bottom: 20px;
-    background-image: radial-gradient(50px 20px ellipse at center 88%, alpha(black,0.4), transparent);
+    background-image: radial-gradient(35% 8% ellipse at center 88%, alpha(black,0.4), transparent);
 }
 
 .quest-set-button:hover {
-    background-image: radial-gradient(75px 30px ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001));
+    background-image: radial-gradient(50% 10% ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001));
 }
 
 
 @keyframes pulsate_background {
-    from { background-image: radial-gradient(50px 20px ellipse at center 88%, alpha(#D9A784,0.4), alpha(white,0.001)); }
-    to { background-image: radial-gradient(75px 30px ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001)); }
+    from { background-image: radial-gradient(35% 8% ellipse at center 88%, alpha(#D9A784,0.4), alpha(white,0.001)); }
+    to { background-image: radial-gradient(50% 10% ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001)); }
 }
 
 .quest-set-button.highlighted {
