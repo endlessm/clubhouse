@@ -18,26 +18,26 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
+import configparser
 import gi
 import json
 gi.require_version('Json', '1.0')
+import os
 import time
 
 from eosclubhouse import logger
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer
+from eosclubhouse.utils import get_flatpak_sandbox
 from gi.repository import GLib, GObject, Gio, Json
 
 
 class Desktop:
 
     SETTINGS_HACK_MODE_KEY = 'hack-mode-enabled'
-    # @todo: don't hardcode the background url, in othe installations can have other path
-    HACK_BACKGROUND = (
-        'file:///var/lib/flatpak/app/com.endlessm.HackComponents/'
-        'x86_64/stable/active/files/share/backgrounds/'
-        'Desktop-BGs-Beta-Sketch_Blue.png'
-    )
+    HACK_BACKGROUND = 'file://{}/share/backgrounds/Desktop-BGs-Beta-Sketch_Blue.png'\
+        .format(get_flatpak_sandbox())
+
     HACK_CURSOR = 'cursor-glitchy'
 
     _dbus_proxy = None
@@ -451,6 +451,41 @@ class App:
         app = HackableAppsManager.get_hackable_app(self._app_dbus_name)
         if app:
             app.pulse_flip_to_hack_button(enable)
+
+    def enable_clippy(self, enable=True):
+        sandbox = get_flatpak_sandbox()
+        filesystems = f'{sandbox}:ro;~/.icons;'
+        clippy = f'{sandbox}/clippy/lib/libclippy-module.so'
+
+        filename = f'~/.local/share/flatpak/overrides/{self.dbus_name}'
+        filename = os.path.expanduser(filename)
+        dirname = os.path.dirname(filename)
+        if not os.path.exists(dirname):
+            os.mkdir(dirname)
+
+        config = configparser.ConfigParser()
+        if os.path.exists(filename):
+            config.read(filename)
+
+        options = {
+            ('Context', 'filesystems'): filesystems,
+            ('Session Bus Policy', 'com.endlessm.HackSoundServer'): 'talk',
+            ('Environment', 'GTK3_MODULES'): clippy,
+        }
+
+        if enable:
+            for key, value in options.items():
+                section, option = key
+                if not config.has_section(section):
+                    config.add_section(section)
+                config.set(section, option, value)
+        else:
+            for section, option in options:
+                if config.has_option(section, option):
+                    config.remove_option(section, option)
+
+        with open(filename, 'w') as f:
+            config.write(f)
 
 
 class GameStateService(GObject.GObject):
