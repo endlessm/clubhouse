@@ -1,3 +1,4 @@
+from gi.repository import Gdk
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App, Desktop
 from eosclubhouse.utils import ClubhouseState
@@ -43,6 +44,9 @@ class FirstContact(Quest):
         Desktop.set_hack_cursor(False)
 
         self._app.launch()
+
+        # Avoid spinning cursor.
+        Gdk.notify_startup_complete()
 
         self.wait_for_app_launch(self._app, pause_after_launch=3)
 
