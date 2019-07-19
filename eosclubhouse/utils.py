@@ -29,6 +29,7 @@ import time
 from collections import OrderedDict
 from enum import Enum
 from gi.repository import GLib, GObject
+from string import Template
 
 from eosclubhouse import config, logger
 
@@ -299,3 +300,17 @@ class ClubhouseState:
 
     def __hasattr__(self, name):
         return hasattr(self._impl, name)
+
+
+class MessageTemplate(Template):
+    """Template for Clubhouse messages."""
+
+    delimiter = '{{'
+    pattern = r'''
+    \{{(?:
+       (?P<escaped>\#) |            # Expression {{# }} will escape the template: {{ }}
+       (?P<named>[^\[{}\#]+)}} |    # These characters can't be used in names: #, {, and }
+       \b\B(?P<braced>) |           # Braced names disabled
+       (?P<invalid>)
+    )
+    '''
