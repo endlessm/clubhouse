@@ -1,5 +1,31 @@
 ,Drama,,,,
 ID,Text,speaker,animation,,
+MEET_END1,"Now that the basics are out of the way, I think Dr. Rowe had an activity for you try.",ada,,,
+MEET_END2,"He's the one with the glasses and big beard, you can't miss him.",ada,,,
+MEET_END3,Catch you later!,ada,,,
+MEET_EXPLAIN_HACK1,"Did you notice that your cursor and desktop are different? That's because we're in Hack Mode now.
+When you're in Hack Mode, you can flip programs and hack them - just like that puzzle.",ada,,,
+MEET_EXPLAIN_HACK2,Hack Mode is controlled by that switch *over there* - See it?,ada,,,
+MEET_EXPLAIN_HACK3,"If you switch it to OFF, you’ll go back to the regular EndlessOS desktop.
+You can use the computer like you did before you knew about Hack mode.",ada,,,
+MEET_EXPLAIN_HACK4,"You can flip the switch if someone else needs to use the computer, or you need to do your homework.",ada,,,
+MEET_EXPLAIN_MAIN1,"Now that we're here, there's a lot to go over. This main area is called 'The Clubhouse.'
+It's a virtual place where anyone from The Academy can hang out, chat, collaborate, or whatever you like. 
+We might all be in different physical locations, but we always have a presence here.",ada,,,
+MEET_EXPLAIN_MAIN2,"If you see someone here, it means they're happy to talk to you, and that's the quickest way to start learning and having fun.",ada,,,
+MEET_EXPLAIN_PATHWAYS1,"[The button in the upper right] is the Pathways button.
+Pathways organize all the activities we have into categories.
+if you know exactly what you want to learn, the Pathways let you go directly there.",ada,,,
+MEET_EXPLAIN_PROFILE1,[Over here] is your profile.,ada,,,
+MEET_EXPLAIN_PROFILE2,"This is your personal space here at the Academy - think of it like your virtual locker.
+You can see your progress, statistics, and we even have Merit Badges to recognize especially talented students.",ada,,,
+MEET_EXPLAIN_PROFILE3,"The system is still in progress, but we want to let you customize your avatar and decide who you want to be in the world of Hack - it’s up to you!",ada,,,
+MEET_WELCOME1,"Welcome to the world of Hack!
+Here, you can learn the secrets of the world you live in, and how to make them work for you.
+If that sounds magical and mysterious, don't worry - we're here to help you learn.",ada,,,
+MEET_WELCOME2,"My name's Ada, and I'm an Academy graduate, so I've done this before. I'll be your guide.",ada,,,
+MEET_WELCOME3_GOTHINT,"Great job on the entrance puzzle, by the way. Not many students solve that without help.",ada,,,
+MEET_WELCOME3_NOHINT," I was your guide for the entrance puzzle, by the way. I didn't want to break your concentration by introducing myself. ",ada,,,
 OLD_FIRSTCONTACT_FLIPBACK,Nice hack!,,,,
 OLD_FIRSTCONTACT_FLIPBACK_HINT1,I wonder if anything happened to the gate? Click the Flip to Hack button again.,,,,
 OLD_FIRSTCONTACT_GOAL,Beautiful! All new students must solve this puzzle.,,,,
