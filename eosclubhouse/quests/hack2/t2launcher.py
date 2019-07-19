@@ -8,7 +8,7 @@ class T2Launcher(Quest):
     APP_NAME = 'com.endlessnetwork.aqueducts'
 
     __quest_name__ = 'T2 Games'
-    __tags__ = ['mission:ada', 'pathway:games']
+    __tags__ = ['mission:ada', 'pathway:games', 'difficulty:easy']
     __mission_order__ = 90
     __pathway_order__ = 90
 

@@ -1051,10 +1051,20 @@ class InventoryItem(Gtk.Button):
 
 class PathwayQuestButton(Gtk.Button):
 
+    _LABEL_FOR_DIFFICULTY = {
+        libquest.Quest.Difficulty.EASY: '★☆☆',
+        libquest.Quest.Difficulty.NORMAL: '★★☆',
+        libquest.Quest.Difficulty.HARD: '★★★',
+    }
+
     def __init__(self, quest):
-        super().__init__(label=quest.get_name())
+        super().__init__(label=self._get_label(quest))
 
         self._quest = quest
+
+    def _get_label(self, quest):
+        difficulty = self._LABEL_FOR_DIFFICULTY[quest.get_difficulty()]
+        return quest.get_name() + ' - difficulty: ' + difficulty
 
     def get_quest(self):
         return self._quest
