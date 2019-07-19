@@ -29,8 +29,8 @@ from collections import OrderedDict
 from enum import Enum
 from eosclubhouse import config, logger
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
-from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, Performance, \
-    QuestStringCatalog, QS
+from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
+    Performance, QuestStringCatalog, QS
 from gi.repository import GObject, GLib
 
 
@@ -706,16 +706,32 @@ class Quest(GObject.GObject):
         '''
         pass
 
+    def _get_message_info(self, message_id):
+        message_info = QuestStringCatalog.get_info(message_id)
+
+        if message_info is None:
+            return None
+
+        if MessageTemplate.delimiter in message_info['txt']:
+            message_variables = self._get_message_variables()
+            message_template = MessageTemplate(message_info['txt'])
+            parsed_text = message_template.substitute(message_variables)
+            message_info['parsed_text'] = parsed_text
+        else:
+            message_info['parsed_text'] = message_info['txt']
+
+        return message_info
+
     def _setup_proposal_message(self):
         message_id = self.__proposal_message_id__
-        message_info = QuestStringCatalog.get_info('{}_{}'.format(self._qs_base_id, message_id))
+        message_info = self._get_message_info('{}_{}'.format(self._qs_base_id, message_id))
 
         if message_info is None:
             logger.debug('Proposal message %r is missing for quest %r',
                          message_id, self._qs_base_id)
             return
 
-        self.proposal_message = message_info['txt']
+        self.proposal_message = message_info['parsed_text']
         sfx_sound = message_info.get('sfx_sound')
         if sfx_sound:
             self.proposal_sound = sfx_sound
@@ -1122,7 +1138,7 @@ class Quest(GObject.GObject):
         # Notify we're going to stop soon
         self.stopping = True
 
-        abort_info = QuestStringCatalog.get_info('{}_ABORT'.format(self._qs_base_id))
+        abort_info = self._get_message_info('{}_ABORT'.format(self._qs_base_id))
         if abort_info:
             self.show_message('ABORT')
             self.pause(5)
@@ -1162,14 +1178,17 @@ class Quest(GObject.GObject):
         self._last_bg_sound_uuid = uuid
         self._last_bg_sound_event_id = sound_event_id
 
+    def _get_message_variables(self):
+        return {'user_name': GLib.get_real_name()}
+
     def show_message(self, info_id=None, **options):
         if info_id is not None:
             full_info_id = self._qs_base_id + '_' + info_id
-            info = QuestStringCatalog.get_info(full_info_id)
+            info = self._get_message_info(full_info_id)
 
             # Fallback to the given info_id if no string was found
             if info is None:
-                info = QuestStringCatalog.get_info(info_id)
+                info = self._get_message_info(info_id)
 
             if info is None:
                 raise NoMessageIdError("Can't show message, the message ID " + info_id +
@@ -1200,7 +1219,7 @@ class Quest(GObject.GObject):
         # @todo: We are passing all the fields of the message
         # information here, so it would be better to pass the dict
         # directly.
-        self.emit('message', info_id or '', options['txt'], possible_answers,
+        self.emit('message', info_id or '', options['parsed_text'], possible_answers,
                   options.get('character_id') or self.get_main_character(),
                   options.get('mood') or self._main_mood,
                   sfx_sound, bg_sound)
