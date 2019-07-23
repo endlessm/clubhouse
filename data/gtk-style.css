@@ -1,8 +1,14 @@
+headerbar {
+    border-width: 0px;
+}
+
+headerbar.CLUBHOUSE {
+    background: linear-gradient(to bottom, rgba(0,0,0, 0.3), rgba(0,0,0, 0.12) 80%, rgba(0,0,0, 0)),
+        top / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
+}
+
 .clubhouse-view {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    background: bottom / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
 }
 
 .inventory-view {
@@ -314,20 +320,65 @@ window.poster {
 
 /* Hack mode switch */
 #hack-switch {
-  padding: 1em 1em;
-  margin: 1em 1em;
-  background-color: darkblue;
-  border-radius: 8px;
+    padding: 2em;
+    margin: 4em;
+    background-color: lavender;
+    border-radius: 16px;
+    box-shadow:  2px 2px 3px black;
 }
 
 #hack-switch > label {
-  font-size: 20px;
-  font-weight: bold;
-  padding: 1ex;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 1ex;
 }
 
 /* Disable text inside switch */
 #hack-switch > switch {
-  font-size: 0px;
+    font-size: 0px;
+}
+
+/* User Hud */
+#user-hud,
+#user-hud:hover {
+    margin: 6px 0px 0px 0px;
+    background-image: none;
+    border: 0px;
+    box-shadow: none;
+}
+
+#user-hud image {
+    border-radius: 50%;
+    box-shadow:  2px 1px 2px #555;
+    margin: 2px; /* needed for the shadow */
+    background-color: lavender;
+    padding: 0.6em;
+}
+
+#user-hud label {
+    border-radius: 0 2em 2em 0;
+    box-shadow:  2px 1px 2px #555;
+    background-color: white;
+    padding: 1em 2em 1em 5em;
+    margin-left: 2em;
+}
+
+/* Header bar buttons */
+headerbar > buttonbox > button {
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-shadow: 1px 1px black;
+    background: none;
+    border: 0;
+    box-shadow:none;
+}
+
+headerbar > buttonbox > button:hover {
+    text-shadow: 1px 1px 3px gray;
+}
+
+headerbar > buttonbox > button:checked > label {
+    text-decoration: underline;
 }
 
