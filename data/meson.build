@@ -28,6 +28,23 @@ gnome.compile_resources(
     install_dir: clubhouse_data_dir
 )
 
+schemaconf = configuration_data()
+schemaconf.set('GETTEXT_PACKAGE', meson.project_name())
+schema = configure_file(
+  input: 'com.endlessm.clubhouse.gschema.xml.in',
+  output: 'com.endlessm.clubhouse.gschema.xml',
+  configuration: schemaconf,
+  install_dir: schema_dir
+)
+custom_target('compile-schemas',
+  input: schema,
+  output: 'gschemas.compiled',
+  command: [find_program('glib-compile-schemas'), meson.current_build_dir()],
+  build_by_default: true,
+  install_dir: schema_dir,
+  install: true
+)
+
 install_data(
     'eos-clubhouse.desktop',
     install_dir: join_paths(data_dir, 'applications')
