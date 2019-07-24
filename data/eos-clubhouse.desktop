@@ -8,3 +8,4 @@ Exec=eos-clubhouse
 Terminal=false
 StartupNotify=true
 NoDisplay=true
+X-Endless-HackShader=true

@@ -18,26 +18,28 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
+import configparser
 import gi
 import json
 gi.require_version('Json', '1.0')
+import os
+import shutil
 import time
 
 from eosclubhouse import logger
+from eosclubhouse.config import DATA_DIR
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer
+from eosclubhouse.utils import get_flatpak_sandbox
 from gi.repository import GLib, GObject, Gio, Json
 
 
 class Desktop:
 
     SETTINGS_HACK_MODE_KEY = 'hack-mode-enabled'
-    # @todo: don't hardcode the background url, in othe installations can have other path
-    HACK_BACKGROUND = (
-        'file:///var/lib/flatpak/app/com.endlessm.HackComponents/'
-        'x86_64/stable/active/files/share/backgrounds/'
-        'Desktop-BGs-Beta-Sketch_Blue.png'
-    )
+    HACK_BACKGROUND = 'file://{}/share/backgrounds/Desktop-BGs-Beta-Sketch_Blue.png'\
+        .format(get_flatpak_sandbox())
+
     HACK_CURSOR = 'cursor-glitchy'
 
     _dbus_proxy = None
@@ -237,8 +239,30 @@ class Desktop:
             desktop.reset('picture-uri')
 
     @classmethod
+    def ensure_hack_cursor_is_present(klass):
+        src = f'{DATA_DIR}/cursors/cursor-glitchy.xmc'
+        dirname = '~/.icons/cursor-glitchy/cursors/'
+        dirname = os.path.expanduser(dirname)
+        cursor = os.path.join(dirname, 'left_ptr')
+        theme = os.path.join(dirname, 'index.theme')
+
+        if os.path.exists(cursor):
+            return
+
+        os.makedirs(dirname, exist_ok=True)
+        shutil.copy2(src, cursor)
+        config = configparser.ConfigParser()
+        config.add_section('Icon Theme')
+        config.set('Icon Theme', 'Inherits', 'Adwaita')
+
+        with open(theme, 'w') as f:
+            config.write(f)
+
+    @classmethod
     def set_hack_cursor(klass, enabled):
         ''' This changes the cursor to the Hack one '''
+
+        klass.ensure_hack_cursor_is_present()
 
         interface = Gio.Settings('org.gnome.desktop.interface')
 
@@ -263,6 +287,7 @@ class App:
     _clippy = None
     _gtk_app_proxy = None
     _gtk_actions_proxy = None
+    _gtk_launch_app_proxy = None
 
     def __init__(self, app_dbus_name, app_dbus_path=None):
         self._app_dbus_name = app_dbus_name
@@ -311,6 +336,19 @@ class App:
                                                None)
 
         return self._gtk_actions_proxy
+
+    def get_gtk_launch_app_proxy(self):
+        if self._gtk_launch_app_proxy is None:
+            self._gtk_launch_app_proxy = \
+                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                               Gio.DBusProxyFlags.DO_NOT_AUTO_START_AT_CONSTRUCTION,
+                                               None,
+                                               self._app_dbus_name,
+                                               self._app_dbus_path,
+                                               'org.gtk.Application',
+                                               None)
+
+        return self._gtk_launch_app_proxy
 
     def is_running(self):
         return self.get_gtk_app_proxy().props.g_name_owner is not None
@@ -421,12 +459,57 @@ class App:
         self.get_clippy_proxy().Highlight('(su)', obj, stamp)
 
     def launch(self):
-        return Desktop.launch_app(self.dbus_name)
+        if not Desktop.launch_app(self.dbus_name):
+            return self.launch_gapp()
+        return True
+
+    def launch_gapp(self):
+        try:
+            self.get_gtk_launch_app_proxy().Activate('(a{sv})', [])
+        except GLib.Error as e:
+            logger.error(e)
+            return False
+        return True
 
     def pulse_flip_to_hack_button(self, enable):
         app = HackableAppsManager.get_hackable_app(self._app_dbus_name)
         if app:
             app.pulse_flip_to_hack_button(enable)
+
+    def enable_clippy(self, enable=True):
+        sandbox = get_flatpak_sandbox()
+        filesystems = f'{sandbox}:ro;~/.icons;'
+        clippy = f'{sandbox}/clippy/lib/libclippy-module.so'
+
+        filename = f'~/.local/share/flatpak/overrides/{self.dbus_name}'
+        filename = os.path.expanduser(filename)
+        dirname = os.path.dirname(filename)
+        if not os.path.exists(dirname):
+            os.mkdir(dirname)
+
+        config = configparser.ConfigParser()
+        if os.path.exists(filename):
+            config.read(filename)
+
+        options = {
+            ('Context', 'filesystems'): filesystems,
+            ('Session Bus Policy', 'com.endlessm.HackSoundServer'): 'talk',
+            ('Environment', 'GTK3_MODULES'): clippy,
+        }
+
+        if enable:
+            for key, value in options.items():
+                section, option = key
+                if not config.has_section(section):
+                    config.add_section(section)
+                config.set(section, option, value)
+        else:
+            for section, option in options:
+                if config.has_option(section, option):
+                    config.remove_option(section, option)
+
+        with open(filename, 'w') as f:
+            config.write(f)
 
 
 class GameStateService(GObject.GObject):
