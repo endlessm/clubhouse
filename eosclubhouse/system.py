@@ -232,11 +232,25 @@ class Desktop:
         ''' This changes the background to the Hack one '''
 
         desktop = Gio.Settings('org.gnome.desktop.background')
+        clubhouse = Gio.Settings('com.endlessm.clubhouse')
 
+        old_picture_uri = desktop.get_string('picture-uri')
         if enabled:
-            desktop.set_string('picture-uri', klass.HACK_BACKGROUND)
+            new_picture_uri = \
+                clubhouse.get_string('hack-mode-enabled-picture-uri') or klass.HACK_BACKGROUND
+        else:
+            new_picture_uri = clubhouse.get_string('hack-mode-disabled-picture-uri')
+
+        if new_picture_uri:
+            desktop.set_string('picture-uri', new_picture_uri)
         else:
             desktop.reset('picture-uri')
+
+        if old_picture_uri:
+            if enabled:
+                clubhouse.set_string('hack-mode-disabled-picture-uri', old_picture_uri)
+            else:
+                clubhouse.set_string('hack-mode-enabled-picture-uri', old_picture_uri)
 
     @classmethod
     def ensure_hack_cursor_is_present(klass):
