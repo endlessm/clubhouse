@@ -23,9 +23,11 @@ import gi
 import json
 gi.require_version('Json', '1.0')
 import os
+import shutil
 import time
 
 from eosclubhouse import logger
+from eosclubhouse.config import DATA_DIR
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer
 from eosclubhouse.utils import get_flatpak_sandbox
@@ -237,8 +239,30 @@ class Desktop:
             desktop.reset('picture-uri')
 
     @classmethod
+    def ensure_hack_cursor_is_present(klass):
+        src = f'{DATA_DIR}/cursors/cursor-glitchy.xmc'
+        dirname = '~/.icons/cursor-glitchy/cursors/'
+        dirname = os.path.expanduser(dirname)
+        cursor = os.path.join(dirname, 'left_ptr')
+        theme = os.path.join(dirname, 'index.theme')
+
+        if os.path.exists(cursor):
+            return
+
+        os.makedirs(dirname, exist_ok=True)
+        shutil.copy2(src, cursor)
+        config = configparser.ConfigParser()
+        config.add_section('Icon Theme')
+        config.set('Icon Theme', 'Inherits', 'Adwaita')
+
+        with open(theme, 'w') as f:
+            config.write(f)
+
+    @classmethod
     def set_hack_cursor(klass, enabled):
         ''' This changes the cursor to the Hack one '''
+
+        klass.ensure_hack_cursor_is_present()
 
         interface = Gio.Settings('org.gnome.desktop.interface')
 
