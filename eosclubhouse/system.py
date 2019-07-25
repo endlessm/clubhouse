@@ -42,6 +42,18 @@ class Desktop:
 
     HACK_CURSOR = 'cursor-glitchy'
 
+    # Apps ids to override flatpak GTK3_MODULES with libclippy
+    CLIPPY_APPS = [
+        'com.endlessm.dinosaurs.en',
+        'com.endlessm.encyclopedia.en',
+        'com.endlessm.Fizzics',
+        'com.endlessm.Hackdex_chapter_one',
+        'com.endlessm.Hackdex_chapter_two',
+        'com.endlessm.LightSpeed',
+        'com.endlessm.OperatingSystemApp',
+        'com.endlessm.Sidetrack',
+    ]
+
     _dbus_proxy = None
     _app_launcher_proxy = None
     _shell_app_store_proxy = None
@@ -277,6 +289,10 @@ class Desktop:
 
     @classmethod
     def set_hack_mode(klass, enabled):
+        # Override clippy apps
+        for name in klass.CLIPPY_APPS:
+            App(name).enable_clippy(enabled)
+
         return klass.get_shell_settings().set_boolean(klass.SETTINGS_HACK_MODE_KEY, enabled)
 
 
