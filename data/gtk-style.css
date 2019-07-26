@@ -389,3 +389,10 @@ headerbar > buttonbox > button:checked > label {
 .quest-button.complete {
     background: lightgray;
 }
+
+/* Pathways view */
+
+/* Reset button color in listbox items */
+row:selected > box > button >label {
+    color: unset;
+}
