@@ -1575,11 +1575,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.connect('screen-changed', self._on_screen_changed)
 
     def _on_screen_size_changed(self, screen):
-        BG_WIDTH = 1200
-        BG_HEIGHT = 810
+        BG_WIDTH = 1560
+        BG_HEIGHT = 1049
+        PANEL_HEIGHT = 40
 
-        # Clamp resolution to 75% of 720p-1080p
-        height = max(720, min(screen.get_height(), 1080)) * 0.75
+        # Clamp resolution to 720p-1080p without considering the panel height.
+        height = max(720 - PANEL_HEIGHT, min(screen.get_height(), 1080 - PANEL_HEIGHT))
 
         titlebar = self.get_titlebar()
         minimal_height, natural_height = titlebar.get_preferred_height()
@@ -1604,7 +1605,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.hide()
 
     def enable_side_component(self):
-        self.props.decorated = False
         self.props.role = 'eos-side-component'
         self._update_geometry()
 
