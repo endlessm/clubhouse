@@ -286,19 +286,35 @@ class Message(Gtk.Overlay):
         button.show()
 
 
-class CharacterMissionButton(Gtk.Button):
+class QuestButton(Gtk.Button):
 
-    def __init__(self, quest_set, quest):
-        super().__init__(label=quest.get_name())
+    _LABEL_FOR_DIFFICULTY = {
+        libquest.Quest.Difficulty.EASY: '★☆☆',
+        libquest.Quest.Difficulty.NORMAL: '★★☆',
+        libquest.Quest.Difficulty.HARD: '★★★',
+    }
 
-        self._quest_set = quest_set
+    def __init__(self, quest):
+        super().__init__(label=self._get_label(quest))
+
         self._quest = quest
 
-    def get_quest_set(self):
-        return self._quest_set
+    def _get_label(self, quest):
+        difficulty = self._LABEL_FOR_DIFFICULTY[quest.get_difficulty()]
+        return quest.get_name() + ' - difficulty: ' + difficulty
 
     def get_quest(self):
         return self._quest
+
+
+class CharacterMissionButton(QuestButton):
+    def __init__(self, quest_set, quest):
+        super().__init__(quest)
+
+        self._quest_set = quest_set
+
+    def get_quest_set(self):
+        return self._quest_set
 
 
 class QuestSetButton(Gtk.Button):
@@ -1090,27 +1106,6 @@ class InventoryItem(Gtk.Button):
         self._label.set_text(self.item_name)
 
 
-class PathwayQuestButton(Gtk.Button):
-
-    _LABEL_FOR_DIFFICULTY = {
-        libquest.Quest.Difficulty.EASY: '★☆☆',
-        libquest.Quest.Difficulty.NORMAL: '★★☆',
-        libquest.Quest.Difficulty.HARD: '★★★',
-    }
-
-    def __init__(self, quest):
-        super().__init__(label=self._get_label(quest))
-
-        self._quest = quest
-
-    def _get_label(self, quest):
-        difficulty = self._LABEL_FOR_DIFFICULTY[quest.get_difficulty()]
-        return quest.get_name() + ' - difficulty: ' + difficulty
-
-    def get_quest(self):
-        return self._quest
-
-
 class PathwaysView(Gtk.ListBox):
     def __init__(self, app_window):
         super().__init__(visible=True)
@@ -1140,7 +1135,7 @@ class PathwaysView(Gtk.ListBox):
         label.show()
 
         for quest in pathway.get_quests(also_skippable=False):
-            button = PathwayQuestButton(quest)
+            button = QuestButton(quest)
             button.connect('clicked', self._quest_button_clicked_cb)
             vbox.add(button)
             button.show()
