@@ -379,6 +379,7 @@ class ClubhouseView(Gtk.EventBox):
 
     __gtype_name__ = 'ClubhouseView'
 
+    _hack_switch = Gtk.Template.Child()
     _overlay_msg_box = Gtk.Template.Child()
     _main_characters_box = Gtk.Template.Child()
     _main_box = Gtk.Template.Child()
@@ -393,6 +394,7 @@ class ClubhouseView(Gtk.EventBox):
     def __init__(self, app_window):
         super().__init__(visible=True)
 
+        self.scale = 1
         self._current_quest = None
         self._scheduled_quest_info = None
         self._proposing_quest = False
@@ -416,11 +418,13 @@ class ClubhouseView(Gtk.EventBox):
 
         self.add_tick_callback(AnimationSystem.step)
 
+        Desktop.get_shell_settings().connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
+                                             self._settings_changed_cb)
+        self._update_hack_mode_swith_state()
+
         self._gss = GameStateService()
         self._gss_hander_id = self._gss.connect('changed',
                                                 lambda _gss: self._update_episode_if_needed())
-
-        self.connect('screen-changed', self._on_screen_changed)
 
     def _on_window_visibility_changed(self, _window, _param):
         if not self._app_window.props.visible:
@@ -437,31 +441,31 @@ class ClubhouseView(Gtk.EventBox):
 
         return False
 
-    def _on_screen_size_changed(self, screen):
-        BG_WIDTH = 1000
-        BG_HEIGHT = 810
+    def _update_hack_mode_swith_state(self):
+        self._on_hack_mode_switch = True
+        self._hack_switch.set_active(Desktop.get_hack_mode())
+        self._on_hack_mode_switch = False
 
-        # Clamp resolution to 75% of 720p-1080p
-        height = max(720, min(screen.get_height(), 1080)) * 0.75
+    @Gtk.Template.Callback()
+    def _hack_mode_switch_activate_cb(self, switch, _pspec):
+        if self._on_hack_mode_switch:
+            return
+        enabled = self._hack_switch.get_active()
+        Desktop.set_hack_mode(enabled)
+        Desktop.set_hack_background(enabled)
+        Desktop.set_hack_cursor(enabled)
 
-        # Calculate widget scale
-        self.scale = height / BG_HEIGHT
+    def _settings_changed_cb(self, settings, _key):
+        self._update_hack_mode_swith_state()
 
-        # Set widget size
-        self._main_characters_box.set_size_request(height * BG_WIDTH / BG_HEIGHT, height)
+    def set_scale(self, scale, offset=0):
+        self.scale = scale
+        self._height_offset = offset
 
         # Update children
         for child in self._main_characters_box.get_children():
             if isinstance(child, QuestSetButton):
                 child.reload(self.scale)
-
-    def _on_screen_changed(self, widget, previous_screen):
-        if previous_screen is not None:
-            previous_screen.disconnect_by_func(self._on_screen_size_changed)
-
-        screen = self.get_screen()
-        self._on_screen_size_changed(screen)
-        screen.connect('size-changed', self._on_screen_size_changed)
 
     def stop_quest(self):
         self._cancel_ongoing_task()
@@ -483,7 +487,8 @@ class ClubhouseView(Gtk.EventBox):
         self._set_current_quest(None)
 
     def _on_button_position_changed(self, button, _param):
-        self._main_characters_box.move(button, *button.position)
+        x, y = button.position
+        self._main_characters_box.move(button, x, y + self._height_offset)
 
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set, self.scale)
@@ -491,7 +496,7 @@ class ClubhouseView(Gtk.EventBox):
         button.connect('clicked', self._button_clicked_cb)
 
         x, y = button.position
-        self._main_characters_box.put(button, x, y)
+        self._main_characters_box.put(button, x, y + self._height_offset)
 
         button.connect('notify::position', self._on_button_position_changed)
 
@@ -1536,10 +1541,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _MAIN_PAGE_RESET_TIMEOUT = 60  # sec
 
     _stack = Gtk.Template.Child()
-    _hack_switch = Gtk.Template.Child()
     _clubhouse_page = Gtk.Template.Child()
     _inventory_page = Gtk.Template.Child()
     _pathways_sw = Gtk.Template.Child()
+    _user_label = Gtk.Template.Child()
 
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
@@ -1557,18 +1562,46 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._inventory_page.pack_start(self.inventory, True, True, 0)
         self._pathways_sw.add(self.pathways)
 
-        Desktop.get_shell_settings().connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
-                                             self._settings_changed_cb)
-        self._update_hack_mode_swith_state()
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::window-is-visible',
                                       self._on_clubhouse_window_visibility_changed_cb)
+
+        self.update_user_info()
+        self._on_screen_changed(self, None)
+        self.connect('screen-changed', self._on_screen_changed)
+
+    def _on_screen_size_changed(self, screen):
+        BG_WIDTH = 1200
+        BG_HEIGHT = 810
+
+        # Clamp resolution to 75% of 720p-1080p
+        height = max(720, min(screen.get_height(), 1080)) * 0.75
+
+        titlebar = self.get_titlebar()
+        minimal_height, natural_height = titlebar.get_preferred_height()
+
+        # Set widget size
+        self.clubhouse.set_size_request(height * BG_WIDTH / BG_HEIGHT,
+                                        height - natural_height)
+        self.clubhouse.set_scale(height / BG_HEIGHT, -natural_height)
+
+    def _on_screen_changed(self, widget, previous_screen):
+        if previous_screen is not None:
+            previous_screen.disconnect_by_func(self._on_screen_size_changed)
+
+        screen = self.get_screen()
+        self._on_screen_size_changed(screen)
+        screen.connect('size-changed', self._on_screen_size_changed)
 
     def _on_clubhouse_window_visibility_changed_cb(self, state, _param):
         if state.window_is_visible:
             self.show()
         else:
             self.hide()
+
+    def update_user_info(self):
+        self._user_label.set_label(GLib.get_real_name())
+        # TODO: update self._user_image
 
     def continue_playing(self):
         self.clubhouse.continue_playing()
@@ -1580,29 +1613,20 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         widget.hide()
         return True
 
-    @Gtk.Template.Callback()
-    def _on_stack_button_clicked(self, view):
-        self._stack.set_visible_child(view)
-
-    def _update_hack_mode_swith_state(self):
-        self._on_hack_mode_switch = True
-        self._hack_switch.set_active(Desktop.get_hack_mode())
-        self._on_hack_mode_switch = False
-
-    @Gtk.Template.Callback()
-    def _hack_mode_switch_activate_cb(self, switch, _pspec):
-        if self._on_hack_mode_switch:
-            return
-        enabled = self._hack_switch.get_active()
-        Desktop.set_hack_mode(enabled)
-        Desktop.set_hack_background(enabled)
-        Desktop.set_hack_cursor(enabled)
-
-    def _settings_changed_cb(self, settings, _key):
-        self._update_hack_mode_swith_state()
-
     def set_page(self, page_name):
-        self._stack.set_visible_child_name(page_name.upper())
+        current_page = self._stack.get_visible_child_name()
+        new_page = page_name.upper()
+
+        if current_page == new_page:
+            return
+
+        # Set a different headerbar css class depending on the page
+        ctx = self.get_titlebar().get_style_context()
+        ctx.remove_class(current_page)
+        ctx.add_class(new_page)
+
+        # Switch page
+        self._stack.set_visible_child_name(new_page)
 
     def _select_main_page_on_timeout(self):
         self._stack.set_visible_child(self._clubhouse_page)
@@ -1798,6 +1822,7 @@ class ClubhouseApplication(Gtk.Application):
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('quest-view-close', self._quest_view_close_action_cb, None),
                           ('quit', self._quit_action_cb, None),
+                          ('close', self._close_action_cb, None),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
                           ('show-page', self._show_page_action_cb, GLib.VariantType.new('s')),
                           ('stop-quest', self._stop_quest, None),
@@ -1915,6 +1940,10 @@ class ClubhouseApplication(Gtk.Application):
             self._window = None
 
         self.quit()
+
+    def _close_action_cb(self, action, arg_variant):
+        if self._window:
+            self._window.hide()
 
     def _show_page_action_cb(self, action, arg_variant):
         page_name = arg_variant.unpack()
