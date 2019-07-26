@@ -382,3 +382,10 @@ headerbar > buttonbox > button:checked > label {
     text-decoration: underline;
 }
 
+.quest-button {
+    background: white;
+}
+
+.quest-button.complete {
+    background: lightgray;
+}
