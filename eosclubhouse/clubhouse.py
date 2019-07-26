@@ -297,7 +297,22 @@ class QuestButton(Gtk.Button):
     def __init__(self, quest):
         super().__init__(label=self._get_label(quest))
 
+        self.get_style_context().add_class('quest-button')
+
         self._quest = quest
+        self._quest.connect('notify::complete', self._on_quest_complete_changed)
+        self._set_complete()
+
+    def _on_quest_complete_changed(self, _quest_set, _param):
+        self._set_complete()
+
+    def _set_complete(self):
+        complete_style = 'complete'
+        style_context = self.get_style_context()
+        if self._quest.complete:
+            style_context.add_class(complete_style)
+        else:
+            style_context.remove_class(complete_style)
 
     def _get_label(self, quest):
         difficulty = self._LABEL_FOR_DIFFICULTY[quest.get_difficulty()]
