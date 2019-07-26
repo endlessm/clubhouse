@@ -382,3 +382,11 @@ headerbar > buttonbox > button:checked > label {
     text-decoration: underline;
 }
 
+
+/* Pathways view */
+
+/* Reset button color in listbox items */
+row:selected > box > button >label {
+    color: unset;
+}
+
