@@ -946,6 +946,11 @@ class ClubhouseView(Gtk.EventBox):
     def _quest_button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
         new_quest = button.get_quest()
+        easier_quest = quest_set.get_easier_quest(new_quest)
+        if easier_quest is not None:
+            # @todo: Offer easier quest.
+            logger.info('Quest %s is too difficult, try quest %s', new_quest, easier_quest)
+
         return self._accept_quest_message(quest_set, new_quest)
 
     def show_message(self, txt, answer_choices=[], sfx_sound=None):

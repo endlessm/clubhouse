@@ -26,7 +26,7 @@ import pkgutil
 import sys
 
 from collections import OrderedDict
-from enum import Enum
+from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
@@ -587,7 +587,7 @@ class NoMessageIdError(Exception):
 
 class Quest(GObject.GObject):
 
-    Difficulty = Enum('Difficulty', ['EASY', 'NORMAL', 'HARD'])
+    Difficulty = IntEnum('Difficulty', ['EASY', 'NORMAL', 'HARD'])
     DEFAULT_DIFFICULTY = Difficulty.NORMAL
 
     __gsignals__ = {
@@ -1736,6 +1736,16 @@ class CharacterMission(QuestSet):
                 return self.__empty_message__
 
         return string_info['txt']
+
+    def get_easier_quest(self, quest):
+        if quest.complete:
+            return None
+
+        for q in self.get_quests(also_skippable=False):
+            if not q.complete and q.get_difficulty() < quest.get_difficulty():
+                return q
+
+        return None
 
     body_animation = GObject.Property(_get_body_animation, _set_body_animation,
                                       type=str, default=DEFAULT_ANIMATION,
