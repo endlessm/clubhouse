@@ -1550,6 +1550,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         super().__init__(application=app, title='Clubhouse')
 
         self.set_keep_above(True)
+        self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
         self.connect('realize', self._window_realize_cb)
 
         self._shell_settings = Gio.Settings('org.gnome.shell')
