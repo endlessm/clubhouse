@@ -2006,8 +2006,9 @@ class ClubhouseApplication(Gtk.Application):
 
     # D-Bus implementation
     def show(self, timestamp):
-        self._ensure_window()
-        self._show_and_focus_window(int(timestamp))
+        if not self._run_episode_autorun_quest_if_needed():
+            self._ensure_window()
+            self._show_and_focus_window(int(timestamp))
 
         return None
 
