@@ -1655,8 +1655,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             return False
 
         gdk_window = self.get_window()
-        gdk_window.set_functions(Gdk.WMFunction.CLOSE | Gdk.WMFunction.MINIMIZE |
-                                 Gdk.WMFunction.MOVE)
+        gdk_window.set_functions(Gdk.WMFunction.CLOSE | Gdk.WMFunction.MINIMIZE)
         gdk_window.set_events(gdk_window.get_events() | Gdk.EventMask.FOCUS_CHANGE_MASK)
 
         if os.environ.get('CLUBHOUSE_NO_AUTO_HIDE') is None:
