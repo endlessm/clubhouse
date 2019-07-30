@@ -7,6 +7,11 @@ headerbar.CLUBHOUSE {
         top / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
 }
 
+headerbar.CHARACTER {
+    background: linear-gradient(to bottom, rgba(0,0,0, 0.3), rgba(0,0,0, 0.12) 80%, rgba(0,0,0, 0)),
+        top / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/character_bg.jpg');
+}
+
 .clubhouse-view {
     background: bottom / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
 }
@@ -364,21 +369,26 @@ window.poster {
 }
 
 /* Header bar buttons */
-headerbar > buttonbox > button {
+.headerbar-buttonbox > label,
+.headerbar-buttonbox > button {
     color: white;
     font-size: 1.2em;
     font-weight: bold;
     text-shadow: 1px 1px black;
+}
+
+.headerbar-buttonbox > button {
     background: none;
     border: 0;
     box-shadow:none;
+    padding: 0 2em;
 }
 
-headerbar > buttonbox > button:hover {
+.headerbar-buttonbox > button:hover {
     text-shadow: 1px 1px 3px gray;
 }
 
-headerbar > buttonbox > button:checked > label {
+.headerbar-buttonbox > button:checked > label {
     text-decoration: underline;
 }
 
@@ -396,3 +406,28 @@ headerbar > buttonbox > button:checked > label {
 row:selected > box > button >label {
     color: unset;
 }
+
+/* Character View */
+
+.character-view {
+    background: bottom / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/character_bg.jpg');
+}
+
+.character-view list {
+    background-color: unset;
+}
+
+.character-view  #mission-list {
+    margin: 0 3em 3em 0;
+    padding: 1em 1ex;
+    border: 1px solid gray;
+    box-shadow: 3px 3px 4px black;
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.character-view  #mission-list > label {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 0 0 1ex 2em;
+}
+
