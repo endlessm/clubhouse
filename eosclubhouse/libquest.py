@@ -592,8 +592,7 @@ class Quest(GObject.GObject):
 
     __gsignals__ = {
         'message': (
-            GObject.SignalFlags.RUN_FIRST, None, (str, str, GObject.TYPE_PYOBJECT,
-                                                  str, str, str, str)
+            GObject.SignalFlags.RUN_FIRST, None, (GObject.TYPE_PYOBJECT,)
         ),
         'dismiss-message': (
             GObject.SignalFlags.RUN_FIRST, None, ()
@@ -1192,6 +1191,8 @@ class Quest(GObject.GObject):
             # Fallback to the given info_id if no string was found
             if info is None:
                 info = self._get_message_info(info_id)
+            else:
+                info_id = full_info_id
 
             if info is None:
                 raise NoMessageIdError("Can't show message, the message ID " + info_id +
@@ -1219,13 +1220,15 @@ class Quest(GObject.GObject):
                 sfx_sound = self._main_open_dialog_sound
         bg_sound = options.get('bg_sound')
 
-        # @todo: We are passing all the fields of the message
-        # information here, so it would be better to pass the dict
-        # directly.
-        self.emit('message', info_id or '', options['parsed_text'], possible_answers,
-                  options.get('character_id') or self.get_main_character(),
-                  options.get('mood') or self._main_mood,
-                  sfx_sound, bg_sound)
+        self.emit('message', {
+            'id': info_id,
+            'text': options['parsed_text'],
+            'choices': possible_answers,
+            'character_id': options.get('character_id') or self.get_main_character(),
+            'character_mood': options.get('mood') or self._main_mood,
+            'sound_fx': sfx_sound,
+            'sound_bg': bg_sound,
+        })
 
     def dismiss_message(self):
         self.emit('dismiss-message')
