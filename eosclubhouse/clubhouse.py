@@ -750,8 +750,11 @@ class ClubhouseView(Gtk.EventBox):
             self.show_message(message['text'], message['choices'], message['sound_fx'])
             self._overlay_msg_box.show_all()
 
-    def _quest_dismiss_message_cb(self, quest):
-        self._shell_close_popup_message()
+    def _quest_dismiss_message_cb(self, quest, narrative=False):
+        if not narrative:
+            self._shell_close_popup_message()
+        else:
+            self._message.close()
 
     def _reset_delayed_message(self):
         if self._delayed_message_handler > 0:

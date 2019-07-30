@@ -596,7 +596,7 @@ class Quest(GObject.GObject):
             GObject.SignalFlags.RUN_FIRST, None, (GObject.TYPE_PYOBJECT,)
         ),
         'dismiss-message': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
+            GObject.SignalFlags.RUN_FIRST, None, (bool,)
         ),
         'item-given': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str)
@@ -1237,8 +1237,8 @@ class Quest(GObject.GObject):
             'type': message_type,
         })
 
-    def dismiss_message(self):
-        self.emit('dismiss-message')
+    def dismiss_message(self, narrative=False):
+        self.emit('dismiss-message', narrative)
 
     def reset_hints_given_once(self):
         self._hints_given_once = set()
