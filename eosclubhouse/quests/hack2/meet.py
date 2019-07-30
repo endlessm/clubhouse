@@ -2,7 +2,8 @@ from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Sound
 
 
-class Intro(Quest):
+class Meet(Quest):
+    # Meet The Clubhouse
 
     __tags__ = ['mission:ada']
 
@@ -12,11 +13,11 @@ class Intro(Quest):
         self.auto_offer = True
 
     def step_begin(self):
-        self.wait_confirm('WELCOME')
+        self.wait_confirm('WELCOME1')
         return self.step_end
 
     def step_end(self):
         self.complete = True
         self.available = False
-        self.show_message('END', choices=[('Bye', self.stop)])
+        self.show_message('END3', choices=[('Bye', self.stop)])
         Sound.play('quests/quest-complete')

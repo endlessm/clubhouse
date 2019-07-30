@@ -2,22 +2,22 @@ from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App, Sound
 
 
-class T2Launcher(Quest):
+class T2Intro(Quest):
 
-    # @todo: Replace with the T2 app when it's available.
-    APP_NAME = 'com.endlessnetwork.aqueducts'
+    APP_NAME = 'com.endlessnetwork.frogsquash'
 
-    __quest_name__ = 'T2 Games'
-    __tags__ = ['mission:ada', 'pathway:games', 'difficulty:easy']
-    __mission_order__ = 90
-    __pathway_order__ = 90
+    __quest_name__ = 'Terminal 2 - FrogSquash'
+    __tags__ = ['mission:saniel', 'pathway:games', 'difficulty:easy']
+    __mission_order__ = 125
+    __pathway_order__ = 125
+    __auto_offer_info__ = {'confirm_before': True}
 
     def setup(self):
         self._app = App(self.APP_NAME)
 
     def step_begin(self):
-        self.wait_confirm('BEGIN')
-        self.show_message('END', choices=[('Bye', self.step_launch)])
+        self.wait_confirm('GREET1')
+        self.show_message('GREET2', choices=[('Cool!', self.step_launch)])
 
     def step_launch(self):
         Sound.play('quests/quest-complete')
