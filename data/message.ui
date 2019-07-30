@@ -11,59 +11,19 @@
         <property name="can_focus">False</property>
         <property name="valign">end</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkLabel" id="_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="valign">center</property>
             <property name="hexpand">True</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkLabel" id="_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="valign">center</property>
-                <property name="hexpand">True</property>
-                <property name="wrap">True</property>
-                <property name="ellipsize">end</property>
-                <property name="lines">5</property>
-                <property name="xalign">0</property>
-                <property name="yalign">0</property>
-                <style>
-                  <class name="clubhouse-message-label"/>
-                </style>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="_list_button_box">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">center</property>
-                <property name="valign">end</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <style>
-                  <class name="clubhouse-message-list-button-box"/>
-                </style>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
+            <property name="wrap">True</property>
+            <property name="ellipsize">end</property>
+            <property name="lines">5</property>
+            <property name="xalign">0</property>
+            <property name="yalign">0</property>
+            <style>
+              <class name="clubhouse-message-label"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>

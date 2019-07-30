@@ -184,7 +184,6 @@ class Message(Gtk.Overlay):
     _label = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
     _button_box = Gtk.Template.Child()
-    _list_button_box = Gtk.Template.Child()
     close_button = Gtk.Template.Child()
 
     OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
@@ -230,7 +229,6 @@ class Message(Gtk.Overlay):
         self._label.set_label('')
         self.set_character(None)
         self.clear_buttons()
-        self.clear_list_buttons()
 
     def clear_buttons(self):
         for child in self._button_box:
@@ -274,16 +272,6 @@ class Message(Gtk.Overlay):
             self._animator.load(character.get_moods_path(), character.id)
 
         self._animator.play(animation_id)
-
-    def clear_list_buttons(self):
-        for child in self._list_button_box:
-            child.destroy()
-        self._list_button_box.hide()
-
-    def add_list_button(self, button):
-        self._list_button_box.show()
-        self._list_button_box.pack_start(button, False, False, 0)
-        button.show()
 
 
 class QuestButton(Gtk.Button):
@@ -403,6 +391,59 @@ class QuestSetButton(Gtk.Button):
             style_context.remove_class(highlighted_style)
 
     position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
+
+
+@Gtk.Template.from_resource('/com/endlessm/Clubhouse/character-view.ui')
+class CharacterView(Gtk.Grid):
+
+    __gtype_name__ = 'CharacterView'
+
+    header_box = Gtk.Template.Child()
+    _list = Gtk.Template.Child()
+    _character_image = Gtk.Template.Child()
+    _character_button = Gtk.Template.Child()
+    _message_list = Gtk.Template.Child()
+
+    def __init__(self, app_window):
+        super().__init__(visible=True)
+        self._app_window = app_window
+        self._animator = Animator(self._character_image)
+
+    def show_mission_list(self, quest_set):
+        # Get character
+        character = Character.get_or_create(quest_set.get_character())
+
+        # Set page title
+        self._character_button.set_label(character.id.capitalize() + '\'s Workshop')
+
+        # Set character image
+        animation_id = character.id + '/closeup-talk'
+        if not self._animator.has_animation(animation_id):
+            self._animator.load(character.get_moods_path(), character.id)
+
+        # @todo: play animation only when a dialog is added
+        self._animator.play(animation_id)
+
+        # Clear list
+        for child in self._list.get_children():
+            self._list.remove(child)
+
+        # Populate list
+        for quest in quest_set.get_quests(also_skippable=False):
+            button = CharacterMissionButton(quest_set, quest)
+            button.connect('clicked', self._quest_button_clicked_cb)
+            self._list.add(button)
+            button.show()
+
+    def _quest_button_clicked_cb(self, button):
+        quest_set = button.get_quest_set()
+        new_quest = button.get_quest()
+        easier_quest = quest_set.get_easier_quest(new_quest)
+        if easier_quest is not None:
+            # @todo: Offer easier quest.
+            logger.info('Quest %s is too difficult, try quest %s', new_quest, easier_quest)
+
+        self._app_window.run_quest(new_quest)
 
 
 @Gtk.Template.from_resource('/com/endlessm/Clubhouse/clubhouse-view.ui')
@@ -576,7 +617,9 @@ class ClubhouseView(Gtk.EventBox):
         self._message.reset()
 
         if isinstance(quest_set, libquest.CharacterMission):
-            self.show_mission_list(quest_set)
+            # @todo: ask user if we want to move to the other page?
+            self._app_window.character.show_mission_list(quest_set)
+            self._app_window.set_page('CHARACTER')
             return
 
         # @todo: Remove old behavior below.
@@ -932,40 +975,8 @@ class ClubhouseView(Gtk.EventBox):
 
         self._app.send_quest_item_notification(notification)
 
-    def show_mission_list(self, quest_set):
-        self._stop_quest_proposal()
-
-        character_id = quest_set.get_character()
-        character = Character.get_or_create(character_id)
-        character.mood = None
-
-        self._message.reset()
-        self._message.set_character(character_id)
-
-        for quest in quest_set.get_quests(also_skippable=False):
-            button = CharacterMissionButton(quest_set, quest)
-            button.connect('clicked', self._quest_button_clicked_cb)
-            self._message.add_list_button(button)
-
-        self._message.set_text("Do you want a mission?")
-        self._message.add_button("Not now…", self._message.close)
-        sfx_sound = self._message.OPEN_DIALOG_SOUND
-        Sound.play(sfx_sound)
-
-        self._overlay_msg_box.show_all()
-
-    def _quest_button_clicked_cb(self, button):
-        quest_set = button.get_quest_set()
-        new_quest = button.get_quest()
-        easier_quest = quest_set.get_easier_quest(new_quest)
-        if easier_quest is not None:
-            # @todo: Offer easier quest.
-            logger.info('Quest %s is too difficult, try quest %s', new_quest, easier_quest)
-
-        return self._accept_quest_message(quest_set, new_quest)
-
     def show_message(self, txt, answer_choices=[], sfx_sound=None):
-        self._message.reset()
+        self._message.clear_buttons()
         self._message.set_text(txt)
 
         for answer in answer_choices:
@@ -1566,6 +1577,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     __gtype_name__ = 'ClubhouseWindow'
     _MAIN_PAGE_RESET_TIMEOUT = 60  # sec
 
+    _headerbar = Gtk.Template.Child()
+    _headerbar_box = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
     _clubhouse_page = Gtk.Template.Child()
     _inventory_page = Gtk.Template.Child()
@@ -1583,10 +1596,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.clubhouse = ClubhouseView(self)
         self.pathways = PathwaysView(self)
         self.inventory = InventoryView(self)
+        self.character = CharacterView(self)
 
         self._clubhouse_page.pack_start(self.clubhouse, True, True, 0)
         self._inventory_page.pack_start(self.inventory, True, True, 0)
         self._pathways_sw.add(self.pathways)
+        self._stack.add_named(self.character, 'CHARACTER')
 
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::window-is-visible',
@@ -1627,7 +1642,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def update_user_info(self):
         self._user_label.set_label(GLib.get_real_name())
-        # TODO: update self._user_image
+        # @todo: update self._user_image
 
     def continue_playing(self):
         self.clubhouse.continue_playing()
@@ -1647,12 +1662,19 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             return
 
         # Set a different headerbar css class depending on the page
-        ctx = self.get_titlebar().get_style_context()
+        ctx = self._headerbar.get_style_context()
         ctx.remove_class(current_page)
         ctx.add_class(new_page)
 
+        page = self._stack.get_child_by_name(new_page)
+
+        if hasattr(page, 'header_box') and page.header_box is not None:
+            self._headerbar.set_custom_title(page.header_box)
+        else:
+            self._headerbar.set_custom_title(self._headerbar_box)
+
         # Switch page
-        self._stack.set_visible_child_name(new_page)
+        self._stack.set_visible_child(page)
 
     def _select_main_page_on_timeout(self):
         self._stack.set_visible_child(self._clubhouse_page)

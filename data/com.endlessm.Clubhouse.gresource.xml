@@ -3,6 +3,7 @@
   <gresource prefix="/com/endlessm/Clubhouse">
     <file>gtk-style.css</file>
     <file preprocess="xml-stripblanks">clubhouse-view.ui</file>
+    <file preprocess="xml-stripblanks">character-view.ui</file>
     <file preprocess="xml-stripblanks">inventory-view.ui</file>
     <file preprocess="xml-stripblanks">episode-row.ui</file>
     <file preprocess="xml-stripblanks">episodes-view.ui</file>
@@ -13,6 +14,7 @@
   <gresource prefix="/com/endlessm/Clubhouse/images">
     <file>comingsoon_label_bg.png</file>
     <file>clubhouse_bg.jpg</file>
+    <file>character_bg.jpg</file>
     <file>inventory_bg.png</file>
     <file>inventory-empty-image.png</file>
     <file>episodes_bg.png</file>
