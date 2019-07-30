@@ -2,9 +2,18 @@ headerbar {
     border-width: 0px;
 }
 
+.transitionable-background {
+    transition: background 1000ms linear;
+}
+
 headerbar.CLUBHOUSE {
     background: linear-gradient(to bottom, rgba(0,0,0, 0.3), rgba(0,0,0, 0.12) 80%, rgba(0,0,0, 0)),
         top / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
+}
+
+headerbar.CLUBHOUSE-off {
+    background: linear-gradient(to bottom, rgba(0,0,0, 0.3), rgba(0,0,0, 0.12) 80%, rgba(0,0,0, 0)),
+        top / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-off.jpg');
 }
 
 headerbar.CHARACTER {
@@ -14,6 +23,10 @@ headerbar.CHARACTER {
 
 .clubhouse-view {
     background: bottom / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
+}
+
+.clubhouse-view-off {
+    background: bottom / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-off.jpg');
 }
 
 .inventory-view {
