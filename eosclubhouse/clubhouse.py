@@ -286,19 +286,50 @@ class Message(Gtk.Overlay):
         button.show()
 
 
-class CharacterMissionButton(Gtk.Button):
+class QuestButton(Gtk.Button):
 
-    def __init__(self, quest_set, quest):
-        super().__init__(label=quest.get_name())
+    _LABEL_FOR_DIFFICULTY = {
+        libquest.Quest.Difficulty.EASY: '★☆☆',
+        libquest.Quest.Difficulty.NORMAL: '★★☆',
+        libquest.Quest.Difficulty.HARD: '★★★',
+    }
 
-        self._quest_set = quest_set
+    def __init__(self, quest):
+        super().__init__(label=self._get_label(quest))
+
+        self.get_style_context().add_class('quest-button')
+
         self._quest = quest
+        self._quest.connect('notify::complete', self._on_quest_complete_changed)
+        self._set_complete()
 
-    def get_quest_set(self):
-        return self._quest_set
+    def _on_quest_complete_changed(self, _quest_set, _param):
+        self._set_complete()
+
+    def _set_complete(self):
+        complete_style = 'complete'
+        style_context = self.get_style_context()
+        if self._quest.complete:
+            style_context.add_class(complete_style)
+        else:
+            style_context.remove_class(complete_style)
+
+    def _get_label(self, quest):
+        difficulty = self._LABEL_FOR_DIFFICULTY[quest.get_difficulty()]
+        return quest.get_name() + ' - difficulty: ' + difficulty
 
     def get_quest(self):
         return self._quest
+
+
+class CharacterMissionButton(QuestButton):
+    def __init__(self, quest_set, quest):
+        super().__init__(quest)
+
+        self._quest_set = quest_set
+
+    def get_quest_set(self):
+        return self._quest_set
 
 
 class QuestSetButton(Gtk.Button):
@@ -915,6 +946,11 @@ class ClubhouseView(Gtk.EventBox):
     def _quest_button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
         new_quest = button.get_quest()
+        easier_quest = quest_set.get_easier_quest(new_quest)
+        if easier_quest is not None:
+            # @todo: Offer easier quest.
+            logger.info('Quest %s is too difficult, try quest %s', new_quest, easier_quest)
+
         return self._accept_quest_message(quest_set, new_quest)
 
     def show_message(self, txt, answer_choices=[], sfx_sound=None):
@@ -1090,27 +1126,6 @@ class InventoryItem(Gtk.Button):
         self._label.set_text(self.item_name)
 
 
-class PathwayQuestButton(Gtk.Button):
-
-    _LABEL_FOR_DIFFICULTY = {
-        libquest.Quest.Difficulty.EASY: '★☆☆',
-        libquest.Quest.Difficulty.NORMAL: '★★☆',
-        libquest.Quest.Difficulty.HARD: '★★★',
-    }
-
-    def __init__(self, quest):
-        super().__init__(label=self._get_label(quest))
-
-        self._quest = quest
-
-    def _get_label(self, quest):
-        difficulty = self._LABEL_FOR_DIFFICULTY[quest.get_difficulty()]
-        return quest.get_name() + ' - difficulty: ' + difficulty
-
-    def get_quest(self):
-        return self._quest
-
-
 class PathwaysView(Gtk.ListBox):
     def __init__(self, app_window):
         super().__init__(visible=True)
@@ -1140,7 +1155,7 @@ class PathwaysView(Gtk.ListBox):
         label.show()
 
         for quest in pathway.get_quests(also_skippable=False):
-            button = PathwayQuestButton(quest)
+            button = QuestButton(quest)
             button.connect('clicked', self._quest_button_clicked_cb)
             vbox.add(button)
             button.show()
