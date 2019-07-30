@@ -589,6 +589,7 @@ class Quest(GObject.GObject):
 
     Difficulty = IntEnum('Difficulty', ['EASY', 'NORMAL', 'HARD'])
     DEFAULT_DIFFICULTY = Difficulty.NORMAL
+    MessageType = Enum('MessageType', ['POPUP', 'NARRATIVE'])
 
     __gsignals__ = {
         'message': (
@@ -1053,8 +1054,8 @@ class Quest(GObject.GObject):
         assert self._run_context is not None
         return self._run_context.pause(secs)
 
-    def wait_confirm(self, msg_id=None, timeout=None):
-        return self.show_confirm_message(msg_id).wait(timeout)
+    def wait_confirm(self, msg_id=None, timeout=None, **options):
+        return self.show_confirm_message(msg_id, **options).wait(timeout)
 
     def get_confirm_action(self):
         assert self._run_context is not None
@@ -1220,6 +1221,11 @@ class Quest(GObject.GObject):
                 sfx_sound = self._main_open_dialog_sound
         bg_sound = options.get('bg_sound')
 
+        if options.get('narrative', False):
+            message_type = self.MessageType.NARRATIVE
+        else:
+            message_type = self.MessageType.POPUP
+
         self.emit('message', {
             'id': info_id,
             'text': options['parsed_text'],
@@ -1228,6 +1234,7 @@ class Quest(GObject.GObject):
             'character_mood': options.get('mood') or self._main_mood,
             'sound_fx': sfx_sound,
             'sound_bg': bg_sound,
+            'type': message_type,
         })
 
     def dismiss_message(self):
