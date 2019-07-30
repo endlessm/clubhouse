@@ -109,7 +109,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkRadioButton">
+              <object class="GtkRadioButton" id="_pathways_button">
                 <property name="label" translatable="yes">Pathways</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
