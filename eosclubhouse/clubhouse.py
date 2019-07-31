@@ -451,7 +451,7 @@ class ClubhouseView(Gtk.EventBox):
 
         Desktop.get_shell_settings().connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
                                              self._settings_changed_cb)
-        self._update_hack_mode_swith_state()
+        self._update_hack_mode_switch_state()
 
         self._gss = GameStateService()
         self._gss_hander_id = self._gss.connect('changed',
@@ -472,7 +472,7 @@ class ClubhouseView(Gtk.EventBox):
 
         return False
 
-    def _update_hack_mode_swith_state(self):
+    def _update_hack_mode_switch_state(self):
         self._on_hack_mode_switch = True
         self._hack_switch.set_active(Desktop.get_hack_mode())
         self._on_hack_mode_switch = False
@@ -487,7 +487,7 @@ class ClubhouseView(Gtk.EventBox):
         Desktop.set_hack_cursor(enabled)
 
     def _settings_changed_cb(self, settings, _key):
-        self._update_hack_mode_swith_state()
+        self._update_hack_mode_switch_state()
 
     def set_scale(self, scale, offset=0):
         self.scale = scale
