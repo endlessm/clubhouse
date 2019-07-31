@@ -1,14 +1,3 @@
 T2LAUNCHER_BEGIN,We are about to launch the game. I hope you like it.,ada,,,
 T2LAUNCHER_END,Enjoy the game. See you later!,ada,,,
 T2LAUNCHER_INSTALL,First you will need to install the T2 game. Come back later!,ada,,,
-T2LAUNCHER_INTRO1,"Good day. I’m Dr. Saniel Rowe, Academy Archivist, and you must be our new remote student.
-It’s a good day when I get to meet a new student - it means there's another person starting the journey to master their world.
-All journeys begin with a single step, and I have one for you that I think you'll enjoy.",saniel,,,
-T2LAUNCHER_INTRO2,"We just finished setting up our connection to another part of the Academy's network, and I’d like your help to test it.",saniel,,,
-T2LAUNCHER_SELECT,Select the mission on my tablet named *Terminal 2 - Network Test*,saniel,,,
-T2LAUNCHER_SELECT_HINT1,It should be right up there near the top of the list.,saniel,,,
-T2LAUNCHER_ACTIVITY_SELECTED,Excellent. We’re off!,saniel,hurray,,
-T2LAUNCHER_OUTRO1,"The connection looks stable, good.
-This Terminal is a set of programs and activities outside the main Academy network.
-Unfortunately, there's only bandwidth for one, so I can't accompany you any further.",saniel,,,
-T2LAUNCHER_OUTRO2,"Enjoy yourself, and don’t hesitate to return to the Clubhouse if you'd like to do something else, or even just to chat.",saniel,,,
