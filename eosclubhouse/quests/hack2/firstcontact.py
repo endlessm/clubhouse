@@ -15,7 +15,6 @@ class FirstContact(Quest):
 
     def setup(self):
         self._app = App(self.APP_NAME)
-
         # This will prevent the quest from ever being shown in the Clubhouse
         # because it should just be run directly (not by the user)
         self.available = False
@@ -83,8 +82,10 @@ class FirstContact(Quest):
         for hint_msg_id in ['GOAL_HINT1', 'GOAL_HINT2']:
             if self._is_app_hacked() or self.is_cancelled():
                 break
-            self.wait_for_app_js_props_changed(self._app, ['mode'], timeout=20)
+            self.wait_for_app_js_props_changed(self._app, ['mode'], timeout=30)
             if not self._is_app_hacked():
+                self.set_conf('puzzle_hint_given', True)
+                self.save_conf()
                 self.show_message(hint_msg_id)
 
         while not self._is_app_hacked() and not self.is_cancelled():
