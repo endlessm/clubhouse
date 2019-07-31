@@ -1619,13 +1619,18 @@ class CharacterMission(QuestSet):
 
     DEFAULT_ANIMATION = 'idle'
     HIGHLIGHTED_ANIMATION = 'hi'
+    HACK_MODE_DISABLED_ANIMATION = 'idle-off'
 
     def __init__(self):
         super().__init__()
         self._position = self.__position__
         self._body_animation = self.DEFAULT_ANIMATION
         self._unhighlighted_body_animation = self.body_animation
+        self._previous_body_animation = None
         self._highlighted = False
+
+        Desktop.get_shell_settings().connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
+                                             self._hack_mode_changed_cb)
 
         for quest in self.get_quests():
             quest.connect('notify',
@@ -1633,6 +1638,19 @@ class CharacterMission(QuestSet):
             quest.connect('dismissed', self._update_highlighted)
 
         self._update_highlighted()
+        self._sync_with_hack_mode()
+
+    def _hack_mode_changed_cb(self, _settings, _key):
+        self._sync_with_hack_mode()
+
+    def _sync_with_hack_mode(self):
+        hack_mode_enabled = Desktop.get_hack_mode()
+        if hack_mode_enabled:
+            if self._previous_body_animation is not None:
+                self.body_animation = self._previous_body_animation
+        else:
+            self._previous_body_animation = self.body_animation
+            self.body_animation = self.HACK_MODE_DISABLED_ANIMATION
 
     @classmethod
     def get_tag(class_):
@@ -1702,6 +1720,7 @@ class CharacterMission(QuestSet):
         return self.get_body_animation()
 
     def set_body_animation(self, body_animation):
+        self._previous_body_animation = self.body_animation
         self._body_animation = body_animation
         self.notify('body-animation')
 
