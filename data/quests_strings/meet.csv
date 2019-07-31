@@ -1,0 +1,30 @@
+MEET_WELCOME1,"Welcome to the world of Hack! Here, you can learn the secrets of the world you live in, and how to make them work for you.
+
+If that sounds magical and mysterious, don't worry - we're here to help you learn.",ada,,,
+MEET_WELCOME2,My name's Ada - I've been around the Academy for a while. I'll be your guide.,ada,,,
+MEET_WELCOME3_NOHINT,That was actually me at the entrance puzzle - I didn't want to distract you by introducing myself.,ada,,,
+MEET_WELCOME3_GOTHINT,Great job on the entrance puzzle! Not many students solve that without help.,ada,hurray,,
+MEET_EXPLAIN_MAIN1,"Now that we're here, there's a lot to go over. This main area is called 'The Clubhouse.'
+
+It's a virtual place where people from The Academy can hang out, chat, and collaborate. 
+
+We might be in different physical locations, but we all come together here.",ada,,,
+MEET_EXPLAIN_MAIN2,Talk to anyone you like - it's the quickest way to start having fun and learning.,ada,,,
+MEET_EXPLAIN_HACK1,"Did you notice that your cursor and desktop are different? That's because we're in Hack Mode now.
+
+When you're in Hack Mode, you can flip programs and hack them - just like that puzzle.",ada,,,
+MEET_EXPLAIN_HACK2,Hack Mode is controlled by that switch *over there* - See it?,ada,,,
+MEET_EXPLAIN_HACK3,"If you switch it to OFF, you’ll go back to the regular desktop - No hacking tools, and it'll shut down the Clubhouse, too.",ada,,,
+MEET_EXPLAIN_HACK4,"You might want to turn Hack Mode off if someone else needs to use the computer, or you need to do your homework.",ada,,,
+MEET_EXPLAIN_PATHWAYS1,"[The button in the upper right] is the Pathways button - if you know exactly what you want to learn or do, go here.",ada,,,
+MEET_EXPLAIN_PATHWAYS2,"Pathways organize all the activities we have into categories, so you can go directly to the one you want.
+",,,,
+MEET_EXPLAIN_PROFILE1,[Over here] is your profile.,ada,,,
+MEET_EXPLAIN_PROFILE2,The system for remote students is still in progress sonn you'll be able to decide who you want to be in the world of Hack - it’s up to you!,ada,,,
+MEET_EXPLAIN_PROFILE3,"That includes your name, {{user_name}}.",ada,,,
+MEET_EXPLAIN_PROFILE4,"If you'd like to change what we call you, you can click the picture in the far lower right corner of your screen.",ada,,,
+MEET_EXPLAIN_PROFILE5,"Then, you can click that same picture again in the menu, and it'll take you to the Settings app.",ada,,,
+MEET_EXPLAIN_PROFILE6,"From there, you can set your name to whatever you like, and we'll use that.",ada,,,
+MEET_END1,"Now that the basics are out of the way, I think Dr. Rowe had an activity for you try.",ada,,,
+MEET_END2,"He's the one with the glasses and big beard, you can't miss him.",ada,,,
+MEET_END3,Catch you later!,ada,,,
