@@ -343,6 +343,11 @@ class QuestSetButton(Gtk.Button):
         self._quest_set.bind_property('visible', self, 'visible',
                                       GObject.BindingFlags.BIDIRECTIONAL |
                                       GObject.BindingFlags.SYNC_CREATE)
+        self._quest_set.bind_property('body-animation', self._character, 'body-animation',
+                                      GObject.BindingFlags.SYNC_CREATE)
+        Desktop.get_shell_settings().bind(Desktop.SETTINGS_HACK_MODE_KEY,
+                                          self, 'sensitive',
+                                          Gio.SettingsBindFlags.DEFAULT)
 
     def reload(self, scale):
         self._scale = scale
