@@ -304,6 +304,7 @@ class Desktop:
         os.makedirs(dirname, exist_ok=True)
         shutil.copy2(src, cursor)
         config = configparser.ConfigParser()
+        config.optionxform = lambda opt: opt
         config.add_section('Icon Theme')
         config.set('Icon Theme', 'Inherits', 'Adwaita')
 
@@ -551,6 +552,7 @@ class App:
             os.mkdir(dirname)
 
         config = configparser.ConfigParser()
+        config.optionxform = lambda opt: opt
         if os.path.exists(filename):
             config.read(filename)
 
