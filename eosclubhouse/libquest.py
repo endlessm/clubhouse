@@ -589,14 +589,14 @@ class Quest(GObject.GObject):
 
     Difficulty = IntEnum('Difficulty', ['EASY', 'NORMAL', 'HARD'])
     DEFAULT_DIFFICULTY = Difficulty.NORMAL
+    MessageType = Enum('MessageType', ['POPUP', 'NARRATIVE'])
 
     __gsignals__ = {
         'message': (
-            GObject.SignalFlags.RUN_FIRST, None, (str, str, GObject.TYPE_PYOBJECT,
-                                                  str, str, str, str)
+            GObject.SignalFlags.RUN_FIRST, None, (GObject.TYPE_PYOBJECT,)
         ),
         'dismiss-message': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
+            GObject.SignalFlags.RUN_FIRST, None, (bool,)
         ),
         'item-given': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str)
@@ -1054,8 +1054,8 @@ class Quest(GObject.GObject):
         assert self._run_context is not None
         return self._run_context.pause(secs)
 
-    def wait_confirm(self, msg_id=None, timeout=None):
-        return self.show_confirm_message(msg_id).wait(timeout)
+    def wait_confirm(self, msg_id=None, timeout=None, **options):
+        return self.show_confirm_message(msg_id, **options).wait(timeout)
 
     def get_confirm_action(self):
         assert self._run_context is not None
@@ -1192,6 +1192,8 @@ class Quest(GObject.GObject):
             # Fallback to the given info_id if no string was found
             if info is None:
                 info = self._get_message_info(info_id)
+            else:
+                info_id = full_info_id
 
             if info is None:
                 raise NoMessageIdError("Can't show message, the message ID " + info_id +
@@ -1219,16 +1221,24 @@ class Quest(GObject.GObject):
                 sfx_sound = self._main_open_dialog_sound
         bg_sound = options.get('bg_sound')
 
-        # @todo: We are passing all the fields of the message
-        # information here, so it would be better to pass the dict
-        # directly.
-        self.emit('message', info_id or '', options['parsed_text'], possible_answers,
-                  options.get('character_id') or self.get_main_character(),
-                  options.get('mood') or self._main_mood,
-                  sfx_sound, bg_sound)
+        if options.get('narrative', False):
+            message_type = self.MessageType.NARRATIVE
+        else:
+            message_type = self.MessageType.POPUP
 
-    def dismiss_message(self):
-        self.emit('dismiss-message')
+        self.emit('message', {
+            'id': info_id,
+            'text': options['parsed_text'],
+            'choices': possible_answers,
+            'character_id': options.get('character_id') or self.get_main_character(),
+            'character_mood': options.get('mood') or self._main_mood,
+            'sound_fx': sfx_sound,
+            'sound_bg': bg_sound,
+            'type': message_type,
+        })
+
+    def dismiss_message(self, narrative=False):
+        self.emit('dismiss-message', narrative)
 
     def reset_hints_given_once(self):
         self._hints_given_once = set()

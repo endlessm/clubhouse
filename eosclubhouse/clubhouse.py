@@ -225,12 +225,12 @@ class Message(Gtk.Overlay):
 
     def _button_clicked_cb(self, button, caller_cb, *user_data):
         caller_cb(*user_data)
-        self.clear_buttons()
 
     def reset(self):
         self._label.set_label('')
         self.set_character(None)
         self.clear_buttons()
+        self.clear_list_buttons()
 
     def clear_buttons(self):
         for child in self._button_box:
@@ -726,24 +726,36 @@ class ClubhouseView(Gtk.EventBox):
     def _quest_item_given_cb(self, quest, item_id, text):
         self._shell_popup_item(item_id, text)
 
-    def _quest_message_cb(self, quest, message_id, message_txt, answer_choices, character_id,
-                          character_mood, sfx_sound, bg_sound):
-        logger.debug('Message %s: %s character_id=%s mood=%s choices=[%s]', message_id, message_txt,
-                     character_id,
-                     character_mood, '|'.join([answer for answer, _cb, *_args in answer_choices]))
+    def _quest_message_cb(self, quest, message):
+        logger.debug('Message %s: %s character_id=%s mood=%s choices=[%s]',
+                     message['id'], message['text'],
+                     message['character_id'], message['character_mood'],
+                     '|'.join([answer for answer, _cb, *_args in message['choices']]))
 
-        self._reset_quest_actions()
+        character = Character.get_or_create(message['character_id'])
+        character.mood = message['character_mood']
 
-        for answer in answer_choices:
-            self._add_quest_action(answer)
+        if message['type'] == libquest.Quest.MessageType.POPUP:
+            self._reset_quest_actions()
 
-        character = Character.get_or_create(character_id)
-        character.mood = character_mood
+            for answer in message['choices']:
+                self._add_quest_action(answer)
 
-        self._shell_popup_message(message_txt, character, sfx_sound, bg_sound)
+            self._shell_popup_message(message['text'], character,
+                                      message['sound_fx'], message['sound_bg'])
 
-    def _quest_dismiss_message_cb(self, quest):
-        self._shell_close_popup_message()
+        elif message['type'] == libquest.Quest.MessageType.NARRATIVE:
+            character = Character.get_or_create(message['character_id'])
+            character.mood = message['character_mood']
+            self._message.set_character(message['character_id'])
+            self.show_message(message['text'], message['choices'], message['sound_fx'])
+            self._overlay_msg_box.show_all()
+
+    def _quest_dismiss_message_cb(self, quest, narrative=False):
+        if not narrative:
+            self._shell_close_popup_message()
+        else:
+            self._message.close()
 
     def _reset_delayed_message(self):
         if self._delayed_message_handler > 0:
@@ -927,10 +939,9 @@ class ClubhouseView(Gtk.EventBox):
         character_id = quest_set.get_character()
         character = Character.get_or_create(character_id)
         character.mood = None
-        self._message.set_character(character_id)
 
-        self._message.clear_buttons()
-        self._message.clear_list_buttons()
+        self._message.reset()
+        self._message.set_character(character_id)
 
         for quest in quest_set.get_quests(also_skippable=False):
             button = CharacterMissionButton(quest_set, quest)
@@ -955,7 +966,7 @@ class ClubhouseView(Gtk.EventBox):
         return self._accept_quest_message(quest_set, new_quest)
 
     def show_message(self, txt, answer_choices=[], sfx_sound=None):
-        self._message.clear_buttons()
+        self._message.reset()
         self._message.set_text(txt)
 
         for answer in answer_choices:
