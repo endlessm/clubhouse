@@ -508,8 +508,10 @@ class App:
 
     def enable_clippy(self, enable=True):
         sandbox = get_flatpak_sandbox()
+        clippy_sandbox = sandbox.replace('app', 'runtime').replace('Clubhouse', 'Clippy.Extension')
+
         filesystems = f'{sandbox}:ro;~/.icons;'
-        clippy = f'{sandbox}/clippy/lib/libclippy-module.so'
+        clippy = f'{clippy_sandbox}/lib/libclippy-module.so'
 
         filename = f'~/.local/share/flatpak/overrides/{self.dbus_name}'
         filename = os.path.expanduser(filename)
