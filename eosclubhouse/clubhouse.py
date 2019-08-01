@@ -415,6 +415,8 @@ class CharacterView(Gtk.Grid):
 
     __gtype_name__ = 'CharacterView'
 
+    MAX_MESSAGES = 2
+
     header_box = Gtk.Template.Child()
     _list = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
@@ -425,6 +427,20 @@ class CharacterView(Gtk.Grid):
         super().__init__(visible=True)
         self._app_window = app_window
         self._animator = Animator(self._character_image)
+
+    def add_message(self, message_info):
+        if len(self._message_list.get_children()) == self.MAX_MESSAGES:
+            row = self._message_list.get_row_at_index(0)
+            self._message_list.remove(row)
+
+        msg = Message()
+        msg.update(message_info)
+        self._message_list.add(msg)
+        return msg
+
+    def clear_messages(self):
+        for row in self._message_list.get_children():
+            self._message_list.remove(row)
 
     def show_mission_list(self, quest_set):
         # Get character
@@ -460,6 +476,7 @@ class CharacterView(Gtk.Grid):
             # @todo: Offer easier quest.
             logger.info('Quest %s is too difficult, try quest %s', new_quest, easier_quest)
 
+        self.clear_messages()
         self._app_window.run_quest(new_quest)
 
 
@@ -828,14 +845,15 @@ class ClubhouseView(Gtk.EventBox):
         elif message_info['type'] == libquest.Quest.MessageType.NARRATIVE:
             character = Character.get_or_create(message_info['character_id'])
             character.mood = message_info['character_mood']
-            self._message.update(message_info)
-            self._overlay_msg_box.show_all()
+            msg = self._app_window.character.add_message(message_info)
+            msg.show()
 
     def _quest_dismiss_message_cb(self, quest, narrative=False):
         if not narrative:
             self._shell_close_popup_message()
         else:
             self._message.close()
+            self._app_window.character.clear_messages()
 
     def _reset_delayed_message(self):
         if self._delayed_message_handler > 0:
