@@ -504,7 +504,7 @@ class App:
     def pulse_flip_to_hack_button(self, enable):
         app = HackableAppsManager.get_hackable_app(self._app_dbus_name)
         if app:
-            app.pulse_flip_to_hack_button(enable)
+            app.pulse_flip_to_hack_button = enable
 
     def enable_clippy(self, enable=True):
         sandbox = get_flatpak_sandbox()
