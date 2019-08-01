@@ -200,7 +200,7 @@ class Message(Gtk.Overlay):
         self.close()
 
     def set_text(self, txt):
-        self._label.set_label(txt)
+        self._label.set_markup(SimpleMarkupParser.parse(txt))
 
     def get_text(self):
         return self._label.get_label()
@@ -1103,6 +1103,7 @@ class InventoryItem(Gtk.Button):
         vbox.add(self._image)
 
         self._label = Gtk.Label(wrap=True,
+                                use_markup=True,
                                 max_width_chars=15,
                                 hexpand=False,
                                 halign=Gtk.Align.CENTER,
