@@ -81,21 +81,21 @@
       </object>
     </child>
     <child type="titlebar">
-      <object class="GtkHeaderBar">
+      <object class="GtkHeaderBar" id="_headerbar">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">start</property>
         <child type="title">
-          <object class="GtkButtonBox">
+          <object class="GtkBox" id="_headerbar_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">start</property>
             <property name="hexpand">True</property>
-            <property name="layout_style">spread</property>
             <child>
               <object class="GtkRadioButton" id="clubhouse_button">
                 <property name="label" translatable="yes">Clubhouse</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="action_name">app.show-page</property>
                 <property name="action_target">'CLUBHOUSE'</property>
@@ -112,10 +112,11 @@
               <object class="GtkRadioButton">
                 <property name="label" translatable="yes">Pathways</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="action_name">app.show-page</property>
                 <property name="action_target">'PATHWAYS'</property>
+                <property name="active">True</property>
                 <property name="draw_indicator">False</property>
                 <property name="group">clubhouse_button</property>
               </object>
@@ -129,10 +130,11 @@
               <object class="GtkRadioButton">
                 <property name="label" translatable="yes">Inventory</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="action_name">app.show-page</property>
                 <property name="action_target">'INVENTORY'</property>
+                <property name="active">True</property>
                 <property name="draw_indicator">False</property>
                 <property name="group">clubhouse_button</property>
               </object>
@@ -142,6 +144,9 @@
                 <property name="position">2</property>
               </packing>
             </child>
+            <style>
+              <class name="headerbar-buttonbox"/>
+            </style>
           </object>
         </child>
         <child>
