@@ -108,7 +108,6 @@ class FirstContact(Quest):
 
     def enter_hack_mode(self):
         Desktop.set_hack_cursor(True)
-        Desktop.set_dark_theme(True)
         return self.step_show_clubhouse
 
     def step_show_clubhouse(self):

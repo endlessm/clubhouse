@@ -485,7 +485,6 @@ class ClubhouseView(Gtk.EventBox):
         Desktop.set_hack_mode(enabled)
         Desktop.set_hack_background(enabled)
         Desktop.set_hack_cursor(enabled)
-        Desktop.set_dark_theme(enabled)
 
     def _settings_changed_cb(self, settings, _key):
         self._update_hack_mode_switch_state()

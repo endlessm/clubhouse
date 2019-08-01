@@ -278,7 +278,6 @@ class Desktop:
         os.makedirs(dirname, exist_ok=True)
         shutil.copy2(src, cursor)
         config = configparser.ConfigParser()
-
         config.add_section('Icon Theme')
         config.set('Icon Theme', 'Inherits', 'Adwaita')
 
@@ -297,48 +296,6 @@ class Desktop:
             interface.set_string('cursor-theme', klass.HACK_CURSOR)
         else:
             interface.reset('cursor-theme')
-
-    @classmethod
-    def set_dark_theme(klass, enabled):
-        ''' This changes the theme to Adwaita-dark '''
-
-        dirname = os.path.expanduser('~/.config/gtk-3.0')
-        flatpak_dir = os.path.expanduser('~/.local/share/flatpak/overrides')
-
-        settings = os.path.join(dirname, 'settings.ini')
-        overrides = os.path.join(flatpak_dir, 'global')
-
-        os.makedirs(dirname, exist_ok=True)
-        os.makedirs(flatpak_dir, exist_ok=True)
-
-        config = configparser.ConfigParser()
-        if os.path.exists(settings):
-            config.read(settings)
-
-        if not config.has_section('Settings'):
-            config.add_section('Settings')
-
-        config.set('Settings',
-                   'gtk-application-prefer-dark-theme',
-                   '{}'.format(1 if enabled else 0))
-
-        with open(settings, 'w') as f:
-            config.write(f)
-
-        config = configparser.ConfigParser()
-        config.optionxform = str
-        if os.path.exists(overrides):
-            config.read(overrides)
-
-        if enabled:
-            if not config.has_section('Environment'):
-                config.add_section('Environment')
-            config.set('Environment', 'GTK_THEME', 'Adwaita:dark')
-        elif config.has_option('Environment', 'GTK_THEME'):
-            config.remove_option('Environment', 'GTK_THEME')
-
-        with open(overrides, 'w') as f:
-            config.write(f)
 
     @classmethod
     def get_hack_mode(klass):
