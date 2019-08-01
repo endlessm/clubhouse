@@ -85,6 +85,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">start</property>
+        <signal name="size-allocate" handler="_on_headerbar_size_allocated" swapped="no"/>
         <child type="title">
           <object class="GtkBox" id="_headerbar_box">
             <property name="visible">True</property>
@@ -158,11 +159,49 @@
             <property name="receives_default">True</property>
             <property name="relief">none</property>
             <child>
-              <object class="GtkOverlay" id="user_button_overlay">
+              <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
+                  <object class="GtkOverlay" id="user_button_overlay">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="_padding">
+                        <property name="name">padding</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                      </object>
+                      <packing>
+                        <property name="index">-1</property>
+                      </packing>
+                    </child>
+                    <child type="overlay">
+                      <object class="GtkImage" id="_user_image">
+                        <property name="name">image</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="pixel_size">64</property>
+                        <property name="icon_name">face-monkey</property>
+                        <property name="icon_size">6</property>
+                      </object>
+                      <packing>
+                        <property name="pass_through">True</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkLabel" id="_user_label">
+                    <property name="name">label</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="valign">center</property>
@@ -172,20 +211,9 @@
                     <property name="track_visited_links">False</property>
                   </object>
                   <packing>
-                    <property name="index">-1</property>
-                  </packing>
-                </child>
-                <child type="overlay">
-                  <object class="GtkImage" id="_user_image">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="pixel_size">64</property>
-                    <property name="icon_name">face-monkey</property>
-                    <property name="icon_size">6</property>
-                  </object>
-                  <packing>
-                    <property name="pass_through">True</property>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>
@@ -223,7 +251,7 @@
     </style>
   </template>
   <object class="GtkSizeGroup">
-    <property name="mode">vertical</property>
+    <property name="mode">both</property>
     <widgets>
       <widget name="user_button_overlay"/>
       <widget name="_user_image"/>
