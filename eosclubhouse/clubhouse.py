@@ -357,6 +357,11 @@ class QuestSetButton(Gtk.Button):
         self._quest_set.bind_property('visible', self, 'visible',
                                       GObject.BindingFlags.BIDIRECTIONAL |
                                       GObject.BindingFlags.SYNC_CREATE)
+        self._quest_set.bind_property('body-animation', self._character, 'body-animation',
+                                      GObject.BindingFlags.SYNC_CREATE)
+        Desktop.get_shell_settings().bind(Desktop.SETTINGS_HACK_MODE_KEY,
+                                          self, 'sensitive',
+                                          Gio.SettingsBindFlags.DEFAULT)
 
     def reload(self, scale):
         self._scale = scale
@@ -512,6 +517,18 @@ class ClubhouseView(Gtk.EventBox):
         self._gss_hander_id = self._gss.connect('changed',
                                                 lambda _gss: self._update_episode_if_needed())
 
+    def sync_with_hack_mode(self):
+        hack_mode_enabled = Desktop.get_hack_mode()
+        # Style.
+        style_context = self.get_style_context()
+        style_context.add_class('transitionable-background')
+        if hack_mode_enabled:
+            style_context.add_class('clubhouse-view')
+            style_context.remove_class('clubhouse-view-off')
+        else:
+            style_context.remove_class('clubhouse-view')
+            style_context.add_class('clubhouse-view-off')
+
     def _on_window_visibility_changed(self, _window, _param):
         if not self._app_window.props.visible:
             self._overlay_msg_box.hide()
@@ -537,9 +554,13 @@ class ClubhouseView(Gtk.EventBox):
         if self._on_hack_mode_switch:
             return
         enabled = self._hack_switch.get_active()
+        if not enabled:
+            self.stop_quest()
+            self._overlay_msg_box.hide()
         Desktop.set_hack_mode(enabled)
         Desktop.set_hack_background(enabled)
         Desktop.set_hack_cursor(enabled)
+        self._app_window.sync_with_hack_mode()
 
     def _settings_changed_cb(self, settings, _key):
         self._update_hack_mode_switch_state()
@@ -1591,6 +1612,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _pathways_sw = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
 
+    _pathways_button = Gtk.Template.Child()
+
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
 
@@ -1603,6 +1626,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.pathways = PathwaysView(self)
         self.inventory = InventoryView(self)
         self.character = CharacterView(self)
+        self.sync_with_hack_mode()
 
         self._clubhouse_page.pack_start(self.clubhouse, True, True, 0)
         self._inventory_page.pack_start(self.inventory, True, True, 0)
@@ -1616,6 +1640,22 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.update_user_info()
         self._on_screen_changed(self, None)
         self.connect('screen-changed', self._on_screen_changed)
+
+    def sync_with_hack_mode(self):
+        hack_mode_enabled = Desktop.get_hack_mode()
+
+        self.clubhouse.sync_with_hack_mode()
+        self._pathways_button.props.sensitive = hack_mode_enabled
+
+        # Style.
+        ctx = self.get_titlebar().get_style_context()
+        ctx.add_class('transitionable-background')
+        if hack_mode_enabled:
+            ctx.remove_class('CLUBHOUSE-off')
+            ctx.add_class('CLUBHOUSE')
+        else:
+            ctx.remove_class('CLUBHOUSE')
+            ctx.add_class('CLUBHOUSE-off')
 
     def _on_screen_size_changed(self, screen):
         BG_WIDTH = 1200
@@ -1670,7 +1710,17 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         # Set a different headerbar css class depending on the page
         ctx = self._headerbar.get_style_context()
         ctx.remove_class(current_page)
-        ctx.add_class(new_page)
+
+        # Avoid transition between other tabs with the Clubhouse view tab.
+        ctx.remove_class('{}-off'.format(current_page))
+        ctx.remove_class('transitionable-background')
+        style_class = new_page
+        if self._stack.get_child_by_name(new_page) == self._clubhouse_page:
+            hack_mode_enabled = Desktop.get_hack_mode()
+            if not hack_mode_enabled:
+                style_class = '{}-off'.format(new_page)
+
+        ctx.add_class(style_class)
 
         page = self._stack.get_child_by_name(new_page)
 
