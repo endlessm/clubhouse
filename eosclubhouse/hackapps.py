@@ -87,6 +87,28 @@ class HackableApp(GObject.Object):
             return False
         return True
 
+    def _get_pulse_flip_to_hack_button(self):
+        try:
+            variant = GLib.Variant('(ss)', (self._INTERFACE_NAME, 'PulseFlipToHackButton'))
+            return self.get_properties_proxy().call_sync('Get', variant,
+                                                         Gio.DBusCallFlags.NONE, -1, None)
+        except GLib.Error as e:
+            logger.error(e)
+        return None
+
+    def _set_pulse_flip_to_hack_button(self, value):
+        try:
+            variant = GLib.Variant('(ssv)', (self._INTERFACE_NAME,
+                                             'PulseFlipToHackButton',
+                                             GLib.Variant('b', value)))
+            self.get_properties_proxy().call_sync('Set', variant,
+                                                  Gio.DBusCallFlags.NONE, -1,
+                                                  None)
+        except GLib.Error as e:
+            logger.error(e)
+            return False
+        return True
+
     toolbox_visible = \
         GObject.Property(getter=_get_toolbox_visible,
                          setter=_set_toolbox_visible,
@@ -97,8 +119,11 @@ class HackableApp(GObject.Object):
         GObject.Property(getter=_get_app_id, type=str,
                          flags=GObject.ParamFlags.READABLE)
 
-    def pulse_flip_to_hack_button(self, enable):
-        return self.get_proxy().PulseFlipToHackButton('(b)', enable)
+    pulse_flip_to_hack_button = \
+        GObject.Property(getter=_get_pulse_flip_to_hack_button,
+                         setter=_set_pulse_flip_to_hack_button,
+                         type=object,
+                         flags=GObject.ParamFlags.READWRITE)
 
 
 class HackableAppsManager:
