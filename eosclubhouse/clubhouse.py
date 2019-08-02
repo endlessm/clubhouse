@@ -484,6 +484,10 @@ class CharacterView(Gtk.Grid):
             msg.display_character(True)
             msg.props.halign = Gtk.Align.END
 
+        # Hide actions on old messages.
+        for row in self._message_list.get_children()[:-1]:
+            row.get_child().clear_buttons()
+
         return msg
 
     def clear_messages(self):
