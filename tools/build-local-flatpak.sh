@@ -24,6 +24,7 @@ GIT_CLONE_BRANCH=${GIT_CLONE_BRANCH:-'", "type": "dir'}
 REPO=${REPO:-repo}
 BRANCH=${BRANCH:-master}
 RUN_LINT=${CLUBHOUSE_BUILD_RUN_LINT:-true}
+RUN_TESTS=${CLUBHOUSE_BUILD_RUN_TESTS:-true}
 
 pre_commit_target=$(readlink "$precommit_hook_path") || true
 if [ "$pre_commit_target" = "$precommit_hook_file" ]; then
@@ -32,6 +33,7 @@ fi
 
 sed -e "s|@GIT_CLONE_BRANCH@|${GIT_CLONE_BRANCH}|g" \
     -e "s|@BRANCH@|${BRANCH}|g" \
+    -e "s|@RUN_TESTS@|${RUN_TESTS}|g" \
     -e "s|-Drun-lint=true|-Drun-lint=$RUN_LINT|g" \
   com.endlessm.Clubhouse.json.in > com.endlessm.Clubhouse.json
 
