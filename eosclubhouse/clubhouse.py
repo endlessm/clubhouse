@@ -273,6 +273,20 @@ class Message(Gtk.Overlay):
 
         self._animator.play(animation_id)
 
+    def update(self, message):
+        self.reset()
+        self.set_text(message.get('text', ''))
+        self.set_character(message.get('character_id'))
+
+        for answer in message.get('choices', []):
+            self.add_button(answer[0], *answer[1:])
+
+        # @todo: bg sounds are not supported yet.
+        sfx_sound = message.get('sound_fx')
+        if not sfx_sound:
+            sfx_sound = self.OPEN_DIALOG_SOUND
+        Sound.play(sfx_sound)
+
 
 class QuestButton(Gtk.Button):
 
@@ -586,13 +600,13 @@ class ClubhouseView(Gtk.EventBox):
         if quest_set is not None:
             quest_set.highlighted = False
 
-        self._message.reset()
-        self._message.set_character(self._current_quest.get_main_character())
-
         msg, continue_label, stop_label = self._current_quest.get_continue_info()
-        self.show_message(msg,
-                          [(continue_label, self._continue_quest, self._current_quest),
-                           (stop_label, self._stop_quest_from_message, self._current_quest)])
+        self._message.update({
+            'text': msg,
+            'choices': [(continue_label, self._continue_quest, self._current_quest),
+                        (stop_label, self._stop_quest_from_message, self._current_quest)],
+            'character_id': self._current_quest.get_main_character()
+        })
 
         self._overlay_msg_box.show_all()
 
@@ -640,26 +654,32 @@ class ClubhouseView(Gtk.EventBox):
             character_id = quest_set.get_character()
             character = Character.get_or_create(character_id)
             character.mood = None
-            self._message.set_character(character_id)
 
             msg_text = quest_set.get_empty_message()
+
             # If a QuestSet has overridden the empty message to be None, then don't
             # show anything
             if msg_text is None:
+                self._message.set_character(character_id)
                 return
-
-            self.show_message(msg_text, [('Ok', self._message.close)])
+            else:
+                self._message.update({
+                    'text': msg_text,
+                    'choices': [('Ok', self._message.close)],
+                    'character_id': character_id
+                })
         else:
             character_id = new_quest.get_main_character()
             character = Character.get_or_create(character_id)
             character.mood = new_quest.proposal_mood
-            self._message.set_character(character_id)
-
-            self.show_message(new_quest.proposal_message,
-                              [(new_quest.accept_label, self._accept_quest_message, quest_set,
-                                new_quest),
-                               (new_quest.reject_label, self._message.close)],
-                              new_quest.proposal_sound)
+            self._message.update({
+                'text': new_quest.proposal_message,
+                'choices': [(new_quest.accept_label, self._accept_quest_message, quest_set,
+                             new_quest),
+                            (new_quest.reject_label, self._message.close)],
+                'character_id': character_id,
+                'sound_fx': new_quest.proposal_sound
+            })
 
         self._overlay_msg_box.show_all()
 
@@ -789,8 +809,7 @@ class ClubhouseView(Gtk.EventBox):
         elif message['type'] == libquest.Quest.MessageType.NARRATIVE:
             character = Character.get_or_create(message['character_id'])
             character.mood = message['character_mood']
-            self._message.set_character(message['character_id'])
-            self.show_message(message['text'], message['choices'], message['sound_fx'])
+            self._message.update(message)
             self._overlay_msg_box.show_all()
 
     def _quest_dismiss_message_cb(self, quest, narrative=False):
@@ -974,20 +993,6 @@ class ClubhouseView(Gtk.EventBox):
         Sound.play('quests/key-given')
 
         self._app.send_quest_item_notification(notification)
-
-    def show_message(self, txt, answer_choices=[], sfx_sound=None):
-        self._message.clear_buttons()
-        self._message.set_text(txt)
-
-        for answer in answer_choices:
-            self._message.add_button(answer[0], *answer[1:])
-
-        # @todo: bg sounds are not supported yet.
-        if not sfx_sound:
-            sfx_sound = self._message.OPEN_DIALOG_SOUND
-        Sound.play(sfx_sound)
-
-        return self._message
 
     def _reset_quest_actions(self):
         # We need to maintain the order of the quest actions, so we use an OrderedDict here.
