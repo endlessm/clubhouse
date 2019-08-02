@@ -359,9 +359,7 @@ class QuestSetButton(Gtk.Button):
                                       GObject.BindingFlags.SYNC_CREATE)
         self._quest_set.bind_property('body-animation', self._character, 'body-animation',
                                       GObject.BindingFlags.SYNC_CREATE)
-        Desktop.get_shell_settings().bind(Desktop.SETTINGS_HACK_MODE_KEY,
-                                          self, 'sensitive',
-                                          Gio.SettingsBindFlags.DEFAULT)
+        Desktop.shell_settings_bind(Desktop.SETTINGS_HACK_MODE_KEY, self, 'sensitive')
 
     def reload(self, scale):
         self._scale = scale
@@ -509,8 +507,8 @@ class ClubhouseView(Gtk.EventBox):
 
         self.add_tick_callback(AnimationSystem.step)
 
-        Desktop.get_shell_settings().connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
-                                             self._settings_changed_cb)
+        Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
+                                       self._settings_changed_cb)
         self._update_hack_mode_switch_state()
 
         self._gss = GameStateService()

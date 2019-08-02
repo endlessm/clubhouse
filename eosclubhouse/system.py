@@ -35,7 +35,7 @@ from gi.repository import GLib, GObject, Gio, Json
 
 
 class Desktop:
-
+    SHELL_SETTINGS_SCHEMA_ID = 'org.gnome.shell'
     SETTINGS_HACK_MODE_KEY = 'hack-mode-enabled'
     HACK_BACKGROUND = 'file://{}/share/backgrounds/Desktop-BGs-Beta-Sketch_Blue.png'\
         .format(get_flatpak_sandbox())
@@ -59,6 +59,7 @@ class Desktop:
     _shell_app_store_proxy = None
     _shell_proxy = None
     _shell_settings = None
+    _shell_schema = None
 
     @classmethod
     def get_dbus_proxy(klass):
@@ -233,11 +234,36 @@ class Desktop:
         return shell_proxy.disconnect(handler_id)
 
     @classmethod
+    def shell_settings_bind(klass, key, target_object, target_property,
+                            flags=Gio.SettingsBindFlags.DEFAULT):
+        settings = klass.get_shell_settings()
+        if settings:
+            settings.bind(key, target_object, target_property, flags)
+
+    @classmethod
+    def shell_settings_connect(klass, signal_name, callback, *args):
+        settings = klass.get_shell_settings()
+        if not settings:
+            return 0
+        return settings.connect(signal_name, callback, *args)
+
+    @classmethod
     def get_shell_settings(klass):
-        if klass._shell_settings is None:
-            klass._shell_settings = Gio.Settings('org.gnome.shell')
+        if not klass._get_shell_schema():
+            klass._shell_settings = None
+        elif klass._shell_settings is None:
+            klass._shell_settings = Gio.Settings(klass.SHELL_SETTINGS_SCHEMA_ID)
 
         return klass._shell_settings
+
+    @classmethod
+    def _get_shell_schema(klass):
+        schema_source = Gio.SettingsSchemaSource.get_default()
+        if klass._shell_schema is None:
+            klass._shell_schema = schema_source.lookup(klass.SHELL_SETTINGS_SCHEMA_ID, False)
+        if klass._shell_schema is None:
+            logger.warning('Schema \'%s\' not found.', klass.SHELL_SETTINGS_SCHEMA_ID)
+        return klass._shell_schema
 
     @classmethod
     def set_hack_background(klass, enabled):
@@ -299,15 +325,22 @@ class Desktop:
 
     @classmethod
     def get_hack_mode(klass):
+        shell_settings = klass.get_shell_settings()
+        if not shell_settings:
+            return False
         return klass.get_shell_settings().get_boolean(klass.SETTINGS_HACK_MODE_KEY)
 
     @classmethod
     def set_hack_mode(klass, enabled):
         # Override clippy apps
+        shell_settings = klass.get_shell_settings()
+        if not shell_settings:
+            return
+
         for name in klass.CLIPPY_APPS:
             App(name).enable_clippy(enabled)
 
-        return klass.get_shell_settings().set_boolean(klass.SETTINGS_HACK_MODE_KEY, enabled)
+        return shell_settings.set_boolean(klass.SETTINGS_HACK_MODE_KEY, enabled)
 
 
 class App:

@@ -1629,9 +1629,8 @@ class CharacterMission(QuestSet):
         self._previous_body_animation = None
         self._highlighted = False
 
-        Desktop.get_shell_settings().connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
-                                             self._hack_mode_changed_cb)
-
+        Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
+                                       self._hack_mode_changed_cb)
         for quest in self.get_quests():
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
