@@ -243,6 +243,9 @@ class Message(Gtk.Overlay):
         Sound.play('clubhouse/dialog/close')
         self.emit('closed')
 
+    def display_character(self, display):
+        self._character_image.props.visible = display
+
     def set_character(self, character_id):
         if self._character:
             if self._character.id == character_id:
@@ -416,9 +419,12 @@ class CharacterView(Gtk.Grid):
     __gtype_name__ = 'CharacterView'
 
     MAX_MESSAGES = 2
+    MIN_MESSAGE_WIDTH = 320
+    MIN_MESSAGE_WIDTH_RATIO = 0.8
 
     header_box = Gtk.Template.Child()
     _list = Gtk.Template.Child()
+    _character_overlay = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
     _character_button = Gtk.Template.Child()
     _message_list = Gtk.Template.Child()
@@ -429,6 +435,10 @@ class CharacterView(Gtk.Grid):
         self._animator = Animator(self._character_image)
 
     def add_message(self, message_info):
+        current_quest = self._app_window.clubhouse._get_running_quest()
+        if not current_quest:
+            return
+
         if len(self._message_list.get_children()) == self.MAX_MESSAGES:
             row = self._message_list.get_row_at_index(0)
             self._message_list.remove(row)
@@ -436,6 +446,19 @@ class CharacterView(Gtk.Grid):
         msg = Message()
         msg.update(message_info)
         self._message_list.add(msg)
+
+        overlay_width = self._character_overlay.get_allocation().width
+        msg.props.width_request = \
+            min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
+                                   overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
+
+        if message_info.get('character_id') == current_quest.get_main_character():
+            msg.display_character(False)
+            msg.props.halign = Gtk.Align.START
+        else:
+            msg.display_character(True)
+            msg.props.halign = Gtk.Align.END
+
         return msg
 
     def clear_messages(self):
