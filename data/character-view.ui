@@ -7,7 +7,7 @@
     <property name="can_focus">False</property>
     <property name="column_homogeneous">True</property>
     <child>
-      <object class="GtkOverlay">
+      <object class="GtkOverlay" id="_character_overlay">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="vexpand">True</property>
@@ -27,6 +27,7 @@
             <property name="can_focus">True</property>
             <property name="valign">end</property>
             <property name="window_placement">bottom-left</property>
+            <property name="min_content_height">320</property>
             <child>
               <object class="GtkViewport">
                 <property name="visible">True</property>
@@ -35,6 +36,7 @@
                   <object class="GtkListBox" id="_message_list">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="valign">end</property>
                     <property name="selection_mode">none</property>
                   </object>
                 </child>

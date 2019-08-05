@@ -243,6 +243,9 @@ class Message(Gtk.Overlay):
         Sound.play('clubhouse/dialog/close')
         self.emit('closed')
 
+    def display_character(self, display):
+        self._character_image.props.visible = display
+
     def set_character(self, character_id):
         if self._character:
             if self._character.id == character_id:
@@ -273,16 +276,16 @@ class Message(Gtk.Overlay):
 
         self._animator.play(animation_id)
 
-    def update(self, message):
+    def update(self, message_info):
         self.reset()
-        self.set_text(message.get('text', ''))
-        self.set_character(message.get('character_id'))
+        self.set_text(message_info.get('text', ''))
+        self.set_character(message_info.get('character_id'))
 
-        for answer in message.get('choices', []):
+        for answer in message_info.get('choices', []):
             self.add_button(answer[0], *answer[1:])
 
         # @todo: bg sounds are not supported yet.
-        sfx_sound = message.get('sound_fx')
+        sfx_sound = message_info.get('sound_fx')
         if not sfx_sound:
             sfx_sound = self.OPEN_DIALOG_SOUND
         Sound.play(sfx_sound)
@@ -415,8 +418,13 @@ class CharacterView(Gtk.Grid):
 
     __gtype_name__ = 'CharacterView'
 
+    MAX_MESSAGES = 2
+    MIN_MESSAGE_WIDTH = 320
+    MIN_MESSAGE_WIDTH_RATIO = 0.8
+
     header_box = Gtk.Template.Child()
     _list = Gtk.Template.Child()
+    _character_overlay = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
     _character_button = Gtk.Template.Child()
     _message_list = Gtk.Template.Child()
@@ -425,6 +433,37 @@ class CharacterView(Gtk.Grid):
         super().__init__(visible=True)
         self._app_window = app_window
         self._animator = Animator(self._character_image)
+
+    def add_message(self, message_info):
+        current_quest = self._app_window.clubhouse._get_running_quest()
+        if not current_quest:
+            return
+
+        if len(self._message_list.get_children()) == self.MAX_MESSAGES:
+            row = self._message_list.get_row_at_index(0)
+            self._message_list.remove(row)
+
+        msg = Message()
+        msg.update(message_info)
+        self._message_list.add(msg)
+
+        overlay_width = self._character_overlay.get_allocation().width
+        msg.props.width_request = \
+            min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
+                                   overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
+
+        if message_info.get('character_id') == current_quest.get_main_character():
+            msg.display_character(False)
+            msg.props.halign = Gtk.Align.START
+        else:
+            msg.display_character(True)
+            msg.props.halign = Gtk.Align.END
+
+        return msg
+
+    def clear_messages(self):
+        for row in self._message_list.get_children():
+            self._message_list.remove(row)
 
     def show_mission_list(self, quest_set):
         # Get character
@@ -460,6 +499,7 @@ class CharacterView(Gtk.Grid):
             # @todo: Offer easier quest.
             logger.info('Quest %s is too difficult, try quest %s', new_quest, easier_quest)
 
+        self.clear_messages()
         self._app_window.run_quest(new_quest)
 
 
@@ -807,35 +847,36 @@ class ClubhouseView(Gtk.EventBox):
     def _quest_item_given_cb(self, quest, item_id, text):
         self._shell_popup_item(item_id, text)
 
-    def _quest_message_cb(self, quest, message):
+    def _quest_message_cb(self, quest, message_info):
         logger.debug('Message %s: %s character_id=%s mood=%s choices=[%s]',
-                     message['id'], message['text'],
-                     message['character_id'], message['character_mood'],
-                     '|'.join([answer for answer, _cb, *_args in message['choices']]))
+                     message_info['id'], message_info['text'],
+                     message_info['character_id'], message_info['character_mood'],
+                     '|'.join([answer for answer, _cb, *_args in message_info['choices']]))
 
-        character = Character.get_or_create(message['character_id'])
-        character.mood = message['character_mood']
+        character = Character.get_or_create(message_info['character_id'])
+        character.mood = message_info['character_mood']
 
-        if message['type'] == libquest.Quest.MessageType.POPUP:
+        if message_info['type'] == libquest.Quest.MessageType.POPUP:
             self._reset_quest_actions()
 
-            for answer in message['choices']:
+            for answer in message_info['choices']:
                 self._add_quest_action(answer)
 
-            self._shell_popup_message(message['text'], character,
-                                      message['sound_fx'], message['sound_bg'])
+            self._shell_popup_message(message_info['text'], character,
+                                      message_info['sound_fx'], message_info['sound_bg'])
 
-        elif message['type'] == libquest.Quest.MessageType.NARRATIVE:
-            character = Character.get_or_create(message['character_id'])
-            character.mood = message['character_mood']
-            self._message.update(message)
-            self._overlay_msg_box.show_all()
+        elif message_info['type'] == libquest.Quest.MessageType.NARRATIVE:
+            character = Character.get_or_create(message_info['character_id'])
+            character.mood = message_info['character_mood']
+            msg = self._app_window.character.add_message(message_info)
+            msg.show()
 
     def _quest_dismiss_message_cb(self, quest, narrative=False):
         if not narrative:
             self._shell_close_popup_message()
         else:
             self._message.close()
+            self._app_window.character.clear_messages()
 
     def _reset_delayed_message(self):
         if self._delayed_message_handler > 0:
