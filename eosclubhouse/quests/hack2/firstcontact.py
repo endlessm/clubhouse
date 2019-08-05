@@ -103,6 +103,7 @@ class FirstContact(Quest):
 
     def step_wait_for_finish(self):
         Desktop.set_hack_background(True)
+        App.override_clippy()
         self.connect_app_quit(self._app).wait()
         return self.enter_hack_mode
 

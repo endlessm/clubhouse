@@ -42,18 +42,6 @@ class Desktop:
 
     HACK_CURSOR = 'cursor-glitchy'
 
-    # Apps ids to override flatpak GTK3_MODULES with libclippy
-    CLIPPY_APPS = [
-        'com.endlessm.dinosaurs.en',
-        'com.endlessm.encyclopedia.en',
-        'com.endlessm.Fizzics',
-        'com.endlessm.Hackdex_chapter_one',
-        'com.endlessm.Hackdex_chapter_two',
-        'com.endlessm.LightSpeed',
-        'com.endlessm.OperatingSystemApp',
-        'com.endlessm.Sidetrack',
-    ]
-
     _dbus_proxy = None
     _app_launcher_proxy = None
     _shell_app_store_proxy = None
@@ -303,16 +291,24 @@ class Desktop:
 
     @classmethod
     def set_hack_mode(klass, enabled):
-        # Override clippy apps
-        for name in klass.CLIPPY_APPS:
-            App(name).enable_clippy(enabled)
-
         return klass.get_shell_settings().set_boolean(klass.SETTINGS_HACK_MODE_KEY, enabled)
 
 
 class App:
 
     APP_JS_PARAMS = 'view.JSContext.globalParameters'
+
+    # Apps ids to override flatpak GTK3_MODULES with libclippy
+    CLIPPY_APPS = [
+        'com.endlessm.dinosaurs.en',
+        'com.endlessm.encyclopedia.en',
+        'com.endlessm.Fizzics',
+        'com.endlessm.Hackdex_chapter_one',
+        'com.endlessm.Hackdex_chapter_two',
+        'com.endlessm.LightSpeed',
+        'com.endlessm.OperatingSystemApp',
+        'com.endlessm.Sidetrack',
+    ]
 
     _clippy = None
     _gtk_app_proxy = None
@@ -506,7 +502,7 @@ class App:
         if app:
             app.pulse_flip_to_hack_button = enable
 
-    def enable_clippy(self, enable=True):
+    def enable_clippy(self):
         sandbox = get_flatpak_sandbox()
         filesystems = f'{sandbox}:ro;~/.icons;'
         clippy = f'{sandbox}/clippy/lib/libclippy-module.so'
@@ -527,19 +523,20 @@ class App:
             ('Environment', 'GTK3_MODULES'): clippy,
         }
 
-        if enable:
-            for key, value in options.items():
-                section, option = key
-                if not config.has_section(section):
-                    config.add_section(section)
-                config.set(section, option, value)
-        else:
-            for section, option in options:
-                if config.has_option(section, option):
-                    config.remove_option(section, option)
+        for key, value in options.items():
+            section, option = key
+            if not config.has_section(section):
+                config.add_section(section)
+            config.set(section, option, value)
 
         with open(filename, 'w') as f:
             config.write(f)
+
+    @classmethod
+    def override_clippy(klass):
+        # Override clippy apps
+        for name in klass.CLIPPY_APPS:
+            klass(name).enable_clippy()
 
 
 class GameStateService(GObject.GObject):
