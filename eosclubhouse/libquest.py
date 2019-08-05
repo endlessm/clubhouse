@@ -122,6 +122,13 @@ class Registry:
         return [q for q in class_._quest_sets if isinstance(q, CharacterMission)]
 
     @classmethod
+    def get_character_mission_for_character(class_, character_id):
+        for qs in class_.get_character_missions():
+            if qs.get_character() == character_id:
+                return qs
+        return None
+
+    @classmethod
     def get_character_mission_for_quest(class_, quest):
         # Note: this assumes that the character missions don't share
         # quests. If not, it will return the first mission matching.
@@ -1515,6 +1522,23 @@ class Quest(GObject.GObject):
             episode_name = self._next_episode_name
 
         Registry.set_current_episode(episode_name)
+
+    def highlight_character(self, character_id=None):
+        if character_id is not None:
+            character_mission = Registry.get_character_mission_for_character(character_id)
+            if character_mission is None:
+                logger.warning('Quest "%s" is trying to highlight character "%s", but there is'
+                               ' no such character mission.', self, character_id)
+                return
+
+        else:
+            character_mission = Registry.get_character_mission_for_quest(self)
+            if character_mission is None:
+                logger.warning('Quest "%s" is trying to highlight a character, but it doesn\'t'
+                               ' belong to any character mission.', self)
+                return
+
+        character_mission.highlighted = True
 
     @classmethod
     def get_id(class_):
