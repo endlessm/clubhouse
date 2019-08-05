@@ -273,16 +273,16 @@ class Message(Gtk.Overlay):
 
         self._animator.play(animation_id)
 
-    def update(self, message):
+    def update(self, message_info):
         self.reset()
-        self.set_text(message.get('text', ''))
-        self.set_character(message.get('character_id'))
+        self.set_text(message_info.get('text', ''))
+        self.set_character(message_info.get('character_id'))
 
-        for answer in message.get('choices', []):
+        for answer in message_info.get('choices', []):
             self.add_button(answer[0], *answer[1:])
 
         # @todo: bg sounds are not supported yet.
-        sfx_sound = message.get('sound_fx')
+        sfx_sound = message_info.get('sound_fx')
         if not sfx_sound:
             sfx_sound = self.OPEN_DIALOG_SOUND
         Sound.play(sfx_sound)
@@ -807,28 +807,28 @@ class ClubhouseView(Gtk.EventBox):
     def _quest_item_given_cb(self, quest, item_id, text):
         self._shell_popup_item(item_id, text)
 
-    def _quest_message_cb(self, quest, message):
+    def _quest_message_cb(self, quest, message_info):
         logger.debug('Message %s: %s character_id=%s mood=%s choices=[%s]',
-                     message['id'], message['text'],
-                     message['character_id'], message['character_mood'],
-                     '|'.join([answer for answer, _cb, *_args in message['choices']]))
+                     message_info['id'], message_info['text'],
+                     message_info['character_id'], message_info['character_mood'],
+                     '|'.join([answer for answer, _cb, *_args in message_info['choices']]))
 
-        character = Character.get_or_create(message['character_id'])
-        character.mood = message['character_mood']
+        character = Character.get_or_create(message_info['character_id'])
+        character.mood = message_info['character_mood']
 
-        if message['type'] == libquest.Quest.MessageType.POPUP:
+        if message_info['type'] == libquest.Quest.MessageType.POPUP:
             self._reset_quest_actions()
 
-            for answer in message['choices']:
+            for answer in message_info['choices']:
                 self._add_quest_action(answer)
 
-            self._shell_popup_message(message['text'], character,
-                                      message['sound_fx'], message['sound_bg'])
+            self._shell_popup_message(message_info['text'], character,
+                                      message_info['sound_fx'], message_info['sound_bg'])
 
-        elif message['type'] == libquest.Quest.MessageType.NARRATIVE:
-            character = Character.get_or_create(message['character_id'])
-            character.mood = message['character_mood']
-            self._message.update(message)
+        elif message_info['type'] == libquest.Quest.MessageType.NARRATIVE:
+            character = Character.get_or_create(message_info['character_id'])
+            character.mood = message_info['character_mood']
+            self._message.update(message_info)
             self._overlay_msg_box.show_all()
 
     def _quest_dismiss_message_cb(self, quest, narrative=False):
