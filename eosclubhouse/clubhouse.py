@@ -655,10 +655,6 @@ class ClubhouseView(Gtk.EventBox):
         if self._current_quest is None:
             return
 
-        quest_set = libquest.Registry.get_character_mission_for_quest(self._current_quest)
-        if quest_set is not None:
-            quest_set.highlighted = False
-
         msg, continue_label, stop_label = self._current_quest.get_continue_info()
         self._message.update({
             'text': msg,
@@ -760,11 +756,10 @@ class ClubhouseView(Gtk.EventBox):
             self._shell_close_popup_message()
             self._proposing_quest = False
 
-    def _accept_quest_message(self, quest_set, new_quest):
+    def _accept_quest_message(self, _quest_set, new_quest):
         self._message.hide()
         self._overlay_msg_box.hide()
         logger.info('Start quest {}'.format(new_quest))
-        quest_set.set_property('highlighted', False)
         self._app_window.run_quest(new_quest)
 
     def connect_quest(self, quest):
@@ -1094,9 +1089,6 @@ class ClubhouseView(Gtk.EventBox):
     def set_quest_to_background(self):
         if self._current_quest:
             self._current_quest.set_to_background()
-            quest_set = libquest.Registry.get_character_mission_for_quest(self._current_quest)
-            if quest_set is not None:
-                quest_set.highlighted = True
         else:
             # If the quest proposal dialog in the Shell has been dismissed, then we
             # should reset the "proposing_quest" flag.

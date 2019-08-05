@@ -1634,9 +1634,7 @@ class CharacterMission(QuestSet):
         for quest in self.get_quests():
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
-            quest.connect('dismissed', self._update_highlighted)
 
-        self._update_highlighted()
         self._sync_with_hack_mode()
 
     def _hack_mode_changed_cb(self, _settings, _key):
@@ -1690,14 +1688,6 @@ class CharacterMission(QuestSet):
         else:
             if self.body_animation == self.HIGHLIGHTED_ANIMATION:
                 self.body_animation = self._unhighlighted_body_animation
-
-    def _update_highlighted(self, _current_quest=None):
-        next_quest = self.get_next_quest()
-        self.highlighted = next_quest is not None and next_quest.available
-        if self.highlighted:
-            logger.debug('QuestSet "%s" highlighted by quest %s', self, next_quest)
-        else:
-            logger.debug('QuestSet "%s" highlight removed', self)
 
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s', quest, prop_name)
