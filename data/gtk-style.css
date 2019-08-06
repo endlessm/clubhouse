@@ -386,15 +386,15 @@ window.poster {
 #user-hud #image {
     border-radius: 50%;
     box-shadow:  1px 1px 2px #555;
-    margin: 2px; /* needed for the shadow */
+    margin: 3px; /* needed for the shadow */
     background-color: lavender;
-    padding: 0.4em;
+    padding: 0.6em;
 }
 
 #user-hud #padding,
 #user-hud #label {
-    box-shadow:  2px 1px 2px #555;
     background-color: white;
+    box-shadow:  3px 1px 2px #555;
     padding: 1em 1em 1em 0.7em;
 }
 
@@ -456,7 +456,7 @@ row:selected > box > button >label {
 }
 
 .character-view  #mission-list {
-    margin: 0 3em 3em 0;
+    margin: 1em 3em 3em 0;
     padding: 1em 1ex;
     border: 1px solid gray;
     box-shadow: 3px 3px 4px black;
