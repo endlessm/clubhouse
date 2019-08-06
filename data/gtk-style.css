@@ -17,33 +17,49 @@ window.big {
 /* Main UI components */
 headerbar {
     border-width: 0px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-blur.jpg');
+    transition: background-image 200ms linear;
 }
 
-.transitionable-background {
-    transition: background 1000ms linear;
+window.transitionable-background,
+window.transitionable-background > headerbar {
+    transition: background-image 1s linear;
 }
 
-headerbar.CLUBHOUSE {
-    background: linear-gradient(to bottom, rgba(0,0,0, 0.3), rgba(0,0,0, 0.12) 80%, rgba(0,0,0, 0)),
-        top / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
+window.CLUBHOUSE > headerbar {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
 }
 
-headerbar.CLUBHOUSE-off {
-    background: linear-gradient(to bottom, rgba(0,0,0, 0.3), rgba(0,0,0, 0.12) 80%, rgba(0,0,0, 0)),
-        top / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-off.jpg');
+window.CLUBHOUSE.off > headerbar {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-off.jpg');
 }
 
-headerbar.CHARACTER {
-    background: linear-gradient(to bottom, rgba(0,0,0, 0.3), rgba(0,0,0, 0.12) 80%, rgba(0,0,0, 0)),
-        top / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/character_bg.jpg');
+window.CHARACTER > headerbar {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/character_bg.jpg');
 }
 
-.clubhouse-view {
-    background: bottom / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
+/* Window */
+window {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg_blur.jpg');
+    transition: background-image 200ms linear;
 }
 
-.clubhouse-view-off {
-    background: bottom / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-off.jpg');
+window.CLUBHOUSE {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
+}
+
+window.CLUBHOUSE.off {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-off.jpg');
+}
+
+window.CHARACTER {
+    background-image: url('resource:///com/endlessm/Clubhouse/images/character_bg.jpg');
 }
 
 .inventory-view {
@@ -446,11 +462,6 @@ row:selected > box > button >label {
 }
 
 /* Character View */
-
-.character-view {
-    background: bottom / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/character_bg.jpg');
-}
-
 .character-view list {
     background-color: unset;
 }

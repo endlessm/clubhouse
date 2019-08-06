@@ -578,23 +578,6 @@ class ClubhouseView(Gtk.EventBox):
         self._gss_hander_id = self._gss.connect('changed',
                                                 lambda _gss: self._update_episode_if_needed())
 
-    def sync_with_hack_mode(self):
-        hack_mode_enabled = Desktop.get_hack_mode()
-
-        if not hack_mode_enabled:
-            self.stop_quest()
-            self._overlay_msg_box.hide()
-
-        # Style.
-        style_context = self.get_style_context()
-        style_context.add_class('transitionable-background')
-        if hack_mode_enabled:
-            style_context.add_class('clubhouse-view')
-            style_context.remove_class('clubhouse-view-off')
-        else:
-            style_context.remove_class('clubhouse-view')
-            style_context.add_class('clubhouse-view-off')
-
     def _on_window_visibility_changed(self, _window, _param):
         if not self._app_window.props.visible:
             self._overlay_msg_box.hide()
@@ -622,6 +605,7 @@ class ClubhouseView(Gtk.EventBox):
     def stop_quest(self):
         self._cancel_ongoing_task()
         self._reset_scheduled_quest()
+        self._overlay_msg_box.hide()
 
     def quest_debug_skip(self):
         if self._current_quest is not None:
@@ -1692,18 +1676,15 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             Desktop.set_hack_background(hack_mode_enabled)
         Desktop.set_hack_cursor(hack_mode_enabled)
         self._pathways_button.props.sensitive = hack_mode_enabled
+        self.clubhouse.stop_quest()
 
-        # Style.
-        ctx = self.get_titlebar().get_style_context()
+        ctx = self.get_style_context()
         ctx.add_class('transitionable-background')
-        if hack_mode_enabled:
-            ctx.remove_class('CLUBHOUSE-off')
-            ctx.add_class('CLUBHOUSE')
-        else:
-            ctx.remove_class('CLUBHOUSE')
-            ctx.add_class('CLUBHOUSE-off')
 
-        self.clubhouse.sync_with_hack_mode()
+        if hack_mode_enabled:
+            ctx.remove_class('off')
+        else:
+            ctx.add_class('off')
 
     def _update_window_size(self):
         BG_WIDTH = 1200
@@ -1777,21 +1758,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if current_page == new_page:
             return
 
-        # Set a different headerbar css class depending on the page
-        ctx = self._headerbar.get_style_context()
+        # Set a different css class depending on the page
+        ctx = self.get_style_context()
         ctx.remove_class(current_page)
+        ctx.add_class(new_page)
 
-        # Avoid transition between other tabs with the Clubhouse view tab.
-        ctx.remove_class('{}-off'.format(current_page))
         ctx.remove_class('transitionable-background')
-        style_class = new_page
-        if self._stack.get_child_by_name(new_page) == self._clubhouse_page:
-            hack_mode_enabled = Desktop.get_hack_mode()
-            if not hack_mode_enabled:
-                style_class = '{}-off'.format(new_page)
 
-        ctx.add_class(style_class)
-
+        # Set custom headerbar content from current page
         page = self._stack.get_child_by_name(new_page)
 
         if hasattr(page, 'header_box') and page.header_box is not None:
