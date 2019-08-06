@@ -1689,8 +1689,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._clubhouse_state.connect('notify::window-is-visible',
                                       self._on_clubhouse_window_visibility_changed_cb)
 
-        self._headerbar_height = -1
-
         self.update_user_info()
         self._on_screen_changed(self, None)
         self.connect('screen-changed', self._on_screen_changed)
@@ -1711,26 +1709,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             ctx.remove_class('CLUBHOUSE')
             ctx.add_class('CLUBHOUSE-off')
 
-    @Gtk.Template.Callback()
-    def _on_headerbar_size_allocated(self, titlebar, allocation):
+    def _update_window_size(self):
         BG_WIDTH = 1200
         BG_HEIGHT = 810
 
-        if self._height is None or self._headerbar_height == allocation.height:
-            return
-
-        self._headerbar_height = allocation.height
-
-        # Set widget size
-        self.clubhouse.set_size_request(self._height * BG_WIDTH / BG_HEIGHT,
-                                        self._height - allocation.height)
-
-        scale = self._height / BG_HEIGHT
-        self.clubhouse.set_scale(scale, -allocation.height)
-        self.character.set_scale(scale)
-
-    def _on_screen_size_changed(self, screen):
-        screen_height = screen.get_height()
+        screen_height = self.get_screen().get_height()
 
         # Remove small/big css classes
         context = self.get_style_context()
@@ -1744,7 +1727,24 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             context.add_class('big')
 
         # Clamp resolution to 75% of 720p-1080p
-        self._height = max(720, min(screen_height, 1080)) * 0.75
+        height = max(720, min(screen_height, 1080)) * 0.75
+
+        headerbar_height = self._headerbar.get_allocated_height()
+
+        # Set main stack size
+        self._stack.set_size_request(height * BG_WIDTH / BG_HEIGHT,
+                                     height - headerbar_height)
+
+        scale = height / BG_HEIGHT
+        self.clubhouse.set_scale(scale, -headerbar_height)
+        self.character.set_scale(scale)
+
+    @Gtk.Template.Callback()
+    def _on_headerbar_size_allocated(self, titlebar, allocation):
+        self._update_window_size()
+
+    def _on_screen_size_changed(self, screen):
+        self._update_window_size()
 
     def _on_screen_changed(self, widget, previous_screen):
         if previous_screen is not None:
