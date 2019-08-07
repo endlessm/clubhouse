@@ -20,8 +20,11 @@
 #
 
 import csv
+import gi
 import glob
 import itertools
+import json
+gi.require_version('Json', '1.0')
 import os
 import re
 import subprocess
@@ -29,7 +32,7 @@ import time
 
 from collections import OrderedDict
 from enum import Enum
-from gi.repository import GLib, GObject
+from gi.repository import GLib, GObject, Json
 from string import Template
 
 from eosclubhouse import config, logger
@@ -326,3 +329,19 @@ def get_flatpak_sandbox():
     sandbox = '/'.join(sandbox)
 
     return sandbox
+
+
+def convert_variant_arg(variant):
+    """Convert Python dict to GLib.Variant"""
+    if isinstance(variant, GLib.Variant):
+        return variant
+
+    if isinstance(variant, dict):
+        try:
+            json_str = json.dumps(variant)
+            return Json.gvariant_deserialize_data(json_str, -1, None)
+        except Exception:
+            raise TypeError('Error: the given Python dict can\'t be '
+                            'converted to json or GLib.Variant')
+
+    raise TypeError('Error: value is not a Python dict or GLib.Variant')
