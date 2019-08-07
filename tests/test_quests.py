@@ -119,6 +119,18 @@ class TestQuests(ClubhouseTestCase):
             value_in_gss = GameStateService().get(key_name)
             self.assertEqual(value_in_gss, value_to_expect)
 
+    def test_is_named_quest_complete(self):
+        '''Tests that quests can check if other quest is completed.'''
+        quest_a_class = define_quest('QuestA')
+        quest_b_class = define_quest('QuestB')
+
+        quest_a = quest_a_class()
+        quest_a.complete = True
+        quest_a.save_conf()
+
+        quest_b = quest_b_class()
+        self.assertTrue(quest_b.is_named_quest_complete('QuestA'))
+
     def test_conf_on_completion(self):
         '''Tests the __conf_on_completion__ use.'''
         key_name = 'special.key.1'
