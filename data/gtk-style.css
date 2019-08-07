@@ -1,3 +1,20 @@
+/* Responsive resolution:
+ * Main window will have 'small' class if screen resolution is 720p or less and
+ * 'big' if its 1080p or more.
+ */
+window.small {
+    font-size: 12px;
+}
+
+window {
+    font-size: 14px;
+}
+
+window.big {
+    font-size: 16px;
+}
+
+/* Main UI components */
 headerbar {
     border-width: 0px;
 }
@@ -341,12 +358,12 @@ window.poster {
     padding: 2em;
     margin: 4em;
     background-color: lavender;
-    border-radius: 16px;
+    border-radius: 1em;
     box-shadow:  2px 2px 3px black;
 }
 
 #hack-switch > label {
-    font-size: 24px;
+    font-size: 1.6em;
     font-weight: bold;
     padding: 1ex;
 }
@@ -359,29 +376,37 @@ window.poster {
 /* User Hud */
 #user-hud,
 #user-hud:hover {
-    margin: 6px 0px 0px 0px;
+    margin: 1ex 0 0 0;
     background-image: none;
-    border: 0px;
+    border: 0;
+    padding: 0;
     box-shadow: none;
 }
 
-#user-hud image {
+#user-hud #image {
     border-radius: 50%;
-    box-shadow:  2px 1px 2px #555;
-    margin: 2px; /* needed for the shadow */
+    box-shadow:  1px 1px 2px #555;
+    margin: 3px; /* needed for the shadow */
     background-color: lavender;
     padding: 0.6em;
 }
 
-#user-hud label {
-    border-radius: 0 2em 2em 0;
-    box-shadow:  2px 1px 2px #555;
+#user-hud #padding,
+#user-hud #label {
     background-color: white;
-    padding: 1em 2em 1em 5em;
-    margin-left: 2em;
+    box-shadow:  3px 1px 2px #555;
+    padding: 1em 1em 1em 0.7em;
+}
+
+#user-hud #label {
+    border-radius: 0 1.5em 1.5em 0;
 }
 
 /* Header bar buttons */
+.headerbar-buttonbox {
+    padding-left: 2em;
+}
+
 .headerbar-buttonbox > label,
 .headerbar-buttonbox > button {
     color: white;
@@ -431,7 +456,7 @@ row:selected > box > button >label {
 }
 
 .character-view  #mission-list {
-    margin: 0 3em 3em 0;
+    margin: 1em 3em 3em 0;
     padding: 1em 1ex;
     border: 1px solid gray;
     box-shadow: 3px 3px 4px black;
@@ -439,7 +464,7 @@ row:selected > box > button >label {
 }
 
 .character-view  #mission-list > label {
-    font-size: 24px;
+    font-size: 1.8em;
     font-weight: bold;
     padding: 0 0 1ex 2em;
 }
