@@ -1,0 +1,79 @@
+STORY_RILEY2_1,"Hey again! I realized that I forgot to introduce you to one of the most important residents of the Academy when we first met.
+
+It's OK, though, since he was hiding anyway. May I present to you the Felicitous Ephemeral Living Intelligence, eXperimental… Felix!",riley,,,
+STORY_RILEY2_2,Mrrow.,felixnet,,,
+STORY_RILEY2_3,Felix. Buddy. Help me out here. Do a trick? Please?,riley,,,
+STORY_RILEY2_4,`<Felix licks his paw.>`,faber,,,
+STORY_RILEY2_5,Anything?,riley,,,
+STORY_RILEY2_6,`<Felix stares off into the distance.>`,felixnet,,,
+STORY_RILEY2_7,"OK, so his name isn't actually an acronym, but he is really impressive from at least one point of view -
+
+I've never seen anyone replicate a cat's behavior so completely and accurately. Especially, you know… the annoying parts.
+
+Like not listening to anything I ask him to do! Ever!",riley,,,
+STORY_RILEY2_8,Puurrrrow?,felixnet,,,
+STORY_RILEY2_9,"Also being incredibly cute! I mean, seriously, look at those paws. And that face!
+
+But don't look too long, I think there's some kind of fractal generation going on there, and it starts to move — 
+
+— But someone was really clearly trying to get the *idea* of a cat, and I think they nailed it.",riley,,,
+STORY_RILEY2_10,"Felix has been around the Academy as long as anyone can remember, but he’s been out and about much more often since I arrived.
+
+Ada says it must be my natural charm that lured him out.",riley,,,
+STORY_RILEY2_11,"Actually, Riley, I think I said ""your mischievous nature,"" but natural charm is probably just as likely.",ada,,,
+STORY_RILEY2_12,Hey Ada! I was just introducing Felix. He seems really interested in {{user_name}}'s avatar!,riley,,,
+STORY_RILEY2_13,"Look at that, he's… sniffing? Can he sniff even if he doesn't have a nose? {{user_name}}, we’d better take a look at your connection.
+
+Riley, do you have your network analyzer with you?",ada,,,
+STORY_RILEY2_14,"Always! Let's see… open Wireshark… There we go, that's the secure tunnel… and yeah, wow. Look at all that network traffic!",riley,,,
+STORY_RILEY2_15,"Interesting. He seems to be sifting all the inbound traffic for the avatar system. Of course, it's encrypted, so there's nothing he can do with it...
+
+Why would a low-grade virtual intelligence care about your network traffic?",ada,,,
+STORY_RILEY2_16,"Maybe he's just… doing cat stuff. You know, poking around and trying to see everything?",riley,,,
+STORY_RILEY2_17,"It very well could be that. Felix's programming could just be directing him to look at everything he can find.
+
+If that were true, though, then we'd see him all over, all the time. He'd be quite a distraction during finals.",ada,,,
+STORY_RILEY2_18,"Aw, did you have to remind me about finals?",riley,,,
+STORY_RILEY2_19,"That's months away, Riley.",ada,,,
+STORY_RILEY2_20,"Yeah, but it's still a drag! You know I'm all about my classes, why do I have to do some big test?",riley,,,
+STORY_RILEY2_21,"Testing is an important part of learning - It's about being able to apply your knowledge to a new problem, with restrictions.
+
+It's the surest way of seeing whether you really learned the lessons or not.",ada,,,
+STORY_RILEY2_22,"Hmm. New problems… maybe that's why Felix is so interested. You're new, {{user_name}}!
+
+Your network connection, your way of interacting with The Academy, it's all new to Felix, and that's why he's so interested.",ada,,,
+STORY_RILEY2_23,"So is he… learning? If he's learning, does that mean…",riley,,,
+STORY_RILEY2_24,"I don't think he's an AI, Riley. If he's showing responses that you're never seen before, it might be due to new stimuli.
+
+*""When you hear hoofbeats, think horses, not Zebras.""*",ada,,,
+STORY_RILEY2_25,"So... that means… he's a horse? Seriously, what does that mean?",riley,,,
+STORY_RILEY2_26,"It means that you should always consider the most commonly found solution to a problem first.
+
+For example, the problem of all the words in one of your papers turning into ""meow"" just two hours before the deadline...",ada,,,
+STORY_RILEY2_27,What else would a cat type?,riley,,,
+STORY_RILEY2_28,"I did give you an extension for that one, Riley. Dr. Rowe might not have been quite as understanding. And while we're on the subject-",ada,,,
+STORY_RILEY2_29,Brrrip! Mrzzrzrzrzrrhhhh…,felixnet,,,
+STORY_RILEY2_30,"Felix! Don't corrupt my papers, it's not nice.",riley,,,
+STORY_RILEY2_31,Nyan.,felixnet,,,
+STORY_RILEY2_32,"Wait, what's that in his mouth?",riley,,,
+STORY_RILEY2_33,Is that…?,ada,,,
+STORY_RILEY2_34,"False alarm! Looks like it's a fragment of code that shows up… as a mouse. Yeech. Gross, but impressive, all at the same time.",riley,,,
+STORY_RILEY2_35,Fascinating... That is a VERY complex masking function.,ada,,,
+STORY_RILEY2_36,\What language is that 'mouse' even written in?,riley,,,
+STORY_RILEY2_37,"Hmm. Analyzing - File header is consistent with source code, running lexical analysis…
+
+High probability of an interpreted language, severely minified and macroed, with a custom preprocessor…",ada,,,
+STORY_RILEY2_38,"Uh, a little lost here…",riley,,,
+STORY_RILEY2_39,"Oh! I'm sorry, I got carried away. I think it's source code, but very highly optimized, to the point where it's not even human-readable any more.
+
+Cleverly done, but not enough to hide the system calls to networking routines, and then some kind of traffic analysis.
+
+It's offloading that analysis to multiple different servers... Felix, where did you find this?",ada,,,
+STORY_RILEY2_40,Brbrbrbr. `<Felix gurgles smugly.>`,felixnet,,,
+STORY_RILEY2_41,Does he do that just mess with us?,riley,,,
+STORY_RILEY2_42,"I'm sure he's just proud that he's gotten us to pay so much attention to him. By the way, can I have a copy of… let's call it 'mouse.txt'?",ada,,,
+STORY_RILEY2_43,"Go for it! I'm going to try and figure out how that file was using a fake image…
+
+Maybe I can use it bait my ""Felix trap"" - or, as I call it, 'infinite_ear_scratches.exe'",riley,,,
+STORY_RILEY2_44,Good luck. Let me know if Felix brings any more surprises in!,ada,,,
+STORY_RILEY2_45,"Definitely. Who would have thought a virtual cat would bring in a virtual mouse? See ya, {{user_name}}!",riley,,,

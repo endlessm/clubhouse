@@ -1,0 +1,29 @@
+STORY_FABER1_1,"Hey there, {{user_name}} - I don't know if we've been fully introduced. I’m Faber, I run the Maker Space out near the Observatory.",faber,,,
+STORY_FABER1_2,"It’s always great to have another new student around - Say, do you like shortbread?",faber,,,
+STORY_FABER1_2_RPOS,Awesome! I’ll double my recipe next time I make some. Can’t wait for you to try it.,faber,,,
+STORY_FABER1_2_RNEG,"That’s cool - Let me know what your favorite cookie is, we can try a batch in my solar oven some time!",faber,,,
+STORY_FABER1_3,"Anyway, if you’re interested in making physical things -  you know, stuff with lights, switches, servos, wheels...",faber,,,
+STORY_FABER1_4,"Stop by the Maker Space and take a look around. I’ve got a ton of cool projects planned, and I'm sure you can help.",faber,,,
+STORY_FABER1_5,"If you just want to just hang out, that’s cool too. Bring your favorite music and we can make mixes… or just jam out.",faber,,,
+STORY_FABER1_6,"...And maybe you can stop by the Observatory, too, while you’re over there.",estelle,,,
+STORY_FABER1_7,"Hi, Estelle! This is our newest student, I was just telling them about the Maker Space.",faber,,,
+STORY_FABER1_8,"I'm sure there were cookies involved, too. You've got a clever way of making sure everyone sees what you've got going on out there.",estelle,,,
+STORY_FABER1_9,"Hey, just trying to make the trip worth it for everyone. You know, if all you wanted was to bring more people out, you could help me design a transport system…",faber,,,
+STORY_FABER1_10,"Knowing you, Faber, you'd be trying to get me to build some kind of rocket-powered train.",estelle,,,
+STORY_FABER1_11,"Hey, they say to use what you know, and you know rockets! I've seen your welds before - superb.",faber,,,
+STORY_FABER1_12,"It *is* always nice to have your work complimented, but these days I investigate the stars mainly through a telescope.",estelle,,,
+STORY_FABER1_13,"And your simulations, of course - what's the latest?",faber,,,
+STORY_FABER1_14,"It's still running - I launched a probe on a long-track slingshot out beyond the heliopause - it should only take a week or so more, I think.",estelle,,,
+STORY_FABER1_15,That's past the edge of the solar system! Got any theories about what you'll find?,faber,,,
+STORY_FABER1_16,"I do - but I'm not saying anything until I see the data. No evidence, no conclusion.",estelle,,,
+STORY_FABER1_17,"See, now that sounds just like Saniel.",faber,,,
+STORY_FABER1_18,"That reminds me, do you know where he is? I need to adjust some settings on my simulation cluster and find some more disk space…",estelle,,,
+STORY_FABER1_19,"Did you check the bottom of the Archives? I heard him talking about setting up a hammock down there.
+
+He said it was because the furnace provided ideal white noise for napping, but I think he's just trying to find a spot the cats won't steal.",faber,,,
+STORY_FABER1_20,"I should have guessed  - and to think that when we first met, I thought he'd grow out of that 'napping thing.' I'll look there. See you later, Faber.",estelle,,,
+STORY_FABER1_21,"Estelle’s been here since the the Academy’s founding… she’s so nice, but it's also very easy to feel intimidated around her.
+
+I feel like she's always reminding me there’s something I could be doing, or something more I could learn. It's good motivation!
+
+I’m sure you’ve got somewhere to be, but it was great to meet you. See you around!",faber,,,

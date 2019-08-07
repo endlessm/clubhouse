@@ -1,0 +1,40 @@
+STORY_RILEY1_1,"RILEY: Hi! I knew we were getting a new student at the Academy, as part of that new program, but I didn't know that was, like, now!
+
+I'm Riley, and I am sooo excited to have you here! I was part of some advanced program-thing, and there's nobody my age around, so…",riley,,,
+STORY_RILEY1_2,"Anyway! You're here! I have to show you SO MANY things, this place is amazing.",riley,,,
+STORY_RILEY1_3,"I, uh, don't want to pry, but… what's up with your avatar? It's like you're not really here, or something.",riley,,,
+STORY_RILEY1_4,"There you are! I'm not surprised that you found each other already - I can tell you two are going to be great together.
+
+Riley, this is our remote student, {{user_name}}. They're on a very limited-fidelity link- remember your networking lessons?",ada,,,
+STORY_RILEY1_5,"Oh, so they can't answer me?",riley,,,
+STORY_RILEY1_6,"They can, but only with 1 bit - so, yes or no only. Right?",ada,,,
+STORY_RILEY1_6_RPOS,See?,ada,,,
+STORY_RILEY1_6_RNEG1,*snort*,riley,,,
+STORY_RILEY1_6_RNEG2,Your sense of humor certainly matches hers. I see some joint pranks in your future…,ada,,,
+STORY_RILEY1_7,"Saniel does always say I talk enough to cover for the students that don't… actually, what he says is:
+
+""Riley, have you been altering the acoustics of my classroom again? Every time I detect several voices, they're all yours.*
+
+*That's quite a trick… but this is History of Algorithms, not Ventriloquism.""*",riley,,,
+STORY_RILEY1_8,That's quite an impression of Dr. Rowe.,ada,,,
+STORY_RILEY1_9,"It is, isn't it? I'm glad to hear that at least something of my demeanor seems to be rubbing off on her.",saniel,,,
+STORY_RILEY1_10,"Saniel! Uh, hi.",riley,,,
+STORY_RILEY1_11,"I'm an easy target, Riley, and I know it. Now, if you really wanted to make someone jump, you could work on mimicing Dr. Hart.",saniel,,,
+STORY_RILEY1_12,"Estelle? She's a tough one, I can't ever seem to find her.
+
+I'll be looking all over and hear from someone that she was in the Observatory, then Faber will tell me he just ran into her near Admin...
+
+...And then someone else will say she's in the Library… it's like she moves at light speed around this place!",riley,,,
+STORY_RILEY1_13,And just when you think you'll never find her and stop…,ada,,,
+STORY_RILEY1_14,"I know, right? She'll pop up right next to you! I want to learn how to do THAT.",riley,,,
+STORY_RILEY1_15,"You'd no doubt spend the first week or so trying to see how far you could make us jump in fright.
+
+Then again, you would always be on time to class, I suppose. Perhaps it's worth the trade?",saniel,,,
+STORY_RILEY1_16,"Aw, come on, that was only one week!",riley,,,
+STORY_RILEY1_17,"Don't worry, Riley, Dr. Rowe still won't let me hold any more of our wax cylinder collection.",ada,,,
+STORY_RILEY1_18,"That was a priceless artifact from the 19th century, you know.",saniel,,,
+STORY_RILEY1_19,"We had just finished making a duplicate, and one of the cats jumped onto my shoulders!",ada,,,
+STORY_RILEY1_20,"Well, yes, but it's the principle of the thing. At least the data is still safe. And the cats.",saniel,,,
+STORY_RILEY1_21,That really IS the most important part.,ada,,,
+STORY_RILEY1_22,"In the end, yes. Life is the most precious thing of all. Speaking of which, Riley, could you come help me feed the cats, please?",saniel,,,
+STORY_RILEY1_23,"RILEY: Sure thing, Dr. Rowe! I gotta run, {{user_name}}, but it was great to meet you! I can't wait to see the fun things we'll do in the future.",riley,,,
