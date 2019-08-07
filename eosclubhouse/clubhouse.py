@@ -568,9 +568,7 @@ class ClubhouseView(Gtk.EventBox):
 
         self.add_tick_callback(AnimationSystem.step)
 
-        Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
-                                       self._settings_changed_cb)
-        self._update_hack_mode_switch_state()
+        Desktop.shell_settings_bind(Desktop.SETTINGS_HACK_MODE_KEY, self._hack_switch, 'active')
 
         self._gss = GameStateService()
         self._gss_hander_id = self._gss.connect('changed',
@@ -578,6 +576,11 @@ class ClubhouseView(Gtk.EventBox):
 
     def sync_with_hack_mode(self):
         hack_mode_enabled = Desktop.get_hack_mode()
+
+        if not hack_mode_enabled:
+            self.stop_quest()
+            self._overlay_msg_box.hide()
+
         # Style.
         style_context = self.get_style_context()
         style_context.add_class('transitionable-background')
@@ -602,27 +605,6 @@ class ClubhouseView(Gtk.EventBox):
             return True
 
         return False
-
-    def _update_hack_mode_switch_state(self):
-        self._on_hack_mode_switch = True
-        self._hack_switch.set_active(Desktop.get_hack_mode())
-        self._on_hack_mode_switch = False
-
-    @Gtk.Template.Callback()
-    def _hack_mode_switch_activate_cb(self, switch, _pspec):
-        if self._on_hack_mode_switch:
-            return
-        enabled = self._hack_switch.get_active()
-        if not enabled:
-            self.stop_quest()
-            self._overlay_msg_box.hide()
-        Desktop.set_hack_mode(enabled)
-        Desktop.set_hack_background(enabled)
-        Desktop.set_hack_cursor(enabled)
-        self._app_window.sync_with_hack_mode()
-
-    def _settings_changed_cb(self, settings, _key):
-        self._update_hack_mode_switch_state()
 
     def set_scale(self, scale, offset=0):
         self.scale = scale
@@ -1678,12 +1660,15 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.pathways = PathwaysView(self)
         self.inventory = InventoryView(self)
         self.character = CharacterView(self)
-        self.sync_with_hack_mode()
 
         self._clubhouse_page.pack_start(self.clubhouse, True, True, 0)
         self._inventory_page.pack_start(self.inventory, True, True, 0)
         self._pathways_sw.add(self.pathways)
         self._stack.add_named(self.character, 'CHARACTER')
+
+        self.sync_with_hack_mode(init=True)
+        Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
+                                       self._hack_mode_changed_cb)
 
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::window-is-visible',
@@ -1693,10 +1678,15 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._on_screen_changed(self, None)
         self.connect('screen-changed', self._on_screen_changed)
 
-    def sync_with_hack_mode(self):
+    def _hack_mode_changed_cb(self, _settings, _key):
+        self.sync_with_hack_mode()
+
+    def sync_with_hack_mode(self, init=False):
         hack_mode_enabled = Desktop.get_hack_mode()
 
-        self.clubhouse.sync_with_hack_mode()
+        if not init:
+            Desktop.set_hack_background(hack_mode_enabled)
+        Desktop.set_hack_cursor(hack_mode_enabled)
         self._pathways_button.props.sensitive = hack_mode_enabled
 
         # Style.
@@ -1708,6 +1698,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         else:
             ctx.remove_class('CLUBHOUSE')
             ctx.add_class('CLUBHOUSE-off')
+
+        self.clubhouse.sync_with_hack_mode()
 
     def _update_window_size(self):
         BG_WIDTH = 1200
