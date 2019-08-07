@@ -60,6 +60,17 @@ install_data(
     install_dir: 'share/icons/hicolor/64x64/apps'
 )
 
+install_subdir(
+    'backgrounds',
+    install_dir: join_paths(get_option('datadir'), 'backgrounds'),
+    strip_directory: true
+)
+
+install_data(
+    'hack-data.ini',
+    install_dir: join_paths(get_option('datadir'), 'hack-components')
+)
+
 characters_dir_name = 'characters'
 cursors_dir_name = 'cursors'
 items_dir_name = 'items'
