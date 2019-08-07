@@ -19,9 +19,6 @@
 #
 
 import configparser
-import gi
-import json
-gi.require_version('Json', '1.0')
 import os
 import shutil
 import time
@@ -30,8 +27,8 @@ from eosclubhouse import logger
 from eosclubhouse.config import DATA_DIR
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer
-from eosclubhouse.utils import get_flatpak_sandbox
-from gi.repository import GLib, GObject, Gio, Json
+from eosclubhouse.utils import convert_variant_arg, get_flatpak_sandbox
+from gi.repository import GLib, GObject, Gio
 
 
 class Desktop:
@@ -613,23 +610,12 @@ class GameStateService(GObject.GObject):
         if signal_name == 'changed':
             self.emit('changed')
 
-    def _convert_variant_arg(self, variant):
-        # If we're passing a dictionary instead, then we just convert it from json
-        if isinstance(variant, dict):
-            try:
-                json_str = json.dumps(variant)
-                variant = Json.gvariant_deserialize_data(json_str, -1, None)
-            except Exception:
-                raise TypeError('Error setting GSS entry: value is not a variant nor can it be '
-                                'converted to json')
-        return variant
-
     def set(self, key, variant):
-        variant = self._convert_variant_arg(variant)
+        variant = convert_variant_arg(variant)
         self._get_gss_proxy().Set('(sv)', key, variant)
 
     def set_async(self, key, variant):
-        variant = self._convert_variant_arg(variant)
+        variant = convert_variant_arg(variant)
 
         def _on_set_done_callback(proxy, result):
             try:
