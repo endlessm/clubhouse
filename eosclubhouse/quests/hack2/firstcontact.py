@@ -37,6 +37,10 @@ class FirstContact(Quest):
 
     def step_begin(self):
         Desktop.set_hack_mode(True)
+        # While in Hack mode, because the FlipToHack button is needed, we still
+        # want to show the old background and the normal cursor.
+        Desktop.set_hack_background(False)
+        Desktop.set_hack_cursor(False)
 
         self._app.launch()
 

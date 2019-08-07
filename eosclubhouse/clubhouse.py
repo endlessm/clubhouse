@@ -1650,7 +1650,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._pathways_sw.add(self.pathways)
         self._stack.add_named(self.character, 'CHARACTER')
 
-        self.sync_with_hack_mode()
+        self.sync_with_hack_mode(init=True)
         Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
                                        self._hack_mode_changed_cb)
 
@@ -1665,10 +1665,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _hack_mode_changed_cb(self, _settings, _key):
         self.sync_with_hack_mode()
 
-    def sync_with_hack_mode(self):
+    def sync_with_hack_mode(self, init=False):
         hack_mode_enabled = Desktop.get_hack_mode()
 
-        Desktop.set_hack_background(hack_mode_enabled)
+        if not init:
+            Desktop.set_hack_background(hack_mode_enabled)
         Desktop.set_hack_cursor(hack_mode_enabled)
         self._pathways_button.props.sensitive = hack_mode_enabled
 
