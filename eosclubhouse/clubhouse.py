@@ -438,6 +438,26 @@ class CharacterView(Gtk.Grid):
         super().__init__(visible=True)
         self._app_window = app_window
         self._animator = Animator(self._character_image)
+        self._character = None
+        self._scale = 1
+
+    def _update_character_image(self):
+        if self._character is None:
+            return
+
+        animation_id = self._character.id + '/closeup-talk'
+        if not self._animator.has_animation(animation_id) or \
+           self._animator.get_animation_scale(animation_id) != self._scale:
+            self._animator.load(self._character.get_moods_path(),
+                                self._character.id,
+                                self._scale)
+
+        # @todo: play animation only when a dialog is added
+        self._animator.play(animation_id)
+
+    def set_scale(self, scale):
+        self._scale = scale
+        self._update_character_image()
 
     def add_message(self, message_info):
         current_quest = self._app_window.clubhouse._get_running_quest()
@@ -472,18 +492,13 @@ class CharacterView(Gtk.Grid):
 
     def show_mission_list(self, quest_set):
         # Get character
-        character = Character.get_or_create(quest_set.get_character())
+        self._character = Character.get_or_create(quest_set.get_character())
 
         # Set page title
-        self._character_button.set_label(character.id.capitalize() + '\'s Workshop')
+        self._character_button.set_label(self._character.id.capitalize() + '\'s Workshop')
 
         # Set character image
-        animation_id = character.id + '/closeup-talk'
-        if not self._animator.has_animation(animation_id):
-            self._animator.load(character.get_moods_path(), character.id)
-
-        # @todo: play animation only when a dialog is added
-        self._animator.play(animation_id)
+        self._update_character_image()
 
         # Clear list
         for child in self._list.get_children():
@@ -529,6 +544,7 @@ class ClubhouseView(Gtk.EventBox):
         super().__init__(visible=True)
 
         self.scale = 1
+        self._height_offset = 0
         self._current_quest = None
         self._scheduled_quest_info = None
         self._proposing_quest = False
@@ -1693,20 +1709,42 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             ctx.remove_class('CLUBHOUSE')
             ctx.add_class('CLUBHOUSE-off')
 
-    def _on_screen_size_changed(self, screen):
+    def _update_window_size(self):
         BG_WIDTH = 1200
         BG_HEIGHT = 810
 
+        screen_height = self.get_screen().get_height()
+
+        # Remove small/big css classes
+        context = self.get_style_context()
+        context.remove_class('small')
+        context.remove_class('big')
+
+        # Add class depending on screen size
+        if screen_height <= 720:
+            context.add_class('small')
+        elif screen_height >= 1080:
+            context.add_class('big')
+
         # Clamp resolution to 75% of 720p-1080p
-        height = max(720, min(screen.get_height(), 1080)) * 0.75
+        height = max(720, min(screen_height, 1080)) * 0.75
 
-        titlebar = self.get_titlebar()
-        minimal_height, natural_height = titlebar.get_preferred_height()
+        headerbar_height = self._headerbar.get_allocated_height()
 
-        # Set widget size
-        self.clubhouse.set_size_request(height * BG_WIDTH / BG_HEIGHT,
-                                        height - natural_height)
-        self.clubhouse.set_scale(height / BG_HEIGHT, -natural_height)
+        # Set main stack size
+        self._stack.set_size_request(height * BG_WIDTH / BG_HEIGHT,
+                                     height - headerbar_height)
+
+        scale = height / BG_HEIGHT
+        self.clubhouse.set_scale(scale, -headerbar_height)
+        self.character.set_scale(scale)
+
+    @Gtk.Template.Callback()
+    def _on_headerbar_size_allocated(self, titlebar, allocation):
+        self._update_window_size()
+
+    def _on_screen_size_changed(self, screen):
+        self._update_window_size()
 
     def _on_screen_changed(self, widget, previous_screen):
         if previous_screen is not None:

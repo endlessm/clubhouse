@@ -62,6 +62,12 @@ class Animator:
     def has_animation(self, name):
         return self._animations.get(name) is not None
 
+    def get_animation_scale(self, name):
+        animation = self._animations.get(name)
+        if animation is not None:
+            return animation.scale
+        return None
+
     def get_current_animation(self):
         return AnimationSystem.get_animation(id(self))
 
@@ -114,6 +120,7 @@ class Animation(GObject.GObject):
     def load(self, sprite_path, scale=1):
         self._anchor = (0, 0)
         self.frames = []
+        self.scale = scale
 
         metadata = self.get_animation_metadata(sprite_path)
         sprite_pixbuf = GdkPixbuf.Pixbuf.new_from_file(sprite_path)
