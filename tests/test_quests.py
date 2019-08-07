@@ -119,7 +119,20 @@ class TestQuests(ClubhouseTestCase):
             value_in_gss = GameStateService().get(key_name)
             self.assertEqual(value_in_gss, value_to_expect)
 
+    def test_is_named_quest_complete(self):
+        '''Tests that quests can check if other quest is completed.'''
+        quest_a_class = define_quest('QuestA')
+        quest_b_class = define_quest('QuestB')
+
+        quest_a = quest_a_class()
+        quest_a.complete = True
+        quest_a.save_conf()
+
+        quest_b = quest_b_class()
+        self.assertTrue(quest_b.is_named_quest_complete('QuestA'))
+
     def test_conf_on_completion(self):
+        '''Tests the __conf_on_completion__ use.'''
         key_name = 'special.key.1'
         quest_class = define_quest('QuestA')
         quest_class.__conf_on_completion__ = {key_name: {'answer': 42}}
@@ -136,3 +149,23 @@ class TestQuests(ClubhouseTestCase):
 
         value_in_gss = GameStateService().get(key_name)
         self.assertTrue(value_in_gss, {'answer': 42})
+
+    def test_conf_save_and_load(self):
+        '''Tests how to load and save custom configuration.'''
+        quest_a_class = define_quest('QuestA')
+        quest_b_class = define_quest('QuestB')
+        quest_a1 = quest_a_class()
+        self.assertEqual(quest_a1.get_conf('hints_given'), None)
+        quest_a1.set_conf('hints_given', True)
+        self.assertEqual(quest_a1.get_conf('hints_given'), True)
+        quest_a1.save_conf()
+
+        # This is a new instance of QuestA. Load happens automatically
+        # on instantiation:
+        quest_a2 = quest_a_class()
+        self.assertEqual(quest_a2.get_conf('hints_given'), True)
+
+        # We can also get the conf from another quest:
+        quest_b = quest_b_class()
+        conf = quest_b.get_named_quest_conf('QuestA', 'hints_given')
+        self.assertEqual(conf, True)

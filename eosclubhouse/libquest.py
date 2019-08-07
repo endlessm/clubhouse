@@ -30,7 +30,7 @@ from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
-    Performance, QuestStringCatalog, QS
+    Performance, QuestStringCatalog, QS, convert_variant_arg
 from gi.repository import GObject, GLib
 
 
@@ -1412,7 +1412,9 @@ class Quest(GObject.GObject):
         return 'quest.'
 
     def load_conf(self):
-        self.complete = self.is_named_quest_complete(self.__class__.__name__)
+        key = self._get_conf_key()
+        self.conf = self.gss.get(key, value_if_missing={})
+        self.complete = self.conf.get('complete', False)
 
     def get_complete(self):
         return self.conf['complete']
@@ -1433,9 +1435,10 @@ class Quest(GObject.GObject):
         self.set_complete(is_complete)
 
     def save_conf(self):
-        key = self._get_conf_key()
-        variant = GLib.Variant('a{sb}', {'complete': self.complete})
-        self.gss.set_async(key, variant)
+        conf_key = self._get_conf_key()
+        for key, value in self.conf.items():
+            variant = convert_variant_arg({key: value})
+            self.gss.set_async(conf_key, variant)
 
         if self.complete:
             for item_id, extra_info in self.__items_on_completion__.items():
@@ -1453,10 +1456,17 @@ class Quest(GObject.GObject):
     def dismiss(self):
         self.emit('dismissed')
 
+    def get_named_quest_conf(self, class_name, key):
+        gss_key = self._get_quest_conf_prefix() + class_name
+        data = self.gss.get(gss_key)
+
+        if data is None:
+            return None
+        return data.get(key)
+
     def is_named_quest_complete(self, class_name):
-        key = self._get_quest_conf_prefix() + class_name
-        data = self.gss.get(key)
-        return data is not None and data['complete']
+        data = self.get_named_quest_conf(class_name, 'complete')
+        return data is not None and data
 
     def _get_available(self):
         return self._available

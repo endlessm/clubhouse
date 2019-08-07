@@ -50,6 +50,9 @@ class ClubhouseTestCase(unittest.TestCase):
         # Ensure the GSS doesn't affect the real game state.
         GameStateService._proxy = _GSSMockProxy()
 
+        # Also patch set_async() with set() to simplify testing:
+        GameStateService.set_async = GameStateService.set
+
         # Reset the GSS so every test case starts with a clean slate.
         cls.reset_gss()
 
