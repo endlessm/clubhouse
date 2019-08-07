@@ -72,6 +72,11 @@ install_data(
     install_dir: join_paths(get_option('datadir'), 'hack-components')
 )
 
+install_data(
+    'com.hack_computer.Clubhouse.jpg',
+    install_dir: join_paths(data_dir, 'eos-shell-content', 'splash')
+)
+
 characters_dir_name = 'characters'
 cursors_dir_name = 'cursors'
 items_dir_name = 'items'
