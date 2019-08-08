@@ -1,5 +1,18 @@
 ,Drama,,,,
 ID,Text,speaker,animation,,
+INTRO_END,See you in the Clubhouse!,ada,,,
+INTRO_EPISODESTAB,"The Episodes tab helps you keep track of where you are. It's good to check here when you start to play. 
+
+You'll see the episodes you've finished here along with new ones that await.
+
+So now you've finished Episode 1 and we're starting Episode 2.
+",,,,
+INTRO_EXPLANATION,"Before we get started on new challenges, let’s go check out our progress.
+
+Click on the Clubhouse and then on the Episodes tab.",,,,quests/quest2-riley-hi
+INTRO_QUESTION,Hi there! Glad you’re here  =^._.^=   Ready to do some more exploring?,riley,,,
+INTRO_QUEST_ACCEPT,Yes!,,,,quests/quest2-riley-hi
+INTRO_WELCOME,Hi {{user_name}}! Welcome to the Clubhouse!,ada,,,
 OLD_FIRSTCONTACT_FLIPBACK,Nice hack!,,,,
 OLD_FIRSTCONTACT_FLIPBACK_HINT1,I wonder if anything happened to the gate? Click the Flip to Hack button again.,,,,
 OLD_FIRSTCONTACT_GOAL,Beautiful! All new students must solve this puzzle.,,,,
@@ -7,5 +20,282 @@ OLD_FIRSTCONTACT_GOAL_HINT1,Match it by moving the sliders and the doors will un
 OLD_FIRSTCONTACT_GOAL_HINT2,Keep trying! Move the sliders until the gold wave fits into the groove. ,,,,
 OLD_FIRSTCONTACT_WELCOME,How do you open a locked gate with no key?,ada  ,,quests/ada-intro,
 OLD_FIRSTCONTACT_WELCOME_HINT1,What's that button on the left?,,,,
+STORY_ADA1_1,"Hi again, {{user_name}}! I was so excited when Dr. Rowe mentioned that the remote student program was approved.
+
+I know it's not easy - you're the first person to test this system, and you have to deal with a totally new group of people.",ada,,,
+STORY_ADA1_10,"Hey Ada, how's it going?",faber,,,
+STORY_ADA1_11,"Hi, Faber! I was just seeing how {{user_name}} was adjusting to the Academy.",ada,,,
+STORY_ADA1_12,"Cool! I actually had some data I wanted to collect - I'm trying to optimize the program the emitters use to project your avatar.
+
+Hopefully I can keep you from accidentally walking through solid objects and things like that.
+
+It's pretty cool to see, but man, if you appeared out of a wall in front of me I'd yell loud enough to wake Dr. Rowe out of a nap!",faber,,,
+STORY_ADA1_13,"Haha! I just had the image of you jumping, and everything in your toolbelt flying all over…",ada,,,
+STORY_ADA1_14,"Oh, man, you two should have seen me yesterday when Dr. Hart surprised me in the Maker Space.The first time I knew she was there was when she said ""I think you missed soldering a connection on this board.""
+
+I jumped, my stool tipped over, I fell, and I grabbed the welding bench on the way down...  and it flipped over onto me. What a mess.
+
+Pretty sure I'll be washing metal chips out of my hair for the next week.",faber,,,
+STORY_ADA1_15,"Oh my… I can just see you, ""Waah!"" and then the bench goes ""CRASH"" and Dr. Hart is just looking at you—",ada,,,
+STORY_ADA1_16,"Yeah, like I'm a wrench in the hammer rack… Oh boy. I couldn't even talk, I was so embarrassed.
+
+But you know, she just smiled and held out her hand to me, saying ""Does that happen a lot? We should get you a better stool.""",faber,,,
+STORY_ADA1_17,That's very kind of her.,ada,,,
+STORY_ADA1_18,"Yeah, she's the best, even if she does scare the living daylights out of me sometimes.",faber,,,
+STORY_ADA1_19,"It's moments like this that make me so glad I'm here, at the Academy.",ada,,,
+STORY_ADA1_2,How are you doing?,,,,
+STORY_ADA1_20,"If I had left, I'd probably be making some useless gadget for people who don't need more distractions. What about you?",faber,,,
+STORY_ADA1_21,"Oh, I imagine I'd be at some research center. Maybe working on gravity waves. This is much more rewarding, though.",ada,,,
+STORY_ADA1_22,"So, {{user_name}}, how are you feeling about the Academy so far?",faber,,,
+STORY_ADA1_22_RNEG,"Don't worry if you don't know what to do - Just learn as much as you can.
+
+I didn't know what I really wanted to do until one night when I realized I hadn't left the machine shop in 12 hours, and then I knew.",faber,,,
+STORY_ADA1_22_RPOS,"It's wonderful to see such high motivation. I know you'll go far, farther than we can even predict.",ada,,,
+STORY_ADA1_23,What was that noise?,ada,,,
+STORY_ADA1_24,"Oh! That's my data collector, it's all finished.
+
+Great talking with you guys, but I gotta run and load this into my analysis program if I want it to finish in time.",faber,,,
+STORY_ADA1_25,In time for what?,ada,,,
+STORY_ADA1_26,"Dr. Hart got me a spot on the servers so I can run my simulations...
+
+... But she had to fake a maintenence request to get the processor time, so I've got a pretty tight deadline.",faber,,,
+STORY_ADA1_27,"Good luck!
+
+Well, I should be going  - but I'll see you later, {{user_name}}.",ada,,,
+STORY_ADA1_2_RNEG,"Don't get discouraged - I know it's hard to be so limited in what you can say and do. If you just keep going, I'm sure you'll figure it out.",ada,,,
+STORY_ADA1_2_RPOS,"Wow, you *are* a fast learner. I knew you'd be a good fit here - It's great to see you succeed so easily.",ada,,,
+STORY_ADA1_3,"All of us at the Academy are here to support you. We want you to be able to learn whatever you want!
+
+One of our goals is for you to be able to hack any program - Not just ones we choose, *every* program in the operating system.
+
+Don't worry, we'll teach you how to do it when the time comes.",ada,,,
+STORY_ADA1_4,"This is the beginning of an exciting journey for everyone. We need everyone to learn about computers, programming, and the digital world.
+
+The Earth is changing pretty fast, and as more parts of everyone's lives become digital, people could be left behind.",ada,,,
+STORY_ADA1_5,"You used to have to use a computer to use the internet, and cell phones could only make phone calls.
+
+Now, every cell phone can use the Internet, plus hundreds of different programs - and it's much faster than an old computer was!",ada,,,
+STORY_ADA1_6,"There is problem with all this technology, though. The people that control a program or a service decide how other people can use it.
+
+If you control a search engine, you can control what information people can find with it.
+
+For example - If you don't like dogs, and you own a search engine, you can just make it so that it will never show pictures of dogs, ever.",ada,,,
+STORY_ADA1_7,"This kind of thing is a problem! This is why it's so important to understand how systems work - you can make the system work *for you*.
+
+If a system is working *for you*, you can use it to get what *you* need, and not what someone else thinks you need.
+
+If you're always limited by other people deciding what you're allowed to learn, or do, or say, you aren't free, no matter what they say.",ada,,,
+STORY_ADA1_8,"So if you don't understand the technology and systems you use, you can never be free - someone else will always control you.
+
+That's why learning about all this is so important!",ada,,,
+STORY_ADA1_9,"… Wow, that was quite a speech. Sorry, these things are so important to me that I get really excited and just *go*.",ada,,,
+STORY_FABER1_1,"Hey there, {{user_name}} - I don't know if we've been fully introduced. I’m Faber, I run the Maker Space out near the Observatory.",faber,,,
+STORY_FABER1_10,"Knowing you, Faber, you'd be trying to get me to build some kind of rocket-powered train.",estelle,,,
+STORY_FABER1_11,"Hey, they say to use what you know, and you know rockets! I've seen your welds before - superb.",faber,,,
+STORY_FABER1_12,"It *is* always nice to have your work complimented, but these days I investigate the stars mainly through a telescope.",estelle,,,
+STORY_FABER1_13,"And your simulations, of course - what's the latest?",faber,,,
+STORY_FABER1_14,"It's still running - I launched a probe on a long-track slingshot out beyond the heliopause - it should only take a week or so more, I think.",estelle,,,
+STORY_FABER1_15,That's past the edge of the solar system! Got any theories about what you'll find?,faber,,,
+STORY_FABER1_16,"I do - but I'm not saying anything until I see the data. No evidence, no conclusion.",estelle,,,
+STORY_FABER1_17,"See, now that sounds just like Saniel.",faber,,,
+STORY_FABER1_18,"That reminds me, do you know where he is? I need to adjust some settings on my simulation cluster and find some more disk space…",estelle,,,
+STORY_FABER1_19,"Did you check the bottom of the Archives? I heard him talking about setting up a hammock down there.
+
+He said it was because the furnace provided ideal white noise for napping, but I think he's just trying to find a spot the cats won't steal.",faber,,,
+STORY_FABER1_2,"It’s always great to have another new student around - Say, do you like shortbread?",faber,,,
+STORY_FABER1_20,"I should have guessed  - and to think that when we first met, I thought he'd grow out of that 'napping thing.' I'll look there. See you later, Faber.",estelle,,,
+STORY_FABER1_21,"Estelle’s been here since the the Academy’s founding… she’s so nice, but it's also very easy to feel intimidated around her.
+
+I feel like she's always reminding me there’s something I could be doing, or something more I could learn. It's good motivation!
+
+I’m sure you’ve got somewhere to be, but it was great to meet you. See you around!",faber,,,
+STORY_FABER1_2_RNEG,"That’s cool - Let me know what your favorite cookie is, we can try a batch in my solar oven some time!",faber,,,
+STORY_FABER1_2_RPOS,Awesome! I’ll double my recipe next time I make some. Can’t wait for you to try it.,faber,,,
+STORY_FABER1_3,"Anyway, if you’re interested in making physical things -  you know, stuff with lights, switches, servos, wheels...",faber,,,
+STORY_FABER1_4,"Stop by the Maker Space and take a look around. I’ve got a ton of cool projects planned, and I'm sure you can help.",faber,,,
+STORY_FABER1_5,"If you just want to just hang out, that’s cool too. Bring your favorite music and we can make mixes… or just jam out.",faber,,,
+STORY_FABER1_6,"...And maybe you can stop by the Observatory, too, while you’re over there.",estelle,,,
+STORY_FABER1_7,"Hi, Estelle! This is our newest student, I was just telling them about the Maker Space.",faber,,,
+STORY_FABER1_8,"I'm sure there were cookies involved, too. You've got a clever way of making sure everyone sees what you've got going on out there.",estelle,,,
+STORY_FABER1_9,"Hey, just trying to make the trip worth it for everyone. You know, if all you wanted was to bring more people out, you could help me design a transport system…",faber,,,
+STORY_RILEY1_1,"RILEY: Hi! I knew we were getting a new student at the Academy, as part of that new program, but I didn't know that was, like, now!
+
+I'm Riley, and I am sooo excited to have you here! I was part of some advanced program-thing, and there's nobody my age around, so…",riley,,,
+STORY_RILEY1_10,"Saniel! Uh, hi.",riley,,,
+STORY_RILEY1_11,"I'm an easy target, Riley, and I know it. Now, if you really wanted to make someone jump, you could work on mimicing Dr. Hart.",saniel,,,
+STORY_RILEY1_12,"Estelle? She's a tough one, I can't ever seem to find her.
+
+I'll be looking all over and hear from someone that she was in the Observatory, then Faber will tell me he just ran into her near Admin...
+
+...And then someone else will say she's in the Library… it's like she moves at light speed around this place!",riley,,,
+STORY_RILEY1_13,And just when you think you'll never find her and stop…,ada,,,
+STORY_RILEY1_14,"I know, right? She'll pop up right next to you! I want to learn how to do THAT.",riley,,,
+STORY_RILEY1_15,"You'd no doubt spend the first week or so trying to see how far you could make us jump in fright.
+
+Then again, you would always be on time to class, I suppose. Perhaps it's worth the trade?",saniel,,,
+STORY_RILEY1_16,"Aw, come on, that was only one week!",riley,,,
+STORY_RILEY1_17,"Don't worry, Riley, Dr. Rowe still won't let me hold any more of our wax cylinder collection.",ada,,,
+STORY_RILEY1_18,"That was a priceless artifact from the 19th century, you know.",saniel,,,
+STORY_RILEY1_19,"We had just finished making a duplicate, and one of the cats jumped onto my shoulders!",ada,,,
+STORY_RILEY1_2,"Anyway! You're here! I have to show you SO MANY things, this place is amazing.",riley,,,
+STORY_RILEY1_20,"Well, yes, but it's the principle of the thing. At least the data is still safe. And the cats.",saniel,,,
+STORY_RILEY1_21,That really IS the most important part.,ada,,,
+STORY_RILEY1_22,"In the end, yes. Life is the most precious thing of all. Speaking of which, Riley, could you come help me feed the cats, please?",saniel,,,
+STORY_RILEY1_23,"RILEY: Sure thing, Dr. Rowe! I gotta run, {{user_name}}, but it was great to meet you! I can't wait to see the fun things we'll do in the future.",riley,,,
+STORY_RILEY1_3,"I, uh, don't want to pry, but… what's up with your avatar? It's like you're not really here, or something.",riley,,,
+STORY_RILEY1_4,"There you are! I'm not surprised that you found each other already - I can tell you two are going to be great together.
+
+Riley, this is our remote student, {{user_name}}. They're on a very limited-fidelity link- remember your networking lessons?",ada,,,
+STORY_RILEY1_5,"Oh, so they can't answer me?",riley,,,
+STORY_RILEY1_6,"They can, but only with 1 bit - so, yes or no only. Right?",ada,,,
+STORY_RILEY1_6_RNEG1,*snort*,riley,,,
+STORY_RILEY1_6_RNEG2,Your sense of humor certainly matches hers. I see some joint pranks in your future…,ada,,,
+STORY_RILEY1_6_RPOS,See?,ada,,,
+STORY_RILEY1_7,"Saniel does always say I talk enough to cover for the students that don't… actually, what he says is:
+
+""Riley, have you been altering the acoustics of my classroom again? Every time I detect several voices, they're all yours.*
+
+*That's quite a trick… but this is History of Algorithms, not Ventriloquism.""*",riley,,,
+STORY_RILEY1_8,That's quite an impression of Dr. Rowe.,ada,,,
+STORY_RILEY1_9,"It is, isn't it? I'm glad to hear that at least something of my demeanor seems to be rubbing off on her.",saniel,,,
+STORY_RILEY2_1,"Hey again! I realized that I forgot to introduce you to one of the most important residents of the Academy when we first met.
+
+It's OK, though, since he was hiding anyway. May I present to you the Felicitous Ephemeral Living Intelligence, eXperimental… Felix!",riley,,,
+STORY_RILEY2_10,"Felix has been around the Academy as long as anyone can remember, but he’s been out and about much more often since I arrived.
+
+Ada says it must be my natural charm that lured him out.",riley,,,
+STORY_RILEY2_11,"Actually, Riley, I think I said ""your mischievous nature,"" but natural charm is probably just as likely.",ada,,,
+STORY_RILEY2_12,Hey Ada! I was just introducing Felix. He seems really interested in {{user_name}}'s avatar!,riley,,,
+STORY_RILEY2_13,"Look at that, he's… sniffing? Can he sniff even if he doesn't have a nose? {{user_name}}, we’d better take a look at your connection.
+
+Riley, do you have your network analyzer with you?",ada,,,
+STORY_RILEY2_14,"Always! Let's see… open Wireshark… There we go, that's the secure tunnel… and yeah, wow. Look at all that network traffic!",riley,,,
+STORY_RILEY2_15,"Interesting. He seems to be sifting all the inbound traffic for the avatar system. Of course, it's encrypted, so there's nothing he can do with it...
+
+Why would a low-grade virtual intelligence care about your network traffic?",ada,,,
+STORY_RILEY2_16,"Maybe he's just… doing cat stuff. You know, poking around and trying to see everything?",riley,,,
+STORY_RILEY2_17,"It very well could be that. Felix's programming could just be directing him to look at everything he can find.
+
+If that were true, though, then we'd see him all over, all the time. He'd be quite a distraction during finals.",ada,,,
+STORY_RILEY2_18,"Aw, did you have to remind me about finals?",riley,,,
+STORY_RILEY2_19,"That's months away, Riley.",ada,,,
+STORY_RILEY2_2,Mrrow.,felixnet,,,
+STORY_RILEY2_20,"Yeah, but it's still a drag! You know I'm all about my classes, why do I have to do some big test?",riley,,,
+STORY_RILEY2_21,"Testing is an important part of learning - It's about being able to apply your knowledge to a new problem, with restrictions.
+
+It's the surest way of seeing whether you really learned the lessons or not.",ada,,,
+STORY_RILEY2_22,"Hmm. New problems… maybe that's why Felix is so interested. You're new, {{user_name}}!
+
+Your network connection, your way of interacting with The Academy, it's all new to Felix, and that's why he's so interested.",ada,,,
+STORY_RILEY2_23,"So is he… learning? If he's learning, does that mean…",riley,,,
+STORY_RILEY2_24,"I don't think he's an AI, Riley. If he's showing responses that you're never seen before, it might be due to new stimuli.
+
+*""When you hear hoofbeats, think horses, not Zebras.""*",ada,,,
+STORY_RILEY2_25,"So... that means… he's a horse? Seriously, what does that mean?",riley,,,
+STORY_RILEY2_26,"It means that you should always consider the most commonly found solution to a problem first.
+
+For example, the problem of all the words in one of your papers turning into ""meow"" just two hours before the deadline...",ada,,,
+STORY_RILEY2_27,What else would a cat type?,riley,,,
+STORY_RILEY2_28,"I did give you an extension for that one, Riley. Dr. Rowe might not have been quite as understanding. And while we're on the subject-",ada,,,
+STORY_RILEY2_29,Brrrip! Mrzzrzrzrzrrhhhh…,felixnet,,,
+STORY_RILEY2_3,Felix. Buddy. Help me out here. Do a trick? Please?,riley,,,
+STORY_RILEY2_30,"Felix! Don't corrupt my papers, it's not nice.",riley,,,
+STORY_RILEY2_31,Nyan.,felixnet,,,
+STORY_RILEY2_32,"Wait, what's that in his mouth?",riley,,,
+STORY_RILEY2_33,Is that…?,ada,,,
+STORY_RILEY2_34,"False alarm! Looks like it's a fragment of code that shows up… as a mouse. Yeech. Gross, but impressive, all at the same time.",riley,,,
+STORY_RILEY2_35,Fascinating... That is a VERY complex masking function.,ada,,,
+STORY_RILEY2_36,\What language is that 'mouse' even written in?,riley,,,
+STORY_RILEY2_37,"Hmm. Analyzing - File header is consistent with source code, running lexical analysis…
+
+High probability of an interpreted language, severely minified and macroed, with a custom preprocessor…",ada,,,
+STORY_RILEY2_38,"Uh, a little lost here…",riley,,,
+STORY_RILEY2_39,"Oh! I'm sorry, I got carried away. I think it's source code, but very highly optimized, to the point where it's not even human-readable any more.
+
+Cleverly done, but not enough to hide the system calls to networking routines, and then some kind of traffic analysis.
+
+It's offloading that analysis to multiple different servers... Felix, where did you find this?",ada,,,
+STORY_RILEY2_4,`<Felix licks his paw.>`,faber,,,
+STORY_RILEY2_40,Brbrbrbr. `<Felix gurgles smugly.>`,felixnet,,,
+STORY_RILEY2_41,Does he do that just mess with us?,riley,,,
+STORY_RILEY2_42,"I'm sure he's just proud that he's gotten us to pay so much attention to him. By the way, can I have a copy of… let's call it 'mouse.txt'?",ada,,,
+STORY_RILEY2_43,"Go for it! I'm going to try and figure out how that file was using a fake image…
+
+Maybe I can use it bait my ""Felix trap"" - or, as I call it, 'infinite_ear_scratches.exe'",riley,,,
+STORY_RILEY2_44,Good luck. Let me know if Felix brings any more surprises in!,ada,,,
+STORY_RILEY2_45,"Definitely. Who would have thought a virtual cat would bring in a virtual mouse? See ya, {{user_name}}!",riley,,,
+STORY_RILEY2_5,Anything?,riley,,,
+STORY_RILEY2_6,`<Felix stares off into the distance.>`,felixnet,,,
+STORY_RILEY2_7,"OK, so his name isn't actually an acronym, but he is really impressive from at least one point of view -
+
+I've never seen anyone replicate a cat's behavior so completely and accurately. Especially, you know… the annoying parts.
+
+Like not listening to anything I ask him to do! Ever!",riley,,,
+STORY_RILEY2_8,Puurrrrow?,felixnet,,,
+STORY_RILEY2_9,"Also being incredibly cute! I mean, seriously, look at those paws. And that face!
+
+But don't look too long, I think there's some kind of fractal generation going on there, and it starts to move — 
+
+— But someone was really clearly trying to get the *idea* of a cat, and I think they nailed it.",riley,,,
+STORY_SANIEL1_1,"SANIEL: Hello, {{user_name}} - I was wondering when you'd stop by. You and Riley are the results of a long-standing project of mine.
+
+I've been trying to get the Academy to search for students wth different ways of learning and problem solving - and finally, here you are.",saniel,,,
+STORY_SANIEL1_10,Um… Does that mean I'm in trouble?,riley,,,
+STORY_SANIEL1_11,"I would be quite a poor teacher if I punished you for 'breaking in' so easily.
+
+If you can open a door by pressing the handle into the frame, and then lightly kicking the bottom, it's not very secure.",saniel,,,
+STORY_SANIEL1_12,"… Do you have cameras everywhere? How did you know that?
+
+Wait, then you *also* know that there's nothing in that room but drawers full of square plastic cards with holes in the middle!",riley,,,
+STORY_SANIEL1_13,"I must confess I was a step ahead of you, Riley. I moved the Restricted Stacks a month or so ago, but forgot to change the sign.
+
+Those 'plastic cards' are called floppy disks, by the way. There are several types, and they're used for data storage. Old, but useful.",saniel,,,
+STORY_SANIEL1_14,"Oh, cool. I wish I knew what was on them...",riley,,,
+STORY_SANIEL1_15,"Hmm. That room, 27B-6? That would be…
+
+...Research backups of numerous Academy projects - VEXIL, SQUARE MUSHROOM, and some others. Yes.",saniel,,,
+STORY_SANIEL1_16,"Wow! It's crazy that you can remember things like that, I have trouble just keeping track of my passwords.
+
+How did you learn to do that?",riley,,,
+STORY_SANIEL1_17,"There's an ancient Roman and Greek way of thinking called the ""Method of Loci”. You can call it a 'memory palace,' though.
+
+You imagine a building in your mind - imagine every piece of furniture, every room, every drawer of every nightstand.",saniel,,,
+STORY_SANIEL1_18,"Then, imagine that you are putting information you want to remember into objects in the rooms - Put a fact in a drawer, for example.
+
+You memorize the path you take to get to the object, which helps you remember the object, and therefore the information.
+
+It's essentially hacking your brain  - you use your memory of places and directions to point to facts instead.",saniel,,,
+STORY_SANIEL1_19,"Woah. That's… that's way beyond next-level. If anyone else had told me that, I wouldn't believe it.",riley,,,
+STORY_SANIEL1_2,"I want the Academy to be more than just a space for teaching and learning, I want it to be a community, based on sharing knowledge.
+
+In my past, I have found my deepest friendships and strongest allies to be the result of communities...",saniel,,,
+STORY_SANIEL1_20,"Trust, but verify, Riley - so I'll be expecting a short  paper on the method of loci next week.",saniel,,,
+STORY_SANIEL1_21,"Well, I asked for it. Sounds fun, though!",riley,,,
+STORY_SANIEL1_22,"""Research is the backbone of inquiry,"" as one of my professors once said. Now, I have to get back to working on my archives.",saniel,,,
+STORY_SANIEL1_23,"Oh, and Riley - They're called the *Restricted Stacks* for a reason. I would prefer to keep this incident... quiet.
+
+Please don't give me a reason to make a fuss. I would normally tell you both to stay out of trouble, but...
+
+Instead, I'll just say 'see you soon"" and leave it at that.",saniel,,,
+STORY_SANIEL1_3,"... Ahem... Yes, communities. In all my years of —",saniel,,,
+STORY_SANIEL1_4,"*CRASH*
+
+*THUD*",felixnet,,,
+STORY_SANIEL1_5,What was that? Oh. Another pile of books sacrificed in the name of feline boredom.,saniel,,,
+STORY_SANIEL1_6,"I really should stop stacking books where the cats like to nap and play.
+
+If you see any cats around the Academy, this is where they live - I seem to accumulate cats the way others accumulate art, or souveniers.",saniel,,,
+STORY_SANIEL1_7,"Now, as I was saying - Communities. Communities preserve knowledge and expertise, and our Academy Archives are no exception.
+
+They are always open to any student - with the exception of the Restricted Stacks. Some things are too easily misused.
+
+That said, a simple request will usually open them up... with my supervision.",saniel,,,
+STORY_SANIEL1_8,"Yeah, but supervision means you can't look at anything *really exciting*!",riley,,,
+STORY_SANIEL1_9,"If you consider suppressed computational theorems to be *really exciting*, Riley, then I have severely misjudged you... 
+
+...both for your skill in mathematics and for your preferred reading material, not to mention your knack for… physical intrusion.",saniel,,,
 T2GAME7_GREET1,"This game doesn't have any data associated with it yet. You can still play it, though.",,,,
 T2GAME8_GREET1,"This game doesn't have any data associated with it yet. You can still play it, though.",,,,
+T2LAUNCHER_BEGIN,We are about to launch the game. I hope you like it.,ada,,,
+T2LAUNCHER_END,Enjoy the game. See you later!,ada,,,
+T2LAUNCHER_INSTALL,First you will need to install the T2 game. Come back later!,ada,,,
