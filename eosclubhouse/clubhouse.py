@@ -72,6 +72,8 @@ class Character(GObject.GObject):
     _characters = {}
     DEFAULT_MOOD = 'talk'
     DEFAULT_BODY_ANIMATION = 'idle'
+    HIGHLIGHTED_ANIMATION = 'hi'
+    HACK_MODE_DISABLED_ANIMATION = 'idle-off'
 
     @classmethod
     def get_or_create(class_, character_id):
@@ -349,21 +351,24 @@ class QuestSetButton(Gtk.Button):
         self._character = Character.get_or_create(self._quest_set.get_character())
         self.reload(scale)
 
+        self._quest_set.connect('notify::highlighted',
+                                lambda _quest_set, highlighted: self._set_highlighted(highlighted))
         self._set_highlighted(self._quest_set.highlighted)
-        self._character.body_animation = self._quest_set.body_animation
+
+        self._previous_body_animation = None
+        self._on_hover = False
+
+        Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
+                                       lambda _settings, _key: self._update_character_animation())
+        self._update_character_animation()
 
         self.connect('clicked', self._on_button_clicked_cb)
         self.connect('enter', self._on_button_enter_cb)
         self.connect('leave', self._on_button_leave_cb)
-        self._quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
-        self._quest_set.connect('notify::body-animation',
-                                self._on_quest_set_body_animation_changed)
 
         # The button should only be visible when the QuestSet is visible
         self._quest_set.bind_property('visible', self, 'visible',
                                       GObject.BindingFlags.BIDIRECTIONAL |
-                                      GObject.BindingFlags.SYNC_CREATE)
-        self._quest_set.bind_property('body-animation', self._character, 'body-animation',
                                       GObject.BindingFlags.SYNC_CREATE)
         Desktop.shell_settings_bind(Desktop.SETTINGS_HACK_MODE_KEY, self, 'sensitive')
 
@@ -403,19 +408,12 @@ class QuestSetButton(Gtk.Button):
             self._quest_set.highlighted = False
 
     def _on_button_enter_cb(self, _button):
-        self._character.body_animation = self._quest_set.HIGHLIGHTED_ANIMATION
-        self.notify('position')
+        self._on_hover = True
+        self._update_character_animation()
 
     def _on_button_leave_cb(self, _button):
-        self._character.body_animation = self._quest_set.body_animation
-        self.notify('position')
-
-    def _on_quest_set_highlighted_changed(self, _quest_set, _param):
-        self._set_highlighted(self._quest_set.highlighted)
-
-    def _on_quest_set_body_animation_changed(self, _quest_set, _param):
-        self._character.body_animation = self._quest_set.body_animation
-        self.notify('position')
+        self._on_hover = False
+        self._update_character_animation()
 
     def _set_highlighted(self, highlighted):
         highlighted_style = 'highlighted'
@@ -424,6 +422,21 @@ class QuestSetButton(Gtk.Button):
             style_context.add_class(highlighted_style)
         else:
             style_context.remove_class(highlighted_style)
+
+    def _update_character_animation(self):
+        new_animation = None
+
+        if not Desktop.get_hack_mode():
+            new_animation = self._character.HACK_MODE_DISABLED_ANIMATION
+        elif self._quest_set.highlighted or self._on_hover:
+            new_animation = self._character.HIGHLIGHTED_ANIMATION
+        else:
+            new_animation = self._character.DEFAULT_BODY_ANIMATION
+
+        if new_animation is not None:
+            self._previous_body_animation = self._character.body_animation
+            self._character.body_animation = new_animation
+            self.notify('position')
 
     position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
 

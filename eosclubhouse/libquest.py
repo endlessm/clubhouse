@@ -1649,36 +1649,13 @@ class CharacterMission(QuestSet):
 
     visible = GObject.Property(type=bool, default=True)
 
-    DEFAULT_ANIMATION = 'idle'
-    HIGHLIGHTED_ANIMATION = 'hi'
-    HACK_MODE_DISABLED_ANIMATION = 'idle-off'
-
     def __init__(self):
         super().__init__()
-        self._body_animation = self.DEFAULT_ANIMATION
-        self._unhighlighted_body_animation = self.body_animation
-        self._previous_body_animation = None
         self._highlighted = False
 
-        Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
-                                       self._hack_mode_changed_cb)
         for quest in self.get_quests():
             quest.connect('notify',
                           lambda quest, param: self.on_quest_properties_changed(quest, param.name))
-
-        self._sync_with_hack_mode()
-
-    def _hack_mode_changed_cb(self, _settings, _key):
-        self._sync_with_hack_mode()
-
-    def _sync_with_hack_mode(self):
-        hack_mode_enabled = Desktop.get_hack_mode()
-        if hack_mode_enabled:
-            if self._previous_body_animation is not None:
-                self.body_animation = self._previous_body_animation
-        else:
-            self._previous_body_animation = self.body_animation
-            self.body_animation = self.HACK_MODE_DISABLED_ANIMATION
 
     @classmethod
     def get_tag(class_):
@@ -1709,14 +1686,6 @@ class CharacterMission(QuestSet):
     def _set_highlighted(self, highlighted):
         self._highlighted = highlighted
 
-        if self.highlighted:
-            if self.body_animation != self.HIGHLIGHTED_ANIMATION:
-                self._unhighlighted_body_animation = self.body_animation
-                self.body_animation = self.HIGHLIGHTED_ANIMATION
-        else:
-            if self.body_animation == self.HIGHLIGHTED_ANIMATION:
-                self.body_animation = self._unhighlighted_body_animation
-
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s', quest, prop_name)
         if prop_name == 'available' and quest.get_property(prop_name):
@@ -1729,20 +1698,6 @@ class CharacterMission(QuestSet):
 
     def is_active(self):
         return self.visible and self.get_next_quest() is not None
-
-    def get_body_animation(self):
-        return self._body_animation
-
-    def _get_body_animation(self):
-        return self.get_body_animation()
-
-    def set_body_animation(self, body_animation):
-        self._previous_body_animation = self.body_animation
-        self._body_animation = body_animation
-        self.notify('body-animation')
-
-    def _set_body_animation(self, body_animation):
-        self.set_body_animation(body_animation)
 
     def get_empty_message(self):
         msg_id_suffix = None
@@ -1792,10 +1747,5 @@ class CharacterMission(QuestSet):
                 return q
 
         return None
-
-    body_animation = GObject.Property(_get_body_animation, _set_body_animation,
-                                      type=str, default=DEFAULT_ANIMATION,
-                                      flags=GObject.ParamFlags.READWRITE |
-                                      GObject.ParamFlags.EXPLICIT_NOTIFY)
 
     highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False)
