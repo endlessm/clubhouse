@@ -141,6 +141,18 @@ class Desktop:
         return app_name + '.desktop'
 
     @classmethod
+    def minimize_all(klass):
+        """
+        Minimizes all the windows from the overview.
+        """
+        try:
+            klass.get_shell_proxy().MinimizeAll()
+        except GLib.Error as e:
+            logger.error(e)
+            return False
+        return True
+
+    @classmethod
     def app_is_running(klass, name):
         try:
             klass.get_dbus_proxy().GetNameOwner('(s)', name)
