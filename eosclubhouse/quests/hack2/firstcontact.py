@@ -111,6 +111,7 @@ class FirstContact(Quest):
         return self.enter_hack_mode
 
     def enter_hack_mode(self):
+        Desktop.minimize_all()
         Desktop.set_hack_cursor(True)
         return self.step_show_clubhouse
 
