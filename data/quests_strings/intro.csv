@@ -1,4 +1,4 @@
-INTRO_QUESTION,Hi there! Glad you’re here  =^._.^=   Ready to do some more exploring?,Riley,salute,,
+INTRO_QUESTION,Hi there! Glad you’re here  =^._.^=   Ready to do some more exploring?,riley,,,
 INTRO_QUEST_ACCEPT,Yes!,,,,quests/quest2-riley-hi
 INTRO_EXPLANATION,"Before we get started on new challenges, let’s go check out our progress.
 
@@ -9,3 +9,5 @@ You'll see the episodes you've finished here along with new ones that await.
 
 So now you've finished Episode 1 and we're starting Episode 2.
 ",,,,
+INTRO_WELCOME,Hi {{user_name}}! Welcome to the Clubhouse!,ada,,,
+INTRO_END,See you in the Clubhouse!,ada,,,

@@ -1,16 +1,5 @@
 ,Drama,,,,
 ID,Text,speaker,animation,,
-INTRO_EPISODESTAB,"The Episodes tab helps you keep track of where you are. It's good to check here when you start to play. 
-
-You'll see the episodes you've finished here along with new ones that await.
-
-So now you've finished Episode 1 and we're starting Episode 2.
-",,,,
-INTRO_EXPLANATION,"Before we get started on new challenges, let’s go check out our progress.
-
-Click on the Clubhouse and then on the Episodes tab.",,,,quests/quest2-riley-hi
-INTRO_QUESTION,Hi there! Glad you’re here  =^._.^=   Ready to do some more exploring?,riley,,,
-INTRO_QUEST_ACCEPT,Yes!,,,,quests/quest2-riley-hi
 OLD_FIRSTCONTACT_FLIPBACK,Nice hack!,,,,
 OLD_FIRSTCONTACT_FLIPBACK_HINT1,I wonder if anything happened to the gate? Click the Flip to Hack button again.,,,,
 OLD_FIRSTCONTACT_GOAL,Beautiful! All new students must solve this puzzle.,,,,
@@ -18,3 +7,5 @@ OLD_FIRSTCONTACT_GOAL_HINT1,Match it by moving the sliders and the doors will un
 OLD_FIRSTCONTACT_GOAL_HINT2,Keep trying! Move the sliders until the gold wave fits into the groove. ,,,,
 OLD_FIRSTCONTACT_WELCOME,How do you open a locked gate with no key?,ada  ,,quests/ada-intro,
 OLD_FIRSTCONTACT_WELCOME_HINT1,What's that button on the left?,,,,
+T2GAME7_GREET1,"This game doesn't have any data associated with it yet. You can still play it, though.",,,,
+T2GAME8_GREET1,"This game doesn't have any data associated with it yet. You can still play it, though.",,,,

@@ -1,16 +1,60 @@
-.clubhouse-page {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.png');
+/* Responsive resolution:
+ * Main window will have 'small' class if screen resolution is 720p or less and
+ * 'big' if its 1080p or more.
+ */
+window.small {
+    font-size: 12px;
 }
 
-.inventory-page {
+window {
+    font-size: 14px;
+}
+
+window.big {
+    font-size: 16px;
+}
+
+/* Main UI components */
+headerbar {
+    border-width: 0px;
+}
+
+.transitionable-background {
+    transition: background 1000ms linear;
+}
+
+headerbar.CLUBHOUSE {
+    background: linear-gradient(to bottom, rgba(0,0,0, 0.3), rgba(0,0,0, 0.12) 80%, rgba(0,0,0, 0)),
+        top / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
+}
+
+headerbar.CLUBHOUSE-off {
+    background: linear-gradient(to bottom, rgba(0,0,0, 0.3), rgba(0,0,0, 0.12) 80%, rgba(0,0,0, 0)),
+        top / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-off.jpg');
+}
+
+headerbar.CHARACTER {
+    background: linear-gradient(to bottom, rgba(0,0,0, 0.3), rgba(0,0,0, 0.12) 80%, rgba(0,0,0, 0)),
+        top / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/character_bg.jpg');
+}
+
+.clubhouse-view {
+    background: bottom / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
+}
+
+.clubhouse-view-off {
+    background: bottom / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-off.jpg');
+}
+
+.inventory-view {
     background-image: url('resource:///com/endlessm/Clubhouse/images/inventory_bg.png');
 }
 
-.episodes-page {
+.episodes-view {
     background-image: url('resource:///com/endlessm/Clubhouse/images/episodes_bg.png');
 }
 
-.episodes-page .episodes-list {
+.episodes-view .episodes-list {
     background: transparent;
     margin-top: 36px;
 }
@@ -26,8 +70,12 @@
 
 .clubhouse-message-label {
     padding: 30px 0 15px 0;
-    margin: 0 153px 17.5px 30px;
+    margin: 0 15px 17.5px 30px;
     font: 15px "Metropolis Medium, Sans-Serif";
+}
+
+.clubhouse-message-list-button-box {
+    margin: 0 153px 17.5px 30px;
 }
 
 .clubhouse-message-character {
@@ -79,17 +127,17 @@
     box-shadow: none;
     -gtk-icon-shadow: none;
     padding-bottom: 20px;
-    background-image: radial-gradient(50px 20px ellipse at center 88%, alpha(black,0.4), transparent);
+    background-image: radial-gradient(35% 8% ellipse at center 88%, alpha(black,0.4), transparent);
 }
 
 .quest-set-button:hover {
-    background-image: radial-gradient(75px 30px ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001));
+    background-image: radial-gradient(50% 10% ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001));
 }
 
 
 @keyframes pulsate_background {
-    from { background-image: radial-gradient(50px 20px ellipse at center 88%, alpha(#D9A784,0.4), alpha(white,0.001)); }
-    to { background-image: radial-gradient(75px 30px ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001)); }
+    from { background-image: radial-gradient(35% 8% ellipse at center 88%, alpha(#D9A784,0.4), alpha(white,0.001)); }
+    to { background-image: radial-gradient(50% 10% ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001)); }
 }
 
 .quest-set-button.highlighted {
@@ -114,44 +162,9 @@
     box-shadow: none;
 }
 
-.clubhouse-button-box {
-    margin-bottom: 15px;
-}
-
-.clubhouse-button-box > button > label {
-    color: white;
-    text-shadow: none;
-}
-
 .clubhouse-button-box > button {
-    background: rgba(40, 40, 40, .9);
     border: none;
-    border-left: 1px solid black;
-    border-radius: 0;
     box-shadow: none;
-}
-
-.clubhouse-button-box > button:first-child {
-    border: none;
-    border-radius: 20px 0 0 20px;
-}
-
-.clubhouse-button-box > button:last-child {
-    border: none;
-    border-left: 1px solid black;
-    border-radius: 0 20px 20px 0;
-}
-
-.clubhouse-button-box > button:checked {
-    background: rgba(244, 228, 216, .9);
-}
-
-.clubhouse-button-box > button:checked > label {
-    color: black;
-}
-
-.clubhouse-button-box > button:hover:not(:checked) {
-    background: rgba(40, 40, 40, .6);
 }
 
 .inventory-item {
@@ -339,3 +352,120 @@ window.poster {
     font: 28px "Metropolis, Sans-Serif";
     font-weight: bold;
 }
+
+/* Hack mode switch */
+#hack-switch {
+    padding: 2em;
+    margin: 4em;
+    background-color: lavender;
+    border-radius: 1em;
+    box-shadow:  2px 2px 3px black;
+}
+
+#hack-switch > label {
+    font-size: 1.6em;
+    font-weight: bold;
+    padding: 1ex;
+}
+
+/* Disable text inside switch */
+#hack-switch > switch {
+    font-size: 0px;
+}
+
+/* User Hud */
+#user-hud,
+#user-hud:hover {
+    margin: 1ex 0 0 0;
+    background-image: none;
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+#user-hud #image {
+    border-radius: 50%;
+    box-shadow:  1px 1px 2px #555;
+    margin: 3px; /* needed for the shadow */
+    background-color: lavender;
+    padding: 0.6em;
+}
+
+#user-hud #padding,
+#user-hud #label {
+    background-color: white;
+    box-shadow:  3px 1px 2px #555;
+    padding: 1em 1em 1em 0.7em;
+}
+
+#user-hud #label {
+    border-radius: 0 1.5em 1.5em 0;
+}
+
+/* Header bar buttons */
+.headerbar-buttonbox {
+    padding-left: 2em;
+}
+
+.headerbar-buttonbox > label,
+.headerbar-buttonbox > button {
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-shadow: 1px 1px black;
+}
+
+.headerbar-buttonbox > button {
+    background: none;
+    border: 0;
+    box-shadow:none;
+    padding: 0 2em;
+}
+
+.headerbar-buttonbox > button:hover {
+    text-shadow: 1px 1px 3px gray;
+}
+
+.headerbar-buttonbox > button:checked > label {
+    text-decoration: underline;
+}
+
+.quest-button {
+    background: white;
+}
+
+.quest-button.complete {
+    background: lightgray;
+}
+
+/* Pathways view */
+
+/* Reset button color in listbox items */
+row:selected > box > button >label {
+    color: unset;
+}
+
+/* Character View */
+
+.character-view {
+    background: bottom / cover no-repeat url('resource:///com/endlessm/Clubhouse/images/character_bg.jpg');
+}
+
+.character-view list {
+    background-color: unset;
+}
+
+.character-view  #mission-list {
+    margin: 1em 3em 3em 0;
+    padding: 1em 1ex;
+    border: 1px solid gray;
+    box-shadow: 3px 3px 4px black;
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.character-view  #mission-list > label {
+    font-size: 1.8em;
+    font-weight: bold;
+    padding: 0 0 1ex 2em;
+}
+

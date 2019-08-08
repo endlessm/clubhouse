@@ -28,6 +28,23 @@ gnome.compile_resources(
     install_dir: clubhouse_data_dir
 )
 
+schemaconf = configuration_data()
+schemaconf.set('GETTEXT_PACKAGE', meson.project_name())
+schema = configure_file(
+  input: 'com.endlessm.clubhouse.gschema.xml.in',
+  output: 'com.endlessm.clubhouse.gschema.xml',
+  configuration: schemaconf,
+  install_dir: schema_dir
+)
+custom_target('compile-schemas',
+  input: schema,
+  output: 'gschemas.compiled',
+  command: [find_program('glib-compile-schemas'), meson.current_build_dir()],
+  build_by_default: true,
+  install_dir: schema_dir,
+  install: true
+)
+
 install_data(
     'eos-clubhouse.desktop',
     install_dir: join_paths(data_dir, 'applications')
@@ -43,13 +60,25 @@ install_data(
     install_dir: 'share/icons/hicolor/64x64/apps'
 )
 
+install_subdir(
+    'backgrounds',
+    install_dir: join_paths(get_option('datadir'), 'backgrounds'),
+    strip_directory: true
+)
+
+install_data(
+    'hack-data.ini',
+    install_dir: join_paths(get_option('datadir'), 'hack-components')
+)
+
 characters_dir_name = 'characters'
+cursors_dir_name = 'cursors'
 items_dir_name = 'items'
 episodes_dir_name = 'episodes'
 quests_strings_dir_name = 'quests_strings'
 tools_dir_name = 'tools'
 
-data_dir_paths = [characters_dir_name, items_dir_name, episodes_dir_name, quests_strings_dir_name, tools_dir_name]
+data_dir_paths = [characters_dir_name, cursors_dir_name, items_dir_name, episodes_dir_name, quests_strings_dir_name, tools_dir_name]
 
 foreach path : data_dir_paths
     install_subdir(path, install_dir: clubhouse_data_dir)

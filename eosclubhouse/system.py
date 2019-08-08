@@ -18,23 +18,45 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
-import gi
-import json
-gi.require_version('Json', '1.0')
+import configparser
+import os
+import shutil
 import time
 
 from eosclubhouse import logger
+from eosclubhouse.config import DATA_DIR
+from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer
-from eosclubhouse.utils import Performance
-from gi.repository import GLib, GObject, Gio, Json
+from eosclubhouse.utils import convert_variant_arg, get_flatpak_sandbox
+from gi.repository import GLib, GObject, Gio
 
 
 class Desktop:
+    SHELL_SETTINGS_SCHEMA_ID = 'org.gnome.shell'
+    SETTINGS_HACK_MODE_KEY = 'hack-mode-enabled'
+    HACK_BACKGROUND = 'file://{}/share/backgrounds/Desktop-BGs-Beta-Sketch_Blue.png'\
+        .format(get_flatpak_sandbox())
+
+    HACK_CURSOR = 'cursor-glitchy'
+
+    # Apps ids to override flatpak GTK3_MODULES with libclippy
+    CLIPPY_APPS = [
+        'com.endlessm.dinosaurs.en',
+        'com.endlessm.encyclopedia.en',
+        'com.endlessm.Fizzics',
+        'com.endlessm.Hackdex_chapter_one',
+        'com.endlessm.Hackdex_chapter_two',
+        'com.endlessm.LightSpeed',
+        'com.endlessm.OperatingSystemApp',
+        'com.endlessm.Sidetrack',
+    ]
 
     _dbus_proxy = None
     _app_launcher_proxy = None
     _shell_app_store_proxy = None
     _shell_proxy = None
+    _shell_settings = None
+    _shell_schema = None
 
     @classmethod
     def get_dbus_proxy(klass):
@@ -117,6 +139,18 @@ class Desktop:
         if app_name.endswith('.desktop'):
             return app_name
         return app_name + '.desktop'
+
+    @classmethod
+    def minimize_all(klass):
+        """
+        Minimizes all the windows from the overview.
+        """
+        try:
+            klass.get_shell_proxy().MinimizeAll()
+        except GLib.Error as e:
+            logger.error(e)
+            return False
+        return True
 
     @classmethod
     def app_is_running(klass, name):
@@ -208,6 +242,116 @@ class Desktop:
         shell_proxy = klass.get_shell_proxy()
         return shell_proxy.disconnect(handler_id)
 
+    @classmethod
+    def shell_settings_bind(klass, key, target_object, target_property,
+                            flags=Gio.SettingsBindFlags.DEFAULT):
+        settings = klass.get_shell_settings()
+        if settings:
+            settings.bind(key, target_object, target_property, flags)
+
+    @classmethod
+    def shell_settings_connect(klass, signal_name, callback, *args):
+        settings = klass.get_shell_settings()
+        if not settings:
+            return 0
+        return settings.connect(signal_name, callback, *args)
+
+    @classmethod
+    def get_shell_settings(klass):
+        if not klass._get_shell_schema():
+            klass._shell_settings = None
+        elif klass._shell_settings is None:
+            klass._shell_settings = Gio.Settings(klass.SHELL_SETTINGS_SCHEMA_ID)
+
+        return klass._shell_settings
+
+    @classmethod
+    def _get_shell_schema(klass):
+        schema_source = Gio.SettingsSchemaSource.get_default()
+        if klass._shell_schema is None:
+            klass._shell_schema = schema_source.lookup(klass.SHELL_SETTINGS_SCHEMA_ID, False)
+        if klass._shell_schema is None:
+            logger.warning('Schema \'%s\' not found.', klass.SHELL_SETTINGS_SCHEMA_ID)
+        return klass._shell_schema
+
+    @classmethod
+    def set_hack_background(klass, enabled):
+        ''' This changes the background to the Hack one '''
+
+        desktop = Gio.Settings('org.gnome.desktop.background')
+        clubhouse = Gio.Settings('com.endlessm.clubhouse')
+
+        old_picture_uri = desktop.get_string('picture-uri')
+        if enabled:
+            new_picture_uri = \
+                clubhouse.get_string('hack-mode-enabled-picture-uri') or klass.HACK_BACKGROUND
+        else:
+            new_picture_uri = clubhouse.get_string('hack-mode-disabled-picture-uri')
+
+        if new_picture_uri:
+            desktop.set_string('picture-uri', new_picture_uri)
+        else:
+            desktop.reset('picture-uri')
+
+        if old_picture_uri:
+            if enabled:
+                clubhouse.set_string('hack-mode-disabled-picture-uri', old_picture_uri)
+            else:
+                clubhouse.set_string('hack-mode-enabled-picture-uri', old_picture_uri)
+
+    @classmethod
+    def ensure_hack_cursor_is_present(klass):
+        src = f'{DATA_DIR}/cursors/cursor-glitchy.xmc'
+        dirname = '~/.icons/cursor-glitchy/cursors/'
+        dirname = os.path.expanduser(dirname)
+        cursor = os.path.join(dirname, 'left_ptr')
+        theme = os.path.join(dirname, 'index.theme')
+
+        if os.path.exists(cursor):
+            return
+
+        os.makedirs(dirname, exist_ok=True)
+        shutil.copy2(src, cursor)
+        config = configparser.ConfigParser()
+        config.optionxform = lambda opt: opt
+        config.add_section('Icon Theme')
+        config.set('Icon Theme', 'Inherits', 'Adwaita')
+
+        with open(theme, 'w') as f:
+            config.write(f)
+
+    @classmethod
+    def set_hack_cursor(klass, enabled):
+        ''' This changes the cursor to the Hack one '''
+
+        klass.ensure_hack_cursor_is_present()
+
+        interface = Gio.Settings('org.gnome.desktop.interface')
+
+        if enabled:
+            interface.set_string('cursor-theme', klass.HACK_CURSOR)
+        else:
+            interface.reset('cursor-theme')
+
+    @classmethod
+    def get_hack_mode(klass):
+        shell_settings = klass.get_shell_settings()
+        if not shell_settings:
+            return False
+        return klass.get_shell_settings().get_boolean(klass.SETTINGS_HACK_MODE_KEY)
+
+    @classmethod
+    def set_hack_mode(klass, enabled):
+        # Override clippy apps
+        shell_settings = klass.get_shell_settings()
+        if not shell_settings:
+            return
+
+        for name in klass.CLIPPY_APPS:
+            App(name).enable_clippy(enabled)
+
+        return shell_settings.set_boolean(klass.SETTINGS_HACK_MODE_KEY, enabled)
+
 
 class App:
 
@@ -216,6 +360,7 @@ class App:
     _clippy = None
     _gtk_app_proxy = None
     _gtk_actions_proxy = None
+    _gtk_launch_app_proxy = None
 
     def __init__(self, app_dbus_name, app_dbus_path=None):
         self._app_dbus_name = app_dbus_name
@@ -264,6 +409,19 @@ class App:
                                                None)
 
         return self._gtk_actions_proxy
+
+    def get_gtk_launch_app_proxy(self):
+        if self._gtk_launch_app_proxy is None:
+            self._gtk_launch_app_proxy = \
+                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                               Gio.DBusProxyFlags.DO_NOT_AUTO_START_AT_CONSTRUCTION,
+                                               None,
+                                               self._app_dbus_name,
+                                               self._app_dbus_path,
+                                               'org.gtk.Application',
+                                               None)
+
+        return self._gtk_launch_app_proxy
 
     def is_running(self):
         return self.get_gtk_app_proxy().props.g_name_owner is not None
@@ -373,6 +531,62 @@ class App:
         stamp = timestamp or int(time.time())
         self.get_clippy_proxy().Highlight('(su)', obj, stamp)
 
+    def launch(self):
+        if not Desktop.launch_app(self.dbus_name):
+            return self.launch_gapp()
+        return True
+
+    def launch_gapp(self):
+        try:
+            self.get_gtk_launch_app_proxy().Activate('(a{sv})', [])
+        except GLib.Error as e:
+            logger.error(e)
+            return False
+        return True
+
+    def pulse_flip_to_hack_button(self, enable):
+        app = HackableAppsManager.get_hackable_app(self._app_dbus_name)
+        if app:
+            app.pulse_flip_to_hack_button = enable
+
+    def enable_clippy(self, enable=True):
+        sandbox = get_flatpak_sandbox()
+        clippy_sandbox = sandbox.replace('app', 'runtime').replace('Clubhouse', 'Clippy.Extension')
+
+        filesystems = f'{sandbox}:ro;~/.icons;'
+        clippy = f'{clippy_sandbox}/lib/libclippy-module.so'
+
+        filename = f'~/.local/share/flatpak/overrides/{self.dbus_name}'
+        filename = os.path.expanduser(filename)
+        dirname = os.path.dirname(filename)
+        if not os.path.exists(dirname):
+            os.mkdir(dirname)
+
+        config = configparser.ConfigParser()
+        config.optionxform = lambda opt: opt
+        if os.path.exists(filename):
+            config.read(filename)
+
+        options = {
+            ('Context', 'filesystems'): filesystems,
+            ('Session Bus Policy', 'com.endlessm.HackSoundServer'): 'talk',
+            ('Environment', 'GTK3_MODULES'): clippy,
+        }
+
+        if enable:
+            for key, value in options.items():
+                section, option = key
+                if not config.has_section(section):
+                    config.add_section(section)
+                config.set(section, option, value)
+        else:
+            for section, option in options:
+                if config.has_option(section, option):
+                    config.remove_option(section, option)
+
+        with open(filename, 'w') as f:
+            config.write(f)
+
 
 class GameStateService(GObject.GObject):
 
@@ -408,23 +622,12 @@ class GameStateService(GObject.GObject):
         if signal_name == 'changed':
             self.emit('changed')
 
-    def _convert_variant_arg(self, variant):
-        # If we're passing a dictionary instead, then we just convert it from json
-        if isinstance(variant, dict):
-            try:
-                json_str = json.dumps(variant)
-                variant = Json.gvariant_deserialize_data(json_str, -1, None)
-            except Exception:
-                raise TypeError('Error setting GSS entry: value is not a variant nor can it be '
-                                'converted to json')
-        return variant
-
     def set(self, key, variant):
-        variant = self._convert_variant_arg(variant)
+        variant = convert_variant_arg(variant)
         self._get_gss_proxy().Set('(sv)', key, variant)
 
     def set_async(self, key, variant):
-        variant = self._convert_variant_arg(variant)
+        variant = convert_variant_arg(variant)
 
         def _on_set_done_callback(proxy, result):
             try:
@@ -458,52 +661,6 @@ class GameStateService(GObject.GObject):
     @staticmethod
     def _is_key_error(error):
         return Gio.DBusError.get_remote_error(error) == 'com.endlessm.GameStateService.KeyError'
-
-
-class AccountService(GObject.GObject):
-
-    _proxy = None
-
-    @classmethod
-    def _get_proxy_and_call(klass, method, callback, *params):
-        Gio.DBusProxy.new_for_bus(Gio.BusType.SESSION,
-                                  0,
-                                  None,
-                                  'com.endlessm.HackAccountService',
-                                  '/com/endlessm/HackAccountService',
-                                  'com.endlessm.HackAccountService',
-                                  None,
-                                  klass._get_proxy_finish,
-                                  method, callback, *params)
-
-    @classmethod
-    def _get_proxy_finish(klass, proxy, res, method, callback, *params):
-        try:
-            klass._proxy = proxy.new_for_bus_finish(res)
-        except GLib.Error as e:
-            logger.error('Cannot get proxy for HackAccountService: %s', e.message)
-            return
-
-        klass._call_async(method, callback, *params)
-
-    @classmethod
-    def _call_async(klass, method, callback, *params):
-        if not klass._proxy:
-            klass._get_proxy_and_call(method, callback, *params)
-            return
-
-        klass._proxy.call(method, None, Gio.DBusCallFlags.NONE, -1, None,
-                          callback, *params)
-
-    def _init_callback(self, proxy, res):
-        try:
-            proxy.call_finish(res)
-        except GLib.Error as e:
-            logger.error('Cannot start the HackAccountService: %s', e.message)
-
-    @Performance.timeit
-    def init_accounts(self):
-        self._call_async('InitAccounts', self._init_callback)
 
 
 class ToolBoxTopic(GObject.GObject):

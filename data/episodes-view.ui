@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkScrolledWindow" id="episodes_scrolled_window">
+    <property name="visible">True</property>
+    <property name="valign">fill</property>
+    <child>
+      <object class="GtkOverlay" id="episodes_overlay">
+        <property name="visible">True</property>
+        <property name="halign">fill</property>
+        <property name="valign">fill</property>
+        <child type="overlay">
+          <object class="GtkFixed" id="badges_box">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">fill</property>
+            <property name="valign">fill</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkListBox" id="episodes_list_box">
+            <property name="visible">True</property>
+            <property name="selection-mode">single</property>
+            <style>
+              <class name="episodes-list"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <style>
+      <class name="clubhouse-scrolled-window"/>
+    </style>
+  </object>
+</interface>

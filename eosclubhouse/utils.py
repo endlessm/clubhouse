@@ -20,15 +20,20 @@
 #
 
 import csv
+import gi
 import glob
 import itertools
+import json
+gi.require_version('Json', '1.0')
 import os
 import re
+import subprocess
 import time
 
 from collections import OrderedDict
 from enum import Enum
-from gi.repository import GLib, GObject
+from gi.repository import GLib, GObject, Json
+from string import Template
 
 from eosclubhouse import config, logger
 
@@ -282,7 +287,7 @@ class _ClubhouseStateImpl(GObject.GObject):
 class ClubhouseState:
     '''Singleton that represents a Clubhouse state.'''
 
-    Page = Enum('Page', ['CLUBHOUSE', 'INVENTORY', 'EPISODES'])
+    Page = Enum('Page', ['CLUBHOUSE', 'PATHWAYS', 'INVENTORY'])
 
     _impl = None
 
@@ -299,3 +304,44 @@ class ClubhouseState:
 
     def __hasattr__(self, name):
         return hasattr(self._impl, name)
+
+
+class MessageTemplate(Template):
+    """Template for Clubhouse messages."""
+
+    delimiter = '{{'
+    pattern = r'''
+    \{{(?:
+       (?P<escaped>\#) |            # Expression {{# }} will escape the template: {{ }}
+       (?P<named>[^\[{}\#]+)}} |    # These characters can't be used in names: #, {, and }
+       \b\B(?P<braced>) |           # Braced names disabled
+       (?P<invalid>)
+    )
+    '''
+
+
+def get_flatpak_sandbox():
+    sandbox = subprocess.check_output(
+        ['/usr/bin/findmnt', '-T', '/app', '-l', '-o', 'FSROOT', '-n'],
+        text=True)
+    # replace the current commit id with 'active'
+    sandbox = ['', 'var', 'lib'] + sandbox.split('/')[1:-2] + ['active', 'files']
+    sandbox = '/'.join(sandbox)
+
+    return sandbox
+
+
+def convert_variant_arg(variant):
+    """Convert Python dict to GLib.Variant"""
+    if isinstance(variant, GLib.Variant):
+        return variant
+
+    if isinstance(variant, dict):
+        try:
+            json_str = json.dumps(variant)
+            return Json.gvariant_deserialize_data(json_str, -1, None)
+        except Exception:
+            raise TypeError('Error: the given Python dict can\'t be '
+                            'converted to json or GLib.Variant')
+
+    raise TypeError('Error: value is not a Python dict or GLib.Variant')

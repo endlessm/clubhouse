@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from eosclubhouse.libquest import Registry, Quest, QuestSet
+from eosclubhouse.libquest import Registry, Quest, CharacterMission
 from eosclubhouse.system import GameStateService
 from eosclubhouse.utils import QuestStringCatalog
 from gi.repository import Gio, GObject
@@ -50,6 +50,9 @@ class ClubhouseTestCase(unittest.TestCase):
         # Ensure the GSS doesn't affect the real game state.
         GameStateService._proxy = _GSSMockProxy()
 
+        # Also patch set_async() with set() to simplify testing:
+        GameStateService.set_async = GameStateService.set
+
         # Reset the GSS so every test case starts with a clean slate.
         cls.reset_gss()
 
@@ -71,12 +74,17 @@ class ClubhouseTestCase(unittest.TestCase):
         GameStateService().reset()
 
 
-def test_on_episodes(episodes=[]):
-    def func_wrapper(function):
-        def wrapper(*args, **kwargs):
-            _episodes = episodes or Registry.get_available_episodes()
+def test_all_episodes(skip=[]):
 
-            for episode in _episodes:
+    def decorator(function):
+
+        def test_on_episodes(*args, **kwargs):
+            episodes = Registry.get_available_episodes()
+
+            for episode in episodes:
+                if episode in skip:
+                    continue
+
                 # Load the next episode.
                 Registry.set_current_episode(episode)
                 Registry.load_current_episode()
@@ -88,13 +96,10 @@ def test_on_episodes(episodes=[]):
                     # Inform about which episode failed and propagate the failure.
                     print('Failed test in episode "{}"'.format(episode))
                     raise
-        return wrapper
 
-    return func_wrapper
+        return test_on_episodes
 
-
-def test_all_episodes(func):
-    return test_on_episodes([])(func)
+    return decorator
 
 
 def define_quest(quest_id, available_after=[]):
@@ -105,13 +110,13 @@ def define_quest(quest_id, available_after=[]):
                                      'step_begin': step_begin})
 
 
-def define_quest_set(quest_set_id, character_id, quest_id_deps_list=[]):
+def define_character_mission(quest_set_id, character_id, quest_id_deps_list=[]):
     quests = []
     for quest_id, dependencies in quest_id_deps_list:
         quests.append(define_quest(quest_id, dependencies))
 
-    return type(quest_set_id, (QuestSet,), {'__quests__': quests,
-                                            '__character_id__': character_id})
+    return type(quest_set_id, (CharacterMission,), {'__quests__': quests,
+                                                    '__character_id__': character_id})
 
 
 def setup_episode(quest_set_list, episode_name='tests-phony-episode'):

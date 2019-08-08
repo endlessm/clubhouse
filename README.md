@@ -7,8 +7,8 @@ user on a guided journey through the world of computing.
 ## Architecture
 
 The Clubhouse is developed in Python as a GTK application.
-It has a main window that is treated in a special way by the Shell, and a
-a Shell part too.
+It has a main CSD window and a shell component to provide custom system level
+dialogs.
 
 ### GTK Application
 
@@ -16,20 +16,20 @@ The GTK application contains both the UI and also the Quests code, even
 though the latter is decoupled from the main application code (as a
 different module for now, but in the future it may become a different
 process even).
+The main window adapts itself to the screen resolution using 75% of the screen
+height and using the background aspect ratio for its width.
+The supported resolution range goes from 720p to 1080p and different CSS classes
+are used to adapt the rest of the UI other than the artwork to the different
+sizes.
 
 ### Shell
 
-The Clubhouse has a [Shell component](https://github.com/endlessm/gnome-shell/blob/master/js/ui/components/clubhouse.js) with two main functions:
- 1. Provide the Clubhouse's open and close buttons:
-   The open button needs to be available in the desktop/windows views of the
-   Shell; the close button is implemented in the Shell because it sits on top
-   of the Clubhouse window's left border.
- 2. Provide the Shell Quest View:
+The Clubhouse has a [Shell component](https://github.com/endlessm/gnome-shell/blob/master/js/ui/components/clubhouse.js) with the main functions:
+ 1. Provide the Shell Quest View:
    There are two quest views (the dialogs that represent a quest) associated
    with the Clubhouse, one in the GTK application itself, and one in the
    Shell so it's displayed on top of every area in the Shell, even when the
    application's window is closed.
-
 
 ## Development
 
@@ -482,22 +482,6 @@ com.endlessm.Clubhouse --quit
 com.endlessm.Clubhouse --debug
 ```
 
-### As a Normal Window
-
-Run the Clubhouse inside a normal window, instead of the special side panel:
-
-``` bash
-CLUBHOUSE_NO_SIDE_COMPONENT=yes com.endlessm.Clubhouse
-```
-
-### No Auto Hide
-
-Prevent the Clubhouse to hide automatically when it loses focus:
-
-``` bash
-CLUBHOUSE_NO_AUTO_HIDE=yes com.endlessm.Clubhouse
-```
-
 ### Measuring Performance
 
 Output the time it takes to run certain setup steps. Useful for finding
@@ -508,30 +492,6 @@ CLUBHOUSE_PERF_DEBUG=yes com.endlessm.Clubhouse
 ```
 
 ## Future Work ##
-
-### Clubhouse Real Estate ###
-
-As mentioned above, the Clubhouse includes an application window that is
-treated specially by GNOME Shell, as a side panel.
-As we added more characters, the space in the Clubhouse has become a bit
-cramped.
-There is not really space for them to do anything but stand around.
-
-The original art for the Clubhouse included a much larger background, so
-there is a possibility of having the Clubhouse expand to a larger size,
-either immediately, or with some sort of expand UX.
-
-### Resolution independence ###
-
-The Clubhouse is one of the components in Hack that is not independent
-of resolution.
-The background art and the characters are at a fixed resolution and
-positions.
-If you try to run it on a resolution other than 1080px, the buttons in
-the bottom of the Clubhouse will fall off the screen.
-
-A future revision should try to scale the Clubhouse art based on the
-vertical resolution of the monitor.
 
 ### Separating the Quests from the Clubhouse ###
 

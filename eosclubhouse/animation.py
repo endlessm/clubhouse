@@ -21,10 +21,10 @@ def get_character_animation_dirs(subpath):
 
 
 class AnimationImage(Gtk.Image):
-    def __init__(self, subpath):
+    def __init__(self, subpath, scale=1):
         super().__init__()
         self._animator = Animator(self)
-        self._animator.load(subpath)
+        self._animator.load(subpath, None, scale)
 
     def play(self, name):
         self._animator.play(name)
@@ -42,11 +42,11 @@ class Animator:
         self._animations = {}
         self._target_image = target_image
 
-    def load(self, subpath, prefix=None):
+    def load(self, subpath, prefix=None, scale=1):
         for sprites_path in get_character_animation_dirs(subpath):
             for sprite in glob.glob(os.path.join(sprites_path, '*png')):
                 name, _ext = os.path.splitext(os.path.basename(sprite))
-                animation = Animation(sprite, self._target_image)
+                animation = Animation(sprite, self._target_image, scale)
                 animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
                 self._animations[animation_name] = animation
 
@@ -62,13 +62,19 @@ class Animator:
     def has_animation(self, name):
         return self._animations.get(name) is not None
 
+    def get_animation_scale(self, name):
+        animation = self._animations.get(name)
+        if animation is not None:
+            return animation.scale
+        return None
+
     def get_current_animation(self):
         return AnimationSystem.get_animation(id(self))
 
 
 class Animation(GObject.GObject):
 
-    def __init__(self, path, target_image):
+    def __init__(self, path, target_image, scale=1):
         super().__init__()
         self._loop = True
         self._anchor = (0, 0)
@@ -76,7 +82,7 @@ class Animation(GObject.GObject):
         self.last_updated = None
         self.target_image = target_image
         self.reset()
-        self.load(path)
+        self.load(path, scale)
         self._set_current_frame_delay()
 
     def reset(self):
@@ -111,17 +117,27 @@ class Animation(GObject.GObject):
         pixbuf = self.current_frame['pixbuf']
         self.target_image.set_from_pixbuf(pixbuf)
 
-    def load(self, sprite_path):
+    def load(self, sprite_path, scale=1):
+        self._anchor = (0, 0)
+        self.frames = []
+        self.scale = scale
+
         metadata = self.get_animation_metadata(sprite_path)
         sprite_pixbuf = GdkPixbuf.Pixbuf.new_from_file(sprite_path)
         sprite_width = sprite_pixbuf.get_width()
+        width = metadata['width']
+        height = metadata['height']
 
         subpixbufs = []
-        for offset_x in range(0, sprite_width, metadata['width']):
+        for offset_x in range(0, sprite_width, width):
             pixbuf = GdkPixbuf.Pixbuf.new_subpixbuf(sprite_pixbuf,
                                                     offset_x, 0,
-                                                    metadata['width'],
-                                                    metadata['height'])
+                                                    width, height)
+            # Scale final frame if needed
+            if scale != 1:
+                pixbuf = pixbuf.scale_simple(pixbuf.get_width() * scale,
+                                             pixbuf.get_height() * scale,
+                                             GdkPixbuf.InterpType.BILINEAR)
             subpixbufs.append(pixbuf)
 
         if 'frames' in metadata:

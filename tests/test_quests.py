@@ -1,7 +1,8 @@
 from eosclubhouse.libquest import Registry, NoMessageIdError
 from eosclubhouse.utils import QuestStringCatalog
 from eosclubhouse.system import GameStateService
-from clubhouseunittest import ClubhouseTestCase, define_quest, define_quest_set, setup_episode
+from clubhouseunittest import ClubhouseTestCase, define_quest, \
+    define_character_mission, setup_episode
 
 
 class TestQuests(ClubhouseTestCase):
@@ -12,7 +13,8 @@ class TestQuests(ClubhouseTestCase):
     def test_show_message_can_raise_custom_error(self):
         """Tests that Quests raise a custom error when a message ID is not in the catalog."""
 
-        quest = define_quest('PhonyQuest')(None)
+        quest_class = define_quest('PhonyQuest')
+        quest = quest_class()
 
         string_catalog = QuestStringCatalog._csv_dict
         QuestStringCatalog.set_key_value_from_csv_row(('PHONYQUEST_HELLO',
@@ -26,40 +28,30 @@ class TestQuests(ClubhouseTestCase):
         with self.assertRaises(NoMessageIdError):
             quest.show_message('INEXISTENT_MESSAGE')
 
-    def test_verify_dependencies(self):
-        """Tests that Quests compute their dependencies correctly, taking into account the
-        quests coming before them in the QuestSet but also their own dependencies."""
-
-        def get_dependencies(quest_id):
-            quest = Registry.get_quest_by_name(quest_id)
-            return [quest_dep.get_id() for quest_dep in quest.get_dependency_quests()]
-
-        PhonyAlice = define_quest_set('PhonyAlice', 'Alice',
-                                      [('QuestA0', []),
-                                       ('QuestB0', []),
-                                       ('QuestC0', []),
-                                       ('QuestD0', ['QuestB1'])])
-
-        PhonyBob = define_quest_set('PhonyBob', 'Bob',
-                                    [('QuestA1', []),
-                                     ('QuestB1', ['QuestC0'])])
-
-        setup_episode([PhonyAlice(), PhonyBob()])
-
-        self.assertEqual(get_dependencies('QuestD0'),
-                         ['QuestC0', 'QuestB0', 'QuestA0', 'QuestB1', 'QuestA1'])
-
-        self.assertEqual(get_dependencies('QuestB1'), ['QuestA1', 'QuestC0', 'QuestB0', 'QuestA0'])
-
-        self.assertEqual(get_dependencies('QuestC0'), ['QuestB0', 'QuestA0'])
-
-        self.assertEqual(get_dependencies('QuestA1'), [])
-
-    def test_main_character(self):
-        '''Tests what the main character is when quests are initialized.'''
+    def test_default_main_character(self):
+        '''Tests there is some default main character when not provided in the catalog.'''
         QuestA = define_quest('QuestA')
 
-        PhonyAlice = define_quest_set('PhonyAlice', 'alice')
+        PhonyAlice = define_character_mission('PhonyAlice', 'alice')
+        PhonyAlice.__quests__ = [QuestA]
+
+        setup_episode([PhonyAlice()])
+
+        quest_a = Registry.get_quest_by_name('QuestA')
+        self.assertNotEqual(quest_a.get_main_character(), 'alice')
+        self.assertNotEqual(quest_a.get_main_character(), '')
+
+    def test_main_character(self):
+        '''Tests the main character is obtained from the catalog.'''
+        QuestA = define_quest('QuestA')
+
+        string_catalog = QuestStringCatalog._csv_dict
+        QuestStringCatalog.set_key_value_from_csv_row(('QUESTA_QUESTION',
+                                                       'wanna hack?', 'alice',
+                                                       'talk', '', ''),
+                                                      string_catalog)
+
+        PhonyAlice = define_character_mission('PhonyAlice', 'alice')
         PhonyAlice.__quests__ = [QuestA]
 
         setup_episode([PhonyAlice()])
@@ -86,7 +78,7 @@ class TestQuests(ClubhouseTestCase):
         QuestB = define_quest('QuestB')
         QuestB.__proposal_message_id__ = 'WELCOME'
 
-        PhonySet = define_quest_set('PhonySet', 'alice')
+        PhonySet = define_character_mission('PhonySet', 'alice')
         PhonySet.__quests__ = [QuestA, QuestB]
 
         setup_episode([PhonySet()])
@@ -114,7 +106,7 @@ class TestQuests(ClubhouseTestCase):
             key_name = 'item.key.{}'.format(i)
             quest_class.__items_on_completion__ = {key_name: value_to_set}
 
-            quest = quest_class(None)
+            quest = quest_class()
             # Saving without completing the quest.
             quest.save_conf()
 
@@ -127,12 +119,25 @@ class TestQuests(ClubhouseTestCase):
             value_in_gss = GameStateService().get(key_name)
             self.assertEqual(value_in_gss, value_to_expect)
 
+    def test_is_named_quest_complete(self):
+        '''Tests that quests can check if other quest is completed.'''
+        quest_a_class = define_quest('QuestA')
+        quest_b_class = define_quest('QuestB')
+
+        quest_a = quest_a_class()
+        quest_a.complete = True
+        quest_a.save_conf()
+
+        quest_b = quest_b_class()
+        self.assertTrue(quest_b.is_named_quest_complete('QuestA'))
+
     def test_conf_on_completion(self):
+        '''Tests the __conf_on_completion__ use.'''
         key_name = 'special.key.1'
         quest_class = define_quest('QuestA')
         quest_class.__conf_on_completion__ = {key_name: {'answer': 42}}
 
-        quest = quest_class(None)
+        quest = quest_class()
         # Saving without completing the quest.
         quest.save_conf()
 
@@ -144,3 +149,23 @@ class TestQuests(ClubhouseTestCase):
 
         value_in_gss = GameStateService().get(key_name)
         self.assertTrue(value_in_gss, {'answer': 42})
+
+    def test_conf_save_and_load(self):
+        '''Tests how to load and save custom configuration.'''
+        quest_a_class = define_quest('QuestA')
+        quest_b_class = define_quest('QuestB')
+        quest_a1 = quest_a_class()
+        self.assertEqual(quest_a1.get_conf('hints_given'), None)
+        quest_a1.set_conf('hints_given', True)
+        self.assertEqual(quest_a1.get_conf('hints_given'), True)
+        quest_a1.save_conf()
+
+        # This is a new instance of QuestA. Load happens automatically
+        # on instantiation:
+        quest_a2 = quest_a_class()
+        self.assertEqual(quest_a2.get_conf('hints_given'), True)
+
+        # We can also get the conf from another quest:
+        quest_b = quest_b_class()
+        conf = quest_b.get_named_quest_conf('QuestA', 'hints_given')
+        self.assertEqual(conf, True)
