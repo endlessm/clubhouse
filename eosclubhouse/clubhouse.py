@@ -353,6 +353,8 @@ class QuestSetButton(Gtk.Button):
         self._character.body_animation = self._quest_set.body_animation
 
         self.connect('clicked', self._on_button_clicked_cb)
+        self.connect('enter', self._on_button_enter_cb)
+        self.connect('leave', self._on_button_leave_cb)
         self._quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
         self._quest_set.connect('notify::body-animation',
                                 self._on_quest_set_body_animation_changed)
@@ -399,6 +401,14 @@ class QuestSetButton(Gtk.Button):
     def _on_button_clicked_cb(self, _button):
         if self._quest_set.highlighted:
             self._quest_set.highlighted = False
+
+    def _on_button_enter_cb(self, _button):
+        self._character.body_animation = self._quest_set.HIGHLIGHTED_ANIMATION
+        self.notify('position')
+
+    def _on_button_leave_cb(self, _button):
+        self._character.body_animation = self._quest_set.body_animation
+        self.notify('position')
 
     def _on_quest_set_highlighted_changed(self, _quest_set, _param):
         self._set_highlighted(self._quest_set.highlighted)
