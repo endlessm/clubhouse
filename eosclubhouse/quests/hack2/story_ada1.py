@@ -24,23 +24,27 @@ class Story_Ada1(Quest):
         for step in range(1, self.__total_steps__ + 1):
             message_id = 'STORY_ADA1_' + str(step)
             if step in self.__question_steps__:
-                self.ask_question(message_id)
+                # self.ask_question(message_id)
+                # u"\U0001F44D" for thumbs-up, u"\U0001F44E" for thumbs-down
+                choice_pos = (u"\U0001F44D", self.display_answer, message_id, True)
+                choice_neg = (u"\U0001F44E", self.display_answer, message_id, False)
+                self.show_choices_message(message_id, narrative=True,
+                                          choices=[choice_pos, choice_neg]).wait()
             else:
                 self.wait_confirm(message_id, narrative=True)
         return self.step_end
 
-    def ask_question(self, proposal_string):
-        # u"\U0001F44D"     /    u"\U0001F44E"
-        # U+1F44D for thumbs up, U+1F44E for down
-        self.show_choices_message(proposal_string, narrative=True, choices=[
-            (u"\U0001F44D", self.display_answer, proposal_string, True),
-            (u"\U0001F44E", self.display_answer, proposal_string, False)])
+    # def ask_question(self, message_id):
+    #     # u"\U0001F44D" for thumbs-up, u"\U0001F44E" for thumbs-down
+    #     self.show_choices_message(message_id, narrative=True, choices=[
+    #         (u"\U0001F44D", self.display_answer, message_id, True),
+    #         (u"\U0001F44E", self.display_answer, message_id, False)]).wait()
 
-    def display_answer(self, proposal_string, answer):
+    def display_answer(self, message_id, answer):
         if answer:
-            self.wait_confirm(proposal_string + '_RPOS', narrative=True)
+            self.wait_confirm(message_id + '_RPOS', narrative=True)
         else:
-            self.wait_confirm(proposal_string + '_RNEG', narrative=True)
+            self.wait_confirm(message_id + '_RNEG', narrative=True)
 
     def step_end(self):
         self.dismiss_message(narrative=True)
