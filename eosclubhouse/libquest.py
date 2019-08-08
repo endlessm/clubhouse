@@ -1645,8 +1645,6 @@ class PathWay(QuestSet):
 class CharacterMission(QuestSet):
 
     __character_id__ = None
-    # The __position__ can override the character's position by using a tuple here e.g. (10, 12)
-    __position__ = None
     __empty_message__ = 'Nothing to see here!'
 
     visible = GObject.Property(type=bool, default=True)
@@ -1657,7 +1655,6 @@ class CharacterMission(QuestSet):
 
     def __init__(self):
         super().__init__()
-        self._position = self.__position__
         self._body_animation = self.DEFAULT_ANIMATION
         self._unhighlighted_body_animation = self.body_animation
         self._previous_body_animation = None
@@ -1705,9 +1702,6 @@ class CharacterMission(QuestSet):
                 if not quest.skippable:
                     break
         return None
-
-    def get_position(self):
-        return self._position
 
     def _get_highlighted(self):
         return self._highlighted
