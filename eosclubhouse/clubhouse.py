@@ -1699,7 +1699,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             Desktop.set_hack_background(hack_mode_enabled)
         Desktop.set_hack_cursor(hack_mode_enabled)
         self._pathways_button.props.sensitive = hack_mode_enabled
-        self.clubhouse.stop_quest()
 
         ctx = self.get_style_context()
         ctx.add_class('transitionable-background')
@@ -1708,6 +1707,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             ctx.remove_class('off')
         else:
             ctx.add_class('off')
+            self.clubhouse.stop_quest()
 
     def _update_window_size(self):
         BG_WIDTH = 1200
