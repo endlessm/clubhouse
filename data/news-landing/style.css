@@ -1,0 +1,54 @@
+body {
+	font-size: 15px;
+	color: #14171A;
+}
+.container-fluid {
+	padding-top:  20px;
+	padding-bottom: 20px;
+	background: white;
+}
+
+.profile {
+	height: 49px;
+	width: 49px;
+	border-radius: 50%;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.pic {
+	text-align: center;
+}
+
+.feedImage {
+	max-width: 100%;
+	max-height: 100%;
+	border: 0 solid black;
+	border-radius: 10px;
+}
+
+.row {
+	padding: 10px;
+	border-color: rgb(230, 236, 240);
+	border-style: solid;
+	border-width: 1px;
+}
+
+.hyper {
+	color: #657786;
+}
+
+.hashtag {
+	font-weight: bold;
+	color: #1b95E0;
+}
+
+.outer {
+	border: 0;
+	padding: 0;
+}
+
+.hero {
+	max-height: 100%;
+	max-width: 100%;
+}
