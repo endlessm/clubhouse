@@ -448,6 +448,7 @@ class CharacterView(Gtk.Grid):
     _character_image = Gtk.Template.Child()
     _character_button = Gtk.Template.Child()
     _message_list = Gtk.Template.Child()
+    _missions_scrolled_window = Gtk.Template.Child()
 
     def __init__(self, app_window):
         super().__init__(visible=True)
@@ -530,6 +531,37 @@ class CharacterView(Gtk.Grid):
             row = QuestRow(quest_set, quest)
             self._list.add(row)
             row.show()
+
+        # Scroll the first non completed quest.
+        reference_row = self._list.get_row_at_index(0)
+        if reference_row:
+            reference_row.connect_after('size-allocate', self._on_row_size_allocate)
+
+    def _on_row_size_allocate(self, row, _rect):
+        self._scroll_to_first_non_completed_quest()
+        row.disconnect_by_func(self._on_row_size_allocate)
+
+    def _scroll_to_mission_row_at_index(self, index, reference_row):
+        vadjustment = self._missions_scrolled_window.props.vadjustment
+        if index <= 0:
+            vadjustment.props.value = 0
+            return
+        # @todo: Consider margins. Not margins are used now.
+        reference_height = reference_row.get_allocation().height
+        y = index * reference_height
+        vadjustment.props.value = y
+
+    def _get_first_non_completed_mission_index(self):
+        for i, row in enumerate(self._list.get_children()):
+            if not row.get_quest().complete:
+                return i
+        return -1
+
+    def _scroll_to_first_non_completed_quest(self):
+        index = self._get_first_non_completed_mission_index()
+        reference_row = self._list.get_row_at_index(0)
+        if reference_row:
+            self._scroll_to_mission_row_at_index(index, reference_row)
 
     def _quest_row_clicked_cb(self, _list_box, row):
         quest_set = row.get_quest_set()
