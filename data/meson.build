@@ -21,7 +21,8 @@ gnome.compile_resources(
     files('com.endlessm.Clubhouse.gresource.xml'),
     source_dir : [
         '.',
-        './assets'
+        './assets',
+        './icons'
     ],
     gresource_bundle: true,
     install: true,

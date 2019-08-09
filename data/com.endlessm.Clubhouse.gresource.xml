@@ -22,4 +22,16 @@
     <file>episodes_bg.png</file>
     <file>icon_check-in-circle.svg</file>
   </gresource>
+  <gresource prefix="/com/endlessm/Clubhouse/icons">
+    <file preprocess="xml-stripblanks">clubhouse-difficulty-easy.svg</file>
+    <file preprocess="xml-stripblanks">clubhouse-difficulty-hard.svg</file>
+    <file preprocess="xml-stripblanks">clubhouse-difficulty-normal.svg</file>
+    <file preprocess="xml-stripblanks">clubhouse-pathway-art.svg</file>
+    <file preprocess="xml-stripblanks">clubhouse-pathway-games.svg</file>
+    <file preprocess="xml-stripblanks">clubhouse-pathway-maker.svg</file>
+    <file preprocess="xml-stripblanks">clubhouse-pathway-narrative.svg</file>
+    <file preprocess="xml-stripblanks">clubhouse-pathway-operatingsystem.svg</file>
+    <file preprocess="xml-stripblanks">clubhouse-pathway-web.svg</file>
+    <file preprocess="xml-stripblanks">clubhouse-pathway-unknown.svg</file>
+  </gresource>
 </gresources>
