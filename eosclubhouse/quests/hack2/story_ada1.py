@@ -12,35 +12,33 @@ class Story_Ada1(Quest):
 
     def step_begin(self):
         self.message_index = 1
-        self.message_id = ''
-        return self.step_main_loop()
+        return self.step_main_loop
 
     def step_main_loop(self):
 
         if self.message_index > self.__total_messages__:
             return self.step_end
 
-        self.message_id = 'STORY_ADA1_' + str(self.message_index)
+        is_answer_positive = False
+
+        def _answer_choice(user_answer):
+            nonlocal is_answer_positive
+            is_answer_positive = user_answer
+
+        message_id = 'STORY_ADA1_' + str(self.message_index)
 
         if self.message_index in self.__question_messages__:
-            # u"\U0001F44D" for thumbs-up, u"\U0001F44E" for thumbs-down
-            choice_pos = (u"\U0001F44D", self.display_answer, True)
-            choice_neg = (u"\U0001F44E", self.display_answer, False)
-            self.show_choices_message(self.message_id,
-                                      choices=[choice_pos, choice_neg],
+
+            self.show_choices_message(message_id,
+                                      ('YES', _answer_choice, True),
+                                      ('NO', _answer_choice, False),
                                       narrative=True).wait()
 
-        else:
-            self.wait_confirm(self.message_id, narrative=True)
+            suffix = '_RPOS' if is_answer_positive else '_RNEG'
+            self.show_confirm_message(message_id + suffix, narrative=True).wait()
 
-        self.message_index += 1
-        return self.step_main_loop
-
-    def display_answer(self, answer):
-        if answer:
-            self.show_confirm_message(self.message_id + '_RPOS', narrative=True).wait()
         else:
-            self.show_confirm_message(self.message_id + '_RNEG', narrative=True).wait()
+            self.wait_confirm(message_id, narrative=True)
 
         self.message_index += 1
         return self.step_main_loop
