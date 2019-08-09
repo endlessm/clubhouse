@@ -241,13 +241,11 @@
             <property name="position">1</property>
           </packing>
         </child>
-        <style>
-          <class name="CLUBHOUSE"/>
-        </style>
       </object>
     </child>
     <style>
       <class name="clubhouse-window"/>
+      <class name="CLUBHOUSE"/>
     </style>
   </template>
   <object class="GtkSizeGroup">
