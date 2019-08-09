@@ -480,6 +480,5 @@ row:selected > box > button >label {
 .character-view  #mission-list > label {
     font-size: 1.8em;
     font-weight: bold;
-    padding: 0 0 1ex 2em;
+    color: #4c82c4;
 }
-
