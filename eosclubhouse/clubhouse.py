@@ -555,6 +555,7 @@ class ClubhouseView(Gtk.EventBox):
 
     __gtype_name__ = 'ClubhouseView'
 
+    _hack_switch_box = Gtk.Template.Child()
     _hack_switch = Gtk.Template.Child()
     _overlay_msg_box = Gtk.Template.Child()
     _main_characters_box = Gtk.Template.Child()
@@ -600,6 +601,17 @@ class ClubhouseView(Gtk.EventBox):
         self._gss = GameStateService()
         self._gss_hander_id = self._gss.connect('changed',
                                                 lambda _gss: self._update_episode_if_needed())
+
+        state = ClubhouseState()
+        state.connect('notify::hack-switch-highlighted',
+                      self._on_hack_switch_highlighted_changed_cb)
+
+    def _on_hack_switch_highlighted_changed_cb(self, state, _param):
+        ctx = self._hack_switch_box.get_style_context()
+        if state.hack_switch_highlighted:
+            ctx.add_class('highlighted')
+        else:
+            ctx.remove_class('highlighted')
 
     def _on_window_visibility_changed(self, _window, _param):
         if not self._app_window.props.visible:
