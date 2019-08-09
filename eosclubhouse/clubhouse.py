@@ -1268,8 +1268,13 @@ class PathwaysView(Gtk.ListBox):
             listbox.add(row)
             row.show()
 
-        self.add(vbox)
+        pathway_row = Gtk.ListBoxRow()
+        pathway_row.props.selectable = False
+        pathway_row.add(vbox)
+
+        self.add(pathway_row)
         vbox.show()
+        pathway_row.show()
 
 
 class InventoryView(Gtk.EventBox):
