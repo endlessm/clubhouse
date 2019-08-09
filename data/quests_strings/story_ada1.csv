@@ -2,6 +2,8 @@ STORY_ADA1_1,"Hi again, {{user_name}}! I was so excited when Dr. Rowe mentioned 
 
 I know it's not easy - you're the first person to test this system, and you have to deal with a totally new group of people.",ada,,,
 STORY_ADA1_2,How are you doing?,,,,
+STORY_ADA1_YES,👍,,,,
+STORY_ADA1_NO,👎,,,,
 STORY_ADA1_2_RPOS,"Wow, you *are* a fast learner. I knew you'd be a good fit here - It's great to see you succeed so easily.",ada,,,
 STORY_ADA1_2_RNEG,"Don't get discouraged - I know it's hard to be so limited in what you can say and do. If you just keep going, I'm sure you'll figure it out.",ada,,,
 STORY_ADA1_3,"All of us at the Academy are here to support you. We want you to be able to learn whatever you want!
@@ -37,7 +39,7 @@ Hopefully I can keep you from accidentally walking through solid objects and thi
 
 It's pretty cool to see, but man, if you appeared out of a wall in front of me I'd yell loud enough to wake Dr. Rowe out of a nap!",faber,,,
 STORY_ADA1_13,"Haha! I just had the image of you jumping, and everything in your toolbelt flying all over…",ada,,,
-STORY_ADA1_14,"Oh, man, you two should have seen me yesterday when Dr. Hart surprised me in the Maker Space. The first thing I know is her saying ""I think you missed soldering a connection on this board.""
+STORY_ADA1_14,"Oh, man, you two should have seen me yesterday when Dr. Hart surprised me in the Maker Space.The first time I knew she was there was when she said ""I think you missed soldering a connection on this board.""
 
 I jumped, my stool tipped over, I fell, and I grabbed the welding bench on the way down...  and it flipped over onto me. What a mess.
 
