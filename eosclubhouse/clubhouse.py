@@ -303,7 +303,7 @@ class QuestRow(Gtk.ListBoxRow):
     def __init__(self, quest_set, quest, has_category=True):
         super().__init__()
 
-        self.get_style_context().add_class('quest-button')
+        self.get_style_context().add_class('quest-row')
 
         self._quest_set = quest_set
         self._quest = quest
@@ -325,7 +325,7 @@ class QuestRow(Gtk.ListBoxRow):
 
         pathways = self._quest.get_pathways()
         if not pathways:
-            category = 'generic'
+            category = 'unknown'
         else:
             category = pathways[0].get_name()
         self._category_image.props.icon_name = 'clubhouse-pathway-{}'.format(category.lower())
