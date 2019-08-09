@@ -384,6 +384,25 @@ window.poster {
     padding: 1ex;
 }
 
+/* Hack switch pulsation */
+
+#hack-switch.highlighted, #hack-switch.highlighted > switch {
+  animation-name: pulsate_hack_switch;
+  animation-duration: 1s;
+  animation-direction: alternate;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulsate_hack_switch {
+    from {
+        box-shadow: 0 0 0px #ffc756;
+    }
+    to {
+        box-shadow: 0 0 10px #ffc756;
+    }
+}
+
 /* Disable text inside switch */
 #hack-switch > switch {
     font-size: 0px;
