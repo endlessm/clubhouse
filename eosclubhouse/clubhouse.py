@@ -320,6 +320,7 @@ class QuestRow(Gtk.ListBoxRow):
         self._setup_difficulty_image()
 
         # Style.
+        self._quest.connect('notify::highlighted', self._on_quest_highlighted_changed)
         self._quest.connect('notify::complete', self._on_quest_complete_changed)
         self._set_complete()
 
@@ -341,6 +342,14 @@ class QuestRow(Gtk.ListBoxRow):
 
     def _on_quest_complete_changed(self, _quest_set, _param):
         self._set_complete()
+
+    def _on_quest_highlighted_changed(self, quest, quest_set_type):
+        highlighted_style = 'highlighted'
+        style_context = self.get_style_context()
+        if quest.props.highlighted:
+            style_context.add_class(highlighted_style)
+        else:
+            style_context.remove_class(highlighted_style)
 
     def _set_complete(self):
         complete_style = 'complete'
@@ -907,6 +916,11 @@ class ClubhouseView(Gtk.EventBox):
 
         # Ensure the app can be quit if inactive now
         self._app.release()
+
+        # Unhighlight highlighted quests.
+        for quest_set in libquest.Registry.get_quest_sets():
+            for quest in quest_set.get_quests():
+                quest.props.highlighted = False
 
         # If there is a next quest to run, we start it
         self._schedule_next_quest()
