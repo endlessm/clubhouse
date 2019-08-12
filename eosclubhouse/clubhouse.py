@@ -22,6 +22,7 @@ import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
+gi.require_version('WebKit2', '4.0')
 import functools
 import json
 import logging
@@ -31,7 +32,7 @@ import sys
 import time
 
 from collections import OrderedDict
-from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
+from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json, WebKit2
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import Desktop, GameStateService, Sound
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
@@ -40,6 +41,8 @@ from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, A
 
 from eosclubhouse.episodes import BadgeButton, PosterWindow
 
+# Make sure WebkitWebView class is registered
+GObject.TypeClass.ref(WebKit2.WebView.__gtype__)
 
 CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
 CLUBHOUSE_PATH = '/com/endlessm/Clubhouse'
@@ -1666,6 +1669,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _stack = Gtk.Template.Child()
     _clubhouse_page = Gtk.Template.Child()
     _inventory_page = Gtk.Template.Child()
+    _news_page = Gtk.Template.Child()
     _pathways_sw = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
 
@@ -1700,6 +1704,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.update_user_info()
         self._on_screen_changed(self, None)
         self.connect('screen-changed', self._on_screen_changed)
+
+        self._news_landing_uri = 'file://' + os.path.join(config.DATA_DIR,
+                                                          'news-landing',
+                                                          'index.html')
+        self._news_page.load_uri(self._news_landing_uri)
 
     def _hack_mode_changed_cb(self, _settings, _key):
         self.sync_with_hack_mode()
@@ -1784,6 +1793,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     @Gtk.Template.Callback()
     def _on_delete(self, widget, _event):
         widget.hide()
+        return True
+
+    @Gtk.Template.Callback()
+    def _on_news_webview_load_failed(self, webview, event, uri, error):
+        self._news_page.load_uri(self._news_landing_uri)
         return True
 
     def set_page(self, page_name):

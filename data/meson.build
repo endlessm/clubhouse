@@ -77,8 +77,9 @@ items_dir_name = 'items'
 episodes_dir_name = 'episodes'
 quests_strings_dir_name = 'quests_strings'
 tools_dir_name = 'tools'
+news_landing_dir_name = 'news-landing'
 
-data_dir_paths = [characters_dir_name, cursors_dir_name, items_dir_name, episodes_dir_name, quests_strings_dir_name, tools_dir_name]
+data_dir_paths = [characters_dir_name, cursors_dir_name, items_dir_name, episodes_dir_name, quests_strings_dir_name, tools_dir_name, news_landing_dir_name]
 
 foreach path : data_dir_paths
     install_subdir(path, install_dir: clubhouse_data_dir)

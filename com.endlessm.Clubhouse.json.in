@@ -21,6 +21,7 @@
         "--nofilesystem=~/.local/lib/python3.5",
         "--own-name=com.endlessm.Clubhouse",
         "--share=ipc",
+        "--share=network",
         "--socket=pulseaudio",
         "--socket=session-bus",
         "--socket=wayland",
