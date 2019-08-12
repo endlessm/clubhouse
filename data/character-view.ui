@@ -62,7 +62,7 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="halign">start</property>
+            <property name="halign">center</property>
             <property name="label" translatable="yes">Mission List</property>
           </object>
           <packing>
@@ -72,7 +72,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkScrolledWindow">
+          <object class="GtkScrolledWindow" id="_missions_scrolled_window">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="hexpand">True</property>

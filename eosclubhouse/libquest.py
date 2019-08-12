@@ -1339,6 +1339,22 @@ class Quest(GObject.GObject):
         self.gss.set('clubhouse.CurrentEpisode', current_episode_info)
 
     @classmethod
+    def get_pathways(class_):
+        quest_pathways = []
+        registered_pathways = Registry.get_pathways()
+        for tag in class_.get_tags():
+            if not tag.startswith('pathway:'):
+                continue
+            pathway_name = tag.split(':')[1].lower()
+            try:
+                pathway = \
+                    next(p for p in registered_pathways if p.get_name().lower() == pathway_name)
+                quest_pathways.append(pathway)
+            except StopIteration:
+                continue
+        return quest_pathways
+
+    @classmethod
     def get_name(class_):
         if class_.__quest_name__ is not None:
             return class_.__quest_name__

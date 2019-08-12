@@ -465,12 +465,26 @@ window.poster {
     text-decoration: underline;
 }
 
-.quest-button {
-    background: white;
+.quest-row {
+   color: #4c82c4;
+   font-size: 18px;
+   font-weight: 600;
+   padding-left: 1.5em;
+   padding-right: 1.5em;
 }
 
-.quest-button.complete {
-    background: lightgray;
+.quest-row:hover {
+   background-color: rgba(246, 209, 165 ,0.5);
+}
+
+.quest-row.complete {
+   font-weight: bold;
+}
+
+.quest-row.complete:hover {
+   background-color: rgba(246, 209, 165 ,0.5);
+   color: white;
+   font-weight: bold;
 }
 
 /* Pathways view */
@@ -496,6 +510,5 @@ row:selected > box > button >label {
 .character-view  #mission-list > label {
     font-size: 1.8em;
     font-weight: bold;
-    padding: 0 0 1ex 2em;
+    color: #4c82c4;
 }
-

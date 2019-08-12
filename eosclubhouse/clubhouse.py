@@ -296,22 +296,48 @@ class Message(Gtk.Overlay):
         Sound.play(sfx_sound)
 
 
-class QuestButton(Gtk.Button):
+@Gtk.Template.from_resource('/com/endlessm/Clubhouse/quest-row.ui')
+class QuestRow(Gtk.ListBoxRow):
 
-    _LABEL_FOR_DIFFICULTY = {
-        libquest.Quest.Difficulty.EASY: '★☆☆',
-        libquest.Quest.Difficulty.NORMAL: '★★☆',
-        libquest.Quest.Difficulty.HARD: '★★★',
-    }
+    __gtype_name__ = 'QuestRow'
 
-    def __init__(self, quest):
-        super().__init__(label=self._get_label(quest))
+    _category_image = Gtk.Template.Child()
+    _name_label = Gtk.Template.Child()
+    _difficulty_image = Gtk.Template.Child()
 
-        self.get_style_context().add_class('quest-button')
+    def __init__(self, quest_set, quest, has_category=True):
+        super().__init__()
 
+        self.get_style_context().add_class('quest-row')
+
+        self._quest_set = quest_set
         self._quest = quest
+        self._has_category = has_category
+
+        # Populate row info.
+        self._setup_category_image()
+        self._name_label.props.label = self._quest.get_name()
+        self._setup_difficulty_image()
+
+        # Style.
         self._quest.connect('notify::complete', self._on_quest_complete_changed)
         self._set_complete()
+
+    def _setup_category_image(self):
+        if not self._has_category:
+            self._category_image.props.visible = False
+            return
+
+        pathways = self._quest.get_pathways()
+        if not pathways:
+            category = 'unknown'
+        else:
+            category = pathways[0].get_name()
+        self._category_image.props.icon_name = 'clubhouse-pathway-{}'.format(category.lower())
+
+    def _setup_difficulty_image(self):
+        basename = self._quest.get_difficulty().name
+        self._difficulty_image.props.icon_name = 'clubhouse-difficulty-{}'.format(basename.lower())
 
     def _on_quest_complete_changed(self, _quest_set, _param):
         self._set_complete()
@@ -324,19 +350,8 @@ class QuestButton(Gtk.Button):
         else:
             style_context.remove_class(complete_style)
 
-    def _get_label(self, quest):
-        difficulty = self._LABEL_FOR_DIFFICULTY[quest.get_difficulty()]
-        return quest.get_name() + ' - difficulty: ' + difficulty
-
     def get_quest(self):
         return self._quest
-
-
-class CharacterMissionButton(QuestButton):
-    def __init__(self, quest_set, quest):
-        super().__init__(quest)
-
-        self._quest_set = quest_set
 
     def get_quest_set(self):
         return self._quest_set
@@ -459,13 +474,16 @@ class CharacterView(Gtk.Grid):
     _character_image = Gtk.Template.Child()
     _character_button = Gtk.Template.Child()
     _message_list = Gtk.Template.Child()
+    _missions_scrolled_window = Gtk.Template.Child()
 
     def __init__(self, app_window):
         super().__init__(visible=True)
         self._app_window = app_window
+
         self._animator = Animator(self._character_image)
         self._character = None
         self._scale = 1
+        self._list.connect('row-activated', self._quest_row_clicked_cb)
 
     def _update_character_image(self):
         if self._character is None:
@@ -536,14 +554,44 @@ class CharacterView(Gtk.Grid):
 
         # Populate list
         for quest in quest_set.get_quests(also_skippable=False):
-            button = CharacterMissionButton(quest_set, quest)
-            button.connect('clicked', self._quest_button_clicked_cb)
-            self._list.add(button)
-            button.show()
+            row = QuestRow(quest_set, quest)
+            self._list.add(row)
+            row.show()
 
-    def _quest_button_clicked_cb(self, button):
-        quest_set = button.get_quest_set()
-        new_quest = button.get_quest()
+        # Scroll the first non completed quest.
+        reference_row = self._list.get_row_at_index(0)
+        if reference_row:
+            reference_row.connect_after('size-allocate', self._on_row_size_allocate)
+
+    def _on_row_size_allocate(self, row, _rect):
+        self._scroll_to_first_non_completed_quest()
+        row.disconnect_by_func(self._on_row_size_allocate)
+
+    def _scroll_to_mission_row_at_index(self, index, reference_row):
+        vadjustment = self._missions_scrolled_window.props.vadjustment
+        if index <= 0:
+            vadjustment.props.value = 0
+            return
+        # @todo: Consider margins. Not margins are used now.
+        reference_height = reference_row.get_allocation().height
+        y = index * reference_height
+        vadjustment.props.value = y
+
+    def _get_first_non_completed_mission_index(self):
+        for i, row in enumerate(self._list.get_children()):
+            if not row.get_quest().complete:
+                return i
+        return -1
+
+    def _scroll_to_first_non_completed_quest(self):
+        index = self._get_first_non_completed_mission_index()
+        reference_row = self._list.get_row_at_index(0)
+        if reference_row:
+            self._scroll_to_mission_row_at_index(index, reference_row)
+
+    def _quest_row_clicked_cb(self, _list_box, row):
+        quest_set = row.get_quest_set()
+        new_quest = row.get_quest()
         easier_quest = quest_set.get_easier_quest(new_quest)
         if easier_quest is not None:
             # @todo: Offer easier quest.
@@ -1240,14 +1288,15 @@ class PathwaysView(Gtk.ListBox):
         super().__init__(visible=True)
 
         self._app_window = app_window
+
         self.get_style_context().add_class('pathways-view')
 
     def load_episode(self):
         for pathway in libquest.Registry.get_pathways():
             self._add_pathway(pathway)
 
-    def _quest_button_clicked_cb(self, button):
-        new_quest = button.get_quest()
+    def _quest_row_clicked_cb(self, _list_box, row):
+        new_quest = row.get_quest()
         self._app_window.run_quest(new_quest)
 
     def _add_pathway(self, pathway):
@@ -1259,18 +1308,27 @@ class PathwaysView(Gtk.ListBox):
                           halign=Gtk.Align.CENTER,
                           justify=Gtk.Justification.CENTER,
                           label=pathway.get_name())
+        listbox = Gtk.ListBox()
+        listbox.connect('row-activated', self._quest_row_clicked_cb)
 
         vbox.add(label)
+        vbox.add(listbox)
+
         label.show()
+        listbox.show()
 
         for quest in pathway.get_quests(also_skippable=False):
-            button = QuestButton(quest)
-            button.connect('clicked', self._quest_button_clicked_cb)
-            vbox.add(button)
-            button.show()
+            row = QuestRow(pathway, quest, has_category=False)
+            listbox.add(row)
+            row.show()
 
-        self.add(vbox)
+        pathway_row = Gtk.ListBoxRow()
+        pathway_row.props.selectable = False
+        pathway_row.add(vbox)
+
+        self.add(pathway_row)
         vbox.show()
+        pathway_row.show()
 
 
 class InventoryView(Gtk.EventBox):
