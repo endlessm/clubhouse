@@ -666,8 +666,8 @@ class GameStateService(GObject.GObject):
 
 class ToolBoxTopic(GObject.GObject):
 
-    _INTERFACE_NAME = 'com.endlessm.HackToolbox.Topic'
-    _PATH_TEMPLATE = '/com/endlessm/HackToolbox/window/{}/topic/{}'
+    _INTERFACE_NAME = 'com.hack_computer.HackToolbox.Topic'
+    _PATH_TEMPLATE = '/com/hack_computer/HackToolbox/window/{}/topic/{}'
     _proxy = None
     _properties_proxy = None
 
@@ -681,7 +681,7 @@ class ToolBoxTopic(GObject.GObject):
             self._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
                                                          0,
                                                          None,
-                                                         'com.endlessm.HackToolbox',
+                                                         'com.hack_computer.HackToolbox',
                                                          self._dbus_path,
                                                          self._INTERFACE_NAME,
                                                          None)
@@ -694,7 +694,7 @@ class ToolBoxTopic(GObject.GObject):
                 Gio.BusType.SESSION,
                 0,
                 None,
-                'com.endlessm.HackToolbox',
+                'com.hack_computer.HackToolbox',
                 self._dbus_path,
                 'org.freedesktop.DBus.Properties',
                 None,
