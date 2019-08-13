@@ -871,21 +871,19 @@ class ClubhouseView(Gtk.EventBox):
                      message_info['character_id'], message_info['character_mood'],
                      '|'.join([answer for answer, _cb, *_args in message_info['choices']]))
 
-        character = Character.get_or_create(message_info['character_id'])
-        character.mood = message_info['character_mood']
-
         if message_info['type'] == libquest.Quest.MessageType.POPUP:
             self._reset_quest_actions()
 
             for answer in message_info['choices']:
                 self._add_quest_action(answer)
 
+            character = Character.get_or_create(message_info['character_id'])
+            character.mood = message_info['character_mood']
+
             self._shell_popup_message(message_info['text'], character,
                                       message_info['sound_fx'], message_info['sound_bg'])
 
         elif message_info['type'] == libquest.Quest.MessageType.NARRATIVE:
-            character = Character.get_or_create(message_info['character_id'])
-            character.mood = message_info['character_mood']
             msg = self._app_window.character.add_message(message_info)
             msg.show()
 
