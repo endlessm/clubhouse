@@ -608,9 +608,7 @@ class ClubhouseView(Gtk.EventBox):
 
     _hack_switch_box = Gtk.Template.Child()
     _hack_switch = Gtk.Template.Child()
-    _overlay_msg_box = Gtk.Template.Child()
     _main_characters_box = Gtk.Template.Child()
-    _main_box = Gtk.Template.Child()
 
     class _QuestScheduleInfo:
         def __init__(self, quest, confirm_before, timeout, handler_id):
@@ -633,13 +631,9 @@ class ClubhouseView(Gtk.EventBox):
 
         self._app_window = app_window
         self._app_window.connect('key-press-event', self._key_press_event_cb)
-        self._app_window.connect('notify::visible', self._on_window_visibility_changed)
 
         self._app = Gio.Application.get_default()
 
-        self._message = Message()
-        self._message.connect('closed', self._hide_message_overlay_cb)
-        self._overlay_msg_box.add(self._message)
         self._reset_quest_actions()
 
         self._current_episode = None
@@ -664,21 +658,6 @@ class ClubhouseView(Gtk.EventBox):
         else:
             ctx.remove_class('highlighted')
 
-    def _on_window_visibility_changed(self, _window, _param):
-        if not self._app_window.props.visible:
-            self._overlay_msg_box.hide()
-
-    def _hide_message_overlay_cb(self, message):
-        self._overlay_msg_box.hide()
-
-    @Gtk.Template.Callback()
-    def _on_button_press_event_cb(self, main_box, event):
-        if event.get_button().button == 1:
-            self._message.close()
-            return True
-
-        return False
-
     def set_scale(self, scale, offset=0):
         self.scale = scale
         self._height_offset = offset
@@ -691,7 +670,6 @@ class ClubhouseView(Gtk.EventBox):
     def stop_quest(self):
         self._cancel_ongoing_task()
         self._reset_scheduled_quest()
-        self._overlay_msg_box.hide()
 
     def quest_debug_skip(self):
         if self._current_quest is not None:
@@ -732,20 +710,12 @@ class ClubhouseView(Gtk.EventBox):
         if self._current_quest is None:
             return
 
+        # @todo: remove old code
         msg, continue_label, stop_label = self._current_quest.get_continue_info()
-        self._message.update({
-            'text': msg,
-            'choices': [(continue_label, self._continue_quest, self._current_quest),
-                        (stop_label, self._stop_quest_from_message, self._current_quest)],
-            'character_id': self._current_quest.get_main_character()
-        })
-
-        self._overlay_msg_box.show_all()
 
     def _stop_quest_from_message(self, quest):
         if self._is_current_quest(quest):
             self._cancel_ongoing_task()
-            self._overlay_msg_box.hide()
 
     def _continue_quest(self, quest):
         if not self._is_current_quest(quest):
@@ -753,14 +723,11 @@ class ClubhouseView(Gtk.EventBox):
 
         quest.set_to_foreground()
         self._shell_show_current_popup_message()
-        # Hide the message here because it may be showing from another quest set
-        self._overlay_msg_box.hide()
 
     def _button_clicked_cb(self, button):
         self.ask_character(button.get_quest_set())
 
     def ask_character(self, quest_set):
-        self._message.reset()
 
         if isinstance(quest_set, libquest.CharacterMission):
             # @todo: ask user if we want to move to the other page?
@@ -787,33 +754,14 @@ class ClubhouseView(Gtk.EventBox):
             character = Character.get_or_create(character_id)
             character.mood = None
 
-            msg_text = quest_set.get_empty_message()
+            # @todo: remove old code
+            # msg_text = quest_set.get_empty_message()
 
-            # If a QuestSet has overridden the empty message to be None, then don't
-            # show anything
-            if msg_text is None:
-                self._message.set_character(character_id)
-                return
-            else:
-                self._message.update({
-                    'text': msg_text,
-                    'choices': [('Ok', self._message.close)],
-                    'character_id': character_id
-                })
         else:
+            # @todo: remove old code
             character_id = new_quest.get_main_character()
             character = Character.get_or_create(character_id)
             character.mood = new_quest.proposal_mood
-            self._message.update({
-                'text': new_quest.proposal_message,
-                'choices': [(new_quest.accept_label, self._accept_quest_message, quest_set,
-                             new_quest),
-                            (new_quest.reject_label, self._message.close)],
-                'character_id': character_id,
-                'sound_fx': new_quest.proposal_sound
-            })
-
-        self._overlay_msg_box.show_all()
 
     def continue_playing(self):
         # If there is a running quest, we ask the quest's character whether to continue/stop it.
@@ -834,8 +782,6 @@ class ClubhouseView(Gtk.EventBox):
             self._proposing_quest = False
 
     def _accept_quest_message(self, _quest_set, new_quest):
-        self._message.hide()
-        self._overlay_msg_box.hide()
         logger.info('Start quest {}'.format(new_quest))
         self._app_window.run_quest(new_quest)
 
@@ -947,7 +893,6 @@ class ClubhouseView(Gtk.EventBox):
         if not narrative:
             self._shell_close_popup_message()
         else:
-            self._message.close()
             self._app_window.character.clear_messages()
 
     def _reset_delayed_message(self):
