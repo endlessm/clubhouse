@@ -376,8 +376,8 @@ class App:
                                                           0,
                                                           None,
                                                           self._app_dbus_name,
-                                                          '/com/endlessm/Clippy',
-                                                          'com.endlessm.Clippy',
+                                                          '/com/hack_computer/Clippy',
+                                                          'com.hack_computer.Clippy',
                                                           None)
 
         return self._clippy

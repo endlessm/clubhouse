@@ -13,8 +13,8 @@ from _common import (
 
 CONFIG_FILE = 'clippy.config.ini'
 
-MANIFEST_FILE = 'katamari/com.endlessm.Clippy.Extension.json'
-APP_ID = 'com.endlessm.Clippy.Extension'
+MANIFEST_FILE = 'katamari/com.hack_computer.Clippy.Extension.json'
+APP_ID = 'com.hack_computer.Clippy.Extension'
 
 MODULES = [
     'clippy',

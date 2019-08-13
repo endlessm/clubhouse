@@ -7,5 +7,5 @@
 # Ignore the generated files:
 /*config.ini
 /com.endlessm.Clubhouse.json
-/com.endlessm.Clippy.Extension.json
+/com.hack_computer.Clippy.Extension.json
 /*.flatpak

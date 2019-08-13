@@ -1,7 +1,7 @@
 {
     "app-id": "com.endlessm.Clubhouse",
     "add-extensions": {
-        "com.endlessm.Clippy.Extension": {
+        "com.hack_computer.Clippy.Extension": {
             "version": "${BRANCH}",
             "directory": "clippy",
             "no-autodownload": false,
