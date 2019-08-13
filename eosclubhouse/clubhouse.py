@@ -1702,7 +1702,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                                       self._on_clubhouse_window_visibility_changed_cb)
 
         self.update_user_info()
-        self._on_screen_changed(self, None)
         self.connect('screen-changed', self._on_screen_changed)
 
         self._news_landing_uri = 'file://' + os.path.join(config.DATA_DIR,
@@ -1771,9 +1770,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if previous_screen is not None:
             previous_screen.disconnect_by_func(self._on_screen_size_changed)
 
-        screen = self.get_screen()
-        self._on_screen_size_changed(screen)
-        screen.connect('size-changed', self._on_screen_size_changed)
+        self.get_screen().connect('size-changed', self._on_screen_size_changed)
+        self._update_window_size()
 
     def _on_clubhouse_window_visibility_changed_cb(self, state, _param):
         if state.window_is_visible:
@@ -1925,6 +1923,7 @@ class ClubhouseApplication(Gtk.Application):
 
     @Performance.timeit
     def do_activate(self):
+        self._ensure_window()
         if not self._run_episode_autorun_quest_if_needed():
             self.show(Gdk.CURRENT_TIME)
 
@@ -2103,7 +2102,6 @@ class ClubhouseApplication(Gtk.Application):
     def _debug_mode_action_cb(self, action, arg_variant):
         # Add debugging information in the Application UI:
         self._debug_mode = arg_variant.unpack()
-        self._ensure_window()
 
         # Also set the logging level:
         logger.setLevel(logging.DEBUG)
@@ -2204,7 +2202,6 @@ class ClubhouseApplication(Gtk.Application):
     # D-Bus implementation
     def show(self, timestamp):
         if not self._run_episode_autorun_quest_if_needed():
-            self._ensure_window()
             self._show_and_focus_window(int(timestamp))
 
         return None
