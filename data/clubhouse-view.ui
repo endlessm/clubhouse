@@ -9,11 +9,10 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkEventBox" id="_main_box">
+          <object class="GtkEventBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="vexpand">True</property>
-            <signal name="button-press-event" handler="_on_button_press_event_cb" swapped="no"/>
             <child>
               <object class="GtkFixed" id="_main_characters_box">
                 <property name="visible">True</property>
@@ -24,15 +23,6 @@
           <packing>
             <property name="index">-1</property>
           </packing>
-        </child>
-        <child type="overlay">
-          <object class="GtkEventBox" id="_overlay_msg_box">
-            <property name="can_focus">False</property>
-            <property name="halign">start</property>
-            <property name="valign">start</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
-          </object>
         </child>
         <child type="overlay">
           <object class="GtkBox" id="_hack_switch_box">
