@@ -872,17 +872,7 @@ class ClubhouseView(Gtk.EventBox):
                      '|'.join([answer for answer, _cb, *_args in message_info['choices']]))
 
         if message_info['type'] == libquest.Quest.MessageType.POPUP:
-            self._reset_quest_actions()
-
-            for answer in message_info['choices']:
-                self._add_quest_action(answer)
-
-            character = Character.get_or_create(message_info['character_id'])
-            character.mood = message_info['character_mood']
-
-            self._shell_popup_message(message_info['text'], character,
-                                      message_info['sound_fx'], message_info['sound_bg'])
-
+            self._shell_popup_message(message_info)
         elif message_info['type'] == libquest.Quest.MessageType.NARRATIVE:
             msg = self._app_window.character.add_message(message_info)
             msg.show()
@@ -958,17 +948,17 @@ class ClubhouseView(Gtk.EventBox):
     def _propose_next_quest(self, quest):
         quest_set = libquest.Registry.get_character_mission_for_quest(quest)
 
-        self._reset_quest_actions()
-
-        for answer in [(quest.accept_label, self._accept_quest_message, quest_set, quest),
-                       (quest.reject_label, self._stop_quest_proposal)]:
-            self._add_quest_action(answer)
+        choices = [(quest.accept_label, self._accept_quest_message, quest_set, quest),
+                   (quest.reject_label, self._stop_quest_proposal)]
 
         self._proposing_quest = True
 
-        character = Character.get_or_create(quest.get_main_character())
-        character.mood = quest.proposal_mood
-        self._shell_popup_message(quest.proposal_message, character, quest.proposal_sound)
+        self._shell_popup_message({
+            'text': quest.proposal_message,
+            'character_id': quest.get_main_character(),
+            'sound_fx': quest.proposal_sound,
+            'choices': choices,
+        })
 
     def _key_press_event_cb(self, window, event):
         # Allow to fully quit the Clubhouse on Ctrl+Escape
@@ -985,9 +975,8 @@ class ClubhouseView(Gtk.EventBox):
     def _shell_close_popup_message(self):
         self._app.close_quest_msg_notification()
 
-    def _shell_popup_message(self, text, character, sfx_sound, bg_sound=None):
-        real_popup_message = functools.partial(self._shell_popup_message_real, text, character,
-                                               sfx_sound, bg_sound)
+    def _shell_popup_message(self, message_info):
+        real_popup_message = functools.partial(self._shell_popup_message_real, message_info)
 
         # If the user last interacted with a notification longer than a second ago, then we delay
         # the new notification a bit. The delaying is so that it is more noticeable to the user
@@ -1000,20 +989,31 @@ class ClubhouseView(Gtk.EventBox):
         else:
             real_popup_message()
 
-    def _shell_popup_message_real(self, text, character, sfx_sound, bg_sound):
+    def _shell_popup_message_real(self, message_info):
         notification = Gio.Notification()
+        text = message_info.get('text', '')
         notification.set_body(SimpleMarkupParser.parse(text))
         notification.set_title('')
 
+        sfx_sound = message_info.get('sound_fx')
         if sfx_sound:
             Sound.play(sfx_sound)
+        bg_sound = message_info.get('sound_bg')
         if self._current_quest and bg_sound != self._current_quest.get_last_bg_sound_event_id():
             self._current_quest.play_stop_bg_sound(bg_sound)
 
-        if character:
+        if message_info.get('character_id'):
+            character = Character.get_or_create(message_info['character_id'])
+            character.mood = message_info['character_mood']
+
             notification.set_icon(character.get_mood_icon())
             Sound.play('clubhouse/{}/mood/{}'.format(character.id,
                                                      character.mood))
+
+        self._reset_quest_actions()
+
+        for answer in message_info.get('choices', []):
+            self._add_quest_action(answer)
 
         for key, action in self._actions.items():
             label = action[0]
