@@ -1757,6 +1757,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if current_page == new_page:
             return
 
+        if current_page == 'CHARACTER':
+            running_quest = self.clubhouse.running_quest
+            if running_quest is not None and running_quest.is_narrative():
+                self.character.clear_messages()
+                running_quest.abort()
+
         # Set a different css class depending on the page
         ctx = self.get_style_context()
         ctx.remove_class(current_page)
