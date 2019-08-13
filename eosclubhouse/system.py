@@ -569,7 +569,7 @@ class App:
 
         options = {
             ('Context', 'filesystems'): filesystems,
-            ('Session Bus Policy', 'com.endlessm.HackSoundServer'): 'talk',
+            ('Session Bus Policy', 'com.hack_computer.HackSoundServer'): 'talk',
             ('Environment', 'GTK3_MODULES'): clippy,
         }
 
