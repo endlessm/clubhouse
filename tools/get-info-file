@@ -8,7 +8,7 @@ import requests
 import subprocess
 
 CSV_PATH = os.path.join('data')
-CSV_ALTERNATIVE_PATH = os.path.expanduser('~/.var/app/com.endlessm.Clubhouse' +
+CSV_ALTERNATIVE_PATH = os.path.expanduser('~/.var/app/com.hack_computer.Clubhouse' +
                                           '/data/quests')
 SHEETS_FOR_FILES = {
     'quests_items': 'Items',

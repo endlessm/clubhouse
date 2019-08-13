@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/com/endlessm/Clubhouse">
+  <gresource prefix="/com/hack_computer/Clubhouse">
     <file>gtk-style.css</file>
     <file preprocess="xml-stripblanks">clubhouse-view.ui</file>
     <file preprocess="xml-stripblanks">character-view.ui</file>
@@ -12,7 +12,7 @@
     <file preprocess="xml-stripblanks">posterwindow.ui</file>
     <file preprocess="xml-stripblanks">quest-row.ui</file>
   </gresource>
-  <gresource prefix="/com/endlessm/Clubhouse/images">
+  <gresource prefix="/com/hack_computer/Clubhouse/images">
     <file>comingsoon_label_bg.png</file>
     <file>character_bg.jpg</file>
     <file>clubhouse_bg.jpg</file>
@@ -23,7 +23,7 @@
     <file>episodes_bg.png</file>
     <file>icon_check-in-circle.svg</file>
   </gresource>
-  <gresource prefix="/com/endlessm/Clubhouse/icons">
+  <gresource prefix="/com/hack_computer/Clubhouse/icons">
     <file preprocess="xml-stripblanks">clubhouse-difficulty-easy.svg</file>
     <file preprocess="xml-stripblanks">clubhouse-difficulty-hard.svg</file>
     <file preprocess="xml-stripblanks">clubhouse-difficulty-normal.svg</file>

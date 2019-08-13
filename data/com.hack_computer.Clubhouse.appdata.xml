@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-  <id>com.endlessm.Clubhouse.desktop</id>
+  <id>com.hack_computer.Clubhouse.desktop</id>
   <metadata_license>LicenseRef-proprietary</metadata_license>
   <project_license>LicenseRef-proprietary</project_license>
   <name>Clubhouse</name>

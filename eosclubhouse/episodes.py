@@ -107,7 +107,7 @@ class PosterWindow(Gtk.Window):
         badgefile = os.path.join(config.EPISODES_DIR, 'badges', badgename)
 
         builder = Gtk.Builder()
-        builder.add_from_resource('/com/endlessm/Clubhouse/posterwindow.ui')
+        builder.add_from_resource('/com/hack_computer/Clubhouse/posterwindow.ui')
 
         self._modal = Gtk.Dialog(flags=Gtk.DialogFlags.DESTROY_WITH_PARENT)
 

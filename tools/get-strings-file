@@ -14,7 +14,7 @@ import sys
 QUESTS_PATH = os.path.join('eosclubhouse', 'quests')
 CHARACTERS_PATH = os.path.join('data', 'characters')
 CSV_PATH = os.path.join('data', 'quests_strings')
-CSV_ALTERNATIVE_PATH = os.path.expanduser('~/.var/app/com.endlessm.Clubhouse' +
+CSV_ALTERNATIVE_PATH = os.path.expanduser('~/.var/app/com.hack_computer.Clubhouse' +
                                           '/data/quests/quests_strings')
 
 URL_TEMPLATE = ('https://docs.google.com/spreadsheets/d/{key}/' +

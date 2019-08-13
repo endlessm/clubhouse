@@ -10,7 +10,7 @@
 
 set -e
 source_dir="$(git rev-parse --show-toplevel)"
-app_id=com.endlessm.Clubhouse
+app_id=com.hack_computer.Clubhouse
 manifest="$app_id.json"
 
 pushd "$source_dir"

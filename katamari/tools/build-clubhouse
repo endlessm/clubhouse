@@ -18,8 +18,8 @@ from _common import (
 
 CONFIG_FILE = 'config.ini'
 
-MANIFEST_FILE = 'katamari/com.endlessm.Clubhouse.json'
-APP_ID = 'com.endlessm.Clubhouse'
+MANIFEST_FILE = 'katamari/com.hack_computer.Clubhouse.json'
+APP_ID = 'com.hack_computer.Clubhouse'
 
 MODULES = [
     'hack-sound-server',
@@ -61,7 +61,7 @@ def _quit_clubhouse():
     if 'DISPLAY' not in env:
         env['DISPLAY'] = ':0'
 
-    run_command(['flatpak', 'run', 'com.endlessm.Clubhouse', '--quit'], env=env)
+    run_command(['flatpak', 'run', 'com.hack_computer.Clubhouse', '--quit'], env=env)
 
 
 def main(config, only_manifest=False):

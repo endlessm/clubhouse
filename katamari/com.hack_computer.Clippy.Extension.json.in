@@ -1,7 +1,7 @@
 {
   "app-id": "com.hack_computer.Clippy.Extension",
   "branch": "${BRANCH}",
-  "runtime": "com.endlessm.Clubhouse",
+  "runtime": "com.hack_computer.Clubhouse",
   "runtime-version": "${BRANCH}",
   "sdk": "org.gnome.Sdk//3.32",
   "appstream-compose": false,
