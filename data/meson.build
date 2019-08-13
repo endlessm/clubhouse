@@ -9,8 +9,8 @@ if session_bus_services_dir == ''
 endif
 
 configure_file(
-    input: 'com.endlessm.Clubhouse.service.in',
-    output: 'com.endlessm.Clubhouse.service',
+    input: 'com.hack_computer.Clubhouse.service.in',
+    output: 'com.hack_computer.Clubhouse.service',
     install: true,
     install_dir: session_bus_services_dir,
     configuration: conf
@@ -18,7 +18,7 @@ configure_file(
 
 gnome.compile_resources(
     'eos-clubhouse',
-    files('com.endlessm.Clubhouse.gresource.xml'),
+    files('com.hack_computer.Clubhouse.gresource.xml'),
     source_dir : [
         '.',
         './assets',
@@ -52,12 +52,12 @@ install_data(
 )
 
 install_data(
-    'com.endlessm.Clubhouse.appdata.xml',
+    'com.hack_computer.Clubhouse.appdata.xml',
     install_dir: join_paths(data_dir, 'appdata')
 )
 
 install_data(
-    'com.endlessm.Clubhouse.png',
+    'com.hack_computer.Clubhouse.png',
     install_dir: 'share/icons/hicolor/64x64/apps'
 )
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Convenience script to switch between com.endlessm.Clubhouse branches.
+# Convenience script to switch between com.hack_computer.Clubhouse branches.
 #
 # Copyright (c) 2019 Endless Mobile Inc.
 #
@@ -8,7 +8,7 @@
 #
 
 branch=$1
-app_id=com.endlessm.Clubhouse
+app_id=com.hack_computer.Clubhouse
 
 if test -z "$branch"; then
     echo "* $(flatpak list -d | grep "$app_id" | grep current | cut -f1 | cut -d/ -f3)"

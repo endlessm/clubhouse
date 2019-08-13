@@ -1,7 +1,7 @@
 {
-    "app-id": "com.endlessm.Clubhouse",
+    "app-id": "com.hack_computer.Clubhouse",
     "add-extensions": {
-        "com.endlessm.Clippy.Extension": {
+        "com.hack_computer.Clippy.Extension": {
             "version": "${BRANCH}",
             "directory": "clippy",
             "no-autodownload": false,
@@ -30,11 +30,11 @@
         "--filesystem=~/.config/dconf:ro",
         "--filesystem=~/.local/share/flatpak",
         "--nofilesystem=~/.local/lib/python3.5",
-        "--own-name=com.endlessm.Clubhouse",
+        "--own-name=com.hack_computer.Clubhouse",
         "--own-name=com.hack_computer.GameStateService",
-        "--own-name=com.endlessm.HackSoundServer",
-        "--own-name=com.endlessm.HackToolbox",
-        "--own-name=com.endlessm.HackUnlock",
+        "--own-name=com.hack_computer.HackSoundServer",
+        "--own-name=com.hack_computer.HackToolbox",
+        "--own-name=com.hack_computer.HackUnlock",
         "--share=ipc",
         "--share=network",
         "--socket=pulseaudio",
@@ -261,7 +261,7 @@
           "name": "toyapp",
           "buildsystem": "meson",
           "config-opts": [
-            "-Dapp-id=com.endlessm.HackUnlock"
+            "-Dapp-id=com.hack_computer.HackUnlock"
           ],
           "sources": [
               ${HACK_TOY_APPS_SOURCE}

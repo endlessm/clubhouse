@@ -6,7 +6,7 @@ from eosclubhouse.utils import ClubhouseState
 
 class FirstContact(Quest):
 
-    APP_NAME = 'com.endlessm.HackUnlock'
+    APP_NAME = 'com.hack_computer.HackUnlock'
 
     __tags__ = ['mission:ada']
 

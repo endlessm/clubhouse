@@ -39,7 +39,7 @@ You don't have any objects yet!</property>
             </child>
             <child>
               <object class="GtkImage">
-                <property name="resource">/com/endlessm/Clubhouse/images/inventory-empty-image.png</property>
+                <property name="resource">/com/hack_computer/Clubhouse/images/inventory-empty-image.png</property>
                 <property name="visible">True</property>
               </object>
             </child>

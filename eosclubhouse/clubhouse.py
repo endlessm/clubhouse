@@ -44,12 +44,12 @@ from eosclubhouse.episodes import BadgeButton, PosterWindow
 # Make sure WebkitWebView class is registered
 GObject.TypeClass.ref(WebKit2.WebView.__gtype__)
 
-CLUBHOUSE_NAME = 'com.endlessm.Clubhouse'
-CLUBHOUSE_PATH = '/com/endlessm/Clubhouse'
+CLUBHOUSE_NAME = 'com.hack_computer.Clubhouse'
+CLUBHOUSE_PATH = '/com/hack_computer/Clubhouse'
 CLUBHOUSE_IFACE = CLUBHOUSE_NAME
 
 ClubhouseIface = ('<node>'
-                  '<interface name="com.endlessm.Clubhouse">'
+                  '<interface name="com.hack_computer.Clubhouse">'
                   '<method name="show">'
                   '<arg type="u" direction="in" name="timestamp"/>'
                   '</method>'
@@ -175,7 +175,7 @@ class Character(GObject.GObject):
     body_animation = GObject.Property(_get_body_animation, _set_body_animation, type=str)
 
 
-@Gtk.Template.from_resource('/com/endlessm/Clubhouse/message.ui')
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
 class Message(Gtk.Overlay):
 
     __gtype_name__ = 'Message'
@@ -215,7 +215,7 @@ class Message(Gtk.Overlay):
 
         if len(self._button_box.get_children()) == 0:
             image = Gtk.Image.new_from_resource(
-                '/com/endlessm/Clubhouse/images/icon_check-in-circle.svg')
+                '/com/hack_computer/Clubhouse/images/icon_check-in-circle.svg')
             button.set_image(image)
             button.set_property('always-show-image', True)
             label_widget = button.get_children()[0].get_children()[0].get_children()[1]
@@ -296,7 +296,7 @@ class Message(Gtk.Overlay):
         Sound.play(sfx_sound)
 
 
-@Gtk.Template.from_resource('/com/endlessm/Clubhouse/quest-row.ui')
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/quest-row.ui')
 class QuestRow(Gtk.ListBoxRow):
 
     __gtype_name__ = 'QuestRow'
@@ -459,7 +459,7 @@ class QuestSetButton(Gtk.Button):
     position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
 
 
-@Gtk.Template.from_resource('/com/endlessm/Clubhouse/character-view.ui')
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/character-view.ui')
 class CharacterView(Gtk.Grid):
 
     __gtype_name__ = 'CharacterView'
@@ -601,7 +601,7 @@ class CharacterView(Gtk.Grid):
         self._app_window.run_quest(new_quest)
 
 
-@Gtk.Template.from_resource('/com/endlessm/Clubhouse/clubhouse-view.ui')
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/clubhouse-view.ui')
 class ClubhouseView(Gtk.EventBox):
 
     __gtype_name__ = 'ClubhouseView'
@@ -1353,7 +1353,7 @@ class InventoryView(Gtk.EventBox):
         self.get_style_context().add_class('inventory-view')
 
         builder = Gtk.Builder()
-        builder.add_from_resource('/com/endlessm/Clubhouse/inventory-view.ui')
+        builder.add_from_resource('/com/hack_computer/Clubhouse/inventory-view.ui')
 
         self._inventory_stack = builder.get_object('inventory_stack')
 
@@ -1443,7 +1443,7 @@ class EpisodeRow(Gtk.ListBoxRow):
             self.get_style_context().add_class('episode-row-locked')
 
         builder = Gtk.Builder()
-        builder.add_from_resource('/com/endlessm/Clubhouse/episode-row.ui')
+        builder.add_from_resource('/com/hack_computer/Clubhouse/episode-row.ui')
 
         self._expand_button = builder.get_object('episode_row_expand_button')
         episode_name_label = builder.get_object('episode_row_name_label')
@@ -1594,7 +1594,7 @@ class EpisodesView(Gtk.EventBox):
         self.get_style_context().add_class('episodes-view')
 
         builder = Gtk.Builder()
-        builder.add_from_resource('/com/endlessm/Clubhouse/episodes-view.ui')
+        builder.add_from_resource('/com/hack_computer/Clubhouse/episodes-view.ui')
 
         self._badges_box = builder.get_object('badges_box')
         self._badges_box.show_all()
@@ -1716,7 +1716,7 @@ class EpisodesView(Gtk.EventBox):
             libquest.Registry.set_current_episode_teaser_viewed(True)
 
 
-@Gtk.Template.from_resource('/com/endlessm/Clubhouse/clubhouse-window.ui')
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/clubhouse-window.ui')
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
     __gtype_name__ = 'ClubhouseWindow'
@@ -1945,7 +1945,7 @@ class ClubhouseApplication(Gtk.Application):
     def __init__(self):
         super().__init__(application_id=CLUBHOUSE_NAME,
                          inactivity_timeout=self._INACTIVITY_TIMEOUT,
-                         resource_base_path='/com/endlessm/Clubhouse')
+                         resource_base_path='/com/hack_computer/Clubhouse')
 
         self._window = None
         self._debug_mode = False
@@ -1973,7 +1973,7 @@ class ClubhouseApplication(Gtk.Application):
                              'Fully close the application', None)
 
     def _init_style(self):
-        css_file = Gio.File.new_for_uri('resource:///com/endlessm/Clubhouse/gtk-style.css')
+        css_file = Gio.File.new_for_uri('resource:///com/hack_computer/Clubhouse/gtk-style.css')
         css_provider = Gtk.CssProvider()
         css_provider.load_from_file(css_file)
         style_context = Gtk.StyleContext()

@@ -274,7 +274,7 @@ Sometimes it is convenient to be able to run quests or change dialog strings
 without having to build a new Flatpak. Thus, any quests' code, or a modified
 strings CSV file can be added to a secondary location and will be loaded
 directly by the Clubhouse (overriding any quest/string-id with the same name).
-this alternative location is: `~/.var/app/com.endlessm.Clubhouse/data/quests`
+this alternative location is: `~/.var/app/com.hack_computer.Clubhouse/data/quests`
 
 To automatically fetch the spreadsheet into the alternative path:
 
@@ -426,21 +426,21 @@ There is an alternative path where a designer/developer can place a
 character animation that is used instead of the default one. Animators
 can use this to test new character animations and edit the current
 ones without re-installing the clubhouse. This alternative location
-is: `~/.var/app/com.endlessm.Clubhouse/data/characters`
+is: `~/.var/app/com.hack_computer.Clubhouse/data/characters`
 
 Example:
 
 ```
-mkdir -p ~/.var/app/com.endlessm.Clubhouse/data/characters/ada/fullbody
+mkdir -p ~/.var/app/com.hack_computer.Clubhouse/data/characters/ada/fullbody
 (git clone https://github.com/endlessm/clubhouse)
 (cd clubhouse)
-cp data/characters/ada/fullbody/hi.* ~/.var/app/com.endlessm.Clubhouse/data/characters/ada/fullbody
+cp data/characters/ada/fullbody/hi.* ~/.var/app/com.hack_computer.Clubhouse/data/characters/ada/fullbody
 
 # Change the animation format here and make Ada go crazy. Example: "frames": [0,8,0,8]
-gedit ~/.var/app/com.endlessm.Clubhouse/data/characters/ada/fullbody/hi.json
+gedit ~/.var/app/com.hack_computer.Clubhouse/data/characters/ada/fullbody/hi.json
 
 # Restart the clubhouse:
-com.endlessm.Clubhouse -x && com.endlessm.Clubhouse -d
+com.hack_computer.Clubhouse -x && com.hack_computer.Clubhouse -d
 ```
 
 ## Reloading the Clubhouse
@@ -468,7 +468,7 @@ operation like waiting for a property to be changed in a toy app.
 To set debug mode in the Clubhouse, call:
 
 ``` bash
-com.endlessm.Clubhouse --debug
+com.hack_computer.Clubhouse --debug
 ```
 
 Logs are directed to the main instance of the Clubhouse. So if the
@@ -478,8 +478,8 @@ want to see debug logs in the Terminal, you will have to first quit
 and then start with debug mode again, like this:
 
 ``` bash
-com.endlessm.Clubhouse --quit
-com.endlessm.Clubhouse --debug
+com.hack_computer.Clubhouse --quit
+com.hack_computer.Clubhouse --debug
 ```
 
 ### Measuring Performance
@@ -488,7 +488,7 @@ Output the time it takes to run certain setup steps. Useful for finding
 performance regressions:
 
 ``` bash
-CLUBHOUSE_PERF_DEBUG=yes com.endlessm.Clubhouse
+CLUBHOUSE_PERF_DEBUG=yes com.hack_computer.Clubhouse
 ```
 
 ## Future Work ##

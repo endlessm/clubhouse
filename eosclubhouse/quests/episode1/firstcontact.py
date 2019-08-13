@@ -4,7 +4,7 @@ from eosclubhouse.system import App
 
 class FirstContact(Quest):
 
-    APP_NAME = 'com.endlessm.HackUnlock'
+    APP_NAME = 'com.hack_computer.HackUnlock'
 
     # This quest starts already in the first step. There's no prompting.
     __proposal_message_id__ = ''

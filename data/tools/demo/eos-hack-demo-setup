@@ -5,7 +5,7 @@
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
 echo "---DEMO RESET --- Resetting the Clubhouse"
-com.endlessm.Clubhouse --reset
+com.hack_computer.Clubhouse --reset
 
 echo "---DEMO RESET --- Setting custom game state"
 mkdir -p ~/.var/app/com.endlessm.GameStateService/data/
@@ -30,6 +30,6 @@ eos-add-to-desktop com.endlessm.LightSpeed
 eos-add-to-desktop com.endlessm.Sidetrack
 
 echo "---DEMO RESET --- Restarting Clubhouse"
-com.endlessm.Clubhouse --quit
+com.hack_computer.Clubhouse --quit
 
 echo "---DEMO RESET --- DONE"

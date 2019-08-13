@@ -20,7 +20,7 @@ headerbar {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top;
-    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-blur.jpg');
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-blur.jpg');
     transition: background-image 200ms linear;
 }
 
@@ -30,15 +30,15 @@ window.transitionable-background > headerbar {
 }
 
 window.CLUBHOUSE > headerbar {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg');
 }
 
 window.CLUBHOUSE.off > headerbar {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-off.jpg');
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-off.jpg');
 }
 
 window.CHARACTER > headerbar {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/character_bg.jpg');
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/character_bg.jpg');
 }
 
 /* Window */
@@ -46,28 +46,28 @@ window {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: bottom;
-    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg_blur.jpg');
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg_blur.jpg');
     transition: background-image 200ms linear;
 }
 
 window.CLUBHOUSE {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg.jpg');
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg');
 }
 
 window.CLUBHOUSE.off {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/clubhouse_bg-off.jpg');
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-off.jpg');
 }
 
 window.CHARACTER {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/character_bg.jpg');
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/character_bg.jpg');
 }
 
 .inventory-view {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/inventory_bg.png');
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/inventory_bg.png');
 }
 
 .episodes-view {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/episodes_bg.png');
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/episodes_bg.png');
 }
 
 .episodes-view .episodes-list {
@@ -355,7 +355,7 @@ window.poster {
 }
 
 .episode-row-comingsoon-label {
-    background-image: url('resource:///com/endlessm/Clubhouse/images/comingsoon_label_bg.png');
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/comingsoon_label_bg.png');
     background-repeat: no-repeat;
     min-height: 34px;
     min-width: 147px;

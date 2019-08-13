@@ -1,7 +1,7 @@
 {
-  "app-id": "com.endlessm.Clippy.Extension",
+  "app-id": "com.hack_computer.Clippy.Extension",
   "branch": "${BRANCH}",
-  "runtime": "com.endlessm.Clubhouse",
+  "runtime": "com.hack_computer.Clubhouse",
   "runtime-version": "${BRANCH}",
   "sdk": "org.gnome.Sdk//3.32",
   "appstream-compose": false,
@@ -22,13 +22,13 @@
       "name": "appdata",
       "buildsystem": "simple",
       "build-commands": [
-        "install -Dm644 --target-directory=$${FLATPAK_DEST}/share/appdata com.endlessm.Clippy.Extension.appdata.xml",
-        "appstream-compose --basename=com.endlessm.Clippy.Extension --prefix=$${FLATPAK_DEST} --origin=flatpak com.endlessm.Clippy.Extension"
+        "install -Dm644 --target-directory=$${FLATPAK_DEST}/share/appdata com.hack_computer.Clippy.Extension.appdata.xml",
+        "appstream-compose --basename=com.hack_computer.Clippy.Extension --prefix=$${FLATPAK_DEST} --origin=flatpak com.hack_computer.Clippy.Extension"
       ],
       "sources": [
         {
           "type": "file",
-          "path": "data/com.endlessm.Clippy.Extension.appdata.xml"
+          "path": "data/com.hack_computer.Clippy.Extension.appdata.xml"
         }
       ]
     }

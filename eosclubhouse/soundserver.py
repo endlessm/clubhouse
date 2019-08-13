@@ -93,7 +93,7 @@ class HackSoundServer:
     def get_proxy(class_):
         if not class_._proxy:
             class_._proxy = Gio.DBusProxy.new_for_bus_sync(
-                Gio.BusType.SESSION, 0, None, 'com.endlessm.HackSoundServer',
-                '/com/endlessm/HackSoundServer',
-                'com.endlessm.HackSoundServer', None)
+                Gio.BusType.SESSION, 0, None, 'com.hack_computer.HackSoundServer',
+                '/com/hack_computer/HackSoundServer',
+                'com.hack_computer.HackSoundServer', None)
         return class_._proxy
