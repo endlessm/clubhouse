@@ -1,0 +1,11 @@
+# Ignore files used for building flatpak:
+/.flatpak-builder
+/repo
+/build
+/tools/__pycache__/
+
+# Ignore the generated files:
+/*config.ini
+/com.endlessm.Clubhouse.json
+/com.endlessm.Clippy.Extension.json
+/*.flatpak

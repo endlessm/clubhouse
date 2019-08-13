@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+
+# Tool to build and install a Flatpak containing all the Hack modules.
+#
+# Copyright (C) 2019 Endless Mobile, Inc.
+
+import os
+
+from _common import (
+    DEFAULTS,
+    create_flatpak_manifest,
+    build_flatpak,
+    install_flatpak,
+    build_bundle,
+    run_command,
+    run,
+)
+
+CONFIG_FILE = 'config.ini'
+
+MANIFEST_FILE = 'katamari/com.endlessm.Clubhouse.json'
+APP_ID = 'com.endlessm.Clubhouse'
+
+MODULES = [
+    'hack-sound-server',
+    'hack-toolbox-app',
+    'hack-components',
+    'hack-toy-apps',
+    'hack-game-state-service',
+    'clubhouse',
+]
+
+DEFAULTS = {
+    **DEFAULTS,
+    'Common': {
+        **DEFAULTS['Common'],
+        'reload-gss': True,
+        'build-extension': True,
+        'quit-clubhouse': True,
+    },
+    'clubhouse': {
+        'run_lint': True,
+        'run_tests': True,
+    },
+}
+
+
+def _reload_gss():
+    run_command(['gdbus', 'call', '-e',
+                 '-d', 'com.endlessm.GameStateService',
+                 '-o', '/com/endlessm/GameStateService',
+                 '-m', 'com.endlessm.GameStateService.Reload'])
+
+
+def _quit_clubhouse():
+    env = os.environ.copy()
+
+    # If running katamari from a SSH connection, it won't have DISPLAY
+    # set. This assumes the clubhouse is running in display 0 (usually
+    # the default).
+    if 'DISPLAY' not in env:
+        env['DISPLAY'] = ':0'
+
+    run_command(['flatpak', 'run', 'com.endlessm.Clubhouse', '--quit'], env=env)
+
+
+def main(config, only_manifest=False):
+    # Create the manifest:
+    create_flatpak_manifest(config, MODULES, MANIFEST_FILE)
+    if only_manifest:
+        return
+
+    repo = config.get('Advanced', 'repo')
+    flatpak_branch = config.get_flatpak_branch()
+
+    # Build the flatpak:
+    extra_build_options = config.get('Advanced', 'extra_build_options')
+    build_flatpak(repo, MANIFEST_FILE, extra_build_options)
+
+    # Install the build in the system:
+    if config.get('Common', 'install'):
+        extra_install_options = config.get('Advanced', 'extra_install_options')
+        install_flatpak(repo, flatpak_branch, APP_ID, extra_install_options)
+
+        # Reload the Game State Service after install:
+        if config.get('Common', 'reload-gss'):
+            _reload_gss()
+
+        # Quit Clubhouse after install:
+        if config.get('Common', 'quit-clubhouse'):
+            _quit_clubhouse()
+
+    # Build a flatpak bundle:
+    if config.get('Common', 'bundle'):
+        build_bundle(repo, flatpak_branch, APP_ID)
+
+    if config.get('Common', 'build-extension'):
+        from _clippy import main, CONFIG_FILE
+        run(main, config_file=CONFIG_FILE, flatpak_branch=config.get_flatpak_branch())
+
+
+if __name__ == "__main__":
+    run(main, config_file=CONFIG_FILE, defaults=DEFAULTS)

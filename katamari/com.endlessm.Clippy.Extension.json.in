@@ -1,0 +1,36 @@
+{
+  "app-id": "com.endlessm.Clippy.Extension",
+  "branch": "${BRANCH}",
+  "runtime": "com.endlessm.Clubhouse",
+  "runtime-version": "${BRANCH}",
+  "sdk": "org.gnome.Sdk//3.32",
+  "appstream-compose": false,
+  "separate-locales": false,
+  "build-extension": true,
+  "modules": [
+    {
+      "name": "clippy",
+      "buildsystem": "meson",
+      "config-opts": [
+        "-Dgtk-modules-path=/app/clippy/lib"
+      ],
+      "sources": [
+        ${CLIPPY_SOURCE}
+      ]
+    },
+    {
+      "name": "appdata",
+      "buildsystem": "simple",
+      "build-commands": [
+        "install -Dm644 --target-directory=$${FLATPAK_DEST}/share/appdata com.endlessm.Clippy.Extension.appdata.xml",
+        "appstream-compose --basename=com.endlessm.Clippy.Extension --prefix=$${FLATPAK_DEST} --origin=flatpak com.endlessm.Clippy.Extension"
+      ],
+      "sources": [
+        {
+          "type": "file",
+          "path": "data/com.endlessm.Clippy.Extension.appdata.xml"
+        }
+      ]
+    }
+  ]
+}

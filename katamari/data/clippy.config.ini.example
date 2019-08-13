@@ -1,0 +1,60 @@
+[Common]
+
+## Install in the system after building. This is the default:
+
+# install = yes
+
+## Build a flatpak bundle. By default is not installed:
+
+# bundle = no
+
+## By default a flatpak with branch name 'master' will be built, from
+## the master git branches of each module. This flag changes that to
+## build a flatpak with branch name 'stable' from the stable git
+## branches of each module. But see the Modules section below, since
+## any customization overrides this to build a flatpak with branch
+## name 'custom'.
+
+# stable = no
+
+[Modules]
+
+## These are the modules you want to customize. Setting any of these
+## will create a flatpak with branch name 'custom'. There are
+## different formats you can pass to customize the module from a git
+## repository or a local directory:
+
+## Format 1, pass a git branch:
+#clippy = hack2
+
+## Format 2, pass a git url:
+# clippy = https://github.com/manuq/clippy.git
+
+## Format 3, pass a git url plus a git branch:
+# clippy = https://github.com/manuq/clippy.git:hack2
+
+## Format 4, pass a local directory that contains a git checkout. In
+## this case, the changes don't need to be commited.
+# clippy = ~/checkout/clippy
+
+## Here is a list of all valid modules:
+
+# clippy = custom
+
+[Advanced]
+
+## Change the repository name:
+
+# repo = my-repo
+
+## Force the flatpak branch name:
+
+# branch = my-branch
+
+## Add extra options to flatpak-builder:
+
+# extra_build_options = --user --install --disable-download
+
+## Add extra options to flatpak install:
+
+# extra_install_options = --no-deps --assumeyes
