@@ -725,56 +725,9 @@ class ClubhouseView(Gtk.EventBox):
         self._shell_show_current_popup_message()
 
     def _button_clicked_cb(self, button):
-        self.ask_character(button.get_quest_set())
-
-    def ask_character(self, quest_set):
-
-        if isinstance(quest_set, libquest.CharacterMission):
-            # @todo: ask user if we want to move to the other page?
-            self._app_window.character.show_mission_list(quest_set)
-            self._app_window.set_page('CHARACTER')
-            return
-
-        # @todo: Remove old behavior below.
-
-        # If a quest from this quest_set is already running, then just hide the window so the
-        # user focuses on the Shell's quest dialog
-        if self._current_quest:
-            if self._current_quest.available and self._current_quest in quest_set.get_quests() and \
-               not self._current_quest.stopping:
-                self._show_quest_continue_confirmation()
-                return
-
-        new_quest = quest_set.get_next_quest()
-
-        self._stop_quest_proposal()
-
-        if new_quest is None:
-            character_id = quest_set.get_character()
-            character = Character.get_or_create(character_id)
-            character.mood = None
-
-            # @todo: remove old code
-            # msg_text = quest_set.get_empty_message()
-
-        else:
-            # @todo: remove old code
-            character_id = new_quest.get_main_character()
-            character = Character.get_or_create(character_id)
-            character.mood = new_quest.proposal_mood
-
-    def continue_playing(self):
-        # If there is a running quest, we ask the quest's character whether to continue/stop it.
-        if self._current_quest:
-            quest_set = libquest.Registry.get_character_mission_for_quest(self._current_quest)
-            if self._current_quest.available and quest_set is not None:
-                self.ask_character(quest_set)
-                return
-
-        # Ask the first character that is active what to do (start/continue a quest, etc.).
-        for quest_set in libquest.Registry.get_quest_sets():
-            if quest_set.is_active():
-                self.ask_character(quest_set)
+        quest_set = button.get_quest_set()
+        self._app_window.character.show_mission_list(quest_set)
+        self._app_window.set_page('CHARACTER')
 
     def _stop_quest_proposal(self):
         if self._proposing_quest:
@@ -1785,11 +1738,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def update_user_info(self):
         self._user_label.set_label(GLib.get_real_name())
         # @todo: update self._user_image
-
-    def continue_playing(self):
-        self.clubhouse.continue_playing()
-        # Select main page so the user can see whether a character is now offering a quest.
-        self._stack.set_visible_child(self._clubhouse_page)
 
     @Gtk.Template.Callback()
     def _on_delete(self, widget, _event):
