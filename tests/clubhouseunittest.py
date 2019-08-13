@@ -29,7 +29,7 @@ class _GSSMockProxy(GObject.GObject):
         try:
             return self.__state__[key]
         except KeyError:
-            raise Gio.DBusError.new_for_dbus_error("com.endlessm.GameStateService.KeyError",
+            raise Gio.DBusError.new_for_dbus_error("com.hack_computer.GameStateService.KeyError",
                                                    "Phony KeyError")
 
     def Set(self, _variant_format, key, variant):

@@ -47,9 +47,9 @@ DEFAULTS = {
 
 def _reload_gss():
     run_command(['gdbus', 'call', '-e',
-                 '-d', 'com.endlessm.GameStateService',
-                 '-o', '/com/endlessm/GameStateService',
-                 '-m', 'com.endlessm.GameStateService.Reload'])
+                 '-d', 'com.hack_computer.GameStateService',
+                 '-o', '/com/hack_computer/GameStateService',
+                 '-m', 'com.hack_computer.GameStateService.Reload'])
 
 
 def _quit_clubhouse():

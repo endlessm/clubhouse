@@ -1,10 +1,10 @@
 #!/bin/bash
 
-echo "Resetting com.endlessm.GameStateService"
+echo "Resetting com.hack_computer.GameStateService"
 gdbus call --session \
-    --dest com.endlessm.GameStateService \
-    --object-path /com/endlessm/GameStateService \
-    --method com.endlessm.GameStateService.Reset
+    --dest com.hack_computer.GameStateService \
+    --object-path /com/hack_computer/GameStateService \
+    --method com.hack_computer.GameStateService.Reset
 
 echo "Resetting the hack-mode"
 gsettings reset org.gnome.shell hack-mode-enabled
