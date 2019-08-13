@@ -604,9 +604,9 @@ class GameStateService(GObject.GObject):
             klass._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
                                                           0,
                                                           None,
-                                                          'com.endlessm.GameStateService',
-                                                          '/com/endlessm/GameStateService',
-                                                          'com.endlessm.GameStateService',
+                                                          'com.hack_computer.GameStateService',
+                                                          '/com/hack_computer/GameStateService',
+                                                          'com.hack_computer.GameStateService',
                                                           None)
 
         return klass._proxy
@@ -660,7 +660,8 @@ class GameStateService(GObject.GObject):
 
     @staticmethod
     def _is_key_error(error):
-        return Gio.DBusError.get_remote_error(error) == 'com.endlessm.GameStateService.KeyError'
+        return Gio.DBusError.get_remote_error(error) ==\
+            'com.hack_computer.GameStateService.KeyError'
 
 
 class ToolBoxTopic(GObject.GObject):
