@@ -504,7 +504,7 @@ class CharacterView(Gtk.Grid):
         self._update_character_image()
 
     def add_message(self, message_info):
-        current_quest = self._app_window.clubhouse._get_running_quest()
+        current_quest = self._app_window.clubhouse.running_quest
         if not current_quest:
             return
 
@@ -1097,6 +1097,7 @@ class ClubhouseView(Gtk.EventBox):
             self.load_episode(episode_name)
 
     running_quest = GObject.Property(_get_running_quest,
+                                     _set_current_quest,
                                      type=GObject.TYPE_PYOBJECT,
                                      default=None,
                                      flags=GObject.ParamFlags.READABLE |
