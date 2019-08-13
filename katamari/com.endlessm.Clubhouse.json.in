@@ -1,0 +1,325 @@
+{
+    "app-id": "com.endlessm.Clubhouse",
+    "add-extensions": {
+        "com.endlessm.Clippy.Extension": {
+            "version": "${BRANCH}",
+            "directory": "clippy",
+            "no-autodownload": false,
+            "autodelete": true
+        }
+    },
+    "branch": "${BRANCH}",
+
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "3.32",
+    "sdk": "org.gnome.Sdk",
+
+    "command": "eos-clubhouse",
+    "rename-desktop-file": "eos-clubhouse.desktop",
+
+    "finish-args": [
+        "--device=dri",
+        "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+        "--env=GNOTIFICATION_BACKEND=gtk",
+        "--env=GSETTINGS_SCHEMA_DIR=/run/host/usr/share/glib-2.0/schemas/",
+        "--env=GTK3_MODULES=/app/clippy/lib/libclippy-module.so",
+        "--filesystem=/var/lib/flatpak/exports/share/applications:ro",
+        "--filesystem=/var/lib/flatpak/exports/share/icons:ro",
+        "--filesystem=host",
+        "--filesystem=xdg-run/dconf",
+        "--filesystem=~/.config/dconf:ro",
+        "--filesystem=~/.local/share/flatpak",
+        "--nofilesystem=~/.local/lib/python3.5",
+        "--own-name=com.endlessm.Clubhouse",
+        "--own-name=com.endlessm.GameStateService",
+        "--own-name=com.endlessm.HackSoundServer",
+        "--own-name=com.endlessm.HackToolbox",
+        "--own-name=com.endlessm.HackUnlock",
+        "--share=ipc",
+        "--share=network",
+        "--socket=pulseaudio",
+        "--socket=session-bus",
+        "--socket=wayland",
+        "--socket=x11",
+        "--system-talk-name=com.endlessm.Metrics",
+        "--talk-name=com.endlessm.Libanimation",
+        "--talk-name=org.freedesktop.Flatpak",
+        "--talk-name=org.gtk.Notifications"
+    ],
+
+    "modules": [
+        /** Clippy extension folder needed to make it work **/
+        {
+          "name": "clippy-ext",
+          "buildsystem": "simple",
+          "build-commands": [
+            "mkdir /app/clippy"
+          ],
+          "sources": []
+        },
+
+        /** hack-sound-server **/
+
+        {
+            "name": "soundtouch",
+            "cleanup": [
+                "/bin/soundstretch",
+                "/include",
+                "/lib/pkgconfig/soundtouch.pc",
+                "/share/aclocal/soundtouch.m4",
+                "/share/doc/soundtouch"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.com/soundtouch/soundtouch/-/archive/2.1.0/soundtouch-2.1.0.tar.bz2",
+                    "sha256": "3fb740c7ac4b304342fbf11a91d14fa3e296269b9fec6266609c4620477d0ad6"
+                }
+            ]
+        },
+        {
+            "name": "gstreamer-plugin-soundtouch",
+            "config-opts": [
+                "--disable-aom",
+                "--disable-nls",
+                "--disable-introspection",
+                "--disable-gtk-doc",
+                "--enable-soundtouch",
+                "--with-plugins=none",
+                "--disable-shm",
+                "--disable-ipcpipeline",
+                "--disable-vcd",
+                "--disable-bz2",
+                "--disable-curl",
+                "--disable-dash",
+                "--disable-decklink",
+                "--disable-wayland",
+                "--disable-webp",
+                "--disable-fbdev",
+                "--disable-fdk-aac",
+                "--disable-kms",
+                "--disable-lcms2",
+                "--disable-dtls",
+                "--disable-ttml",
+                "--disable-openal",
+                "--disable-opus",
+                "--disable-rsvg",
+                "--disable-gl",
+                "--disable-vulkan",
+                "--disable-smoothstreaming",
+                "--disable-sndfile",
+                "--disable-dvb",
+                "--disable-vdpau",
+                "--disable-hls"
+            ],
+            "cleanup": [
+                "/include",
+                "/lib/libgst*-1.0.*",
+                "/lib/pkgconfig/gstreamer-*.pc",
+                "/share/gtk-doc"
+            ],
+            "sources": [
+                 {
+                     "type": "archive",
+                     "url": "http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.3.tar.xz",
+                     "sha256": "b2224e5d9c1b85ad51233f6135524bb9e16a9172d395edc79c73b89094659fd5"
+                 }
+            ]
+        },
+        {
+            "name": "python3-vcver",
+            "buildsystem": "simple",
+            "build-commands": [
+                "pip3 install --no-index --find-links=\"file://$${PWD}\" --prefix=$${FLATPAK_DEST} vcver"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/fd/5d/c8c80d1a6c4f0bed4cd52747294ba95219bb79587da27d34d9e428b5849c/vcver-0.1.1.tar.gz",
+                    "sha256": "e4c1eff7af4123cca80597367cb5d41dd57cd9711de0d5804d7b3935cc04f1a0"
+                }
+            ]
+        },
+        {
+            "name": "python3-deepmerge",
+            "buildsystem": "simple",
+            "build-commands": [
+                "pip3 install --no-index --find-links=\"file://$${PWD}\" --prefix=$${FLATPAK_DEST} deepmerge"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/a9/14/7bd117a34ed4199664ad28367814ebac54012c5f6176ed333667d7d469b6/deepmerge-0.0.5.tar.gz",
+                    "sha256": "d8c5c309340a51e0d7a84adb020d459dc79794d789ea03a56e954ac115089fa5"
+                }
+            ]
+        },
+        {
+            "name": "hack-sound-server",
+            "buildsystem": "meson",
+            "config-opts" : [
+                "-Dsession-bus-services-dir=/app/share/dbus-1/services"
+            ],
+            "sources": [
+                ${HACK_SOUND_SERVER_SOURCE}
+            ]
+        },
+
+        /** hack-toolbox **/
+
+        /** eos-metrics needed by toolbox and not present in EOS **/
+        {
+            "name": "dbusmock",
+            "buildsystem": "simple",
+            "build-options": {
+              "build-args": [
+                "--share=network"
+              ]
+            },
+            "build-commands": [
+                "pip3 install --prefix=/app python-dbusmock",
+                "pip3 install --prefix=/app dbus-python"
+            ]
+        },
+        {
+            "name": "eos-metrics",
+            "config-opts": [
+                "--enable-gir-doc=no"
+            ],
+            "build-options": {
+                "env": {
+                    "PYTHONPATH": "/app/lib/python3.7/site-packages/"
+                }
+            },
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/endlessm/eos-metrics.git"
+                }
+            ]
+        },
+
+        {
+          "name": "Metropolis-font",
+          "buildsystem": "simple",
+          "build-commands": [
+            "install -D -m644 *.otf -t /app/share/fonts"
+          ],
+          "post-install": [
+            "fc-cache -f /app/share/fonts/"
+          ],
+          "sources": [
+            {
+              "type": "archive",
+              "url": "https://github.com/chrismsimpson/Metropolis/archive/r9.tar.gz",
+              "sha256": "283d1f51d96777c648dc1c0899b986fc99f14bfb709732428c14881c075c356b"
+            }
+          ]
+        },
+        {
+          "name": "Hack-font",
+          "buildsystem": "simple",
+          "build-commands": [
+            "install -D -m644 *.ttf -t /app/share/fonts"
+          ],
+          "post-install": [
+            "fc-cache -f /app/share/fonts/"
+          ],
+          "sources": [
+            {
+              "type": "archive",
+              "url": "https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.tar.xz",
+              "sha256": "d9ed5d0a07525c7e7bd587b4364e4bc41021dd668658d09864453d9bb374a78d"
+            }
+          ]
+        },
+        {
+          "name": "gtksourceview",
+          "config-opts": [
+            "--disable-vala",
+            "--disable-gtk-doc"
+          ],
+          "sources": [
+            {
+              "type": "archive",
+              "url": "http://ftp.gnome.org/pub/GNOME/sources/gtksourceview/3.24/gtksourceview-3.24.8.tar.xz",
+              "sha256": "1e9bb8ff190db705deb916dd23ff681f0e8803aec407bf0fd64c7e615ac436fe"
+            }
+          ]
+        },
+        {
+          "name": "hack-toolbox",
+          "buildsystem": "meson",
+          "run-tests": false,
+          "sources": [
+              ${HACK_TOOLBOX_APP_SOURCE}
+          ]
+        },
+
+        /** hack-unlock-app **/
+        {
+          "name": "toyapp",
+          "buildsystem": "meson",
+          "config-opts": [
+            "-Dapp-id=com.endlessm.HackUnlock"
+          ],
+          "sources": [
+              ${HACK_TOY_APPS_SOURCE}
+          ]
+        },
+
+        /** game-state-service **/
+        {
+            "name": "game-state-service",
+            "buildsystem": "meson",
+            "config-opts" : [
+                "-Dsession-bus-services-dir=/app/share/dbus-1/services"
+            ],
+            "sources": [
+                ${HACK_GAME_STATE_SERVICE_SOURCE}
+            ]
+        },
+
+        /** clubhouse **/
+        {
+            "name": "glibcoro",
+            "buildsystem": "simple",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/endlessm/glibcoro.git"
+                }
+            ],
+            "build-options": [
+
+            ],
+            "build-commands": [
+                "python3 ./setup.py install --prefix=/app"
+            ]
+        },
+        {
+            "name": "clubhouse",
+            "buildsystem": "meson",
+            "build-options": {
+              "build-args": [
+                  "--share=network"
+              ],
+              "test-args": [
+                  "--env=GSETTINGS_SCHEMA_DIR=/run/host/usr/share/glib-2.0/schemas/",
+                  "--filesystem=host"
+              ]
+            },
+            "config-opts" : [
+                "-Dsession-bus-services-dir=/app/share/dbus-1/services",
+                "-Drun-lint=${CLUBHOUSE_RUN_LINT}"
+            ],
+            "run-tests": ${CLUBHOUSE_RUN_TESTS},
+            "test-rule": "",
+            "test-commands": ["meson test --timeout-multiplier=10 --print-errorlogs"],
+            "sources": [
+                ${CLUBHOUSE_SOURCE}
+            ]
+        }
+    ]
+}
+

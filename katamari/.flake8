@@ -1,0 +1,8 @@
+[flake8]
+exclude =
+    .git,
+    data,
+    .flatpak-builder,
+    build,
+    repo
+max-line-length = 100
