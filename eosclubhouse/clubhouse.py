@@ -767,8 +767,8 @@ class ClubhouseView(Gtk.EventBox):
             'character_id': self.SYSTEM_CHARACTER_ID,
             'character_mood': self.SYSTEM_CHARACTER_MOOD,
             'sound_fx': self.running_quest.proposal_sound,
-            'choices': [(self.running_quest.accept_stop_label, accept_stop, new_quest),
-                        (self.running_quest.reject_stop_label, reject_stop)],
+            'choices': [(self.running_quest.get_label('QUEST_ACCEPT_STOP'), accept_stop, new_quest),
+                        (self.running_quest.get_label('QUEST_REJECT_STOP'), reject_stop)],
         })
 
     def _ask_harder_quest(self, new_quest, easier_quest):
@@ -785,8 +785,8 @@ class ClubhouseView(Gtk.EventBox):
             'character_id': self.SYSTEM_CHARACTER_ID,
             'character_mood': self.SYSTEM_CHARACTER_MOOD,
             'sound_fx': new_quest.proposal_sound,
-            'choices': [(new_quest.accept_harder_label, accept_harder, new_quest),
-                        (new_quest.reject_harder_label, reject_harder)],
+            'choices': [(new_quest.get_label('QUEST_ACCEPT_HARDER'), accept_harder, new_quest),
+                        (new_quest.get_label('QUEST_REJECT_HARDER'), reject_harder)],
         })
 
     def try_running_quest(self, new_quest, easier_quest=None):
@@ -947,8 +947,8 @@ class ClubhouseView(Gtk.EventBox):
     def _propose_next_quest(self, quest):
         quest_set = libquest.Registry.get_character_mission_for_quest(quest)
 
-        choices = [(quest.accept_label, self._accept_quest_message, quest_set, quest),
-                   (quest.reject_label, self._stop_quest_proposal)]
+        choices = [(quest.get_label('QUEST_ACCEPT'), self._accept_quest_message, quest_set, quest),
+                   (quest.get_label('QUEST_REJECT'), self._stop_quest_proposal)]
 
         self._proposing_quest = True
 
