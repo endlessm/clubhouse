@@ -32,8 +32,8 @@ gnome.compile_resources(
 schemaconf = configuration_data()
 schemaconf.set('GETTEXT_PACKAGE', meson.project_name())
 schema = configure_file(
-  input: 'com.endlessm.clubhouse.gschema.xml.in',
-  output: 'com.endlessm.clubhouse.gschema.xml',
+  input: 'com.hack_computer.clubhouse.gschema.xml.in',
+  output: 'com.hack_computer.clubhouse.gschema.xml',
   configuration: schemaconf,
   install_dir: schema_dir
 )
