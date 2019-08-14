@@ -505,7 +505,7 @@ class CharacterView(Gtk.Grid):
 
     def add_message(self, message_info):
         current_quest = self._app_window.clubhouse.running_quest
-        if not current_quest:
+        if current_quest is None or current_quest.stopping:
             return
 
         if len(self._message_list.get_children()) == self.MAX_MESSAGES:
@@ -532,7 +532,7 @@ class CharacterView(Gtk.Grid):
         for row in self._message_list.get_children()[:-1]:
             row.get_child().clear_buttons()
 
-        return msg
+        msg.show()
 
     def clear_messages(self):
         for row in self._message_list.get_children():
@@ -827,8 +827,7 @@ class ClubhouseView(Gtk.EventBox):
         if message_info['type'] == libquest.Quest.MessageType.POPUP:
             self._shell_popup_message(message_info)
         elif message_info['type'] == libquest.Quest.MessageType.NARRATIVE:
-            msg = self._app_window.character.add_message(message_info)
-            msg.show()
+            self._app_window.character.add_message(message_info)
 
     def _quest_dismiss_message_cb(self, quest, narrative=False):
         if not narrative:
