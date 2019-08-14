@@ -1147,6 +1147,9 @@ class Quest(GObject.GObject):
         return toolbox_topic_clicked
 
     def abort(self):
+        if self.stopping:
+            return
+
         # Notify we're going to stop soon
         self.stopping = True
 
@@ -1154,6 +1157,8 @@ class Quest(GObject.GObject):
         if abort_info:
             self.show_message('ABORT')
             self.pause(5)
+        else:
+            Sound.play(self._default_abort_sound)
 
         self.stop()
 
