@@ -197,8 +197,13 @@ def _get_source(module, module_value, default_git_branch):
     return _get_git_source(git_url, module_value)
 
 
-def create_flatpak_manifest(config, modules, manifest):
+def create_flatpak_manifest(config, modules, manifest, template=None):
     template_values = config.get_template_values(modules)
+
+    manifest_file = manifest
+    if template:
+        template_values['BRANCH'] = '@BRANCH@'
+        manifest_file = template
 
     manifest_out = ''
     with open(manifest + '.in') as fd:
@@ -207,7 +212,7 @@ def create_flatpak_manifest(config, modules, manifest):
         # Removing comments to avoid problems with strict json
         manifest_out = re.sub(r'\s*\/\*\*.*\*\*\/', '', manifest_out)
 
-    with open(manifest, 'w') as fd:
+    with open(manifest_file, 'w') as fd:
         fd.write(manifest_out)
 
 
@@ -244,8 +249,8 @@ def run(main, *args, **kwargs):
     parser.add_argument('mode', nargs='?', choices=('print-config',),
                         metavar='MODE',
                         help='print-config: Print the parsed configuration.')
-    parser.add_argument('--manifest', action='store_true',
-                        help='Only generates the flatpak manifest file, do not build.')
+    parser.add_argument('--manifest-template',
+                        help='Only generates the flatpak template manifest in the desired location.')
     cli_args = parser.parse_args()
 
     # Run this script in the base directory:
@@ -261,7 +266,7 @@ def run(main, *args, **kwargs):
         sys.exit()
 
     try:
-        main(config, cli_args.manifest)
+        main(config, cli_args.manifest_template)
     except BuildError as error:
         sys.exit(error)
 
