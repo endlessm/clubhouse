@@ -9,8 +9,8 @@ gdbus call --session \
 echo "Resetting the hack-mode"
 gsettings reset org.gnome.shell hack-mode-enabled
 
-echo "Removing com.endlessm.Fizzics state"
-flatpak-spawn --host rm -rf ~/.var/app/com.endlessm.Fizzics/data/webkitgtk/localstorage/
+echo "Removing com.hack_computer.Fizzics state"
+flatpak-spawn --host rm -rf ~/.var/app/com.hack_computer.Fizzics/data/webkitgtk/localstorage/
 
 echo "Resetting desktop icons"
 flatpak-spawn --host eos-reset-desktop
@@ -21,8 +21,8 @@ gsettings reset org.gnome.desktop.interface cursor-theme
 
 echo "Resetting the desktop background"
 gsettings reset org.gnome.desktop.background picture-uri
-gsettings reset com.endlessm.clubhouse hack-mode-enabled-picture-uri
-gsettings reset com.endlessm.clubhouse hack-mode-disabled-picture-uri
+gsettings reset com.hack_computer.clubhouse hack-mode-enabled-picture-uri
+gsettings reset com.hack_computer.clubhouse hack-mode-disabled-picture-uri
 
 echo "Resetting wobbly windows"
 gsettings reset org.gnome.shell wobbly-effect
