@@ -6,7 +6,7 @@ from gi.repository import Gio, GLib
 
 class Sidetrack(App):
 
-    APP_NAME = 'com.endlessm.Sidetrack'
+    APP_NAME = 'com.hack_computer.Sidetrack'
 
     def __init__(self):
         super().__init__(self.APP_NAME)
@@ -14,7 +14,7 @@ class Sidetrack(App):
 
 class Fizzics(App):
 
-    APP_NAME = 'com.endlessm.Fizzics'
+    APP_NAME = 'com.hack_computer.Fizzics'
     _TOOLS = ['fling', 'move', 'create', 'delete']
     _TOOL_DISABLED_SUFFIX = 'ToolDisabled'
     _TOOL_ACTIVE_SUFFIX = 'ToolActive'
@@ -157,7 +157,7 @@ class Fizzics(App):
 
 class LightSpeed(App):
 
-    APP_NAME = 'com.endlessm.LightSpeed'
+    APP_NAME = 'com.hack_computer.LightSpeed'
 
     _POWERUP_TYPES = ['invulnerable', 'blowup', 'upgrade']
     _UPGRADE_TYPES = ['shrink', 'attraction', 'engine']

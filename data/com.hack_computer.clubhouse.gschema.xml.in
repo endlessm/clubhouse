@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-  <schema id="com.endlessm.clubhouse" path="/com/endlessm/clubhouse/"
+  <schema id="com.hack_computer.clubhouse" path="/com/hack_computer/clubhouse/"
           gettext-domain="@GETTEXT_PACKAGE@">
     <key type="s" name="hack-mode-enabled-picture-uri">
       <default>''</default>
