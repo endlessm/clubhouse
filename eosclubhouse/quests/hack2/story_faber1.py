@@ -7,6 +7,7 @@ class Story_Faber1(Quest):
     __quest_name__ = 'Faber Mattics: Engineer Extraordinaire'
     __tags__ = ['mission:ada']  # faber is still not set up
     __mission_order__ = 51      # should be 50 when migrated to faber
+    __is_narrative__ = True
 
     QUESTION_MESSAGES = [2]
     TOTAL_MESSAGES = 24

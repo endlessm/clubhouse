@@ -7,6 +7,7 @@ class Story_Ada1(Quest):
     __quest_name__ = 'Checking in with Ada'
     __tags__ = ['mission:ada']
     __mission_order__ = 50
+    __is_narrative__ = True
 
     QUESTION_MESSAGES = [3, 29]
     TOTAL_MESSAGES = 34
