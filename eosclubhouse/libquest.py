@@ -646,6 +646,10 @@ class Quest(GObject.GObject):
     proposal_sound = GObject.Property(type=str, default="quests/quest-proposed")
     accept_label = GObject.Property(type=str, default="Sure!")
     reject_label = GObject.Property(type=str, default="Not now…")
+    accept_stop_label = GObject.Property(type=str, default="Yes")
+    reject_stop_label = GObject.Property(type=str, default="No")
+    accept_harder_label = GObject.Property(type=str, default="Yes")
+    reject_harder_label = GObject.Property(type=str, default="No")
 
     stopping = GObject.Property(type=bool, default=False)
 

@@ -593,12 +593,7 @@ class CharacterView(Gtk.Grid):
         quest_set = row.get_quest_set()
         new_quest = row.get_quest()
         easier_quest = quest_set.get_easier_quest(new_quest)
-        if easier_quest is not None:
-            # @todo: Offer easier quest.
-            logger.info('Quest %s is too difficult, try quest %s', new_quest, easier_quest)
-
-        self.clear_messages()
-        self._app_window.run_quest(new_quest)
+        self._app_window.clubhouse.try_running_quest(new_quest, easier_quest)
 
 
 @Gtk.Template.from_resource('/com/endlessm/Clubhouse/clubhouse-view.ui')
@@ -609,6 +604,9 @@ class ClubhouseView(Gtk.EventBox):
     _hack_switch_box = Gtk.Template.Child()
     _hack_switch = Gtk.Template.Child()
     _main_characters_box = Gtk.Template.Child()
+
+    SYSTEM_CHARACTER_ID = 'daemon'
+    SYSTEM_CHARACTER_MOOD = 'talk'
 
     class _QuestScheduleInfo:
         def __init__(self, quest, confirm_before, timeout, handler_id):
@@ -755,6 +753,53 @@ class ClubhouseView(Gtk.EventBox):
         quest.disconnect_by_func(self._quest_scheduled_cb)
         quest.disconnect_by_func(self._quest_item_given_cb)
 
+    def _ask_stop_quest(self, new_quest):
+
+        def accept_stop(new_quest):
+            self.run_quest(new_quest)
+
+        def reject_stop():
+            Sound.play('clubhouse/dialog/close')
+
+        # @todo: This overrides any current popup.
+        self._shell_popup_message({
+            'text': 'You are already in a quest, do you want to start a new one?',
+            'character_id': self.SYSTEM_CHARACTER_ID,
+            'character_mood': self.SYSTEM_CHARACTER_MOOD,
+            'sound_fx': self.running_quest.proposal_sound,
+            'choices': [(self.running_quest.accept_stop_label, accept_stop, new_quest),
+                        (self.running_quest.reject_stop_label, reject_stop)],
+        })
+
+    def _ask_harder_quest(self, new_quest, easier_quest):
+
+        def accept_harder(new_quest):
+            self.run_quest(new_quest)
+
+        def reject_harder():
+            Sound.play('clubhouse/dialog/close')
+
+        # @todo: This overrides any current popup.
+        self._shell_popup_message({
+            'text': 'There is an easier quest, do you want to continue anyways?',
+            'character_id': self.SYSTEM_CHARACTER_ID,
+            'character_mood': self.SYSTEM_CHARACTER_MOOD,
+            'sound_fx': new_quest.proposal_sound,
+            'choices': [(new_quest.accept_harder_label, accept_harder, new_quest),
+                        (new_quest.reject_harder_label, reject_harder)],
+        })
+
+    def try_running_quest(self, new_quest, easier_quest=None):
+        if self.running_quest is not None and not self.running_quest.stopping:
+            self._ask_stop_quest(new_quest)
+            return
+
+        if easier_quest is not None:
+            self._ask_harder_quest(new_quest, easier_quest)
+            return
+
+        self.run_quest(new_quest)
+
     def run_quest(self, quest):
         self._stop_quest_proposal()
 
@@ -765,6 +810,8 @@ class ClubhouseView(Gtk.EventBox):
         self._app.hold()
 
         self._cancel_ongoing_task()
+
+        self._app_window.character.clear_messages()
 
         # Start running the new quest only when the mainloop is idle so we allow any previous
         # events (from other quests) to be dispatched.
@@ -1193,7 +1240,7 @@ class PathwaysView(Gtk.ListBox):
 
     def _quest_row_clicked_cb(self, _list_box, row):
         new_quest = row.get_quest()
-        self._app_window.run_quest(new_quest)
+        self._app_window.clubhouse.try_running_quest(new_quest)
 
     def _add_pathway(self, pathway):
         vbox = Gtk.Box(halign=Gtk.Align.FILL,
