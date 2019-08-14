@@ -644,12 +644,15 @@ class Quest(GObject.GObject):
     proposal_message = GObject.Property(type=str, default="Do you want to go for a challenge?")
     proposal_mood = GObject.Property(type=str, default=_DEFAULT_MOOD)
     proposal_sound = GObject.Property(type=str, default="quests/quest-proposed")
-    accept_label = GObject.Property(type=str, default="Sure!")
-    reject_label = GObject.Property(type=str, default="Not now…")
-    accept_stop_label = GObject.Property(type=str, default="Yes")
-    reject_stop_label = GObject.Property(type=str, default="No")
-    accept_harder_label = GObject.Property(type=str, default="Yes")
-    reject_harder_label = GObject.Property(type=str, default="No")
+
+    _labels = {
+        'QUEST_ACCEPT': 'Sure!',
+        'QUEST_REJECT': 'Not now…',
+        'QUEST_ACCEPT_STOP': 'Yes',
+        'QUEST_REJECT_STOP': 'No',
+        'QUEST_ACCEPT_HARDER': 'Yes',
+        'QUEST_REJECT_HARDER': 'No',
+    }
 
     stopping = GObject.Property(type=bool, default=False)
 
@@ -682,6 +685,7 @@ class Quest(GObject.GObject):
         self._default_abort_sound = 'quests/quest-aborted'
 
         self._setup_proposal_message()
+        self._setup_labels()
 
         self.gss = GameStateService()
         self.conf = {}
@@ -760,12 +764,14 @@ class Quest(GObject.GObject):
         if mood:
             self.proposal_mood = mood
 
-        accept_label = self._get_accept_label_from_qs()
-        if accept_label:
-            self.accept_label = accept_label
-        reject_label = self._get_reject_label_from_qs()
-        if reject_label:
-            self.reject_label = reject_label
+    def _setup_labels(self):
+        for message_id in self._labels:
+            label = QS('{}_{}'.format(self._qs_base_id, message_id))
+            if label:
+                self._labels[message_id] = label
+
+    def get_label(self, message_id):
+        return self._labels[message_id]
 
     def get_episode_name(self):
         return self._episode_name
@@ -779,12 +785,6 @@ class Quest(GObject.GObject):
 
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
-
-    def _get_accept_label_from_qs(self):
-        return QS('{}_QUEST_ACCEPT'.format(self._qs_base_id))
-
-    def _get_reject_label_from_qs(self):
-        return QS('{}_QUEST_REJECT'.format(self._qs_base_id))
 
     def run(self, on_quest_finished):
         assert hasattr(self, 'step_begin'), ('Quests need to declare a "step_begin" method, in '
