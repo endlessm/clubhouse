@@ -21,10 +21,10 @@ MODULES = [
 ]
 
 
-def main(config, only_manifest=False):
+def main(config, template=None):
     # Create the manifest:
-    create_flatpak_manifest(config, MODULES, MANIFEST_FILE)
-    if only_manifest:
+    create_flatpak_manifest(config, MODULES, MANIFEST_FILE, template)
+    if template:
         return
 
     repo = config.get('Advanced', 'repo')

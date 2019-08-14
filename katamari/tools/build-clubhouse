@@ -64,10 +64,10 @@ def _quit_clubhouse():
     run_command(['flatpak', 'run', 'com.hack_computer.Clubhouse', '--quit'], env=env)
 
 
-def main(config, only_manifest=False):
+def main(config, template=None):
     # Create the manifest:
-    create_flatpak_manifest(config, MODULES, MANIFEST_FILE)
-    if only_manifest:
+    create_flatpak_manifest(config, MODULES, MANIFEST_FILE, template)
+    if template:
         return
 
     repo = config.get('Advanced', 'repo')
