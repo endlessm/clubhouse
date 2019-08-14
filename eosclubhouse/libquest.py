@@ -634,6 +634,8 @@ class Quest(GObject.GObject):
     __mission_order__ = 0
     __pathway_order__ = 0
 
+    __is_narrative__ = False
+
     __auto_offer_info__ = {'confirm_before': True, 'start_after': 3}
 
     skippable = GObject.Property(type=bool, default=False)
@@ -1208,6 +1210,15 @@ class Quest(GObject.GObject):
 
             options.update(info)
 
+        if options.get('narrative', False):
+            message_type = self.MessageType.NARRATIVE
+        else:
+            message_type = self.MessageType.POPUP
+
+        if not self.is_narrative() and message_type == self.MessageType.NARRATIVE:
+            logger.warning('Can\'t show message %r, quest %r is not narrative.', info_id, self)
+            return
+
         possible_answers = []
         if options.get('choices'):
             possible_answers = [(text, callback, *args)
@@ -1227,11 +1238,6 @@ class Quest(GObject.GObject):
             else:
                 sfx_sound = self._main_open_dialog_sound
         bg_sound = options.get('bg_sound')
-
-        if options.get('narrative', False):
-            message_type = self.MessageType.NARRATIVE
-        else:
-            message_type = self.MessageType.POPUP
 
         self.emit('message', {
             'id': info_id,
@@ -1565,6 +1571,10 @@ class Quest(GObject.GObject):
                 return
 
         character_mission.highlighted = True
+
+    @classmethod
+    def is_narrative(class_):
+        return class_.__is_narrative__
 
     @classmethod
     def get_id(class_):

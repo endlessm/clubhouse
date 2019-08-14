@@ -8,6 +8,7 @@ class TestA1(Quest):
     __tags__ = ['mission:ada', 'pathway:games', 'difficulty:normal']
     __mission_order__ = 100
     __pathway_order__ = 100
+    __is_narrative__ = True
 
     def step_begin(self):
         self.show_message('NARRATIVE_A', narrative=True)

@@ -7,6 +7,7 @@ class Story_Riley1(Quest):
     __quest_name__ = 'The Life of Riley - Part 1'
     __tags__ = ['mission:ada']  # riley not set up yet
     __mission_order__ = 52      # 50 when applied to riley
+    __is_narrative__ = True
 
     QUESTION_MESSAGES = [7]
     TOTAL_MESSAGES = 26
