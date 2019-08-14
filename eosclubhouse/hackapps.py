@@ -25,8 +25,8 @@ logger = logging.getLogger(__name__)
 
 
 class HackableApp(GObject.Object):
-    _BUS_NAME = 'com.endlessm.HackableAppsManager'
-    _INTERFACE_NAME = 'com.endlessm.HackableApp'
+    _BUS_NAME = 'com.hack_computer.HackableAppsManager'
+    _INTERFACE_NAME = 'com.hack_computer.HackableApp'
 
     def __init__(self, object_path):
         super().__init__()
@@ -35,7 +35,7 @@ class HackableApp(GObject.Object):
             Gio.BusType.SESSION,
             0,
             None,
-            'com.endlessm.HackableAppsManager',
+            'com.hack_computer.HackableAppsManager',
             self.object_path,
             self._INTERFACE_NAME,
             None
@@ -128,7 +128,7 @@ class HackableApp(GObject.Object):
 
 class HackableAppsManager:
 
-    _INTERFACE_NAME = 'com.endlessm.HackableAppsManager'
+    _INTERFACE_NAME = 'com.hack_computer.HackableAppsManager'
     _DBUS_PATH = '/' + _INTERFACE_NAME.replace('.', '/')
     _proxy = None
     _properties_proxy = None

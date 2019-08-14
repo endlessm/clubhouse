@@ -43,12 +43,12 @@ class Desktop:
     CLIPPY_APPS = [
         'com.endlessm.dinosaurs.en',
         'com.endlessm.encyclopedia.en',
-        'com.endlessm.Fizzics',
-        'com.endlessm.Hackdex_chapter_one',
-        'com.endlessm.Hackdex_chapter_two',
-        'com.endlessm.LightSpeed',
-        'com.endlessm.OperatingSystemApp',
-        'com.endlessm.Sidetrack',
+        'com.hack_computer.Fizzics',
+        'com.hack_computer.Hackdex_chapter_one',
+        'com.hack_computer.Hackdex_chapter_two',
+        'com.hack_computer.LightSpeed',
+        'com.hack_computer.OperatingSystemApp',
+        'com.hack_computer.Sidetrack',
     ]
 
     _dbus_proxy = None
@@ -279,7 +279,7 @@ class Desktop:
         ''' This changes the background to the Hack one '''
 
         desktop = Gio.Settings('org.gnome.desktop.background')
-        clubhouse = Gio.Settings('com.endlessm.clubhouse')
+        clubhouse = Gio.Settings('com.hack_computer.clubhouse')
 
         old_picture_uri = desktop.get_string('picture-uri')
         if enabled:
