@@ -16,7 +16,7 @@ source_dir="$(git rev-parse --show-toplevel)"
 source "$source_dir/tools/setup-git-hooks"
 
 pushd "$source_dir"
-./katmari/tools/build-clubhouse || ret=$?
+./katamari/tools/build-clubhouse || ret=$?
 
 popd
 

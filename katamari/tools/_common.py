@@ -250,7 +250,8 @@ def run(main, *args, **kwargs):
                         metavar='MODE',
                         help='print-config: Print the parsed configuration.')
     parser.add_argument('--manifest-template',
-                        help='Only generates the flatpak template manifest in the desired location.')
+                        help=('Only generates the flatpak template manifest'
+                              ' in the desired location.'))
     cli_args = parser.parse_args()
 
     # Run this script in the base directory:
