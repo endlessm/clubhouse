@@ -691,7 +691,7 @@ class ClubhouseView(Gtk.EventBox):
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set, self.scale)
         quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
-        button.connect('clicked', self._button_clicked_cb)
+        button.connect('clicked', self._quest_set_button_clicked_cb)
 
         x, y = button.position
         self._main_characters_box.put(button, x, y + self._height_offset)
@@ -722,7 +722,7 @@ class ClubhouseView(Gtk.EventBox):
         quest.set_to_foreground()
         self._shell_show_current_popup_message()
 
-    def _button_clicked_cb(self, button):
+    def _quest_set_button_clicked_cb(self, button):
         quest_set = button.get_quest_set()
         self._app_window.character.show_mission_list(quest_set)
         self._app_window.set_page('CHARACTER')
