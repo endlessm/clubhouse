@@ -34,5 +34,6 @@
     <file preprocess="xml-stripblanks">clubhouse-pathway-operatingsystem.svg</file>
     <file preprocess="xml-stripblanks">clubhouse-pathway-web.svg</file>
     <file preprocess="xml-stripblanks">clubhouse-pathway-unknown.svg</file>
+    <file preprocess="xml-stripblanks">scalable/apps/instagram-symbolic.svg</file>
   </gresource>
 </gresources>
