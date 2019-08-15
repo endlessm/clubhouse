@@ -811,8 +811,6 @@ class ClubhouseView(Gtk.EventBox):
 
         self._cancel_ongoing_task()
 
-        self._app_window.character.clear_messages()
-
         # Start running the new quest only when the mainloop is idle so we allow any previous
         # events (from other quests) to be dispatched.
         GLib.idle_add(self._run_new_quest, quest)
@@ -901,6 +899,7 @@ class ClubhouseView(Gtk.EventBox):
 
         if self._current_quest is None:
             self._shell_close_popup_message()
+            self._app_window.character.clear_messages()
 
         self._current_quest_notification = None
 
@@ -1806,7 +1805,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if current_page == 'CHARACTER':
             running_quest = self.clubhouse.running_quest
             if running_quest is not None and running_quest.is_narrative():
-                self.character.clear_messages()
                 running_quest.abort()
 
         # Set a different css class depending on the page
