@@ -156,16 +156,6 @@ window.CHARACTER {
     background: white;
 }
 
-.character-message-side-button {
-    background: transparent;
-    color: #8A6A45;
-    border: none;
-    border-radius: 0;
-    margin: 0;
-    padding: 5px 5px 0 0;
-    box-shadow: none;
-}
-
 .clubhouse-button-box > button {
     border: none;
     box-shadow: none;

@@ -176,16 +176,9 @@ class Message(Gtk.Overlay):
 
     __gtype_name__ = 'Message'
 
-    __gsignals__ = {
-        'closed': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
-        ),
-    }
-
     _label = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
     _button_box = Gtk.Template.Child()
-    close_button = Gtk.Template.Child()
 
     OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
 
@@ -195,10 +188,6 @@ class Message(Gtk.Overlay):
         self._character_mood_change_handler = 0
         self._animator = Animator(self._character_image)
         self.connect("show", lambda _: Sound.play('clubhouse/dialog/open'))
-
-    @Gtk.Template.Callback()
-    def _close_button_clicked_cb(self, button):
-        self.close()
 
     def set_text(self, txt):
         self._label.set_markup(SimpleMarkupParser.parse(txt))
@@ -235,14 +224,6 @@ class Message(Gtk.Overlay):
         for child in self._button_box:
             child.destroy()
         self._button_box.hide()
-
-    def close(self):
-        if not self.is_visible():
-            return
-
-        self.hide()
-        Sound.play('clubhouse/dialog/close')
-        self.emit('closed')
 
     def display_character(self, display):
         self._character_image.props.visible = display
