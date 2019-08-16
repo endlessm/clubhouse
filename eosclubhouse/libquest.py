@@ -691,6 +691,7 @@ class Quest(GObject.GObject):
         self.conf = {}
         self.load_conf()
 
+        self._highlighted = False
         self._available = self.__available_after_completing_quests__ == []
         if self.__available_after_completing_quests__ != []:
             self.gss.connect('changed', self.update_availability)
@@ -1299,6 +1300,12 @@ class Quest(GObject.GObject):
         else:
             self._show_next_hint_message(info_id_list)
 
+    @classmethod
+    def highlight_quest(self, quest_name):
+        other_quest = Registry.get_quest_by_name(quest_name)
+        if other_quest:
+            other_quest.props.highlighted = True
+
     def get_last_bg_sound_event_id(self):
         return self._last_bg_sound_uuid
 
@@ -1465,6 +1472,15 @@ class Quest(GObject.GObject):
     def _set_complete(self, is_complete):
         self.set_complete(is_complete)
 
+    def _get_highlighted(self):
+        return self._highlighted
+
+    def _set_highlighted(self, is_highlighted):
+        if self._highlighted == is_highlighted:
+            return
+        self._highlighted = is_highlighted
+        self.notify('highlighted')
+
     def save_conf(self):
         conf_key = self._get_conf_key()
         for key, value in self.conf.items():
@@ -1596,6 +1612,9 @@ class Quest(GObject.GObject):
     complete = GObject.Property(_get_complete, _set_complete, type=bool, default=False,
                                 flags=GObject.ParamFlags.READWRITE |
                                 GObject.ParamFlags.EXPLICIT_NOTIFY)
+    highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False,
+                                   flags=GObject.ParamFlags.READWRITE |
+                                   GObject.ParamFlags.EXPLICIT_NOTIFY)
 
 
 class QuestSet(GObject.GObject):
