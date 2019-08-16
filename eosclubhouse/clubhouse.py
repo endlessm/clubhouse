@@ -196,21 +196,36 @@ class Message(Gtk.Overlay):
         return self._label.get_label()
 
     def add_button(self, label, click_cb, *user_data):
-        button = Gtk.Button(label=label)
-
-        if len(self._button_box.get_children()) == 0:
-            image = Gtk.Image.new_from_resource(
-                '/com/hack_computer/Clubhouse/images/icon_check-in-circle.svg')
-            button.set_image(image)
-            button.set_property('always-show-image', True)
-            label_widget = button.get_children()[0].get_children()[0].get_children()[1]
-            label_widget.set_property('valign', Gtk.Align.CENTER)
-
+        button = self._new_button(label)
         button.connect('clicked', self._button_clicked_cb, click_cb, *user_data)
         button.show()
 
         self._button_box.pack_start(button, False, False, 0)
         self._button_box.show()
+
+    def _new_button(self, label):
+        if label == '>':
+            button = self._new_button_with_next_icon()
+        elif len(self._button_box.get_children()) == 0:
+            button = self._new_button_with_check_icon(label)
+        else:
+            button = Gtk.Button(label=label)
+        return button
+
+    def _new_button_with_check_icon(self, label):
+        button = Gtk.Button(label=label)
+        image = Gtk.Image.new_from_resource(
+            '/com/hack_computer/Clubhouse/images/icon_check-in-circle.svg')
+        button.set_image(image)
+        button.set_property('always-show-image', True)
+        label_widget = button.get_children()[0].get_children()[0].get_children()[1]
+        label_widget.set_property('valign', Gtk.Align.CENTER)
+        return button
+
+    def _new_button_with_next_icon(self):
+        button = Gtk.Button()
+        button.get_style_context().add_class('next-icon-button')
+        return button
 
     def _button_clicked_cb(self, button, caller_cb, *user_data):
         caller_cb(*user_data)

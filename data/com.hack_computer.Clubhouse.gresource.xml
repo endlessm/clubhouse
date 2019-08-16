@@ -22,6 +22,7 @@
     <file>inventory-empty-image.png</file>
     <file>episodes_bg.png</file>
     <file>icon_check-in-circle.svg</file>
+    <file>clubhouse-notification-button-next-symbolic.svg</file>
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/icons">
     <file preprocess="xml-stripblanks">clubhouse-difficulty-easy.svg</file>

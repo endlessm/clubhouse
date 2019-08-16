@@ -126,6 +126,27 @@ window.CHARACTER {
     min-width: 85px
 }
 
+button.next-icon-button:hover {
+  background-color: #D56F34;
+  background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse-notification-button-next-symbolic.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px 14px;
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 19px;
+}
+
+button.next-icon-button {
+  background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse-notification-button-next-symbolic.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px 14px;
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 19px;
+}
+
 .quest-set-button {
     border: none;
     box-shadow: none;
