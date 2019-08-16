@@ -7,7 +7,7 @@
 # Author: Joaquim Rocha <jrocha@endlessm.com>
 #
 
-# install or upgrade flake8 from Flatpak's GNOME Runtime
+# install or upgrade Python packages in a Python virtualenv
 
 source_dir="$(git rev-parse --show-toplevel)"
 
@@ -36,7 +36,7 @@ EOF
             )
 }
 
-function setup_lint {
+function setup_venv {
     if [ ! -f $virtualenv_dir/bin/flake8 ]; then
         echo "Setting up virtual env $virtualenv_dir"
         $flatpak_shell <<EOF
@@ -52,7 +52,7 @@ EOF
     return 1
 }
 
-function upgrade_lint {
+function upgrade_venv {
     if [ -f $virtualenv_dir/bin/flake8 ]; then
         echo "Upgrading pip"
 	run_in_python_venv pip install --upgrade pip
@@ -66,7 +66,7 @@ function upgrade_lint {
 
 # Only upgrade
 if [ "$0" = "$BASH_SOURCE" ]; then
-    setup_lint || upgrade_lint
+    setup_venv || upgrade_venv
 fi
 
-# end: install or upgrade flake8 from Flatpak's GNOME Runtime
+# end: install or upgrade Python packages in a Python virtualenv
