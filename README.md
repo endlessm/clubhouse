@@ -67,6 +67,10 @@ to have the lint check running on every build, thus, in order to avoid that, the
 lint check is actually turned off by the `build-local-flatpak.sh` script if the
 git pre-commit hook is set up.
 
+### Building the documentation
+
+The `build-docs` script can be used to build the documentation.
+
 ## Quest Dialog Information
 
 For easier authoring of the story, the quests use information that is edited
