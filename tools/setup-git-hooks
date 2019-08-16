@@ -15,8 +15,8 @@ precommit_hook_file="$source_dir/tools/pre-commit-hook.sh"
 
 # Only set it up if we're running the script directly
 if [ "$0" = "$BASH_SOURCE" ]; then
-    source "$source_dir/tools/setup-lint"
-    setup_lint || true
+    source "$source_dir/tools/setup-venv"
+    setup_venv || true
     echo "Installing git pre-commit hook"
 
     ln -s "$precommit_hook_file" "$precommit_hook_path"

@@ -11,9 +11,9 @@ source_dir="$(git rev-parse --show-toplevel)"
 
 pushd "$source_dir"
 
-source tools/setup-lint
+source tools/setup-venv
 
-setup_lint
+setup_venv
 
 run_in_python_venv flake8 --config=flake8.cfg $@ || ret=$?
 
