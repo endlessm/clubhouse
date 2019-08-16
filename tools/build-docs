@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# Script to build the documentation
+#
+# Copyright (c) 2018 Endless Mobile Inc.
+
+source_dir="$(git rev-parse --show-toplevel)"
+
+pushd "$source_dir"
+
+source tools/setup-venv
+
+setup_venv
+
+run_in_python_venv sphinx-build -b html docs/source docs/build $@ || ret=$?
+
+popd
+
+if [ ! -z "$ret" ] && [ $ret -ne 0 ]; then
+    message="Error building the documentation."
+    echo -e "\e[01;31m$message\e[0m"
+fi
+exit $ret
