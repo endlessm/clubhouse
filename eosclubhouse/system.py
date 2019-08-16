@@ -48,6 +48,7 @@ class Desktop:
         'com.hack_computer.Hackdex_chapter_two',
         'com.hack_computer.LightSpeed',
         'com.hack_computer.OperatingSystemApp',
+        'com.endlessm.OperatingSystemApp',
         'com.hack_computer.Sidetrack',
     ]
 
