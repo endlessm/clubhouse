@@ -5,7 +5,7 @@ import random
 
 from gi.repository import GLib, Gtk, GObject, GdkPixbuf
 
-from eosclubhouse import config
+from eosclubhouse import config, logger
 
 # The default delay if not provided in the animation metadata:
 DEFAULT_DELAY = 100
@@ -51,8 +51,14 @@ class Animator:
                 self._animations[animation_name] = animation
 
     def play(self, name):
-        new_animation = self._animations[name]
+        new_animation = self._animations.get(name)
         current_animation = self.get_current_animation()
+
+        if new_animation is None:
+            logger.debug('Animation \'%s\' not found. Current animation will be cleared.', name)
+            AnimationSystem.remove_animation(id(self))
+            self._target_image.clear()
+            return
 
         if current_animation is not None and new_animation != current_animation:
             current_animation.reset()
@@ -210,6 +216,11 @@ class AnimationSystem:
     @classmethod
     def get_animation(class_, id_):
         return class_._animations.get(id_)
+
+    @classmethod
+    def remove_animation(class_, id_):
+        if id_ in class_._animations:
+            del class_._animations[id_]
 
     @classmethod
     def step(class_, _widget, clock):
