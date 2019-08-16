@@ -15,38 +15,26 @@ window.big {
 }
 
 /* Main UI components */
+
+window, headerbar {
+    border-radius: 1ex 1ex 0 0; /* Make window top corners round */
+}
+
 headerbar {
     border-width: 0px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: top;
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-blur.jpg');
-    transition: background-image 200ms linear;
+    background: unset; /* Allow window bg be shown */
 }
 
-window.transitionable-background,
-window.transitionable-background > headerbar {
+window.transitionable-background {
     transition: background-image 1s linear;
-}
-
-window.CLUBHOUSE > headerbar {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg');
-}
-
-window.CLUBHOUSE.off > headerbar {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-off.jpg');
-}
-
-window.CHARACTER > headerbar {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/character_bg.jpg');
 }
 
 /* Window */
 window {
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: bottom;
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg_blur.jpg');
+    background-position: center;
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-blur.jpg');
     transition: background-image 200ms linear;
 }
 
@@ -512,3 +500,25 @@ row:selected > box > button >label {
     font-weight: bold;
     color: #4c82c4;
 }
+
+/* News Page */
+scrolledwindow {
+    border-width: 0;
+}
+
+.link-button {
+    margin: 1em;
+    font-size: 2.5em;
+    text-shadow: 1px 1px black;
+    background: lavender;
+    box-shadow: 2px 2px 4px black;
+}
+
+.link-button > box {
+    margin: 1em;
+}
+
+.link-button > box > image {
+    margin-right: 1em;
+}
+

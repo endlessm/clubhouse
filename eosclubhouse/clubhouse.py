@@ -22,7 +22,6 @@ import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
-gi.require_version('WebKit2', '4.0')
 import functools
 import json
 import logging
@@ -32,7 +31,7 @@ import sys
 import time
 
 from collections import OrderedDict
-from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json, WebKit2
+from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import Desktop, GameStateService, Sound
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
@@ -40,9 +39,6 @@ from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, A
     get_character_animation_dirs
 
 from eosclubhouse.episodes import BadgeButton, PosterWindow
-
-# Make sure WebkitWebView class is registered
-GObject.TypeClass.ref(WebKit2.WebView.__gtype__)
 
 CLUBHOUSE_NAME = 'com.hack_computer.Clubhouse'
 CLUBHOUSE_PATH = '/com/hack_computer/Clubhouse'
@@ -656,10 +652,20 @@ class ClubhouseView(Gtk.EventBox):
         else:
             ctx.remove_class('highlighted')
 
-    def set_scale(self, scale, offset=0):
-        self.scale = scale
+    def _update_child_position(self, child):
+        if isinstance(child, QuestSetButton):
+            x, y = child.position
+            self._main_characters_box.move(child, x, y + self._height_offset)
+
+    def set_offset(self, offset):
         self._height_offset = offset
 
+        # Update children
+        for child in self._main_characters_box.get_children():
+            self._update_child_position(child)
+
+    def set_scale(self, scale):
+        self.scale = scale
         # Update children
         for child in self._main_characters_box.get_children():
             if isinstance(child, QuestSetButton):
@@ -685,8 +691,7 @@ class ClubhouseView(Gtk.EventBox):
         self._set_current_quest(None)
 
     def _on_button_position_changed(self, button, _param):
-        x, y = button.position
-        self._main_characters_box.move(button, x, y + self._height_offset)
+        self._update_child_position(button)
 
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set, self.scale)
@@ -1668,11 +1673,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _headerbar_box = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
     _clubhouse_page = Gtk.Template.Child()
-    _inventory_page = Gtk.Template.Child()
-    _news_page = Gtk.Template.Child()
     _pathways_sw = Gtk.Template.Child()
-    _user_label = Gtk.Template.Child()
+    _news_box = Gtk.Template.Child()
+    _inventory_page = Gtk.Template.Child()
 
+    _user_label = Gtk.Template.Child()
     _pathways_button = Gtk.Template.Child()
 
     def __init__(self, app):
@@ -1703,11 +1708,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self.update_user_info()
         self.connect('screen-changed', self._on_screen_changed)
+        self._on_screen_changed(None, None)
 
-        self._news_landing_uri = 'file://' + os.path.join(config.DATA_DIR,
-                                                          'news-landing',
-                                                          'index.html')
-        self._news_page.load_uri(self._news_landing_uri)
+        self._stack.connect('size-allocate', self._on_stack_size_allocate)
+
+    def _on_stack_size_allocate(self, widget, alloc):
+        self.clubhouse.set_offset(-alloc.y)
 
     def _hack_mode_changed_cb(self, _settings, _key):
         self.sync_with_hack_mode()
@@ -1733,7 +1739,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         BG_WIDTH = 1200
         BG_HEIGHT = 810
 
-        screen_height = self.get_screen().get_height()
+        screen = self.get_screen()
+        if screen is None:
+            return
+
+        screen_height = screen.get_height()
 
         # Remove small/big css classes
         context = self.get_style_context()
@@ -1749,29 +1759,26 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         # Clamp resolution to 75% of 720p-1080p
         height = max(720, min(screen_height, 1080)) * 0.75
 
-        headerbar_height = self._headerbar.get_allocated_height()
-
-        # Set main stack size
-        self._stack.set_size_request(height * BG_WIDTH / BG_HEIGHT,
-                                     height - headerbar_height)
+        # Set main box size
+        self.set_size_request(height * BG_WIDTH / BG_HEIGHT, height)
 
         scale = height / BG_HEIGHT
-        self.clubhouse.set_scale(scale, -headerbar_height)
+        self.clubhouse.set_scale(scale)
         self.character.set_scale(scale)
-
-    @Gtk.Template.Callback()
-    def _on_headerbar_size_allocated(self, titlebar, allocation):
-        self._update_window_size()
 
     def _on_screen_size_changed(self, screen):
         self._update_window_size()
 
     def _on_screen_changed(self, widget, previous_screen):
+        screen = self.get_screen()
+
         if previous_screen is not None:
             previous_screen.disconnect_by_func(self._on_screen_size_changed)
 
-        self.get_screen().connect('size-changed', self._on_screen_size_changed)
-        self._update_window_size()
+        if screen is not None:
+            self.set_visual(screen.get_rgba_visual())
+            screen.connect('size-changed', self._on_screen_size_changed)
+            self._update_window_size()
 
     def _on_clubhouse_window_visibility_changed_cb(self, state, _param):
         if state.window_is_visible:
@@ -1784,13 +1791,16 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         # @todo: update self._user_image
 
     @Gtk.Template.Callback()
-    def _on_delete(self, widget, _event):
-        widget.hide()
+    def _on_button_press_event(self, widget, e):
+        if e.button != Gdk.BUTTON_PRIMARY:
+            return False
+
+        self.begin_move_drag(e.button, e.x_root, e.y_root, e.time)
         return True
 
     @Gtk.Template.Callback()
-    def _on_news_webview_load_failed(self, webview, event, uri, error):
-        self._news_page.load_uri(self._news_landing_uri)
+    def _on_delete(self, widget, _event):
+        widget.hide()
         return True
 
     def set_page(self, page_name):
@@ -2105,6 +2115,8 @@ class ClubhouseApplication(Gtk.Application):
 
         # Also set the logging level:
         logger.setLevel(logging.DEBUG)
+
+        self._ensure_window()
 
     def _quest_user_answer(self, action, action_id):
         if self._window:
