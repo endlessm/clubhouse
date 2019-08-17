@@ -2,14 +2,14 @@ from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App
 
 
-class T2Passage(Quest):
+class T2Whitehouse(Quest):
 
-    APP_NAME = 'com.endlessnetwork.passage'
+    APP_NAME = 'com.endlessnetwork.whitehouse'
 
-    __quest_name__ = 'Terminal 2 - The Passage'
+    __quest_name__ = 'Terminal 2 - White House'
     __tags__ = ['mission:ada', 'pathway:games', 'difficulty:normal']
-    __mission_order__ = 129
-    __pathway_order__ = 129
+    __mission_order__ = 131
+    __pathway_order__ = 131
 
     def setup(self):
         self._app = App(self.APP_NAME)
@@ -20,7 +20,7 @@ class T2Passage(Quest):
             return self.step_abort
         else:
             self.wait_confirm('GREET1')
-            self.wait_confirm('GREET2', confirm_label="We'll see!")
+            self.wait_confirm('GREET2', confirm_label='Sounds fun!')
             return self.step_launch
 
     def step_launch(self):
