@@ -5,8 +5,8 @@ from eosclubhouse.system import Sound
 class Story_Riley2(Quest):
 
     __quest_name__ = 'The Life of Riley - Part 2'
-    __tags__ = ['mission:ada']  # riley not set up yet
-    __mission_order__ = 53      # change to 55 when in riley's missions
+    __tags__ = ['mission:riley']
+    __mission_order__ = 55
     __is_narrative__ = True
 
     QUESTION_MESSAGES = []
