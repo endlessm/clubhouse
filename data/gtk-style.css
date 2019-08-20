@@ -535,3 +535,35 @@ scrolledwindow {
     margin-right: 1em;
 }
 
+/* Pathways View */
+.pathway-list,
+.pathway-icon,
+.pathways-view > viewport > box > label {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #4c82c4;
+}
+
+.pathway-list {
+    border-radius: 1ex 1ex 0 0;
+    background-color: white;
+    box-shadow: 0px 1px 2px black;
+    margin: 1ex;
+}
+
+.pathway-list > box {
+    border-radius: 1ex 1ex 0 0;
+    padding: 1ex 1em 1ex 1em;
+    background-color: lavender;
+}
+
+.pathway-list > box > label {
+    margin-left: 1em;
+}
+
+.pathway-icon {
+    background-color: white;
+    padding: 1em;
+    margin: 1ex;
+}
+
