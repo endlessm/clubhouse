@@ -291,6 +291,9 @@ class QuestRow(Gtk.ListBoxRow):
         self._quest = quest
         self._has_category = has_category
 
+        self._quest.connect('quest-started', self._on_quest_started)
+        self._quest.connect('quest-finished', self._on_quest_finished)
+
         # Populate row info.
         self._setup_category_image()
         self._name_label.props.label = self._quest.get_name()
@@ -318,6 +321,12 @@ class QuestRow(Gtk.ListBoxRow):
     def _setup_difficulty_image(self):
         basename = self._quest.get_difficulty().name
         self._difficulty_image.props.icon_name = 'clubhouse-difficulty-{}'.format(basename.lower())
+
+    def _on_quest_started(self, quest):
+        self.props.sensitive = False
+
+    def _on_quest_finished(self, quest):
+        self.props.sensitive = True
 
     def _on_quest_complete_changed(self, _quest_set, _param):
         self._set_complete()

@@ -599,6 +599,12 @@ class Quest(GObject.GObject):
     MessageType = Enum('MessageType', ['POPUP', 'NARRATIVE'])
 
     __gsignals__ = {
+        'quest-started': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+        'quest-finished': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
         'message': (
             GObject.SignalFlags.RUN_FIRST, None, (GObject.TYPE_PYOBJECT,)
         ),
@@ -803,12 +809,13 @@ class Quest(GObject.GObject):
         self.reset_hints_given_once()
 
         self._run_context = _QuestRunContext(self._cancellable)
+        self.emit('quest-started')
         self._run_context.run(self.step_begin)
         self._run_context = None
 
         self.run_finished()
-
         quest_finished_cb(self)
+        self.emit('quest-finished')
 
         # The quest is stopped, so reset the "stopping" property again.
         self.stopping = False
