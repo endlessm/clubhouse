@@ -20,8 +20,13 @@ OLD_FIRSTCONTACT_GOAL_HINT1,Match it by moving the sliders and the doors will un
 OLD_FIRSTCONTACT_GOAL_HINT2,Keep trying! Move the sliders until the gold wave fits into the groove. ,,,,
 OLD_FIRSTCONTACT_WELCOME,How do you open a locked gate with no key?,ada  ,,quests/ada-intro,
 OLD_FIRSTCONTACT_WELCOME_HINT1,What's that button on the left?,,,,
-SYSTEM_TOUR_GREET1,"It's important to know what tools you're using - and if you're using a computer, the tool is pretty complex. You'll need these...",estelle,,,
-SYSTEM_TOUR_GREET2,"Precisely, Dr. Hart. The Operating System is the foundation of every computer, so it's high time we explained it. Ready to go, {{user_name}}?",saniel,,,
+SYSTEM_TOUR_GIVEPERMS,"`lightspeedgal@voyager > chgrp {{user_name}} /bin/OperatingSystemApp`
+
+`lightspeedgal@voyager > chmod g+rwx /bin/OperatingSystemApp`
+
+There we go, you're all suited up.",estelle,,,
+SYSTEM_TOUR_GREET1,"It's important to know what tools you're using - and if you're using a computer, the tool is pretty complex. You'll need some permissions...",estelle,,,
+SYSTEM_TOUR_GREET2,"Elegantly done, Dr. Hart. The Operating System is the foundation of every computer, so it's high time we explained it. Ready to go, {{user_name}}?",saniel,,,
 T2GAME7_GREET1,"This game doesn't have any data associated with it yet. You can still play it, though.",,,,
 T2GAME8_GREET1,"This game doesn't have any data associated with it yet. You can still play it, though.",,,,
 T2LAUNCHER_BEGIN,We are about to launch the game. I hope you like it.,ada,,,
