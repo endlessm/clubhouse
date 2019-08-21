@@ -10,7 +10,7 @@ class Story_Riley1(Quest):
     __is_narrative__ = True
 
     QUESTION_MESSAGES = [7]
-    TOTAL_MESSAGES = 26
+    TOTAL_MESSAGES = 25
 
     def step_begin(self):
         return self.step_main_loop, 1

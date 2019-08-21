@@ -9,8 +9,8 @@ class Story_Ada1(Quest):
     __mission_order__ = 50
     __is_narrative__ = True
 
-    QUESTION_MESSAGES = [3, 29]
-    TOTAL_MESSAGES = 34
+    QUESTION_MESSAGES = [3, 30]
+    TOTAL_MESSAGES = 35
 
     def step_begin(self):
         return self.step_main_loop, 1
