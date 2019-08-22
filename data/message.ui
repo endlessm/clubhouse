@@ -31,6 +31,21 @@
             <property name="position">0</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkBox" id="_dummy_padding_box">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
         <style>
           <class name="clubhouse-message-box"/>
         </style>
@@ -41,7 +56,6 @@
     </child>
     <child type="overlay">
       <object class="GtkImage" id="_character_image">
-        <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="halign">end</property>
         <property name="valign">end</property>
@@ -70,4 +84,10 @@
       </packing>
     </child>
   </template>
+  <object class="GtkSizeGroup" id="_character_image_size_group">
+    <widgets>
+      <widget name="_dummy_padding_box"/>
+      <widget name="_character_image"/>
+    </widgets>
+  </object>
 </interface>
