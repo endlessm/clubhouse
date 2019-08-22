@@ -96,12 +96,7 @@ class FirstContact(Quest):
 
     @Quest.with_app_launched(APP_NAME)
     def step_wait_for_flipback(self):
-        self.show_message('FLIPBACK')
-
-        if not self._is_app_flipped_back():
-            self.wait_for_app_js_props_changed(self._app, ['mode'], timeout=8)
-            if not self._is_app_flipped_back():
-                self.show_message('FLIPBACK_HINT1')
+        self.show_message('FLIPBACK_HINT1')
 
         while not self._is_app_flipped_back() and not self.is_cancelled():
             self.wait_for_app_js_props_changed(self._app, ['mode'])
