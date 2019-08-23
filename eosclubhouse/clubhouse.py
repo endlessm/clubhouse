@@ -285,8 +285,6 @@ class QuestRow(Gtk.ListBoxRow):
     def __init__(self, quest_set, quest, has_category=True):
         super().__init__()
 
-        self.get_style_context().add_class('quest-row')
-
         self._quest_set = quest_set
         self._quest = quest
         self._has_category = has_category
@@ -359,11 +357,11 @@ class QuestRow(Gtk.ListBoxRow):
 
 class QuestSetButton(Gtk.Button):
 
+    __gtype_name__ = 'QuestSetButton'
+
     def __init__(self, quest_set, scale=1):
         super().__init__(halign=Gtk.Align.START,
                          relief=Gtk.ReliefStyle.NONE)
-
-        self.get_style_context().add_class('quest-set-button')
 
         self._quest_set = quest_set
         self._character = Character.get_or_create(self._quest_set.get_character())
@@ -1165,6 +1163,8 @@ class ClubhouseView(Gtk.EventBox):
 
 class InventoryItem(Gtk.Button):
 
+    __gtype_name__ = 'InventoryItem'
+
     _ITEM_WIDTH = 150
     _ITEM_HEIGHT = 265
 
@@ -1178,8 +1178,6 @@ class InventoryItem(Gtk.Button):
         self._icon_name = icon_name
         self._icon_used_name = icon_used_name
         self._description = item_description
-
-        self.get_style_context().add_class('inventory-item')
 
         self.connect('clicked', self._on_item_clicked_cb)
 
@@ -1249,9 +1247,9 @@ class PathwayIcon(Gtk.Box):
 
     def __init__(self, icon_name, label):
         super().__init__(visible=True)
+
         self._image.props.icon_name = icon_name
         self._label.set_label(label)
-        self.get_style_context().add_class('pathway-icon')
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/pathway-list.ui')
@@ -1265,9 +1263,9 @@ class PathwayList(Gtk.Box):
 
     def __init__(self, icon_name, label):
         super().__init__(visible=True)
+
         self._image.props.icon_name = icon_name
         self._label.set_label(label)
-        self.get_style_context().add_class('pathway-list')
 
     def set_quests(self, pathway, quests):
         for quest in quests:
@@ -1287,10 +1285,7 @@ class PathwaysView(Gtk.ScrolledWindow):
 
     def __init__(self, app_window):
         super().__init__(visible=True)
-
         self._app_window = app_window
-
-        self.get_style_context().add_class('pathways-view')
 
     def load_episode(self):
         for pathway in libquest.Registry.get_pathways():
@@ -1319,6 +1314,8 @@ class PathwaysView(Gtk.ScrolledWindow):
 
 class InventoryView(Gtk.EventBox):
 
+    __gtype_name__ = 'InventoryView'
+
     def __init__(self, app_window):
         super().__init__(visible=True)
 
@@ -1336,8 +1333,6 @@ class InventoryView(Gtk.EventBox):
         self._load_items()
 
     def _setup_ui(self):
-        self.get_style_context().add_class('inventory-view')
-
         builder = Gtk.Builder()
         builder.add_from_resource('/com/hack_computer/Clubhouse/inventory-view.ui')
 
@@ -1403,6 +1398,8 @@ class InventoryView(Gtk.EventBox):
 
 class EpisodeRow(Gtk.ListBoxRow):
 
+    __gtype_name__ = 'EpisodeRow'
+
     __gsignals__ = {
         'badge-clicked': (
             GObject.SignalFlags.RUN_FIRST, None, ()
@@ -1424,9 +1421,8 @@ class EpisodeRow(Gtk.ListBoxRow):
         self._setup_ui()
 
     def _setup_ui(self):
-        self.get_style_context().add_class('episode-row')
         if not self._episode.is_complete() and not self._episode.is_current:
-            self.get_style_context().add_class('episode-row-locked')
+            self.get_style_context().add_class('locked')
 
         builder = Gtk.Builder()
         builder.add_from_resource('/com/hack_computer/Clubhouse/episode-row.ui')
@@ -1553,6 +1549,8 @@ class EpisodeRow(Gtk.ListBoxRow):
 
 class EpisodesView(Gtk.EventBox):
 
+    __gtype_name__ = 'EpisodesView'
+
     __gsignals__ = {
         'play-episode': (
             GObject.SignalFlags.RUN_FIRST, None, ()
@@ -1577,8 +1575,6 @@ class EpisodesView(Gtk.EventBox):
         GameStateService().connect('changed', lambda _gss: self._update_episode_badges())
 
     def _setup_ui(self):
-        self.get_style_context().add_class('episodes-view')
-
         builder = Gtk.Builder()
         builder.add_from_resource('/com/hack_computer/Clubhouse/episodes-view.ui')
 
@@ -1712,7 +1708,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _headerbar_box = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
     _clubhouse_page = Gtk.Template.Child()
-    _pathways_sw = Gtk.Template.Child()
     _news_box = Gtk.Template.Child()
     _inventory_page = Gtk.Template.Child()
 
@@ -1734,7 +1729,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._clubhouse_page.pack_start(self.clubhouse, True, True, 0)
         self._inventory_page.pack_start(self.inventory, True, True, 0)
-        self._pathways_sw.add(self.pathways)
+        self._stack.add_named(self.pathways, 'PATHWAYS')
         self._stack.add_named(self.character, 'CHARACTER')
 
         self.sync_with_hack_mode(init=True)
@@ -2328,6 +2323,12 @@ class ClubhouseApplication(Gtk.Application):
     def has_debug_mode(self):
         return self._debug_mode
 
+
+# Set widget classes CSS name to be able to select by GType name
+for klass in [Message, QuestRow, QuestSetButton, CharacterView, ClubhouseView,
+              InventoryItem, PathwayIcon, PathwayList, PathwaysView, InventoryView,
+              EpisodeRow, EpisodesView, ClubhouseWindow]:
+    klass.set_css_name(klass.__gtype_name__)
 
 if __name__ == '__main__':
     app = ClubhouseApplication()

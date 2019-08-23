@@ -207,30 +207,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="_pathways_page">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkScrolledWindow" id="_pathways_sw">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="shadow_type">in</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="name">PATHWAYS</property>
-                <property name="title" translatable="yes">Pathways</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkBox" id="_inventory_page">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -239,7 +215,7 @@
               <packing>
                 <property name="name">INVENTORY</property>
                 <property name="title" translatable="yes">Inventory</property>
-                <property name="position">2</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -323,7 +299,7 @@
               <packing>
                 <property name="name">NEWS</property>
                 <property name="title" translatable="yes">News</property>
-                <property name="position">3</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
@@ -339,7 +315,6 @@
       <placeholder/>
     </child>
     <style>
-      <class name="clubhouse-window"/>
       <class name="CLUBHOUSE"/>
     </style>
   </template>
