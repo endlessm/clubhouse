@@ -1239,7 +1239,52 @@ class InventoryItem(Gtk.Button):
         self._label.set_text(self.item_name)
 
 
-class PathwaysView(Gtk.ListBox):
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/pathway-icon.ui')
+class PathwayIcon(Gtk.Box):
+
+    __gtype_name__ = 'PathwayIcon'
+
+    _image = Gtk.Template.Child()
+    _label = Gtk.Template.Child()
+
+    def __init__(self, icon_name, label):
+        super().__init__(visible=True)
+        self._image.props.icon_name = icon_name
+        self._label.set_label(label)
+        self.get_style_context().add_class('pathway-icon')
+
+
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/pathway-list.ui')
+class PathwayList(Gtk.Box):
+
+    __gtype_name__ = 'PathwayList'
+
+    _image = Gtk.Template.Child()
+    _label = Gtk.Template.Child()
+    listbox = Gtk.Template.Child()
+
+    def __init__(self, icon_name, label):
+        super().__init__(visible=True)
+        self._image.props.icon_name = icon_name
+        self._label.set_label(label)
+        self.get_style_context().add_class('pathway-list')
+
+    def set_quests(self, pathway, quests):
+        for quest in quests:
+            row = QuestRow(pathway, quest, has_category=False)
+            self.listbox.add(row)
+            row.show()
+
+
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/pathways-view.ui')
+class PathwaysView(Gtk.ScrolledWindow):
+
+    __gtype_name__ = 'PathwaysView'
+
+    _flowbox = Gtk.Template.Child()
+    _coming_soon_label = Gtk.Template.Child()
+    _coming_soon_flowbox = Gtk.Template.Child()
+
     def __init__(self, app_window):
         super().__init__(visible=True)
 
@@ -1256,35 +1301,20 @@ class PathwaysView(Gtk.ListBox):
         self._app_window.clubhouse.try_running_quest(new_quest)
 
     def _add_pathway(self, pathway):
-        vbox = Gtk.Box(halign=Gtk.Align.FILL,
-                       orientation=Gtk.Orientation.VERTICAL)
+        quests = pathway.get_quests(also_skippable=False)
+        name = pathway.get_name()
+        icon = 'clubhouse-pathway-' + name.lower()
 
-        label = Gtk.Label(wrap=True,
-                          hexpand=False,
-                          halign=Gtk.Align.CENTER,
-                          justify=Gtk.Justification.CENTER,
-                          label=pathway.get_name())
-        listbox = Gtk.ListBox()
-        listbox.connect('row-activated', self._quest_row_clicked_cb)
-
-        vbox.add(label)
-        vbox.add(listbox)
-
-        label.show()
-        listbox.show()
-
-        for quest in pathway.get_quests(also_skippable=False):
-            row = QuestRow(pathway, quest, has_category=False)
-            listbox.add(row)
-            row.show()
-
-        pathway_row = Gtk.ListBoxRow()
-        pathway_row.props.selectable = False
-        pathway_row.add(vbox)
-
-        self.add(pathway_row)
-        vbox.show()
-        pathway_row.show()
+        if len(quests) >= 1:
+            pathway_list = PathwayList(icon, name)
+            pathway_list.listbox.connect('row-activated', self._quest_row_clicked_cb)
+            pathway_list.set_quests(pathway, quests)
+            self._flowbox.add(pathway_list)
+        else:
+            pathway_icon = PathwayIcon(icon, name)
+            self._coming_soon_flowbox.add(pathway_icon)
+            self._coming_soon_label.show()
+            self._coming_soon_flowbox.show()
 
 
 class InventoryView(Gtk.EventBox):
