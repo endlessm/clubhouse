@@ -20,52 +20,24 @@ OLD_FIRSTCONTACT_GOAL_HINT1,Match it by moving the sliders and the doors will un
 OLD_FIRSTCONTACT_GOAL_HINT2,Keep trying! Move the sliders until the gold wave fits into the groove. ,,,,
 OLD_FIRSTCONTACT_WELCOME,How do you open a locked gate with no key?,ada  ,,quests/ada-intro,
 OLD_FIRSTCONTACT_WELCOME_HINT1,What's that button on the left?,,,,
-QUICKSTART_CHANGE_NAME1,"If you look in the *bottom right* corner of the screen, you'll see a little picture. Click that, and it'll pop up a menu. From that menu, click the picture with your current name underneath it.",daemon,,,
-QUICKSTART_CHANGE_NAME2,"Once you've clicked the picture with your name underneath it, you'll be in the `Settings` app, and you can change your name.",daemon,,,
-QUICKSTART_CHANGE_NAME3,"You can also get into `Settings` by using the search bar on the desktop - go to the `Details` category, then the `Users` category.",daemon,,,
-QUICKSTART_CHANGE_NAME_ASK,Would you like to learn how to do that right now?,daemon,,,
-QUICKSTART_CHANGE_NAME_NO,Not now...,daemon,,,
-QUICKSTART_CHANGE_NAME_YES,Sure!,daemon,,,
-QUICKSTART_END1,"Now that the basics are out of the way, I think Dr. Rowe had an activity for you try.",daemon,,,
-QUICKSTART_END2,"He's the one with the glasses and big beard, you can't miss him.",daemon,,,
-QUICKSTART_END3,Catch you later!,daemon,,,
-QUICKSTART_EXPLAIN_HACK1,"Did you notice that your cursor and desktop are different? That's because we're in Hack Mode now.
+QUICKSTART_END1,Feel free to come back if you need a refresher.,daemon,,,
+QUICKSTART_END2,"Wow, look at the time! I have to get back to my `crontab` - I have some scheduled tasks to start...",daemon,,,
+QUICKSTART_HACKSWITCH,"OK, first off, use the *top buttons* to navigate back to the main Clubhouse view.
 
-When you're in Hack Mode, you can flip programs and hack them - just like that puzzle.",daemon,,,
-QUICKSTART_EXPLAIN_HACK2,Hack Mode is controlled by that *big switch on the right* - See it?,daemon,,,
-QUICKSTART_EXPLAIN_HACK3,"If you switch it to OFF, you’ll go back to the regular desktop - No hacking tools, and it'll shut down the Clubhouse, too.",daemon,,,
-QUICKSTART_EXPLAIN_HACK4,"You might want to turn Hack Mode off if someone else needs to use the computer, or you need to do your homework.",daemon,,,
-QUICKSTART_EXPLAIN_MAIN1,"Now that we're here, there's a lot to go over. This main area is called 'The Clubhouse.'
+You can use that big switch in the *bottom right* to turn Hack Mode on and off .
 
-It's a virtual place where people from The Academy can hang out, chat, and collaborate. 
+Off, you're essentially using a normal computer. On, we get busy and let you hack programs. Simple!",daemon,,,
+QUICKSTART_NEGATIVE,👎,daemon,,,
+QUICKSTART_PATHWAYS1,"*Up top*, there's the Pathways button. If you already know what kind of activities you want to do, go here.",daemon,,,
+QUICKSTART_PATHWAYS2,"If you'd prefer to see what everyone in the Clubhouse might offer you, talk to them instead.",daemon,,,
+QUICKSTART_POSITIVE,👍,daemon,,,
+QUICKSTART_PROFILE1,Your profile's in the upper left. You can change your name and profile picture using the Endless OS `Settings`.,daemon,,,
+QUICKSTART_PROFILE2,"To get directly to that section, click the picture way down in the far bottom right of your screen.. 
 
-We might be in different physical locations, but we all come together here.",daemon,,,
-QUICKSTART_EXPLAIN_MAIN2,Talk to anyone you like - it's the quickest way to start having fun and learning.,daemon,,,
-QUICKSTART_EXPLAIN_PATHWAYS1,"*Up top*, you'll see the Pathways button - Pathways organize all the activities we have into categories - Web, OS, Games...",daemon,,,
-QUICKSTART_EXPLAIN_PATHWAYS2,"If you know exactly what you want to learn or do, go here, and you can just jump right in to whatever you like!
-
-If you're not totally sure, well, that's what we're all here for. Learning is an adventure, and we're happy to help guide you.",daemon,,,
-QUICKSTART_EXPLAIN_PROFILE1,Do you see that picture wth your name on it in the *upper left*? That's your *Profile*.,daemon,,,
-QUICKSTART_EXPLAIN_PROFILE2,"Our systems for remote students is still in development, but we have a lot planned.
-
-We want you to be able to decide who you are in the world of Hack - and that includes your name. ",daemon,,,
-QUICKSTART_EXPLAIN_PROFILE3,"If you'd prefer to be called something other than {{user_name}}, you can change that.",daemon,,,
+...and then click the bigger version of that picture that shows up in the popup menu.",daemon,,,
+QUICKSTART_PROFILE3,"Otherwise, you can use the Desktop search bar to open `Settings`, go into the `Details` section, and then into the `Users` section.",daemon,,,
 QUICKSTART_WELCOME1,"Hi! My name's `cron`, and I'm a Daemon! We're the guys who run around behind the scenes making sure everything in the OS is working.",daemon,,,
-QUICKSTART_WELCOME2,,daemon,,,
-QUICKSTART_WELCOME3_GOTHINT,That was actually me at the entrance puzzle - I didn't want to distract you by introducing myself.,daemon,,,
-QUICKSTART_WELCOME3_NOHINT,Great job on the entrance puzzle! Not many students solve that without help.,daemon,,,
-SYSTEM_TOUR_GIVEPERMS,"`lightspeedgal@voyager > chgrp {{user_name}} /bin/OperatingSystemApp`
-
-`lightspeedgal@voyager > chmod g+rwx /bin/OperatingSystemApp`
-
-There we go, you're all suited up.",estelle,,,
-SYSTEM_TOUR_GREET1,"It's important to know what tools you're using - and if you're using a computer, the tool is pretty complex. You'll need some permissions...",estelle,,,
-SYSTEM_TOUR_GREET2,"Operating Systems are the base that all programs are built on, so it's time we explained it to you, {{user_name}}. Ready to go?",saniel,,,
-SYSTEM_TOUR_STUFFTODO,"The team and I have filled this app with information on how an operating system works.
-
-I hope you'll find it interesting - hover your cursor over any object to see what it is. Click to get an explanation and to advance the text.
-
-If you Flip, you might find some secrets, as well...",saniel,,,
+QUICKSTART_WELCOME2,"Ada asked me to run you through the Clubhouse's functions again, in case you forgot. Sound good?",daemon,,,
 T2GAME7_GREET1,"This game doesn't have any data associated with it yet. You can still play it, though.",,,,
 T2GAME8_GREET1,"This game doesn't have any data associated with it yet. You can still play it, though.",,,,
 T2LAUNCHER_BEGIN,We are about to launch the game. I hope you like it.,ada,,,

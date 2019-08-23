@@ -1,2 +1,12 @@
-SYSTEM_TOUR_GREET1,"It's important to know what tools you're using - and if you're using a computer, the tool is pretty complex. You'll need these...",estelle,,,
-SYSTEM_TOUR_GREET2,"Precisely, Dr. Hart. The Operating System is the foundation of every computer, so it's high time we explained it. Ready to go, {{user_name}}?",saniel,,,
+SYSTEM_TOUR_GREET1,"It's important to know what tools you're using - and if you're using a computer, the tool is pretty complex. You'll need some permissions...",estelle,,,
+SYSTEM_TOUR_GREET2,"Operating Systems are the base that all programs are built on, so it's time we explained it to you, {{user_name}}. Ready to go?",saniel,,,
+SYSTEM_TOUR_GIVEPERMS,"`lightspeedgal@voyager > chgrp {{user_name}} /bin/OperatingSystemApp`
+
+`lightspeedgal@voyager > chmod g+rwx /bin/OperatingSystemApp`
+
+There we go, you're all suited up.",estelle,,,
+SYSTEM_TOUR_STUFFTODO,"The team and I have filled this app with information on how an operating system works.
+
+I hope you'll find it interesting - hover your cursor over any object to see what it is. Click to get an explanation and to advance the text.
+
+If you Flip, you might find some secrets, as well...",saniel,,,
