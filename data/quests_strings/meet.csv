@@ -4,12 +4,8 @@ If that sounds magical and mysterious, don't worry - we're here to help you lear
 MEET_WELCOME2,My name's Ada - I've been around the Academy for a while. I'll be your guide.,ada,,,
 MEET_WELCOME3_GOTHINT,That was actually me at the entrance puzzle - I didn't want to distract you by introducing myself.,ada,,,
 MEET_WELCOME3_NOHINT,Great job on the entrance puzzle! Not many students solve that without help.,ada,hurray,,
-MEET_EXPLAIN_MAIN1,"Now that we're here, there's a lot to go over. This main area is called 'The Clubhouse.'
-
-It's a virtual place where people from The Academy can hang out, chat, and collaborate. 
-
-We might be in different physical locations, but we all come together here.",ada,,,
-MEET_EXPLAIN_MAIN2,Talk to anyone you like - it's the quickest way to start having fun and learning.,ada,,,
+MEET_EXPLAIN_MAIN1,"Now that we're here, there's a lot to go over. This main area is called 'The Clubhouse.'",ada,,,
+MEET_EXPLAIN_MAIN2,"It's a virtual place where people from The Academy can hang out and chat. Even if we're in different places, we can all meet up here.",ada,,,
 MEET_EXPLAIN_HACK1,"Did you notice that your cursor and desktop are different? That's because we're in Hack Mode now.
 
 When you're in Hack Mode, you can flip programs and hack them - just like that puzzle.",ada,,,
@@ -21,7 +17,7 @@ MEET_EXPLAIN_PATHWAYS2,"If you know exactly what you want to learn or do, go her
 
 If you're not totally sure, well, that's what we're all here for. Learning is an adventure, and we're happy to help guide you.",,,,
 MEET_EXPLAIN_PROFILE1,Do you see that picture wth your name on it in the *upper left*? That's your *Profile*.,ada,,,
-MEET_EXPLAIN_PROFILE2,"Our systems for remote students is still in development, but we have a lot planned.
+MEET_EXPLAIN_PROFILE2,"We're still working on the systems for remote students, and we have a lot planned for the future!
 
 We want you to be able to decide who you are in the world of Hack - and that includes your name. ",ada,,,
 MEET_EXPLAIN_PROFILE3,"If you'd prefer to be called something other than {{user_name}}, you can change that.",ada,,,
