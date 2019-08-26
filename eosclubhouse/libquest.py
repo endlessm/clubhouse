@@ -19,8 +19,8 @@
 #
 
 import asyncio
+import asyncio_glib
 import functools
-import glibcoro
 import os
 import pkgutil
 import sys
@@ -35,7 +35,7 @@ from gi.repository import GObject, GLib
 
 
 # Set up the asyncio loop implementation
-glibcoro.install()
+asyncio.set_event_loop_policy(asyncio_glib.GLibEventLoopPolicy())
 
 
 DEFAULT_CHARACTER = 'ada'

@@ -282,12 +282,12 @@
 
         /** clubhouse **/
         {
-            "name": "glibcoro",
+            "name": "asyncio-glib",
             "buildsystem": "simple",
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://github.com/endlessm/glibcoro.git"
+                    "url": "https://github.com/jhenstridge/asyncio-glib"
                 }
             ],
             "build-options": [
