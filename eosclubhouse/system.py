@@ -741,5 +741,44 @@ class ToolBoxTopic(GObject.GObject):
                                                       Gio.DBusCallFlags.NONE, -1, None)
 
 
+class UserAccount(GObject.GObject):
+
+    _INTERFACE_NAME = 'org.freedesktop.Accounts'
+
+    _proxy = None
+    _props = None
+
+    @classmethod
+    def _ensure_proxy(klass):
+        if klass._proxy is None:
+            system_bus = Gio.bus_get_sync(Gio.BusType.SYSTEM, None)
+            accounts = Gio.DBusProxy.new_sync(system_bus, 0, None,
+                                              klass._INTERFACE_NAME,
+                                              '/org/freedesktop/Accounts',
+                                              klass._INTERFACE_NAME,
+                                              None)
+
+            user_path = accounts.FindUserByName('(s)', GLib.get_user_name())
+
+            klass._proxy = Gio.DBusProxy.new_sync(system_bus, 0, None,
+                                                  klass._INTERFACE_NAME, user_path,
+                                                  'org.freedesktop.Accounts.User',
+                                                  None)
+            klass._props = Gio.DBusProxy.new_sync(system_bus, 0, None,
+                                                  klass._INTERFACE_NAME, user_path,
+                                                  'org.freedesktop.DBus.Properties',
+                                                  None)
+
+    def __init__(self):
+        super().__init__()
+        self._ensure_proxy()
+
+    def get(self, key):
+        return self._props.Get('(ss)', 'org.freedesktop.Accounts.User', key)
+
+    def set_real_name(self, name):
+        self._proxy.SetRealName(name)
+
+
 # Allow to import the HackSoundServer from the system while using a more friendly name
 Sound = HackSoundServer
