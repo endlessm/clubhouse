@@ -1,10 +1,8 @@
 SYSTEM_TOUR_GREET1,"It's important to know what tools you're using - and if you're using a computer, the tool is pretty complex.",estelle,,,
 SYSTEM_TOUR_GREET2,"Operating Systems are the base that all programs are built on, so it's time we explained it to you, {{user_name}}. Are you ready?",estelle,,,
-SYSTEM_TOUR_GIVEPERMS,"`lightspeedgal@voyager > chgrp {{user_name}} /bin/OperatingSystemApp`
+SYSTEM_TOUR_GIVEPERMS,"Let me give you some new permissions... It's like adding keys to your virtual keyring.
 
-`lightspeedgal@voyager > chmod g+rwx /bin/OperatingSystemApp`
-
-There we go, you're all suited up.",estelle,,,
+There we go, all set.",estelle,,,
 SYSTEM_TOUR_STUFFTODO,"The rest of the instructors and I have filled this app with information on how an operating system works.
 
 I hope you'll find it interesting - hover your cursor over any object to see what it is, and click to get an explanation or advance the text.
