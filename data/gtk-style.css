@@ -334,37 +334,55 @@ EpisodeRow .progress-label  {
 }
 
 /* User Hud */
-#user-hud,
-#user-hud:hover {
-    margin: 1ex 0 0 0;
+.user-overlay button.flat {
     background-image: none;
     border: 0;
     padding: 0;
     box-shadow: none;
 }
 
-#user-hud #image {
+.user-overlay > box,
+.user-overlay > button {
+    margin: 1em 0 1em 1em;
+}
+
+.user-bio-box {
+    margin: 1em 1em 0 1em;
+    border-radius: 2em;
+    box-shadow: 1px 1px 2px black;
+    background: white;
+}
+
+.user-overlay #user-label {
+    margin: 0.8em 1.4em 0.8em 0;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.user-overlay #user-bio-label {
+    margin: 1em 2em;
+}
+
+.user-overlay #image {
+    min-height: 5em;
+    min-width: 5em;
     border-radius: 50%;
     box-shadow:  1px 1px 2px #555;
     margin: 3px; /* needed for the shadow */
     background-color: lavender;
-    padding: 0.6em;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-#user-hud #padding,
-#user-hud #label {
-    background-color: white;
-    box-shadow:  3px 1px 2px #555;
-    padding: 1em 1em 1em 0.7em;
-}
-
-#user-hud #label {
-    border-radius: 0 1.5em 1.5em 0;
+InventoryView > scrolledwindow {
+    margin: 0 3em;
+    background: lavender;
 }
 
 /* Header bar buttons */
 .headerbar-buttonbox {
-    padding-left: 2em;
+    padding: 2em;
 }
 
 .headerbar-buttonbox > label,
