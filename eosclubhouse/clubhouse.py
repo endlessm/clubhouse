@@ -1312,39 +1312,33 @@ class PathwaysView(Gtk.ScrolledWindow):
             self._coming_soon_flowbox.show()
 
 
-class InventoryView(Gtk.EventBox):
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/inventory-view.ui')
+class InventoryView(Gtk.Revealer):
 
     __gtype_name__ = 'InventoryView'
+
+    _inventory_box = Gtk.Template.Child()
 
     def __init__(self, app_window):
         super().__init__(visible=True)
 
         self._app_window = app_window
 
-        self._setup_ui()
+        self._inventory_box.set_sort_func(self._sort_items)
 
         self._gss = GameStateService()
         self._gss.connect('changed', lambda _gss: self._load_items())
         self._items_db = utils.QuestItemDB()
 
         self._loaded_items = {}
+        self._load_items()
         self._update_state()
 
-        self._load_items()
-
-    def _setup_ui(self):
-        builder = Gtk.Builder()
-        builder.add_from_resource('/com/hack_computer/Clubhouse/inventory-view.ui')
-
-        self._inventory_stack = builder.get_object('inventory_stack')
-
-        self._inventory_empty_state_box = builder.get_object('inventory_empty_state_box')
-
-        self._inventory_box = builder.get_object('inventory_box')
-        self._inventory_box.set_sort_func(self._sort_items)
-
-        scrolled_window = builder.get_object('inventory_scrolled_window')
-        self.add(scrolled_window)
+    def reveal(self, reveal):
+        if reveal and len(self._loaded_items) > 0:
+            self.set_reveal_child(True)
+        else:
+            self.set_reveal_child(False)
 
     def _sort_items(self, child_1, child_2):
         item_1 = child_1.get_children()[0]
@@ -1391,9 +1385,9 @@ class InventoryView(Gtk.EventBox):
 
     def _update_state(self):
         if len(self._loaded_items) > 0:
-            self._inventory_stack.set_visible_child(self._inventory_box)
+            self.set_reveal_child(True)
         else:
-            self._inventory_stack.set_visible_child(self._inventory_empty_state_box)
+            self.set_reveal_child(False)
 
 
 class EpisodeRow(Gtk.ListBoxRow):
