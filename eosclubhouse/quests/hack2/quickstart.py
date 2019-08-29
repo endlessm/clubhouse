@@ -4,9 +4,13 @@ from eosclubhouse.system import Sound
 
 class Quickstart(Quest):
 
-    __quest_name__ = 'Tutorial - The Clubhouse'
+    __quest_name__ = 'DEBUG NAME - Quickstart Tutorial - DEBUG NAME'
     __tags__ = ['mission:ada']
-    __mission_order__ = 10
+    __auto_offer_info__ = {'confirm_before': False, 'start_after': 3}
+
+    # __quest_name__ = 'Tutorial - The Clubhouse'
+    # __tags__ = ['mission:ada']
+    # __mission_order__ = 10
 
     def step_begin(self):
         self.wait_confirm('WELCOME1')

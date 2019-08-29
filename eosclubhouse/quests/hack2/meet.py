@@ -4,9 +4,13 @@ from eosclubhouse.system import Sound
 
 class Meet(Quest):
 
-    __quest_name__ = 'DEBUG NAME - Meet - DEBUG NAME'
+    __quest_name__ = 'Tutorial - The Clubhouse'
     __tags__ = ['mission:ada']
-    __auto_offer_info__ = {'confirm_before': False, 'start_after': 3}
+    __mission_order__ = 10
+
+    # __quest_name__ = 'DEBUG NAME - Meet - DEBUG NAME'
+    # __tags__ = ['mission:ada']
+    # __auto_offer_info__ = {'confirm_before': False, 'start_after': 3}
 
     def setup(self):
         self.auto_offer = True
