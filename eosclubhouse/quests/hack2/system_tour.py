@@ -18,7 +18,7 @@ class System_Tour(Quest):
 
     def step_begin(self):
         self.wait_confirm('GREET1')
-        self.wait_confirm('GIVEPERMS')
+        # self.wait_confirm('GIVEPERMS')
         # don't bother with keys - we don't even have the inventory anymore, just unlock everything
         for lockNumber in range(1, 4):
             self._gss.set('lock.OperatingSystemApp.' + str(lockNumber), {'locked': False})
