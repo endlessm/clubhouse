@@ -12,6 +12,11 @@ class Quickstart(Quest):
     # __tags__ = ['mission:ada']
     # __mission_order__ = 10
 
+    def setup(self):
+        self.auto_offer = True
+        # Hide quest in UI
+        self.skippable = True
+
     def step_begin(self):
         self.wait_confirm('WELCOME1')
         yesgo = ('POSITIVE', self.step_explain, True)

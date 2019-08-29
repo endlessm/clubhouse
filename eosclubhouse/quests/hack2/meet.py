@@ -12,10 +12,10 @@ class Meet(Quest):
     # __tags__ = ['mission:ada']
     # __auto_offer_info__ = {'confirm_before': False, 'start_after': 3}
 
-    def setup(self):
-        self.auto_offer = True
-        # Hide quest in UI
-        self.skippable = True
+    # def setup(self):
+    #    self.auto_offer = True
+    #    # Hide quest in UI
+    #    self.skippable = True
 
     def step_begin(self):
         self.wait_confirm('WELCOME1')
