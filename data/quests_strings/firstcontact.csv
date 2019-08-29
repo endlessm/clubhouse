@@ -1,4 +1,4 @@
-FIRSTCONTACT_WELCOME,Hey - looks like you're a little lost.,daemon,,quests/ada-intro,
+FIRSTCONTACT_WELCOME,"Hey - if you're lost and want to get out of here, just close this whole window. Otherwise...",daemon,,quests/ada-intro,
 FIRSTCONTACT_WELCOME_HINT1,Check out that *pulsing button* on the *left*!,daemon,,,
 FIRSTCONTACT_GOAL,Nice ! You `flipped` the door - that lets you see what's going inside it. Let's `hack` it open!,daemon,,,
 FIRSTCONTACT_GOAL_HINT1,Try moving the sliders!,daemon,,,

@@ -1,25 +1,21 @@
-MEET_WELCOME1,"Welcome to the world of Hack! Here, you can learn the secrets of the world you live in, and how to make them work for you.
-
-If that sounds magical and mysterious, don't worry - we're here to help you learn.",ada,,,
+MEET_WELCOME1,"Welcome to the world of Hack! Here, you can learn the secrets of the world you live in, and how to make them work for you.",ada,,,
 MEET_WELCOME2,My name's Ada - I've been around the Academy for a while. I'll be your guide.,ada,,,
 MEET_WELCOME3_GOTHINT,That was actually me at the entrance puzzle - I didn't want to distract you by introducing myself.,ada,,,
 MEET_WELCOME3_NOHINT,Great job on the entrance puzzle! Not many students solve that without help.,ada,hurray,,
-MEET_EXPLAIN_MAIN1,"Now that we're here, there's a lot to go over. This main area is called 'The Clubhouse.'",ada,,,
-MEET_EXPLAIN_MAIN2,"It's a virtual place where people from The Academy can hang out and chat. Even if we're in different places, we can all meet up here.",ada,,,
-MEET_EXPLAIN_HACK1,"Did you notice that your cursor and desktop are different? That's because we're in Hack Mode now.
+MEET_EXPLAIN_MAIN1,This main area is called 'The Clubhouse.' It's a virtual place anyone at The Academy can use to hang out and chat.,ada,,,
+MEET_EXPLAIN_MAIN2,"No matter where we are in the real world., we're always here in the virtual world.",ada,,,
+MEET_EXPLAIN_HACK1,"You might have already noticed that your cursor and desktop are different, now. That's because we're in Hack Mode.
 
 When you're in Hack Mode, you can flip programs and hack them - just like that puzzle.",ada,,,
 MEET_EXPLAIN_HACK2,Hack Mode is controlled by that *big switch on the right* - See it?,ada,,,
-MEET_EXPLAIN_HACK3,"If you switch it to OFF, you’ll go back to the regular desktop - No hacking tools, and it'll shut down the Clubhouse, too.",ada,,,
-MEET_EXPLAIN_HACK4,"You might want to turn Hack Mode off if someone else needs to use the computer, or you need to do your homework.",ada,,,
+MEET_EXPLAIN_HACK3,"If you switch it OFF, you’ll go back to the regular desktop - it'll shut down the Clubhouse and all your hacking tools.",ada,,,
+MEET_EXPLAIN_HACK4,"You can turn Hack Mode off if someone else needs to use the computer, or you need to do your homework.",ada,,,
 MEET_EXPLAIN_PATHWAYS1,"*Up top*, you'll see the Pathways button - Pathways organize all the activities we have into categories - Web, OS, Games...",ada,,,
 MEET_EXPLAIN_PATHWAYS2,"If you know exactly what you want to learn or do, go here, and you can just jump right in to whatever you like!
 
-If you're not totally sure, well, that's what we're all here for. Learning is an adventure, and we're happy to help guide you.",,,,
+If you're not totally sure, that's what all of us are here for - to help guide you.",,,,
 MEET_EXPLAIN_PROFILE1,Do you see that picture wth your name on it in the *upper left*? That's your *Profile*.,ada,,,
-MEET_EXPLAIN_PROFILE2,"We're still working on the systems for remote students, and we have a lot planned for the future!
-
-We want you to be able to decide who you are in the world of Hack - and that includes your name. ",ada,,,
+MEET_EXPLAIN_PROFILE2,We want you to be able to decide who you are in the world of Hack - and that includes your name. ,ada,,,
 MEET_EXPLAIN_PROFILE3,"If you'd prefer to be called something other than {{user_name}}, you can change that.",ada,,,
 MEET_CHANGE_NAME_ASK,Would you like to learn how to do that right now?,ada,,,
 MEET_CHANGE_NAME_YES,Sure!,,,,
@@ -27,6 +23,7 @@ MEET_CHANGE_NAME_NO,Not now...,,,,
 MEET_CHANGE_NAME1,"If you look in the *bottom right* corner of the screen, you'll see a little picture. Click that, and it'll pop up a menu. From that menu, click the picture with your current name underneath it.",ada,,,
 MEET_CHANGE_NAME2,"Once you've clicked the picture with your name underneath it, you'll be in the `Settings` app, and you can change your name.",ada,,,
 MEET_CHANGE_NAME3,"You can also get into `Settings` by using the search bar on the desktop - go to the `Details` category, then the `Users` category.",ada,,,
-MEET_END1,"Now that the basics are out of the way, I think Dr. Rowe had an activity for you try.",ada,,,
-MEET_END2,"He's the one with the glasses and big beard, you can't miss him.",ada,,,
+MEET_CHANGE_NAME4,All done? Let's move on.,ada,,,
+MEET_END1,"Now that you know your way around, a little, you're free to do whatever you like. Explore the Clubhouse!",ada,,,
+MEET_END2," I think Dr. Rowe had an activity or two for you to try, if you're feeling up to it - He's the one with the glasses and big beard, you can't miss him.",ada,,,
 MEET_END3,Catch you later!,ada,,,

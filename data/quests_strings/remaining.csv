@@ -114,7 +114,7 @@ QUICKSTART_PROFILE2,"To get directly to that section, click the picture way down
 ...and then click the bigger version of that picture that shows up in the popup menu.",daemon,,,
 QUICKSTART_PROFILE3,"Otherwise, you can use the Desktop search bar to open `Settings`, go into the `Details` section, and then into the `Users` section.",daemon,,,
 QUICKSTART_WELCOME1,"Hi! My name's `cron`, and I'm a Daemon! We're the guys who run around behind the scenes making sure everything in the OS is working.",daemon,,,
-QUICKSTART_WELCOME2,"Ada asked me to run you through the Clubhouse's functions again, in case you forgot. Sound good?",daemon,,,
+QUICKSTART_WELCOME2,Ada asked me to run you through the Clubhouse's functions. Sound good?,daemon,,,
 T2GAME7_GREET1,"This game doesn't have any data associated with it yet. You can still play it, though.",,,,
 T2GAME8_GREET1,"This game doesn't have any data associated with it yet. You can still play it, though.",,,,
 T2LAUNCHER_BEGIN,We are about to launch the game. I hope you like it.,ada,,,
