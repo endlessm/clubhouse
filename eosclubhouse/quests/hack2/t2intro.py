@@ -16,10 +16,24 @@ class T2Intro(Quest):
         self._app = App(self.APP_NAME)
 
     def step_begin(self):
+        if self.get_named_quest_conf('T2Intro', 'has_seen_intro'):
+            return self.step_normalrun
+        else:
+            return self.step_firstrun
+
+    def step_firstrun(self):
+        self.wait_confirm('FIRSTRUN1')
+        self.wait_confirm('FIRSTRUN2')
+        self.set_conf('has_seen_intro', True)
+        self.save_conf()
+        self.show_message('FIRSTRUN3', choices=[('OK, got it.', self.step_normalrun)])
+
+    def step_normalrun(self):
         self.wait_confirm('GREET1')
-        self.show_message('GREET2', choices=[('Cool!', self.step_launch)])
+        self.show_message('GREET2', choices=[('Will do!', self.step_launch)])
 
     def step_launch(self):
+        self.wait_confirm('BYE')
         Sound.play('quests/quest-complete')
         # We are about to launch a fullscreen app. So no messages
         # should be displayed after this point:
