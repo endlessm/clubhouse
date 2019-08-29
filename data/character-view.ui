@@ -103,9 +103,6 @@
         <property name="width">9</property>
       </packing>
     </child>
-    <style>
-      <class name="character-view"/>
-    </style>
   </template>
   <object class="GtkBox" id="header_box">
     <property name="visible">True</property>

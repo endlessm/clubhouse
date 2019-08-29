@@ -2,21 +2,21 @@
  * Main window will have 'small' class if screen resolution is 720p or less and
  * 'big' if its 1080p or more.
  */
-window.small {
+ClubhouseWindow.small {
     font-size: 12px;
 }
 
-window {
+ClubhouseWindow {
     font-size: 14px;
 }
 
-window.big {
+ClubhouseWindow.big {
     font-size: 16px;
 }
 
 /* Main UI components */
 
-window, headerbar {
+ClubhouseWindow, headerbar {
     border-radius: 1ex 1ex 0 0; /* Make window top corners round */
 }
 
@@ -25,12 +25,12 @@ headerbar {
     background: unset; /* Allow window bg be shown */
 }
 
-window.transitionable-background {
+ClubhouseWindow.transitionable-background {
     transition: background-image 1s linear;
 }
 
 /* Window */
-window {
+ClubhouseWindow {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -38,32 +38,32 @@ window {
     transition: background-image 200ms linear;
 }
 
-window.CLUBHOUSE {
+ClubhouseWindow.CLUBHOUSE {
     background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg');
 }
 
-window.CLUBHOUSE.off {
+ClubhouseWindow.CLUBHOUSE.off {
     background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-off.jpg');
 }
 
-window.CHARACTER {
+ClubhouseWindow.CHARACTER {
     background-image: url('resource:///com/hack_computer/Clubhouse/images/character_bg.jpg');
 }
 
-.inventory-view {
+InventoryView {
     background-image: url('resource:///com/hack_computer/Clubhouse/images/inventory_bg.png');
 }
 
-.episodes-view {
+EpisodesView {
     background-image: url('resource:///com/hack_computer/Clubhouse/images/episodes_bg.png');
 }
 
-.episodes-view .episodes-list {
+EpisodesView .episodes-list {
     background: transparent;
     margin-top: 36px;
 }
 
-.clubhouse-message-box {
+Message .box {
     background-color: rgba(255, 255, 255, .96);
     border-radius: 12px;
     border: 1px solid #8A6A45;
@@ -72,25 +72,21 @@ window.CHARACTER {
     min-height: 110px;
 }
 
-.clubhouse-message-label {
+Message .label {
     padding: 30px 0 15px 0;
     margin: 0 15px 17.5px 30px;
     font: 15px "Metropolis Medium, Sans-Serif";
 }
 
-.clubhouse-message-list-button-box {
-    margin: 0 153px 17.5px 30px;
-}
-
-.clubhouse-message-character {
+Message .character {
     margin: 0 20px 5.5px 0;
 }
 
-.clubhouse-message-button-box {
+Message .button-box {
     margin: 0 0 21px 50px;
 }
 
-.clubhouse-message-button-box button {
+Message .button-box button {
     background: #CE5611;
     border-radius: 17.5px;
     border: none;
@@ -100,20 +96,20 @@ window.CHARACTER {
     box-shadow: 0 2px 4px 4px alpha(black,0.2);
 }
 
-.clubhouse-message-button-box button image,
-.clubhouse-message-button-box button:hover image {
+Message .button-box button image,
+Message .button-box button:hover image {
     -gtk-icon-shadow: none;
 }
 
-.clubhouse-message-button-box button:hover {
+Message .button-box button:hover {
     background: #D56F34;
 }
 
-.clubhouse-message-button-box button:active {
+Message .button-box button:active {
     background: #Af490E;
 }
 
-.clubhouse-message-button-box button label {
+Message .button-box button label {
     color: white;
     text-shadow: 0 0.5px 2px alpha(black,0.4);
     font-size: 15px;
@@ -121,12 +117,12 @@ window.CHARACTER {
     min-width: 60px
 }
 
-.clubhouse-message-button-box button.text-button label {
+Message .button-box button.text-button label {
     margin: 0 10px;
     min-width: 85px
 }
 
-.quest-set-button {
+QuestSetButton {
     border: none;
     box-shadow: none;
     -gtk-icon-shadow: none;
@@ -134,7 +130,7 @@ window.CHARACTER {
     background-image: radial-gradient(35% 8% ellipse at center 88%, alpha(black,0.4), transparent);
 }
 
-.quest-set-button:hover {
+QuestSetButton:hover {
     background-image: radial-gradient(50% 10% ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001));
 }
 
@@ -144,7 +140,7 @@ window.CHARACTER {
     to { background-image: radial-gradient(50% 10% ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001)); }
 }
 
-.quest-set-button.highlighted {
+QuestSetButton.highlighted {
   animation-name: pulsate_background;
   animation-duration: 1s;
   animation-direction: alternate;
@@ -152,16 +148,7 @@ window.CHARACTER {
   animation-iteration-count: infinite;
 }
 
-.quest-window {
-    background: white;
-}
-
-.clubhouse-button-box > button {
-    border: none;
-    box-shadow: none;
-}
-
-.inventory-item {
+InventoryItem {
     background-color: transparent;
     background-image: none;
     border-color: transparent;
@@ -170,7 +157,7 @@ window.CHARACTER {
     -gtk-icon-shadow: none;
 }
 
-.inventory-item > box > label {
+InventoryItem > box > label {
     color: #fff;
     background: rgba(60, 60, 60, .6);
     border-radius: 16px;
@@ -178,16 +165,16 @@ window.CHARACTER {
     transition-duration: 0.2s;
 }
 
-.inventory-item:hover {
+InventoryItem:hover {
     -gtk-icon-effect: none;
 }
 
-.inventory-item:hover > box > label,
-.inventory-item.active > box > label {
+InventoryItem:hover > box > label,
+InventoryItem.active > box > label {
     background: rgba(60, 60, 60, .8);
 }
 
-.inventory-item.active {
+InventoryItem.active {
     -gtk-icon-effect: dim;
 }
 
@@ -279,60 +266,60 @@ window.poster {
     -gtk-icon-shadow: 0 10px 10px alpha(black,0.4);
 }
 
-.episode-row, .episode-row:selected {
+EpisodeRow, EpisodeRow:selected {
     background: transparent;
 }
 
-.episode-row-expand-button {
+EpisodeRow .expand-button {
     background: rgba(239, 230, 218, 0.2);
     border: 0;
     border-radius: 0;
     box-shadow: 0 2px rgba(0, 0, 0, .1);
 }
 
-.episode-row:selected .episode-row-expand-button {
+EpisodeRow:selected .expand-button {
     box-shadow: 0 1px rgba(0, 0, 0, .2);
 }
 
-.episode-row:selected .episode-row-expand-button,
-.episode-row:selected .episode-row-expand-button:hover {
+EpisodeRow:selected .expand-button,
+EpisodeRow:selected .expand-button:hover {
     background: rgba(239, 230, 218, 0.6);
 }
 
-.episode_row_details_box {
+EpisodeRow .details_box {
     background: rgba(239, 230, 218, 0.4);
 }
 
-.episode-row-expand-button:hover {
+EpisodeRow .expand-button:hover {
     background: rgba(239, 230, 218, 0.4);
 }
 
-.episode-row-locked .episode-row-expand-button:hover {
+EpisodeRow.locked .expand-button:hover {
     background: rgba(239, 230, 218, 0.2);
 }
 
-.episode-row-comingsoon-label,
-.episode-row-description-label,
-.episode-row-name-label,
-.episode-row-number-label {
+EpisodeRow .comingsoon-label,
+EpisodeRow .description-label,
+EpisodeRow .name-label,
+EpisodeRow .number-label {
     color: #2a1e10;
     font: 16px "Metropolis Medium, Sans-Serif";
 }
 
-.episode-row-name-label {
+EpisodeRow .name-label {
     font-size: 26px;
     margin-left: 40px;
 }
 
-.episode-row-number-label {
+EpisodeRow .number-label {
     margin: 0 200px 10px 40px;
 }
 
-.episode-row-description-label {
+EpisodeRow .description-label {
     margin: 32px 80px 40px 40px;
 }
 
-.episode-row-comingsoon-label {
+EpisodeRow .comingsoon-label {
     background-image: url('resource:///com/hack_computer/Clubhouse/images/comingsoon_label_bg.png');
     background-repeat: no-repeat;
     min-height: 34px;
@@ -341,7 +328,7 @@ window.poster {
     font-size: 18px;
 }
 
-.episode-row-progress-label  {
+EpisodeRow .progress-label  {
     color: #1e0c62;
     font: 28px "Metropolis, Sans-Serif";
     font-weight: bold;
@@ -443,7 +430,7 @@ window.poster {
     text-decoration: underline;
 }
 
-.quest-row {
+QuestRow {
    color: #4c82c4;
    font-size: 18px;
    font-weight: 600;
@@ -452,21 +439,21 @@ window.poster {
    margin: 0 0.8em 0 0.8em;
 }
 
-.quest-row:hover {
+QuestRow:hover {
    background-color: rgba(246, 209, 165 ,0.5);
 }
 
-.quest-row.complete {
+QuestRow.complete {
    font-weight: bold;
 }
 
-.quest-row.complete:hover {
+QuestRow.complete:hover {
    background-color: rgba(246, 209, 165 ,0.5);
    color: white;
    font-weight: bold;
 }
 
-.quest-row.highlighted {
+QuestRow.highlighted {
   background-color: rgba(246, 209, 165 ,0.5);
   color: white;
   font-weight: bold;
@@ -488,19 +475,12 @@ window.poster {
     }
 }
 
-/* Pathways view */
-
-/* Reset button color in listbox items */
-row:selected > box > button >label {
-    color: unset;
-}
-
 /* Character View */
-.character-view list {
+CharacterView list {
     background-color: unset;
 }
 
-.character-view  #mission-list {
+CharacterView  #mission-list {
     margin: 1em 3em 3em 0;
     padding: 1em 1ex;
     border: 1px solid gray;
@@ -508,7 +488,7 @@ row:selected > box > button >label {
     background: rgba(255, 255, 255, 0.82);
 }
 
-.character-view  #mission-list > label {
+CharacterView  #mission-list > label {
     font-size: 1.8em;
     font-weight: bold;
     color: #4c82c4;
@@ -536,32 +516,51 @@ scrolledwindow {
 }
 
 /* Pathways View */
-.pathway-list,
-.pathway-icon,
-.pathways-view > viewport > box > label {
+ClubhouseWindow.small PathwayList {
+    min-height: 15em;
+}
+
+PathwayList {
+    min-height: 18em;
+}
+
+ClubhouseWindow.big PathwayList {
+    min-height: 21em;
+}
+
+PathwaysView scrollbar,
+PathwaysView > viewport
+{
+    border: 0;
+    background: unset;
+}
+
+PathwayList,
+PathwayIcon,
+PathwaysView > viewport > box > label {
     font-size: 1.5em;
     font-weight: bold;
     color: #4c82c4;
 }
 
-.pathway-list {
+PathwayList {
     border-radius: 1ex 1ex 0 0;
     background-color: white;
     box-shadow: 0px 1px 2px black;
     margin: 1ex;
 }
 
-.pathway-list > box {
+PathwayList > box {
     border-radius: 1ex 1ex 0 0;
     padding: 1ex 1em 1ex 1em;
     background-color: lavender;
 }
 
-.pathway-list > box > label {
+PathwayList > box > label {
     margin-left: 1em;
 }
 
-.pathway-icon {
+PathwayIcon {
     background-color: white;
     padding: 1em;
     margin: 1ex;
