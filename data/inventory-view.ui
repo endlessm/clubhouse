@@ -1,66 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.0 -->
 <interface>
-  <object class="GtkScrolledWindow" id="inventory_scrolled_window">
-    <property name="visible">True</property>
-    <property name="valign">fill</property>
+  <requires lib="gtk+" version="3.22"/>
+  <template class="InventoryView" parent="GtkRevealer">
+    <property name="can_focus">False</property>
+    <property name="margin_top">1</property>
     <child>
-      <object class="GtkStack" id="inventory_stack">
+      <object class="GtkScrolledWindow">
         <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="propagate_natural_width">True</property>
+        <property name="propagate_natural_height">True</property>
         <child>
-          <object class="GtkFlowBox" id="inventory_box">
-            <property name="halign">fill</property>
-            <property name="homogeneous">True</property>
-            <property name="margin_top">25</property>
-            <property name="margin_bottom">25</property>
-            <property name="selection_mode">none</property>
-            <property name="max_children_per_line">2</property>
-            <property name="row_spacing">16</property>
-            <property name="valign">start</property>
+          <object class="GtkViewport">
             <property name="visible">True</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkBox" id="inventory_empty_state_box">
-            <property name="halign">fill</property>
-            <property name="orientation">vertical</property>
-            <property name="valign">center</property>
-            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="hscroll_policy">natural</property>
+            <property name="vscroll_policy">natural</property>
+            <property name="shadow_type">none</property>
             <child>
-              <object class="GtkLabel">
-                <property name="halign">center</property>
-                <property name="justify">center</property>
-                <property name="label" translatable="yes">Oh no!
-You don't have any objects yet!</property>
+              <object class="GtkFlowBox" id="_inventory_box">
                 <property name="visible">True</property>
-                <style>
-                  <class name="clubhouse-empty-inventory-title"/>
-                </style>
-              </object>
-            </child>
-            <child>
-              <object class="GtkImage">
-                <property name="resource">/com/hack_computer/Clubhouse/images/inventory-empty-image.png</property>
-                <property name="visible">True</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel">
-                <property name="halign">center</property>
-                <property name="justify">center</property>
-                <property name="label" translatable="yes">Complete a task to find some.</property>
-                <property name="visible">True</property>
-                <style>
-                  <class name="clubhouse-empty-inventory-subtitle"/>
-                </style>
+                <property name="can_focus">False</property>
+                <property name="min_children_per_line">1</property>
+                <property name="max_children_per_line">1</property>
               </object>
             </child>
           </object>
         </child>
       </object>
     </child>
-    <style>
-      <class name="clubhouse-scrolled-window"/>
-      <class name="inventory-scrolled-window"/>
-    </style>
-  </object>
+  </template>
 </interface>

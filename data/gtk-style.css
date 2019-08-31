@@ -50,10 +50,6 @@ ClubhouseWindow.CHARACTER {
     background-image: url('resource:///com/hack_computer/Clubhouse/images/character_bg.jpg');
 }
 
-InventoryView {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/inventory_bg.png');
-}
-
 EpisodesView {
     background-image: url('resource:///com/hack_computer/Clubhouse/images/episodes_bg.png');
 }
@@ -178,36 +174,6 @@ InventoryItem.active {
     -gtk-icon-effect: dim;
 }
 
-.clubhouse-scrolled-window {
-    margin-bottom: 65px
-}
-
-.clubhouse-scrolled-window > scrollbar {
-    background: rgba(0, 0, 0, .5);
-    padding: 3px;
-    border: none;
-    margin-top: 30px;
-    margin-right: 1px;
-    border-radius: 10px;
-}
-
-.inventory-scrolled-window > scrollbar {
-    margin-right: 20px;
-}
-
-.clubhouse-scrolled-window > scrollbar:hover {
-    background: rgba(0, 0, 0, .7);
-}
-
-.clubhouse-scrolled-window > scrollbar slider {
-    background: rgba(234, 189, 141, .7);
-    min-width: 0;
-}
-
-.clubhouse-scrolled-window > scrollbar slider:hover {
-    background: rgba(223, 166, 106, .8);
-}
-
 .clubhouse-completed-episode-headline {
     font: 34px "Metropolis ExtraBold, Sans-Serif";
     font-weight: bold;
@@ -215,21 +181,15 @@ InventoryItem.active {
     margin: 0 10px 164px 170px;
 }
 
-.clubhouse-empty-inventory-title,
 .clubhouse-completed-episode-title {
     font: 18px "Metropolis, Sans-Serif";
     font-weight: bold;
-}
-
-.clubhouse-empty-inventory-title {
-    margin-bottom: 50px;
 }
 
 .clubhouse-completed-episode-title {
     margin: 0 40px 20px 40px;
 }
 
-.clubhouse-empty-inventory-subtitle,
 .clubhouse-completed-episode-subtitle {
     font: 15px "Metropolis Medium, Sans-Serif";
 }
@@ -374,37 +334,55 @@ EpisodeRow .progress-label  {
 }
 
 /* User Hud */
-#user-hud,
-#user-hud:hover {
-    margin: 1ex 0 0 0;
+.user-overlay button.flat {
     background-image: none;
     border: 0;
     padding: 0;
     box-shadow: none;
 }
 
-#user-hud #image {
+.user-overlay > box,
+.user-overlay > button {
+    margin: 1em 0 1em 1em;
+}
+
+.user-bio-box {
+    margin: 1em 1em 0 1em;
+    border-radius: 2em;
+    box-shadow: 1px 1px 2px black;
+    background: white;
+}
+
+.user-overlay #user-label {
+    margin: 0.8em 1.4em 0.8em 0;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.user-overlay #user-bio-label {
+    margin: 1em 2em;
+}
+
+.user-overlay #image {
+    min-height: 5em;
+    min-width: 5em;
     border-radius: 50%;
     box-shadow:  1px 1px 2px #555;
     margin: 3px; /* needed for the shadow */
     background-color: lavender;
-    padding: 0.6em;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-#user-hud #padding,
-#user-hud #label {
-    background-color: white;
-    box-shadow:  3px 1px 2px #555;
-    padding: 1em 1em 1em 0.7em;
-}
-
-#user-hud #label {
-    border-radius: 0 1.5em 1.5em 0;
+InventoryView > scrolledwindow {
+    margin: 0 3em;
+    background: lavender;
 }
 
 /* Header bar buttons */
 .headerbar-buttonbox {
-    padding-left: 2em;
+    padding: 2em;
 }
 
 .headerbar-buttonbox > label,

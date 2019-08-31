@@ -21,8 +21,6 @@
     <file>clubhouse_bg.jpg</file>
     <file>clubhouse_bg-off.jpg</file>
     <file>clubhouse_bg-blur.jpg</file>
-    <file>inventory_bg.png</file>
-    <file>inventory-empty-image.png</file>
     <file>episodes_bg.png</file>
     <file>icon_check-in-circle.svg</file>
   </gresource>

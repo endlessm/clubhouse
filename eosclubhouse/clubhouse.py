@@ -33,7 +33,7 @@ import time
 from collections import OrderedDict
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
-from eosclubhouse.system import Desktop, GameStateService, Sound
+from eosclubhouse.system import Desktop, GameStateService, UserAccount, Sound
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
@@ -1312,39 +1312,33 @@ class PathwaysView(Gtk.ScrolledWindow):
             self._coming_soon_flowbox.show()
 
 
-class InventoryView(Gtk.EventBox):
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/inventory-view.ui')
+class InventoryView(Gtk.Revealer):
 
     __gtype_name__ = 'InventoryView'
+
+    _inventory_box = Gtk.Template.Child()
 
     def __init__(self, app_window):
         super().__init__(visible=True)
 
         self._app_window = app_window
 
-        self._setup_ui()
+        self._inventory_box.set_sort_func(self._sort_items)
 
         self._gss = GameStateService()
         self._gss.connect('changed', lambda _gss: self._load_items())
         self._items_db = utils.QuestItemDB()
 
         self._loaded_items = {}
+        self._load_items()
         self._update_state()
 
-        self._load_items()
-
-    def _setup_ui(self):
-        builder = Gtk.Builder()
-        builder.add_from_resource('/com/hack_computer/Clubhouse/inventory-view.ui')
-
-        self._inventory_stack = builder.get_object('inventory_stack')
-
-        self._inventory_empty_state_box = builder.get_object('inventory_empty_state_box')
-
-        self._inventory_box = builder.get_object('inventory_box')
-        self._inventory_box.set_sort_func(self._sort_items)
-
-        scrolled_window = builder.get_object('inventory_scrolled_window')
-        self.add(scrolled_window)
+    def reveal(self, reveal):
+        if reveal and len(self._loaded_items) > 0:
+            self.set_reveal_child(True)
+        else:
+            self.set_reveal_child(False)
 
     def _sort_items(self, child_1, child_2):
         item_1 = child_1.get_children()[0]
@@ -1391,9 +1385,9 @@ class InventoryView(Gtk.EventBox):
 
     def _update_state(self):
         if len(self._loaded_items) > 0:
-            self._inventory_stack.set_visible_child(self._inventory_box)
+            self.set_reveal_child(True)
         else:
-            self._inventory_stack.set_visible_child(self._inventory_empty_state_box)
+            self.set_reveal_child(False)
 
 
 class EpisodeRow(Gtk.ListBoxRow):
@@ -1709,16 +1703,21 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _stack = Gtk.Template.Child()
     _clubhouse_page = Gtk.Template.Child()
     _news_box = Gtk.Template.Child()
-    _inventory_page = Gtk.Template.Child()
 
+    _user_box = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
+    _user_image = Gtk.Template.Child()
+    _user_bio_revealer = Gtk.Template.Child()
+    _user_bio_revealer_revealer = Gtk.Template.Child()
+    _user_bio_label = Gtk.Template.Child()
+
     _pathways_button = Gtk.Template.Child()
 
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
 
-        self._shell_settings = Gio.Settings('org.gnome.shell')
-
+        self._gss = GameStateService()
+        self._user = UserAccount()
         self._page_reset_timeout = 0
         self._ambient_sound_uuid = None
 
@@ -1728,7 +1727,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.character = CharacterView(self)
 
         self._clubhouse_page.pack_start(self.clubhouse, True, True, 0)
-        self._inventory_page.pack_start(self.inventory, True, True, 0)
+        self._user_box.pack_start(self.inventory, True, True, 0)
         self._stack.add_named(self.pathways, 'PATHWAYS')
         self._stack.add_named(self.character, 'CHARACTER')
 
@@ -1740,11 +1739,16 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._clubhouse_state.connect('notify::window-is-visible',
                                       self._on_clubhouse_window_visibility_changed_cb)
 
-        self.update_user_info()
         self.connect('screen-changed', self._on_screen_changed)
         self._on_screen_changed(None, None)
 
         self._stack.connect('size-allocate', self._on_stack_size_allocate)
+
+        self._css_provider = Gtk.CssProvider()
+        self.get_style_context().add_provider_for_screen(Gdk.Screen.get_default(),
+                                                         self._css_provider,
+                                                         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        self.update_user_info()
 
     def _on_stack_size_allocate(self, widget, alloc):
         self.clubhouse.set_offset(-alloc.y)
@@ -1821,8 +1825,20 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.hide()
 
     def update_user_info(self):
-        self._user_label.set_label(GLib.get_real_name())
-        # @todo: update self._user_image
+        # @todo: track properties changes
+        real_name = self._user.get('RealName')
+        icon_file = self._user.get('IconFile')
+
+        self._user_label.set_label(real_name)
+        self._css_provider.load_from_data(".user-overlay #image {{\
+            background-image: url('/var/run/host/{}');\
+        }}".format(icon_file).encode())
+
+        # @todo: add a way to edit the biography and a scrollbar
+        info = self._gss.get('clubhouse.UserInfo')
+        if info is not None:
+            bio = info.get('biography', '')
+            self._user_bio_label.set_label('Biography:\n\t' + bio, -1)
 
     @Gtk.Template.Callback()
     def _on_button_press_event(self, widget, e):
@@ -1836,6 +1852,26 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _on_delete(self, widget, _event):
         widget.hide()
         return True
+
+    @Gtk.Template.Callback()
+    def _on_user_button_clicked(self, button):
+        if self._user_bio_revealer_revealer.get_reveal_child():
+            self._user_bio_revealer.set_reveal_child(False)
+            self.inventory.reveal(False)
+        else:
+            self._user_bio_revealer_revealer.set_reveal_child(True)
+
+    @Gtk.Template.Callback()
+    def _on_user_bio_revealer_revealer_notify(self, widget, pspec):
+        if self._user_bio_revealer_revealer.props.child_revealed:
+            self._user_bio_revealer.set_reveal_child(True)
+
+    @Gtk.Template.Callback()
+    def _on_user_bio_revealer_notify(self, widget, pspec):
+        if self._user_bio_revealer.props.child_revealed:
+            self.inventory.reveal(True)
+        else:
+            self._user_bio_revealer_revealer.set_reveal_child(False)
 
     def set_page(self, page_name):
         current_page = self._stack.get_visible_child_name()
