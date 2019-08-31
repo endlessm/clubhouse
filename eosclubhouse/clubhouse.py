@@ -1397,12 +1397,11 @@ class PathwayList(Gtk.Box):
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/pathways-view.ui')
-class PathwaysView(Gtk.ScrolledWindow):
+class PathwaysView(Gtk.Notebook):
 
     __gtype_name__ = 'PathwaysView'
 
-    _flowbox = Gtk.Template.Child()
-    _coming_soon_label = Gtk.Template.Child()
+    _coming_soon_page = Gtk.Template.Child()
     _coming_soon_flowbox = Gtk.Template.Child()
 
     def __init__(self, app_window):
@@ -1426,12 +1425,21 @@ class PathwaysView(Gtk.ScrolledWindow):
             pathway_list = PathwayList(icon, name)
             pathway_list.listbox.connect('row-activated', self._quest_row_clicked_cb)
             pathway_list.set_quests(pathway, quests)
-            self._flowbox.add(pathway_list)
+
+            label = Gtk.Label(visible=True, label=name, halign=Gtk.Align.CENTER)
+            image = Gtk.Image(visible=True, icon_name=icon, pixel_size=32)
+            hbox = Gtk.Box(visible=True, orientation=Gtk.Orientation.HORIZONTAL)
+            hbox.pack_start(image, False, True, 0)
+            hbox.pack_start(label, False, True, 0)
+            self.append_page(pathway_list, hbox)
+
+            # Move coming soon page to the end
+            self.reorder_child(self._coming_soon_page, -1)
         else:
             pathway_icon = PathwayIcon(icon, name)
             self._coming_soon_flowbox.add(pathway_icon)
-            self._coming_soon_label.show()
-            self._coming_soon_flowbox.show()
+            self._coming_soon_page.show()
+            pathway_icon.show()
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/inventory-view.ui')

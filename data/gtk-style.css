@@ -582,32 +582,70 @@ CharacterView  #mission-list > label {
 }
 
 /* Pathways View */
-ClubhouseWindow.small PathwayList {
-    min-height: 15em;
-}
-
-PathwayList {
-    min-height: 18em;
-}
-
-ClubhouseWindow.big PathwayList {
-    min-height: 21em;
-}
-
 PathwaysView {
-  margin-top: 6em;
+    border-radius: 1em;
+    margin: 1em;
 }
 
-PathwaysView scrollbar,
-PathwaysView > viewport
-{
-    border: 0;
-    background: unset;
+PathwaysView > stack {
+    border-radius: 0 1ex 1ex 1ex;
+}
+
+PathwaysView > stack,
+PathwaysView > header > tabs > tab {
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+}
+
+PathwaysView > header > tabs > tab {
+    font-size: 1.4em;
+    border-right: 0.2em solid;
+    border-color: transparent;
+    padding: 0 1ex;
+}
+
+PathwaysView > header > tabs > tab > label,
+PathwaysView > header > tabs > tab > box > image {
+    padding: 1ex;
+}
+
+PathwaysView > header > tabs > tab:checked {
+    border-color: darkblue;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+PathwaysView > header > tabs > tab:hover {
+    background: rgba(00, 00, 00, 0.3);
+}
+
+PathwaysView > header > tabs > tab:checked:hover {
+    background: rgba(00, 00, 00, 0.5);
+}
+
+PathwaysView > header > tabs > tab:first-child {
+    border-top-left-radius: 1ex;
+}
+
+PathwaysView > header > tabs > tab:last-child {
+    border-bottom-left-radius: 1ex;
+}
+
+PathwayList > scrolledwindow > viewport > list {
+    background: white;
+    border-radius: 1ex;
+    margin: 1ex;
+}
+
+PathwayIcon {
+    border-radius: 1ex;
+    box-shadow: 1px 1px 2px black;
+    background-color: white;
+    padding: 1em;
+    margin: 1ex;
 }
 
 PathwayList,
-PathwayIcon,
-PathwaysView > viewport > box > label {
+PathwayIcon {
     font-size: 1.5em;
     font-weight: bold;
     color: #4c82c4;
@@ -631,6 +669,8 @@ PathwayList > box > label {
 }
 
 PathwayIcon {
+    border-radius: 1ex;
+    box-shadow: 1px 1px 2px black;
     background-color: white;
     padding: 1em;
     margin: 1ex;
