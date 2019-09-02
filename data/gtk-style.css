@@ -561,6 +561,10 @@ PathwaysView > header > tabs > tab > box > image {
     padding: 1ex;
 }
 
+PathwaysView > header > tabs > tab > box > image {
+    color: #4387C5;
+}
+
 PathwaysView > header > tabs > tab:checked {
     border-color: darkblue;
     background: rgba(0, 0, 0, 0.6);
@@ -582,50 +586,42 @@ PathwaysView > header > tabs > tab:last-child {
     border-bottom-left-radius: 1ex;
 }
 
-PathwayList > scrolledwindow > viewport > list {
-    background: white;
-    border-radius: 1ex;
-    margin: 1ex;
-}
-
 PathwayIcon {
     border-radius: 1ex;
     box-shadow: 1px 1px 2px black;
     background-color: white;
     padding: 1em;
-    margin: 1ex;
 }
 
 PathwayList,
 PathwayIcon {
-    font-size: 1.5em;
-    font-weight: bold;
     color: #4c82c4;
+    margin: 1ex;
 }
 
-PathwayList {
-    border-radius: 1ex 1ex 0 0;
-    background-color: white;
-    box-shadow: 0px 1px 2px black;
-    margin: 1ex;
+PathwayList > scrolledwindow,
+PathwayList > scrolledwindow > viewport > list {
+    border-radius: 1ex;
 }
 
 PathwayList > box {
-    border-radius: 1ex 1ex 0 0;
-    padding: 1ex 1em 1ex 1em;
-    background-color: lavender;
+    margin-bottom: 1ex;
 }
 
-PathwayList > box > label {
+PathwayList > box > box {
     margin-left: 1em;
 }
 
-PathwayIcon {
-    border-radius: 1ex;
-    box-shadow: 1px 1px 2px black;
-    background-color: white;
-    padding: 1em;
-    margin: 1ex;
+PathwayList box.title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: .4em;
+}
+
+PathwayList > box .box {
+    border-radius: .5ex;
+    background-color: rgba(255, 255, 255, .6);
+    padding: 0.2em 1ex;
 }
 
 /* News Page */
