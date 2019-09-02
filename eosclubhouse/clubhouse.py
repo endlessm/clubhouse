@@ -313,10 +313,9 @@ class QuestRow(Gtk.ListBoxRow):
 
         pathways = self._quest.get_pathways()
         if not pathways:
-            category = 'unknown'
+            self._category_image.props.icon_name = 'clubhouse-pathway-unknown'
         else:
-            category = pathways[0].get_name()
-        self._category_image.props.icon_name = 'clubhouse-pathway-{}'.format(category.lower())
+            self._category_image.props.icon_name = pathways[0].get_icon_name()
 
     def _setup_difficulty_image(self):
         basename = self._quest.get_difficulty().name
@@ -1419,7 +1418,7 @@ class PathwaysView(Gtk.Notebook):
     def _add_pathway(self, pathway):
         quests = pathway.get_quests(also_skippable=False)
         name = pathway.get_name()
-        icon = 'clubhouse-pathway-' + name.lower()
+        icon = pathway.get_icon_name()
 
         if len(quests) >= 1:
             pathway_list = PathwayList(icon, name)
