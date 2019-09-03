@@ -745,6 +745,12 @@ class UserAccount(GObject.GObject):
 
     _INTERFACE_NAME = 'org.freedesktop.Accounts'
 
+    __gsignals__ = {
+        'changed': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
+
     _proxy = None
     _props = None
 
@@ -772,6 +778,11 @@ class UserAccount(GObject.GObject):
     def __init__(self):
         super().__init__()
         self._ensure_proxy()
+        self._proxy.connect('g-signal', self._g_signal_cb)
+
+    def _g_signal_cb(self, proxy, sender_name, signal_name, params):
+        if signal_name == 'Changed':
+            self.emit('changed')
 
     def get(self, key):
         return self._props.Get('(ss)', 'org.freedesktop.Accounts.User', key)

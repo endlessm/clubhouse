@@ -1748,6 +1748,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.get_style_context().add_provider_for_screen(Gdk.Screen.get_default(),
                                                          self._css_provider,
                                                          Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
+        self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
 
     def _on_stack_size_allocate(self, widget, alloc):
@@ -1825,7 +1827,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.hide()
 
     def update_user_info(self):
-        # @todo: track properties changes
         real_name = self._user.get('RealName')
         icon_file = self._user.get('IconFile')
 
