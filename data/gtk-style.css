@@ -359,8 +359,13 @@ EpisodeRow .progress-label  {
     font-weight: bold;
 }
 
-.user-overlay #user-bio-label {
+.user-overlay #user-bio-box {
     margin: 1em 2em;
+}
+
+.user-overlay #textview,
+.user-overlay #textview > text {
+    background: unset;
 }
 
 .user-overlay #image {

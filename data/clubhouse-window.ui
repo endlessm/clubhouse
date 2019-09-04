@@ -2,6 +2,7 @@
 <!-- Generated with glade 3.22.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkTextBuffer" id="_user_bio_textbuffer"/>
   <template class="ClubhouseWindow" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
     <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
@@ -260,8 +261,8 @@
                     <child>
                       <object class="GtkButton" id="_user_button">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="receives_default">False</property>
                         <property name="relief">none</property>
                         <signal name="clicked" handler="_on_user_button_clicked" swapped="no"/>
                         <child>
@@ -285,6 +286,8 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="no_show_all">True</property>
+                                <property name="ellipsize">middle</property>
+                                <property name="max_width_chars">32</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -317,14 +320,54 @@
                             <property name="can_focus">False</property>
                             <signal name="notify::child-revealed" handler="_on_user_bio_revealer_notify" swapped="no"/>
                             <child>
-                              <object class="GtkLabel" id="_user_bio_label">
-                                <property name="name">user-bio-label</property>
+                              <object class="GtkBox">
+                                <property name="name">user-bio-box</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="label" translatable="yes">Biography:</property>
-                                <property name="wrap">True</property>
-                                <property name="max_width_chars">32</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">Biography:</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max_width_chars">32</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkScrolledWindow">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="min_content_width">200</property>
+                                    <property name="min_content_height">100</property>
+                                    <property name="overlay_scrolling">False</property>
+                                    <property name="max_content_width">320</property>
+                                    <property name="max_content_height">256</property>
+                                    <child>
+                                      <object class="GtkTextView" id="_user_bio_textview">
+                                        <property name="name">textview</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="events">GDK_FOCUS_CHANGE_MASK | GDK_STRUCTURE_MASK</property>
+                                        <property name="wrap_mode">word</property>
+                                        <property name="indent">1</property>
+                                        <property name="buffer">_user_bio_textbuffer</property>
+                                        <signal name="focus-out-event" handler="_on_user_bio_textview_focus_out_event" swapped="no"/>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                               </object>
                             </child>
                           </object>
@@ -354,9 +397,9 @@
             <child type="overlay">
               <object class="GtkButton" id="_user_image_button">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="focus_on_click">False</property>
-                <property name="receives_default">True</property>
+                <property name="receives_default">False</property>
                 <property name="halign">start</property>
                 <property name="valign">start</property>
                 <signal name="clicked" handler="_on_user_button_clicked" swapped="no"/>

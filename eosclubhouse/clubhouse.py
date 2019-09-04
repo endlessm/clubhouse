@@ -1709,7 +1709,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_image = Gtk.Template.Child()
     _user_bio_revealer = Gtk.Template.Child()
     _user_bio_revealer_revealer = Gtk.Template.Child()
-    _user_bio_label = Gtk.Template.Child()
+    _user_bio_textbuffer = Gtk.Template.Child()
 
     _pathways_button = Gtk.Template.Child()
 
@@ -1838,8 +1838,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         # @todo: add a way to edit the biography and a scrollbar
         info = self._gss.get('clubhouse.UserInfo')
         if info is not None:
-            bio = info.get('biography', '')
-            self._user_bio_label.set_label('Biography:\n\t' + bio, -1)
+            self._user_bio_textbuffer.set_text(info.get('biography', ''), -1)
 
     @Gtk.Template.Callback()
     def _on_button_press_event(self, widget, e):
@@ -1873,6 +1872,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.inventory.reveal(True)
         else:
             self._user_bio_revealer_revealer.set_reveal_child(False)
+
+    @Gtk.Template.Callback()
+    def _on_user_bio_textview_focus_out_event(self, widget, event):
+        self._gss.set('clubhouse.UserInfo',
+                      {'biography': self._user_bio_textbuffer.props.text})
 
     def set_page(self, page_name):
         current_page = self._stack.get_visible_child_name()
