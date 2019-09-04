@@ -558,9 +558,9 @@ class AsyncAction:
     def is_pending(self):
         return self._state == self.State.PENDING
 
-    def resolve(self):
+    def resolve(self, result=True):
         if self.future is not None and not self.future.done():
-            self.future.set_result(True)
+            self.future.set_result(result)
 
     def cancel(self):
         if self.future is not None and not self.future.done():
@@ -1106,8 +1106,8 @@ class Quest(GObject.GObject):
             return async_action
 
         def _callback_and_resolve(async_action, callback, *callback_args):
-            callback(*callback_args)
-            async_action.resolve()
+            ret = callback(*callback_args)
+            async_action.resolve(ret)
 
         choices = options.get('choices', [])
         for option_msg_id, callback, *args in user_choices:
