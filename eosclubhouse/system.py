@@ -51,6 +51,15 @@ class Desktop:
         'com.hack_computer.Sidetrack',
     ]
 
+    OLD_CLIPPY_APPS = [
+        'com.endlessm.Fizzics',
+        'com.endlessm.Hackdex_chapter_one',
+        'com.endlessm.Hackdex_chapter_two',
+        'com.endlessm.LightSpeed',
+        'com.endlessm.OperatingSystemApp',
+        'com.endlessm.Sidetrack',
+    ]
+
     _dbus_proxy = None
     _app_launcher_proxy = None
     _shell_app_store_proxy = None
@@ -350,6 +359,9 @@ class Desktop:
         for name in klass.CLIPPY_APPS:
             App(name).enable_clippy(enabled)
 
+        for name in klass.OLD_CLIPPY_APPS:
+            App(name).enable_clippy(enabled, old_clippy=True)
+
         return shell_settings.set_boolean(klass.SETTINGS_HACK_MODE_KEY, enabled)
 
 
@@ -549,9 +561,21 @@ class App:
         if app:
             app.pulse_flip_to_hack_button = enable
 
-    def enable_clippy(self, enable=True):
+    def enable_clippy(self, enable=True, old_clippy=False):
         sandbox = get_flatpak_sandbox()
         clippy_sandbox = sandbox.replace('app', 'runtime').replace('Clubhouse', 'Clippy.Extension')
+
+        # If old_clippy is True we'll use the com.endlessm.Clippy.Extension//stable
+        # instead of the new one and we'll provide DBUS access to the old sound
+        # server too
+        hack_sound_server_id = 'com.hack_computer.HackSoundServer'
+        if old_clippy:
+            hack_sound_server_id = 'com.endlessm.HackSoundServer'
+            # replace the flatpak branch to stable
+            clippy_sandbox = clippy_sandbox.replace('com.hack_computer', 'com.endlessm')\
+                                           .replace('custom', 'stable')\
+                                           .replace('master', 'stable')
+            sandbox = clippy_sandbox
 
         filesystems = f'{sandbox}:ro;~/.icons;'
         clippy = f'{clippy_sandbox}/lib/libclippy-module.so'
@@ -569,7 +593,7 @@ class App:
 
         options = {
             ('Context', 'filesystems'): filesystems,
-            ('Session Bus Policy', 'com.hack_computer.HackSoundServer'): 'talk',
+            ('Session Bus Policy', hack_sound_server_id): 'talk',
             ('Environment', 'GTK3_MODULES'): clippy,
         }
 
