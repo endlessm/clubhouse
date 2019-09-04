@@ -519,7 +519,7 @@ class CharacterView(Gtk.Grid):
             min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
                                    overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
 
-        if message_info.get('character_id') == current_quest.get_main_character():
+        if message_info.get('character_id') == self._character.id:
             msg.display_character(False)
             msg.props.halign = Gtk.Align.START
         else:
