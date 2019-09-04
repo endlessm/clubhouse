@@ -16,6 +16,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 autoapi_dirs = ['../../eosclubhouse']
 autoapi_template_dir = './docs/source/_templates/autoapi/'
+autoapi_options = ['members', 'undoc-members', 'special-members']
 
 
 # -- Project information -----------------------------------------------------
