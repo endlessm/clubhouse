@@ -45,14 +45,19 @@ def get_quest_codes():
     if quest_codes is not None:
         return quest_codes
 
+    def filter_quest_files(filename):
+        return (filename != '__init__.py'
+                and not filename.startswith('questset_')
+                and not filename.startswith('mission_')
+                and not filename.startswith('pathway_'))
+
     quest_codes = set(['noquest'])
     for episode in os.listdir(QUESTS_PATH):
         episode_path = os.path.join(QUESTS_PATH, episode)
         if not os.path.isdir(episode_path):
             continue
-        for filename in os.listdir(episode_path):
-            if filename == '__init__.py' or filename.startswith('questset_'):
-                continue
+        filenames = os.listdir(episode_path)
+        for filename in filter(filter_quest_files, filenames):
             code, _ext = os.path.splitext(filename)
             quest_codes.add(code)
 
