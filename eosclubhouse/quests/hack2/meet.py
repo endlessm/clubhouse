@@ -47,22 +47,26 @@ class Meet(Quest):
         # explain the profile
         for msgid in ['EXPLAIN_PROFILE1', 'EXPLAIN_PROFILE2', 'EXPLAIN_PROFILE3']:
             self.wait_confirm(msgid)
-        # ask if player wants to change their name
-        showme = ('CHANGE_NAME_YES', self.step_changename, True)
-        notnow = ('CHANGE_NAME_NO', self.step_changename, False)
-        # this function needs a wait() to prevent a hang after the callback
-        self.show_choices_message('CHANGE_NAME_ASK', showme, notnow).wait()
-        return self.step_end
 
-    def step_changename(self, result):
-        if result:
+        # ask if player wants to change their name
+        def _choice(choice_var):
+            return choice_var
+
+        action = self.show_choices_message('CHANGE_NAME_ASK', ('CHANGE_NAME_YES', _choice, True),
+                                           ('CHANGE_NAME_NO', _choice, False)).wait()
+        choice = action.future.result()
+
+        if choice:
             for msgid in ['CHANGE_NAME1', 'CHANGE_NAME2', 'CHANGE_NAME3']:
                 self.wait_confirm(msgid)
 
-    def step_end(self):
         self.wait_confirm('END1')
         self.wait_confirm('END2')
+        self.show_message('END3', choices=[('Got it!', self.step_end)])
+        return self.step_end
+
+    def step_end(self):
         self.complete = True
         self.available = False
-        self.show_message('END3', choices=[('Got it!', self.stop)])
         Sound.play('quests/quest-complete')
+        self.stop()
