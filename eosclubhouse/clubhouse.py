@@ -172,7 +172,7 @@ class Character(GObject.GObject):
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
-class Message(Gtk.Overlay):
+class Message(Gtk.Box):
 
     __gtype_name__ = 'Message'
 
@@ -471,7 +471,8 @@ class CharacterView(Gtk.Grid):
     _character_overlay = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
     _character_button = Gtk.Template.Child()
-    _message_list = Gtk.Template.Child()
+    # _message_list = Gtk.Template.Child()
+    _messages_container = Gtk.Template.Child()
     _missions_scrolled_window = Gtk.Template.Child()
 
     def __init__(self, app_window):
@@ -482,6 +483,24 @@ class CharacterView(Gtk.Grid):
         self._character = None
         self._scale = 1
         self._list.connect('row-activated', self._quest_row_clicked_cb)
+
+        self._message_width = None
+        self._character_overlay.connect_after('size-allocate',self._character_overlay_size_allocate)
+
+    def _get_message_css(self, msg):
+        css_tmpl = 'Message %d .transition { transition:all 1s linear; margin-right: %dpx; }'
+        msg_width = msg.props.width_request
+        # Build CSS strings.
+        msg_css = css_tmpl % ('.box', -msg_width)
+        button_box_css = css_tmpl % ('.button-box', -msg_width)
+        character_css = css_tmpl % ('.Character', -msg_width)
+        return msg_css, button_box_css, character_css
+
+    def _character_overlay_size_allocate(self, _character_overlay, _rect):
+        overlay_width = self._character_overlay.get_allocation().width
+        self._message_width = min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
+                                  overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
+        self._character_overlay.disconnect_by_func(self._character_overlay_size_allocate)
 
     def _update_character_image(self):
         if self._character is None:
@@ -501,40 +520,82 @@ class CharacterView(Gtk.Grid):
         self._scale = scale
         self._update_character_image()
 
+    def _on_msg_size_allocate(self, msg, _rect):
+        msg_height = msg.get_allocated_height()
+        overlay_height = self._character_overlay.get_allocation().height
+        self._messages_container.child_set_property(msg, 'y',
+                                                    overlay_height - msg_height)
+        msg.disconnect_by_func(self._on_msg_size_allocate)
+
+    def _animate_message(self, message, direction, reverse=False):
+        ctx = message.get_style_context()
+
+        # Clean up old classes otherwise transition will not work.
+        for css_class in ctx.list_classes():
+            if css_class.startswith('transition'):
+                ctx.remove_class(css_class)
+
+        # Apply requested transition class.
+        new_css_class = 'transition-{}'.format(direction)
+        if reverse:
+            new_css_class = '{}-{}'.format(new_css_class, 'reverse')
+        ctx.add_class(new_css_class)
+
     def add_message(self, message_info):
         current_quest = self._app_window.clubhouse.running_quest
         if current_quest is None or current_quest.stopping:
             return
 
-        if len(self._message_list.get_children()) == self.MAX_MESSAGES:
-            row = self._message_list.get_row_at_index(0)
-            self._message_list.remove(row)
-
         msg = Message()
+        msg.connect_after('size-allocate', self._on_msg_size_allocate)
+
         msg.update(message_info)
-        self._message_list.add(msg)
 
         overlay_width = self._character_overlay.get_allocation().width
+        overlay_height = self._character_overlay.get_allocation().height
+
         msg.props.width_request = \
             min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
                                    overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
 
+        self._withdraw_old_messages_with_animation()
+        self._messages_container.put(msg, -msg.props.width_request, 0)
+
+        ctx = msg.get_style_context()
         if message_info.get('character_id') == self._character.id:
             msg.display_character(False)
             msg.props.halign = Gtk.Align.START
+            self._animate_message(msg, 'left')
         else:
             msg.display_character(True)
-            msg.props.halign = Gtk.Align.END
+            self._animate_message(msg, 'right')
 
         # Hide actions on old messages.
-        for row in self._message_list.get_children()[:-1]:
-            row.get_child().clear_buttons()
+        for child_message in self._messages_container.get_children()[:-1]:
+            child_message.clear_buttons()
 
         msg.show()
 
+    def _withdraw_old_messages_with_animation(self):
+        children_messages = self._messages_container.get_children()
+        if len(children_messages) == 1:
+            self._animate_message(children_messages[0], 'up')
+        elif len(children_messages) >= 2:
+            for child_message in children_messages[:-1]:
+                self._animate_message(child_message, 'left', reverse=True)
+                # Animation durates 1 second.
+                self.clear_message_with_timeout(child_message, 1)
+            self._animate_message(children_messages[-1], 'up')
+
+    def clear_message_with_timeout(self, msg, timeout_seconds):
+        def _remove_msg(msg):
+            self._messages_container.remove(msg)
+
+        GLib.timeout_add_seconds(timeout_seconds, _remove_msg, msg)
+
     def clear_messages(self):
-        for row in self._message_list.get_children():
-            self._message_list.remove(row)
+        for message in self._messages_container.get_children():
+            self._messages_container.remove(message)
 
     def show_mission_list(self, quest_set):
         # Get character

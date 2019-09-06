@@ -59,6 +59,55 @@ EpisodesView .episodes-list {
     margin-top: 36px;
 }
 
+Message {
+  margin-left: 540px; margin-right: -540px;
+}
+
+Message.transition-up {
+  animation-name: message_transition_up;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  margin-top: -180px;
+}
+
+@keyframes message_transition_up {
+    from { margin-top: 0px; }
+    to { margin-top: -180px; }
+}
+
+Message.transition-left {
+  animation-name: message_transition_left;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+}
+
+@keyframes message_transition_left {
+    from { margin-left: -540px; margin-right: 540px; }
+}
+
+Message.transition-left-reverse {
+  animation-name: message_transition_left_reverse;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  margin-left: -540px; margin-right: 540px;
+  margin-top: -180px;
+}
+
+@keyframes message_transition_left_reverse {
+    from { margin-left: 540px; margin-right: -540px; }
+    to { margin-left: -540px; margin-right: 540px; }
+}
+
+Message.transition-right {
+  animation-name: message_transition_right;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+}
+
+@keyframes message_transition_right {
+    from {  margin-left: 1750px; margin-right: -1750px; }
+}
+
 Message .box {
     background-color: rgba(255, 255, 255, .96);
     border-radius: 12px;
