@@ -1,2 +1,7 @@
 T2PASSAGE_GREET1,"Oh, I love this one! The Passage is also part of the Terminal 2 Network, and you can launch it through this mission, the Pathways or the Desktop.",riley,,,
 T2PASSAGE_GREET2,"I think this game might have been made by a friend of Ada's. The main character looks a lot like her, and it doesn't hurt that I totally dig her style, too.",riley,,,
+T2PASSAGE_NOTINSTALLED,"Uh-oh! I'm detecting that `The Passage` isn't installed!
+
+You need to download it from the App Center if you want to play.
+
+Click the icon named `More Apps` on the Desktop, then search for the program you want to install.",daemon,,,

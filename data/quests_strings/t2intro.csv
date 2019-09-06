@@ -12,3 +12,8 @@ T2INTRO_GREET2,"FrogSquash... a bit morbid, if you ask me. Isn't the goal to *av
 
 You'll have to brief me on the consequences when you return...",saniel,,,
 T2INTRO_BYE,Excellent. You're on your way!,saniel,hurray,,
+T2INTRO_NOTINSTALLED,"Uh-oh! I'm detecting that `Frogsquash` isn't installed!
+
+You need to download it from the App Center if you want to play.
+
+Click the icon named `More Apps` on the Desktop, then search for the program you want to install.",daemon,,,

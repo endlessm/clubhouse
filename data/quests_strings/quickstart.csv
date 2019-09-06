@@ -1,0 +1,18 @@
+QUICKSTART_WELCOME1,"Hi! My name's `cron`, and I'm a Daemon! We're the guys who run around behind the scenes making sure everything in the OS is working.",daemon,,,
+QUICKSTART_WELCOME2,Ada asked me to run you through the Clubhouse's functions. Sound good?,daemon,,,
+QUICKSTART_POSITIVE,👍,daemon,,,
+QUICKSTART_NEGATIVE,👎,daemon,,,
+QUICKSTART_HACKSWITCH,"OK, first off, use the *top buttons* to navigate back to the main Clubhouse view.
+
+You can use that big switch in the *bottom right* to turn Hack Mode on and off .
+
+Off, you're essentially using a normal computer. On, we get busy and let you hack programs. Simple!",daemon,,,
+QUICKSTART_PATHWAYS1,"*Up top*, there's the Pathways button. If you already know what kind of activities you want to do, go here.",daemon,,,
+QUICKSTART_PATHWAYS2,"If you'd prefer to see what everyone in the Clubhouse might offer you, talk to them instead.",daemon,,,
+QUICKSTART_PROFILE1,Your profile's in the upper left. You can change your name and profile picture using the Endless OS `Settings`.,daemon,,,
+QUICKSTART_PROFILE2,"To get directly to that section, click the picture way down in the far bottom right of your screen.. 
+
+...and then click the bigger version of that picture that shows up in the popup menu.",daemon,,,
+QUICKSTART_PROFILE3,"Otherwise, you can use the Desktop search bar to open `Settings`, go into the `Details` section, and then into the `Users` section.",daemon,,,
+QUICKSTART_END1,Feel free to come back if you need a refresher.,daemon,,,
+QUICKSTART_END2,"Wow, look at the time! I have to get back to my `crontab` - I have some scheduled tasks to start...",daemon,,,
