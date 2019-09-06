@@ -19,6 +19,7 @@
 #       Noel Llopis <noel@endlessm.com>
 #
 
+import configparser
 import csv
 import gi
 import glob
@@ -27,7 +28,6 @@ import json
 gi.require_version('Json', '1.0')
 import os
 import re
-import subprocess
 import time
 
 from collections import OrderedDict
@@ -322,12 +322,20 @@ class MessageTemplate(Template):
 
 
 def get_flatpak_sandbox():
-    sandbox = subprocess.check_output(
-        ['/usr/bin/findmnt', '-T', '/app', '-l', '-o', 'FSROOT', '-n'],
-        text=True)
+    info_filename = '/.flatpak-info'
+    if not os.path.exists(info_filename):
+        # If /.flatpak-info file doesn't exists is the host system
+        return ''
+
+    config = configparser.ConfigParser()
+    config.read(info_filename)
+    instance = config['Instance']
+    sandbox = instance['app-path']
+    commit = instance.get('app-commit', None)
+
     # replace the current commit id with 'active'
-    sandbox = ['', 'var', 'lib'] + sandbox.split('/')[1:-2] + ['active', 'files']
-    sandbox = '/'.join(sandbox)
+    if commit:
+        sandbox = sandbox.replace(commit, 'active')
 
     return sandbox
 
