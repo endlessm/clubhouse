@@ -21,6 +21,7 @@
 import configparser
 import os
 import shutil
+import subprocess
 import time
 
 from eosclubhouse import logger
@@ -437,6 +438,15 @@ class App:
 
     def is_running(self):
         return self.get_gtk_app_proxy().props.g_name_owner is not None
+
+    def is_installed(self):
+        '''Check if the app is installed.
+
+        Note: This only works for apps distributed as flatpaks.
+        '''
+        result = subprocess.run(['/usr/bin/flatpak-spawn', '--host',
+                                 'flatpak', 'info', '--show-ref', self.dbus_name])
+        return result.returncode == 0
 
     def get_object_property(self, obj, prop):
         return self.get_clippy_proxy().Get('(ss)', obj, prop)
