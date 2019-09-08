@@ -98,7 +98,6 @@ class Registry:
     def _reset(class_):
         class_._loaded_episode = None
         class_._autorun_quest = None
-        class_._next_episode = None
         class_._quest_sets_to_register = []
         class_._quest_sets = []
         class_._quest_instances = {}
@@ -207,7 +206,6 @@ class Registry:
             module = class_._get_episode_module(episode_folder)
             if module:
                 class_._autorun_quest = getattr(module, 'AUTORUN_QUEST', None)
-                class_._next_episode = getattr(module, 'NEXT_EPISODE', None)
 
             class_.load(episode_folder)
 
@@ -242,10 +240,6 @@ class Registry:
         all_quests = class_.get_current_quests().values()
         complete_quests = len(list(filter(lambda quest: quest.complete, all_quests)))
         return complete_quests / len(all_quests)
-
-    @classmethod
-    def get_next_episode_name(class_):
-        return class_._next_episode
 
     @classmethod
     def get_autorun_quest(class_):
@@ -624,9 +618,9 @@ class _Quest(GObject.GObject):
     }
 
     __sound_on_run_begin__ = 'quests/quest-given'
+
+    # @todo: Is this still relevant?
     __available_after_completing_quests__ = []
-    __complete_episode__ = False
-    __advance_episode__ = False
 
     __proposal_message_id__ = 'QUESTION'
 
@@ -661,11 +655,6 @@ class _Quest(GObject.GObject):
         # and eventually prevent situations where the quest uses these values from the Registry
         # but meanwhile a new episode has been loaded (unlikely, but disastrous if it happens).
         self._episode_name = Registry.get_loaded_episode_name()
-        self._next_episode_name = Registry.get_next_episode_name()
-
-        if self.__advance_episode__ and not self._next_episode_name:
-            logger.warning('The quest "%s" sets the next episode when complete but there is no '
-                           'info about what the next episode is!', self)
 
         self._qs_base_id = self.get_default_qs_base_id()
 
@@ -1329,20 +1318,6 @@ class _Quest(GObject.GObject):
     def schedule_quest(self, quest_name, confirm_before=True, start_after=3):
         self.emit('schedule-quest', quest_name, confirm_before, start_after)
 
-    def complete_current_episode(self):
-        current_episode_info = Registry.get_current_episode()
-        if current_episode_info['completed']:
-            return
-
-        # This method is about setting the Quest's episode, so if the episode has changed for
-        # some reason (e.g. changing to the next episode just moments before a quest sets the
-        # current episode as complete) we should no longer set it as current.
-        if self.get_episode_name() != current_episode_info['name']:
-            return
-
-        current_episode_info.update({'completed': True})
-        self.gss.set('clubhouse.CurrentEpisode', current_episode_info)
-
     @classmethod
     def get_pathways(class_):
         quest_pathways = []
@@ -1446,12 +1421,6 @@ class _Quest(GObject.GObject):
     def set_complete(self, is_complete):
         self.conf['complete'] = is_complete
 
-        if is_complete:
-            if self.__complete_episode__:
-                self.complete_current_episode()
-            if self.__advance_episode__:
-                self.set_next_episode()
-
     def _set_complete(self, is_complete):
         self.set_complete(is_complete)
 
@@ -1552,16 +1521,6 @@ class _Quest(GObject.GObject):
                 return quest
 
         return None
-
-    def set_next_episode(self, episode_name=None):
-        # Ensure we don't end up in a different episode than the one we should get to.
-        if self._next_episode_name != Registry.get_next_episode_name():
-            return
-
-        if episode_name is None:
-            episode_name = self._next_episode_name
-
-        Registry.set_current_episode(episode_name)
 
     def highlight_character(self, character_id=None):
         if character_id is not None:
