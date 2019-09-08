@@ -385,6 +385,7 @@ class _QuestRunContext:
             step_func, args_ = step_func_data
 
             # Execute the step
+            logger.debug('Executing step: %s%r', step_func.__name__, args_)
             result = step_func(*args_)
 
             if result is None or self._cancellable.is_cancelled():
