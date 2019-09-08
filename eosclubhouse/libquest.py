@@ -627,23 +627,11 @@ class _Quest(GObject.GObject):
     __available_after_completing_quests__ = []
     __complete_episode__ = False
     __advance_episode__ = False
-    # Should be in the form 'key': {...} , a dict of the key's content, or an empty dict for
-    # using the default key's content.
-    __items_on_completion__ = {}
-    __conf_on_completion__ = {}
+
     __proposal_message_id__ = 'QUESTION'
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
     _DEFAULT_MOOD = 'talk'
-
-    __quest_name__ = None
-    __tags__ = []
-    __mission_order__ = 0
-    __pathway_order__ = 0
-
-    __is_narrative__ = False
-
-    __auto_offer_info__ = {'confirm_before': True, 'start_after': 3}
 
     skippable = GObject.Property(type=bool, default=False)
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
@@ -1613,12 +1601,99 @@ class _Quest(GObject.GObject):
 
 
 class Quest(_Quest):
+    '''Hack Quests are written by subclassing this class.
+
+    - Define your quest using attributes like :attr:`__tags__` below.
+    - Write a `step_begin` method.
+    - Build the flow of steps by returning the name of the next step from steps.
+    - Finish by returning `step_complete_and_stop` from a step.
+    '''
+
+    # @todo: Obtain the quest name from the spreadsheet.
+    __quest_name__ = None
+    '''Quest name displayed in the UI.
+
+    If not set, the class name will be used.
+
+    .. warning::
+
+       In near future this will be obtained from the spreadsheet, like every string exposed in
+       the UI.
+
+    '''
+
+    __tags__ = []
+    '''Generic tags for the quest.
+
+    This is a list of generic tags (strings). There are tags treated specially, they start with
+    a prefix separated of the rest by a colon:
+
+    - 'mission:SOME_CHARACTER' -- Makes this quest belong to a character mission.
+
+    - 'pathway:SOME_PATHWAY' -- Makes this quest belong to a pathway.
+
+    - 'difficulty:SOME_DIFFICULTY' -- Define the difficulty of this quest. Can be 'easy',
+      'normal' or 'hard'.
+
+    '''
+
+    __mission_order__ = 0
+    '''Order of this quest in missions.
+
+    Quests in the same mission will be sorted by this number. A smaller number will make the
+    quest appear closer to the beginning of the list.
+
+    '''
+
+    __pathway_order__ = 0
+    '''Order of this quest in pathways.
+
+    Quests in the same pathway will be sorted by this number. A smaller number will make the
+    quest appear closer to the beginning of the list.
+
+    '''
+
+    __is_narrative__ = False
+    '''Whether the quest is narrative or not.
+
+    Only narrative quests can be displayed in character missions.
+
+    '''
+
+    __auto_offer_info__ = {'confirm_before': True, 'start_after': 3}
+    '''A dictionary containing the information for auto-offered quests.
+
+    If the quest is automatically offered, this information is used to:
+
+    - Key 'confirm_before' -- Defines if the auto-offer needs to be confirmed by the user. If
+      so, a popup message will ask the user for confirmation.
+
+    - Key 'start_after' -- Defines the amount of seconds to wait before automatically offering
+      the quest.
+
+    '''
+
+    __items_on_completion__ = {}
+    '''Items expected to be set once the quest is complete.
+
+    Should be in the form 'key': {...} , a dict of the key's content, or an empty dict for
+    using the default key's content.
+
+    '''
+
+    __conf_on_completion__ = {}
+    '''Quest configuration expected to be set once the quest is complete.
+
+    Should be in the form 'key': {...} , a dict of the key's content, or an empty dict for
+    using the default key's content.
+
+    '''
 
     def __init__(self):
         super().__init__()
 
     def setup(self):
-        '''Initialize/setup anything that is related to the quest implementation
+        '''Initialize/setup anything that is related to the quest implementation.
 
         Instead of having to define a constructor, subclasses of Quest should set up anything
         related to their construction in this method. This way Quest implementations should
@@ -1626,10 +1701,33 @@ class Quest(_Quest):
         readable.
 
         This method is called just once (in the Quest's base constructor). Code that needs to
-        be called on every quest run, should be added to the `step_begin` method.
+        be called on every quest run, should be added to the :meth:`step_begin()` method.
 
         '''
         pass
+
+    def step_begin(self):
+        '''Step method that is executed when the quest runs.
+
+        This method must be defined by subclasses of Quest.
+
+        Steps must return the name of the next step to be executed. This is how you can build
+        the control flow. The last step must complete and stop the quest. You can ues the
+        :meth:`step_complete_and_stop()` method, or write your own.
+
+        '''
+        raise NotImplementedError
+
+    def step_complete_and_stop(self, available=True):
+        '''Step method that completes and stop the quest.
+
+        :param bool available: Whether to keep the quest avaiable or not.
+
+        '''
+        self.complete = True
+        self.available = available
+        Sound.play('quests/quest-complete')
+        self.stop()
 
 
 class QuestSet(GObject.GObject):
