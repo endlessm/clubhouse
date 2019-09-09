@@ -1091,12 +1091,6 @@ class _Quest(GObject.GObject):
     def _get_message_variables(self):
         return {'user_name': GLib.get_real_name()}
 
-    @classmethod
-    def highlight_quest(self, quest_name):
-        other_quest = Registry.get_quest_by_name(quest_name)
-        if other_quest:
-            other_quest.props.highlighted = True
-
     def get_last_bg_sound_event_id(self):
         return self._last_bg_sound_uuid
 
@@ -1298,23 +1292,6 @@ class _Quest(GObject.GObject):
                 return quest
 
         return None
-
-    def highlight_character(self, character_id=None):
-        if character_id is not None:
-            character_mission = Registry.get_character_mission_for_character(character_id)
-            if character_mission is None:
-                logger.warning('Quest "%s" is trying to highlight character "%s", but there is'
-                               ' no such character mission.', self, character_id)
-                return
-
-        else:
-            character_mission = Registry.get_character_mission_for_quest(self)
-            if character_mission is None:
-                logger.warning('Quest "%s" is trying to highlight a character, but it doesn\'t'
-                               ' belong to any character mission.', self)
-                return
-
-        character_mission.highlighted = True
 
     @classmethod
     def is_narrative(class_):
@@ -1917,6 +1894,42 @@ class Quest(_Quest):
 
             for item_id, info in self.__conf_on_completion__.items():
                 self.gss.set(item_id, info)
+
+    # ** Highlighting elements of the UI **
+
+    def highlight_character(self, character_id=None):
+        '''Highlight a character in the Clubhouse main view.
+
+        :param character_id: The character ID to be highlighted. None to highlight the main
+            character of this quest.
+        :type character_id: str or None
+
+        '''
+        if character_id is not None:
+            character_mission = Registry.get_character_mission_for_character(character_id)
+            if character_mission is None:
+                logger.warning('Quest "%s" is trying to highlight character "%s", but there is'
+                               ' no such character mission.', self, character_id)
+                return
+
+        else:
+            character_mission = Registry.get_character_mission_for_quest(self)
+            if character_mission is None:
+                logger.warning('Quest "%s" is trying to highlight a character, but it doesn\'t'
+                               ' belong to any character mission.', self)
+                return
+
+        character_mission.highlighted = True
+
+    def highlight_quest(self, quest_name):
+        '''Highlight a quest listed in the UI.
+
+        :param str quest_name: The quest to be highlighted.
+
+        '''
+        other_quest = Registry.get_quest_by_name(quest_name)
+        if other_quest:
+            other_quest.props.highlighted = True
 
 
 class QuestSet(GObject.GObject):
