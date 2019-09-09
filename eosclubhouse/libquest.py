@@ -1238,25 +1238,6 @@ class _Quest(GObject.GObject):
         self._highlighted = is_highlighted
         self.notify('highlighted')
 
-    def save_conf(self):
-        conf_key = self._get_conf_key()
-        for key, value in self.conf.items():
-            variant = convert_variant_arg({key: value})
-            self.gss.set_async(conf_key, variant)
-
-        if self.complete:
-            for item_id, extra_info in self.__items_on_completion__.items():
-                self._set_item(item_id, extra_info, skip_if_exists=True)
-
-            for item_id, info in self.__conf_on_completion__.items():
-                self.gss.set(item_id, info)
-
-    def set_conf(self, key, value):
-        self.conf[key] = value
-
-    def get_conf(self, key):
-        return self.conf.get(key)
-
     def dismiss(self):
         self.emit('dismissed')
 
@@ -1900,6 +1881,42 @@ class Quest(_Quest):
 
         '''
         self._run_context.wait_for_one(action_list, timeout)
+
+    # ** Configuration **
+
+    def get_conf(self, key):
+        '''Get the configuration stored for the quest.
+
+        This is loaded automatically when the quest is instantiated.
+
+        '''
+        return self.conf.get(key)
+
+    def set_conf(self, key, value):
+        '''Set configuration to be stored for the quest.
+
+        You should call :meth:`save_conf()` to store the changes.
+
+        '''
+        self.conf[key] = value
+
+    def save_conf(self):
+        '''Store the configuration of the quest.
+
+        This is stored in the game-state-service, in a special section for this quest.
+
+        '''
+        conf_key = self._get_conf_key()
+        for key, value in self.conf.items():
+            variant = convert_variant_arg({key: value})
+            self.gss.set_async(conf_key, variant)
+
+        if self.complete:
+            for item_id, extra_info in self.__items_on_completion__.items():
+                self._set_item(item_id, extra_info, skip_if_exists=True)
+
+            for item_id, info in self.__conf_on_completion__.items():
+                self.gss.set(item_id, info)
 
 
 class QuestSet(GObject.GObject):
