@@ -617,28 +617,18 @@ class _Quest(GObject.GObject):
         ),
     }
 
+    # @todo: This should be obtained from the spreadsheet, not defined as a property.
     __sound_on_run_begin__ = 'quests/quest-given'
+
     # @todo: Is this still relevant?
     __available_after_completing_quests__ = []
-    # Should be in the form 'key': {...} , a dict of the key's content, or an empty dict for
-    # using the default key's content.
-    __items_on_completion__ = {}
-    __conf_on_completion__ = {}
+
+    # @todo: This should not be defined as property.
     __proposal_message_id__ = 'QUESTION'
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
     _DEFAULT_MOOD = 'talk'
 
-    __quest_name__ = None
-    __tags__ = []
-    __mission_order__ = 0
-    __pathway_order__ = 0
-
-    __is_narrative__ = False
-
-    __auto_offer_info__ = {'confirm_before': True, 'start_after': 3}
-
-    skippable = GObject.Property(type=bool, default=False)
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
     continue_message = GObject.Property(type=str, default="You haven't completed my challenge yet!")
     proposal_message = GObject.Property(type=str, default="Do you want to go for a challenge?")
@@ -655,8 +645,6 @@ class _Quest(GObject.GObject):
     }
 
     stopping = GObject.Property(type=bool, default=False)
-
-    auto_offer = GObject.Property(type=bool, default=False)
 
     def __init__(self):
         super().__init__()
@@ -1439,14 +1427,8 @@ class _Quest(GObject.GObject):
     def get_complete(self):
         return self.conf['complete']
 
-    def _get_complete(self):
-        return self.get_complete()
-
     def set_complete(self, is_complete):
         self.conf['complete'] = is_complete
-
-    def _set_complete(self, is_complete):
-        self.set_complete(is_complete)
 
     def _get_highlighted(self):
         return self._highlighted
@@ -1490,15 +1472,6 @@ class _Quest(GObject.GObject):
     def is_named_quest_complete(self, class_name):
         data = self.get_named_quest_conf(class_name, 'complete')
         return data is not None and data
-
-    def _get_available(self):
-        return self._available
-
-    def _set_available(self, value):
-        if self._available == value:
-            return
-        self._available = value
-        self.notify('available')
 
     def with_app_launched(app_name, otherwise='abort'):
         def wrapper(func):
@@ -1571,13 +1544,6 @@ class _Quest(GObject.GObject):
     def get_id(class_):
         return class_.__name__
 
-    available = GObject.Property(_get_available, _set_available, type=bool, default=True,
-                                 flags=GObject.ParamFlags.READWRITE |
-                                 GObject.ParamFlags.EXPLICIT_NOTIFY)
-
-    complete = GObject.Property(_get_complete, _set_complete, type=bool, default=False,
-                                flags=GObject.ParamFlags.READWRITE |
-                                GObject.ParamFlags.EXPLICIT_NOTIFY)
     highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False,
                                    flags=GObject.ParamFlags.READWRITE |
                                    GObject.ParamFlags.EXPLICIT_NOTIFY)
@@ -1590,6 +1556,137 @@ class Quest(_Quest):
     - Write a :meth:`step_begin()` method.
     - Build the flow of steps by returning the name of the next step from steps.
     - Finish by returning :meth:`step_complete_and_stop()` from a step.
+    '''
+
+    # ** Properties **
+
+    # @todo: Obtain the quest name from the spreadsheet.
+    __quest_name__ = None
+    '''Quest name displayed in the UI.
+
+    If not set, the class name will be used.
+
+    .. warning::
+
+       In near future this will be obtained from the spreadsheet, like every string exposed in
+       the UI.
+
+    '''
+
+    __tags__ = []
+    '''Generic tags for the quest.
+
+    This is a list of generic tags (strings). There are tags treated specially, they start with
+    a prefix separated of the rest by a colon:
+
+    - 'mission:SOME_CHARACTER' -- Makes this quest belong to a character mission.
+
+    - 'pathway:SOME_PATHWAY' -- Makes this quest belong to a pathway.
+
+    - 'difficulty:SOME_DIFFICULTY' -- Define the difficulty of this quest. Can be 'easy',
+      'normal' or 'hard'.
+
+    '''
+
+    __mission_order__ = 0
+    '''Order of this quest in missions.
+
+    Quests in the same mission will be sorted by this number. A smaller number will make the
+    quest appear closer to the beginning of the list.
+
+    '''
+
+    __pathway_order__ = 0
+    '''Order of this quest in pathways.
+
+    Quests in the same pathway will be sorted by this number. A smaller number will make the
+    quest appear closer to the beginning of the list.
+
+    '''
+
+    __is_narrative__ = False
+    '''Whether the quest is narrative or not.
+
+    Only narrative quests can be displayed in character missions.
+
+    '''
+
+    __auto_offer_info__ = {'confirm_before': True, 'start_after': 3}
+    '''A dictionary containing the information for auto-offered quests.
+
+    If the quest is automatically offered, this information is used to:
+
+    - Key 'confirm_before' -- Defines if the auto-offer needs to be confirmed by the user. If
+      so, a popup message will ask the user for confirmation.
+
+    - Key 'start_after' -- Defines the amount of seconds to wait before automatically offering
+      the quest.
+
+    '''
+
+    __items_on_completion__ = {}
+    '''Items expected to be set once the quest is complete.
+
+    Should be in the form 'key': {...} , a dict of the key's content, or an empty dict for
+    using the default key's content.
+
+    '''
+
+    __conf_on_completion__ = {}
+    '''Quest configuration expected to be set once the quest is complete.
+
+    Should be in the form 'key': {...} , a dict of the key's content, or an empty dict for
+    using the default key's content.
+
+    '''
+
+    # @todo: This should be __auto_offer__ like other Quest attributes.
+    auto_offer = GObject.Property(type=bool, default=False)
+    '''Defines if this quest is automatically offered as soon as it is available.
+
+    Define this in the :meth:`setup()` method.
+    '''
+
+    # @todo: This should be __skippable__ like other Quest attributes.
+    skippable = GObject.Property(type=bool, default=False)
+    '''True if the quest shouldn't be presented in the UI.
+
+    Define this in the :meth:`setup()` method.
+    '''
+
+    def _get_available(self):
+        return self._available
+
+    def _set_available(self, value):
+        if self._available == value:
+            return
+        self._available = value
+        self.notify('available')
+
+    available = GObject.Property(_get_available, _set_available, type=bool, default=True,
+                                 flags=GObject.ParamFlags.READWRITE |
+                                 GObject.ParamFlags.EXPLICIT_NOTIFY)
+    '''Property that holds if the quest is available or not.
+
+    Set `self.available = False` when you want this the quest to not be avaiable anymore. Or
+    use the :meth:`step_complete_and_stop()` method, which does it for you.
+
+    '''
+
+    def _get_complete(self):
+        return self.get_complete()
+
+    def _set_complete(self, is_complete):
+        self.set_complete(is_complete)
+
+    complete = GObject.Property(_get_complete, _set_complete, type=bool, default=False,
+                                flags=GObject.ParamFlags.READWRITE |
+                                GObject.ParamFlags.EXPLICIT_NOTIFY)
+    '''Property that holds if the quest is complete or not.
+
+    Set `self.complete = True` when the quest is completed. Or use the
+    :meth:`step_complete_and_stop()` method, which does it for you.
+
     '''
 
     def __init__(self):
