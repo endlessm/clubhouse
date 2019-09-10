@@ -587,7 +587,7 @@ class NoMessageIdError(Exception):
     pass
 
 
-class Quest(GObject.GObject):
+class _Quest(GObject.GObject):
 
     Difficulty = IntEnum('Difficulty', ['EASY', 'NORMAL', 'HARD'])
     DEFAULT_DIFFICULTY = Difficulty.NORMAL
@@ -1581,6 +1581,19 @@ class Quest(GObject.GObject):
     highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False,
                                    flags=GObject.ParamFlags.READWRITE |
                                    GObject.ParamFlags.EXPLICIT_NOTIFY)
+
+
+class Quest(_Quest):
+    '''Hack Quests are written by subclassing this class.
+
+    - Define your quest using attributes like :attr:`__tags__` below.
+    - Write a :meth:`step_begin()` method.
+    - Build the flow of steps by returning the name of the next step from steps.
+    - Finish by returning :meth:`step_complete_and_stop()` from a step.
+    '''
+
+    def __init__(self):
+        super().__init__()
 
 
 class QuestSet(GObject.GObject):
