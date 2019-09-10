@@ -8,6 +8,8 @@
     <file preprocess="xml-stripblanks">episode-row.ui</file>
     <file preprocess="xml-stripblanks">episodes-view.ui</file>
     <file preprocess="xml-stripblanks">clubhouse-window.ui</file>
+    <file preprocess="xml-stripblanks">news-view.ui</file>
+    <file preprocess="xml-stripblanks">news-item.ui</file>
     <file preprocess="xml-stripblanks">message.ui</file>
     <file preprocess="xml-stripblanks">pathway-list.ui</file>
     <file preprocess="xml-stripblanks">pathway-icon.ui</file>
@@ -35,6 +37,8 @@
     <file preprocess="xml-stripblanks">clubhouse-pathway-operatingsystem.svg</file>
     <file preprocess="xml-stripblanks">clubhouse-pathway-web.svg</file>
     <file preprocess="xml-stripblanks">clubhouse-pathway-unknown.svg</file>
+    <file preprocess="xml-stripblanks">scalable/apps/facebook-symbolic.svg</file>
     <file preprocess="xml-stripblanks">scalable/apps/instagram-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">scalable/apps/twitter-symbolic.svg</file>
   </gresource>
 </gresources>

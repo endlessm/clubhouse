@@ -29,6 +29,7 @@ gi.require_version('Json', '1.0')
 import os
 import re
 import time
+import datetime
 
 from collections import OrderedDict
 from enum import Enum
@@ -83,6 +84,34 @@ class _DictFromCSV:
 
     @classmethod
     def set_key_value_from_csv_row(class_, csv_row, contents_dict):
+        raise NotImplementedError()
+
+
+class _ListFromCSV:
+
+    _csv_list = []
+
+    def __init__(self, csv_path):
+        if self._csv_list:
+            return
+        self._load_csv(csv_path)
+
+    @classmethod
+    def get_list(class_):
+        return class_._csv_list
+
+    @classmethod
+    def _load_csv(class_, csv_path):
+        first = True
+        with open(csv_path, 'r') as csv_file:
+            for row in csv.reader(csv_file):
+                if not first:
+                    class_.append_value_from_csv_row(row, class_._csv_list)
+                else:
+                    first = False
+
+    @classmethod
+    def append_value_from_csv_row(class_, csv_row, contents):
         raise NotImplementedError()
 
 
@@ -257,6 +286,25 @@ class EpisodesDB(_DictFromCSV):
     @classmethod
     def get_episodes_in_season(class_, season):
         return [episode for key, episode in class_.get_all_episodes() if episode.season == season]
+
+
+class NewsFeedItem():
+    def __init__(self, date, character, image, image_href, text):
+        super().__init__()
+        self.date = datetime.date.fromisoformat(date)
+        self.character = character
+        self.image = image
+        self.image_href = image_href
+        self.text = text
+
+
+class NewsFeedDB(_ListFromCSV):
+    def __init__(self):
+        super().__init__(config.NEWSFEED_CSV)
+
+    @classmethod
+    def append_value_from_csv_row(class_, csv_row, contents):
+        contents.append(NewsFeedItem(*csv_row))
 
 
 class SimpleMarkupParser:

@@ -5,6 +5,9 @@ CHARACTERS_DIR=@characters_dir@
 ITEM_ICONS_DIR=@item_icons_dir@
 EPISODES_DIR=@episodes_dir@
 EPISODES_CSV=@episodes_csv@
+NEWSFEED_DIR=@newsfeed_dir@
+NEWSFEED_CSV=@newsfeed_csv@
 DATA_DIR=@data_dir@
 RESET_SCRIPT_PATH=@reset_script_path@
 DEFAULT_EPISODE_NAME='hack2'
+
