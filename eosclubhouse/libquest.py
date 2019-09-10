@@ -1499,6 +1499,17 @@ class Quest(_Quest):
         '''
         raise NotImplementedError
 
+    def step_complete_and_stop(self, available=True):
+        '''Step method that completes and stop the quest.
+
+        :param bool available: Whether to keep the quest avaiable or not.
+
+        '''
+        self.complete = True
+        self.available = available
+        Sound.play('quests/quest-complete')
+        self.stop()
+
     # ** Displaying messages **
 
     def show_message(self, message_id=None, **options):
