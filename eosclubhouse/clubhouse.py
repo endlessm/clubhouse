@@ -36,7 +36,7 @@ from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import Desktop, GameStateService, UserAccount, Sound
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
-    get_character_animation_dirs
+    Direction, get_character_animation_dirs
 
 from eosclubhouse.episodes import BadgeButton, PosterWindow
 
@@ -457,31 +457,188 @@ class QuestSetButton(Gtk.Button):
     position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
 
 
+class MessageBox(Gtk.Fixed):
+    MIN_MESSAGE_WIDTH = 320
+    MIN_MESSAGE_WIDTH_RATIO = 0.8
+
+    DEFAULT_ANIMATION_INTERVAL_MS = 20
+    DEFAULT_ANIMATION_DURATION_MS = 400
+
+    def __init__(self, app_window):
+        super().__init__()
+        self._app_window = app_window
+        self._messages_in_scene = []
+
+    def _animate_message(self, message, direction, end_position, done_action_cb=None, *args):
+        if direction in (Direction.LEFT, Direction.RIGHT):
+            axis_prop = 'x'
+        else:
+            axis_prop = 'y'
+
+        current_position = self.child_get_property(message, axis_prop)
+        distance = abs(end_position - current_position)
+        speed_ms_per_px = distance / self.DEFAULT_ANIMATION_DURATION_MS
+        delta = speed_ms_per_px * self.DEFAULT_ANIMATION_INTERVAL_MS
+
+        if direction in (Direction.LEFT, Direction.UP):
+            delta = -delta
+
+        GLib.timeout_add(self.DEFAULT_ANIMATION_INTERVAL_MS, self._move_message_cb, message,
+                         end_position, delta, direction, axis_prop, done_action_cb, *args)
+
+    def _move_message_cb(self, message, end_position, delta, direction, axis_prop,
+                         done_action_cb, *args):
+        current_position = self.child_get_property(message, axis_prop)
+        new_position = current_position + delta
+
+        negative_directions = (Direction.LEFT, Direction.UP)
+        positive_directions = (Direction.RIGHT, Direction.DOWN)
+        if (direction in negative_directions and new_position <= end_position or
+                direction in positive_directions and new_position >= end_position):
+            self.child_set_property(message, axis_prop, end_position)
+            if done_action_cb is not None:
+                done_action_cb(*args)
+            return GLib.SOURCE_REMOVE
+        self.child_set_property(message, axis_prop, new_position)
+        return True
+
+    def clear_messages(self):
+        # @todo: Cancel pending/delayed message additions.
+        for message in self.get_children():
+            self.remove(message)
+        self._messages_in_scene = []
+
+    def _guess_message_direction(self, message):
+        if message.get_character().id == self._app_window.character._character.id:
+            return Direction.RIGHT
+        return Direction.LEFT
+
+    def _build_message_from_info(self, message_info):
+        msg = Message()
+        msg.update(message_info)
+
+        overlay_width = self._app_window.character._character_overlay.get_allocation().width
+        msg.props.width_request = \
+            min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
+                                   overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
+
+        if message_info.get('character_id') == self._app_window.character._character.id:
+            msg.display_character(False)
+            msg.props.halign = Gtk.Align.START
+        else:
+            msg.display_character(True)
+        return msg
+
+    def add_message(self, message_info):
+        current_quest = self._app_window.clubhouse.running_quest
+        if current_quest is None or current_quest.stopping:
+            return
+
+        message = self._build_message_from_info(message_info)
+        direction = self._guess_message_direction(message)
+
+        # Hide actions on old messages.
+        for child_message in self.get_children():
+            child_message.clear_buttons()
+
+        messages_in_scene = [msg for msg in self._messages_in_scene]
+        if len(messages_in_scene) == self.max_messages:
+            self._withdraw_top_message()
+            self._slide_messages_up_with_delay(messages_in_scene, message,
+                                               self.DEFAULT_ANIMATION_DURATION_MS)
+            self._add_message_with_delay(messages_in_scene, message, direction,
+                                         self.DEFAULT_ANIMATION_DURATION_MS * 2)
+        else:
+            self._slide_messages_up(messages_in_scene, message)
+            self._add_message_with_delay(messages_in_scene, message, direction,
+                                         self.DEFAULT_ANIMATION_DURATION_MS)
+
+    def _add_message(self, messages_in_scene, message, direction):
+        initial_x_pos, initial_y_pos = self._get_next_initial_position(message, direction)
+        final_x_pos = 0
+        self.put(message, initial_x_pos, initial_y_pos)
+
+        self._messages_in_scene.append(message)
+        self._animate_message(message, direction, final_x_pos)
+
+        message.show()
+
+    def _add_message_with_delay(self, messages_in_scene, message, direction, duration_ms):
+        GLib.timeout_add(duration_ms, self._add_message, messages_in_scene, message, direction)
+
+    def _get_next_initial_position(self, message, direction):
+        assert direction in (Direction.LEFT, Direction.RIGHT)
+
+        allocation = self.get_allocation()
+        msg_height = self._get_message_height(message)
+
+        y_pos = allocation.height - msg_height
+        if direction == Direction.RIGHT:
+            x_pos = -message.props.width_request
+        else:
+            x_pos = allocation.width
+        return x_pos, y_pos
+
+    def _withdraw_top_message(self):
+        message = self._messages_in_scene.pop(0)
+        direction = self._guess_message_direction(message).get_opposite()
+        assert direction in (Direction.LEFT, Direction.RIGHT)
+
+        message_width = message.get_preferred_width().natural_width
+        if direction == Direction.LEFT:
+            final_position = -message_width
+        else:
+            final_position = self.get_allocation().width
+
+        self._animate_message(message, direction, final_position, self.remove, message)
+
+    def _slide_messages_up(self, messages_in_scene, new_message):
+        new_message_height = self._get_message_height(new_message)
+        if len(messages_in_scene) < self.max_messages:
+            messages_to_slide = messages_in_scene
+        else:
+            messages_to_slide = messages_in_scene[1:]
+
+        for msg in messages_to_slide:
+            current_y = self.child_get_property(msg, 'y')
+            self._animate_message(msg, Direction.UP, current_y - new_message_height)
+
+    def _slide_messages_up_with_delay(self, messages_in_scene, new_message, duration_ms):
+        GLib.timeout_add(duration_ms, self._slide_messages_up, messages_in_scene, new_message)
+
+    def _get_message_height(self, message):
+        return message.get_preferred_height_for_width(message.props.width_request).natural_height
+
+    max_messages = GObject.Property(default=2, type=int)
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/character-view.ui')
 class CharacterView(Gtk.Grid):
 
     __gtype_name__ = 'CharacterView'
 
-    MAX_MESSAGES = 2
-    MIN_MESSAGE_WIDTH = 320
-    MIN_MESSAGE_WIDTH_RATIO = 0.8
-
     header_box = Gtk.Template.Child()
     _list = Gtk.Template.Child()
+    _view_overlay = Gtk.Template.Child()
     _character_overlay = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
     _character_button = Gtk.Template.Child()
-    _message_list = Gtk.Template.Child()
     _missions_scrolled_window = Gtk.Template.Child()
 
     def __init__(self, app_window):
         super().__init__(visible=True)
         self._app_window = app_window
 
+        self.message_box = MessageBox(app_window)
+        self._view_overlay.add_overlay(self.message_box)
+        self._view_overlay.set_overlay_pass_through(self.message_box, True)
+
         self._animator = Animator(self._character_image)
         self._character = None
         self._scale = 1
         self._list.connect('row-activated', self._quest_row_clicked_cb)
+
+        self.message_box.show_all()
 
     def _update_character_image(self):
         if self._character is None:
@@ -500,41 +657,6 @@ class CharacterView(Gtk.Grid):
     def set_scale(self, scale):
         self._scale = scale
         self._update_character_image()
-
-    def add_message(self, message_info):
-        current_quest = self._app_window.clubhouse.running_quest
-        if current_quest is None or current_quest.stopping:
-            return
-
-        if len(self._message_list.get_children()) == self.MAX_MESSAGES:
-            row = self._message_list.get_row_at_index(0)
-            self._message_list.remove(row)
-
-        msg = Message()
-        msg.update(message_info)
-        self._message_list.add(msg)
-
-        overlay_width = self._character_overlay.get_allocation().width
-        msg.props.width_request = \
-            min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
-                                   overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
-
-        if message_info.get('character_id') == self._character.id:
-            msg.display_character(False)
-            msg.props.halign = Gtk.Align.START
-        else:
-            msg.display_character(True)
-            msg.props.halign = Gtk.Align.END
-
-        # Hide actions on old messages.
-        for row in self._message_list.get_children()[:-1]:
-            row.get_child().clear_buttons()
-
-        msg.show()
-
-    def clear_messages(self):
-        for row in self._message_list.get_children():
-            self._message_list.remove(row)
 
     def show_mission_list(self, quest_set):
         # Get character
@@ -879,13 +1001,13 @@ class ClubhouseView(Gtk.EventBox):
         if message_info['type'] == libquest.Quest.MessageType.POPUP:
             self._shell_popup_message(message_info)
         elif message_info['type'] == libquest.Quest.MessageType.NARRATIVE:
-            self._app_window.character.add_message(message_info)
+            self._app_window.character.message_box.add_message(message_info)
 
     def _quest_dismiss_message_cb(self, quest, narrative=False):
         if not narrative:
             self._shell_close_popup_message()
         else:
-            self._app_window.character.clear_messages()
+            self._app_window.character.message_box.clear_messages()
 
     def _reset_delayed_message(self):
         if self._delayed_message_handler > 0:
@@ -906,7 +1028,7 @@ class ClubhouseView(Gtk.EventBox):
 
         if self._current_quest is None:
             self._shell_close_popup_message()
-            self._app_window.character.clear_messages()
+            self._app_window.character.message_box.clear_messages()
 
         self._current_quest_notification = None
 
