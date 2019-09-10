@@ -697,19 +697,6 @@ class _Quest(GObject.GObject):
 
         self.setup()
 
-    def setup(self):
-        '''Initialize/setup anything that is related to the quest implementation
-
-        Instead of having to define a constructor, subclasses of Quest should set up anything
-        related to their construction in this method. This way Quest implementations should
-        only define a constructor when needed, which simplifies the quests making them more
-        readable.
-
-        This method is called just once (in the Quest's base constructor). Code that needs
-        to be called on every quest run, should be added to the `step_begin` method.
-        '''
-        pass
-
     def _get_message_info(self, message_id):
         message_info = QuestStringCatalog.get_info(message_id)
 
@@ -816,45 +803,6 @@ class _Quest(GObject.GObject):
     def set_next_step(self, step_func, delay=0, args=()):
         assert self._run_context is not None
         self._run_context.set_next_step(step_func, delay, args)
-
-    def ask_for_app_launch(self, app, timeout=None, pause_after_launch=2, message_id='LAUNCH',
-                           give_app_icon=True):
-        if app.is_running() or self.is_cancelled():
-            return
-
-        if message_id is not None:
-            self.show_hints_message(message_id)
-
-        if give_app_icon:
-            self.give_app_icon(app.dbus_name)
-
-        self.wait_for_app_launch(app, timeout=timeout, pause_after_launch=pause_after_launch)
-
-    def wait_for_app_launch(self, app, timeout=None, pause_after_launch=0):
-        assert self._run_context is not None
-
-        async_action = self._run_context.new_async_action()
-        if async_action.is_cancelled():
-            return async_action
-
-        if app.is_running():
-            async_action.state = AsyncAction.State.DONE
-            return async_action
-
-        def _on_app_running_changed(app, async_action):
-            if app.is_running() and not async_action.is_resolved():
-                async_action.resolve()
-
-        handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
-
-        self._run_context.wait_for_action(async_action, timeout)
-
-        app.disconnect_running_change(handler_id)
-
-        if async_action.is_done() and pause_after_launch > 0:
-            self.pause(pause_after_launch)
-
-        return async_action
 
     def wait_for_app_js_props_changed(self, app, props, timeout=None):
         return self.connect_app_js_props_changes(app, props).wait(timeout)
@@ -1048,56 +996,12 @@ class _Quest(GObject.GObject):
 
         return async_action
 
-    def pause(self, secs):
-        assert self._run_context is not None
-        return self._run_context.pause(secs)
-
-    def wait_confirm(self, msg_id=None, timeout=None, **options):
-        return self.show_confirm_message(msg_id, **options).wait(timeout)
-
+    # @todo: Is this still needed?
     def get_confirm_action(self):
         assert self._run_context is not None
 
         async_action = self._run_context.get_confirm_action()
         return async_action
-
-    def show_confirm_message(self, msg_id, **options):
-        assert self._run_context is not None
-
-        async_action = self.get_confirm_action()
-        if async_action.is_cancelled():
-            return async_action
-
-        self._confirmed_step = False
-        options.update({'use_confirm': True})
-        self.show_message(msg_id, **options)
-
-        return async_action
-
-    def show_choices_message(self, msg_id, *user_choices, **options):
-        assert self._run_context is not None
-
-        async_action = self._run_context.new_async_action()
-
-        if async_action.is_cancelled():
-            return async_action
-
-        def _callback_and_resolve(async_action, callback, *callback_args):
-            ret = callback(*callback_args)
-            async_action.resolve(ret)
-
-        choices = options.get('choices', [])
-        for option_msg_id, callback, *args in user_choices:
-            option_label = QS('{}_{}'.format(self._qs_base_id, option_msg_id))
-            choices.append((option_label, _callback_and_resolve, async_action, callback, *args))
-
-        options.update({'choices': choices})
-        self.show_message(msg_id, **options)
-
-        return async_action
-
-    def wait_for_one(self, action_list, timeout=None):
-        self._run_context.wait_for_one(action_list, timeout)
 
     def set_to_background(self):
         if self._run_context is not None:
@@ -1187,109 +1091,6 @@ class _Quest(GObject.GObject):
     def _get_message_variables(self):
         return {'user_name': GLib.get_real_name()}
 
-    def show_message(self, info_id=None, **options):
-        if info_id is not None:
-            full_info_id = self._qs_base_id + '_' + info_id
-            info = self._get_message_info(full_info_id)
-
-            # Fallback to the given info_id if no string was found
-            if info is None:
-                info = self._get_message_info(info_id)
-            else:
-                info_id = full_info_id
-
-            if info is None:
-                raise NoMessageIdError("Can't show message, the message ID " + info_id +
-                                       " is not in the catalog.")
-
-            options.update(info)
-
-        if options.get('narrative', False):
-            message_type = self.MessageType.NARRATIVE
-        else:
-            message_type = self.MessageType.POPUP
-
-        if not self.is_narrative() and message_type == self.MessageType.NARRATIVE:
-            logger.warning('Can\'t show message %r, quest %r is not narrative.', info_id, self)
-            return
-
-        possible_answers = []
-        if options.get('choices'):
-            possible_answers = [(text, callback, *args)
-                                for text, callback, *args
-                                in options['choices']]
-
-        if options.get('use_confirm'):
-            confirm_label = options.get('confirm_label', '>')
-            possible_answers = [(confirm_label, self._confirm_step)] + possible_answers
-
-        sfx_sound = options.get('sfx_sound')
-        if not sfx_sound:
-            if info_id == 'ABORT':
-                sfx_sound = self._default_abort_sound
-            elif info_id == 'QUESTION':
-                sfx_sound = self.proposal_sound
-            else:
-                sfx_sound = self._main_open_dialog_sound
-        bg_sound = options.get('bg_sound')
-
-        self.emit('message', {
-            'id': info_id,
-            'text': options['parsed_text'],
-            'choices': possible_answers,
-            'character_id': options.get('character_id') or self.get_main_character(),
-            'character_mood': options.get('mood') or self._main_mood,
-            'sound_fx': sfx_sound,
-            'sound_bg': bg_sound,
-            'type': message_type,
-        })
-
-    def dismiss_message(self, narrative=False):
-        self.emit('dismiss-message', narrative)
-
-    def reset_hints_given_once(self):
-        self._hints_given_once = set()
-
-    def _show_next_hint_message(self, info_list, index=0):
-        label = "I'd like another hint"
-        if index == 0:
-            label = "Give me a hint"
-        elif index == len(info_list) - 1:
-            label = "What's my goal?"
-
-        info_id = info_list[index]
-        next_index = (index + 1) % len(info_list)
-        next_hint = functools.partial(self._show_next_hint_message, info_list, next_index)
-        self.show_message(info_id=info_id, choices=[(label, next_hint)])
-
-    def show_hints_message(self, info_id, give_once=False):
-        if give_once:
-            if info_id in self._hints_given_once:
-                return
-            else:
-                self._hints_given_once.add(info_id)
-
-        full_info_id = self._qs_base_id + '_' + info_id
-        info_id_list = QuestStringCatalog.get_hint_keys(full_info_id)
-
-        # Fallback to the given info_id if no string was found
-        if info_id_list is None:
-            full_info_id = info_id
-            info_id_list = QuestStringCatalog.get_hint_keys(full_info_id)
-
-        if len(info_id_list) == 1:
-            logger.warning('Asked for messages hints, but no hints were found for ID %s; '
-                           'not showing the hints button.', info_id)
-            self.show_message(info_id)
-        else:
-            self._show_next_hint_message(info_id_list)
-
-    @classmethod
-    def highlight_quest(self, quest_name):
-        other_quest = Registry.get_quest_by_name(quest_name)
-        if other_quest:
-            other_quest.props.highlighted = True
-
     def get_last_bg_sound_event_id(self):
         return self._last_bg_sound_uuid
 
@@ -1377,14 +1178,6 @@ class _Quest(GObject.GObject):
 
         return class_.DEFAULT_DIFFICULTY
 
-    @classmethod
-    def give_app_icon(class_, app_name):
-        if not Desktop.is_app_in_grid(app_name):
-            Sound.play('quests/new-icon')
-            Desktop.add_app_to_grid(app_name)
-
-        Desktop.focus_app(app_name)
-
     def on_key_event(self, event):
         self.key_event = True
 
@@ -1438,25 +1231,6 @@ class _Quest(GObject.GObject):
             return
         self._highlighted = is_highlighted
         self.notify('highlighted')
-
-    def save_conf(self):
-        conf_key = self._get_conf_key()
-        for key, value in self.conf.items():
-            variant = convert_variant_arg({key: value})
-            self.gss.set_async(conf_key, variant)
-
-        if self.complete:
-            for item_id, extra_info in self.__items_on_completion__.items():
-                self._set_item(item_id, extra_info, skip_if_exists=True)
-
-            for item_id, info in self.__conf_on_completion__.items():
-                self.gss.set(item_id, info)
-
-    def set_conf(self, key, value):
-        self.conf[key] = value
-
-    def get_conf(self, key):
-        return self.conf.get(key)
 
     def dismiss(self):
         self.emit('dismissed')
@@ -1518,23 +1292,6 @@ class _Quest(GObject.GObject):
                 return quest
 
         return None
-
-    def highlight_character(self, character_id=None):
-        if character_id is not None:
-            character_mission = Registry.get_character_mission_for_character(character_id)
-            if character_mission is None:
-                logger.warning('Quest "%s" is trying to highlight character "%s", but there is'
-                               ' no such character mission.', self, character_id)
-                return
-
-        else:
-            character_mission = Registry.get_character_mission_for_quest(self)
-            if character_mission is None:
-                logger.warning('Quest "%s" is trying to highlight a character, but it doesn\'t'
-                               ' belong to any character mission.', self)
-                return
-
-        character_mission.highlighted = True
 
     @classmethod
     def is_narrative(class_):
@@ -1691,6 +1448,477 @@ class Quest(_Quest):
 
     def __init__(self):
         super().__init__()
+
+    # ** Setup and steps **
+
+    def setup(self):
+        '''Initialize/setup anything that is related to the quest implementation.
+
+        Instead of having to define a constructor, subclasses of Quest should set up anything
+        related to their construction in this method. This way Quest implementations should
+        only define a constructor when needed, which simplifies the quests making them more
+        readable.
+
+        This method is called just once (in the Quest's base constructor). Code that needs to
+        be called on every quest run, should be added to the :meth:`step_begin()` method.
+
+        Example:
+
+        .. code-block::
+
+           def setup(self):
+               self.auto_offer = True
+               self.skippable = True
+
+        '''
+        pass
+
+    def step_begin(self):
+        '''Step method that is executed when the quest runs.
+
+        This method must be defined by subclasses of Quest.
+
+        Steps must return the name of the next step to be executed. This is how you can build
+        the control flow. The last step must complete and stop the quest. You can ues the
+        :meth:`step_complete_and_stop()` method, or write your own.
+
+        Example:
+
+        .. code-block::
+
+           def step_begin(self):
+               # ...
+               return self.step_play
+
+           def step_play(self):
+               # ...
+               return self.step_complete_and_stop
+
+        :returns: The name of the next step. Example: `return self.step_play`.
+
+        '''
+        raise NotImplementedError
+
+    # ** Displaying messages **
+
+    def show_message(self, message_id=None, **options):
+        '''Show a dialogue displayig the message with ID `message_id`.
+
+        The `message_id` must exist in the catalog. It's prefix can be omitted, in which case
+        the quest's name will be used as prefix.
+
+        :param str message_id: ID of a message from the strings catalog.
+        :param dict **options: The keyword arguments are documented below:
+
+        :param bool narrative: True if the message is narrative. By default this displays a
+            popup message in the Desktop, outside the Clubhouse. Passing `narrative=True` will
+            display a narrative message inside the Clubhouse, instead of a popup message. Note:
+            only narrative quests can display narrative messages. See :attr:`__is_narrative__`.
+
+        :param list choices: List of choices to display as buttons. Each choice is defined with
+            a tuple(text, callback, *args). Also see :meth:`show_choices_message()` to do it
+            automatically.
+
+        :param bool use_confirm: True to add a confirmation button. See
+            :meth:`show_confirm_message()` to do it automatically.
+
+        :param str confirm_label: Change the label of the confirm button. By default it's '>'.
+
+        '''
+        if message_id is not None:
+            full_message_id = self._qs_base_id + '_' + message_id
+            info = self._get_message_info(full_message_id)
+
+            # Fallback to the given message_id if no string was found
+            if info is None:
+                info = self._get_message_info(message_id)
+            else:
+                message_id = full_message_id
+
+            if info is None:
+                raise NoMessageIdError("Can't show message, the message ID " + message_id +
+                                       " is not in the catalog.")
+
+            options.update(info)
+
+        if options.get('narrative', False):
+            message_type = self.MessageType.NARRATIVE
+        else:
+            message_type = self.MessageType.POPUP
+
+        if not self.is_narrative() and message_type == self.MessageType.NARRATIVE:
+            logger.warning('Can\'t show message %r, quest %r is not narrative.', message_id, self)
+            return
+
+        possible_answers = []
+        if options.get('choices'):
+            possible_answers = [(text, callback, *args)
+                                for text, callback, *args
+                                in options['choices']]
+
+        if options.get('use_confirm'):
+            confirm_label = options.get('confirm_label', '>')
+            possible_answers = [(confirm_label, self._confirm_step)] + possible_answers
+
+        sfx_sound = options.get('sfx_sound')
+        if not sfx_sound:
+            if message_id == 'ABORT':
+                sfx_sound = self._default_abort_sound
+            elif message_id == 'QUESTION':
+                sfx_sound = self.proposal_sound
+            else:
+                sfx_sound = self._main_open_dialog_sound
+        bg_sound = options.get('bg_sound')
+
+        self.emit('message', {
+            'id': message_id,
+            'text': options['parsed_text'],
+            'choices': possible_answers,
+            'character_id': options.get('character_id') or self.get_main_character(),
+            'character_mood': options.get('mood') or self._main_mood,
+            'sound_fx': sfx_sound,
+            'sound_bg': bg_sound,
+            'type': message_type,
+        })
+
+    def dismiss_message(self, narrative=False):
+        '''Dismiss any current message dialogue.
+
+        :param bool narrative: Whether to dismiss a narrative message.
+
+        '''
+        self.emit('dismiss-message', narrative)
+
+    def _show_next_hint_message(self, info_list, index=0):
+        label = "I'd like another hint"
+        if index == 0:
+            label = "Give me a hint"
+        elif index == len(info_list) - 1:
+            label = "What's my goal?"
+
+        message_id = info_list[index]
+        next_index = (index + 1) % len(info_list)
+        next_hint = functools.partial(self._show_next_hint_message, info_list, next_index)
+        self.show_message(message_id=message_id, choices=[(label, next_hint)])
+
+    def show_hints_message(self, message_id, give_once=False):
+        '''Show a chain of dialogues displayig hints for the message with ID `message_id`.
+
+        You can use the same message ID with suffixes `_HINT1`, `_HINT2`, etc to display a
+        message with a number of hints. The message will loop between initial text and all the
+        hints in sequence. For example if you have message IDs in the spreadsheet like:
+
+        - `MYQUEST_FLIP`
+        - `MYQUEST_FLIP_HINT1`
+        - `MYQUEST_FLIP_HINT2`
+        - `MYQUEST_FLIP_HINT3`
+
+        You can display the message with hints in the quest with:
+
+        .. code-block::
+
+           self.show_hints_message('FLIP')
+
+        Passing the parameter `give_once=True` the hints will be given once and then
+        ignored. Use :meth:`reset_hints_given_once()` to reset it.
+
+        :param str message_id: ID of a message from the strings catalog.
+        :param bool give_once: Whether to give this hint only once.
+
+        '''
+        if give_once:
+            if message_id in self._hints_given_once:
+                return
+            else:
+                self._hints_given_once.add(message_id)
+
+        full_message_id = self._qs_base_id + '_' + message_id
+        message_id_list = QuestStringCatalog.get_hint_keys(full_message_id)
+
+        # Fallback to the given message_id if no string was found
+        if message_id_list is None:
+            full_message_id = message_id
+            message_id_list = QuestStringCatalog.get_hint_keys(full_message_id)
+
+        if len(message_id_list) == 1:
+            logger.warning('Asked for messages hints, but no hints were found for ID %s; '
+                           'not showing the hints button.', message_id)
+            self.show_message(message_id)
+        else:
+            self._show_next_hint_message(message_id_list)
+
+    def reset_hints_given_once(self):
+        '''Reset any hints given once.
+
+        Any hint given with :meth:`show_hints_message()` passing the parameter `give_once=True`
+        will be given once and then ignored. This method can be called in a step to reset that
+        and give the hint once again.
+
+        '''
+        self._hints_given_once = set()
+
+    def show_confirm_message(self, message_id, **options):
+        '''Show a message with a "Next" button
+
+        Show a message and automatically add a "Next" button to it.
+
+        :param str message_id: ID of a message from the strings catalog.
+        :param **options: See same keyword arguments of :meth:`show_message()`
+        :rtype: AsyncAction
+
+        '''
+        assert self._run_context is not None
+
+        async_action = self.get_confirm_action()
+        if async_action.is_cancelled():
+            return async_action
+
+        self._confirmed_step = False
+        options.update({'use_confirm': True})
+        self.show_message(message_id, **options)
+
+        return async_action
+
+    def wait_confirm(self, message_id=None, timeout=None, **options):
+        '''Show confirm message and wait for user confirmation.
+
+        This is the same as calling:
+
+        .. code-block::
+
+           self.show_confirm_message(...).wait()
+
+        :param str message_id: ID of a message from the strings catalog.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :param **options: See same keyword arguments of :meth:`show_message()`
+
+        '''
+        return self.show_confirm_message(message_id, **options).wait(timeout)
+
+    def show_choices_message(self, message_id, *user_choices, **options):
+        '''Show a message with choices.
+
+        Each choice is composed of a tuple:
+
+        - Option message ID -- The button label is obtained from the catalog with this ID.
+        - Callback -- A function to call when the button is pressed.
+        - Callback arguments -- The arguments to pass to the callback function.
+
+        The selected choice will be stored as the result of the returned :class:`AsyncAction`.
+
+        Example:
+
+        .. code-block::
+
+           def _callback(value):
+               return value
+
+           action = self.show_choices_message('MY_QUESTION',
+                                              ('MY_OPTION_A', _callback, True),
+                                              ('MY_OPTION_B', _callback, False)).wait()
+
+           value = action.future.result()
+
+        :rtype: AsyncAction
+
+        '''
+        assert self._run_context is not None
+
+        async_action = self._run_context.new_async_action()
+
+        if async_action.is_cancelled():
+            return async_action
+
+        def _callback_and_resolve(async_action, callback, *callback_args):
+            ret = callback(*callback_args)
+            async_action.resolve(ret)
+
+        choices = options.get('choices', [])
+        for option_msg_id, callback, *args in user_choices:
+            option_label = QS('{}_{}'.format(self._qs_base_id, option_msg_id))
+            choices.append((option_label, _callback_and_resolve, async_action, callback, *args))
+
+        options.update({'choices': choices})
+        self.show_message(message_id, **options)
+
+        return async_action
+
+    # ** App launching **
+
+    def ask_for_app_launch(self, app, timeout=None, pause_after_launch=2, message_id='LAUNCH',
+                           give_app_icon=True):
+        '''Ask the player to launch `app`.
+
+        And wait until the app is launched.
+
+        :param app: The application. This is the only mandatory parameter.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :param int pause_after_launch: Pause in seconds after the app is launched.
+        :param str message_id: The message ID to use in the dialogue. Can be a message with hints.
+
+        '''
+        if app.is_running() or self.is_cancelled():
+            return
+
+        if message_id is not None:
+            self.show_hints_message(message_id)
+
+        if give_app_icon:
+            self.give_app_icon(app.dbus_name)
+
+        self.wait_for_app_launch(app, timeout=timeout, pause_after_launch=pause_after_launch)
+
+    @classmethod
+    def give_app_icon(class_, app_name):
+        '''Display the icon for `app_name` in the Desktop.
+
+        You can use `:meth:ask_for_app_launch()` instead to also ask the player to launch the
+        app with a dialogue.
+
+        :param app_name: The application name.
+
+        '''
+        if not Desktop.is_app_in_grid(app_name):
+            Sound.play('quests/new-icon')
+            Desktop.add_app_to_grid(app_name)
+
+        Desktop.focus_app(app_name)
+
+    def wait_for_app_launch(self, app, timeout=None, pause_after_launch=0):
+        '''Wait until `app` is launched.
+
+        You can use `:meth:ask_for_app_launch()` instead to also ask the player to launch the
+        app with a dialogue.
+
+        :param app: The application. This is the only mandatory parameter.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :param int pause_after_launch: Pause in seconds after the app is launched.
+        :rtype: AsyncAction
+
+        '''
+        assert self._run_context is not None
+
+        async_action = self._run_context.new_async_action()
+        if async_action.is_cancelled():
+            return async_action
+
+        if app.is_running():
+            async_action.state = AsyncAction.State.DONE
+            return async_action
+
+        def _on_app_running_changed(app, async_action):
+            if app.is_running() and not async_action.is_resolved():
+                async_action.resolve()
+
+        handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
+
+        self._run_context.wait_for_action(async_action, timeout)
+
+        app.disconnect_running_change(handler_id)
+
+        if async_action.is_done() and pause_after_launch > 0:
+            self.pause(pause_after_launch)
+
+        return async_action
+
+    # ** Control flow **
+
+    def pause(self, secs):
+        '''Pause the execution for `secs` seconds.
+
+        :param int secs: Amount of seconds to pause.
+        :rtype: AsyncAction
+
+        '''
+        assert self._run_context is not None
+        return self._run_context.pause(secs)
+
+    def wait_for_one(self, action_list, timeout=None):
+        '''Wait until one of the actions is resolved.
+
+        After this returns, You should check which of the actions has resolved.
+
+        :param list action_list: List of :class:`AsyncAction`.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+
+        '''
+        self._run_context.wait_for_one(action_list, timeout)
+
+    # ** Configuration **
+
+    def get_conf(self, key):
+        '''Get the configuration stored for the quest.
+
+        This is loaded automatically when the quest is instantiated.
+
+        '''
+        return self.conf.get(key)
+
+    def set_conf(self, key, value):
+        '''Set configuration to be stored for the quest.
+
+        You should call :meth:`save_conf()` to store the changes.
+
+        '''
+        self.conf[key] = value
+
+    def save_conf(self):
+        '''Store the configuration of the quest.
+
+        This is stored in the game-state-service, in a special section for this quest.
+
+        '''
+        conf_key = self._get_conf_key()
+        for key, value in self.conf.items():
+            variant = convert_variant_arg({key: value})
+            self.gss.set_async(conf_key, variant)
+
+        if self.complete:
+            for item_id, extra_info in self.__items_on_completion__.items():
+                self._set_item(item_id, extra_info, skip_if_exists=True)
+
+            for item_id, info in self.__conf_on_completion__.items():
+                self.gss.set(item_id, info)
+
+    # ** Highlighting elements of the UI **
+
+    def highlight_character(self, character_id=None):
+        '''Highlight a character in the Clubhouse main view.
+
+        :param character_id: The character ID to be highlighted. None to highlight the main
+            character of this quest.
+        :type character_id: str or None
+
+        '''
+        if character_id is not None:
+            character_mission = Registry.get_character_mission_for_character(character_id)
+            if character_mission is None:
+                logger.warning('Quest "%s" is trying to highlight character "%s", but there is'
+                               ' no such character mission.', self, character_id)
+                return
+
+        else:
+            character_mission = Registry.get_character_mission_for_quest(self)
+            if character_mission is None:
+                logger.warning('Quest "%s" is trying to highlight a character, but it doesn\'t'
+                               ' belong to any character mission.', self)
+                return
+
+        character_mission.highlighted = True
+
+    def highlight_quest(self, quest_name):
+        '''Highlight a quest listed in the UI.
+
+        :param str quest_name: The quest to be highlighted.
+
+        '''
+        other_quest = Registry.get_quest_by_name(quest_name)
+        if other_quest:
+            other_quest.props.highlighted = True
 
 
 class QuestSet(GObject.GObject):
