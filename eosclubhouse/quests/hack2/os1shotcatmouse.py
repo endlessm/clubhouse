@@ -18,6 +18,7 @@ class OSOneshotCatMouse(Quest):
         return self.step_begin
 
     def step_begin(self):
+        self.deploy_file('mouse', '~/yarnbasket/', override=True)
         # intro dialogue
         for index in range(1, 5):
             self.wait_confirm(str(index))
