@@ -23,6 +23,7 @@ import functools
 import glibcoro
 import os
 import pkgutil
+import shutil
 import sys
 
 from collections import OrderedDict
@@ -1930,6 +1931,44 @@ class Quest(_Quest):
         other_quest = Registry.get_quest_by_name(quest_name)
         if other_quest:
             other_quest.props.highlighted = True
+
+    # ** Deploying files **
+
+    def deploy_file(self, file_name, directory_path, override=False):
+        '''Deploy a file inside the player home directory.
+
+        The files should be commited in GIT in the folder specified below:
+
+        :param str file_name: Name of a file that should be already commited in GIT, inside the
+            'data/quests_files/' folder.
+
+        :param str directory_path: Path to a destination directory inside the user home
+            directory. Should start with '~/'. The directory (and subdirectories) will be
+            created.
+
+        :param bool override: Pass True to override the file if it already exists.
+
+        '''
+
+        if not directory_path.startswith('~/'):
+            logger.error("Error copying file, directory_path %s doesn't start with '~/'",
+                         directory_path)
+            return
+
+        source = os.path.join(config.QUESTS_FILES_DIR, file_name)
+        dest_dir = os.path.expanduser(directory_path)
+        destination = os.path.join(dest_dir, file_name)
+
+        if not os.path.exists(source):
+            logger.error('Error copying file, source doesn\'t exist: %s', source)
+            return
+
+        if not override and os.path.exists(destination):
+            logger.error('Error copying file, destination already exists: %s', destination)
+            return
+
+        os.makedirs(dest_dir, exist_ok=True)
+        shutil.copyfile(source, destination)
 
 
 class QuestSet(GObject.GObject):

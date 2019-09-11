@@ -1,5 +1,6 @@
 QUESTS_STRINGS_DIR=@quests_strings_dir@
 QUESTS_ITEMS_CSV=@quests_items_csv@
+QUESTS_FILES_DIR=@quests_files_dir@
 CHARACTERS_DIR=@characters_dir@
 ITEM_ICONS_DIR=@item_icons_dir@
 EPISODES_DIR=@episodes_dir@
