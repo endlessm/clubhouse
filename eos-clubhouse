@@ -21,7 +21,78 @@
 #
 
 import sys
+import gi
+gi.require_version("Gdk", "3.0")
+gi.require_version("Gtk", "3.0")
 
+from gi.repository import Gdk, GLib, Gtk
+
+Gtk.init_check()
+
+def quit_when_idle(loop):
+    loop.quit()
+    return GLib.SOURCE_REMOVE
+
+def check_for_expose(event, loop):
+    if event.type == Gdk.EventType.EXPOSE:
+        GLib.idle_add(quit_when_idle, loop)
+    Gtk.main_do_event(event)
+
+def wait_for_expose(window):
+    loop = GLib.MainLoop()
+
+    Gdk.event_handler_set(check_for_expose, loop)
+    loop.run()
+
+    Gdk.event_handler_set(Gtk.main_do_event)
+
+def destroy_timeout(splash):
+    ctx =  splash.get_style_context()
+    ctx.remove_provider_for_screen(splash.get_screen(), splash.css_provider)
+    splash.destroy()
+    return GLib.SOURCE_REMOVE
+
+def on_app_activate(app, splash):
+    splash.get_style_context().add_class('fadeout')
+    GLib.timeout_add(1000, destroy_timeout, splash);
+
+global splash
+
+if __name__ == '__main__':
+    # Create Splash screen
+    splash = Gtk.Window(type=Gtk.WindowType.TOPLEVEL,
+                        type_hint=Gdk.WindowTypeHint.SPLASHSCREEN,
+                        decorated=False,
+                        skip_pager_hint=True,
+                        skip_taskbar_hint=True,
+                        default_width=480,
+                        default_height=360)
+
+    # Present and wait for it to show up in the screen
+    splash.set_visual(splash.get_screen().get_rgba_visual())
+    splash.present()
+    splash.set_keep_above(True)
+
+    splash.css_provider = Gtk.CssProvider()
+    splash.css_provider.load_from_data("\
+    window.splash {\
+        background-color: unset;\
+        background: url('/app/share/eos-clubhouse/splash.svg');\
+        background-size: cover;\
+        transition: opacity 1s ease-in-out;\
+    }\
+    window.splash.fadeout {\
+        opacity: 0;\
+    }".encode())
+    ctx = splash.get_style_context()
+    ctx.add_class('splash')
+    ctx.add_provider_for_screen(splash.get_screen(), splash.css_provider,
+                                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+    wait_for_expose(splash)
+
+splash.get_settings().props.gtk_enable_animations=True
+
+# Start loading the app
 from eosclubhouse.clubhouse import ClubhouseApplication
 
 if __name__ == '__main__':
@@ -30,4 +101,6 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
     app = ClubhouseApplication()
+    app.connect_after('activate', on_app_activate, splash)
     app.run(sys.argv)
+
