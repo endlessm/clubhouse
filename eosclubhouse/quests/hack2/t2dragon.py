@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App, Sound
+from eosclubhouse.system import App
 
 
 class T2Dragon(Quest):
@@ -15,17 +15,14 @@ class T2Dragon(Quest):
         self._app = App(self.APP_NAME)
 
     def step_begin(self):
-        self.wait_confirm('GREET1')
-        self.show_message('GREET2', choices=[('Cool!', self.step_launch)])
+        if not self._app.is_installed():
+            self.wait_confirm('NOTINSTALLED', confirm_label='App Center, got it.')
+            return self.step_abort
+        else:
+            self.wait_confirm('GREET1')
+            self.wait_confirm('GREET2', confirm_label="I'll remember that...")
+            return self.step_launch
 
     def step_launch(self):
-        Sound.play('quests/quest-complete')
-        # We are about to launch a fullscreen app. So no messages
-        # should be displayed after this point:
         self._app.launch()
-        self.wait_for_app_launch(self._app, pause_after_launch=3)
-        return self.step_end
-
-    def step_end(self):
-        self.complete = True
-        self.available = False
+        return self.step_complete_and_stop
