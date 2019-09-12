@@ -18,131 +18,12 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkStack" id="_stack">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
+            <property name="transition_type">crossfade</property>
             <child>
-              <object class="GtkEventBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
-                <property name="visible_window">False</property>
-                <signal name="button-press-event" handler="_on_button_press_event" swapped="no"/>
-                <child>
-                  <object class="GtkHeaderBar" id="_headerbar">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="valign">start</property>
-                    <child type="title">
-                      <object class="GtkBox" id="_headerbar_box">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">end</property>
-                        <property name="hexpand">True</property>
-                        <child>
-                          <object class="GtkRadioButton" id="clubhouse_button">
-                            <property name="label" translatable="yes">Clubhouse</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="action_name">app.show-page</property>
-                            <property name="action_target">'CLUBHOUSE'</property>
-                            <property name="active">True</property>
-                            <property name="draw_indicator">False</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkRadioButton" id="_pathways_button">
-                            <property name="label" translatable="yes">Pathways</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="action_name">app.show-page</property>
-                            <property name="action_target">'PATHWAYS'</property>
-                            <property name="draw_indicator">False</property>
-                            <property name="group">clubhouse_button</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkRadioButton">
-                            <property name="label" translatable="yes">News</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="action_name">app.show-page</property>
-                            <property name="action_target">'NEWS'</property>
-                            <property name="draw_indicator">False</property>
-                            <property name="group">clubhouse_button</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">2</property>
-                          </packing>
-                        </child>
-                        <style>
-                          <class name="headerbar-buttonbox"/>
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <object class="GtkButton">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="valign">start</property>
-                        <property name="action_name">app.close</property>
-                        <property name="relief">none</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="icon_name">window-close-symbolic</property>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="pack_type">end</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkStack" id="_stack">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="transition_type">crossfade</property>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -150,146 +31,143 @@
           </packing>
         </child>
         <child type="overlay">
-          <object class="GtkOverlay">
+          <object class="GtkEventBox" id="_headerbar_eventbox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="halign">start</property>
+            <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
             <property name="valign">start</property>
+            <property name="visible_window">False</property>
+            <signal name="button-press-event" handler="_on_button_press_event" swapped="no"/>
             <child>
-              <object class="GtkBox" id="_user_box">
+              <object class="GtkHeaderBar" id="_headerbar">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">start</property>
                 <property name="valign">start</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkBox">
+                <child type="title">
+                  <object class="GtkBox" id="_headerbar_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="orientation">vertical</property>
+                    <property name="halign">end</property>
+                    <property name="hexpand">True</property>
                     <child>
-                      <object class="GtkButton" id="_user_button">
+                      <object class="GtkRadioButton" id="clubhouse_button">
+                        <property name="label" translatable="yes">Clubhouse</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="receives_default">False</property>
-                        <property name="relief">none</property>
-                        <signal name="clicked" handler="_on_user_button_clicked" swapped="no"/>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <object class="GtkLabel" id="_user_padding">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="_user_label">
-                                <property name="name">user-label</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="no_show_all">True</property>
-                                <property name="ellipsize">middle</property>
-                                <property name="max_width_chars">32</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                        <style>
-                          <class name="flat"/>
-                        </style>
+                        <property name="action_name">app.show-page</property>
+                        <property name="action_target">'CLUBHOUSE'</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">False</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRevealer" id="_user_bio_revealer_revealer">
+                      <object class="GtkRadioButton" id="_pathways_button">
+                        <property name="label" translatable="yes">Pathways</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="transition_type">slide-right</property>
-                        <property name="transition_duration">150</property>
-                        <signal name="notify::child-revealed" handler="_on_user_bio_revealer_revealer_notify" swapped="no"/>
-                        <child>
-                          <object class="GtkRevealer" id="_user_bio_revealer">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <signal name="notify::child-revealed" handler="_on_user_bio_revealer_notify" swapped="no"/>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="name">user-bio-box</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="orientation">vertical</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">start</property>
-                                    <property name="label" translatable="yes">Biography:</property>
-                                    <property name="wrap">True</property>
-                                    <property name="max_width_chars">32</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkScrolledWindow">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="min_content_width">200</property>
-                                    <property name="min_content_height">100</property>
-                                    <property name="overlay_scrolling">False</property>
-                                    <property name="max_content_width">320</property>
-                                    <property name="max_content_height">256</property>
-                                    <child>
-                                      <object class="GtkTextView" id="_user_bio_textview">
-                                        <property name="name">textview</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="events">GDK_FOCUS_CHANGE_MASK | GDK_STRUCTURE_MASK</property>
-                                        <property name="wrap_mode">word</property>
-                                        <property name="indent">1</property>
-                                        <property name="buffer">_user_bio_textbuffer</property>
-                                        <signal name="focus-out-event" handler="_on_user_bio_textview_focus_out_event" swapped="no"/>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
+                        <property name="receives_default">False</property>
+                        <property name="action_name">app.show-page</property>
+                        <property name="action_target">'PATHWAYS'</property>
+                        <property name="draw_indicator">False</property>
+                        <property name="group">clubhouse_button</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
+                    <child>
+                      <object class="GtkRadioButton">
+                        <property name="label" translatable="yes">News</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="receives_default">False</property>
+                        <property name="action_name">app.show-page</property>
+                        <property name="action_target">'NEWS'</property>
+                        <property name="draw_indicator">False</property>
+                        <property name="group">clubhouse_button</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
                     <style>
-                      <class name="user-bio-box"/>
+                      <class name="headerbar-buttonbox"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="valign">start</property>
+                    <property name="action_name">app.close</property>
+                    <property name="relief">none</property>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="icon_name">window-close-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="pack_type">end</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="index">1</property>
+          </packing>
+        </child>
+        <child type="overlay">
+          <object class="GtkBox" id="_user_box">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">start</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkButton" id="_user_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="receives_default">False</property>
+                    <property name="relief">none</property>
+                    <signal name="clicked" handler="_on_user_button_clicked" swapped="no"/>
+                    <child>
+                      <object class="GtkLabel" id="_user_label">
+                        <property name="name">user-label</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="no_show_all">True</property>
+                        <property name="halign">start</property>
+                        <property name="ellipsize">end</property>
+                        <property name="max_width_chars">32</property>
+                      </object>
+                    </child>
+                    <style>
+                      <class name="flat"/>
                     </style>
                   </object>
                   <packing>
@@ -298,37 +176,124 @@
                     <property name="position">0</property>
                   </packing>
                 </child>
-              </object>
-              <packing>
-                <property name="index">-1</property>
-              </packing>
-            </child>
-            <child type="overlay">
-              <object class="GtkButton" id="_user_image_button">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="focus_on_click">False</property>
-                <property name="receives_default">False</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
-                <signal name="clicked" handler="_on_user_button_clicked" swapped="no"/>
                 <child>
-                  <object class="GtkImage" id="_user_image">
-                    <property name="name">image</property>
+                  <object class="GtkRevealer" id="_user_bio_revealer_revealer">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="halign">start</property>
+                    <property name="transition_type">slide-right</property>
+                    <property name="transition_duration">150</property>
+                    <signal name="notify::child-revealed" handler="_on_user_bio_revealer_revealer_notify" swapped="no"/>
+                    <child>
+                      <object class="GtkRevealer" id="_user_bio_revealer">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <signal name="notify::child-revealed" handler="_on_user_bio_revealer_notify" swapped="no"/>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="name">user-bio-box</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Biography:</property>
+                                <property name="wrap">True</property>
+                                <property name="max_width_chars">32</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkScrolledWindow">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="min_content_width">200</property>
+                                <property name="min_content_height">100</property>
+                                <property name="overlay_scrolling">False</property>
+                                <property name="max_content_width">320</property>
+                                <property name="max_content_height">256</property>
+                                <child>
+                                  <object class="GtkTextView" id="_user_bio_textview">
+                                    <property name="name">textview</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="events">GDK_FOCUS_CHANGE_MASK | GDK_STRUCTURE_MASK</property>
+                                    <property name="wrap_mode">word</property>
+                                    <property name="indent">1</property>
+                                    <property name="buffer">_user_bio_textbuffer</property>
+                                    <signal name="focus-out-event" handler="_on_user_bio_textview_focus_out_event" swapped="no"/>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
                 <style>
-                  <class name="flat"/>
+                  <class name="user-bio-box"/>
                 </style>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
             </child>
             <style>
               <class name="user-overlay"/>
             </style>
           </object>
+          <packing>
+            <property name="pass_through">True</property>
+            <property name="index">3</property>
+          </packing>
+        </child>
+        <child type="overlay">
+          <object class="GtkButton" id="_user_image_button">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="focus_on_click">False</property>
+            <property name="receives_default">False</property>
+            <property name="halign">start</property>
+            <property name="valign">start</property>
+            <property name="relief">none</property>
+            <signal name="clicked" handler="_on_user_button_clicked" swapped="no"/>
+            <child>
+              <object class="GtkImage" id="_user_image">
+                <property name="name">image</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+              </object>
+            </child>
+            <style>
+              <class name="flat"/>
+              <class name="user-overlay"/>
+            </style>
+          </object>
+          <packing>
+            <property name="pass_through">True</property>
+            <property name="index">2</property>
+          </packing>
         </child>
       </object>
     </child>
@@ -339,10 +304,4 @@
       <class name="CLUBHOUSE"/>
     </style>
   </template>
-  <object class="GtkSizeGroup">
-    <widgets>
-      <widget name="_user_padding"/>
-      <widget name="_user_image"/>
-    </widgets>
-  </object>
 </interface>

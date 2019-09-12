@@ -14,6 +14,15 @@ ClubhouseWindow.big {
     font-size: 16px;
 }
 
+/* Common */
+
+button.flat {
+    background-image: none;
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
 /* Main UI components */
 
 ClubhouseWindow, headerbar {
@@ -25,17 +34,13 @@ headerbar {
     background: unset; /* Allow window bg be shown */
 }
 
-ClubhouseWindow.transitionable-background {
-    transition: background-image 1s linear;
+headerbar > button.flat {
+    padding: 1ex;
+    margin-right: 1ex;
 }
 
-/* Common */
-
-button.flat {
-    background-image: none;
-    border: 0;
-    padding: 0;
-    box-shadow: none;
+ClubhouseWindow.transitionable-background {
+    transition: background-image 1s linear;
 }
 
 /* Window */
@@ -343,9 +348,8 @@ EpisodeRow .progress-label  {
 }
 
 /* User Hud */
-.user-overlay > box,
-.user-overlay > button {
-    margin: 1em 0 1em 1em;
+.user-overlay {
+    margin: 1em;
 }
 
 .user-bio-box {
@@ -388,6 +392,7 @@ InventoryView > scrolledwindow {
 }
 
 /* Header bar buttons */
+
 .headerbar-buttonbox {
     padding: 2em;
 }
@@ -466,7 +471,7 @@ CharacterView list {
 }
 
 CharacterView  #mission-list {
-    margin: 1em 3em 3em 0;
+    margin: 8em 3em 3em 0;
     padding: 1em 1ex;
     border: 1px solid gray;
     box-shadow: 3px 3px 4px black;
@@ -490,6 +495,10 @@ PathwayList {
 
 ClubhouseWindow.big PathwayList {
     min-height: 21em;
+}
+
+PathwaysView {
+  margin-top: 6em;
 }
 
 PathwaysView scrollbar,
@@ -542,7 +551,7 @@ NewsView > box > * {
 }
 
 NewsView > scrolledwindow {
-    margin-bottom: 1em;
+    margin: 7em 0 1em 0;
     background: rgba(255, 255, 255, .8);
     box-shadow: 3px 3px 4px black;
 }
