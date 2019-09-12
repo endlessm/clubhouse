@@ -2010,7 +2010,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if current_page == 'CHARACTER':
             running_quest = self.clubhouse.running_quest
             if running_quest is not None and running_quest.is_narrative():
-                running_quest.abort()
+                running_quest.step_abort()
 
         # Set a different css class depending on the page
         ctx = self.get_style_context()

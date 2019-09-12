@@ -128,6 +128,6 @@ class FirstContact(Quest):
         self.available = False
         self.stop()
 
-    def abort(self):
+    def step_abort(self):
         Desktop.set_hack_mode(False)
-        super().abort()
+        super().step_abort()

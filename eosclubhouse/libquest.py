@@ -1041,20 +1041,8 @@ class _Quest(GObject.GObject):
         return toolbox_topic_clicked
 
     def abort(self):
-        if self.stopping:
-            return
-
-        # Notify we're going to stop soon
-        self.stopping = True
-
-        abort_info = self._get_message_info('{}_ABORT'.format(self._qs_base_id))
-        if abort_info:
-            self.show_message('ABORT')
-            self.pause(5)
-        else:
-            Sound.play(self._default_abort_sound)
-
-        self.stop()
+        # See Quest.step_abort()
+        raise DeprecationWarning
 
     def stop(self):
         if not self.is_cancelled() and self._cancellable is not None:
@@ -1248,7 +1236,7 @@ class _Quest(GObject.GObject):
         data = self.get_named_quest_conf(class_name, 'complete')
         return data is not None and data
 
-    def with_app_launched(app_name, otherwise='abort'):
+    def with_app_launched(app_name, otherwise='step_abort'):
         def wrapper(func):
             app = App(app_name)
 
@@ -1509,6 +1497,29 @@ class Quest(_Quest):
         self.complete = True
         self.available = available
         Sound.play('quests/quest-complete')
+        self.stop()
+
+    def step_abort(self):
+        '''Step method to abort the quest.
+
+        The quest will display the ABORT message, it it exists for this quest in the strings
+        catalog. Otherwise it will play a default abort sound. And finally, the quest will be
+        stopped.
+
+        '''
+        if self.stopping:
+            return
+
+        # Notify we're going to stop soon
+        self.stopping = True
+
+        abort_info = self._get_message_info('{}_ABORT'.format(self._qs_base_id))
+        if abort_info:
+            self.show_message('ABORT')
+            self.pause(5)
+        else:
+            Sound.play(self._default_abort_sound)
+
         self.stop()
 
     # ** Displaying messages **
