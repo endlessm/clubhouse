@@ -29,6 +29,15 @@ ClubhouseWindow.transitionable-background {
     transition: background-image 1s linear;
 }
 
+/* Common */
+
+button.flat {
+    background-image: none;
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
 /* Window */
 ClubhouseWindow {
     background-size: cover;
@@ -334,13 +343,6 @@ EpisodeRow .progress-label  {
 }
 
 /* User Hud */
-.user-overlay button.flat {
-    background-image: none;
-    border: 0;
-    padding: 0;
-    box-shadow: none;
-}
-
 .user-overlay > box,
 .user-overlay > button {
     margin: 1em 0 1em 1em;
@@ -477,27 +479,6 @@ CharacterView  #mission-list > label {
     color: #4c82c4;
 }
 
-/* News Page */
-scrolledwindow {
-    border-width: 0;
-}
-
-.link-button {
-    margin: 1em;
-    font-size: 2.5em;
-    text-shadow: 1px 1px black;
-    background: lavender;
-    box-shadow: 2px 2px 4px black;
-}
-
-.link-button > box {
-    margin: 1em;
-}
-
-.link-button > box > image {
-    margin-right: 1em;
-}
-
 /* Pathways View */
 ClubhouseWindow.small PathwayList {
     min-height: 15em;
@@ -547,5 +528,46 @@ PathwayIcon {
     background-color: white;
     padding: 1em;
     margin: 1ex;
+}
+
+/* News Page */
+NewsView > box {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 1em 0;
+    border-radius: 0 1em 1em 0
+}
+
+NewsView > box > * {
+    margin: 0.8em 0.5em;
+}
+
+NewsView > scrolledwindow {
+    margin-bottom: 1em;
+    background: rgba(255, 255, 255, .8);
+    box-shadow: 3px 3px 4px black;
+}
+
+NewsItem {
+    margin: 1ex 3em;
+    padding: 1em;
+    border-radius: 1ex;
+    background: white;
+    box-shadow: 1px 1px 2px gray;
+}
+
+NewsItem > box {
+    margin: 0 1em;
+}
+
+NewsItem > box > label {
+    margin: 1em 0;
+}
+
+NewsItem > image {
+    min-width: 96px;
+    min-height: 96px;
+    border-radius: 1ex;
+    background: lavender;
+    box-shadow: 0 0 3px gray inset;
 }
 

@@ -29,6 +29,7 @@ import os
 import subprocess
 import sys
 import time
+import datetime
 
 from collections import OrderedDict
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
@@ -1814,6 +1815,86 @@ class EpisodesView(Gtk.EventBox):
             libquest.Registry.set_current_episode_teaser_viewed(True)
 
 
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/news-item.ui')
+class NewsItem(Gtk.Box):
+
+    __gtype_name__ = 'NewsItem'
+
+    _title_label = Gtk.Template.Child()
+    _date_label = Gtk.Template.Child()
+    _character_image = Gtk.Template.Child()
+    _text_label = Gtk.Template.Child()
+    _image_button = Gtk.Template.Child()
+    _image = Gtk.Template.Child()
+
+    _usernames = {
+        'estelle': 'lightspeedgal',
+        'ada': 'countesslovelace',
+        'saniel': 'srowe1822',
+        'faber': 'automattic',
+        'riley': 'allriledup',
+        'felix': 'UNDEFINED_USER',
+        'metatron': 'Endless'
+    }
+
+    def __init__(self, data):
+        super().__init__()
+
+        self.date = data.date
+
+        self._title_label.set_label('@' + self._usernames[data.character])
+        self._text_label.set_markup(data.text)
+        self._date_label.set_label(data.date.strftime("%x"))
+
+        character = os.path.join(config.NEWSFEED_DIR, 'avatar', data.character)
+        self._character_image.set_from_file(character)
+
+        if data.image != '':
+            image = os.path.join(config.NEWSFEED_DIR, data.image)
+            self._image.set_from_file(image)
+            self._image_button.set_uri(data.image_href)
+        else:
+            self._image.hide()
+
+
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/news-view.ui')
+class NewsView(Gtk.Overlay):
+
+    __gtype_name__ = 'NewsView'
+
+    _news_box = Gtk.Template.Child()
+
+    def __init__(self):
+        super().__init__()
+        self._news_db = utils.NewsFeedDB()
+        self._populate_news()
+        self._update_news_visivility()
+
+    def _populate_news(self):
+        for data in self._news_db.get_list():
+            item = NewsItem(data)
+            self._news_box.pack_start(item, True, False, 0)
+
+    def _update_news_visivility(self):
+        today = datetime.date.today()
+
+        for child in self._news_box.get_children():
+            if (child.date <= today):
+                child.show()
+            else:
+                child.hide()
+
+        now = datetime.datetime.now()
+        tomorrow = now + datetime.timedelta(days=1)
+        timeout = datetime.datetime.combine(tomorrow, datetime.time.min) - now
+
+        # Update news visibility one minute after midnight
+        GLib.timeout_add_seconds(timeout.total_seconds() + 60,
+                                 self._update_news_visivility)
+
+        return GLib.SOURCE_REMOVE
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/clubhouse-window.ui')
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
@@ -1823,8 +1904,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _headerbar = Gtk.Template.Child()
     _headerbar_box = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
-    _clubhouse_page = Gtk.Template.Child()
-    _news_box = Gtk.Template.Child()
 
     _user_box = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
@@ -1845,12 +1924,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self.clubhouse = ClubhouseView(self)
         self.pathways = PathwaysView(self)
+        self.news = NewsView()
         self.inventory = InventoryView(self)
         self.character = CharacterView(self)
 
-        self._clubhouse_page.pack_start(self.clubhouse, True, True, 0)
+        self._stack.add_named(self.clubhouse, 'CLUBHOUSE')
         self._user_box.pack_start(self.inventory, True, True, 0)
         self._stack.add_named(self.pathways, 'PATHWAYS')
+        self._stack.add_named(self.news, 'NEWS')
         self._stack.add_named(self.character, 'CHARACTER')
 
         self.sync_with_hack_mode(init=True)
@@ -2031,7 +2112,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._stack.set_visible_child(page)
 
     def _select_main_page_on_timeout(self):
-        self._stack.set_visible_child(self._clubhouse_page)
+        self._stack.set_visible_child(self.clubhouse)
         self._page_reset_timeout = 0
 
         return GLib.SOURCE_REMOVE
@@ -2044,7 +2125,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _reset_selected_page_on_timeout(self):
         self._stop_page_reset_timeout()
 
-        if self._stack.get_visible_child() == self._clubhouse_page:
+        if self._stack.get_visible_child() == self.clubhouse:
             return
 
         self._page_reset_timeout = GLib.timeout_add_seconds(self._MAIN_PAGE_RESET_TIMEOUT,
@@ -2490,7 +2571,7 @@ class ClubhouseApplication(Gtk.Application):
 # Set widget classes CSS name to be able to select by GType name
 for klass in [Message, QuestRow, QuestSetButton, CharacterView, ClubhouseView,
               InventoryItem, PathwayIcon, PathwayList, PathwaysView, InventoryView,
-              EpisodeRow, EpisodesView, ClubhouseWindow]:
+              NewsItem, NewsView, EpisodeRow, EpisodesView, ClubhouseWindow]:
     klass.set_css_name(klass.__gtype_name__)
 
 if __name__ == '__main__':
