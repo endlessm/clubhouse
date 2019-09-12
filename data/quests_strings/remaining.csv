@@ -1,4 +1,27 @@
 ,Drama,,,,
+BLENDERQUEST_INFO,Here's our first list of resources for Blender- ,estelle,,,
+BLENDERQUEST_INFO_HINT1,The Complete Beginner's Guide: https://youtu.be/wNQYhbvTJi8,estelle,,,
+BLENDERQUEST_INFO_HINT2,Something a little more advanced: https://youtu.be/6mT4XFJYq-4,estelle,,,
+BLENDERQUEST_INFO_HINT3,You can also check Blender Guru's beginner tutorial: https://youtu.be/TPrnSACiTJ4,estelle,,,
+BLENDERQUEST_LAUNCH,"I'll launch Blender to start, but you can also find it on the Desktop and launch it yourself.",estelle,,,
+BLENDERQUEST_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
+
+You need to download it from the App Center if you'd like to learn how to use it.
+
+Click the icon named `More Apps` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
+BLENDERQUEST_START_ASK,I know that's a lot to take in - do you still want to continue?,estelle,,,
+BLENDERQUEST_START_NO,Maybe later...,,,,
+BLENDERQUEST_START_YES,Yes!,,,,
+BLENDERQUEST_WARN1,"So, you're interested in 3d Modeling, {{user_name}}? That's fortunate!
+
+Your Hack system has access to Blender, a super-powerful 3d modeling program, through the App Center.
+
+We've also combed the web and found good guides to help you get started - and there are many more coming!",estelle,,,
+BLENDERQUEST_WARN2,"One important thing before you start off - Blender is a complicated program, and it has a lot of commands.
+
+We *strongly* suggest you plug in a USB mouse with at *least* 3 buttons so that you can use everything properly.
+
+You might also want a USB keyboard that has a 10-key number pad on the side so you can use more keys.",estelle,,,
 ID,Text,speaker,animation,,
 INTRO_END,See you in the Clubhouse!,ada,,,
 INTRO_EPISODESTAB,"The Episodes tab helps you keep track of where you are. It's good to check here when you start to play. 
@@ -97,10 +120,3 @@ T2GAME8_GREET1,"This game doesn't have any data associated with it yet. You can 
 T2LAUNCHER_BEGIN,We are about to launch the game. I hope you like it.,ada,,,
 T2LAUNCHER_END,Enjoy the game. See you later!,ada,,,
 T2LAUNCHER_INSTALL,First you will need to install the T2 game. Come back later!,ada,,,
-T2WHITEHOUSE_GREET1,"This one's about color, and exploration. Give it a shot! It's part of the Terminal 2 Network, and you can launch it through the Pathways or the Desktop.",ada,,,
-T2WHITEHOUSE_GREET2,It's always interesting when people mash up art and games - It's quite relaxing to just sit back and recolor the world.,ada,,,
-T2WHITEHOUSE_NOTINSTALLED,"Uh-oh! I'm detecting that `White House` isn't installed!
-
-You need to download it from the App Center if you want to play.
-
-Click the icon named `More Apps` on the Desktop, then search for the program you want to install.",daemon,,,
