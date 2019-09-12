@@ -740,7 +740,6 @@ class ClubhouseView(Gtk.EventBox):
         super().__init__(visible=True)
 
         self.scale = 1
-        self._height_offset = 0
         self._current_quest = None
         self._scheduled_quest_info = None
         self._proposing_quest = False
@@ -780,14 +779,7 @@ class ClubhouseView(Gtk.EventBox):
     def _update_child_position(self, child):
         if isinstance(child, QuestSetButton):
             x, y = child.position
-            self._main_characters_box.move(child, x, y + self._height_offset)
-
-    def set_offset(self, offset):
-        self._height_offset = offset
-
-        # Update children
-        for child in self._main_characters_box.get_children():
-            self._update_child_position(child)
+            self._main_characters_box.move(child, x, y)
 
     def set_scale(self, scale):
         self.scale = scale
@@ -824,7 +816,7 @@ class ClubhouseView(Gtk.EventBox):
         button.connect('clicked', self._quest_set_button_clicked_cb)
 
         x, y = button.position
-        self._main_characters_box.put(button, x, y + self._height_offset)
+        self._main_characters_box.put(button, x, y)
 
         button.connect('notify::position', self._on_button_position_changed)
 
@@ -1944,8 +1936,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.connect('screen-changed', self._on_screen_changed)
         self._on_screen_changed(None, None)
 
-        self._stack.connect('size-allocate', self._on_stack_size_allocate)
-
         self._css_provider = Gtk.CssProvider()
         self.get_style_context().add_provider_for_screen(Gdk.Screen.get_default(),
                                                          self._css_provider,
@@ -1953,9 +1943,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
-
-    def _on_stack_size_allocate(self, widget, alloc):
-        self.clubhouse.set_offset(-alloc.y)
 
     def _hack_mode_changed_cb(self, _settings, _key):
         self.sync_with_hack_mode()
