@@ -27,7 +27,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
-                    <property name="label" translatable="yes">Mission List</property>
+                    <property name="label" translatable="yes">Activity List</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
