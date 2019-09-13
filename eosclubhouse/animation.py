@@ -40,13 +40,23 @@ class AnimationImage(Gtk.Image):
         return animation.anchor
 
 
-class Animator:
+class Animator(GObject.GObject):
+
+    __gsignals__ = {
+        'animations-loaded': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
 
     def __init__(self, target_image):
+        super().__init__()
         self._animations = {}
         self._target_image = target_image
+        self._loading = False
+        self._animation_after_load = None
+        self.connect('animations-loaded', self._on_animations_loaded)
 
-    def load(self, subpath, prefix=None, scale=1):
+    def _do_load(self, subpath, prefix=None, scale=1):
         for sprites_path in get_character_animation_dirs(subpath):
             for sprite in glob.glob(os.path.join(sprites_path, '*png')):
                 name, _ext = os.path.splitext(os.path.basename(sprite))
@@ -54,7 +64,23 @@ class Animator:
                 animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
                 self._animations[animation_name] = animation
 
+        self._loading = False
+        self.emit('animations-loaded')
+        return GLib.SOURCE_REMOVE
+
+    def load(self, subpath, prefix=None, scale=1):
+        self._loading = True
+        GLib.idle_add(self._do_load, subpath, prefix, scale)
+
+    def _on_animations_loaded(self, _):
+        if self._animation_after_load is not None:
+            self.play(self._animation_after_load)
+
     def play(self, name):
+        if self._loading:
+            self._animation_after_load = name
+            return
+
         new_animation = self._animations.get(name)
         current_animation = self.get_current_animation()
 
