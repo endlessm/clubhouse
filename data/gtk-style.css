@@ -352,15 +352,20 @@ EpisodeRow .progress-label  {
     margin: 1em;
 }
 
+.user-overlay * {
+    color: white;
+    caret-color: white;
+}
+
 .user-bio-box {
-    margin: 1em 1em 0 1em;
+    margin: 0.75em;
     border-radius: 2em;
     box-shadow: 1px 1px 2px black;
-    background: white;
+    background: linear-gradient(to bottom right, alpha(#FF6B00, 0.8), alpha(#FC444C, 0.8));
 }
 
 .user-overlay #user-label {
-    margin: 0.8em 1.4em 0.8em 0;
+    margin: 1em 1em 1em 4.32em;
     font-size: 1.2em;
     font-weight: bold;
 }
@@ -375,12 +380,12 @@ EpisodeRow .progress-label  {
 }
 
 .user-overlay #image {
-    min-height: 5em;
     min-width: 5em;
+    min-height: 5em;
     border-radius: 50%;
+    border: 0.2ex solid white;
     box-shadow:  1px 1px 2px #555;
-    margin: 3px; /* needed for the shadow */
-    background-color: lavender;
+    margin: 0 3px 3px 0; /* needed for the shadow */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
