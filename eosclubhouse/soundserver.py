@@ -1,3 +1,4 @@
+import functools
 import logging
 from gi.repository import Gio
 from gi.repository import GLib
@@ -9,6 +10,7 @@ _logger = logging.getLogger(__name__)
 class HackSoundServer:
 
     _proxy = None
+    _pending_calls = []
 
     @classmethod
     def play(class_, sound_event_id, result_handler=None, user_data=None):
@@ -42,25 +44,33 @@ class HackSoundServer:
         return class_._play(sound_event_id, asynch=False)
 
     @classmethod
+    def _call_dbus_method(class_, method_name, *args, **kwargs):
+        method = getattr(class_._proxy, method_name)
+        method(*args, **kwargs)
+
+    @classmethod
     def _play(class_, sound_event_id, asynch=True, result_handler=None,
               user_data=None):
         if result_handler is None:
             result_handler = class_._black_hole
         try:
             if asynch:
-                class_.get_proxy().PlaySound("(s)", sound_event_id,
-                                             result_handler=result_handler,
-                                             user_data=user_data)
+                class_._call_with_proxy_async(class_._call_dbus_method, 'PlaySound',
+                                              "(s)", sound_event_id,
+                                              result_handler=result_handler,
+                                              user_data=user_data)
             else:
-                return class_.get_proxy().PlaySound("(s)", sound_event_id)
+                class_.get_proxy()
+                class_._call_play_sound("(s)", sound_event_id)
         except GLib.Error as err:
             _logger.error("Error playing sound '%s': %s", sound_event_id, err.message)
 
     @classmethod
     def update_properties(class_, sound_event_id, time_ms, props):
-        class_.get_proxy().UpdateProperties(
-            "(sia{sv})", sound_event_id, time_ms, props,
-            result_handler=class_._black_hole, user_data=None)
+
+        class_._call_with_proxy_async(class_._call_dbus_method, 'UpdateProperties',
+                                      "(sia{sv})", sound_event_id, time_ms, props,
+                                      result_handler=class_._black_hole, user_data=None)
 
     @classmethod
     def stop(class_, uuid, result_handler=None, user_data=None):
@@ -79,9 +89,10 @@ class HackSoundServer:
         if result_handler is None:
             result_handler = class_._black_hole
         try:
-            class_.get_proxy().StopSound("(s)", uuid,
-                                         result_handler=result_handler,
-                                         user_data=user_data)
+            class_._call_with_proxy_async(class_._call_dbus_method, 'StopSound',
+                                          "(s)", uuid,
+                                          result_handler=result_handler,
+                                          user_data=user_data)
         except GLib.Error as err:
             _logger.error("Error stopping sound '%s': %s", uuid, err.message)
 
@@ -97,3 +108,31 @@ class HackSoundServer:
                 '/com/hack_computer/HackSoundServer',
                 'com.hack_computer.HackSoundServer', None)
         return class_._proxy
+
+    @classmethod
+    def _call_with_proxy_async(class_, callback, *args, **kwargs):
+        if class_._proxy:
+            if callback:
+                callback(*args, **kwargs)
+            return class_._proxy
+
+        partial_func = functools.partial(callback, *args, **kwargs)
+        class_._pending_calls.append(partial_func)
+
+        Gio.DBusProxy.new_for_bus(
+            Gio.BusType.SESSION, 0, None, 'com.hack_computer.HackSoundServer',
+            '/com/hack_computer/HackSoundServer',
+            'com.hack_computer.HackSoundServer', None,
+            class_._on_proxy_ready)
+        return None
+
+    @classmethod
+    def _on_proxy_ready(class_, proxy, result):
+        try:
+            class_._proxy = proxy.new_finish(result)
+            for partial_func in class_._pending_calls:
+                partial_func()
+            class_._pending_calls = []
+        except GLib.Error as e:
+            _logger.warning("Error: Failed to get DBus proxy:", e.message)
+            return
