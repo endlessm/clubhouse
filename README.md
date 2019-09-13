@@ -503,8 +503,16 @@ Output a file with statistics of the current profile.
 CLUBHOUSE_PROFILING=yes com.hack_computer.Clubhouse
 ```
 
-A new file named `clubhouse-runstats` will be created. To create a Graphviz
-diagram `dot` file, you can do:
+A new file named `clubhouse-runstats` will be created.
+
+You can visualize it with the Python tool `snakeviz` by running
+
+```
+pip3 install --user snakeviz
+snakeviz clubhouse-runstats
+```
+
+To create a Graphviz diagram `dot` file, you can do:
 
 ```
 pip3 install --user gprof2dot
