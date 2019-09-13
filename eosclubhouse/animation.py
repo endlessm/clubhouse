@@ -22,10 +22,13 @@ def get_character_animation_dirs(subpath):
 
 
 class AnimationImage(Gtk.Image):
-    def __init__(self, subpath, scale=1):
+    def __init__(self, subpath):
         super().__init__()
         self._animator = Animator(self)
-        self._animator.load(subpath, None, scale)
+        self._subpath = subpath
+
+    def load(self, scale=1):
+        self._animator.load(self._subpath, None, scale)
 
     def play(self, name):
         self._animator.play(name)
