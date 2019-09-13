@@ -495,6 +495,33 @@ performance regressions:
 CLUBHOUSE_PERF_DEBUG=yes com.hack_computer.Clubhouse
 ```
 
+### Profiling
+
+Output a file with statistics of the current profile.
+
+``` bash
+CLUBHOUSE_PROFILING=yes com.hack_computer.Clubhouse
+```
+
+A new file named `clubhouse-runstats` will be created. To create a Graphviz
+diagram `dot` file, you can do:
+
+```
+pip3 install --user gprof2dot
+gprof2dot -f pstats clubhouse-runstats > profile.dot
+```
+
+and to visualize it you can run
+
+```
+dot -Tsvg -o profile.svg < profile.dot
+```
+
+If you do not have the `dot` binary, do not worry. You can also visualize
+it in on-line in sites like [dreampuf](https://dreampuf.github.io) or
+[GraphvizFiddle](https://stamm-wilbrandt.de/GraphvizFiddle/).
+
+
 ## Future Work ##
 
 ### Separating the Quests from the Clubhouse ###
