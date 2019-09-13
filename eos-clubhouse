@@ -20,14 +20,32 @@
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
 
-import sys
+import os
 
-from eosclubhouse.clubhouse import ClubhouseApplication
 
-if __name__ == '__main__':
-    # Make sure the GTK+ event loop is quit if the script is interrupted (Ctrl+C)
+def _run_clubhouse():
     import signal
-    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    import sys
+
+    from gi.repository import GLib
+    from eosclubhouse.clubhouse import ClubhouseApplication
 
     app = ClubhouseApplication()
+
+    # Make sure the GTK+ event loop is quit if the script is interrupted (Ctrl+C)
+    GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, signal.SIGINT, app.quit)
     app.run(sys.argv)
+
+
+if __name__ == '__main__':
+
+    run_profile = os.environ.get("CLUBHOUSE_PROFILING", False)
+
+    if run_profile:
+        import cProfile
+
+        prof = cProfile.Profile()
+        res = prof.runcall(_run_clubhouse)
+        prof.dump_stats("clubhouse-runstats")
+    else:
+        _run_clubhouse()
