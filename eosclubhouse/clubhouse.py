@@ -623,7 +623,7 @@ class CharacterView(Gtk.Grid):
     _view_overlay = Gtk.Template.Child()
     _character_overlay = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
-    _character_button = Gtk.Template.Child()
+    _character_button_label = Gtk.Template.Child()
     _missions_scrolled_window = Gtk.Template.Child()
 
     def __init__(self, app_window):
@@ -664,7 +664,7 @@ class CharacterView(Gtk.Grid):
         self._character = Character.get_or_create(quest_set.get_character())
 
         # Set page title
-        self._character_button.set_label(self._character.id.capitalize() + '\'s Workshop')
+        self._character_button_label.set_text(self._character.id.capitalize() + '\'s Workspace')
 
         # Set character image
         self._update_character_image()
@@ -2090,6 +2090,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         page = self._stack.get_child_by_name(new_page)
 
         if hasattr(page, 'header_box') and page.header_box is not None:
+            width = self._headerbar_box.get_allocated_width()
+            page.header_box.set_size_request(width, -1)
+            page.header_box.get_style_context().add_class(new_page)
             self._headerbar.set_custom_title(page.header_box)
         else:
             self._headerbar.set_custom_title(self._headerbar_box)

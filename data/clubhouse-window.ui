@@ -67,6 +67,17 @@
                       </packing>
                     </child>
                     <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkRadioButton" id="_pathways_button">
                         <property name="label" translatable="yes">Pathways</property>
                         <property name="visible">True</property>
@@ -80,12 +91,23 @@
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkRadioButton">
-                        <property name="label" translatable="yes">News</property>
+                        <property name="label" translatable="yes">Hack News</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="receives_default">False</property>
@@ -97,7 +119,7 @@
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
-                        <property name="position">2</property>
+                        <property name="position">4</property>
                       </packing>
                     </child>
                     <style>
@@ -166,9 +188,6 @@
                         <property name="max_width_chars">32</property>
                       </object>
                     </child>
-                    <style>
-                      <class name="flat"/>
-                    </style>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -286,7 +305,6 @@
               </object>
             </child>
             <style>
-              <class name="flat"/>
               <class name="user-overlay"/>
             </style>
           </object>

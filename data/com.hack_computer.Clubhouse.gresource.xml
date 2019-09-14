@@ -27,6 +27,8 @@
     <file>icon_check-in-circle.svg</file>
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/icons">
+    <file preprocess="xml-stripblanks">clubhouse-prev-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">clubhouse-next-symbolic.svg</file>
     <file preprocess="xml-stripblanks">clubhouse-difficulty-easy.svg</file>
     <file preprocess="xml-stripblanks">clubhouse-difficulty-hard.svg</file>
     <file preprocess="xml-stripblanks">clubhouse-difficulty-normal.svg</file>
