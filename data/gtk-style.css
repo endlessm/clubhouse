@@ -16,11 +16,12 @@ ClubhouseWindow.big {
 
 /* Common */
 
-button.flat {
-    background-image: none;
+button {
     border: 0;
     padding: 0;
+    margin: 0;
     box-shadow: none;
+    background-image: none;
 }
 
 /* Main UI components */
@@ -31,10 +32,10 @@ ClubhouseWindow, headerbar {
 
 headerbar {
     border-width: 0px;
-    background: unset; /* Allow window bg be shown */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0)); /* Allow window bg be shown */
 }
 
-headerbar > button.flat {
+headerbar > button {
     padding: 1ex;
     margin-right: 1ex;
 }
@@ -399,30 +400,73 @@ InventoryView > scrolledwindow {
 /* Header bar buttons */
 
 .headerbar-buttonbox {
-    padding: 2em;
-}
-
-.headerbar-buttonbox > label,
-.headerbar-buttonbox > button {
-    color: white;
+    min-height: 2.5em;
+    margin: 2em;
     font-size: 1.2em;
     font-weight: bold;
-    text-shadow: 1px 1px black;
+}
+
+/* For spacing */
+.headerbar-buttonbox > label {
+    margin: 0 1ex;
 }
 
 .headerbar-buttonbox > button {
-    background: none;
+    color: white;
+    text-shadow: none;
     border: 0;
-    box-shadow:none;
-    padding: 0 2em;
+    margin: 0;
+    padding: 3px; /* this is the border offset for checked state and needs to be in pixels to avoid rounding errors */
+    border-radius: 3em;
+    box-shadow: 1px 1px 3px black;
+    transition: none;
+}
+
+.headerbar-buttonbox > button:checked {
+    padding: 0;
+    border: 3px solid white;
+}
+
+.headerbar-buttonbox > button label {
+    margin: 0 2em;
 }
 
 .headerbar-buttonbox > button:hover {
     text-shadow: 1px 1px 3px gray;
 }
 
-.headerbar-buttonbox > button:checked > label {
-    text-decoration: underline;
+.headerbar-buttonbox > button {
+    background: linear-gradient(to bottom right, alpha(#37DCB1, 0.8), alpha(#32BBA4, 0.8));
+}
+
+.headerbar-buttonbox > button:first-child {
+    background: linear-gradient(to bottom right, alpha(#76EECF, 0.8), alpha(#37DCB1, 0.8));
+}
+
+.headerbar-buttonbox > button:last-child {
+    background: linear-gradient(to bottom right, alpha(#32BBA4, 0.8), alpha(#2D9B98, 0.8));
+}
+
+.headerbar-buttonbox.CHARACTER > button > box > label {
+    margin: 0 2em 0 0;
+}
+.headerbar-buttonbox.CHARACTER > button > box > button > image {
+    min-width: 2.5em;
+    min-height: 2.5em;
+    margin: -3px;
+    margin-left: -1.3em;
+    margin-right: 1em;
+    border-radius: 50%;
+    color: #37DCB1;
+    background: white;
+}
+
+.headerbar-buttonbox.CHARACTER > button:first-child {
+    border-radius: 3em 0 0 3em;
+}
+
+.headerbar-buttonbox.CHARACTER > button:last-child {
+    border-radius: 0 3em 3em 0;
 }
 
 QuestRow {
