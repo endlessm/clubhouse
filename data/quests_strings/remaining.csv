@@ -1,14 +1,18 @@
 ,Drama,,,,
-BLENDERQUEST_INFO,Here's our first list of resources for Blender- ,estelle,,,
-BLENDERQUEST_INFO_HINT1,The Complete Beginner's Guide: https://youtu.be/wNQYhbvTJi8,estelle,,,
-BLENDERQUEST_INFO_HINT2,Something a little more advanced: https://youtu.be/6mT4XFJYq-4,estelle,,,
-BLENDERQUEST_INFO_HINT3,You can also check Blender Guru's beginner tutorial: https://youtu.be/TPrnSACiTJ4,estelle,,,
+BLENDERQUEST_BAK,❮,,,,
+BLENDERQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
+BLENDERQUEST_FWD,❯,,,,
+BLENDERQUEST_INFO_1,Here's a short list of resources for Blender - just click the links to see them in your browser.,estelle,,,
+BLENDERQUEST_INFO_2,The Complete Beginner's Guide: https://youtu.be/wNQYhbvTJi8,estelle,,,
+BLENDERQUEST_INFO_3,Something a little more advanced: https://youtu.be/6mT4XFJYq-4,estelle,,,
+BLENDERQUEST_INFO_4,You can also use Blender Guru's beginner tutorial: https://youtu.be/TPrnSACiTJ4,estelle,,,
 BLENDERQUEST_LAUNCH,"I'll launch Blender to start, but you can also find it on the Desktop and launch it yourself.",estelle,,,
 BLENDERQUEST_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
 
 You need to download it from the App Center if you'd like to learn how to use it.
 
 Click the icon named `More Apps` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
+BLENDERQUEST_QUIT,See you later!,,,,
 BLENDERQUEST_START_ASK,I know that's a lot to take in - do you still want to continue?,estelle,,,
 BLENDERQUEST_START_NO,Maybe later...,,,,
 BLENDERQUEST_START_YES,Yes!,,,,
