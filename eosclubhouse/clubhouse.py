@@ -87,7 +87,8 @@ class Character(GObject.GObject):
         self._id = id_
         self._mood = self.DEFAULT_MOOD
         self._body_animation = self.DEFAULT_BODY_ANIMATION
-        self._body_image = None
+        body_path = os.path.join(self._id, 'fullbody')
+        self._body_image = AnimationImage(body_path)
         self._position = None
 
     def _get_id(self):
@@ -138,9 +139,8 @@ class Character(GObject.GObject):
         return Gio.FileIcon.new(image_file)
 
     def load(self, scale=1):
-        body_path = os.path.join(self._id, 'fullbody')
         self._load_position()
-        self._body_image = AnimationImage(body_path, scale)
+        self._body_image.load(scale)
         self._body_image.play(self.DEFAULT_BODY_ANIMATION)
 
     def _load_position(self):
@@ -366,6 +366,11 @@ class QuestSetButton(Gtk.Button):
 
         self._quest_set = quest_set
         self._character = Character.get_or_create(self._quest_set.get_character())
+
+        image = self._character.get_body_image()
+        self.add(image)
+        image.show()
+
         self.reload(scale)
 
         self._quest_set.connect('notify::highlighted',
@@ -392,15 +397,6 @@ class QuestSetButton(Gtk.Button):
     def reload(self, scale):
         self._scale = scale
         self._character.load(scale)
-
-        child = self.get_child()
-        if child is not None:
-            self.remove(child)
-
-        image = self._character.get_body_image()
-        self.add(image)
-        image.show()
-
         self.notify('position')
 
     def get_quest_set(self):
