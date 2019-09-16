@@ -3,7 +3,7 @@ import json
 import os
 import random
 
-from gi.repository import GLib, Gtk, GObject, GdkPixbuf
+from gi.repository import Gio, GLib, Gtk, GObject, GdkPixbuf
 
 from enum import Enum
 from eosclubhouse import config, logger
@@ -42,37 +42,34 @@ class AnimationImage(Gtk.Image):
 
 class Animator(GObject.GObject):
 
-    __gsignals__ = {
-        'animations-loaded': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
-        ),
-    }
-
     def __init__(self, target_image):
         super().__init__()
         self._animations = {}
+        self._pending_animations = {}
         self._target_image = target_image
-        self._loading = False
         self._animation_after_load = None
-        self.connect('animations-loaded', self._on_animations_loaded)
 
     def _do_load(self, subpath, prefix=None, scale=1):
         for sprites_path in get_character_animation_dirs(subpath):
             for sprite in glob.glob(os.path.join(sprites_path, '*png')):
                 name, _ext = os.path.splitext(os.path.basename(sprite))
-                animation = Animation(sprite, self._target_image, scale)
                 animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
-                self._animations[animation_name] = animation
-
-        self._loading = False
-        self.emit('animations-loaded')
+                animation = Animation(animation_name, sprite, self._target_image, scale)
+                animation.connect('animation-loaded', self._on_animation_loaded)
+                self._pending_animations[animation_name] = animation
         return GLib.SOURCE_REMOVE
 
     def load(self, subpath, prefix=None, scale=1):
         self._loading = True
         GLib.idle_add(self._do_load, subpath, prefix, scale)
 
-    def _on_animations_loaded(self, _):
+    def _on_animation_loaded(self, animation):
+        self._animations[animation.name] = animation
+        del self._pending_animations[animation.name]
+
+        if not self._pending_animations:
+            self._loading = False
+
         if self._animation_after_load is not None:
             self.play(self._animation_after_load)
 
@@ -110,16 +107,22 @@ class Animator(GObject.GObject):
 
 class Animation(GObject.GObject):
 
-    def __init__(self, path, target_image, scale=1):
+    __gsignals__ = {
+        'animation-loaded': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
+
+    def __init__(self, name, path, target_image, scale=1):
         super().__init__()
         self._loop = True
         self._anchor = (0, 0)
+        self.name = name
         self.frames = []
         self.last_updated = None
         self.target_image = target_image
         self.reset()
         self.load(path, scale)
-        self._set_current_frame_delay()
 
     def reset(self):
         self.frame_index = 0
@@ -154,12 +157,32 @@ class Animation(GObject.GObject):
         self.target_image.set_from_pixbuf(pixbuf)
 
     def load(self, sprite_path, scale=1):
+        file = Gio.File.new_for_path(sprite_path)
+        file.read_async(GLib.PRIORITY_DEFAULT, None, self._sprite_file_read_async_cb,
+                        sprite_path, scale)
+
+    def _sprite_file_read_async_cb(self, file, result, sprite_path, scale):
+        try:
+            stream = file.read_finish(result)
+            GdkPixbuf.Pixbuf.new_from_stream_async(
+                stream, None, self._sprite_pixbuf_read_async_cb, sprite_path, scale)
+        except GLib.Error:
+            logger.warning("Error: Failed to read file:", sprite_path)
+
+    def _sprite_pixbuf_read_async_cb(self, _stream, result, sprite_path, scale):
+        try:
+            sprite_pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
+        except GLib.Error:
+            logger.warning("Error: Failed to extract pixel data from file:", sprite_pixbuf)
+            return
+        self._do_load(sprite_path, sprite_pixbuf, scale)
+
+    def _do_load(self, sprite_path, sprite_pixbuf, scale):
         self._anchor = (0, 0)
         self.frames = []
         self.scale = scale
 
         metadata = self.get_animation_metadata(sprite_path)
-        sprite_pixbuf = GdkPixbuf.Pixbuf.new_from_file(sprite_path)
         sprite_width = sprite_pixbuf.get_width()
         width = metadata['width']
         height = metadata['height']
@@ -189,6 +212,8 @@ class Animation(GObject.GObject):
         assert len(anchor) == 2, ('The anchor given by the animation in "%s" does not have'
                                   'two elements: %s', sprite_path, anchor)
         self.anchor = anchor
+        self._set_current_frame_delay()
+        self.emit('animation-loaded')
 
     current_frame = property(_get_current_frame)
 
@@ -261,7 +286,6 @@ class AnimationSystem:
                 animation.last_updated = timestamp
 
             elapsed = timestamp - animation.last_updated
-
             if elapsed >= animation.current_frame['delay']:
                 animation.advance_frame()
                 animation.update_image()
