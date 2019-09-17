@@ -1826,8 +1826,8 @@ class NewsItem(Gtk.Box):
         'estelle': 'lightspeedgal',
         'ada': 'countesslovelace',
         'saniel': 'srowe1822',
-        'faber': 'automattic',
-        'riley': 'allriledup',
+        'faber': 'fabersapiens',
+        'riley': '_getriled',
         'felix': 'UNDEFINED_USER',
         'metatron': 'Endless'
     }
