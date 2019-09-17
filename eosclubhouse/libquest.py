@@ -610,9 +610,6 @@ class _Quest(GObject.GObject):
         'item-given': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str)
         ),
-        'dismissed': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
-        ),
         'schedule-quest': (
             GObject.SignalFlags.RUN_FIRST, None, (str, bool, int)
         ),
@@ -1220,9 +1217,6 @@ class _Quest(GObject.GObject):
             return
         self._highlighted = is_highlighted
         self.notify('highlighted')
-
-    def dismiss(self):
-        self.emit('dismissed')
 
     def get_named_quest_conf(self, class_name, key):
         gss_key = self._get_quest_conf_prefix() + class_name

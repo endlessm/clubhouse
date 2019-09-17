@@ -1016,7 +1016,6 @@ class ClubhouseView(Gtk.EventBox):
         self.disconnect_quest(quest)
         self._reset_delayed_message()
         quest.save_conf()
-        quest.dismiss()
 
         # Ensure we reset the running quest (only if we haven't started a different quest in the
         # meanwhile) quest and close any eventual message popups
