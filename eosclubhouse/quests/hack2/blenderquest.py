@@ -23,11 +23,8 @@ class BlenderQuest(Quest):
         self.wait_confirm('WARN1')
         self.wait_confirm('WARN2')
 
-        def _choice(choice_var):
-            return choice_var
-
-        action = self.show_choices_message('START_ASK', ('START_YES', _choice, True),
-                                           ('START_NO', _choice, False)).wait()
+        action = self.show_choices_message('START_ASK', ('START_YES', None, True),
+                                           ('START_NO', None, False)).wait()
         choice = action.future.result()
 
         if choice:
@@ -45,18 +42,15 @@ class BlenderQuest(Quest):
 
         message_id = 'INFO_' + str(message_index)
 
-        def _action_choice(action_choice_var):
-            return action_choice_var
-
         if message_index == self.NUM_INFO_MESSAGES:
             action = self.show_choices_message(message_id,
-                                               ('BAK', _action_choice, -1),
-                                               ('FWD', _action_choice, 1),
-                                               ('QUIT', _action_choice, 0)).wait()
+                                               ('BAK', None, -1),
+                                               ('FWD', None, 1),
+                                               ('QUIT', None, 0)).wait()
         else:
             action = self.show_choices_message(message_id,
-                                               ('BAK', _action_choice, -1),
-                                               ('FWD', _action_choice, 1)).wait()
+                                               ('BAK', None, -1),
+                                               ('FWD', None, 1)).wait()
 
         chosen_action = action.future.result()
 
