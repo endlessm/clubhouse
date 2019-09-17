@@ -18,12 +18,12 @@
     <file preprocess="xml-stripblanks">quest-row.ui</file>
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/images">
-    <file>comingsoon_label_bg.png</file>
-    <file>character_bg.jpg</file>
-    <file>clubhouse_bg.jpg</file>
-    <file>clubhouse_bg-off.jpg</file>
-    <file>clubhouse_bg-blur.jpg</file>
-    <file>episodes_bg.png</file>
+    <file preprocess="to-pixdata">comingsoon_label_bg.png</file>
+    <file preprocess="to-pixdata">character_bg.jpg</file>
+    <file preprocess="to-pixdata">clubhouse_bg.jpg</file>
+    <file preprocess="to-pixdata">clubhouse_bg-off.jpg</file>
+    <file preprocess="to-pixdata">clubhouse_bg-blur.jpg</file>
+    <file preprocess="to-pixdata">episodes_bg.png</file>
     <file>icon_check-in-circle.svg</file>
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/icons">
