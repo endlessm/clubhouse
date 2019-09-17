@@ -61,6 +61,8 @@ class Animator(GObject.GObject):
 
     def load(self, subpath, prefix=None, scale=1):
         self._loading = True
+        self._animation_after_load = None
+        self._animations = {}
         GLib.idle_add(self._do_load, subpath, prefix, scale)
 
     def _on_animation_loaded(self, animation):
