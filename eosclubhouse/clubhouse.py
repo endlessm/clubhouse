@@ -2397,8 +2397,7 @@ class ClubhouseApplication(Gtk.Application):
 
     def _quest_view_close_action_cb(self, _action, _action_id):
         logger.debug('Shell quest view closed')
-        if self._window:
-            self._window.clubhouse.set_quest_to_background()
+        self._stop_quest()
 
     def _quest_debug_skip(self, action, action_id):
         if self._window:
