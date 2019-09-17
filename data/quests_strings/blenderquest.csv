@@ -1,0 +1,27 @@
+BLENDERQUEST_FWD,❯,,,,
+BLENDERQUEST_BAK,❮,,,,
+BLENDERQUEST_QUIT,See you later!,,,,
+BLENDERQUEST_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
+
+You need to download it from the App Center if you'd like to learn how to use it.
+
+Click the icon named `More Apps` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
+BLENDERQUEST_WARN1,"So, you're interested in 3d Modeling, {{user_name}}? That's fortunate!
+
+Your Hack system has access to Blender, a super-powerful 3d modeling program, through the App Center.
+
+We've also combed the web and found good guides to help you get started - and there are many more coming!",estelle,,,
+BLENDERQUEST_WARN2,"One important thing before you start off - Blender is a complicated program, and it has a lot of commands.
+
+We *strongly* suggest you plug in a USB mouse with at *least* 3 buttons so that you can use everything properly.
+
+You might also want a USB keyboard that has a 10-key number pad on the side so you can use more keys.",estelle,,,
+BLENDERQUEST_START_ASK,I know that's a lot to take in - do you still want to continue?,estelle,,,
+BLENDERQUEST_START_YES,Yes!,,,,
+BLENDERQUEST_START_NO,Maybe later...,,,,
+BLENDERQUEST_LAUNCH,"I'll launch Blender to start, but you can also find it on the Desktop and launch it yourself.",estelle,,,
+BLENDERQUEST_INFO_1,Here's a short list of resources for Blender - just click the links to see them in your browser.,estelle,,,
+BLENDERQUEST_INFO_2,The Complete Beginner's Guide: https://youtu.be/wNQYhbvTJi8,estelle,,,
+BLENDERQUEST_INFO_3,Something a little more advanced: https://youtu.be/6mT4XFJYq-4,estelle,,,
+BLENDERQUEST_INFO_4,You can also use Blender Guru's beginner tutorial: https://youtu.be/TPrnSACiTJ4,estelle,,,
+BLENDERQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,

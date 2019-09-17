@@ -1,31 +1,4 @@
 ,Drama,,,,
-BLENDERQUEST_BAK,❮,,,,
-BLENDERQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
-BLENDERQUEST_FWD,❯,,,,
-BLENDERQUEST_INFO_1,Here's a short list of resources for Blender - just click the links to see them in your browser.,estelle,,,
-BLENDERQUEST_INFO_2,The Complete Beginner's Guide: https://youtu.be/wNQYhbvTJi8,estelle,,,
-BLENDERQUEST_INFO_3,Something a little more advanced: https://youtu.be/6mT4XFJYq-4,estelle,,,
-BLENDERQUEST_INFO_4,You can also use Blender Guru's beginner tutorial: https://youtu.be/TPrnSACiTJ4,estelle,,,
-BLENDERQUEST_LAUNCH,"I'll launch Blender to start, but you can also find it on the Desktop and launch it yourself.",estelle,,,
-BLENDERQUEST_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
-
-You need to download it from the App Center if you'd like to learn how to use it.
-
-Click the icon named `More Apps` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDERQUEST_QUIT,See you later!,,,,
-BLENDERQUEST_START_ASK,I know that's a lot to take in - do you still want to continue?,estelle,,,
-BLENDERQUEST_START_NO,Maybe later...,,,,
-BLENDERQUEST_START_YES,Yes!,,,,
-BLENDERQUEST_WARN1,"So, you're interested in 3d Modeling, {{user_name}}? That's fortunate!
-
-Your Hack system has access to Blender, a super-powerful 3d modeling program, through the App Center.
-
-We've also combed the web and found good guides to help you get started - and there are many more coming!",estelle,,,
-BLENDERQUEST_WARN2,"One important thing before you start off - Blender is a complicated program, and it has a lot of commands.
-
-We *strongly* suggest you plug in a USB mouse with at *least* 3 buttons so that you can use everything properly.
-
-You might also want a USB keyboard that has a 10-key number pad on the side so you can use more keys.",estelle,,,
 ID,Text,speaker,animation,,
 INTRO_END,See you in the Clubhouse!,ada,,,
 INTRO_EPISODESTAB,"The Episodes tab helps you keep track of where you are. It's good to check here when you start to play. 
@@ -69,9 +42,7 @@ OSONESHOTCATMOUSE_14,Ew. Is that a file named.... `mouse`? Felix!,riley,,,
 OSONESHOTCATMOUSE_15,"_Nyan, brrrp? Miao&~^w!_",felixnet,,,
 OSONESHOTCATMOUSE_16,"`<Felix licks his nose, and vanishes into an air duct.>`",felixnet,,,
 OSONESHOTCATMOUSE_17,"Well, if that cat won't help us, let's use our own - Type `cat mouse`.",riley,,,
-OSONESHOTCATMOUSE_18,"LOL! Well, yeah, I should have expected something like that.
-
-`cat` reads the contents of a file into your terminal window, so that's what was in the file. You win this round, Felix.",riley,hurray,,
+OSONESHOTCATMOUSE_18,"LOL! `cat` reads a file into your terminal window, so that's what was in the file. Nice one, Felix!",riley,,,
 OSONESHOTCATMOUSE_2,"The Terminal is mondo cool, it's where the REAL magic in the OS happens. You know all those scenes in movies where they're hacking into computer systems?",riley,,,
 OSONESHOTCATMOUSE_3,"Yeah, those lines of green text are supposed to look like the Terminal. I'm going to teach you the *real* stuff, though!",riley,,,
 OSONESHOTCATMOUSE_4,Let's get started - I'll pop the Terminal open for you.,riley,,,
@@ -81,7 +52,7 @@ OSONESHOTCATMOUSE_7,"After the colon (:) is where you are in the filesystem. `~`
 OSONESHOTCATMOUSE_8,"Now that we know where we are, let's see what's here. ",riley,,,
 OSONESHOTCATMOUSE_9,Type `ls` into the Terminal then hit *Enter*.,riley,,,
 OSONESHOTCATMOUSE_BAK,❮,,,,
-OSONESHOTCATMOUSE_END,"Whew, that was fun! You learned *ls*, *cd*, and *cat* - and I've got more planned for next time!",riley,hurray,,
+OSONESHOTCATMOUSE_END,"Hey, that was fun! You learned *ls*, *cd*, and *cat* - and I've got much more planned for next time!",riley,hurray,,
 OSONESHOTCATMOUSE_FWD,❯,,,,
 OSONESHOTFOLLOW_1,"I'm so excited, we're on the trail of something cool, I know it. Let's take another look at that map.",riley,,,
 OSONESHOTFOLLOW_10,"To move a file, we need to use the *m*o*v*e command... `mv`. ",riley,,,
@@ -92,7 +63,7 @@ OSONESHOTFOLLOW_3,"Like I said, this looks like a list of directories. Let's fol
 OSONESHOTFOLLOW_4,"You can do this 2 ways - either do `cd <the first directory>`, `cd <the second directory>` and so on, or...",riley,,,
 OSONESHOTFOLLOW_5,"... you can string them together - `cd all/strung/together/like/this`. Your choice, they'll both get us where we want to go.",riley,,,
 OSONESHOTFOLLOW_6,"Now that you're at the end, let's `ls`...",riley,,,
-OSONESHOTFOLLOW_7,Sweet! Treasure.png! We found it!,riley,hurray,,
+OSONESHOTFOLLOW_7,Sweet! Treasure! We found it!,riley,hurray,,
 OSONESHOTFOLLOW_8,"Haha! I feel like a pirate digging up buried treasure. Yarr, matey! Avast!",riley,hurray,,
 OSONESHOTFOLLOW_9,"Like any pirate, we need to get our loot back onto the ship - or, in your case, your home directory.",riley,,,
 OSONESHOTFOLLOW_BAK,❮,,,,
