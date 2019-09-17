@@ -229,10 +229,6 @@ class Message(Gtk.Overlay):
     def display_character(self, display):
         self._character_image.props.visible = display
 
-    @property
-    def is_character_visible(self):
-        return self._character_image.props.visible
-
     def set_character(self, character_id):
         if self._character:
             if self._character.id == character_id:
@@ -509,7 +505,6 @@ class MessageBox(Gtk.Fixed):
             self.remove(message)
         self._messages_in_scene = []
         self._app_window.character.update_character_image(idle=True)
-
 
     def _is_main_character_message(self, message_info):
         return message_info.get('character_id') == self._app_window.character._character.id
