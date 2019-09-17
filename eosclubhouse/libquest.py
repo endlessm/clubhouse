@@ -1719,7 +1719,10 @@ class Quest(_Quest):
         Each choice is composed of a tuple:
 
         - Option message ID -- The button label is obtained from the catalog with this ID.
-        - Callback -- A function to call when the button is pressed.
+
+        - Callback -- A function to call when the button is pressed. If None, the identity
+          function will be used, returning the callback arguments as-is.
+
         - Callback arguments -- The arguments to pass to the callback function.
 
         The selected choice will be stored as the result of the returned :class:`AsyncAction`.
@@ -1728,12 +1731,24 @@ class Quest(_Quest):
 
         .. code-block::
 
-           def _callback(value):
-               return value
+           action = self.show_choices_message('MY_QUESTION',
+                                              ('MY_OPTION_A', None, True),
+                                              ('MY_OPTION_B', None, False)).wait()
+
+           result = action.future.result()
+           if result:
+               # ...
+
+        Example with callback:
+
+        .. code-block::
+
+           def _callback(value_a=None, value_b=None):
+               return do_something(value_a, value_b)
 
            action = self.show_choices_message('MY_QUESTION',
-                                              ('MY_OPTION_A', _callback, True),
-                                              ('MY_OPTION_B', _callback, False)).wait()
+                                              ('MY_OPTION_A', _callback, 'ada', 'saniel'),
+                                              ('MY_OPTION_B', _callback)).wait()
 
            value = action.future.result()
 
@@ -1751,9 +1766,16 @@ class Quest(_Quest):
             ret = callback(*callback_args)
             async_action.resolve(ret)
 
+        def _identity(*args):
+            if len(args) == 1:
+                return args[0]
+            return args
+
         choices = options.get('choices', [])
         for option_msg_id, callback, *args in user_choices:
             option_label = QS('{}_{}'.format(self._qs_base_id, option_msg_id))
+            if callback is None:
+                callback = _identity
             choices.append((option_label, _callback_and_resolve, async_action, callback, *args))
 
         options.update({'choices': choices})
