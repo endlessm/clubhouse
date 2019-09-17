@@ -1872,7 +1872,8 @@ class NewsItem(Gtk.Box):
 
         self.date = data.date
 
-        self._title_label.set_label('@' + self._usernames[data.character])
+        info = CharacterInfo[data.character]
+        self._title_label.set_label('+' + info['username'])
         self._text_label.set_markup(data.text)
         self._date_label.set_label(data.date.strftime("%x"))
 
