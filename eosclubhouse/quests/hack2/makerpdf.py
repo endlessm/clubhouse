@@ -5,7 +5,7 @@ import os
 class MakerPDF(Quest):
 
     __quest_name__ = 'Home-grown Earthquake'
-    __tags__ = ['mission:faber'm 'pathway:maker']
+    __tags__ = ['mission:faber', 'pathway:maker']
     __mission_order__ = 200
 
     def step_begin(self):
