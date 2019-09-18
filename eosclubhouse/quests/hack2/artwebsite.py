@@ -5,7 +5,7 @@ import os
 class ArtWebsite(Quest):
 
     __quest_name__ = 'A Taste of Processing'
-    __tags__ = ['mission:estelle', 'pathway:art']
+    __tags__ = ['mission:estelle', 'pathway:web']
     __mission_order__ = 400
 
     def step_begin(self):
