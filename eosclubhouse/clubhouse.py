@@ -1918,7 +1918,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_bio_revealer_revealer = Gtk.Template.Child()
     _user_bio_textbuffer = Gtk.Template.Child()
 
-    _pathways_button = Gtk.Template.Child()
+    _pathways_menu_button = Gtk.Template.Child()
+    _pathways_dropdown_box = Gtk.Template.Child()
+    _pathways_popovermenu = Gtk.Template.Child()
 
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
@@ -1939,6 +1941,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._stack.add_named(self.pathways, 'PATHWAYS')
         self._stack.add_named(self.news, 'NEWS')
         self._stack.add_named(self.character, 'CHARACTER')
+
+        self._populate_pathways_menu()
 
         self.sync_with_hack_mode(init=True)
         Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
@@ -1968,7 +1972,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if not init:
             Desktop.set_hack_background(hack_mode_enabled)
         Desktop.set_hack_cursor(hack_mode_enabled)
-        self._pathways_button.props.sensitive = hack_mode_enabled
+        self._pathways_menu_button.props.sensitive = hack_mode_enabled
 
         ctx = self.get_style_context()
         ctx.add_class('transitionable-background')
@@ -2043,6 +2047,45 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         info = self._gss.get('clubhouse.UserInfo')
         if info is not None:
             self._user_bio_textbuffer.set_text(info.get('biography', ''), -1)
+
+    def _quest_row_clicked_cb(self, _list_box, row):
+        new_quest = row.get_quest()
+        self.clubhouse.try_running_quest(new_quest)
+
+    @Gtk.Template.Callback()
+    def _on_pathways_menu_button_clicked(self, widget):
+        if widget.get_active():
+            self._pathways_popovermenu.popup()
+
+    def _on_pathway_button_clicked(self, widget):
+        self._pathways_popovermenu.popdown()
+
+    def _populate_pathways_menu(self):
+        for pathway in libquest.Registry.get_pathways():
+            quests = pathway.get_quests(also_skippable=False)
+            name = pathway.get_name()
+            icon = pathway.get_icon_name()
+
+            if len(quests) >= 1:
+                pathway_list = PathwayList(icon, name)
+                pathway_list.listbox.connect('row-activated', self._quest_row_clicked_cb)
+                pathway_list.set_quests(pathway, quests)
+
+                hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+                label = Gtk.Label(label=name, halign=Gtk.Align.CENTER)
+                image = Gtk.Image(icon_name=icon)
+                hbox.pack_start(image, False, True, 6)
+                hbox.pack_start(label, False, True, 6)
+
+                button = Gtk.Button(relief=Gtk.ReliefStyle.NONE,
+                                    action_name='app.show-page',
+                                    action_target=GLib.Variant('s', 'PATHWAYS_' + name.upper()))
+                button.connect('clicked', self._on_pathway_button_clicked)
+                button.add(hbox)
+                button.show_all()
+
+                self._pathways_dropdown_box.add(button)
+                self._stack.add_named(pathway_list, 'PATHWAYS_' + name.upper())
 
     @Gtk.Template.Callback()
     def _on_button_press_event(self, widget, e):
