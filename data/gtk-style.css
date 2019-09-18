@@ -537,6 +537,7 @@ CharacterView  #mission-list > label {
 PathwaysView {
     border-radius: 1em;
     margin: 1em;
+    margin-top: 7em;
 }
 
 PathwaysView > stack {
@@ -597,6 +598,10 @@ PathwayList,
 PathwayIcon {
     color: #4c82c4;
     margin: 1ex;
+}
+
+PathwayList {
+    margin-top: 7em;
 }
 
 PathwayList > scrolledwindow,
