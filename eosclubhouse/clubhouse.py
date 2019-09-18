@@ -1965,8 +1965,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.clubhouse.stop_quest()
 
     def _update_window_size(self):
-        BG_WIDTH = 1320
-        BG_HEIGHT = 931
+        BG_WIDTH = 1304
+        BG_HEIGHT = 864
 
         screen = self.get_screen()
         if screen is None:
@@ -1985,8 +1985,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         elif screen_height >= 1080:
             context.add_class('big')
 
-        # Clamp resolution to 90% of 720p-1080p
-        height = max(720, min(screen_height, 1080)) * 0.90
+        # Clamp resolution to 80% of 720p-1080p
+        height = max(720, min(screen_height, 1080)) * 0.80
 
         # Set main box size
         self.set_size_request(height * BG_WIDTH / BG_HEIGHT, height)
