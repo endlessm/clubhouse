@@ -504,6 +504,10 @@ class MessageBox(Gtk.Fixed):
         for message in self.get_children():
             self.remove(message)
         self._messages_in_scene = []
+        self._app_window.character.animator.pause()
+
+    def _is_main_character_message(self, message_info):
+        return message_info.get('character_id') == self._app_window.character._character.id
 
     def _guess_message_direction(self, message):
         if message.get_character().id == self._app_window.character._character.id:
@@ -519,7 +523,7 @@ class MessageBox(Gtk.Fixed):
             min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
                                    overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
 
-        if message_info.get('character_id') == self._app_window.character._character.id:
+        if self._is_main_character_message(message_info):
             msg.display_character(False)
             msg.props.halign = Gtk.Align.START
         else:
@@ -533,6 +537,7 @@ class MessageBox(Gtk.Fixed):
 
         message = self._build_message_from_info(message_info)
         direction = self._guess_message_direction(message)
+        is_main_character_message = self._is_main_character_message(message_info)
 
         # Hide actions on old messages.
         for child_message in self.get_children():
@@ -544,13 +549,15 @@ class MessageBox(Gtk.Fixed):
             self._slide_messages_up_with_delay(messages_in_scene, message,
                                                self.DEFAULT_ANIMATION_DURATION_MS)
             self._add_message_with_delay(messages_in_scene, message, direction,
+                                         is_main_character_message,
                                          self.DEFAULT_ANIMATION_DURATION_MS * 2)
         else:
             self._slide_messages_up(messages_in_scene, message)
             self._add_message_with_delay(messages_in_scene, message, direction,
+                                         is_main_character_message,
                                          self.DEFAULT_ANIMATION_DURATION_MS)
 
-    def _add_message(self, messages_in_scene, message, direction):
+    def _add_message(self, messages_in_scene, message, direction, is_main_character_message):
         initial_x_pos, initial_y_pos = self._get_next_initial_position(message, direction)
         final_x_pos = 0
         self.put(message, initial_x_pos, initial_y_pos)
@@ -558,10 +565,17 @@ class MessageBox(Gtk.Fixed):
         self._messages_in_scene.append(message)
         self._animate_message(message, direction, final_x_pos)
 
+        if not is_main_character_message:
+            self._app_window.character._animator.pause()
+        else:
+            self._app_window.character._animator.play()
+
         message.show()
 
-    def _add_message_with_delay(self, messages_in_scene, message, direction, duration_ms):
-        GLib.timeout_add(duration_ms, self._add_message, messages_in_scene, message, direction)
+    def _add_message_with_delay(self, messages_in_scene, message, direction,
+                                is_main_character_message, duration_ms):
+        GLib.timeout_add(duration_ms, self._add_message, messages_in_scene, message, direction,
+                         is_main_character_message)
 
     def _get_next_initial_position(self, message, direction):
         assert direction in (Direction.LEFT, Direction.RIGHT)
@@ -649,7 +663,7 @@ class CharacterView(Gtk.Grid):
                                 self._scale)
 
         # @todo: play animation only when a dialog is added
-        self._animator.animate(animation_id)
+        self._animator.animate(animation_id, Animation.State.PAUSED)
 
     def set_scale(self, scale):
         self._scale = scale

@@ -5,7 +5,7 @@ import random
 
 from gi.repository import GLib, Gtk, GObject, GdkPixbuf
 
-from enum import Enum
+from enum import Enum, auto
 from eosclubhouse import config, logger
 
 # The default delay if not provided in the animation metadata:
@@ -21,97 +21,15 @@ def get_character_animation_dirs(subpath):
             os.path.join(_get_alternative_characters_dir(), subpath)]
 
 
-class AnimationImage(Gtk.Image):
-    def __init__(self, subpath):
-        super().__init__()
-        self._animator = Animator(self)
-        self._subpath = subpath
-
-    def load(self, scale=1):
-        self._animator.load(self._subpath, None, scale)
-
-    def animate(self, name):
-        self._animator.animate(name)
-
-    def get_anchor(self):
-        animation = self._animator.get_current_animation()
-        if animation is None:
-            return (0, 0)
-        return animation.anchor
-
-
-class Animator(GObject.GObject):
-
-    __gsignals__ = {
-        'animations-loaded': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
-        ),
-    }
-
-    def __init__(self, target_image):
-        super().__init__()
-        self._animations = {}
-        self._target_image = target_image
-        self._loading = False
-        self._animation_after_load = None
-        self.connect('animations-loaded', self._on_animations_loaded)
-
-    def _do_load(self, subpath, prefix=None, scale=1):
-        for sprites_path in get_character_animation_dirs(subpath):
-            for sprite in glob.glob(os.path.join(sprites_path, '*png')):
-                name, _ext = os.path.splitext(os.path.basename(sprite))
-                animation = Animation(sprite, self._target_image, scale)
-                animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
-                self._animations[animation_name] = animation
-
-        self._loading = False
-        self.emit('animations-loaded')
-        return GLib.SOURCE_REMOVE
-
-    def load(self, subpath, prefix=None, scale=1):
-        self._loading = True
-        GLib.idle_add(self._do_load, subpath, prefix, scale)
-
-    def _on_animations_loaded(self, _):
-        if self._animation_after_load is not None:
-            self.animate(self._animation_after_load)
-
-    def animate(self, name):
-        if self._loading:
-            self._animation_after_load = name
-            return
-
-        new_animation = self._animations.get(name)
-        current_animation = self.get_current_animation()
-
-        if new_animation is None:
-            logger.debug('Animation \'%s\' not found. Current animation will be cleared.', name)
-            AnimationSystem.remove_animation(id(self))
-            self._target_image.clear()
-            return
-
-        if current_animation is not None and new_animation != current_animation:
-            current_animation.reset()
-
-        AnimationSystem.animate(id(self), new_animation)
-
-    def has_animation(self, name):
-        return self._animations.get(name) is not None
-
-    def get_animation_scale(self, name):
-        animation = self._animations.get(name)
-        if animation is not None:
-            return animation.scale
-        return None
-
-    def get_current_animation(self):
-        return AnimationSystem.get_animation(id(self))
-
-
 class Animation(GObject.GObject):
+
+    class State(Enum):
+        PAUSED = auto()
+        PLAYING = auto()
 
     def __init__(self, path, target_image, scale=1):
         super().__init__()
+        self.state = Animation.State.PAUSED
         self._loop = True
         self._anchor = (0, 0)
         self.frames = []
@@ -125,6 +43,9 @@ class Animation(GObject.GObject):
         self.frame_index = 0
 
     def advance_frame(self):
+        if self.state == Animation.State.PAUSED:
+            return
+
         num_frames = len(self.frames)
 
         # If the animation is not looped, we just don't advance it past the last frame.
@@ -235,12 +156,114 @@ class Animation(GObject.GObject):
     anchor = GObject.Property(_get_anchor, _set_anchor, type=GObject.TYPE_PYOBJECT)
 
 
+class AnimationImage(Gtk.Image):
+    def __init__(self, subpath):
+        super().__init__()
+        self._animator = Animator(self)
+        self._subpath = subpath
+
+    def load(self, scale=1):
+        self._animator.load(self._subpath, None, scale)
+
+    def animate(self, name, default_state=Animation.State.PLAYING):
+        self._animator.animate(name, default_state)
+
+    def get_anchor(self):
+        animation = self._animator.get_current_animation()
+        if animation is None:
+            return (0, 0)
+        return animation.anchor
+
+
+class Animator(GObject.GObject):
+
+    __gsignals__ = {
+        'animations-loaded': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
+
+    def __init__(self, target_image):
+        super().__init__()
+        self._animations = {}
+        self._target_image = target_image
+        self._loading = False
+        self._animation_after_load = None
+        self._state_after_load = Animation.State.PLAYING
+        self.connect('animations-loaded', self._on_animations_loaded)
+
+    def _do_load(self, subpath, prefix=None, scale=1):
+        for sprites_path in get_character_animation_dirs(subpath):
+            for sprite in glob.glob(os.path.join(sprites_path, '*png')):
+                name, _ext = os.path.splitext(os.path.basename(sprite))
+                animation = Animation(sprite, self._target_image, scale)
+                animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
+                self._animations[animation_name] = animation
+
+        self._loading = False
+        self.emit('animations-loaded')
+        return GLib.SOURCE_REMOVE
+
+    def load(self, subpath, prefix=None, scale=1):
+        self._loading = True
+        GLib.idle_add(self._do_load, subpath, prefix, scale)
+
+    def _on_animations_loaded(self, _):
+        if self._animation_after_load is not None:
+            self.animate(self._animation_after_load, self._state_after_load)
+
+    def animate(self, name, default_state=Animation.State.PLAYING):
+        if self._loading:
+            self._animation_after_load = name
+            self._state_after_load = default_state
+            return
+
+        new_animation = self._animations.get(name)
+        current_animation = self.get_current_animation()
+
+        if new_animation is None:
+            logger.debug('Animation \'%s\' not found. Current animation will be cleared.', name)
+            AnimationSystem.remove_animation(id(self))
+            self._target_image.clear()
+            return
+
+        if current_animation is not None and new_animation != current_animation:
+            current_animation.reset()
+
+        AnimationSystem.animate(id(self), new_animation, default_state)
+
+    def pause(self):
+        current_animation = self.get_current_animation()
+        if current_animation is None:
+            return
+        current_animation.state = Animation.State.PAUSED
+
+    def play(self):
+        current_animation = self.get_current_animation()
+        if current_animation is None:
+            return
+        current_animation.state = Animation.State.PLAYING
+
+    def has_animation(self, name):
+        return self._animations.get(name) is not None
+
+    def get_animation_scale(self, name):
+        animation = self._animations.get(name)
+        if animation is not None:
+            return animation.scale
+        return None
+
+    def get_current_animation(self):
+        return AnimationSystem.get_animation(id(self))
+
+
 class AnimationSystem:
     _animations = {}
 
     @classmethod
-    def animate(class_, id_, animation):
+    def animate(class_, id_, animation, state):
         class_._animations[id_] = animation
+        animation.state = state
         animation.update_image()
 
     @classmethod
