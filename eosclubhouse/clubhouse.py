@@ -110,7 +110,7 @@ class Character(GObject.GObject):
             body_animation = self.DEFAULT_BODY_ANIMATION
         if body_animation == self._body_animation:
             return
-        self._body_image.play(body_animation)
+        self._body_image.animate(body_animation)
         self._body_animation = body_animation
 
     def get_body_image(self):
@@ -141,7 +141,7 @@ class Character(GObject.GObject):
     def load(self, scale=1):
         self._load_position()
         self._body_image.load(scale)
-        self._body_image.play(self.DEFAULT_BODY_ANIMATION)
+        self._body_image.animate(self.DEFAULT_BODY_ANIMATION)
 
     def _load_position(self):
         checked_main_path = False
@@ -257,7 +257,7 @@ class Message(Gtk.Overlay):
         if not self._animator.has_animation(animation_id):
             self._animator.load(character.get_moods_path(), character.id)
 
-        self._animator.play(animation_id)
+        self._animator.animate(animation_id)
 
     def update(self, message_info):
         self.reset()
@@ -649,7 +649,7 @@ class CharacterView(Gtk.Grid):
                                 self._scale)
 
         # @todo: play animation only when a dialog is added
-        self._animator.play(animation_id)
+        self._animator.animate(animation_id)
 
     def set_scale(self, scale):
         self._scale = scale

@@ -30,8 +30,8 @@ class AnimationImage(Gtk.Image):
     def load(self, scale=1):
         self._animator.load(self._subpath, None, scale)
 
-    def play(self, name):
-        self._animator.play(name)
+    def animate(self, name):
+        self._animator.animate(name)
 
     def get_anchor(self):
         animation = self._animator.get_current_animation()
@@ -74,9 +74,9 @@ class Animator(GObject.GObject):
 
     def _on_animations_loaded(self, _):
         if self._animation_after_load is not None:
-            self.play(self._animation_after_load)
+            self.animate(self._animation_after_load)
 
-    def play(self, name):
+    def animate(self, name):
         if self._loading:
             self._animation_after_load = name
             return
