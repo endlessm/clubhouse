@@ -396,7 +396,11 @@ class QuestSetButton(Gtk.Button):
 
     def reload(self, scale):
         self._scale = scale
-        self._character.load(scale)
+        # This 0.80 scale is because the new background is bigger so we need to
+        # scale characters a bit to make it looks correctly in the new
+        # background and not too big. This scale is done instead of the scale
+        # for all animations.
+        self._character.load(scale * 0.80)
         self.notify('position')
 
     def get_quest_set(self):
@@ -1974,8 +1978,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.clubhouse.stop_quest()
 
     def _update_window_size(self):
-        BG_WIDTH = 1200
-        BG_HEIGHT = 810
+        BG_WIDTH = 1320
+        BG_HEIGHT = 931
 
         screen = self.get_screen()
         if screen is None:
@@ -1994,8 +1998,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         elif screen_height >= 1080:
             context.add_class('big')
 
-        # Clamp resolution to 75% of 720p-1080p
-        height = max(720, min(screen_height, 1080)) * 0.75
+        # Clamp resolution to 90% of 720p-1080p
+        height = max(720, min(screen_height, 1080)) * 0.90
 
         # Set main box size
         self.set_size_request(height * BG_WIDTH / BG_HEIGHT, height)
