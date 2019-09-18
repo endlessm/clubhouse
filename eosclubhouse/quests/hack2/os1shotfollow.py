@@ -18,6 +18,10 @@ class OSOneshotFollow(Quest):
         return self.step_begin
 
     def step_begin(self):
+        self.deploy_file('treasuremeowp', '~/yarnbasket', override=True)
+        self.deploy_file('treasure.jpg',
+                         '~/yarnbasket/thereisaworl/doutsi/detheac/ademyyou/rfrien/dshave/secrets',
+                         override=True)
         self.wait_confirm('1')
         self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH')
 
