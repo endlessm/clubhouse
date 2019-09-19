@@ -40,6 +40,7 @@ from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, A
     Direction, get_character_animation_dirs
 
 from eosclubhouse.episodes import BadgeButton, PosterWindow
+from eosclubhouse.splash import SplashWindow
 
 CLUBHOUSE_NAME = 'com.hack_computer.Clubhouse'
 CLUBHOUSE_PATH = '/com/hack_computer/Clubhouse'
@@ -2172,6 +2173,8 @@ class ClubhouseApplication(Gtk.Application):
                          resource_base_path='/com/hack_computer/Clubhouse')
 
         self._window = None
+        self._splash_window = None
+        self._show_splash = True
         self._debug_mode = False
         self._registry_loaded = False
         self._suggesting_open = False
@@ -2207,9 +2210,26 @@ class ClubhouseApplication(Gtk.Application):
 
     @Performance.timeit
     def do_activate(self):
+        if self._show_splash:
+            self._ensure_splash_window()
+            self._splash_window.present()
+            self._splash_window.show_all()
+        GLib.idle_add(self._activate_window)
+
+    def _activate_window(self):
+        Gtk.Window.set_auto_startup_notification(True)
         self._ensure_window()
+        if self._show_splash:
+            self._window.connect_after('realize', self._window_realize_cb)
         if not self._run_episode_autorun_quest_if_needed():
             self.show(Gdk.CURRENT_TIME)
+
+    def _window_realize_cb(self, window, *_args):
+        assert self._splash_window is not None
+        self._splash_window.destroy_with_fadeout()
+        self._show_splash = False
+        self._splash_window = None
+        window.disconnect_by_func(self._window_realize_cb)
 
     def _run_episode_autorun_quest_if_needed(self):
         autorun_quest = libquest.Registry.get_autorun_quest()
@@ -2329,6 +2349,12 @@ class ClubhouseApplication(Gtk.Application):
         # @todo: Move staff from clubhouse_page.load_episode() here
         self._window.clubhouse.load_episode()
         self._window.pathways.load_episode()
+
+    def _ensure_splash_window(self):
+        if self._splash_window:
+            return
+        self._splash_window = SplashWindow(self)
+        self.add_window(self._splash_window)
 
     def _ensure_window(self):
         if self._window:
