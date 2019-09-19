@@ -1,5 +1,5 @@
 ,Drama,,,,
-ARTWEBSITE_WELCOME,"Heloo, {{user_name}} - I've got a treat for you. This is an online version of sometihng called `Processing`.
+ARTWEBSITE_WELCOME,"Hello, {{user_name}} - I've got a treat for you. This is an online version of something called `Processing`.
 
 You can use it to make art with code! Check it out!",ada,,,
 ID,Text,speaker,animation,,

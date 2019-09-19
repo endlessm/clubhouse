@@ -21,7 +21,10 @@ BLENDERQUEST_START_YES,Yes!,,,,
 BLENDERQUEST_START_NO,Maybe later...,,,,
 BLENDERQUEST_LAUNCH,"I'll launch Blender to start, but you can also find it on the Desktop and launch it yourself.",estelle,,,
 BLENDERQUEST_INFO_1,Here's a short list of resources for Blender - just click the links to see them in your browser.,estelle,,,
-BLENDERQUEST_INFO_2,The Complete Beginner's Guide: https://youtu.be/wNQYhbvTJi8,estelle,,,
-BLENDERQUEST_INFO_3,Something a little more advanced: https://youtu.be/6mT4XFJYq-4,estelle,,,
-BLENDERQUEST_INFO_4,You can also use Blender Guru's beginner tutorial: https://youtu.be/TPrnSACiTJ4,estelle,,,
+BLENDERQUEST_INFO_2,"The Complete Beginner's Guide:
+https://youtu.be/wNQYhbvTJi8",estelle,,,
+BLENDERQUEST_INFO_3,"Something a little more advanced:
+https://youtu.be/6mT4XFJYq-4",estelle,,,
+BLENDERQUEST_INFO_4,"You can also use Blender Guru's beginner tutorial:
+https://youtu.be/TPrnSACiTJ4",estelle,,,
 BLENDERQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
