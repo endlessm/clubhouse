@@ -660,8 +660,15 @@ class CharacterView(Gtk.Grid):
         self._update_character_image()
 
     def show_mission_list(self, quest_set):
+        ctx = self._app_window.get_style_context()
+
+        if self._character is not None:
+            ctx.remove_class(self._character.id)
+
         # Get character
         self._character = Character.get_or_create(quest_set.get_character())
+
+        ctx.add_class(self._character.id)
 
         # Set page title
         self._character_button_label.set_text(self._character.id.capitalize() + '\'s Workspace')
