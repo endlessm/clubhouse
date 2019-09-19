@@ -14,6 +14,16 @@ ClubhouseWindow.big {
     font-size: 16px;
 }
 
+/* Common */
+
+button {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    background-image: none;
+}
+
 /* Main UI components */
 
 ClubhouseWindow, headerbar {
@@ -22,20 +32,16 @@ ClubhouseWindow, headerbar {
 
 headerbar {
     border-width: 0px;
-    background: unset; /* Allow window bg be shown */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0)); /* Allow window bg be shown */
+}
+
+headerbar > button {
+    padding: 1ex;
+    margin-right: 1ex;
 }
 
 ClubhouseWindow.transitionable-background {
     transition: background-image 1s linear;
-}
-
-/* Common */
-
-button.flat {
-    background-image: none;
-    border: 0;
-    padding: 0;
-    box-shadow: none;
 }
 
 /* Window */
@@ -343,20 +349,24 @@ EpisodeRow .progress-label  {
 }
 
 /* User Hud */
-.user-overlay > box,
-.user-overlay > button {
-    margin: 1em 0 1em 1em;
+.user-overlay {
+    margin: 1em;
+}
+
+.user-overlay * {
+    color: white;
+    caret-color: white;
 }
 
 .user-bio-box {
-    margin: 1em 1em 0 1em;
+    margin: 0.75em;
     border-radius: 2em;
     box-shadow: 1px 1px 2px black;
-    background: white;
+    background: linear-gradient(to bottom right, alpha(#FF6B00, 0.8), alpha(#FC444C, 0.8));
 }
 
 .user-overlay #user-label {
-    margin: 0.8em 1.4em 0.8em 0;
+    margin: 1em 1em 1em 4.32em;
     font-size: 1.2em;
     font-weight: bold;
 }
@@ -371,12 +381,12 @@ EpisodeRow .progress-label  {
 }
 
 .user-overlay #image {
-    min-height: 5em;
     min-width: 5em;
+    min-height: 5em;
     border-radius: 50%;
+    border: 0.2ex solid white;
     box-shadow:  1px 1px 2px #555;
-    margin: 3px; /* needed for the shadow */
-    background-color: lavender;
+    margin: 0 3px 3px 0; /* needed for the shadow */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -388,31 +398,96 @@ InventoryView > scrolledwindow {
 }
 
 /* Header bar buttons */
+
 .headerbar-buttonbox {
-    padding: 2em;
+    min-height: 1.8em;
+    margin: 2em 1ex;
+    font-size: 1.4em;
+    font-weight: bold;
 }
 
-.headerbar-buttonbox > label,
+/* For spacing */
+.headerbar-buttonbox > label {
+    margin: 0 1.5em;
+}
+
 .headerbar-buttonbox > button {
     color: white;
-    font-size: 1.2em;
-    font-weight: bold;
-    text-shadow: 1px 1px black;
+    text-shadow: none;
+    border: 0;
+    margin: 0;
+    padding: 3px; /* this is the border offset for checked state and needs to be in pixels to avoid rounding errors */
+    border-radius: 3em;
+    box-shadow: 1px 1px 3px black;
+    transition: none;
+}
+
+.headerbar-buttonbox > button:checked {
+    padding: 0;
+    border: 3px solid white;
+}
+
+.headerbar-buttonbox > button label {
+    margin: 0 1em;
 }
 
 .headerbar-buttonbox > button {
-    background: none;
-    border: 0;
-    box-shadow:none;
-    padding: 0 2em;
+    background: linear-gradient(to bottom right, alpha(#2D9B98, 0.8), alpha(#22597F, 0.8));
+    transition: background-image 200ms linear;
 }
 
 .headerbar-buttonbox > button:hover {
-    text-shadow: 1px 1px 3px gray;
+    background: linear-gradient(to bottom right, #2D9B98, #22597F);
 }
 
-.headerbar-buttonbox > button:checked > label {
-    text-decoration: underline;
+.headerbar-buttonbox > button:checked {
+    background: linear-gradient(to bottom right, alpha(#2D9B98, 0.95), alpha(#22597F, 0.95));
+}
+
+.headerbar-buttonbox > button:first-child {
+    background: linear-gradient(to bottom right, alpha(#37DCB1, 0.8), alpha(#2D9B98, 0.8));
+}
+
+.headerbar-buttonbox > button:first-child:hover {
+    background: linear-gradient(to bottom right, #37DCB1, #2D9B98);
+}
+
+.headerbar-buttonbox > button:first-child:checked {
+    background: linear-gradient(to bottom right, alpha(#37DCB1, 0.95), alpha(#2D9B98, 0.95));
+}
+
+.headerbar-buttonbox > button:last-child {
+    background: linear-gradient(to bottom right, alpha(#22597F, 0.8), alpha(#181866, 0.8));
+}
+
+.headerbar-buttonbox > button:last-child:hover {
+    background: linear-gradient(to bottom right, #22597F, #181866);
+}
+
+.headerbar-buttonbox > button:last-child:checked {
+    background: linear-gradient(to bottom right, alpha(#22597F, 0.95), alpha(#181866, 0.95));
+}
+
+.headerbar-buttonbox.CHARACTER > button > box > label {
+    margin: 0 2em 0 0;
+}
+.headerbar-buttonbox.CHARACTER > button > box > button > image {
+    min-width: 1.8em;
+    min-height: 1.8em;
+    margin: -3px;
+    margin-left: -2ex;
+    margin-right: 1ex;
+    border-radius: 50%;
+    color: #37DCB1;
+    background: white;
+}
+
+.headerbar-buttonbox.CHARACTER > button:first-child {
+    border-radius: 3em 0 0 3em;
+}
+
+.headerbar-buttonbox.CHARACTER > button:last-child {
+    border-radius: 0 3em 3em 0;
 }
 
 QuestRow {
@@ -466,7 +541,7 @@ CharacterView list {
 }
 
 CharacterView  #mission-list {
-    margin: 1em 3em 3em 0;
+    margin: 8em 3em 3em 0;
     padding: 1em 1ex;
     border: 1px solid gray;
     box-shadow: 3px 3px 4px black;
@@ -490,6 +565,10 @@ PathwayList {
 
 ClubhouseWindow.big PathwayList {
     min-height: 21em;
+}
+
+PathwaysView {
+  margin-top: 6em;
 }
 
 PathwaysView scrollbar,
@@ -542,7 +621,7 @@ NewsView > box > * {
 }
 
 NewsView > scrolledwindow {
-    margin-bottom: 1em;
+    margin: 7em 0 1em 0;
     background: rgba(255, 255, 255, .8);
     box-shadow: 3px 3px 4px black;
 }
