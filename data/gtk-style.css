@@ -61,8 +61,35 @@ ClubhouseWindow.CLUBHOUSE.off {
     background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-off.jpg');
 }
 
+@keyframes background_zoom_in {
+    from { background-size: 100%; }
+    to { background-size: 200%; }
+}
+
 ClubhouseWindow.CHARACTER {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/character_bg.jpg');
+    animation: background_zoom_in 500ms normal ease 1;
+    background-size: 200%;
+    transition: none;
+}
+
+ClubhouseWindow.CHARACTER.ada {
+    background-position: top left;
+}
+
+ClubhouseWindow.CHARACTER.estelle {
+    background-position: 65% top;
+}
+
+ClubhouseWindow.CHARACTER.faber {
+    background-position: center 75%;
+}
+
+ClubhouseWindow.CHARACTER.riley {
+    background-position: left 85%;
+}
+
+ClubhouseWindow.CHARACTER.saniel {
+    background-position: bottom right;
 }
 
 EpisodesView {

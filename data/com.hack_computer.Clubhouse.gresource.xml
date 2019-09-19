@@ -19,7 +19,6 @@
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/images">
     <file>comingsoon_label_bg.png</file>
-    <file>character_bg.jpg</file>
     <file>clubhouse_bg.jpg</file>
     <file>clubhouse_bg-off.jpg</file>
     <file>clubhouse_bg-blur.jpg</file>
