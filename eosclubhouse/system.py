@@ -38,7 +38,7 @@ class Desktop:
     HACK_BACKGROUND = 'file://{}/share/backgrounds/Desktop-BGs-Beta-Sketch_Blue.png'\
         .format(get_flatpak_sandbox())
 
-    HACK_CURSOR = 'cursor-glitchy'
+    HACK_CURSOR = 'cursor-hack'
 
     # Apps ids to override flatpak GTK3_MODULES with libclippy
     CLIPPY_APPS = [
@@ -311,8 +311,8 @@ class Desktop:
 
     @classmethod
     def ensure_hack_cursor_is_present(klass):
-        src = f'{DATA_DIR}/cursors/cursor-glitchy.xmc'
-        dirname = '~/.icons/cursor-glitchy/cursors/'
+        src = f'{DATA_DIR}/cursors/{klass.HACK_CURSOR}.xmc'
+        dirname = f'~/.icons/{klass.HACK_CURSOR}/cursors/'
         dirname = os.path.expanduser(dirname)
         cursor = os.path.join(dirname, 'left_ptr')
         theme = os.path.join(dirname, 'index.theme')
