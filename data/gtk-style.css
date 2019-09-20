@@ -341,42 +341,46 @@ EpisodeRow .progress-label  {
 }
 
 /* Hack mode switch */
+#hack-switch,
+#hack-switch-panel,
+#hack-switch-button {
+    background-size: cover;
+}
+
 #hack-switch {
-    padding: 2em;
-    margin: 4em;
-    background-color: lavender;
-    border-radius: 1em;
-    box-shadow:  2px 2px 3px black;
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/switch.svg');
 }
 
-#hack-switch > label {
-    font-size: 1.6em;
-    font-weight: bold;
-    padding: 1ex;
+#hack-switch-panel {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/ON.svg');
 }
 
-/* Hack switch pulsation */
-
-#hack-switch.highlighted, #hack-switch.highlighted > switch {
-  animation-name: pulsate_hack_switch;
-  animation-duration: 1s;
-  animation-direction: alternate;
-  animation-timing-function: ease;
-  animation-iteration-count: infinite;
+#hack-switch-panel.off {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF.svg');
 }
 
-@keyframes pulsate_hack_switch {
-    from {
-        box-shadow: 0 0 0px #ffc756;
-    }
-    to {
-        box-shadow: 0 0 10px #ffc756;
-    }
+#hack-switch-button {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF-static.svg');
 }
 
-/* Disable text inside switch */
-#hack-switch > switch {
-    font-size: 0px;
+#hack-switch-button:hover {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF-hover.svg');
+}
+
+#hack-switch-button.highlighted {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF-attract.svg');
+}
+
+#hack-switch-button:checked {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-static.svg');
+}
+
+#hack-switch-button:checked:hover {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-hover.svg');
+}
+
+#hack-switch-button:checked.highlighted {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-attract.svg');
 }
 
 /* User Hud */

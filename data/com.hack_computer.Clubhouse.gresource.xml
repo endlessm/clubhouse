@@ -25,6 +25,15 @@
     <file>clubhouse_bg-blur-off.jpg</file>
     <file>episodes_bg.png</file>
     <file>icon_check-in-circle.svg</file>
+    <file>hack-switch/switch.svg</file>
+    <file>hack-switch/ON.svg</file>
+    <file>hack-switch/OFF.svg</file>
+    <file>hack-switch/ON-hover.svg</file>
+    <file>hack-switch/ON-static.svg</file>
+    <file>hack-switch/ON-attract.svg</file>
+    <file>hack-switch/OFF-hover.svg</file>
+    <file>hack-switch/OFF-static.svg</file>
+    <file>hack-switch/OFF-attract.svg</file>
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/icons">
     <file preprocess="xml-stripblanks">clubhouse-prev-symbolic.svg</file>
