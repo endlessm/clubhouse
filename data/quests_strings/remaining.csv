@@ -1,7 +1,4 @@
 ,Drama,,,,
-ARTWEBSITE_WELCOME,"Hello, {{user_name}} - I've got a treat for you. This is an online version of something called `Processing`.
-
-You can use it to make art with code! Check it out!",ada,,,
 ID,Text,speaker,animation,,
 INTRO_END,See you in the Clubhouse!,ada,,,
 INTRO_EPISODESTAB,"The Episodes tab helps you keep track of where you are. It's good to check here when you start to play. 
@@ -16,9 +13,6 @@ Click on the Clubhouse and then on the Episodes tab.",,,,quests/quest2-riley-hi
 INTRO_QUESTION,Hi there! Glad you’re here  =^._.^=   Ready to do some more exploring?,riley,,,
 INTRO_QUEST_ACCEPT,Yes!,,,,quests/quest2-riley-hi
 INTRO_WELCOME,Hi {{user_name}}! Welcome to the Clubhouse!,ada,,,
-MAKERPDF_WELCOME,"Now this is some mad-scientist tech! Ever wanted to control the *mighty power of earthquakes*?
-
-Who hasn't? I think you'll have a lot of fun with this one!",faber,,,
 OLD_FIRSTCONTACT_FLIPBACK,Nice hack!,,,,
 OLD_FIRSTCONTACT_FLIPBACK_HINT1,I wonder if anything happened to the gate? Click the Flip to Hack button again.,,,,
 OLD_FIRSTCONTACT_GOAL,Beautiful! All new students must solve this puzzle.,,,,
@@ -97,6 +91,12 @@ OSONESHOTMAP_BAK,❮,,,,
 OSONESHOTMAP_END,We'll tackle that path in the next part - I'm excited to see what we'll find!,riley,,,
 OSONESHOTMAP_FWD,❯,,,,
 OSONESHOTMAP_LAUNCH,Launch the Terminal and let's get going!,riley,,,
+P5WEBSHAPES_WELCOME,"Hello, {{user_name}} - I've got a treat for you. This is an online version of something called `Processing`.
+
+You can use it to make art with code! Check it out!",ada,,,
+PDFEARTHQUAKE_WELCOME,"Now this is some mad-scientist tech! Ever wanted to control the *mighty power of earthquakes*?
+
+Who hasn't? I think you'll have a lot of fun with this one!",faber,,,
 T2GAME8_GREET1,"This game doesn't have any data associated with it yet. You can still play it, though.",,,,
 T2LAUNCHER_BEGIN,We are about to launch the game. I hope you like it.,ada,,,
 T2LAUNCHER_END,Enjoy the game. See you later!,ada,,,
