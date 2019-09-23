@@ -808,12 +808,15 @@ class ClubhouseView(Gtk.EventBox):
         if self._current_quest is None:
             return
 
-        cancellable = self._current_quest.get_cancellable()
-        if not cancellable.is_cancelled():
-            logger.debug('Stopping quest %s', self._current_quest)
-            cancellable.cancel()
-
+        current_quest = self._current_quest
+        # This should be done before calling step_abort to avoid infinite
+        # recursion with quests that change can change the hack-mode-enabled
+        # like the firstcontact, because setting hack-mode-enabled to false
+        # will call to this function and if the quest is not set to None we've
+        # the recursion
         self._set_current_quest(None)
+
+        current_quest.step_abort()
 
     def _on_button_position_changed(self, button, _param):
         self._update_child_position(button)
