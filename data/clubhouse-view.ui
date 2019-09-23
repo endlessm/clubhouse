@@ -2,83 +2,59 @@
 <!-- Generated with glade 3.22.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="ClubhouseView" parent="GtkEventBox">
+  <template class="ClubhouseView" parent="GtkFixed">
+    <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkOverlay">
+      <object class="GtkBox">
+        <property name="name">hack-switch</property>
+        <property name="width_request">146</property>
+        <property name="height_request">570</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <child>
-          <object class="GtkEventBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="vexpand">True</property>
-            <child>
-              <object class="GtkFixed" id="_main_characters_box">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkBox">
-                    <property name="name">hack-switch</property>
-                    <property name="width_request">146</property>
-                    <property name="height_request">570</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <placeholder/>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="x">1072</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkToggleButton" id="_hack_switch">
-                    <property name="name">hack-switch-button</property>
-                    <property name="width_request">90</property>
-                    <property name="height_request">90</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="receives_default">True</property>
-                    <property name="relief">none</property>
-                    <style>
-                      <class name="flat"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="x">1085</property>
-                    <property name="y">450</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="_hack_switch_panel">
-                    <property name="name">hack-switch-panel</property>
-                    <property name="width_request">80</property>
-                    <property name="height_request">60</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <placeholder/>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="x">1090</property>
-                    <property name="y">391</property>
-                  </packing>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="index">-1</property>
-          </packing>
+          <placeholder/>
         </child>
       </object>
+      <packing>
+        <property name="x">1072</property>
+      </packing>
     </child>
-    <style>
-      <class name="clubhouse-view"/>
-    </style>
+    <child>
+      <object class="GtkToggleButton" id="_hack_switch">
+        <property name="name">hack-switch-button</property>
+        <property name="width_request">90</property>
+        <property name="height_request">90</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="receives_default">True</property>
+        <property name="relief">none</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+      <packing>
+        <property name="x">1085</property>
+        <property name="y">450</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox" id="_hack_switch_panel">
+        <property name="name">hack-switch-panel</property>
+        <property name="width_request">80</property>
+        <property name="height_request">60</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+      <packing>
+        <property name="x">1090</property>
+        <property name="y">391</property>
+      </packing>
+    </child>
   </template>
 </interface>
