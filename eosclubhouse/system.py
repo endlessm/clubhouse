@@ -25,6 +25,7 @@ import subprocess
 import time
 
 from eosclubhouse import logger
+from eosclubhouse.asyncresource import AsyncResourceRegistry
 from eosclubhouse.config import DATA_DIR
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer
@@ -61,88 +62,24 @@ class Desktop:
         'com.endlessm.Sidetrack',
     ]
 
-    _dbus_proxy = None
-    _app_launcher_proxy = None
-    _shell_app_store_proxy = None
-    _shell_proxy = None
     _shell_settings = None
     _shell_schema = None
 
     @classmethod
     def get_dbus_proxy(klass):
-        if klass._dbus_proxy is None:
-            klass._dbus_proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
-                                                               0,
-                                                               None,
-                                                               'org.freedesktop.DBus',
-                                                               '/org/freedesktop/DBus',
-                                                               'org.freedesktop.DBus',
-                                                               None)
-        return klass._dbus_proxy
+        return AsyncResourceRegistry.get('proxy:dbus').proxy
 
     @classmethod
     def get_app_launcher_proxy(klass):
-        if klass._app_launcher_proxy is None:
-            klass._app_launcher_proxy = \
-                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
-                                               0,
-                                               None,
-                                               'org.gnome.Shell',
-                                               '/org/gnome/Shell',
-                                               'org.gnome.Shell.AppLauncher',
-                                               None)
-
-        return klass._app_launcher_proxy
+        return AsyncResourceRegistry.get('proxy:shell-app-launcher').proxy
 
     @classmethod
     def get_shell_app_store_proxy(klass):
-        if klass._shell_app_store_proxy is None:
-            klass._shell_app_store_proxy = \
-                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
-                                               0,
-                                               None,
-                                               'org.gnome.Shell',
-                                               '/org/gnome/Shell',
-                                               'org.gnome.Shell.AppStore',
-                                               None)
-
-        return klass._shell_app_store_proxy
+        return AsyncResourceRegistry.get('proxy:shell-app-store').proxy
 
     @classmethod
     def get_shell_proxy(klass):
-        if klass._shell_proxy is None:
-            klass._shell_proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
-                                                                0,
-                                                                None,
-                                                                'org.gnome.Shell',
-                                                                '/org/gnome/Shell',
-                                                                'org.gnome.Shell',
-                                                                None)
-
-        return klass._shell_proxy
-
-    @classmethod
-    def get_shell_proxy_async(klass, callback, *callback_args):
-        def _on_shell_proxy_ready(proxy, result):
-            try:
-                klass._shell_proxy = proxy.new_finish(result)
-            except GLib.Error as e:
-                logger.warning("Error: Failed to get Shell proxy:", e.message)
-                return
-
-            callback(klass._shell_proxy, *callback_args)
-
-        if klass._shell_proxy is None:
-            Gio.DBusProxy.new_for_bus(Gio.BusType.SESSION,
-                                      0,
-                                      None,
-                                      'org.gnome.Shell',
-                                      '/org/gnome/Shell',
-                                      'org.gnome.Shell',
-                                      None,
-                                      _on_shell_proxy_ready)
-        else:
-            callback(klass._shell_proxy, *callback_args)
+        return AsyncResourceRegistry.get('proxy:shell').proxy
 
     @classmethod
     def get_app_desktop_name(_klass, app_name):
@@ -634,16 +571,7 @@ class GameStateService(GObject.GObject):
 
     @classmethod
     def _get_gss_proxy(klass):
-        if klass._proxy is None:
-            klass._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
-                                                          0,
-                                                          None,
-                                                          'com.hack_computer.GameStateService',
-                                                          '/com/hack_computer/GameStateService',
-                                                          'com.hack_computer.GameStateService',
-                                                          None)
-
-        return klass._proxy
+        return AsyncResourceRegistry.get('proxy:game-state-service').proxy
 
     # @todo: This is becoming a proxy of a proxy, so we should try to use a
     # more direct later
@@ -791,23 +719,8 @@ class UserAccount(GObject.GObject):
     @classmethod
     def _ensure_proxy(klass):
         if klass._proxy is None:
-            system_bus = Gio.bus_get_sync(Gio.BusType.SYSTEM, None)
-            accounts = Gio.DBusProxy.new_sync(system_bus, 0, None,
-                                              klass._INTERFACE_NAME,
-                                              '/org/freedesktop/Accounts',
-                                              klass._INTERFACE_NAME,
-                                              None)
-
-            user_path = accounts.FindUserByName('(s)', GLib.get_user_name())
-
-            klass._proxy = Gio.DBusProxy.new_sync(system_bus, 0, None,
-                                                  klass._INTERFACE_NAME, user_path,
-                                                  'org.freedesktop.Accounts.User',
-                                                  None)
-            klass._props = Gio.DBusProxy.new_sync(system_bus, 0, None,
-                                                  klass._INTERFACE_NAME, user_path,
-                                                  'org.freedesktop.DBus.Properties',
-                                                  None)
+            klass._proxy = AsyncResourceRegistry.get('proxy:accounts-user').proxy
+            klass._props = AsyncResourceRegistry.get('proxy:accounts-props').proxy
 
     def __init__(self):
         super().__init__()

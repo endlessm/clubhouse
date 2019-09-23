@@ -17,7 +17,6 @@
 # Authors:
 #       Joaquim Rocha <jrocha@endlessm.com>
 #
-
 import gi
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
@@ -34,6 +33,7 @@ import datetime
 from collections import OrderedDict
 from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
+from eosclubhouse.asyncresource import AsyncResourceLoader
 from eosclubhouse.system import Desktop, GameStateService, UserAccount, Sound
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
@@ -2214,22 +2214,31 @@ class ClubhouseApplication(Gtk.Application):
             self._ensure_splash_window()
             self._splash_window.present()
             self._splash_window.show_all()
-        GLib.idle_add(self._activate_window)
+
+            AsyncResourceLoader.connect('loading-complete',
+                                        self._resource_loader_loading_complete_cb)
+            AsyncResourceLoader.load_resources()
 
     def _activate_window(self):
         Gtk.Window.set_auto_startup_notification(True)
         self._ensure_window()
+
         if self._show_splash:
             self._window.connect_after('realize', self._window_realize_cb)
         if not self._run_episode_autorun_quest_if_needed():
             self.show(Gdk.CURRENT_TIME)
 
+    def _resource_loader_loading_complete_cb(self, _loader):
+        AsyncResourceLoader.disconnect_by_func(self._resource_loader_loading_complete_cb)
+        self._ensure_registry_loaded()
+        self._ensure_suggesting_open()
+        GLib.idle_add(self._activate_window)
+
     def _window_realize_cb(self, window, *_args):
-        assert self._splash_window is not None
+        window.disconnect_by_func(self._window_realize_cb)
         self._splash_window.destroy_with_fadeout()
         self._show_splash = False
         self._splash_window = None
-        window.disconnect_by_func(self._window_realize_cb)
 
     def _run_episode_autorun_quest_if_needed(self):
         autorun_quest = libquest.Registry.get_autorun_quest()
@@ -2248,6 +2257,7 @@ class ClubhouseApplication(Gtk.Application):
         self.register(None)
 
         if options.contains('list-quests'):
+            self._ensure_registry_loaded()
             self._list_quests()
             return 0
 
@@ -2276,6 +2286,7 @@ class ClubhouseApplication(Gtk.Application):
             return 0
 
         if options.contains('set-quest'):
+            self._ensure_registry_loaded()
             episode_value = options.lookup_value('set-quest', GLib.VariantType('s'))
             full_name = episode_value.get_string()
 
@@ -2308,9 +2319,6 @@ class ClubhouseApplication(Gtk.Application):
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
-
-        self._ensure_registry_loaded()
-        self._ensure_suggesting_open()
         self._init_style()
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
