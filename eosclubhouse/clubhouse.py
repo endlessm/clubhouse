@@ -741,6 +741,7 @@ class ClubhouseView(Gtk.Fixed):
 
     _hack_switch = Gtk.Template.Child()
     _hack_switch_panel = Gtk.Template.Child()
+    _character_overlay = Gtk.Template.Child()
 
     SYSTEM_CHARACTER_ID = 'daemon'
     SYSTEM_CHARACTER_MOOD = 'talk'
@@ -760,6 +761,7 @@ class ClubhouseView(Gtk.Fixed):
         self._scheduled_quest_info = None
         self._proposing_quest = False
         self._delayed_message_handler = 0
+        self._character_overlay_class = None
 
         self._last_user_answer = 0
 
@@ -845,10 +847,30 @@ class ClubhouseView(Gtk.Fixed):
     def _on_button_position_changed(self, button, _param):
         self._update_child_position(button)
 
+    def _on_quest_set_button_enter(self, button):
+        ctx = self._character_overlay.get_style_context()
+
+        if self._character_overlay_class is not None:
+            ctx.remove_class(self._character_overlay_class)
+
+        character = button.get_quest_set().get_character()
+        self._character_overlay_class = character
+        ctx.add_class(character)
+
+    def _on_quest_set_button_leave(self, button):
+        ctx = self._character_overlay.get_style_context()
+
+        if self._character_overlay_class is not None:
+            ctx.remove_class(self._character_overlay_class)
+            self._character_overlay_class = None
+
     def add_quest_set(self, quest_set):
         button = QuestSetButton(quest_set, self.scale)
         quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
         button.connect('clicked', self._quest_set_button_clicked_cb)
+
+        button.connect('enter', self._on_quest_set_button_enter)
+        button.connect('leave', self._on_quest_set_button_leave)
 
         x, y = button.position
         self.put(button, x, y)

@@ -44,6 +44,38 @@ ClubhouseWindow.transitionable-background {
     transition: background-image 1s linear;
 }
 
+#character-overlay {
+    transition: background-image 300ms 1.5s ease-in-out;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#character-overlay.ada {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/character-hover/ada.svg');
+    transition-delay: 0;
+}
+
+#character-overlay.estelle {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/character-hover/estelle.svg');
+    transition-delay: 0;
+}
+
+#character-overlay.riley {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/character-hover/riley.svg');
+    transition-delay: 0;
+}
+
+#character-overlay.faber {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/character-hover/faber.svg');
+    transition-delay: 0;
+}
+
+#character-overlay.saniel {
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/character-hover/saniel.svg');
+    transition-delay: 0;
+}
+
 /* Window */
 ClubhouseWindow {
     background-size: cover;

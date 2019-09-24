@@ -34,6 +34,11 @@
     <file>hack-switch/OFF-hover.svg</file>
     <file>hack-switch/OFF-static.svg</file>
     <file>hack-switch/OFF-attract.svg</file>
+    <file>character-hover/ada.svg</file>
+    <file>character-hover/estelle.svg</file>
+    <file>character-hover/riley.svg</file>
+    <file>character-hover/faber.svg</file>
+    <file>character-hover/saniel.svg</file>
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/icons">
     <file preprocess="xml-stripblanks">clubhouse-prev-symbolic.svg</file>
