@@ -7,6 +7,7 @@ class Meet(Quest):
     __quest_name__ = 'DEBUG NAME - Meet - DEBUG NAME'
     __tags__ = ['mission:ada']
     __auto_offer_info__ = {'confirm_before': False, 'start_after': 3}
+    __available_after_completing_quests__ = ['FirstContact']
 
     def setup(self):
         self.auto_offer = True
