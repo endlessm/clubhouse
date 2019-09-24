@@ -1,0 +1,9 @@
+{
+  "default-delay": 100,
+  "frames": [
+    "0 1000",
+    "1 1000"
+  ],
+  "height": 673,
+  "width": 688
+}

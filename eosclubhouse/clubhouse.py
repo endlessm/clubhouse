@@ -508,6 +508,10 @@ class MessageBox(Gtk.Fixed):
         for message in self.get_children():
             self.remove(message)
         self._messages_in_scene = []
+        self._app_window.character.update_character_image(idle=True)
+
+    def _is_main_character_message(self, message_info):
+        return message_info.get('character_id') == self._app_window.character._character.id
 
     def _guess_message_direction(self, message):
         if message.get_character().id == self._app_window.character._character.id:
@@ -523,7 +527,7 @@ class MessageBox(Gtk.Fixed):
             min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
                                    overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
 
-        if message_info.get('character_id') == self._app_window.character._character.id:
+        if self._is_main_character_message(message_info):
             msg.display_character(False)
             msg.props.halign = Gtk.Align.START
         else:
@@ -537,6 +541,7 @@ class MessageBox(Gtk.Fixed):
 
         message = self._build_message_from_info(message_info)
         direction = self._guess_message_direction(message)
+        is_main_character_message = self._is_main_character_message(message_info)
 
         # Hide actions on old messages.
         for child_message in self.get_children():
@@ -548,13 +553,15 @@ class MessageBox(Gtk.Fixed):
             self._slide_messages_up_with_delay(messages_in_scene, message,
                                                self.DEFAULT_ANIMATION_DURATION_MS)
             self._add_message_with_delay(messages_in_scene, message, direction,
+                                         is_main_character_message,
                                          self.DEFAULT_ANIMATION_DURATION_MS * 2)
         else:
             self._slide_messages_up(messages_in_scene, message)
             self._add_message_with_delay(messages_in_scene, message, direction,
+                                         is_main_character_message,
                                          self.DEFAULT_ANIMATION_DURATION_MS)
 
-    def _add_message(self, messages_in_scene, message, direction):
+    def _add_message(self, messages_in_scene, message, direction, is_main_character_message):
         initial_x_pos, initial_y_pos = self._get_next_initial_position(message, direction)
         final_x_pos = 0
         self.put(message, initial_x_pos, initial_y_pos)
@@ -562,10 +569,13 @@ class MessageBox(Gtk.Fixed):
         self._messages_in_scene.append(message)
         self._animate_message(message, direction, final_x_pos)
 
+        self._app_window.character.update_character_image(idle=not is_main_character_message)
         message.show()
 
-    def _add_message_with_delay(self, messages_in_scene, message, direction, duration_ms):
-        GLib.timeout_add(duration_ms, self._add_message, messages_in_scene, message, direction)
+    def _add_message_with_delay(self, messages_in_scene, message, direction,
+                                is_main_character_message, duration_ms):
+        GLib.timeout_add(duration_ms, self._add_message, messages_in_scene, message, direction,
+                         is_main_character_message)
 
     def _get_next_initial_position(self, message, direction):
         assert direction in (Direction.LEFT, Direction.RIGHT)
@@ -641,11 +651,11 @@ class CharacterView(Gtk.Grid):
 
         self.message_box.show_all()
 
-    def _update_character_image(self):
+    def update_character_image(self, idle=False):
         if self._character is None:
             return
 
-        animation_id = self._character.id + '/closeup-talk'
+        animation_id = self._character.id + '/closeup-talk' + ('' if not idle else '-idle')
         if not self._animator.has_animation(animation_id) or \
            self._animator.get_animation_scale(animation_id) != self._scale:
             self._animator.load(self._character.get_moods_path(),
@@ -657,7 +667,7 @@ class CharacterView(Gtk.Grid):
 
     def set_scale(self, scale):
         self._scale = scale
-        self._update_character_image()
+        self.update_character_image(idle=True)
 
     def show_mission_list(self, quest_set):
         ctx = self._app_window.get_style_context()
@@ -674,7 +684,7 @@ class CharacterView(Gtk.Grid):
         self._character_button_label.set_text(self._character.id.capitalize() + '\'s Workspace')
 
         # Set character image
-        self._update_character_image()
+        self.update_character_image(idle=True)
 
         # Clear list
         for child in self._list.get_children():
