@@ -726,13 +726,12 @@ class CharacterView(Gtk.Grid):
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/clubhouse-view.ui')
-class ClubhouseView(Gtk.EventBox):
+class ClubhouseView(Gtk.Fixed):
 
     __gtype_name__ = 'ClubhouseView'
 
-    _hack_switch_box = Gtk.Template.Child()
     _hack_switch = Gtk.Template.Child()
-    _main_characters_box = Gtk.Template.Child()
+    _hack_switch_panel = Gtk.Template.Child()
 
     SYSTEM_CHARACTER_ID = 'daemon'
     SYSTEM_CHARACTER_MOOD = 'talk'
@@ -768,6 +767,7 @@ class ClubhouseView(Gtk.EventBox):
         self.add_tick_callback(AnimationSystem.step)
 
         Desktop.shell_settings_bind(Desktop.SETTINGS_HACK_MODE_KEY, self._hack_switch, 'active')
+        self._hack_switch.connect('toggled', self._on_hack_switch_toggled)
 
         self._gss = GameStateService()
         self._gss_hander_id = self._gss.connect('changed',
@@ -777,8 +777,21 @@ class ClubhouseView(Gtk.EventBox):
         state.connect('notify::hack-switch-highlighted',
                       self._on_hack_switch_highlighted_changed_cb)
 
+        # Update children allocation
+        for child in self.get_children():
+            if not isinstance(child, QuestSetButton):
+                child.size = child.get_size_request()
+                child.position = self.child_get(child, 'x', 'y')
+
+    def _on_hack_switch_toggled(self, button):
+        ctx = self._hack_switch_panel.get_style_context()
+        if button.get_active():
+            ctx.remove_class('off')
+        else:
+            ctx.add_class('off')
+
     def _on_hack_switch_highlighted_changed_cb(self, state, _param):
-        ctx = self._hack_switch_box.get_style_context()
+        ctx = self._hack_switch.get_style_context()
         if state.hack_switch_highlighted:
             ctx.add_class('highlighted')
         else:
@@ -787,14 +800,19 @@ class ClubhouseView(Gtk.EventBox):
     def _update_child_position(self, child):
         if isinstance(child, QuestSetButton):
             x, y = child.position
-            self._main_characters_box.move(child, x, y)
+            self.move(child, x, y)
 
     def set_scale(self, scale):
         self.scale = scale
         # Update children
-        for child in self._main_characters_box.get_children():
+        for child in self.get_children():
             if isinstance(child, QuestSetButton):
                 child.reload(self.scale)
+            else:
+                x, y = child.position
+                child.set_size_request(child.size.width * scale,
+                                       child.size.height * scale)
+                self.move(child, x * scale, y * scale)
 
     def stop_quest(self):
         self._cancel_ongoing_task()
@@ -824,7 +842,7 @@ class ClubhouseView(Gtk.EventBox):
         button.connect('clicked', self._quest_set_button_clicked_cb)
 
         x, y = button.position
-        self._main_characters_box.put(button, x, y)
+        self.put(button, x, y)
 
         button.connect('notify::position', self._on_button_position_changed)
 
@@ -1263,8 +1281,9 @@ class ClubhouseView(Gtk.EventBox):
             episode_name = libquest.Registry.get_current_episode()['name']
         self._current_episode = episode_name
 
-        for child in self._main_characters_box.get_children():
-            child.destroy()
+        for child in self.get_children():
+            if isinstance(child, QuestSetButton):
+                child.destroy()
 
         libquest.Registry.load_current_episode()
         for quest_set in libquest.Registry.get_character_missions():
