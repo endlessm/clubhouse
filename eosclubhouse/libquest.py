@@ -42,7 +42,7 @@ glibcoro.install()
 DEFAULT_CHARACTER = 'ada'
 
 
-class Registry:
+class Registry(GObject.GObject):
 
     _quest_sets_to_register = []
     _quest_sets = []
@@ -50,6 +50,25 @@ class Registry:
     _loaded_modules = set()
     _loaded_episode = None
     _autorun_quest = None
+    _singleton = None
+
+    __gsignals__ = {
+        'schedule-quest': (
+            GObject.SignalFlags.RUN_FIRST, None, (str, bool, int)
+        ),
+    }
+
+    def __init__(self):
+        super().__init__()
+
+    @classmethod
+    def get_or_create(class_):
+        if class_._singleton is None:
+            class_._singleton = class_()
+        return class_._singleton
+
+    def schedule_quest(self, quest_name, confirm_before=True, start_after=3):
+        self.emit('schedule-quest', quest_name, confirm_before, start_after)
 
     @classmethod
     def set_episode_required_state(class_, quest_folder):
@@ -610,15 +629,12 @@ class _Quest(GObject.GObject):
         'item-given': (
             GObject.SignalFlags.RUN_FIRST, None, (str, str)
         ),
-        'schedule-quest': (
-            GObject.SignalFlags.RUN_FIRST, None, (str, bool, int)
-        ),
     }
 
     # @todo: This should be obtained from the spreadsheet, not defined as a property.
     __sound_on_run_begin__ = 'quests/quest-given'
 
-    # @todo: Is this still relevant?
+    # @todo: Document
     __available_after_completing_quests__ = []
 
     # @todo: This should not be defined as property.
@@ -751,6 +767,7 @@ class _Quest(GObject.GObject):
         if all(self.is_named_quest_complete(q)
                for q in self.__available_after_completing_quests__):
             self.available = True
+            self._try_offer_quest()
 
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
@@ -782,17 +799,20 @@ class _Quest(GObject.GObject):
         # The quest is stopped, so reset the "stopping" property again.
         self.stopping = False
 
+    def _try_offer_quest(self):
+        next_quest = self.get_next_auto_offer_quest()
+        if next_quest:
+            logger.debug('Proposing next quest: %s', next_quest)
+            registry = Registry.get_or_create()
+            registry.schedule_quest(next_quest.get_id(), **next_quest.get_auto_offer_info())
+
     def run_finished(self):
         """This method is called when a quest finishes running.
 
         It can be overridden when quests need to run logic associated with that moment. By default
         it schedules the next quest to be run (if there's any).
         """
-
-        next_quest = self.get_next_auto_offer_quest()
-        if next_quest:
-            logger.debug('Proposing next quest: %s', next_quest)
-            self.schedule_quest(next_quest.get_id(), **next_quest.get_auto_offer_info())
+        self._try_offer_quest()
 
     def set_next_step(self, step_func, delay=0, args=()):
         assert self._run_context is not None
@@ -1110,9 +1130,6 @@ class _Quest(GObject.GObject):
         lock_state = self.gss.get(lock_id)
         return lock_state is not None and not lock_state.get('locked', True)
 
-    def schedule_quest(self, quest_name, confirm_before=True, start_after=3):
-        self.emit('schedule-quest', quest_name, confirm_before, start_after)
-
     @classmethod
     def get_pathways(class_):
         quest_pathways = []
@@ -1266,9 +1283,9 @@ class _Quest(GObject.GObject):
 
     def get_next_auto_offer_quest(self):
         for quest_set in Registry.get_quest_sets():
-            quest = quest_set.get_next_quest()
-            if quest and quest.auto_offer:
-                return quest
+            for quest in quest_set.get_quests():
+                if quest.auto_offer and quest.available and not quest.conf['complete']:
+                    return quest
 
         return None
 
