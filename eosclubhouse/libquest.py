@@ -789,10 +789,6 @@ class _Quest(GObject.GObject):
         it schedules the next quest to be run (if there's any).
         """
 
-        # Only try to propose the next quest if this one is complete.
-        if not self.complete:
-            return
-
         next_quest = self.get_next_auto_offer_quest()
         if next_quest:
             logger.debug('Proposing next quest: %s', next_quest)
@@ -1271,7 +1267,7 @@ class _Quest(GObject.GObject):
     def get_next_auto_offer_quest(self):
         for quest_set in Registry.get_quest_sets():
             quest = quest_set.get_next_quest()
-            if quest and quest is not self and quest.auto_offer:
+            if quest and quest.auto_offer:
                 return quest
 
         return None
