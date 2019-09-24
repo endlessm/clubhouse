@@ -1929,7 +1929,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_bio_revealer_revealer = Gtk.Template.Child()
     _user_bio_textbuffer = Gtk.Template.Child()
 
-    _pathways_button = Gtk.Template.Child()
+    _pathways_menu_button = Gtk.Template.Child()
 
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
@@ -1979,7 +1979,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if not init:
             Desktop.set_hack_background(hack_mode_enabled)
         Desktop.set_hack_cursor(hack_mode_enabled)
-        self._pathways_button.props.sensitive = hack_mode_enabled
+        self._pathways_menu_button.props.sensitive = hack_mode_enabled
 
         ctx = self.get_style_context()
         ctx.add_class('transitionable-background')
@@ -2343,6 +2343,8 @@ class ClubhouseApplication(Gtk.Application):
                           ('close', self._close_action_cb, None),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
                           ('show-page', self._show_page_action_cb, GLib.VariantType.new('s')),
+                          ('show-character', self._show_character_action_cb,
+                           GLib.VariantType.new('s')),
                           ('stop-quest', self._stop_quest, None),
                           ]
 
@@ -2473,6 +2475,14 @@ class ClubhouseApplication(Gtk.Application):
         page_name = arg_variant.unpack()
         if self._window:
             self._window.set_page(page_name)
+            self._show_and_focus_window()
+
+    def _show_character_action_cb(self, action, arg_variant):
+        character_id = arg_variant.unpack()
+        if self._window:
+            qs = libquest.Registry.get_character_mission_for_character(character_id)
+            self._window.character.show_mission_list(qs)
+            self._window.set_page('CHARACTER')
             self._show_and_focus_window()
 
     def _visibility_notify_cb(self, window, pspec):

@@ -96,6 +96,25 @@ ClubhouseWindow.CHARACTER.saniel {
     background-position: bottom right;
 }
 
+/* Menu popovers */
+popover.menu {
+    background-color: alpha(white, 0.9)
+}
+
+popover.menu > stack > box > button {
+    font-size: 1.4em;
+    padding: 1ex 1em;
+}
+
+popover.menu > stack > box > button:hover {
+    background: linear-gradient(to bottom right, alpha(#2D9B98, 0.3), alpha(#22597F, 0.3));
+}
+
+popover.menu > stack > box > button > box > image {
+    -gtk-icon-shadow: none;
+    margin-right: 1ex;
+}
+
 EpisodesView {
     background-image: url('resource:///com/hack_computer/Clubhouse/images/episodes_bg.png');
 }
