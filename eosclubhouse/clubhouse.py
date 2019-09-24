@@ -313,10 +313,9 @@ class QuestRow(Gtk.ListBoxRow):
 
         pathways = self._quest.get_pathways()
         if not pathways:
-            category = 'unknown'
+            self._category_image.props.icon_name = 'clubhouse-pathway-unknown'
         else:
-            category = pathways[0].get_name()
-        self._category_image.props.icon_name = 'clubhouse-pathway-{}'.format(category.lower())
+            self._category_image.props.icon_name = pathways[0].get_icon_name()
 
     def _setup_difficulty_image(self):
         basename = self._quest.get_difficulty().name
@@ -1439,7 +1438,7 @@ class PathwaysView(Gtk.ScrolledWindow):
     def _add_pathway(self, pathway):
         quests = pathway.get_quests(also_skippable=False)
         name = pathway.get_name()
-        icon = 'clubhouse-pathway-' + name.lower()
+        icon = pathway.get_icon_name()
 
         if len(quests) >= 1:
             pathway_list = PathwayList(icon, name)
@@ -1930,7 +1929,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_bio_revealer_revealer = Gtk.Template.Child()
     _user_bio_textbuffer = Gtk.Template.Child()
 
-    _pathways_button = Gtk.Template.Child()
+    _pathways_menu_button = Gtk.Template.Child()
 
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
@@ -1941,14 +1940,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._ambient_sound_uuid = None
 
         self.clubhouse = ClubhouseView(self)
-        self.pathways = PathwaysView(self)
         self.news = NewsView()
         self.inventory = InventoryView(self)
         self.character = CharacterView(self)
 
         self._stack.add_named(self.clubhouse, 'CLUBHOUSE')
         self._user_box.pack_start(self.inventory, True, True, 0)
-        self._stack.add_named(self.pathways, 'PATHWAYS')
         self._stack.add_named(self.news, 'NEWS')
         self._stack.add_named(self.character, 'CHARACTER')
 
@@ -1980,7 +1977,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if not init:
             Desktop.set_hack_background(hack_mode_enabled)
         Desktop.set_hack_cursor(hack_mode_enabled)
-        self._pathways_button.props.sensitive = hack_mode_enabled
+        self._pathways_menu_button.props.sensitive = hack_mode_enabled
 
         ctx = self.get_style_context()
         ctx.add_class('transitionable-background')
@@ -2344,6 +2341,8 @@ class ClubhouseApplication(Gtk.Application):
                           ('close', self._close_action_cb, None),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
                           ('show-page', self._show_page_action_cb, GLib.VariantType.new('s')),
+                          ('show-character', self._show_character_action_cb,
+                           GLib.VariantType.new('s')),
                           ('stop-quest', self._stop_quest, None),
                           ]
 
@@ -2367,7 +2366,6 @@ class ClubhouseApplication(Gtk.Application):
     def _load_episode(self):
         # @todo: Move staff from clubhouse_page.load_episode() here
         self._window.clubhouse.load_episode()
-        self._window.pathways.load_episode()
 
     def _ensure_splash_window(self):
         if self._splash_window:
@@ -2474,6 +2472,14 @@ class ClubhouseApplication(Gtk.Application):
         page_name = arg_variant.unpack()
         if self._window:
             self._window.set_page(page_name)
+            self._show_and_focus_window()
+
+    def _show_character_action_cb(self, action, arg_variant):
+        character_id = arg_variant.unpack()
+        if self._window:
+            qs = libquest.Registry.get_character_mission_for_character(character_id)
+            self._window.character.show_mission_list(qs)
+            self._window.set_page('CHARACTER')
             self._show_and_focus_window()
 
     def _visibility_notify_cb(self, window, pspec):
