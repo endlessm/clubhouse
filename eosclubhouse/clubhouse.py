@@ -1940,14 +1940,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._ambient_sound_uuid = None
 
         self.clubhouse = ClubhouseView(self)
-        self.pathways = PathwaysView(self)
         self.news = NewsView()
         self.inventory = InventoryView(self)
         self.character = CharacterView(self)
 
         self._stack.add_named(self.clubhouse, 'CLUBHOUSE')
         self._user_box.pack_start(self.inventory, True, True, 0)
-        self._stack.add_named(self.pathways, 'PATHWAYS')
         self._stack.add_named(self.news, 'NEWS')
         self._stack.add_named(self.character, 'CHARACTER')
 
@@ -2368,7 +2366,6 @@ class ClubhouseApplication(Gtk.Application):
     def _load_episode(self):
         # @todo: Move staff from clubhouse_page.load_episode() here
         self._window.clubhouse.load_episode()
-        self._window.pathways.load_episode()
 
     def _ensure_splash_window(self):
         if self._splash_window:
