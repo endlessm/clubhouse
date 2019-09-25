@@ -25,7 +25,7 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="icon_name">clubhouse-pathway-games</property>
+                    <property name="icon_name">clubhouse-pathway-games-symbolic</property>
                     <property name="icon_size">5</property>
                   </object>
                   <packing>
@@ -71,7 +71,7 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="icon_name">clubhouse-pathway-art</property>
+                    <property name="icon_name">clubhouse-pathway-art-symbolic</property>
                     <property name="icon_size">5</property>
                   </object>
                   <packing>
@@ -117,7 +117,7 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="icon_name">clubhouse-pathway-web</property>
+                    <property name="icon_name">clubhouse-pathway-web-symbolic</property>
                     <property name="icon_size">5</property>
                   </object>
                   <packing>
@@ -163,7 +163,7 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="icon_name">clubhouse-pathway-maker</property>
+                    <property name="icon_name">clubhouse-pathway-maker-symbolic</property>
                     <property name="icon_size">5</property>
                   </object>
                   <packing>
@@ -209,7 +209,7 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="icon_name">clubhouse-pathway-operatingsystem</property>
+                    <property name="icon_name">clubhouse-pathway-operatingsystem-symbolic</property>
                     <property name="icon_size">5</property>
                   </object>
                   <packing>
