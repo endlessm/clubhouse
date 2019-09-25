@@ -234,7 +234,7 @@ def install_flatpak(repo, flatpak_branch, app_id, extra_install_options=None):
     flatpak_install_options = ['--reinstall']
     if extra_install_options:
         flatpak_install_options.extend(extra_install_options.split())
-    run_command(['sudo', 'flatpak', 'install'] +
+    run_command(['flatpak', 'install'] +
                 flatpak_install_options +
                 ['./' + repo, app_id + '//' + flatpak_branch])
 
