@@ -2125,7 +2125,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     _user_box = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
-    _user_image = Gtk.Template.Child()
+    _user_image_button = Gtk.Template.Child()
 
     _pathways_menu_button = Gtk.Template.Child()
     _clubhouse_button = Gtk.Template.Child()
@@ -2163,9 +2163,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._on_screen_changed(None, None)
 
         self._css_provider = Gtk.CssProvider()
-        self.get_style_context().add_provider_for_screen(Gdk.Screen.get_default(),
-                                                         self._css_provider,
-                                                         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        self.get_style_context().add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            self._css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
 
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
@@ -2262,9 +2263,22 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             icon_file = '/var/run/host/{}'.format(icon_file)
 
         self._user_label.set_label(real_name)
-        self._css_provider.load_from_data(".user-overlay #image {{\
-            background-image: url('{}');\
-        }}".format(icon_file).encode())
+
+        if icon_file and os.path.exists(icon_file):
+            self._user_image_button.set_label('')
+            self._css_provider.load_from_data("#image.user-overlay {{\
+                background-image: url('{}');\
+            }}".format(icon_file).encode())
+        else:
+            tokens = real_name.split(' ')
+
+            if len(tokens) > 1:
+                initials = tokens[0][0] + tokens[-1][0]
+            else:
+                initials = tokens[0][0]
+
+            self._user_image_button.set_label(initials.upper())
+            self._css_provider.load_from_data(''.encode())
 
     @Gtk.Template.Callback()
     def _on_button_press_event(self, widget, e):

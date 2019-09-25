@@ -455,6 +455,7 @@
         </child>
         <child type="overlay">
           <object class="GtkButton" id="_user_image_button">
+            <property name="name">image</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="focus_on_click">False</property>
@@ -464,12 +465,7 @@
             <property name="relief">none</property>
             <signal name="clicked" handler="_on_user_button_clicked" swapped="no"/>
             <child>
-              <object class="GtkImage" id="_user_image">
-                <property name="name">image</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">start</property>
-              </object>
+              <placeholder/>
             </child>
             <style>
               <class name="user-overlay"/>

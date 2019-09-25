@@ -416,16 +416,22 @@ EpisodeRow .progress-label  {
     font-weight: bold;
 }
 
-.user-overlay #image {
+#image.user-overlay {
+    margin: 1em;
     min-width: 5em;
     min-height: 5em;
     border-radius: 50%;
     border: 0.2ex solid white;
     box-shadow:  1px 1px 2px #555;
-    margin: 0 3px 3px 0; /* needed for the shadow */
+    background-color: #2D9B98;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+#image.user-overlay > label {
+    font-size: 2em;
+    font-weight: bold;
 }
 
 InventoryView > scrolledwindow {
