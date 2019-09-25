@@ -346,7 +346,7 @@ class QuestRow(Gtk.ListBoxRow):
 
         pathways = self._quest.get_pathways()
         if not pathways:
-            self._category_image.props.icon_name = 'clubhouse-pathway-unknown'
+            self._category_image.props.icon_name = 'clubhouse-pathway-unknown-symbolic'
         else:
             self._category_image.props.icon_name = pathways[0].get_icon_name()
 
@@ -434,9 +434,9 @@ class QuestSetButton(Gtk.Button):
         self._popover.get_style_context().add_class('QuestSetButton')
 
         if self._character.pathway is not None:
-            icon = 'clubhouse-pathway-' + self._character.pathway
+            icon = 'clubhouse-pathway-' + self._character.pathway + '-symbolic'
         else:
-            icon = 'clubhouse-pathway-unknown'
+            icon = 'clubhouse-pathway-unknown-symbolic'
 
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         box.add(Gtk.Image(icon_name=icon, pixel_size=32))

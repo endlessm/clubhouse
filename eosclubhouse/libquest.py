@@ -2072,7 +2072,8 @@ class PathWay(QuestSet):
 
     @classmethod
     def get_icon_name(class_):
-        return 'clubhouse-pathway-' + class_.__pathway_name__.lower().replace(" ", "")
+        name = class_.__pathway_name__.lower().replace(" ", "")
+        return 'clubhouse-pathway-' + name + '-symbolic'
 
     def _sort_quests(self):
         def by_order(quest):

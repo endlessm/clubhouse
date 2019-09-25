@@ -113,6 +113,7 @@ popover.menu > stack > box > button:hover {
 popover.menu > stack > box > button > box > image {
     -gtk-icon-shadow: none;
     margin-right: 1ex;
+    color: #4387c5;
 }
 
 EpisodesView {
