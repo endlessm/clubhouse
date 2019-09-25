@@ -7,7 +7,7 @@ class OSOneshotBackground(Quest):
     APP_NAME = 'org.gnome.Terminal'
 
     __quest_name__ = "The Terminal - 4 - Showing Off"
-    __tags__ = ['mission:riley', 'pathway:operating system', 'difficulty:hard']
+    __tags__ = ['mission:saniel', 'pathway:operating system', 'difficulty:hard']
     __mission_order__ = 265
     __pathway_order__ = 265
 

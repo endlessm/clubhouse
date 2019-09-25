@@ -7,7 +7,7 @@ class OSOneshotMap(Quest):
     APP_NAME = 'org.gnome.Terminal'
 
     __quest_name__ = "The Terminal - 2 - Grep, is that a fruit?"
-    __tags__ = ['mission:riley', 'pathway:operating system', 'difficulty:hard']
+    __tags__ = ['mission:saniel', 'pathway:operating system', 'difficulty:hard']
     __mission_order__ = 255
     __pathway_order__ = 255
 
