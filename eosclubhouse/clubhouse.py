@@ -23,7 +23,6 @@ gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
 import functools
-import json
 import logging
 import os
 import subprocess
@@ -68,6 +67,51 @@ ClubhouseIface = ('<node>'
 resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
 Gio.Resource._register(resource)
 
+CharacterInfo = {
+    'estelle': {
+        'position': (631, 102),
+        'username': 'lightspeedgal',
+        'pathway': 'art',
+        'title': 'Art'
+    },
+    'ada': {
+        'position': (186, 136),
+        'username': 'countesslovelace',
+        'pathway': 'games',
+        'title': 'Games'
+    },
+    'saniel': {
+        'position': (892, 570),
+        'username': 'srowe1822',
+        'pathway': 'operatingsystem',
+        'title': 'Operating Systems'
+    },
+    'faber': {
+        'position': (518, 511),
+        'username': 'fabersapiens',
+        'pathway': 'maker',
+        'title': 'Maker'
+    },
+    'riley': {
+        'position': (298, 551),
+        'username': '_getriled',
+        'pathway': 'web',
+        'title': 'Web'
+    },
+    'felix': {
+        'position': None,
+        'username': 'UNDEFINED_USER',
+        'pathway': '',
+        'title': ''
+    },
+    'metatron': {
+        'position': None,
+        'username': 'Endless',
+        'pathway': '',
+        'title': ''
+    }
+}
+
 
 class Character(GObject.GObject):
     _characters = {}
@@ -90,7 +134,7 @@ class Character(GObject.GObject):
         self._body_animation = self.DEFAULT_BODY_ANIMATION
         body_path = os.path.join(self._id, 'fullbody')
         self._body_image = AnimationImage(body_path)
-        self._position = None
+        self._position = CharacterInfo[id_]['position']
 
     def _get_id(self):
         return self._id
@@ -140,30 +184,8 @@ class Character(GObject.GObject):
         return Gio.FileIcon.new(image_file)
 
     def load(self, scale=1):
-        self._load_position()
         self._body_image.load(scale)
         self._body_image.play(self.DEFAULT_BODY_ANIMATION)
-
-    def _load_position(self):
-        checked_main_path = False
-
-        for character_path in get_character_animation_dirs(self._id):
-            conf_path = os.path.join(character_path, 'fullbody.json')
-            conf_json = None
-
-            try:
-                with open(conf_path) as f:
-                    conf_json = json.load(f)
-            except FileNotFoundError:
-                if not checked_main_path:
-                    logger.debug('No conf for "%s" fullbody animation', self._id)
-                continue
-            finally:
-                checked_main_path = True
-
-            self._position = conf_json.get('position', None)
-            if self._position is not None:
-                self._position = tuple(self._position)
 
     def get_position(self):
         return self._position
@@ -373,6 +395,8 @@ class QuestSetButton(Gtk.Button):
 
         self.reload(scale)
 
+        self._create_popover()
+
         self._quest_set.connect('notify::highlighted',
                                 lambda _quest_set, highlighted: self._set_highlighted(highlighted))
         self._set_highlighted(self._quest_set.highlighted)
@@ -393,6 +417,21 @@ class QuestSetButton(Gtk.Button):
                                       GObject.BindingFlags.BIDIRECTIONAL |
                                       GObject.BindingFlags.SYNC_CREATE)
         Desktop.shell_settings_bind(Desktop.SETTINGS_HACK_MODE_KEY, self, 'sensitive')
+
+    def _create_popover(self):
+        info = CharacterInfo[self._quest_set.get_character()]
+
+        self._popover = Gtk.Popover(relative_to=self, modal=False)
+        self._popover.get_style_context().add_class('QuestSetButton')
+
+        image = Gtk.Image(icon_name='clubhouse-pathway-' + info['pathway'],
+                          pixel_size=32)
+
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        box.add(image)
+        box.add(Gtk.Label(label=info['title']))
+        box.show_all()
+        self._popover.add(box)
 
     def reload(self, scale):
         self._scale = scale
@@ -421,16 +460,19 @@ class QuestSetButton(Gtk.Button):
                 (position[1] - anchor[1]) * self._scale)
 
     def _on_button_clicked_cb(self, _button):
+        self._popover.popdown()
         if self._quest_set.highlighted:
             self._quest_set.highlighted = False
 
     def _on_button_enter_cb(self, _button):
         self._on_hover = True
         self._update_character_animation()
+        self._popover.popup()
 
     def _on_button_leave_cb(self, _button):
         self._on_hover = False
         self._update_character_animation()
+        self._popover.popdown()
 
     def _set_highlighted(self, highlighted):
         highlighted_style = 'highlighted'
@@ -1856,16 +1898,6 @@ class NewsItem(Gtk.Box):
     _text_label = Gtk.Template.Child()
     _image_button = Gtk.Template.Child()
     _image = Gtk.Template.Child()
-
-    _usernames = {
-        'estelle': 'lightspeedgal',
-        'ada': 'countesslovelace',
-        'saniel': 'srowe1822',
-        'faber': 'fabersapiens',
-        'riley': '_getriled',
-        'felix': 'UNDEFINED_USER',
-        'metatron': 'Endless'
-    }
 
     def __init__(self, data):
         super().__init__()
