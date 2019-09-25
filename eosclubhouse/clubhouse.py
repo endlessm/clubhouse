@@ -2227,6 +2227,10 @@ class ClubhouseApplication(Gtk.Application):
         GLib.idle_add(self._activate_window)
 
     def _activate_window(self):
+        self._ensure_registry_loaded()
+        self._ensure_suggesting_open()
+        self._init_style()
+
         if not self._run_episode_autorun_quest_if_needed():
             self._ensure_window()
             self.show(Gdk.CURRENT_TIME)
@@ -2259,6 +2263,7 @@ class ClubhouseApplication(Gtk.Application):
         self.register(None)
 
         if options.contains('list-quests'):
+            self._ensure_registry_loaded()
             self._list_quests()
             return 0
 
@@ -2319,10 +2324,6 @@ class ClubhouseApplication(Gtk.Application):
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
-
-        self._ensure_registry_loaded()
-        self._ensure_suggesting_open()
-        self._init_style()
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
                           ('item-accept-answer', self._item_accept_action_cb,
