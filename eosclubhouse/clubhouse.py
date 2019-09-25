@@ -109,6 +109,12 @@ CharacterInfo = {
         'username': 'Endless',
         'pathway': '',
         'title': ''
+    },
+    'daemon': {
+        'position': None,
+        'username': 'daemon',
+        'pathway': '',
+        'title': ''
     }
 }
 
