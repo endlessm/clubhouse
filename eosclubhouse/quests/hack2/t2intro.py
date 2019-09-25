@@ -10,7 +10,6 @@ class T2Intro(Quest):
     __tags__ = ['mission:saniel', 'pathway:games', 'difficulty:easy']
     __mission_order__ = 125
     __pathway_order__ = 125
-    __auto_offer_info__ = {'confirm_before': True}
 
     def setup(self):
         self._app = App(self.APP_NAME)

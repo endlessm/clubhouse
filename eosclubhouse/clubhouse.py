@@ -786,6 +786,9 @@ class ClubhouseView(Gtk.Fixed):
         state.connect('notify::hack-switch-highlighted',
                       self._on_hack_switch_highlighted_changed_cb)
 
+        registry = libquest.Registry.get_or_create()
+        registry.connect('schedule-quest', self._quest_scheduled_cb)
+
         # Update children allocation
         for child in self.get_children():
             if not isinstance(child, QuestSetButton):
@@ -835,12 +838,16 @@ class ClubhouseView(Gtk.Fixed):
         if self._current_quest is None:
             return
 
-        cancellable = self._current_quest.get_cancellable()
-        if not cancellable.is_cancelled():
-            logger.debug('Stopping quest %s', self._current_quest)
-            cancellable.cancel()
-
+        current_quest = self._current_quest
+        # This should be done before calling step_abort to avoid infinite
+        # recursion with quests that change can change the hack-mode-enabled
+        # like the firstcontact, because setting hack-mode-enabled to false
+        # will call to this function and if the quest is not set to None we've
+        # the recursion
         self._set_current_quest(None)
+
+        logger.debug('Stopping quest %s', current_quest)
+        current_quest.step_abort()
 
     def _on_button_position_changed(self, button, _param):
         self._update_child_position(button)
@@ -900,14 +907,12 @@ class ClubhouseView(Gtk.Fixed):
 
         quest.connect('message', self._quest_message_cb)
         quest.connect('dismiss-message', self._quest_dismiss_message_cb)
-        quest.connect('schedule-quest', self._quest_scheduled_cb)
         quest.connect('item-given', self._quest_item_given_cb)
 
     def disconnect_quest(self, quest):
         self._gss.handler_unblock(self._gss_hander_id)
         quest.disconnect_by_func(self._quest_message_cb)
         quest.disconnect_by_func(self._quest_dismiss_message_cb)
-        quest.disconnect_by_func(self._quest_scheduled_cb)
         quest.disconnect_by_func(self._quest_item_given_cb)
 
     def _ask_stop_quest(self, new_quest):
@@ -1001,7 +1006,7 @@ class ClubhouseView(Gtk.Fixed):
     def _is_current_quest(self, quest):
         return self._current_quest is not None and self._current_quest == quest
 
-    def _quest_scheduled_cb(self, quest, quest_name, confirm_before, start_after_timeout):
+    def _quest_scheduled_cb(self, _registry, quest_name, confirm_before, start_after_timeout):
         self._reset_scheduled_quest()
 
         # This means that scheduling a quest called '' just removes the scheduled quest
@@ -1016,6 +1021,7 @@ class ClubhouseView(Gtk.Fixed):
 
         self._scheduled_quest_info = self._QuestScheduleInfo(quest, confirm_before,
                                                              start_after_timeout, 0)
+        self._schedule_next_quest()
 
     def _quest_item_given_cb(self, quest, item_id, text):
         self._shell_popup_item(item_id, text)
@@ -1068,9 +1074,6 @@ class ClubhouseView(Gtk.Fixed):
         for quest_set in libquest.Registry.get_quest_sets():
             for quest in quest_set.get_quests():
                 quest.props.highlighted = False
-
-        # If there is a next quest to run, we start it
-        self._schedule_next_quest()
 
     def _reset_scheduled_quest(self):
         if self._scheduled_quest_info is not None:
