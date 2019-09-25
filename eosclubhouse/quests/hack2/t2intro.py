@@ -7,7 +7,7 @@ class T2Intro(Quest):
     APP_NAME = 'com.endlessnetwork.frogsquash'
 
     __quest_name__ = 'Terminal 2 - FrogSquash'
-    __tags__ = ['mission:saniel', 'pathway:games', 'difficulty:easy']
+    __tags__ = ['mission:ada', 'pathway:games', 'difficulty:easy']
     __mission_order__ = 125
     __pathway_order__ = 125
 

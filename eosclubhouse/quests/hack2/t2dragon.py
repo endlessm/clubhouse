@@ -7,7 +7,7 @@ class T2Dragon(Quest):
     APP_NAME = 'com.endlessnetwork.dragonsapprentice'
 
     __quest_name__ = '''Terminal 2 - Dragon's Apprentice'''
-    __tags__ = ['mission:saniel', 'pathway:games', 'difficulty:normal']
+    __tags__ = ['mission:ada', 'pathway:games', 'difficulty:normal']
     __mission_order__ = 126
     __pathway_order__ = 126
 
