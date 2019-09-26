@@ -1,0 +1,21 @@
+KRITAQUEST_FWD,❯,,,,
+KRITAQUEST_BAK,❮,,,,
+KRITAQUEST_QUIT,See you later!,,,,
+KRITAQUEST_NOTINSTALLED,"Uh-oh! Looks like `Krita` isn't installed!
+
+You need to download it from the App Center if you'd like to learn how to use it.
+
+Click the icon named `More Apps` on the Desktop, then search for `Krita`, and install it. ",daemon,,,
+KRITAQUEST_LAUNCH,"Krita's an art program for people of any skill level - it's got all the tools for amazing visuals.
+
+We've got some useful tutorials linked in here for you, give them a try!
+
+I'll launch Krita - but you can always find it on the Desktop and launch it yourself.",estelle,,,
+KRITAQUEST_INFO_1,Click the links for these tutorials to open them in your browser and follow along.,estelle,,,
+KRITAQUEST_INFO_2,"This is a good beginner tutorial to start with -
+https://www.youtube.com/watch?v=TB6ig9dM4Uw",estelle,,,
+KRITAQUEST_INFO_3,"This one's about sketching in Krita - 
+https://www.youtube.com/watch?v=4nEA7-wtQxo",estelle,,,
+KRITAQUEST_INFO_4,"Here's a tutorial specifically about pixel art, for retro games - 
+https://www.youtube.com/watch?v=OmnpKQITm3I",estelle,,,
+KRITAQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,

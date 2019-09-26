@@ -1,0 +1,20 @@
+LMMSQUEST_FWD,❯,,,,
+LMMSQUEST_BAK,❮,,,,
+LMMSQUEST_QUIT,See you later!,,,,
+LMMSQUEST_NOTINSTALLED,"Uh-oh! Looks like `LMMS` isn't installed!
+
+You need to download it from the App Center if you'd like to learn how to use it.
+
+Click the icon named `More Apps` on the Desktop, then search for `LMMS`, and install it. ",daemon,,,
+LMMSQUEST_LAUNCH,"LMMS is a program that lets you create music on your Hack system.
+
+With a little practice, you can easily sample, remix, make mash-ups, and share them with friends.
+
+We've got some useful tutorials linked in here for you, give them a try!",estelle,,,
+LMMSQUEST_INFO_1,Click the links for these tutorials to open them in your browser and follow along.,estelle,,,
+LMMSQUEST_INFO_2,"Here's a link to a full playlist of tutorials on how to get started:
+https://youtu.be/TrMTlpeSw8Y",estelle,,,
+LMMSQUEST_INFO_3,"Here's a single tutorial that should be great for beginners: 
+https://youtu.be/MP7VxyhCkrA ",estelle,,,
+LMMSQUEST_INFO_4,"If you want to read the documentation, the wiki is located at https://lmms.io/wiki/index.php",estelle,,,
+LMMSQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
