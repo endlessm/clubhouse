@@ -2249,7 +2249,7 @@ class ClubhouseApplication(Gtk.Application):
 
         self._window = None
         self._splash_window = None
-        self._show_splash = True
+        self._showing_splash = False
         self._debug_mode = False
         self._registry_loaded = False
         self._suggesting_open = False
@@ -2285,26 +2285,41 @@ class ClubhouseApplication(Gtk.Application):
 
     @Performance.timeit
     def do_activate(self):
-        if self._show_splash:
+        show_splash = self._window is None
+        if show_splash and not self._showing_splash:
+            self._showing_splash = True
             self._ensure_splash_window()
+            self._splash_window.connect_after('realize', self._splash_window_realize_cb)
             self._splash_window.present()
             self._splash_window.show_all()
+        else:
+            self._activate_window()
+
+    def _splash_window_realize_cb(self, splash_window, *_args):
+        splash_window.disconnect_by_func(self._splash_window_realize_cb)
+        self._ensure_window()
+        self._window.connect_after('realize', self._window_realize_cb)
         GLib.idle_add(self._activate_window)
 
     def _activate_window(self):
-        Gtk.Window.set_auto_startup_notification(True)
-        self._ensure_window()
-        if self._show_splash:
-            self._window.connect_after('realize', self._window_realize_cb)
+        self._ensure_registry_loaded()
+        self._ensure_suggesting_open()
+        self._init_style()
+
         if not self._run_episode_autorun_quest_if_needed():
+            self._ensure_window()
             self.show(Gdk.CURRENT_TIME)
+            self._show_and_focus_window()
 
     def _window_realize_cb(self, window, *_args):
-        assert self._splash_window is not None
-        self._splash_window.destroy_with_fadeout()
-        self._show_splash = False
-        self._splash_window = None
         window.disconnect_by_func(self._window_realize_cb)
+
+        Gtk.Window.set_auto_startup_notification(True)
+        assert self._splash_window is not None
+
+        self._splash_window.destroy_with_fadeout()
+        self._showing_splash = False
+        self._splash_window = None
 
     def _run_episode_autorun_quest_if_needed(self):
         autorun_quest = libquest.Registry.get_autorun_quest()
@@ -2323,6 +2338,7 @@ class ClubhouseApplication(Gtk.Application):
         self.register(None)
 
         if options.contains('list-quests'):
+            self._ensure_registry_loaded()
             self._list_quests()
             return 0
 
@@ -2383,10 +2399,6 @@ class ClubhouseApplication(Gtk.Application):
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
-
-        self._ensure_registry_loaded()
-        self._ensure_suggesting_open()
-        self._init_style()
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
                           ('item-accept-answer', self._item_accept_action_cb,
