@@ -43,6 +43,7 @@
         "--socket=x11",
         "--system-talk-name=org.freedesktop.Accounts",
         "--system-talk-name=com.endlessm.Metrics",
+        "--talk-name=ca.desrt.dconf",
         "--talk-name=com.endlessm.Libanimation",
         "--talk-name=org.freedesktop.Flatpak",
         "--talk-name=org.gtk.Notifications"
