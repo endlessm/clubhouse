@@ -23,6 +23,7 @@
         "--env=GNOTIFICATION_BACKEND=gtk",
         "--env=GSETTINGS_SCHEMA_DIR=/run/host/usr/share/glib-2.0/schemas/",
         "--env=GTK3_MODULES=/app/clippy/lib/libclippy-module.so",
+        "--filesystem=/var/lib/AccountsService/icons/:ro",
         "--filesystem=/var/lib/flatpak/exports/share/applications:ro",
         "--filesystem=/var/lib/flatpak/exports/share/icons:ro",
         "--filesystem=host",
