@@ -2102,9 +2102,13 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         real_name = self._user.get('RealName')
         icon_file = self._user.get('IconFile')
 
+        default_avatar_path = '/var/lib/AccountsService/icons'
+        if not icon_file.startswith(default_avatar_path):
+            icon_file = '/var/run/host/{}'.format(icon_file)
+
         self._user_label.set_label(real_name)
         self._css_provider.load_from_data(".user-overlay #image {{\
-            background-image: url('/var/run/host/{}');\
+            background-image: url('{}');\
         }}".format(icon_file).encode())
 
         # @todo: add a way to edit the biography and a scrollbar
