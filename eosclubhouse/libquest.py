@@ -24,6 +24,7 @@ import glibcoro
 import os
 import pkgutil
 import shutil
+import subprocess
 import sys
 
 from collections import OrderedDict
@@ -1982,21 +1983,30 @@ class Quest(_Quest):
         :param str file_name: Name of a file that should be already commited in GIT, inside the
             'data/quests_files/' folder.
 
-        :param str directory_path: Path to a destination directory inside the user home
-            directory. Should start with '~/'. The directory (and subdirectories) will be
+        :param str directory_path: Destination of the file. It can be either A. the name of a
+            "well-known" user folder like DOCUMENTS (see `man xdg-user-dir` for the full list)
+            or B: Path to a destination directory inside the user home directory. In this
+            latter case it should start with '~/'. The directory (and subdirectories) will be
             created.
 
         :param bool override: Pass True to override the file if it already exists.
 
         '''
 
-        if not directory_path.startswith('~/'):
-            logger.error("Error copying file, directory_path %s doesn't start with '~/'",
-                         directory_path)
-            return
+        if directory_path.startswith('~/'):
+            dest_dir = os.path.expanduser(directory_path)
+        else:
+            dest_dir = subprocess.check_output(['/usr/bin/xdg-user-dir', directory_path],
+                                               universal_newlines=True).strip()
+
+            # xdg-user-dir outputs the path to the home dir when there is no match.
+            if dest_dir == os.path.expanduser('~'):
+                logger.error("Error copying file, directory_path %s is not a well-known user"
+                             " directory and  doesn't start with '~/'",
+                             directory_path)
+                return
 
         source = os.path.join(config.QUESTS_FILES_DIR, file_name)
-        dest_dir = os.path.expanduser(directory_path)
         destination = os.path.join(dest_dir, file_name)
 
         if not os.path.exists(source):
