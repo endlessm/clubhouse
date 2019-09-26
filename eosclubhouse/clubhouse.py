@@ -31,9 +31,9 @@ import time
 import datetime
 
 from collections import OrderedDict
-from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
+from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json, AccountsService
 from eosclubhouse import config, logger, libquest, utils
-from eosclubhouse.system import Desktop, GameStateService, UserAccount, Sound
+from eosclubhouse.system import Desktop, GameStateService, Sound
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     Direction, get_character_animation_dirs
@@ -1994,7 +1994,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         super().__init__(application=app, title='Clubhouse')
 
         self._gss = GameStateService()
-        self._user = UserAccount()
+        user_manager = AccountsService.UserManager.get_default()
+        user_manager.connect('notify::is-loaded', self._user_manager_loaded_cb)
+        self._user = None
         self._page_reset_timeout = 0
         self._ambient_sound_uuid = None
 
@@ -2024,6 +2026,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                                                          self._css_provider,
                                                          Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
+    def _user_manager_loaded_cb(self, manager, _param):
+        if not manager.props.is_loaded:
+            return
+        manager.disconnect_by_func(self._user_manager_loaded_cb)
+        manager.list_users()
+        self._user = manager.get_user(GLib.get_user_name())
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
 
@@ -2099,8 +2107,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.hide()
 
     def update_user_info(self):
-        real_name = self._user.get('RealName')
-        icon_file = self._user.get('IconFile')
+        real_name = self._user.get_real_name()
+        icon_file = self._user.get_icon_file()
+
+        print(real_name)
+        print(icon_file)
 
         self._user_label.set_label(real_name)
         self._css_provider.load_from_data(".user-overlay #image {{\

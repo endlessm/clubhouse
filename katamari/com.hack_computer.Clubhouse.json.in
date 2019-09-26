@@ -299,6 +299,41 @@
             ]
         },
         {
+            "name" : "polkit",
+            "buildsystem" : "autotools",
+            "config-opts" : [
+                "--disable-man-pages",
+                "--disable-introspection",
+                "--disable-libelogind",
+                "--enable-libsystemd-login=no",
+                "--with-systemdsystemunitdir=no"
+            ],
+            "sources" : [
+                {
+                    "type" : "git",
+                    "url" : "git://anongit.freedesktop.org/polkit"
+                }
+            ]
+        },
+        {
+            "name" : "accountservice",
+            "buildsystem" : "meson",
+            "config-opts" : [
+                "-Ddocbook=false",
+                "-Delogind=false",
+                "-Dgtk_doc=false",
+                "-Dintrospection=true",
+                "-Dsystemd=false",
+                "-Dsystemdsystemunitdir=no"
+            ],
+            "sources" : [
+                {
+                    "type" : "git",
+                    "url" : "git://anongit.freedesktop.org/accountsservice"
+                }
+            ]
+        },
+        {
             "name": "clubhouse",
             "buildsystem": "meson",
             "build-options": {
