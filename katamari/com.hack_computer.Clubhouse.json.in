@@ -301,6 +301,21 @@
             ]
         },
         {
+            "name": "python3-libsass",
+            "buildsystem": "simple",
+            "build-commands": [
+                "pip3 install --no-index --find-links=\"file://$${PWD}\" --prefix=$${FLATPAK_DEST} libsass"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/bb/25/56fbd361b36b449457f19beaf616abf8cdfb8e037ea8f3f8300b7c2950a8/libsass-0.19.2.tar.gz",
+                    "sha256": "cb50f385117535f7671ac7ff3144c1ef0b8e088778c58d269ce6f31b87bfad72"
+                }
+            ],
+            "cleanup": ["*"]
+        },
+        {
             "name": "clubhouse",
             "buildsystem": "meson",
             "build-options": {
