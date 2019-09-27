@@ -2,11 +2,12 @@ MEET_WELCOME1,"Welcome to the world of Hack! Here, you can learn the secrets of 
 MEET_WELCOME2,My name's Ada - I've been around the Academy for a while. I'll be your guide.,ada,,,
 MEET_WELCOME3_GOTHINT,That was actually me at the entrance puzzle - I didn't want to distract you by introducing myself.,ada,,,
 MEET_WELCOME3_NOHINT,Great job on the entrance puzzle! Not many students solve that without help.,ada,hurray,,
-MEET_EXPLAIN_MAIN1,This main area is called 'The Clubhouse.' It's a virtual place anyone at The Academy can use to hang out and chat.,ada,,,
+MEET_GOBACK,"First, use the buttons at the *top* of the screen to go back to the main Clubhouse area.",,,,
+MEET_EXPLAIN_MAIN1,`The Clubhouse' is a virtual place that anyone at The Academy can use to hang out and chat.,ada,,,
 MEET_EXPLAIN_MAIN2,"No matter where we are in the real world., we're always here in the virtual world.",ada,,,
-MEET_EXPLAIN_HACK1,"You might have already noticed that your cursor and desktop are different, now. That's because we're in Hack Mode.
+MEET_EXPLAIN_HACK1,"You might have already noticed that your cursor and desktop are different - That's because we're in Hack Mode.
 
-When you're in Hack Mode, you can flip programs and hack them - just like that puzzle.",ada,,,
+When you're in Hack Mode, you can flip programs and hack them, and sometimes do even more!",ada,,,
 MEET_EXPLAIN_HACK2,Hack Mode is controlled by that *big switch on the right* - See it?,ada,,,
 MEET_EXPLAIN_HACK3,"If you switch it OFF, you’ll go back to the regular desktop - it'll shut down the Clubhouse and all your hacking tools.",ada,,,
 MEET_EXPLAIN_HACK4,"You can turn Hack Mode off if someone else needs to use the computer, or you need to do your homework.",ada,,,
@@ -20,7 +21,9 @@ MEET_EXPLAIN_PROFILE3,"If you'd prefer to be called something other than {{user_
 MEET_CHANGE_NAME_ASK,Would you like to learn how to do that right now?,ada,,,
 MEET_CHANGE_NAME_YES,Sure!,,,,
 MEET_CHANGE_NAME_NO,Not now...,,,,
-MEET_CHANGE_NAME1,"If you look in the *bottom right* corner of the screen, you'll see a little picture. Click that, and it'll pop up a menu. From that menu, click the picture with your current name underneath it.",ada,,,
+MEET_CHANGE_NAME1,"If you look in the *far bottom right* corner of the whole screen, you'll see a little picture.
+
+Click that, and it'll pop up a menu. From that menu, click the picture with your current name underneath it.",ada,,,
 MEET_CHANGE_NAME2,"Once you've clicked the picture with your name underneath it, you'll be in the `Settings` app, and you can change your name.",ada,,,
 MEET_CHANGE_NAME3,"You can also get into `Settings` by using the search bar on the desktop - go to the `Details` category, then the `Users` category.",ada,,,
 MEET_CHANGE_NAME4,All done? Let's move on.,ada,,,

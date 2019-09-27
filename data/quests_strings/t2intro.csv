@@ -4,13 +4,9 @@ It’s always a good day when I get to meet a new student - it means there's ano
 T2INTRO_FIRSTRUN2,"Speaking of mastery, I'd like your help to test some new security protocols.
 
 We'll connect to a sub-network of The Academy's that's far outside my reach.",saniel,,,
-T2INTRO_FIRSTRUN3,"There's no need for me to look over your shoulder, so go enjoy yourself.
-
-Don’t hesitate to return to the Clubhouse if you'd like to do something else, or even just to chat.",saniel,,,
+T2INTRO_FIRSTRUN3,Go enjoy yourself - and return to the Clubhouse if you'd like to do something else.,saniel,,,
 T2INTRO_GREET1,"This game is part of a network of activities outside the main Academy, and you can run all of them from your Desktop, if you like.",saniel,,,
-T2INTRO_GREET2,"FrogSquash... a bit morbid, if you ask me. Isn't the goal to *avoid* being squashed?
-
-You'll have to brief me on the consequences when you return...",saniel,,,
+T2INTRO_GREET2,"FrogSquash... Isn't the goal to *avoid* being squashed? You'll find out, I suppose.",saniel,,,
 T2INTRO_BYE,Excellent. You're on your way!,saniel,hurray,,
 T2INTRO_NOTINSTALLED,"Uh-oh! I'm detecting that `Frogsquash` isn't installed!
 
