@@ -3,6 +3,7 @@
 Message
   .button-box
     button
+      $default_margin: 14px
       $color_variant_a: #76EECF
       $color_variant_b: #37DCB1
       $color_variant_c: #32BBA4
@@ -11,6 +12,7 @@ Message
 
       // This is the default for buttons after the 3rd one (unlikely).
       background: $default_color
+      border-radius: 20px
 
       &:nth-child(0)
         background: linear-gradient(to right, $color_variant_a, $color_variant_b)
@@ -46,3 +48,21 @@ Message
           background: linear-gradient(to right, $color_variant_active_b, $color_variant_active_c)
         &:nth-child(2)
           background: linear-gradient(to right, $color_variant_active_c, $color_variant_active_d)
+
+      label
+        margin-right: $default_margin
+        margin-left: $default_margin
+        // Force to vertically align the text.
+        margin-top: 4px
+        min-width: 85px
+
+      image
+        color: white
+
+      &.nondefault
+        label
+          // The icon has already a margin. If this margin is set, a double margin will be viewed.
+          margin-left: unset
+        image
+          color: white
+          padding: $default_margin / 2

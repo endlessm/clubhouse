@@ -25,6 +25,7 @@ gi.require_version('Json', '1.0')
 import functools
 import logging
 import os
+import re
 import subprocess
 import sys
 import time
@@ -216,6 +217,9 @@ class Message(Gtk.Overlay):
     _button_box = Gtk.Template.Child()
 
     OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
+    DEFAULT_BUTTON_ICON_NAME = 'clubhouse-check-in-circle'
+    DEFAULT_BUTTON_ICON_SIZE = 28
+    NON_DEFAULT_BUTTON_ICON_SIZE = 15
 
     def __init__(self):
         super().__init__()
@@ -231,14 +235,44 @@ class Message(Gtk.Overlay):
         return self._label.get_label()
 
     def add_button(self, label, click_cb, *user_data):
-        button = Gtk.Button(label=label)
+        button = Gtk.Button()
 
-        if len(self._button_box.get_children()) == 0:
-            image = Gtk.Image.new_from_resource(
-                '/com/hack_computer/Clubhouse/images/icon_check-in-circle.svg')
+        # Backward compatibility.
+        # @todo: Remove when quests implement the new :icon:icon-name: format.
+        if label == '>':
+            label = ':icon:next:'
+        elif label == '👍':
+            label = ':icon:thumbsup:'
+        elif label == '👎':
+            label = ':icon:thumbsdown:'
+
+        tokens = re.split(r'(^\:icon:.*\:)', label)[1:]
+        specifies_icon = bool(tokens)
+
+        icon_name = self.DEFAULT_BUTTON_ICON_NAME
+        if specifies_icon:
+            icon_name = 'clubhouse-{}'.format(tokens[0].split(':icon:')[1][:-1])
+            label = tokens[1]
+
+        icon_pixel_size = self.DEFAULT_BUTTON_ICON_SIZE
+        if icon_name != self.DEFAULT_BUTTON_ICON_NAME:
+            icon_pixel_size = self.NON_DEFAULT_BUTTON_ICON_SIZE
+
+        if len(self._button_box.get_children()) == 0 or specifies_icon:
+            image = Gtk.Image(icon_name=icon_name, pixel_size=icon_pixel_size)
             button.set_image(image)
             button.set_property('always-show-image', True)
-            label_widget = button.get_children()[0].get_children()[0].get_children()[1]
+
+        if button.props.image and icon_name != self.DEFAULT_BUTTON_ICON_NAME:
+            ctx = button.get_style_context()
+            ctx.add_class('nondefault')
+
+        if label:
+            button.props.label = label
+            if button.props.image:
+                label_widget = button.get_children()[0].get_children()[0].get_children()[1]
+            else:
+                label_widget = button.get_children()[0]
             label_widget.set_property('valign', Gtk.Align.CENTER)
 
         button.connect('clicked', self._button_clicked_cb, click_cb, *user_data)
