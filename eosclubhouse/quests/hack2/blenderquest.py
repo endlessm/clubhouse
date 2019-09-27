@@ -7,7 +7,7 @@ class BlenderQuest(Quest):
     APP_NAME = 'org.blender.Blender'
 
     __quest_name__ = '3D Modeling for Beginners'
-    __tags__ = ['mission:estelle', 'pathway:maker', 'difficulty:hard']
+    __tags__ = ['mission:estelle', 'pathway:art', 'difficulty:hard']
     __mission_order__ = 100
     __pathway_order__ = 100
 
