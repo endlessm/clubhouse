@@ -1,1 +1,48 @@
 @import 'old-gtk-style'
+
+Message
+  .button-box
+    button
+      $color_variant_a: #76EECF
+      $color_variant_b: #37DCB1
+      $color_variant_c: #32BBA4
+      $color_variant_d: #2D9B98
+      $default_color: $color_variant_d
+
+      // This is the default for buttons after the 3rd one (unlikely).
+      background: $default_color
+
+      &:nth-child(0)
+        background: linear-gradient(to right, $color_variant_a, $color_variant_b)
+      &:nth-child(1)
+        background: linear-gradient(to right, $color_variant_b, $color_variant_c)
+      &:nth-child(2)
+        background: linear-gradient(to right, $color_variant_c, $color_variant_d)
+
+      $color_variant_hover_a: lighten($color_variant_a, 10%)
+      $color_variant_hover_b: lighten($color_variant_b, 10%)
+      $color_variant_hover_c: lighten($color_variant_c, 10%)
+      $color_variant_hover_d: lighten($color_variant_d, 10%)
+      $color_variant_hover_default: $color_variant_hover_d
+      &:hover
+        background: $color_variant_hover_default
+        &:nth-child(0)
+          background: linear-gradient(to right, $color_variant_hover_a, $color_variant_hover_b)
+        &:nth-child(1)
+          background: linear-gradient(to right, $color_variant_hover_b, $color_variant_hover_c)
+        &:nth-child(2)
+          background: linear-gradient(to right, $color_variant_hover_c, $color_variant_hover_d)
+
+      $color_variant_active_a: darken($color_variant_a, 10%)
+      $color_variant_active_b: darken($color_variant_b, 10%)
+      $color_variant_active_c: darken($color_variant_c, 10%)
+      $color_variant_active_d: darken($color_variant_d, 10%)
+      $color_variant_active_default: $color_variant_active_d
+      &:active
+        background: $color_variant_active_default
+        &:nth-child(0)
+          background: linear-gradient(to right, $color_variant_active_a, $color_variant_active_b)
+        &:nth-child(1)
+          background: linear-gradient(to right, $color_variant_active_b, $color_variant_active_c)
+        &:nth-child(2)
+          background: linear-gradient(to right, $color_variant_active_c, $color_variant_active_d)

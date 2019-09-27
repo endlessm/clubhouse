@@ -149,7 +149,6 @@ Message .button-box {
 }
 
 Message .button-box button {
-    background: #CE5611;
     border-radius: 17.5px;
     border: none;
     padding: 5px;
@@ -161,14 +160,6 @@ Message .button-box button {
 Message .button-box button image,
 Message .button-box button:hover image {
     -gtk-icon-shadow: none;
-}
-
-Message .button-box button:hover {
-    background: #D56F34;
-}
-
-Message .button-box button:active {
-    background: #Af490E;
 }
 
 Message .button-box button label {
