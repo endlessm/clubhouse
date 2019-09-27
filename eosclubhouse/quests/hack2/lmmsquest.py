@@ -13,7 +13,7 @@ class LMMSQuest(Quest):
 
     def setup(self):
         self._app = App(self.APP_NAME)
-        self.NUM_INFO_MESSAGES = 4
+        self.NUM_INFO_MESSAGES = 6
 
     def step_begin(self):
         if not self._app.is_installed():
