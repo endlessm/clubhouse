@@ -2152,13 +2152,6 @@ class CharacterMission(QuestSet):
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s to %r', quest, prop_name,
                      quest.get_property(prop_name))
-        if prop_name == 'available' and quest.get_property(prop_name):
-            if not self.visible:
-                logger.debug('Turning QuestSet "%s" visible from quest %s', self, quest)
-                self.visible = True
-            if self.get_next_quest() == quest:
-                logger.debug('QuestSet "%s" highlighted by new available quest %s', self, quest)
-                self.highlighted = True
 
     def is_active(self):
         return self.visible and self.get_next_quest() is not None
