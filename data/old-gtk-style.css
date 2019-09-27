@@ -98,7 +98,7 @@ ClubhouseWindow.CHARACTER.saniel {
 
 /* Menu popovers */
 popover.menu {
-    background-color: alpha(white, 0.9)
+    background-color: transparentize(white, 0.1)
 }
 
 popover.menu > stack > box > button {
@@ -106,8 +106,8 @@ popover.menu > stack > box > button {
     padding: 1ex 1em;
 }
 
-popover.menu > stack > box > button:hover {
-    background: linear-gradient(to bottom right, alpha(#2D9B98, 0.3), alpha(#22597F, 0.3));
+    popover.menu > stack > box > button:hover {
+    background: linear-gradient(to bottom right, transparentize(#2D9B98, 0.7), transparentize(#22597F, 0.7));
 }
 
 popover.menu > stack > box > button > box > image {
@@ -129,7 +129,7 @@ Message .box {
     background-color: rgba(255, 255, 255, .96);
     border-radius: 12px;
     border: 1px solid #8A6A45;
-    box-shadow: 0 2px 8px 8px alpha(black,0.2);
+    box-shadow: 0 2px 8px 8px transparentize(black,0.8);
     margin: 0 20px 37.5px 20px;
     min-height: 110px;
 }
@@ -149,13 +149,12 @@ Message .button-box {
 }
 
 Message .button-box button {
-    background: #CE5611;
     border-radius: 17.5px;
     border: none;
     padding: 5px;
     margin: 0 12px 0 0;
     font: 15px "Metropolis Medium, Sans-Serif";
-    box-shadow: 0 2px 4px 4px alpha(black,0.2);
+    box-shadow: 0 2px 4px 4px transparentize(black,0.8);
 }
 
 Message .button-box button image,
@@ -163,17 +162,9 @@ Message .button-box button:hover image {
     -gtk-icon-shadow: none;
 }
 
-Message .button-box button:hover {
-    background: #D56F34;
-}
-
-Message .button-box button:active {
-    background: #Af490E;
-}
-
 Message .button-box button label {
     color: white;
-    text-shadow: 0 0.5px 2px alpha(black,0.4);
+    text-shadow: 0 0.5px 2px transparentize(black,0.6);
     font-size: 15px;
     margin: 0 10px 0 5px;
     min-width: 60px
@@ -189,17 +180,17 @@ QuestSetButton {
     box-shadow: none;
     -gtk-icon-shadow: none;
     padding-bottom: 20px;
-    background-image: radial-gradient(35% 8% ellipse at center 88%, alpha(black,0.4), transparent);
+    background-image: radial-gradient(35% 8% ellipse at center 88%, transparentize(black,0.6), transparent);
 }
 
 QuestSetButton:hover {
-    background-image: radial-gradient(50% 10% ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001));
+    background-image: radial-gradient(50% 10% ellipse at center 90%, transparentize(#D9A784,0.1), transparentize(white,0.999));
 }
 
 popover.QuestSetButton {
     color: white;
     text-shadow: 1px 1px black;
-    background-color: alpha(#37DCB1, 0.8);
+    background-color: transparentize(#37DCB1, 0.2);
     border-radius: 1.4em;
     border: 0;
 }
@@ -216,8 +207,8 @@ popover.QuestSetButton > box > image {
 }
 
 @keyframes pulsate_background {
-    from { background-image: radial-gradient(35% 8% ellipse at center 88%, alpha(#D9A784,0.4), alpha(white,0.001)); }
-    to { background-image: radial-gradient(50% 10% ellipse at center 90%, alpha(#D9A784,0.9), alpha(white,0.001)); }
+    from { background-image: radial-gradient(35% 8% ellipse at center 88%, transparentize(#D9A784,0.6), transparentize(white,0.999)); }
+    to { background-image: radial-gradient(50% 10% ellipse at center 90%, transparentize(#D9A784,0.1), transparentize(white,0.999)); }
 }
 
 QuestSetButton.highlighted {
@@ -283,11 +274,11 @@ InventoryItem.active {
 }
 
 .badge image {
-    -gtk-icon-shadow: 0 5px 5px alpha(black,0.4);
+    -gtk-icon-shadow: 0 5px 5px transparentize(black,0.6);
 }
 
 window.poster {
-    background: rgba(0,0,0,0.4) radial-gradient(1920px 1080px ellipse at center, alpha(black,0.2), alpha(black,0.8));
+    background: rgba(0,0,0,0.4) radial-gradient(1920px 1080px ellipse at center, transparentize(black,0.8), transparentize(black,0.2));
 }
 
 .poster .title {
@@ -307,7 +298,7 @@ window.poster {
 }
 
 .badge:hover image {
-    -gtk-icon-shadow: 0 10px 10px alpha(black,0.4);
+    -gtk-icon-shadow: 0 10px 10px transparentize(black,0.6);
 }
 
 EpisodeRow, EpisodeRow:selected {
@@ -435,7 +426,7 @@ EpisodeRow .progress-label  {
     margin: 0.75em;
     border-radius: 2em;
     box-shadow: 1px 1px 2px black;
-    background: linear-gradient(to bottom right, alpha(#FF6B00, 0.8), alpha(#FC444C, 0.8));
+    background: linear-gradient(to bottom right, transparentize(#FF6B00, 0.2), transparentize(#FC444C, 0.2));
 }
 
 .user-overlay #user-label {
@@ -505,7 +496,7 @@ InventoryView > scrolledwindow {
 }
 
 .headerbar-buttonbox > button {
-    background: linear-gradient(to bottom right, alpha(#2D9B98, 0.8), alpha(#22597F, 0.8));
+    background: linear-gradient(to bottom right, transparentize(#2D9B98, 0.2), transparentize(#22597F, 0.2));
     transition: background-image 200ms linear;
 }
 
@@ -514,11 +505,11 @@ InventoryView > scrolledwindow {
 }
 
 .headerbar-buttonbox > button:checked {
-    background: linear-gradient(to bottom right, alpha(#2D9B98, 0.95), alpha(#22597F, 0.95));
+    background: linear-gradient(to bottom right, transparentize(#2D9B98, 0.05), transparentize(#22597F, 0.05));
 }
 
 .headerbar-buttonbox > button:first-child {
-    background: linear-gradient(to bottom right, alpha(#37DCB1, 0.8), alpha(#2D9B98, 0.8));
+    background: linear-gradient(to bottom right, transparentize(#37DCB1, 0.2), transparentize(#2D9B98, 0.2));
 }
 
 .headerbar-buttonbox > button:first-child:hover {
@@ -526,11 +517,11 @@ InventoryView > scrolledwindow {
 }
 
 .headerbar-buttonbox > button:first-child:checked {
-    background: linear-gradient(to bottom right, alpha(#37DCB1, 0.95), alpha(#2D9B98, 0.95));
+    background: linear-gradient(to bottom right, transparentize(#37DCB1, 0.05), transparentize(#2D9B98, 0.05));
 }
 
 .headerbar-buttonbox > button:last-child {
-    background: linear-gradient(to bottom right, alpha(#22597F, 0.8), alpha(#181866, 0.8));
+    background: linear-gradient(to bottom right, transparentize(#22597F, 0.2), transparentize(#181866, 0.2));
 }
 
 .headerbar-buttonbox > button:last-child:hover {
@@ -538,7 +529,7 @@ InventoryView > scrolledwindow {
 }
 
 .headerbar-buttonbox > button:last-child:checked {
-    background: linear-gradient(to bottom right, alpha(#22597F, 0.95), alpha(#181866, 0.95));
+    background: linear-gradient(to bottom right, transparentize(#22597F, 0.05), transparentize(#181866, 0.05));
 }
 
 .headerbar-buttonbox.CHARACTER > button > box > label {

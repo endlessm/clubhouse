@@ -16,6 +16,10 @@ configure_file(
     configuration: conf
 )
 
+sass_result = run_command('pysassc', 'gtk-style.sass', 'gtk-style.css')
+if sass_result.returncode() != 0
+  error('Cannot convert file gtk-style.scss to css: ' + sass_result.stderr())
+endif
 gnome.compile_resources(
     'eos-clubhouse',
     files('com.hack_computer.Clubhouse.gresource.xml'),
