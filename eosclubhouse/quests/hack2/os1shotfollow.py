@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Sound, App
+from eosclubhouse.system import App
 
 
 class OSOneshotFollow(Quest):
@@ -11,7 +11,7 @@ class OSOneshotFollow(Quest):
     __mission_order__ = 260
     __pathway_order__ = 260
 
-    TOTAL_MESSAGES = 12
+    TOTAL_MESSAGES = 19
 
     def setup(self):
         self._app = App(self.APP_NAME)
@@ -29,7 +29,8 @@ class OSOneshotFollow(Quest):
 
     def step_main_loop(self, message_index):
         if message_index > self.TOTAL_MESSAGES:
-            return self.step_end
+            self.wait_confirm('END')
+            return self.step_complete_and_stop
         elif message_index < 1:
             message_index = 1
 
@@ -48,10 +49,3 @@ class OSOneshotFollow(Quest):
             message_index += 1
 
         return self.step_main_loop, message_index
-
-    def step_end(self):
-        self.wait_confirm('END')
-        self.complete = True
-        self.available = False
-        Sound.play('quests/quest-complete')
-        self.stop()
