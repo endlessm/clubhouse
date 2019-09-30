@@ -2361,14 +2361,12 @@ class ClubhouseApplication(Gtk.Application):
 
     def _run_episode_autorun_quest_if_needed(self):
         autorun_quest = libquest.Registry.get_autorun_quest()
-        if autorun_quest is None:
-            return
-
-        quest = libquest.Registry.get_quest_by_name(autorun_quest)
-        if not quest.complete:
+        if autorun_quest is not None:
             # Run the quest in the app's main instance
             self.activate_action('run-quest', GLib.Variant('(sb)', (autorun_quest, True)))
             return True
+
+        libquest.Registry.try_offer_quest()
 
         return False
 
