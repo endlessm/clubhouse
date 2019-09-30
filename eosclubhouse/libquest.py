@@ -264,7 +264,31 @@ class Registry(GObject.GObject):
 
     @classmethod
     def get_autorun_quest(class_):
-        return class_._autorun_quest
+        if class_._autorun_quest is not None:
+            quest = class_.get_quest_by_name(class_._autorun_quest)
+            if not quest.complete:
+                return class_._autorun_quest
+
+        return None
+
+    @classmethod
+    def get_next_auto_offer_quest(class_, current_quest=None):
+        for quest_set in class_.get_quest_sets():
+            for quest in quest_set.get_quests():
+                if quest == current_quest:
+                    continue
+                if quest.auto_offer and quest.available and not quest.conf['complete']:
+                    return quest
+
+        return None
+
+    @classmethod
+    def try_offer_quest(class_, current_quest=None):
+        next_quest = class_.get_next_auto_offer_quest(current_quest)
+        if next_quest:
+            logger.debug('Proposing next quest: %s', next_quest)
+            registry = class_.get_or_create()
+            registry.schedule_quest(next_quest.get_id(), **next_quest.get_auto_offer_info())
 
     @classmethod
     def get_available_episodes(class_):
@@ -768,7 +792,6 @@ class _Quest(GObject.GObject):
         if all(self.is_named_quest_complete(q)
                for q in self.__available_after_completing_quests__):
             self.available = True
-            self._try_offer_quest()
 
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
@@ -800,20 +823,13 @@ class _Quest(GObject.GObject):
         # The quest is stopped, so reset the "stopping" property again.
         self.stopping = False
 
-    def _try_offer_quest(self):
-        next_quest = self.get_next_auto_offer_quest()
-        if next_quest:
-            logger.debug('Proposing next quest: %s', next_quest)
-            registry = Registry.get_or_create()
-            registry.schedule_quest(next_quest.get_id(), **next_quest.get_auto_offer_info())
-
     def run_finished(self):
         """This method is called when a quest finishes running.
 
         It can be overridden when quests need to run logic associated with that moment. By default
         it schedules the next quest to be run (if there's any).
         """
-        self._try_offer_quest()
+        Registry.try_offer_quest(self)
 
     def set_next_step(self, step_func, delay=0, args=()):
         assert self._run_context is not None
@@ -1281,14 +1297,6 @@ class _Quest(GObject.GObject):
             return wrapped_func
 
         return wrapper
-
-    def get_next_auto_offer_quest(self):
-        for quest_set in Registry.get_quest_sets():
-            for quest in quest_set.get_quests():
-                if quest.auto_offer and quest.available and not quest.conf['complete']:
-                    return quest
-
-        return None
 
     @classmethod
     def is_narrative(class_):
@@ -2152,6 +2160,8 @@ class CharacterMission(QuestSet):
     def on_quest_properties_changed(self, quest, prop_name):
         logger.debug('Quest "%s" property changed: %s to %r', quest, prop_name,
                      quest.get_property(prop_name))
+        if prop_name == 'available':
+            Registry.try_offer_quest()
 
     def is_active(self):
         return self.visible and self.get_next_quest() is not None
