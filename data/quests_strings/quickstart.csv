@@ -1,8 +1,8 @@
 QUICKSTART_WELCOME1,"Hi! My name's `cron`, and I'm a Daemon! We're the guys who run around behind the scenes making sure everything in the OS is working.",daemon,,,
-QUICKSTART_WELCOME2,Ada asked me to run you through the Clubhouse's functions. Sound good?,daemon,,,
+QUICKSTART_WELCOME2,Ada asked me to run you through how the Clubhouse works. Is that OK?,daemon,,,
 QUICKSTART_POSITIVE,👍,daemon,,,
 QUICKSTART_NEGATIVE,👎,daemon,,,
-QUICKSTART_HACKSWITCH,"OK! You can use use the *top buttons* to navigate to the major areas of the Clubhouse.
+QUICKSTART_HACKSWITCH,"Great! You can use use the *top buttons* to navigate to the major areas of the Clubhouse.
 
 You can use that big switch on the *right* to turn Hack Mode on and off .
 
