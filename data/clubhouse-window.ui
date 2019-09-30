@@ -297,7 +297,7 @@
                     <property name="halign">end</property>
                     <property name="hexpand">True</property>
                     <child>
-                      <object class="GtkRadioButton" id="clubhouse_button">
+                      <object class="GtkRadioButton" id="_clubhouse_button">
                         <property name="label" translatable="yes">Clubhouse</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -356,7 +356,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton">
+                      <object class="GtkRadioButton" id="_hack_news_button">
                         <property name="label" translatable="yes">Hack News</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -364,7 +364,7 @@
                         <property name="action_name">app.show-page</property>
                         <property name="action_target">'NEWS'</property>
                         <property name="draw_indicator">False</property>
-                        <property name="group">clubhouse_button</property>
+                        <property name="group">_clubhouse_button</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>

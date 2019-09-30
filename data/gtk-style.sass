@@ -66,3 +66,18 @@ Message
         image
           color: white
           padding: $default_margin / 2
+
+// Nav buttons attract state
+@keyframes pulsate_nav
+    from
+      box-shadow: 0 0 1px white
+    to
+      box-shadow: 0 0 10px white
+
+.nav-attract
+  animation-name: pulsate_nav
+  animation-duration: 1s
+  animation-direction: alternate
+  animation-timing-function: ease
+  animation-iteration-count: infinite
+  box-shadow: 0 0 10px white

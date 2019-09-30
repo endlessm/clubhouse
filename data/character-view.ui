@@ -131,7 +131,7 @@
     <property name="valign">center</property>
     <property name="hexpand">True</property>
     <child>
-      <object class="GtkButton">
+      <object class="GtkButton" id="_clubhouse_button">
         <property name="label" translatable="yes">Clubhouse</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
