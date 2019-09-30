@@ -24,7 +24,6 @@
     <file>clubhouse_bg-blur.jpg</file>
     <file>clubhouse_bg-blur-off.jpg</file>
     <file>episodes_bg.png</file>
-    <file>icon_check-in-circle.svg</file>
     <file>hack-switch/switch.svg</file>
     <file>hack-switch/ON.svg</file>
     <file>hack-switch/OFF.svg</file>
@@ -51,5 +50,10 @@
     <file preprocess="xml-stripblanks">scalable/apps/facebook-symbolic.svg</file>
     <file preprocess="xml-stripblanks">scalable/apps/instagram-symbolic.svg</file>
     <file preprocess="xml-stripblanks">scalable/apps/twitter-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">scalable/emblems/clubhouse-check-in-circle-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">scalable/actions/clubhouse-next-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">scalable/actions/clubhouse-previous-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">scalable/actions/clubhouse-thumbsdown-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">scalable/actions/clubhouse-thumbsup-symbolic.svg</file>
   </gresource>
 </gresources>
