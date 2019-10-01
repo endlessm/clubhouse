@@ -331,6 +331,7 @@ class _ClubhouseStateImpl(GObject.GObject):
     current_page = GObject.Property(type=GObject.TYPE_PYOBJECT)
     hack_switch_highlighted = GObject.Property(type=bool, default=False)
     window_is_visible = GObject.Property(type=bool, default=False)
+    nav_attract_state = GObject.Property(type=GObject.TYPE_PYOBJECT)
 
 
 class ClubhouseState:
@@ -344,6 +345,7 @@ class ClubhouseState:
         if ClubhouseState._impl is None:
             ClubhouseState._impl = _ClubhouseStateImpl()
             ClubhouseState._impl.current_page = ClubhouseState.Page.CLUBHOUSE
+            ClubhouseState._impl.nav_attract_state = None
 
     def __getattr__(self, name):
         return getattr(self._impl, name)

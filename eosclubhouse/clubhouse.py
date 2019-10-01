@@ -723,6 +723,8 @@ class CharacterView(Gtk.Grid):
     _character_button_label = Gtk.Template.Child()
     _missions_scrolled_window = Gtk.Template.Child()
 
+    _clubhouse_button = Gtk.Template.Child()
+
     def __init__(self, app_window):
         super().__init__(visible=True)
         self._app_window = app_window
@@ -735,6 +737,10 @@ class CharacterView(Gtk.Grid):
         self._character = None
         self._scale = 1
         self._list.connect('row-activated', self._quest_row_clicked_cb)
+
+        self._clubhouse_state = ClubhouseState()
+        self._clubhouse_state.connect('notify::nav-attract-state',
+                                      self._on_clubhouse_nav_attract_state_changed_cb)
 
         self.message_box.show_all()
 
@@ -819,6 +825,12 @@ class CharacterView(Gtk.Grid):
         new_quest = row.get_quest()
         easier_quest = quest_set.get_easier_quest(new_quest)
         self._app_window.clubhouse.try_running_quest(new_quest, easier_quest)
+
+    def _on_clubhouse_nav_attract_state_changed_cb(self, state, _param):
+        if state.nav_attract_state == ClubhouseState.Page.CLUBHOUSE:
+            self._clubhouse_button.get_style_context().add_class('nav-attract')
+        else:
+            self._clubhouse_button.get_style_context().remove_class('nav-attract')
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/clubhouse-view.ui')
@@ -2023,6 +2035,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_bio_textbuffer = Gtk.Template.Child()
 
     _pathways_menu_button = Gtk.Template.Child()
+    _clubhouse_button = Gtk.Template.Child()
+    _hack_news_button = Gtk.Template.Child()
 
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
@@ -2049,6 +2063,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::window-is-visible',
                                       self._on_clubhouse_window_visibility_changed_cb)
+        self._clubhouse_state.connect('notify::nav-attract-state',
+                                      self._on_clubhouse_nav_attract_state_changed_cb)
 
         self.connect('screen-changed', self._on_screen_changed)
         self._on_screen_changed(None, None)
@@ -2132,6 +2148,18 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         else:
             self.hide()
 
+    def _on_clubhouse_nav_attract_state_changed_cb(self, state, _param):
+        self._clubhouse_button.get_style_context().remove_class('nav-attract')
+        self._pathways_menu_button.get_style_context().remove_class('nav-attract')
+        self._hack_news_button.get_style_context().remove_class('nav-attract')
+
+        if state.nav_attract_state == ClubhouseState.Page.CLUBHOUSE:
+            self._clubhouse_button.get_style_context().add_class('nav-attract')
+        elif state.nav_attract_state == ClubhouseState.Page.PATHWAYS:
+            self._pathways_menu_button.get_style_context().add_class('nav-attract')
+        elif state.nav_attract_state == ClubhouseState.Page.NEWS:
+            self._hack_news_button.get_style_context().add_class('nav-attract')
+
     def update_user_info(self):
         real_name = self._user.get('RealName')
         icon_file = self._user.get('IconFile')
@@ -2209,6 +2237,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         # Set custom headerbar content from current page
         page = self._stack.get_child_by_name(new_page)
+
+        self._clubhouse_state.current_page = ClubhouseState.Page[new_page]
+
+        # The CHARACTER page disables the PATHWAY nav attract state
+        nav_page = 'PATHWAYS' if new_page == 'CHARACTER' else new_page
+        nav_page = ClubhouseState.Page[nav_page]
+        if self._clubhouse_state.nav_attract_state == nav_page:
+            self._clubhouse_state.nav_attract_state = None
 
         if hasattr(page, 'header_box') and page.header_box is not None:
             width = self._headerbar_box.get_allocated_width()
