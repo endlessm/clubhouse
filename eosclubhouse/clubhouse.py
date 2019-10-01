@@ -153,6 +153,9 @@ class Character(GObject.GObject):
     def _get_id(self):
         return self._id
 
+    def _get_name(self):
+        return self.id.capitalize()
+
     def _get_mood(self):
         return self._mood
 
@@ -205,6 +208,7 @@ class Character(GObject.GObject):
         return self._position
 
     id = property(_get_id)
+    name = property(_get_name)
     mood = GObject.Property(_get_mood, _set_mood, type=str)
     body_animation = GObject.Property(_get_body_animation, _set_body_animation, type=str)
 
@@ -425,6 +429,42 @@ class QuestRow(Gtk.ListBoxRow):
         return self._quest_set
 
 
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/quest-set-info-tip.ui')
+class QuestSetInfoTip(Gtk.Box):
+
+    __gtype_name__ = 'QuestSetInfoTip'
+
+    _box = Gtk.Template.Child()
+    _image = Gtk.Template.Child()
+    _charater_name_label = Gtk.Template.Child()
+    _pathway_name_label = Gtk.Template.Child()
+
+    def __init__(self, quest_set_button):
+        super().__init__()
+        self.quest_set_button = quest_set_button
+        self._image.props.icon_name = self._get_icon_name()
+        self._charater_name_label.props.label = self.quest_set_button._character.name
+        self._pathway_name_label.props.label = self.quest_set_button._character.pathway_title
+
+    def fade_in(self):
+        ctx = self.get_style_context()
+        ctx.add_class('visible')
+
+    def fade_out(self):
+        ctx = self.get_style_context()
+        ctx.remove_class('visible')
+
+    def set_pathway_label_visible(self, visible):
+        self._pathway_label.props.visible = visible
+
+    def get_natural_width(self):
+        return self._box.get_preferred_width().natural_width
+
+    def _get_icon_name(self):
+        pathway = self.quest_set_button._character.pathway or 'unknown'
+        return 'clubhouse-pathway-{}-symbolic'.format(pathway)
+
+
 class QuestSetButton(Gtk.Button):
 
     __gtype_name__ = 'QuestSetButton'
@@ -441,8 +481,6 @@ class QuestSetButton(Gtk.Button):
         image.show()
 
         self.reload(scale)
-
-        self._create_popover()
 
         self._quest_set.connect('notify::highlighted',
                                 lambda _quest_set, highlighted: self._set_highlighted(highlighted))
@@ -464,21 +502,6 @@ class QuestSetButton(Gtk.Button):
                                       GObject.BindingFlags.BIDIRECTIONAL |
                                       GObject.BindingFlags.SYNC_CREATE)
         Desktop.shell_settings_bind(Desktop.SETTINGS_HACK_MODE_KEY, self, 'sensitive')
-
-    def _create_popover(self):
-        self._popover = Gtk.Popover(relative_to=self, modal=False)
-        self._popover.get_style_context().add_class('QuestSetButton')
-
-        if self._character.pathway is not None:
-            icon = 'clubhouse-pathway-' + self._character.pathway + '-symbolic'
-        else:
-            icon = 'clubhouse-pathway-unknown-symbolic'
-
-        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        box.add(Gtk.Image(icon_name=icon, pixel_size=32))
-        box.add(Gtk.Label(label=self._character.pathway_title))
-        box.show_all()
-        self._popover.add(box)
 
     def reload(self, scale):
         self._scale = scale
@@ -507,19 +530,16 @@ class QuestSetButton(Gtk.Button):
                 (position[1] - anchor[1]) * self._scale)
 
     def _on_button_clicked_cb(self, _button):
-        self._popover.popdown()
         if self._quest_set.highlighted:
             self._quest_set.highlighted = False
 
     def _on_button_enter_cb(self, _button):
         self._on_hover = True
         self._update_character_animation()
-        self._popover.popup()
 
     def _on_button_leave_cb(self, _button):
         self._on_hover = False
         self._update_character_animation()
-        self._popover.popdown()
 
     def _set_highlighted(self, highlighted):
         highlighted_style = 'highlighted'
@@ -840,6 +860,7 @@ class ClubhouseView(FixedLayerGroup):
     __gtype_name__ = 'ClubhouseView'
 
     MAIN_LAYER_NAME = 'main-layer'
+    INFO_TIP_LAYER = 'infotip-layer'
 
     SYSTEM_CHARACTER_ID = 'daemon'
     SYSTEM_CHARACTER_MOOD = 'talk'
@@ -881,6 +902,8 @@ class ClubhouseView(FixedLayerGroup):
         registry.connect('schedule-quest', self._quest_scheduled_cb)
 
         self._add_main_layer()
+        self._add_info_tip_layer()
+
         self.show_all()
 
     def get_main_layer(self):
@@ -889,6 +912,10 @@ class ClubhouseView(FixedLayerGroup):
     def _add_main_layer(self):
         layer = ClubhouseViewMainLayer(self)
         self.add_layer(layer, self.MAIN_LAYER_NAME)
+
+    def _add_info_tip_layer(self):
+        layer = ClubhouseViewInfoTipLayer(self)
+        self.add_layer(layer, self.INFO_TIP_LAYER)
 
     def set_scale(self, scale):
         self.scale = scale
@@ -1346,7 +1373,8 @@ class ClubhouseView(FixedLayerGroup):
 
         libquest.Registry.load_current_episode()
         for quest_set in libquest.Registry.get_character_missions():
-            self.get_main_layer().add_quest_set(quest_set)
+            button = self.get_main_layer().add_quest_set(quest_set)
+            self.get_layer(self.INFO_TIP_LAYER).add_info_tip(button)
 
     def _update_episode_if_needed(self):
         episode_name = libquest.Registry.get_current_episode()['name']
@@ -1359,6 +1387,39 @@ class ClubhouseView(FixedLayerGroup):
                                      default=None,
                                      flags=GObject.ParamFlags.READABLE |
                                      GObject.ParamFlags.EXPLICIT_NOTIFY)
+
+
+class ClubhouseViewInfoTipLayer(Gtk.Fixed):
+
+    __gtype_name__ = 'ClubhouseViewInfoTipLayer'
+
+    def __init__(self, clubhouse_view):
+        super().__init__(visible=True)
+        self.clubhouse_view = clubhouse_view
+
+    def set_scale(self, scale):
+        pass
+
+    def add_info_tip(self, quest_set_button):
+        infotip = QuestSetInfoTip(quest_set_button)
+        self.put(infotip, 0, 0)
+        infotip.show_all()
+
+        quest_set_button.connect('enter-notify-event', self._quest_set_button_enter_notify_cb,
+                                 infotip)
+        quest_set_button.connect('leave-notify-event', self._quest_set_button_leave_notify_cb,
+                                 infotip)
+
+    def _quest_set_button_enter_notify_cb(self, quest_set_button, _event, infotip):
+        button_allocation = quest_set_button.get_allocation()
+        infotip_allocation = infotip.get_allocation()
+        x = button_allocation.x + button_allocation.width / 2 - infotip_allocation.width / 2
+        y = button_allocation.y + button_allocation.height / 2 - infotip_allocation.height / 2
+        self.move(infotip, x, y)
+        infotip.fade_in()
+
+    def _quest_set_button_leave_notify_cb(self, _quest_set_button, _event, infotip):
+        infotip.fade_out()
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/clubhouse-view-main-layer.ui')
@@ -1437,6 +1498,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         self.put(button, x, y)
 
         button.connect('notify::position', self._on_button_position_changed)
+        return button
 
     def _on_button_position_changed(self, button, _param):
         self._update_child_position(button)
@@ -2808,7 +2870,8 @@ clubhouse_classes = [
     PathwayList,
     PathwaysView,
     QuestRow,
-    QuestSetButton
+    QuestSetButton,
+    QuestSetInfoTip
 ]
 
 for klass in clubhouse_classes:
