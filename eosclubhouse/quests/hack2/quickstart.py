@@ -24,8 +24,9 @@ class Quickstart(Quest):
         choice = action.future.result()
 
         if choice:
-            for msgid in ['HACKSWITCH', 'PATHWAYS1', 'PATHWAYS2', 'PROFILE1', 'PROFILE2']:
+            for msgid in ['HACKSWITCH', 'PATHWAYS1', 'PATHWAYS2', 'PROFILE1', 'PROFILE2', 'END1']:
                 self.wait_confirm(msgid)
+        else:
+            self.wait_confirm('DECLINE')
 
-        self.wait_confirm('END1')
         self.show_message('END2', choices=[('Got it!', self.step_complete_and_stop)])
