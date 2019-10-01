@@ -67,6 +67,30 @@ Message
           color: white
           padding: $default_margin / 2
 
+
+QuestSetInfoTip
+  background-color: transparentize(#2A2368FF, 0.1)
+  color: white
+  padding: 20px
+  border-radius: 40ex
+  padding: 2ex 4ex 2ex 4ex
+  opacity: 0.0
+  transition: opacity .55s ease-in-out
+
+  &.visible
+    opacity: 1.0
+
+  box
+    box
+      margin-left: 1ex
+
+      label
+        color: white
+
+        &:nth-child(2)
+          font-weight: bold
+
+
 // Nav buttons attract state
 @keyframes pulsate_nav
     from

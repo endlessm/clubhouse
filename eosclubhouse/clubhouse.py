@@ -42,6 +42,7 @@ from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, A
 from eosclubhouse.episodes import BadgeButton, PosterWindow
 from eosclubhouse.splash import SplashWindow
 
+
 CLUBHOUSE_NAME = 'com.hack_computer.Clubhouse'
 CLUBHOUSE_PATH = '/com/hack_computer/Clubhouse'
 CLUBHOUSE_IFACE = CLUBHOUSE_NAME
@@ -151,6 +152,9 @@ class Character(GObject.GObject):
     def _get_id(self):
         return self._id
 
+    def _get_name(self):
+        return self.id.capitalize()
+
     def _get_mood(self):
         return self._mood
 
@@ -203,6 +207,7 @@ class Character(GObject.GObject):
         return self._position
 
     id = property(_get_id)
+    name = property(_get_name)
     mood = GObject.Property(_get_mood, _set_mood, type=str)
     body_animation = GObject.Property(_get_body_animation, _set_body_animation, type=str)
 
@@ -427,20 +432,17 @@ class QuestSetButton(Gtk.Button):
 
     __gtype_name__ = 'QuestSetButton'
 
-    def __init__(self, quest_set, scale=1):
-        super().__init__(halign=Gtk.Align.START,
+    def __init__(self, quest_set_widget):
+        super().__init__(halign=Gtk.Align.CENTER,
                          relief=Gtk.ReliefStyle.NONE)
 
-        self._quest_set = quest_set
-        self._character = Character.get_or_create(self._quest_set.get_character())
+        self.quest_set_widget = quest_set_widget
+        self._quest_set = quest_set_widget.quest_set
+        self._character = quest_set_widget.character
 
         image = self._character.get_body_image()
         self.add(image)
         image.show()
-
-        self.reload(scale)
-
-        self._create_popover()
 
         self._quest_set.connect('notify::highlighted',
                                 lambda _quest_set, highlighted: self._set_highlighted(highlighted))
@@ -463,61 +465,17 @@ class QuestSetButton(Gtk.Button):
                                       GObject.BindingFlags.SYNC_CREATE)
         Desktop.shell_settings_bind(Desktop.SETTINGS_HACK_MODE_KEY, self, 'sensitive')
 
-    def _create_popover(self):
-        self._popover = Gtk.Popover(relative_to=self, modal=False)
-        self._popover.get_style_context().add_class('QuestSetButton')
-
-        if self._character.pathway is not None:
-            icon = 'clubhouse-pathway-' + self._character.pathway + '-symbolic'
-        else:
-            icon = 'clubhouse-pathway-unknown-symbolic'
-
-        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        box.add(Gtk.Image(icon_name=icon, pixel_size=32))
-        box.add(Gtk.Label(label=self._character.pathway_title))
-        box.show_all()
-        self._popover.add(box)
-
-    def reload(self, scale):
-        self._scale = scale
-        # This 0.80 scale is because the new background is bigger so we need to
-        # scale characters a bit to make it looks correctly in the new
-        # background and not too big. This scale is done instead of the scale
-        # for all animations.
-        self._character.load(scale * 0.80)
-        self.notify('position')
-
-    def get_quest_set(self):
-        return self._quest_set
-
-    def _get_position(self):
-        anchor = (0, 0)
-        position = (0, 0)
-
-        # Get the anchor (if any) so we adapt the position to it.
-        if self._character:
-            position = self._character.get_position() or position
-            animation_image = self._character.get_body_image()
-            if animation_image is not None:
-                anchor = animation_image.get_anchor()
-
-        return ((position[0] - anchor[0]) * self._scale,
-                (position[1] - anchor[1]) * self._scale)
-
     def _on_button_clicked_cb(self, _button):
-        self._popover.popdown()
         if self._quest_set.highlighted:
             self._quest_set.highlighted = False
 
     def _on_button_enter_cb(self, _button):
         self._on_hover = True
         self._update_character_animation()
-        self._popover.popup()
 
     def _on_button_leave_cb(self, _button):
         self._on_hover = False
         self._update_character_animation()
-        self._popover.popdown()
 
     def _set_highlighted(self, highlighted):
         highlighted_style = 'highlighted'
@@ -540,7 +498,110 @@ class QuestSetButton(Gtk.Button):
         if new_animation is not None:
             self._previous_body_animation = self._character.body_animation
             self._character.body_animation = new_animation
-            self.notify('position')
+            self.quest_set_widget.notify('position')
+
+
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/quest-set-info-tip.ui')
+class QuestSetInfoTip(Gtk.Box):
+
+    __gtype_name__ = 'QuestSetInfoTip'
+
+    _box = Gtk.Template.Child()
+    _image = Gtk.Template.Child()
+    _charater_name_label = Gtk.Template.Child()
+    _pathway_name_label = Gtk.Template.Child()
+
+    def __init__(self, quest_set_widget):
+        super().__init__()
+        self.quest_set_widget = quest_set_widget
+        self._image.props.icon_name = self._get_icon_name()
+        self._charater_name_label.props.label = self.quest_set_widget.character.name
+        self._pathway_name_label.props.label = self.quest_set_widget.character.pathway_title
+
+    def fade_in(self):
+        ctx = self.get_style_context()
+        ctx.add_class('visible')
+
+    def fade_out(self):
+        ctx = self.get_style_context()
+        ctx.remove_class('visible')
+
+    def set_pathway_label_visible(self, visible):
+        self._pathway_label.props.visible = visible
+
+    def get_natural_width(self):
+        return self._box.get_preferred_width().natural_width
+
+    def _get_icon_name(self):
+        pathway = self.quest_set_widget.character.pathway or 'unknown'
+        return 'clubhouse-pathway-{}-symbolic'.format(pathway)
+
+
+class QuestSetWidget(Gtk.Overlay):
+
+    __gtype_name__ = 'QuestSetWidget'
+
+    # Workwaround to allow extra space filled by the infotip margin.
+    DEFAULT_EXTRA_WIDTH = 50
+
+    def __init__(self, quest_set, scale=1):
+        super().__init__()
+        self.quest_set = quest_set
+        self.character = Character.get_or_create(quest_set.get_character())
+
+        self._scale = None
+        self.reload(scale)
+
+        self._button = QuestSetButton(self)
+        self._infotip = QuestSetInfoTip(self)
+
+        button_natural_width = self._button.get_preferred_width().natural_width
+        popover_natural_width = self._infotip.get_natural_width()
+        width = max(button_natural_width, popover_natural_width)
+        self.props.width_request = width + self.DEFAULT_EXTRA_WIDTH * 2
+
+        self.add(self._button)
+        self.add_overlay(self._infotip)
+        self.set_overlay_pass_through(self._infotip, True)
+
+        self._button.connect('enter-notify-event', self._enter_notify_event_cb)
+        self._button.connect('leave-notify-event', self._leave_notify_event_cb)
+
+    def _enter_notify_event_cb(self, _button, _event):
+        self._infotip.fade_in()
+
+    def _leave_notify_event_cb(self, _button, _event):
+        self._infotip.fade_out()
+
+    def reload(self, scale):
+        self._scale = scale
+        # This 0.80 scale is because the new background is bigger so we need to
+        # scale characters a bit to make it looks correctly in the new
+        # background and not too big. This scale is done instead of the scale
+        # for all animations.
+        self.character.load(scale * 0.80)
+        self.notify('position')
+
+    @property
+    def button(self):
+        return self._button
+
+    def _get_position(self):
+        anchor = (0, 0)
+        position = (0, 0)
+
+        # Get the anchor (if any) so we adapt the position to it.
+        if self.character:
+            position = self.character.get_position() or position
+            animation_image = self.character.get_body_image()
+            if animation_image is not None:
+                anchor = animation_image.get_anchor()
+
+        # Divide by 2 twice, because of widgets inside this overlay are already centered.
+        delta_x = self.props.width_request / 4
+
+        return ((position[0] - anchor[0]) * self._scale - delta_x,
+                (position[1] - anchor[1]) * self._scale)
 
     position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
 
@@ -917,7 +978,7 @@ class ClubhouseView(Gtk.Fixed):
         self.scale = scale
         # Update children
         for child in self.get_children():
-            if isinstance(child, QuestSetButton):
+            if isinstance(child, QuestSetWidget):
                 child.reload(self.scale)
             else:
                 x, y = child.position
@@ -952,14 +1013,18 @@ class ClubhouseView(Gtk.Fixed):
         self._update_child_position(button)
 
     def add_quest_set(self, quest_set):
-        button = QuestSetButton(quest_set, self.scale)
-        quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
-        button.connect('clicked', self._quest_set_button_clicked_cb)
+        quest_set_widget = QuestSetWidget(quest_set, self.scale)
+        quest_set_widget.button.connect('notify::highlighted',
+                                        self._on_quest_set_highlighted_changed)
+        quest_set_widget.button.connect('clicked',
+                                        self._quest_set_button_clicked_cb)
 
-        x, y = button.position
-        self.put(button, x, y)
+        x, y = quest_set_widget.position
+        self.put(quest_set_widget, x, y)
 
-        button.connect('notify::position', self._on_button_position_changed)
+        quest_set_widget.button.connect('notify::position',
+                                        self._on_button_position_changed)
+        quest_set_widget.show_all()
 
     def _on_quest_set_highlighted_changed(self, quest_set, _param):
         if self._app_window.is_visible():
@@ -986,7 +1051,7 @@ class ClubhouseView(Gtk.Fixed):
         self._shell_show_current_popup_message()
 
     def _quest_set_button_clicked_cb(self, button):
-        quest_set = button.get_quest_set()
+        quest_set = button.quest_set_widget.quest_set
         self._app_window.character.show_mission_list(quest_set)
         self._app_window.set_page('CHARACTER')
 
@@ -2758,7 +2823,7 @@ class ClubhouseApplication(Gtk.Application):
 
 
 # Set widget classes CSS name to be able to select by GType name
-for klass in [Message, QuestRow, QuestSetButton, CharacterView, ClubhouseView,
+for klass in [Message, QuestRow, QuestSetButton, QuestSetInfoTip, CharacterView, ClubhouseView,
               InventoryItem, PathwayIcon, PathwayList, PathwaysView, InventoryView,
               NewsItem, NewsView, EpisodeRow, EpisodesView, ClubhouseWindow]:
     klass.set_css_name(klass.__gtype_name__)
