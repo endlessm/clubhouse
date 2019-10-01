@@ -4,16 +4,17 @@ QUICKSTART_POSITIVE,👍,daemon,,,
 QUICKSTART_NEGATIVE,👎,daemon,,,
 QUICKSTART_HACKSWITCH,"Great! You can use use the *top buttons* to navigate to the major areas of the Clubhouse.
 
-You can use that big switch on the *right* to turn Hack Mode on and off .
+That big switch on the *right* turns *Hack Mode* On and Off. Right now, it's *ON*, and you have access to everything in the Clubhouse. 
 
-Off, you're essentially using a normal computer. On, we get busy and let you hack programs. Simple!",daemon,,,
-QUICKSTART_PATHWAYS1,"*Up top*, there's the Pathways button. If you already know what kind of activities you want to do, go here.",daemon,,,
-QUICKSTART_PATHWAYS2,"If you'd prefer to see what everyone in the Clubhouse might offer you, talk to them instead.",daemon,,,
-QUICKSTART_PROFILE1,Your profile's in the upper left. You can change your name and profile picture using the Endless OS `Settings`.,daemon,,,
+If it's off, the Clubhouse turns off, and you're essentially using a normal computer.",daemon,,,
+QUICKSTART_PATHWAYS1,"*Up top*, there's the Pathways button. If you already know exactly what kind of activities you want to do, go there.",daemon,,,
+QUICKSTART_PATHWAYS2,"If you prefer to be more of an explorer, talk to everyone here in the Clubhouse - everyone's got interesting activities to do.",daemon,,,
+QUICKSTART_PROFILE1,Your profile is in the upper left. You can change your name and profile picture using the Endless OS `Settings`.,daemon,,,
 QUICKSTART_PROFILE2,"To get directly to that section, click the picture way down in the far bottom right of the whole screen... 
 
 ...and then, in that popup menu, click the bigger version of that picture that shows up.
 
 Then you'll be in the Settings app, and you can change your name.",daemon,,,
-QUICKSTART_END1,That covers the basics - talk to Ada if you need a more detailed explanation.,daemon,,,
-QUICKSTART_END2,"OK, I have to run back to my `crontab`, scheduled tasks wait for no program!",daemon,,,
+QUICKSTART_END1,"OK, that covers the basics - talk to Ada if you need a more detailed explanation.",daemon,,,
+QUICKSTART_END2,"Now, I have to run back to my `crontab`, scheduled tasks wait for no program!",daemon,,,
+QUICKSTART_DECLINE,"Just can't wait, huh? I know the feeling! If you need any help, just ask Ada, she'll fill you in.",daemon,,,
