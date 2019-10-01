@@ -1981,6 +1981,20 @@ class Quest(_Quest):
         if other_quest:
             other_quest.props.highlighted = True
 
+    def highlight_nav(self, nav_name):
+        '''Highlight a nav button.
+
+        :param str nav_name: The nav to be highlighted. One of CLUBHOUSE, PATHWAYS, NEWS
+
+        '''
+
+        state = ClubhouseState()
+        new_nav = None
+        if nav_name:
+            new_nav = ClubhouseState.Page[nav_name]
+
+        state.nav_attract_state = new_nav
+
     # ** Deploying files **
 
     def deploy_file(self, file_name, directory_path, override=False):

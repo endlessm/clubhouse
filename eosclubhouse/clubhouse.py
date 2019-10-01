@@ -2240,6 +2240,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._clubhouse_state.current_page = ClubhouseState.Page[new_page]
 
+        # The CHARACTER page disables the PATHWAY nav attract state
+        nav_page = 'PATHWAYS' if new_page == 'CHARACTER' else new_page
+        nav_page = ClubhouseState.Page[nav_page]
+        if self._clubhouse_state.nav_attract_state == nav_page:
+            self._clubhouse_state.nav_attract_state = None
+
         if hasattr(page, 'header_box') and page.header_box is not None:
             width = self._headerbar_box.get_allocated_width()
             page.header_box.set_size_request(width, -1)
