@@ -119,6 +119,7 @@ class Animation(GObject.GObject):
         super().__init__()
         self._loop = True
         self._anchor = (0, 0)
+        self._reference_points = {}
         self.name = name
         self.frames = []
         self.last_updated = None
@@ -159,6 +160,9 @@ class Animation(GObject.GObject):
         self.target_image.set_from_pixbuf(pixbuf)
 
     def load(self, sprite_path, scale=1):
+        self.scale = scale
+        self._reference_points = {}
+
         file = Gio.File.new_for_path(sprite_path)
         file.read_async(GLib.PRIORITY_DEFAULT, None, self._sprite_file_read_async_cb,
                         sprite_path, scale)
@@ -182,12 +186,13 @@ class Animation(GObject.GObject):
     def _do_load(self, sprite_path, sprite_pixbuf, scale):
         self._anchor = (0, 0)
         self.frames = []
-        self.scale = scale
 
         metadata = self.get_animation_metadata(sprite_path)
         sprite_width = sprite_pixbuf.get_width()
         width = metadata['width']
         height = metadata['height']
+
+        self._reference_points = metadata.get('reference-points', {})
 
         subpixbufs = []
         for offset_x in range(0, sprite_width, width):
@@ -216,6 +221,12 @@ class Animation(GObject.GObject):
         self.anchor = anchor
         self._set_current_frame_delay()
         self.emit('animation-loaded')
+
+    def get_reference_point(self, refpoint_name):
+        refpoint = self._reference_points.get(refpoint_name)
+        if refpoint is None:
+            return None
+        return tuple(refpoint)
 
     current_frame = property(_get_current_frame)
 

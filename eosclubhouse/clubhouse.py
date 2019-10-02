@@ -1411,10 +1411,24 @@ class ClubhouseViewInfoTipLayer(Gtk.Fixed):
                                  infotip)
 
     def _quest_set_button_enter_notify_cb(self, quest_set_button, _event, infotip):
+        animation = quest_set_button._character._body_image._animator.get_current_animation()
+        if animation is None:
+            return
+
         button_allocation = quest_set_button.get_allocation()
         infotip_allocation = infotip.get_allocation()
-        x = button_allocation.x + button_allocation.width / 2 - infotip_allocation.width / 2
-        y = button_allocation.y + button_allocation.height / 2 - infotip_allocation.height / 2
+
+        pivot = animation.get_reference_point('infotip')
+        if pivot is not None:
+            real_pivot_x = pivot[0] * animation.scale
+            real_pivot_y = pivot[1] * animation.scale
+        else:
+            real_pivot_x = button_allocation.width / 2
+            real_pivot_y = button_allocation.height / 2
+
+        x = button_allocation.x + real_pivot_x - infotip_allocation.width / 2
+        y = button_allocation.y + real_pivot_y - infotip_allocation.height / 2
+
         self.move(infotip, x, y)
         infotip.fade_in()
 
