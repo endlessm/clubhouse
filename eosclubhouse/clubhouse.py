@@ -570,6 +570,10 @@ class QuestSetButton(Gtk.Button):
             self._character.body_animation = new_animation
             self.notify('position')
 
+    def _get_character(self):
+        return self._character
+
+    character = property(_get_character)
     position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
 
 
@@ -1427,10 +1431,20 @@ class ClubhouseViewInfoTipLayer(Gtk.Fixed):
                                  infotip)
 
     def _quest_set_button_enter_notify_cb(self, quest_set_button, _event, infotip):
+        animation = quest_set_button.character.get_body_image().animator.get_current_animation()
+        if animation is None:
+            return
+
         button_allocation = quest_set_button.get_allocation()
         infotip_allocation = infotip.get_allocation()
-        x = button_allocation.x + button_allocation.width / 2 - infotip_allocation.width / 2
-        y = button_allocation.y + button_allocation.height / 2 - infotip_allocation.height / 2
+
+        pivot = animation.get_reference_point('infotip')
+        if pivot is None:
+            pivot = (button_allocation.width / 2, button_allocation.height / 2)
+
+        x = button_allocation.x + pivot[0] - infotip_allocation.width / 2
+        y = button_allocation.y + pivot[1] - infotip_allocation.height / 2
+
         self.move(infotip, x, y)
         infotip.fade_in()
 

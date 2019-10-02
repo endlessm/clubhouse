@@ -39,6 +39,11 @@ class AnimationImage(Gtk.Image):
             return (0, 0)
         return animation.anchor
 
+    def _get_animator(self):
+        return self._animator
+
+    animator = property(_get_animator)
+
 
 class Animator(GObject.GObject):
 
@@ -119,6 +124,7 @@ class Animation(GObject.GObject):
         super().__init__()
         self._loop = True
         self._anchor = (0, 0)
+        self._reference_points = {}
         self.name = name
         self.frames = []
         self.last_updated = None
@@ -159,6 +165,8 @@ class Animation(GObject.GObject):
         self.target_image.set_from_pixbuf(pixbuf)
 
     def load(self, sprite_path, scale=1):
+        self._reference_points = {}
+
         file = Gio.File.new_for_path(sprite_path)
         file.read_async(GLib.PRIORITY_DEFAULT, None, self._sprite_file_read_async_cb,
                         sprite_path, scale)
@@ -182,12 +190,14 @@ class Animation(GObject.GObject):
     def _do_load(self, sprite_path, sprite_pixbuf, scale):
         self._anchor = (0, 0)
         self.frames = []
-        self.scale = scale
 
         metadata = self.get_animation_metadata(sprite_path)
         sprite_width = sprite_pixbuf.get_width()
         width = metadata['width']
         height = metadata['height']
+
+        self._reference_points = metadata.get('reference-points', {})
+        self._scale_reference_points(scale)
 
         subpixbufs = []
         for offset_x in range(0, sprite_width, width):
@@ -217,7 +227,13 @@ class Animation(GObject.GObject):
         self._set_current_frame_delay()
         self.emit('animation-loaded')
 
-    current_frame = property(_get_current_frame)
+    def _scale_reference_points(self, scale):
+        for refpoint_name in self._reference_points:
+            p = self._reference_points[refpoint_name]
+            self._reference_points[refpoint_name] = (p[0] * scale, p[1] * scale)
+
+    def get_reference_point(self, refpoint_name):
+        return self._reference_points.get(refpoint_name)
 
     @staticmethod
     def _convert_delay_to_microseconds(delay):
@@ -260,6 +276,7 @@ class Animation(GObject.GObject):
         self._anchor = tuple(anchor)
 
     anchor = GObject.Property(_get_anchor, _set_anchor, type=GObject.TYPE_PYOBJECT)
+    current_frame = property(_get_current_frame)
 
 
 class AnimationSystem:
