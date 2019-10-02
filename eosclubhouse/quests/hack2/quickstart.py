@@ -24,11 +24,15 @@ class Quickstart(Quest):
         choice = action.future.result()
 
         if choice:
+            self.highlight_nav('CLUBHOUSE')
             self.wait_confirm('HACKSWITCH1')
+            self.highlight_nav('')
             self.wait_confirm('HACKSWITCH2')
             self.wait_confirm('HACKSWITCH3')
+            self.highlight_nav('PATHWAYS')
             self.wait_confirm('PATHWAYS1')
             self.wait_confirm('PATHWAYS2')
+            self.highlight_nav('')
             self.wait_confirm('PROFILE1')
             self.wait_confirm('PROFILE2')
         else:
