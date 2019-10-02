@@ -1,20 +1,17 @@
-QUICKSTART_WELCOME1,"Hi! My name's `cron`, and I'm a Daemon! We're the guys who run around behind the scenes making sure everything in the OS is working.",daemon,,,
-QUICKSTART_WELCOME2,Ada asked me to run you through how the Clubhouse works. Is that OK?,daemon,,,
-QUICKSTART_POSITIVE,👍,daemon,,,
-QUICKSTART_NEGATIVE,👎,daemon,,,
-QUICKSTART_HACKSWITCH,"Great! You can use use the *top buttons* to navigate to the major areas of the Clubhouse.
-
-That big switch on the *right* turns *Hack Mode* On and Off. Right now, it's *ON*, and you have access to everything in the Clubhouse. 
-
-If it's off, the Clubhouse turns off, and you're essentially using a normal computer.",daemon,,,
-QUICKSTART_PATHWAYS1,"*Up top*, there's the Pathways button. If you already know exactly what kind of activities you want to do, go there.",daemon,,,
-QUICKSTART_PATHWAYS2,"If you prefer to be more of an explorer, talk to everyone here in the Clubhouse - everyone's got interesting activities to do.",daemon,,,
-QUICKSTART_PROFILE1,Your profile is in the upper left. You can change your name and profile picture using the Endless OS `Settings`.,daemon,,,
+QUICKSTART_WELCOME1,"Hello, {{user_name}}! I'm Ada - and let me be the first to welcome you to Hack!",ada,,,
+QUICKSTART_WELCOME2,"I'm going to run you through how this program, The Clubhouse, works. Is that OK?",ada,,,
+QUICKSTART_POSITIVE,👍,ada,,,
+QUICKSTART_NEGATIVE,👎,ada,,,
+QUICKSTART_HACKSWITCH1,"Great! You can use use the *left-most top button* to get to this, the main area of the Clubhouse.",ada,,,
+QUICKSTART_HACKSWITCH2,"That big switch on the *right* turns *Hack Mode* On and Off. Right now, it's *ON*, and you have access to everything in the Clubhouse.",ada,,,
+QUICKSTART_HACKSWITCH3,"If it's off, the Clubhouse turns off, and you're essentially using a normal computer.",ada,,,
+QUICKSTART_PATHWAYS1,"*Up top in the middle*, there's the Pathways button. If you already know exactly what kind of activities you want to do, go there.",ada,,,
+QUICKSTART_PATHWAYS2,"If you prefer to be more of an explorer, talk to everyone here in the Clubhouse - everyone's got interesting activities to do.",ada,,,
+QUICKSTART_PROFILE1,Your profile is in the upper left. You can change your name and profile picture using the Endless OS `Settings`.,ada,,,
 QUICKSTART_PROFILE2,"To get directly to that section, click the picture way down in the far bottom right of the whole screen... 
 
 ...and then, in that popup menu, click the bigger version of that picture that shows up.
 
-Then you'll be in the Settings app, and you can change your name.",daemon,,,
-QUICKSTART_END1,"OK, that covers the basics - talk to Ada if you need a more detailed explanation.",daemon,,,
-QUICKSTART_END2,"Now, I have to run back to my `crontab`, scheduled tasks wait for no program!",daemon,,,
-QUICKSTART_DECLINE,"Just can't wait, huh? I know the feeling! If you need any help, just ask Ada, she'll fill you in.",daemon,,,
+Then you'll be in the Settings app, and you can change your name.",ada,,,
+QUICKSTART_END1,"OK, that covers the basics - come find me if you want a more detailed explanation. Have fun!",ada,,,
+QUICKSTART_DECLINE,"Just can't wait? I know the feeling! If you need any help, just come find me, I'll fill you in.",ada,,,
