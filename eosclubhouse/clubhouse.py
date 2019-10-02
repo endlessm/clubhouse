@@ -41,6 +41,8 @@ from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, A
 
 from eosclubhouse.episodes import BadgeButton, PosterWindow
 from eosclubhouse.splash import SplashWindow
+from eosclubhouse.widgets import FixedLayerGroup
+
 
 CLUBHOUSE_NAME = 'com.hack_computer.Clubhouse'
 CLUBHOUSE_PATH = '/com/hack_computer/Clubhouse'
@@ -833,13 +835,11 @@ class CharacterView(Gtk.Grid):
             self._clubhouse_button.get_style_context().remove_class('nav-attract')
 
 
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/clubhouse-view.ui')
-class ClubhouseView(Gtk.Fixed):
+class ClubhouseView(FixedLayerGroup):
 
     __gtype_name__ = 'ClubhouseView'
 
-    _hack_switch = Gtk.Template.Child()
-    _hack_switch_panel = Gtk.Template.Child()
+    MAIN_LAYER_NAME = 'main-layer'
 
     SYSTEM_CHARACTER_ID = 'daemon'
     SYSTEM_CHARACTER_MOOD = 'talk'
@@ -852,8 +852,7 @@ class ClubhouseView(Gtk.Fixed):
             self.handler_id = handler_id
 
     def __init__(self, app_window):
-        super().__init__(visible=True)
-
+        super().__init__()
         self.scale = 1
         self._current_quest = None
         self._scheduled_quest_info = None
@@ -874,56 +873,29 @@ class ClubhouseView(Gtk.Fixed):
 
         self.add_tick_callback(AnimationSystem.step)
 
-        Desktop.shell_settings_bind(Desktop.SETTINGS_HACK_MODE_KEY, self._hack_switch, 'active')
-        self._hack_switch.connect('toggled', self._on_hack_switch_toggled)
-
         self._gss = GameStateService()
         self._gss_hander_id = self._gss.connect('changed',
                                                 lambda _gss: self._update_episode_if_needed())
 
-        state = ClubhouseState()
-        state.connect('notify::hack-switch-highlighted',
-                      self._on_hack_switch_highlighted_changed_cb)
-
         registry = libquest.Registry.get_or_create()
         registry.connect('schedule-quest', self._quest_scheduled_cb)
 
-        # Update children allocation
-        for child in self.get_children():
-            if not isinstance(child, QuestSetButton):
-                child.size = child.get_size_request()
-                child.position = self.child_get(child, 'x', 'y')
+        self._add_main_layer()
+        self.show_all()
 
-    def _on_hack_switch_toggled(self, button):
-        ctx = self._hack_switch_panel.get_style_context()
-        if button.get_active():
-            ctx.remove_class('off')
-        else:
-            ctx.add_class('off')
+    def get_main_layer(self):
+        return self.get_layer(self.MAIN_LAYER_NAME)
 
-    def _on_hack_switch_highlighted_changed_cb(self, state, _param):
-        ctx = self._hack_switch.get_style_context()
-        if state.hack_switch_highlighted:
-            ctx.add_class('highlighted')
-        else:
-            ctx.remove_class('highlighted')
-
-    def _update_child_position(self, child):
-        if isinstance(child, QuestSetButton):
-            x, y = child.position
-            self.move(child, x, y)
+    def _add_main_layer(self):
+        layer = ClubhouseViewMainLayer(self)
+        self.add_layer(layer, self.MAIN_LAYER_NAME)
 
     def set_scale(self, scale):
         self.scale = scale
         # Update children
-        for child in self.get_children():
-            if isinstance(child, QuestSetButton):
-                child.reload(self.scale)
-            else:
-                x, y = child.position
-                child.set_size_request(child.size.width * scale,
-                                       child.size.height * scale)
-                self.move(child, x * scale, y * scale)
+
+        for layer in self.get_children():
+            layer.set_scale(self.scale)
 
     def stop_quest(self):
         self._cancel_ongoing_task()
@@ -948,25 +920,6 @@ class ClubhouseView(Gtk.Fixed):
         logger.debug('Stopping quest %s', current_quest)
         current_quest.step_abort()
 
-    def _on_button_position_changed(self, button, _param):
-        self._update_child_position(button)
-
-    def add_quest_set(self, quest_set):
-        button = QuestSetButton(quest_set, self.scale)
-        quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
-        button.connect('clicked', self._quest_set_button_clicked_cb)
-
-        x, y = button.position
-        self.put(button, x, y)
-
-        button.connect('notify::position', self._on_button_position_changed)
-
-    def _on_quest_set_highlighted_changed(self, quest_set, _param):
-        if self._app_window.is_visible():
-            return
-
-        self._app.send_suggest_open(libquest.Registry.has_quest_sets_highlighted())
-
     def _show_quest_continue_confirmation(self):
         if self._current_quest is None:
             return
@@ -984,11 +937,6 @@ class ClubhouseView(Gtk.Fixed):
 
         quest.set_to_foreground()
         self._shell_show_current_popup_message()
-
-    def _quest_set_button_clicked_cb(self, button):
-        quest_set = button.get_quest_set()
-        self._app_window.character.show_mission_list(quest_set)
-        self._app_window.set_page('CHARACTER')
 
     def _stop_quest_proposal(self):
         if self._proposing_quest:
@@ -1398,7 +1346,7 @@ class ClubhouseView(Gtk.Fixed):
 
         libquest.Registry.load_current_episode()
         for quest_set in libquest.Registry.get_character_missions():
-            self.add_quest_set(quest_set)
+            self.get_main_layer().add_quest_set(quest_set)
 
     def _update_episode_if_needed(self):
         episode_name = libquest.Registry.get_current_episode()['name']
@@ -1411,6 +1359,92 @@ class ClubhouseView(Gtk.Fixed):
                                      default=None,
                                      flags=GObject.ParamFlags.READABLE |
                                      GObject.ParamFlags.EXPLICIT_NOTIFY)
+
+
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/clubhouse-view-main-layer.ui')
+class ClubhouseViewMainLayer(Gtk.Fixed):
+
+    __gtype_name__ = 'ClubhouseViewMainLayer'
+
+    _hack_switch = Gtk.Template.Child()
+    _hack_switch_panel = Gtk.Template.Child()
+
+    def __init__(self, clubhouse_view):
+        super().__init__(visible=True)
+
+        self.clubhouse_view = clubhouse_view
+        self._app = Gio.Application.get_default()
+        self._app_window = self._app.get_active_window()
+
+        self.add_tick_callback(AnimationSystem.step)
+
+        Desktop.shell_settings_bind(Desktop.SETTINGS_HACK_MODE_KEY, self._hack_switch, 'active')
+        self._hack_switch.connect('toggled', self._on_hack_switch_toggled)
+
+        state = ClubhouseState()
+        state.connect('notify::hack-switch-highlighted',
+                      self._on_hack_switch_highlighted_changed_cb)
+
+        # Update children allocation
+        for child in self.get_children():
+            if not isinstance(child, QuestSetButton):
+                child.size = child.get_size_request()
+                child.position = self.child_get(child, 'x', 'y')
+
+    def _on_quest_set_highlighted_changed(self, quest_set, _param):
+        if self._app_window.is_visible():
+            return
+
+        self._app.send_suggest_open(libquest.Registry.has_quest_sets_highlighted())
+
+    def _on_hack_switch_toggled(self, button):
+        ctx = self._hack_switch_panel.get_style_context()
+        if button.get_active():
+            ctx.remove_class('off')
+        else:
+            ctx.add_class('off')
+
+    def _on_hack_switch_highlighted_changed_cb(self, state, _param):
+        ctx = self._hack_switch.get_style_context()
+        if state.hack_switch_highlighted:
+            ctx.add_class('highlighted')
+        else:
+            ctx.remove_class('highlighted')
+
+    def _update_child_position(self, child):
+        if isinstance(child, QuestSetButton):
+            x, y = child.position
+            self.move(child, x, y)
+
+    def set_scale(self, scale):
+        self.scale = scale
+        # Update children
+        for child in self.get_children():
+            if isinstance(child, QuestSetButton):
+                child.reload(self.scale)
+            else:
+                x, y = child.position
+                child.set_size_request(child.size.width * scale,
+                                       child.size.height * scale)
+                self.move(child, x * scale, y * scale)
+
+    def add_quest_set(self, quest_set):
+        button = QuestSetButton(quest_set, self.clubhouse_view.scale)
+        quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
+        button.connect('clicked', self._quest_set_button_clicked_cb)
+
+        x, y = button.position
+        self.put(button, x, y)
+
+        button.connect('notify::position', self._on_button_position_changed)
+
+    def _on_button_position_changed(self, button, _param):
+        self._update_child_position(button)
+
+    def _quest_set_button_clicked_cb(self, button):
+        quest_set = button.get_quest_set()
+        self._app_window.character.show_mission_list(quest_set)
+        self._app_window.set_page('CHARACTER')
 
 
 class InventoryItem(Gtk.Button):
@@ -2758,9 +2792,26 @@ class ClubhouseApplication(Gtk.Application):
 
 
 # Set widget classes CSS name to be able to select by GType name
-for klass in [Message, QuestRow, QuestSetButton, CharacterView, ClubhouseView,
-              InventoryItem, PathwayIcon, PathwayList, PathwaysView, InventoryView,
-              NewsItem, NewsView, EpisodeRow, EpisodesView, ClubhouseWindow]:
+clubhouse_classes = [
+    CharacterView,
+    ClubhouseView,
+    ClubhouseViewMainLayer,
+    ClubhouseWindow,
+    EpisodeRow,
+    EpisodesView,
+    InventoryItem,
+    InventoryView,
+    Message,
+    NewsItem,
+    NewsView,
+    PathwayIcon,
+    PathwayList,
+    PathwaysView,
+    QuestRow,
+    QuestSetButton
+]
+
+for klass in clubhouse_classes:
     klass.set_css_name(klass.__gtype_name__)
 
 if __name__ == '__main__':
