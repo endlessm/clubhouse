@@ -2,7 +2,7 @@
 <gresources>
   <gresource prefix="/com/hack_computer/Clubhouse">
     <file>gtk-style.css</file>
-    <file preprocess="xml-stripblanks">clubhouse-view.ui</file>
+    <file preprocess="xml-stripblanks">clubhouse-view-main-layer.ui</file>
     <file preprocess="xml-stripblanks">character-view.ui</file>
     <file preprocess="xml-stripblanks">inventory-view.ui</file>
     <file preprocess="xml-stripblanks">episode-row.ui</file>
@@ -16,6 +16,7 @@
     <file preprocess="xml-stripblanks">pathways-view.ui</file>
     <file preprocess="xml-stripblanks">posterwindow.ui</file>
     <file preprocess="xml-stripblanks">quest-row.ui</file>
+    <file preprocess="xml-stripblanks">quest-set-info-tip.ui</file>
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/images">
     <file>comingsoon_label_bg.png</file>
