@@ -2126,9 +2126,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_box = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
     _user_image = Gtk.Template.Child()
-    _user_bio_revealer = Gtk.Template.Child()
-    _user_bio_revealer_revealer = Gtk.Template.Child()
-    _user_bio_textbuffer = Gtk.Template.Child()
 
     _pathways_menu_button = Gtk.Template.Child()
     _clubhouse_button = Gtk.Template.Child()
@@ -2269,11 +2266,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             background-image: url('{}');\
         }}".format(icon_file).encode())
 
-        # @todo: add a way to edit the biography and a scrollbar
-        info = self._gss.get('clubhouse.UserInfo')
-        if info is not None:
-            self._user_bio_textbuffer.set_text(info.get('biography', ''), -1)
-
     @Gtk.Template.Callback()
     def _on_button_press_event(self, widget, e):
         if e.button != Gdk.BUTTON_PRIMARY:
@@ -2286,31 +2278,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _on_delete(self, widget, _event):
         widget.hide()
         return True
-
-    @Gtk.Template.Callback()
-    def _on_user_button_clicked(self, button):
-        if self._user_bio_revealer_revealer.get_reveal_child():
-            self._user_bio_revealer.set_reveal_child(False)
-            self.inventory.reveal(False)
-        else:
-            self._user_bio_revealer_revealer.set_reveal_child(True)
-
-    @Gtk.Template.Callback()
-    def _on_user_bio_revealer_revealer_notify(self, widget, pspec):
-        if self._user_bio_revealer_revealer.props.child_revealed:
-            self._user_bio_revealer.set_reveal_child(True)
-
-    @Gtk.Template.Callback()
-    def _on_user_bio_revealer_notify(self, widget, pspec):
-        if self._user_bio_revealer.props.child_revealed:
-            self.inventory.reveal(True)
-        else:
-            self._user_bio_revealer_revealer.set_reveal_child(False)
-
-    @Gtk.Template.Callback()
-    def _on_user_bio_textview_focus_out_event(self, widget, event):
-        self._gss.set('clubhouse.UserInfo',
-                      {'biography': self._user_bio_textbuffer.props.text})
 
     def set_page(self, page_name):
         current_page = self._stack.get_visible_child_name()
