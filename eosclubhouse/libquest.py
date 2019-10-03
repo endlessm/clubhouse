@@ -423,9 +423,15 @@ class _QuestRunContext:
         def _run_step(step_func_data):
             step_func, args_ = step_func_data
 
-            # Execute the step
-            logger.debug('Executing step: %s%r', step_func.__name__, args_)
-            result = step_func(*args_)
+            result = None
+
+            try:
+                # Execute the step
+                logger.debug('Executing step: %s%r', step_func.__name__, args_)
+                result = step_func(*args_)
+
+            except asyncio.CancelledError:
+                logger.debug('Async action cancelled.')
 
             if result is None or self._cancellable.is_cancelled():
                 return
