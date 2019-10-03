@@ -33,7 +33,7 @@ from eosclubhouse import config, logger
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
     Performance, QuestStringCatalog, QS, convert_variant_arg
-from gi.repository import GObject, GLib
+from gi.repository import EosMetrics, GObject, GLib
 
 
 # Set up the asyncio loop implementation
@@ -41,6 +41,9 @@ glibcoro.install()
 
 
 DEFAULT_CHARACTER = 'ada'
+
+
+QUEST_EVENT = '50aebb1b-7a93-4caf-8698-3a601a0fc0f6'
 
 
 class Registry(GObject.GObject):
@@ -796,9 +799,24 @@ class _Quest(GObject.GObject):
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
 
+    def _start_record_metrics(self):
+        pathways = [i.get_name() for i in self.get_pathways()]
+        recorder = EosMetrics.EventRecorder.get_default()
+        key = GLib.Variant('s', self.get_name())
+        payload = GLib.Variant('(bas)', (self.complete, pathways))
+        recorder.record_start(QUEST_EVENT, key, payload)
+
+    def _stop_record_metrics(self):
+        pathways = [i.get_name() for i in self.get_pathways()]
+        recorder = EosMetrics.EventRecorder.get_default()
+        key = GLib.Variant('s', self.get_name())
+        payload = GLib.Variant('(bas)', (self.complete, pathways))
+        recorder.record_stop(QUEST_EVENT, key, payload)
+
     def run(self, on_quest_finished):
         assert hasattr(self, 'step_begin'), ('Quests need to declare a "step_begin" method, in '
                                              'order to be run.')
+
         self.run_in_context(on_quest_finished)
 
     def run_in_context(self, quest_finished_cb):
@@ -813,12 +831,16 @@ class _Quest(GObject.GObject):
 
         self._run_context = _QuestRunContext(self._cancellable)
         self.emit('quest-started')
+        self._start_record_metrics()
+
         self._run_context.run(self.step_begin)
         self._run_context = None
 
         self.run_finished()
         quest_finished_cb(self)
+
         self.emit('quest-finished')
+        self._stop_record_metrics()
 
         # The quest is stopped, so reset the "stopping" property again.
         self.stopping = False
