@@ -1002,10 +1002,12 @@ class ClubhouseView(FixedLayerGroup):
 
         def reject_stop():
             Sound.play('clubhouse/dialog/close')
+            self._continue_quest(self._current_quest)
 
-        # @todo: This overrides any current popup.
         self._shell_popup_message({
+            # @todo: This string should not be hardcoded:
             'text': 'You are already in a quest, do you want to start a new one?',
+            'system_notification': True,
             'character_id': self.SYSTEM_CHARACTER_ID,
             'character_mood': self.SYSTEM_CHARACTER_MOOD,
             'sound_fx': self.running_quest.proposal_sound,
@@ -1021,9 +1023,10 @@ class ClubhouseView(FixedLayerGroup):
         def reject_harder():
             Sound.play('clubhouse/dialog/close')
 
-        # @todo: This overrides any current popup.
         self._shell_popup_message({
+            # @todo: This string should not be hardcoded:
             'text': 'There is an easier quest, do you want to continue anyways?',
+            'system_notification': True,
             'character_id': self.SYSTEM_CHARACTER_ID,
             'character_mood': self.SYSTEM_CHARACTER_MOOD,
             'sound_fx': new_quest.proposal_sound,
@@ -1267,7 +1270,9 @@ class ClubhouseView(FixedLayerGroup):
             notification.add_button('🐞', 'app.quest-debug-skip')
 
         self._app.send_quest_msg_notification(notification)
-        self._current_quest_notification = (notification, sfx_sound)
+
+        if not message_info.get('system_notification', False):
+            self._current_quest_notification = (notification, self._actions, sfx_sound)
 
         self._delayed_message_handler = 0
         return GLib.SOURCE_REMOVE
@@ -1276,7 +1281,9 @@ class ClubhouseView(FixedLayerGroup):
         if self._current_quest_notification is None:
             return
 
-        notification, sound = self._current_quest_notification
+        notification, actions, sound = self._current_quest_notification
+
+        self._recover_quest_actions(actions)
 
         if sound:
             Sound.play(sound)
@@ -1314,6 +1321,9 @@ class ClubhouseView(FixedLayerGroup):
     def _reset_quest_actions(self):
         # We need to maintain the order of the quest actions, so we use an OrderedDict here.
         self._actions = OrderedDict()
+
+    def _recover_quest_actions(self, actions):
+        self._actions = actions
 
     def _add_quest_action(self, action):
         # Lazy import UUID module because it takes a while to do so, and we only need it here
