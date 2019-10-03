@@ -19,6 +19,7 @@
 #
 
 import gi
+gi.require_version('EosMetrics', '0')
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
@@ -32,7 +33,7 @@ import time
 import datetime
 
 from collections import OrderedDict
-from gi.repository import Gdk, Gio, GLib, Gtk, GObject, Json
+from gi.repository import EosMetrics, Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.system import Desktop, GameStateService, UserAccount, Sound
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
@@ -42,6 +43,11 @@ from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, A
 from eosclubhouse.episodes import BadgeButton, PosterWindow
 from eosclubhouse.splash import SplashWindow
 from eosclubhouse.widgets import FixedLayerGroup
+
+
+# Metrics event ids
+CLUBHOUSE_SET_PAGE_EVENT = '2c765b36-a4c9-40ee-b313-dc73c4fa1f0d'
+CLUBHOUSE_PATHWAY_ENTER_EVENT = '600c1cae-b391-4cb4-9930-ea284792fdfb'
 
 
 CLUBHOUSE_NAME = 'com.hack_computer.Clubhouse'
@@ -1508,6 +1514,10 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         self._app_window.character.show_mission_list(quest_set)
         self._app_window.set_page('CHARACTER')
 
+        recorder = EosMetrics.EventRecorder.get_default()
+        character = GLib.Variant('s', quest_set.get_character())
+        recorder.record_event(CLUBHOUSE_PATHWAY_ENTER_EVENT, character)
+
 
 class InventoryItem(Gtk.Button):
 
@@ -2334,6 +2344,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         # Switch page
         self._stack.set_visible_child(page)
 
+        recorder = EosMetrics.EventRecorder.get_default()
+        page_variant = GLib.Variant('s', new_page)
+        recorder.record_event(CLUBHOUSE_SET_PAGE_EVENT, page_variant)
+
     def _select_main_page_on_timeout(self):
         self._stack.set_visible_child(self.clubhouse)
         self._page_reset_timeout = 0
@@ -2701,6 +2715,9 @@ class ClubhouseApplication(Gtk.Application):
             self._window.character.show_mission_list(qs)
             self._window.set_page('CHARACTER')
             self._show_and_focus_window()
+
+            recorder = EosMetrics.EventRecorder.get_default()
+            recorder.record_event(CLUBHOUSE_PATHWAY_ENTER_EVENT, arg_variant)
 
     def _visibility_notify_cb(self, window, pspec):
         if self._window.is_visible():
