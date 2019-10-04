@@ -14,5 +14,8 @@
     10
   ],
   "height": 312,
-  "width": 164
+  "width": 164,
+  "reference-points": {
+    "infotip": [57, 180]
+  }
 }
