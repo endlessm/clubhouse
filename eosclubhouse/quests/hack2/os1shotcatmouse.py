@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Sound, App
+from eosclubhouse.system import App
 
 
 class OSOneshotCatMouse(Quest):
@@ -11,7 +11,7 @@ class OSOneshotCatMouse(Quest):
     __mission_order__ = 250
     __pathway_order__ = 250
 
-    TOTAL_MESSAGES = 18
+    TOTAL_MESSAGES = 34
 
     def setup(self):
         self._app = App(self.APP_NAME)
@@ -20,17 +20,18 @@ class OSOneshotCatMouse(Quest):
     def step_begin(self):
         self.deploy_file('mouse', '~/yarnbasket/', override=True)
         # intro dialogue
-        for index in range(1, 5):
+        for index in range(1, 7):
             self.wait_confirm(str(index))
         # launch the terminal for the user, makes it easier - this is the first quest
         self._app.launch()
         self.wait_for_app_launch(self._app, pause_after_launch=2)
 
-        return self.step_main_loop, 5
+        return self.step_main_loop, 7
 
     def step_main_loop(self, message_index):
         if message_index > self.TOTAL_MESSAGES:
-            return self.step_end
+            self.wait_confirm('END')
+            return self.step_complete_and_stop
         elif message_index < 1:
             message_index = 1
 
@@ -49,10 +50,3 @@ class OSOneshotCatMouse(Quest):
             message_index += 1
 
         return self.step_main_loop, message_index
-
-    def step_end(self):
-        self.wait_confirm('END')
-        self.complete = True
-        self.available = False
-        Sound.play('quests/quest-complete')
-        self.stop()
