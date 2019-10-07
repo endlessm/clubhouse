@@ -1,6 +1,6 @@
 STORY_FABER1_POSITIVE,👍,,,,
 STORY_FABER1_NEGATIVE,👎,,,,
-STORY_FABER1_1,"Hey there, {{user_name}} - I don't know if we've been fully introduced. I’m Faber, I run the Maker Space out near the Observatory.",faber,,,
+STORY_FABER1_1,"Hey there, *{{user_name}}* - I don't know if we've been fully introduced. I’m Faber, I run the Maker Space out near the Observatory.",faber,,,
 STORY_FABER1_2,"It’s always great to have another new student around - Say, do you like shortbread?",faber,,,
 STORY_FABER1_2_RPOS,Awesome! I’ll double my recipe next time I make some. Can’t wait for you to try it.,faber,,,
 STORY_FABER1_2_RNEG,"That’s cool - Let me know what your favorite cookie is, we can try a batch in my solar oven some time!",faber,,,

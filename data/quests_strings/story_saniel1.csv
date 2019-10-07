@@ -1,6 +1,6 @@
 STORY_SANIEL1_POSITIVE,👍,,,,
 STORY_SANIEL1_NEGATIVE,👎,,,,
-STORY_SANIEL1_1,"Hello, {{user_name}} - I was wondering when you'd stop by.",saniel,,,
+STORY_SANIEL1_1,"Hello, *{{user_name}}* - I was wondering when you'd stop by.",saniel,,,
 STORY_SANIEL1_2,"I've been trying to get the Academy to search for students wth different ways of learning and problem solving - and finally, here you are.",saniel,,,
 STORY_SANIEL1_3,"I want the Academy to be more than just a space for teaching and learning, I want it to be a community, based on sharing knowledge.",saniel,,,
 STORY_SANIEL1_4,"In my past, I have found my deepest friendships and strongest allies to be the result of communities. In all my years of —",saniel,,,

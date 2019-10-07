@@ -1,6 +1,6 @@
 STORY_ADA1_POSITIVE,👍,,,,
 STORY_ADA1_NEGATIVE,👎,,,,
-STORY_ADA1_1,"Hi again, {{user_name}}! I was so excited when Dr. Rowe mentioned that the remote student program was approved.",ada,,,
+STORY_ADA1_1,"Hi again, *{{user_name}}*! I was so excited when Dr. Rowe mentioned that the remote student program was approved.",ada,,,
 STORY_ADA1_2,"
 I know it's not easy - you're the first person to test this system, and you have to deal with a totally new set of people, in a new place...",ada,,,
 STORY_ADA1_3,"So, how are you doing?",ada,,,
@@ -19,7 +19,7 @@ STORY_ADA1_13,"This is why you need to learn how these systems work. If you know
 STORY_ADA1_14,"Knowing the system means that other people will have a harder time controlling what you can learn, do, or say. That's why learning about all this is so important!",ada,,,
 STORY_ADA1_15,"… Wow, that was quite a speech. Sorry, these things are *REALLY* important to me -  I get all excited to talk about them and just *go*.",ada,,,
 STORY_ADA1_16,"Hey Ada, how's it going?",faber,,,
-STORY_ADA1_17,"Hi, Faber! I was just seeing how {{user_name}} was adjusting to the Academy.",ada,,,
+STORY_ADA1_17,"Hi, Faber! I was just seeing how *{{user_name}}* was adjusting to the Academy.",ada,,,
 STORY_ADA1_18,"Cool! I actually had some data I wanted to collect - I'm trying to optimize the program that shows your avatar to everyone at The Academy. Hopefully I can keep you from walking through solid objects, and other things like that.",faber,,,
 STORY_ADA1_19,"It's funny if you know what to expect, but man, if you popped out of a wall in front of me I'd yell loud enough to wake Dr. Rowe out of a nap!",faber,,,
 STORY_ADA1_20,"Haha! I just had the image of you jumping, and everything in your toolbelt flying all over…",ada,,,
@@ -32,7 +32,7 @@ STORY_ADA1_26,"Yeah, she's the best, even if she does scare the living daylights
 STORY_ADA1_27,"It's moments like this that make me so glad I'm here, at the Academy.",ada,,,
 STORY_ADA1_28,"If I had left, I'd probably be making some useless gadget for people who don't need more distractions. What about you?",faber,,,
 STORY_ADA1_29,"Oh, I imagine I'd be at some research center. Maybe working on gravity waves. This is much more rewarding, though.",ada,,,
-STORY_ADA1_30,"So, {{user_name}}, how are you feeling about the Academy so far?",faber,,,
+STORY_ADA1_30,"So, *{{user_name}}*, how are you feeling about the Academy so far?",faber,,,
 STORY_ADA1_30_RPOS,Awesome! I love seeing new people get all charged up about this place - it's such a cool opportunity.,faber,hurray,,
 STORY_ADA1_30_RNEG,"Don't worry - Just learn as much as you can. I didn't know what I wanted to do until this one night, when I realized I had been in the machine shop since 10AM that morning... and it was 4AM, the next morning.",faber,,,
 STORY_ADA1_31,What was that noise?,ada,,,
@@ -41,4 +41,4 @@ Great talking with you guys, but I gotta run and load this into my program if I 
 STORY_ADA1_33,In time for what?,ada,,,
 STORY_ADA1_34,"Dr. Hart got me a spot on the servers so I can run my simulations... But there's a lot of activity on the servers these days, so I've got a pretty tight deadline.",faber,,,
 STORY_ADA1_35,"Good luck, Faber!
-Well, {{user_name}}, I have to be going - but I'll see you later. Have fun!",ada,,,
+Well, *{{user_name}}*, I have to be going - but I'll see you later. Have fun!",ada,,,

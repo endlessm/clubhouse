@@ -6,7 +6,7 @@ BLENDERQUEST_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
 You need to download it from the App Center if you'd like to learn how to use it.
 
 Click the icon named `More Apps` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDERQUEST_WARN1,"So, you're interested in 3d Modeling, {{user_name}}?
+BLENDERQUEST_WARN1,"So, you're interested in 3d Modeling, *{{user_name}}*?
 
 Your Hack system has access to Blender, a super-powerful 3d modeling program, through the App Center.
 

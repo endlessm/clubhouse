@@ -3,8 +3,8 @@ MEET_WELCOME2,My name's Ada - I've been around the Academy for a while. I'll be 
 MEET_WELCOME3_GOTHINT,That was actually me at the entrance puzzle - I didn't want to distract you by introducing myself.,ada,,,
 MEET_WELCOME3_NOHINT,Great job on the entrance puzzle! Not many students solve that without help.,ada,hurray,,
 MEET_GOBACK,"First, use the buttons at the *top* of the screen to go back to the main Clubhouse area.",,,,
-MEET_EXPLAIN_MAIN1,`The Clubhouse' is a virtual place that anyone at The Academy can use to hang out and chat.,ada,,,
-MEET_EXPLAIN_MAIN2,"No matter where we are in the real world., we're always here in the virtual world.",ada,,,
+MEET_EXPLAIN_MAIN1,*The Clubhouse* is a virtual place that anyone at The Academy can use to hang out and chat.,ada,,,
+MEET_EXPLAIN_MAIN2,"No matter where we are in the real world, we're always here in the virtual world.",ada,,,
 MEET_EXPLAIN_HACK1,"You might notice that your cursor and desktop are different - That's because we're in Hack Mode.
 
 When you're in Hack Mode, you can flip programs and hack them, and sometimes do even more!",ada,,,
@@ -17,7 +17,7 @@ MEET_EXPLAIN_PATHWAYS2,"If you know exactly what you want to learn or do, go her
 If you're not sure, that's what all of us are here for - to help guide you.",,,,
 MEET_EXPLAIN_PROFILE1,Do you see that picture with your name on it in the *upper left*? That's your *Profile*.,ada,,,
 MEET_EXPLAIN_PROFILE2,We want you to be able to decide who you are in the world of Hack - and that includes your name. ,ada,,,
-MEET_EXPLAIN_PROFILE3,"If you'd like us to call you something other than {{user_name}}, you can change that.",ada,,,
+MEET_EXPLAIN_PROFILE3,"If you'd like us to call you something other than *{{user_name}}*, you can change that.",ada,,,
 MEET_CHANGE_NAME_ASK,Would you like to learn how to do that right now?,ada,,,
 MEET_CHANGE_NAME_YES,Sure!,,,,
 MEET_CHANGE_NAME_NO,Not now...,,,,
