@@ -2,13 +2,13 @@ from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App
 
 
-class PDFSketch(Quest):
+class MakerSketch(Quest):
 
     APP_NAME = 'com.hack_computer.MakerPathway'
-    ARTICLE_NAME = 'The Sketch Prototype Challenge'
+    ARTICLE_NAME = 'Sketch Prototype Challenge'
 
     __tags__ = ['pathway:maker']
-    __pathway_order__ = 300
+    __pathway_order__ = 220
 
     def setup(self):
         self._app = App(self.APP_NAME)

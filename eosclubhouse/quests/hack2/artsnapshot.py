@@ -2,13 +2,13 @@ from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App
 
 
-class PDFEarthquake(Quest):
+class ArtSnapshot(Quest):
 
     APP_NAME = 'com.hack_computer.MakerPathway'
-    ARTICLE_NAME = 'Ahoy Maker'
+    ARTICLE_NAME = 'Snapshot'
 
-    __tags__ = ['pathway:maker']
-    __pathway_order__ = 200
+    __tags__ = ['pathway:art']
+    __pathway_order__ = 400
 
     def setup(self):
         self._app = App(self.APP_NAME)
