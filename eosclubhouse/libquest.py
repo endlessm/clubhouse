@@ -30,6 +30,7 @@ import sys
 from collections import OrderedDict
 from enum import Enum, IntEnum
 from eosclubhouse import config, logger
+from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
     Performance, QuestStringCatalog, QS, convert_variant_arg
@@ -645,6 +646,7 @@ class _Quest(GObject.GObject):
 
     Difficulty = IntEnum('Difficulty', ['EASY', 'NORMAL', 'HARD'])
     DEFAULT_DIFFICULTY = Difficulty.NORMAL
+    DEFAULT_ACHIEVEMENT_POINTS = 1
     MessageType = Enum('MessageType', ['POPUP', 'NARRATIVE'])
 
     __gsignals__ = {
@@ -721,6 +723,8 @@ class _Quest(GObject.GObject):
         self.gss = GameStateService()
         self.conf = {}
         self.load_conf()
+        if self.complete:
+            self._give_achievement_points()
 
         self._highlighted = False
         self._available = self.__available_after_completing_quests__ == []
@@ -1179,13 +1183,11 @@ class _Quest(GObject.GObject):
     def get_pathways(class_):
         quest_pathways = []
         registered_pathways = Registry.get_pathways()
-        for tag in class_.get_tags():
-            if not tag.startswith('pathway:'):
-                continue
-            pathway_name = tag.split(':')[1].lower()
+        for tag_info in class_.get_tag_info_by_prefix('pathway'):
+            pathway_name = tag_info[0]
             try:
                 pathway = \
-                    next(p for p in registered_pathways if p.get_name().lower() == pathway_name)
+                    next(p for p in registered_pathways if p.get_name().upper() == pathway_name)
                 quest_pathways.append(pathway)
             except StopIteration:
                 continue
@@ -1209,12 +1211,24 @@ class _Quest(GObject.GObject):
         return class_.__auto_offer_info__
 
     @classmethod
-    def get_difficulty(class_):
+    def get_tag_info_by_prefix(class_, prefix):
+
+        def sanitize(tag_element):
+            try:
+                return int(tag_element)
+            except ValueError:
+                return tag_element.upper()
+
         for tag in class_.get_tags():
-            if not tag.startswith('difficulty:'):
+            if not tag.startswith(prefix + ':'):
                 continue
 
-            difficulty = tag.split(':')[1].upper()
+            yield [sanitize(t) for t in tag.split(':')[1:]]
+
+    @classmethod
+    def get_difficulty(class_):
+        for tag_info in class_.get_tag_info_by_prefix('difficulty'):
+            difficulty = tag_info[0]
             try:
                 return getattr(class_.Difficulty, difficulty)
             except AttributeError:
@@ -1261,10 +1275,25 @@ class _Quest(GObject.GObject):
         self.conf = self.gss.get(key, value_if_missing={})
         self.complete = self.conf.get('complete', False)
 
+    def _give_achievement_points(self):
+        manager = AchievementsDB().manager
+
+        def get_points(tag_info):
+            if len(tag_info) > 1:
+                return tag_info[1]
+            return self.DEFAULT_ACHIEVEMENT_POINTS
+
+        for tag_info in self.get_tag_info_by_prefix('skillset'):
+            skillset = tag_info[0]
+            points = get_points(tag_info)
+            manager.add_points(skillset, points)
+
     def get_complete(self):
         return self.conf['complete']
 
     def set_complete(self, is_complete):
+        if is_complete and self.conf['complete'] != is_complete:
+            self._give_achievement_points()
         self.conf['complete'] = is_complete
 
     def _get_highlighted(self):

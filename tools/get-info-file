@@ -7,15 +7,19 @@ import os
 import requests
 import subprocess
 
-CSV_PATH = os.path.join('data')
+CSV_PATH = {
+    'quests_items': 'data',
+    'episodes': 'data',
+    'achievements': os.path.join('data', 'achievements'),
+}
+
 CSV_ALTERNATIVE_PATH = os.path.expanduser('~/.var/app/com.hack_computer.Clubhouse' +
                                           '/data/quests')
 SHEETS_FOR_FILES = {
     'quests_items': 'Items',
     'episodes': 'Episodes',
+    'achievements': 'Badges',
 }
-
-CSV_NAME = 'quests_items'
 
 URL_TEMPLATE = ('https://docs.google.com/spreadsheets/d/{key}/' +
                 'gviz/tq?tqx=out:csv&sheet={sheet}&range={range}')
@@ -26,6 +30,7 @@ URL_PARAMS = {
 RANGES_FOR_SHEET = {
     'Items': 'A:E',
     'Episodes': 'A:F',
+    'Badges': 'A:E',
 }
 
 
@@ -47,7 +52,7 @@ def _write_csv_file(filename, rows):
             writer.writerow(r)
 
 def write_csv(info_file, rows, use_alternative_path=False):
-    csv_path = CSV_PATH if not use_alternative_path else CSV_ALTERNATIVE_PATH
+    csv_path = CSV_PATH[info_file] if not use_alternative_path else CSV_ALTERNATIVE_PATH
     filename = os.path.join(csv_path, info_file + '.csv')
     _write_csv_file(filename, rows)
 

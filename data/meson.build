@@ -84,13 +84,14 @@ install_data(
 characters_dir_name = 'characters'
 cursors_dir_name = 'cursors'
 items_dir_name = 'items'
+achievements_dir_name = 'achievements'
 episodes_dir_name = 'episodes'
 newsfeed_dir_name = 'newsfeed'
 quests_strings_dir_name = 'quests_strings'
 quests_files_dir_name = 'quests_files'
 tools_dir_name = 'tools'
 
-data_dir_paths = [characters_dir_name, cursors_dir_name, items_dir_name, episodes_dir_name, newsfeed_dir_name, quests_strings_dir_name, quests_files_dir_name, tools_dir_name]
+data_dir_paths = [characters_dir_name, cursors_dir_name, items_dir_name, achievements_dir_name, episodes_dir_name, newsfeed_dir_name, quests_strings_dir_name, quests_files_dir_name, tools_dir_name]
 
 foreach path : data_dir_paths
     install_subdir(path, install_dir: clubhouse_data_dir)
@@ -99,6 +100,7 @@ endforeach
 quests_items_csv_name = 'quests_items.csv'
 episodes_csv_name = 'episodes.csv'
 newsfeed_csv_name = 'newsfeed.csv'
+achievements_csv_name = 'achievements.csv'
 
 data_file_paths = [quests_items_csv_name, episodes_csv_name]
 
@@ -109,6 +111,8 @@ endforeach
 # For later substitution in the config file
 characters_dir = join_paths(clubhouse_data_dir, characters_dir_name)
 item_icons_dir = join_paths(clubhouse_data_dir, items_dir_name)
+achievements_dir = join_paths(clubhouse_data_dir, achievements_dir_name)
+achievements_csv = join_paths(achievements_dir, achievements_csv_name)
 episodes_dir = join_paths(clubhouse_data_dir, episodes_dir_name)
 episodes_csv = join_paths(clubhouse_data_dir, episodes_csv_name)
 quests_strings_dir = join_paths(clubhouse_data_dir, quests_strings_dir_name)

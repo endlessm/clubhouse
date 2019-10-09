@@ -43,23 +43,26 @@ def get_alternative_quests_dir():
     return os.path.join(GLib.get_user_data_dir(), 'quests')
 
 
-class _DictFromCSV:
+class DictFromCSV:
 
     _csv_dict = {}
 
-    def __init__(self, csv_path):
+    def __init__(self, csv_path, ignore_header=False):
         if self._csv_dict:
             return
-        self.load_csv(csv_path)
+        self.load_csv(csv_path, ignore_header)
 
     @classmethod
-    def _do_load_csv(class_, csv_path, contents):
+    def _do_load_csv(class_, csv_path, contents, ignore_header):
         with open(csv_path, 'r') as csv_file:
-            for row in csv.reader(csv_file):
+            reader = csv.reader(csv_file)
+            if ignore_header:
+                next(reader, [])
+            for row in reader:
                 class_.set_key_value_from_csv_row(row, contents)
 
     @classmethod
-    def load_csv(class_, csv_original_path):
+    def load_csv(class_, csv_original_path, ignore_header):
         contents = {}
 
         file_name = os.path.basename(csv_original_path)
@@ -70,11 +73,11 @@ class _DictFromCSV:
                 continue
 
             if not os.path.isdir(csv_or_dir_path):
-                class_._do_load_csv(csv_or_dir_path, contents)
+                class_._do_load_csv(csv_or_dir_path, contents, ignore_header)
                 continue
 
             for csv_path in glob.glob(os.path.join(csv_or_dir_path, '*csv')):
-                class_._do_load_csv(csv_path, contents)
+                class_._do_load_csv(csv_path, contents, ignore_header)
 
         class_._csv_dict = contents
 
@@ -115,7 +118,7 @@ class _ListFromCSV:
         raise NotImplementedError()
 
 
-class QuestStringCatalog(_DictFromCSV):
+class QuestStringCatalog(DictFromCSV):
 
     def __init__(self):
         super().__init__(config.QUESTS_STRINGS_DIR)
@@ -157,7 +160,7 @@ class QuestStringCatalog(_DictFromCSV):
         }
 
 
-class QuestItemDB(_DictFromCSV):
+class QuestItemDB(DictFromCSV):
 
     def __init__(self):
         super().__init__(config.QUESTS_ITEMS_CSV)
@@ -225,7 +228,7 @@ class Episode(GObject.Object):
     percentage_complete = GObject.Property(type=int, default=0)
 
 
-class EpisodesDB(_DictFromCSV):
+class EpisodesDB(DictFromCSV):
 
     def __init__(self):
         super().__init__(config.EPISODES_CSV)
