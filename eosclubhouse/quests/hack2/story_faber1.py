@@ -5,7 +5,7 @@ from eosclubhouse.system import Sound
 class Story_Faber1(Quest):
 
     __quest_name__ = 'Story - Faber Mattics, Engineer Extraordinaire'
-    __tags__ = ['mission:faber']
+    __tags__ = ['mission:faber', 'skillset:Narrative']
     __mission_order__ = 50
     __is_narrative__ = True
 
