@@ -786,11 +786,11 @@ class QuestCard(Gtk.FlowBoxChild):
 
     @Gtk.Template.Callback()
     def _on_enter_notify_event(self, widget, event):
-        self.set_state_flags(Gtk.StateFlags.PRELIGHT, False);
+        self.set_state_flags(Gtk.StateFlags.PRELIGHT, False)
 
     @Gtk.Template.Callback()
     def _on_leave_notify_event(self, widget, event):
-        self.unset_state_flags(Gtk.StateFlags.PRELIGHT);
+        self.unset_state_flags(Gtk.StateFlags.PRELIGHT)
 
     @Gtk.Template.Callback()
     def _on_state_flags_changed(self, widget, flags):
@@ -804,7 +804,7 @@ class QuestCard(Gtk.FlowBoxChild):
     def _setup_background(self):
         self._css_provider = Gtk.CssProvider()
         self._topbox.get_style_context().add_provider(self._css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+                                                      Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
 
         quest_id = self._quest.get_id().lower()
         character = self._quest_set.get_character()
