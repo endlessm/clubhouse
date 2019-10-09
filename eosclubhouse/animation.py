@@ -165,6 +165,7 @@ class Animation(GObject.GObject):
         self.target_image.set_from_pixbuf(pixbuf)
 
     def load(self, sprite_path, scale=1):
+        self.scale = scale
         self._reference_points = {}
 
         file = Gio.File.new_for_path(sprite_path)
