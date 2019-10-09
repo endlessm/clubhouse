@@ -16,58 +16,6 @@
             <property name="can_focus">False</property>
             <property name="column_homogeneous">True</property>
             <child>
-              <object class="GtkBox">
-                <property name="name">mission-list</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="vexpand">True</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">center</property>
-                    <property name="label" translatable="yes">Activity List</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkScrolledWindow" id="_missions_scrolled_window">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
-                    <child>
-                      <object class="GtkViewport">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <object class="GtkListBox" id="_list">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="left_attach">11</property>
-                <property name="top_attach">0</property>
-                <property name="width">9</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkOverlay" id="_character_overlay">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -108,6 +56,37 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+                <property name="width">9</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="_missions_scrolled_window">
+                <property name="name">mission-list</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="valign">end</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
+                <child>
+                  <object class="GtkViewport">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFlowBox" id="_list">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">start</property>
+                        <property name="homogeneous">True</property>
+                        <property name="min_children_per_line">3</property>
+                        <property name="max_children_per_line">3</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">9</property>
                 <property name="top_attach">0</property>
                 <property name="width">11</property>
               </packing>

@@ -3,6 +3,7 @@
   <gresource prefix="/com/hack_computer/Clubhouse">
     <file>gtk-style.css</file>
     <file preprocess="xml-stripblanks">clubhouse-view-main-layer.ui</file>
+    <file preprocess="xml-stripblanks">quest-card.ui</file>
     <file preprocess="xml-stripblanks">character-view.ui</file>
     <file preprocess="xml-stripblanks">inventory-view.ui</file>
     <file preprocess="xml-stripblanks">episode-row.ui</file>

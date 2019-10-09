@@ -105,3 +105,111 @@ QuestSetInfoTip
   animation-timing-function: ease
   animation-iteration-count: infinite
   box-shadow: 0 0 10px white
+
+// Character View
+CharacterView
+  list
+    background-color: unset
+
+  #mission-list
+    margin: 0 1em 1em 0
+    min-height: 42em
+
+  scrollbar
+    border: 0
+    border-radius: 1ex
+    background: rgba(255, 255, 255, 0.3)
+
+    slider
+      background-color: white
+      padding: 0
+      border: 0
+      margin: 1px
+
+// QuestCard
+QuestCard
+  border-radius: 1em
+  min-height: 20em
+  margin: 1ex
+
+  #topbox,
+  #topbox > box
+    border-radius: 1em 1em 0 0
+
+  #bottombox
+    background: white
+    padding: 1ex
+    border-radius: 0 0 1em 1em
+
+    button
+      color: white
+      border-radius: 1em
+      background: #1e2c66
+      padding: 0.25em 1em
+
+  #title,
+  #subtitle
+    font-weight: bold
+
+  #subtitle,
+  #description
+    padding-top: 1ex
+
+  box.difficulty
+    background: white
+
+    &.secondary
+      separator
+        min-height: 0.35em
+
+    separator
+      min-height: 0.7em
+      background: unset
+
+      &:nth-child(2)
+        margin: 0 0.2em
+
+  &.EASY
+    #subtitle
+      color: #00efae
+
+    &:hover,
+    &:selected
+      #topbox > box
+        background: linear-gradient(to top right, rgba(#00efae, 0.75), rgba(#00ff15, 0.2))
+
+    box.difficulty
+      separator:first-child
+        background: linear-gradient(to top right, #00efae, #00ff15)
+
+  &.NORMAL
+    #subtitle
+      color: #ff6300
+
+    &:hover,
+    &:selected
+      #topbox > box
+        background: linear-gradient(to top right, rgba(#f3cb14, 0.75), rgba(#fe9915, 0.2))
+
+    box.difficulty
+      separator:first-child
+        background: linear-gradient(to top right, #f3cb14, #ff9800)
+      separator:nth-child(2)
+        background: linear-gradient(to top right, #ff9600, #ff6300)
+
+  &.HARD
+    #subtitle
+      color: #fc0806
+
+    &:hover,
+    &:selected
+      #topbox > box
+        background: linear-gradient(to top right, rgba(#ff007e, 0.75), rgba(#ff0168, 0.2))
+
+    box.difficulty
+      separator:first-child
+        background: linear-gradient(to top right, #ff007e, #ff0168)
+      separator:nth-child(2)
+        background: linear-gradient(to top right, #ff004c, #fe2d33)
+      separator:last-child
+        background: linear-gradient(to top right, #ff003b, #fc0806)

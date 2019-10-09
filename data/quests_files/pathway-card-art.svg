@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg16"
+   version="1.1"
+   viewBox="0 0 240 320"
+   height="320"
+   width="240"
+   sodipodi:docname="pathway-card-art.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="1"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     id="namedview13"
+     showgrid="false"
+     inkscape:zoom="1.7655572"
+     inkscape:cx="24.814381"
+     inkscape:cy="134.68084"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg16" />
+  <metadata
+     id="metadata20">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>icon/pathway/art_temp-wire</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+  <title
+     id="title2">icon/pathway/art_temp-wire</title>
+  <desc
+     id="desc4">Created with Sketch.</desc>
+  <defs
+     id="defs7">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient851">
+      <stop
+         style="stop-color:#b3b3b3;stop-opacity:1;"
+         offset="0"
+         id="stop847" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1"
+         offset="1"
+         id="stop849" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient2282"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop2280" />
+    </linearGradient>
+    <linearGradient
+       osb:paint="solid"
+       id="linearGradient890">
+      <stop
+         id="stop888"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:1;" />
+    </linearGradient>
+    <filter
+       inkscape:label="Cool Outside"
+       inkscape:menu="Morphology"
+       inkscape:menu-tooltip="Blurred colorized contour, empty inside"
+       style="color-interpolation-filters:sRGB;"
+       id="filter2578">
+      <feGaussianBlur
+         stdDeviation="2"
+         result="result1"
+         id="feGaussianBlur2564" />
+      <feOffset
+         dx="2"
+         dy="2"
+         id="feOffset2566" />
+      <feConvolveMatrix
+         result="result3"
+         order="3 3"
+         kernelMatrix="2 0 0 0 8 0 4 0 -4 "
+         divisor="2"
+         bias="0"
+         targetX="0"
+         id="feConvolveMatrix2568" />
+      <feComposite
+         operator="xor"
+         result="result2"
+         in="result3"
+         in2="result1"
+         id="feComposite2570" />
+      <feColorMatrix
+         values="91.7"
+         result="fbSourceGraphic"
+         type="hueRotate"
+         id="feColorMatrix2572" />
+      <feBlend
+         mode="multiply"
+         result="result4"
+         in="fbSourceGraphic"
+         in2="result3"
+         id="feBlend2574" />
+      <feComposite
+         operator="in"
+         result="result6"
+         in="fbSourceGraphic"
+         in2="result4"
+         id="feComposite2576" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient851"
+       id="linearGradient855"
+       gradientUnits="userSpaceOnUse"
+       x1="8.4105129"
+       y1="5.8072591"
+       x2="240"
+       y2="320" />
+    <polygon
+       id="path-1"
+       points="0 0 30 0 30 30 0 30" />
+    <mask
+       id="mask-2"
+       fill="white">
+      <use
+         xlink:href="#path-1"
+         id="use9"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </mask>
+  </defs>
+  <rect
+     style="opacity:1;fill:url(#linearGradient855);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.25595242;paint-order:stroke fill markers"
+     id="rect820"
+     width="240"
+     height="320"
+     x="0"
+     y="0" />
+  <path
+     id="Fill-1"
+     style="fill:#666666;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-opacity:0.25595242"
+     d="M 149.00967,20.324658 H 149.01709 L 175.20819,46.515758 155.56488,66.160868 129.36636,39.967968 Z M 181.75598,53.063488 C 185.37118,49.446438 185.37118,43.583168 181.75598,39.969818 L 155.56488,13.776928 C 151.87549,10.087528 146.01401,10.234068 142.4693,13.776928 L 90.676948,66.789678 128.3777,107.69563 Z M 26.232334,180.76348 17.924244,172.45359 20.535944,162.01608 36.705094,178.14436 Z M 15.607474,143.6286 2.432194,196.25738 54.730934,183.06912 90.244757,146.7225 52.547719,105.81847 Z M 5.503904,41.924888 C -1.233086,35.189748 -0.82685595,23.867508 6.407244,16.637118 12.483894,10.915928 23.956374,7.9748076 31.693154,15.731988 L 113.65537,104.69626 87.701691,131.14698 Z M 143.86233,187.14618 C 138.07325,187.14618 132.7905,184.94627 128.79876,181.34035 136.13482,179.07366 144.11459,173.14733 144.50412,160.35786 147.41631,159.30243 156.20667,159.93124 166.16185,161.76567 166.28428,162.71352 166.21008,177.94218 168.81436,187.14618 Z M 175.61256,164.65746 C 175.61256,147.12873 161.11288,130.99488 139.88913,133.16882 L 120.02323,111.60575 93.898907,137.87285 112.74461,158.32489 C 109.37241,174.96698 120.89689,196.40577 143.86233,196.40577 H 186.19476 C 175.61256,196.40577 175.61256,164.65746 175.61256,164.65746 Z"
+     inkscape:connector-curvature="0" />
+</svg>

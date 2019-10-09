@@ -742,6 +742,105 @@ class MessageBox(Gtk.Fixed):
     max_messages = GObject.Property(default=2, type=int)
 
 
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/quest-card.ui')
+class QuestCard(Gtk.FlowBoxChild):
+
+    __gtype_name__ = 'QuestCard'
+
+    _title = Gtk.Template.Child()
+    _subtitle = Gtk.Template.Child()
+    _description = Gtk.Template.Child()
+    _complete_image = Gtk.Template.Child()
+
+    _play_button = Gtk.Template.Child()
+
+    _topbox = Gtk.Template.Child()
+    _revealer = Gtk.Template.Child()
+    _difficulty_box = Gtk.Template.Child()
+    _secondary_difficulty_box = Gtk.Template.Child()
+
+    def __init__(self, clubhouse, quest_set, quest):
+        super().__init__()
+
+        self._clubhouse = clubhouse
+        self._quest_set = quest_set
+        self._quest = quest
+        self._quest.connect('quest-started', self._on_quest_started)
+        self._quest.connect('quest-finished', self._on_quest_finished)
+
+        self._setup_background()
+
+        # Populate info.
+        self._title.props.label = self._quest.get_name()
+        self._subtitle.props.label = self._quest.get_label('QUEST_SUBTITLE')
+        self._description.props.label = self._quest.get_label('QUEST_DESCRIPTION')
+
+        # Set difficulty class
+        self.get_style_context().add_class(self._quest.get_difficulty().name)
+
+        self._quest.connect('notify::complete', self._on_quest_complete_changed)
+        self._set_complete()
+
+        # @todo: fix initial state
+        self._update_state(self.get_state_flags())
+
+    @Gtk.Template.Callback()
+    def _on_enter_notify_event(self, widget, event):
+        self.set_state_flags(Gtk.StateFlags.PRELIGHT, False);
+
+    @Gtk.Template.Callback()
+    def _on_leave_notify_event(self, widget, event):
+        self.unset_state_flags(Gtk.StateFlags.PRELIGHT);
+
+    @Gtk.Template.Callback()
+    def _on_state_flags_changed(self, widget, flags):
+        self._update_state(flags)
+
+    def _update_state(self, flags):
+        selected = flags & Gtk.StateFlags.SELECTED
+        self._revealer.set_reveal_child(selected)
+        self._difficulty_box.set_visible(not selected)
+
+    def _setup_background(self):
+        self._css_provider = Gtk.CssProvider()
+        self._topbox.get_style_context().add_provider(self._css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+
+        quest_id = self._quest.get_id().lower()
+        character = self._quest_set.get_character()
+        if character in CharacterInfo:
+            info = CharacterInfo[character]
+            pathway = info['pathway']
+            self._css_provider.load_from_data("box {{\
+                background-size: cover;\
+                background-image: url('/app/share/eos-clubhouse/quests_files/cards/{}.jpg'),\
+                  url('/app/share/eos-clubhouse/quests_files/pathway-card-{}.svg');\
+            }}".format(quest_id, pathway).encode())
+
+    @Gtk.Template.Callback()
+    def _on_play_button_clicked(self, button):
+        easier_quest = self._quest_set.get_easier_quest(self._quest)
+        self._clubhouse.try_running_quest(self._quest, easier_quest)
+
+    def _on_quest_started(self, quest):
+        self.props.sensitive = False
+
+    def _on_quest_finished(self, quest):
+        self.props.sensitive = True
+
+    def _on_quest_complete_changed(self, _quest_set, _param):
+        self._set_complete()
+
+    def _set_complete(self):
+        self._complete_image.set_visible(self._quest.complete)
+
+    def get_quest(self):
+        return self._quest
+
+    def get_quest_set(self):
+        return self._quest_set
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/character-view.ui')
 class CharacterView(Gtk.Grid):
 
@@ -768,7 +867,6 @@ class CharacterView(Gtk.Grid):
         self._animator = Animator(self._character_image)
         self._character = None
         self._scale = 1
-        self._list.connect('row-activated', self._quest_row_clicked_cb)
 
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::nav-attract-state',
@@ -806,7 +904,7 @@ class CharacterView(Gtk.Grid):
         ctx.add_class(self._character.id)
 
         # Set page title
-        self._character_button_label.set_text(self._character.id.capitalize() + '\'s Workspace')
+        self._character_button_label.set_text(self._character.pathway_title)
 
         # Set character image
         self.update_character_image(idle=True)
@@ -817,14 +915,11 @@ class CharacterView(Gtk.Grid):
 
         # Populate list
         for quest in quest_set.get_quests(also_skippable=False):
-            row = QuestRow(quest_set, quest)
-            self._list.add(row)
-            row.show()
+            card = QuestCard(self._app_window.clubhouse, quest_set, quest)
+            self._list.add(card)
+            card.show()
 
-        # Scroll the first non completed quest.
-        reference_row = self._list.get_row_at_index(0)
-        if reference_row:
-            reference_row.connect_after('size-allocate', self._on_row_size_allocate)
+        # @todo: Scroll the first non completed quest.
 
     def _on_row_size_allocate(self, row, _rect):
         self._scroll_to_first_non_completed_quest()
@@ -851,12 +946,6 @@ class CharacterView(Gtk.Grid):
         reference_row = self._list.get_row_at_index(0)
         if reference_row:
             self._scroll_to_mission_row_at_index(index, reference_row)
-
-    def _quest_row_clicked_cb(self, _list_box, row):
-        quest_set = row.get_quest_set()
-        new_quest = row.get_quest()
-        easier_quest = quest_set.get_easier_quest(new_quest)
-        self._app_window.clubhouse.try_running_quest(new_quest, easier_quest)
 
     def _on_clubhouse_nav_attract_state_changed_cb(self, state, _param):
         if state.nav_attract_state == ClubhouseState.Page.CLUBHOUSE:
@@ -2891,6 +2980,7 @@ clubhouse_classes = [
     PathwayIcon,
     PathwayList,
     PathwaysView,
+    QuestCard,
     QuestRow,
     QuestSetButton,
     QuestSetInfoTip

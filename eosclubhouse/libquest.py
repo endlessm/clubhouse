@@ -690,6 +690,8 @@ class _Quest(GObject.GObject):
         'QUEST_REJECT_STOP': 'No',
         'QUEST_ACCEPT_HARDER': 'Yes',
         'QUEST_REJECT_HARDER': 'No',
+        'QUEST_SUBTITLE': '',
+        'QUEST_DESCRIPTION': '',
     }
 
     stopping = GObject.Property(type=bool, default=False)
