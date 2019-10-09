@@ -33,8 +33,9 @@ import time
 import datetime
 
 from collections import OrderedDict
-from gi.repository import EosMetrics, Gdk, Gio, GLib, Gtk, GObject, Json
+from gi.repository import EosMetrics, Gdk, GdkPixbuf, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
+from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import Desktop, GameStateService, OldGameStateService, \
     Sound, UserAccount
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
@@ -907,7 +908,7 @@ class ClubhouseView(FixedLayerGroup):
 
         self._reset_quest_actions()
 
-        self._current_episode = None
+        self.current_episode = None
         self._current_quest_notification = None
 
         self.add_tick_callback(AnimationSystem.step)
@@ -1393,7 +1394,6 @@ class ClubhouseView(FixedLayerGroup):
 
         if episode_name is None:
             episode_name = libquest.Registry.get_current_episode()['name']
-        self._current_episode = episode_name
 
         for child in self.get_children():
             if isinstance(child, QuestSetButton):
@@ -1403,12 +1403,14 @@ class ClubhouseView(FixedLayerGroup):
         for quest_set in libquest.Registry.get_character_missions():
             button = self.get_main_layer().add_quest_set(quest_set)
             self.get_layer(self.INFO_TIP_LAYER).add_info_tip(button)
+        self.current_episode = episode_name
 
     def _update_episode_if_needed(self):
         episode_name = libquest.Registry.get_current_episode()['name']
-        if self._current_episode != episode_name:
+        if self.current_episode != episode_name:
             self.load_episode(episode_name)
 
+    current_episode = GObject.Property(type=str)
     running_quest = GObject.Property(_get_running_quest,
                                      _set_current_quest,
                                      type=GObject.TYPE_PYOBJECT,
@@ -2155,6 +2157,132 @@ class NewsView(Gtk.Overlay):
         return GLib.SOURCE_REMOVE
 
 
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-item.ui')
+class AchievementItem(Gtk.Box):
+
+    __gtype_name__ = 'AchievementItem'
+
+    DEFAULT_MEDAL_SIZE = 128
+
+    _box = Gtk.Template.Child()
+    _image_box = Gtk.Template.Child()
+    _label_box = Gtk.Template.Child()
+
+    _image = Gtk.Template.Child()
+    _display_name_label = Gtk.Template.Child()
+
+    def __init__(self, achievement, left_size_group, right_size_group, right_to_left=False):
+        super().__init__()
+
+        self._achievement = achievement
+        self._display_name_label.props.label = '\n'.join(achievement.name.split())
+
+        if not right_to_left:
+            self._set_left_to_right(left_size_group, right_size_group)
+        else:
+            self._set_right_to_left(left_size_group, right_size_group)
+
+        self._image_path = None
+
+        image_path = os.path.join(config.DATA_DIR, 'achievements', 'badges',
+                                  '{}.png'.format(self._achievement.id_))
+        self.set_image_path(image_path)
+
+    def set_image_path(self, filename):
+        self._image_path = os.path.join(config.DATA_DIR, 'achievements', 'medals', filename)
+        self._set_image_from_file_path()
+
+    def _set_right_to_left(self, left_size_group, right_size_group):
+        self._box.child_set_property(self._image_box, 'pack-type', Gtk.PackType.END)
+
+        self._display_name_label.props.justify = Gtk.Justification.RIGHT
+        self._display_name_label.props.halign = Gtk.Align.END
+        self._image.props.halign = Gtk.Align.START
+
+        left_size_group.add_widget(self._label_box)
+        right_size_group.add_widget(self._image_box)
+
+    def _set_left_to_right(self, left_size_group, right_size_group):
+        left_size_group.add_widget(self._image_box)
+        right_size_group.add_widget(self._label_box)
+
+    def _set_image_from_file_path(self):
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(self._image_path, -1,
+                                                         self.DEFAULT_MEDAL_SIZE, True)
+        self._image.set_from_pixbuf(pixbuf)
+
+
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievements-view.ui')
+class AchievementsView(Gtk.Box):
+
+    __gtype_name__ = 'AchievementsView'
+
+    DEFAULT_TRIANGLE_HEIGHT = 30
+
+    _achievements_box = Gtk.Template.Child()
+    _left_size_group = Gtk.Template.Child()
+    _right_size_group = Gtk.Template.Child()
+
+    def __init__(self, app_window):
+        super().__init__()
+        self._app_window = app_window
+        self._manager = AchievementsDB().manager
+        self._achievements_achieved_id = None
+
+        self._app_window.clubhouse.connect('notify::current-episode',
+                                           self._current_episode_changed_cb)
+
+    def _current_episode_changed_cb(self, _window, _pspec):
+        if self._achievements_achieved_id is not None:
+            self._manager.disconnect(self._achievements_achieved_id)
+        self._populate()
+        self._achievements_achieved_id = \
+            self._manager.connect('achievement-achieved',
+                                  lambda _manager, achievement: self._add_achievement(achievement))
+
+    @property
+    def items(self):
+        return self._achievements_box.get_children()
+
+    def _populate(self):
+        for achievement in self._manager.get_achievements_achieved():
+            self._add_achievement(achievement)
+
+    def _add_achievement(self, achievement):
+        right_to_left = len(self.items) % 2 != 1
+        try:
+            achievement_item = AchievementItem(achievement,
+                                               self._left_size_group, self._right_size_group,
+                                               right_to_left)
+        except GLib.Error as ex:
+            logger.warning('Achievement %s will not be shown because of an error: %s',
+                           achievement.name, ex)
+            return
+
+        self._achievements_box.pack_end(achievement_item, True, True, 0)
+        self._achievements_box.show_all()
+
+    def do_draw(self, cr):
+        self._undraw_bottom_triangle(cr)
+        Gtk.Box.do_draw(self, cr)
+
+    def _undraw_bottom_triangle(self, cr):
+        allocation = self.get_allocation()
+
+        shape_points = [
+            (0, 0),
+            (allocation.width, 0),
+            (allocation.width, allocation.height),
+            (allocation.width / 2, allocation.height - self.DEFAULT_TRIANGLE_HEIGHT),
+            (0, allocation.height)
+        ]
+
+        cr.move_to(*shape_points[0])
+        for point in shape_points[1:]:
+            cr.line_to(*point)
+        cr.clip()
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/clubhouse-window.ui')
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
@@ -2168,6 +2296,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_box = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
     _user_image_button = Gtk.Template.Child()
+    _achievements_view_revealer = Gtk.Template.Child()
 
     _pathways_menu_button = Gtk.Template.Child()
     _clubhouse_button = Gtk.Template.Child()
@@ -2185,6 +2314,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.news = NewsView()
         self.inventory = InventoryView(self)
         self.character = CharacterView(self)
+
+        achievements_view = AchievementsView(self)
+        self._achievements_view_revealer.add(achievements_view)
+        achievements_view.show_all()
 
         self._stack.add_named(self.clubhouse, 'CLUBHOUSE')
         self._user_box.pack_start(self.inventory, True, True, 0)
@@ -2232,6 +2365,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         else:
             ctx.add_class('off')
             self.clubhouse.stop_quest()
+            self.hide_achievements_view()
 
     def _update_window_size(self):
         BG_WIDTH = 1304
@@ -2399,6 +2533,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._page_reset_timeout = GLib.timeout_add_seconds(self._MAIN_PAGE_RESET_TIMEOUT,
                                                             self._select_main_page_on_timeout)
+
+    @Gtk.Template.Callback()
+    def _user_button_clicked_cb(self, _user_button):
+        self.hide_achievements_view()
+
+    def hide_achievements_view(self):
+        revealer = self._achievements_view_revealer
+        revealer.props.reveal_child = Desktop.get_hack_mode() and not revealer.props.reveal_child
 
     @Gtk.Template.Callback()
     def _on_visibile_property_changed(self, _window, _param):
@@ -2909,6 +3051,8 @@ class ClubhouseApplication(Gtk.Application):
 
 # Set widget classes CSS name to be able to select by GType name
 clubhouse_classes = [
+    AchievementItem,
+    AchievementsView,
     CharacterView,
     ClubhouseView,
     ClubhouseViewMainLayer,
