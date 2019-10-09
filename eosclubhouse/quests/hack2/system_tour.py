@@ -20,7 +20,6 @@ class System_Tour(Quest):
         # don't bother with keys, just unlock everything
         for lockNumber in range(1, 4):
             self._gss.set('lock.OperatingSystemApp.' + str(lockNumber), {'locked': False})
-        self.wait_confirm('GREET2', confirm_label="Let's rock and roll!")
         return self.step_launch
 
     def step_launch(self):
