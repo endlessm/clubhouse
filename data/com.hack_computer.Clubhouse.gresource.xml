@@ -2,6 +2,8 @@
 <gresources>
   <gresource prefix="/com/hack_computer/Clubhouse">
     <file>gtk-style.css</file>
+    <file preprocess="xml-stripblanks">achievements-view.ui</file>
+    <file preprocess="xml-stripblanks">achievement-item.ui</file>
     <file preprocess="xml-stripblanks">clubhouse-view-main-layer.ui</file>
     <file preprocess="xml-stripblanks">character-view.ui</file>
     <file preprocess="xml-stripblanks">inventory-view.ui</file>
