@@ -1179,13 +1179,11 @@ class _Quest(GObject.GObject):
     def get_pathways(class_):
         quest_pathways = []
         registered_pathways = Registry.get_pathways()
-        for tag in class_.get_tags():
-            if not tag.startswith('pathway:'):
-                continue
-            pathway_name = tag.split(':')[1].lower()
+        for tag_info in class_.get_tag_info_by_prefix('pathway'):
+            pathway_name = tag_info[0]
             try:
                 pathway = \
-                    next(p for p in registered_pathways if p.get_name().lower() == pathway_name)
+                    next(p for p in registered_pathways if p.get_name().upper() == pathway_name)
                 quest_pathways.append(pathway)
             except StopIteration:
                 continue
@@ -1209,12 +1207,24 @@ class _Quest(GObject.GObject):
         return class_.__auto_offer_info__
 
     @classmethod
-    def get_difficulty(class_):
+    def get_tag_info_by_prefix(class_, prefix):
+
+        def sanitize(tag_element):
+            try:
+                return int(tag_element)
+            except ValueError:
+                return tag_element.upper()
+
         for tag in class_.get_tags():
-            if not tag.startswith('difficulty:'):
+            if not tag.startswith(prefix + ':'):
                 continue
 
-            difficulty = tag.split(':')[1].upper()
+            yield [sanitize(t) for t in tag.split(':')[1:]]
+
+    @classmethod
+    def get_difficulty(class_):
+        for tag_info in class_.get_tag_info_by_prefix('difficulty'):
+            difficulty = tag_info[0]
             try:
                 return getattr(class_.Difficulty, difficulty)
             except AttributeError:
