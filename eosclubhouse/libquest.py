@@ -30,6 +30,7 @@ import sys
 from collections import OrderedDict
 from enum import Enum, IntEnum
 from eosclubhouse import config, logger
+from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
     Performance, QuestStringCatalog, QS, convert_variant_arg
@@ -645,6 +646,7 @@ class _Quest(GObject.GObject):
 
     Difficulty = IntEnum('Difficulty', ['EASY', 'NORMAL', 'HARD'])
     DEFAULT_DIFFICULTY = Difficulty.NORMAL
+    DEFAULT_ACHIEVEMENT_POINTS = 1
     MessageType = Enum('MessageType', ['POPUP', 'NARRATIVE'])
 
     __gsignals__ = {
@@ -721,6 +723,8 @@ class _Quest(GObject.GObject):
         self.gss = GameStateService()
         self.conf = {}
         self.load_conf()
+        if self.complete:
+            self._give_achievement_points()
 
         self._highlighted = False
         self._available = self.__available_after_completing_quests__ == []
@@ -1271,10 +1275,25 @@ class _Quest(GObject.GObject):
         self.conf = self.gss.get(key, value_if_missing={})
         self.complete = self.conf.get('complete', False)
 
+    def _give_achievement_points(self):
+        manager = AchievementsDB().manager
+
+        def get_points(tag_info):
+            if len(tag_info) > 1:
+                return tag_info[1]
+            return self.DEFAULT_ACHIEVEMENT_POINTS
+
+        for tag_info in self.get_tag_info_by_prefix('skillset'):
+            skillset = tag_info[0]
+            points = get_points(tag_info)
+            manager.add_points(skillset, points)
+
     def get_complete(self):
         return self.conf['complete']
 
     def set_complete(self, is_complete):
+        if is_complete and self.conf['complete'] != is_complete:
+            self._give_achievement_points()
         self.conf['complete'] = is_complete
 
     def _get_highlighted(self):
