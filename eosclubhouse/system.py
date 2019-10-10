@@ -631,16 +631,19 @@ class GameStateService(GObject.GObject):
     }
 
     _proxy = None
+    _DBUS_PATH = '/com/hack_computer/GameStateService'
+    _DBUS_ID = 'com.hack_computer.GameStateService'
 
     @classmethod
     def _get_gss_proxy(klass):
         if klass._proxy is None:
+            logger.warning(f'{klass}: {klass._DBUS_ID}')
             klass._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
                                                           0,
                                                           None,
-                                                          'com.hack_computer.GameStateService',
-                                                          '/com/hack_computer/GameStateService',
-                                                          'com.hack_computer.GameStateService',
+                                                          klass._DBUS_ID,
+                                                          klass._DBUS_PATH,
+                                                          klass._DBUS_ID,
                                                           None)
 
         return klass._proxy
@@ -696,6 +699,30 @@ class GameStateService(GObject.GObject):
     def _is_key_error(error):
         return Gio.DBusError.get_remote_error(error) ==\
             'com.hack_computer.GameStateService.KeyError'
+
+
+class OldGameStateService(GameStateService):
+    _proxy = None
+    _DBUS_PATH = '/com/endlessm/GameStateService'
+    _DBUS_ID = 'com.endlessm.GameStateService'
+
+    def unlock_lockscreens(self):
+        keys = [
+            'lock.fizzics.1',
+            'lock.fizzics.2',
+            'lock.OperatingSystemApp.1',
+            'lock.OperatingSystemApp.2',
+            'lock.OperatingSystemApp.3',
+            'lock.lightspeed.1',
+            'lock.sidetrack.1',
+            'lock.sidetrack.2',
+            'lock.sidetrack.3',
+            'lock.com.endlessm.Hackdex_chapter_one.1',
+            'lock.com.endlessm.Hackdex_chapter_two.1',
+        ]
+
+        for key in keys:
+            self.set_async(key, {'locked': False})
 
 
 class ToolBoxTopic(GObject.GObject):

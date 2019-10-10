@@ -35,7 +35,8 @@ import datetime
 from collections import OrderedDict
 from gi.repository import EosMetrics, Gdk, Gio, GLib, Gtk, GObject, Json
 from eosclubhouse import config, logger, libquest, utils
-from eosclubhouse.system import Desktop, GameStateService, UserAccount, Sound
+from eosclubhouse.system import Desktop, GameStateService, OldGameStateService, \
+    Sound, UserAccount
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     Direction, get_character_animation_dirs
@@ -65,6 +66,8 @@ ClubhouseIface = ('<node>'
                   '<method name="getAnimationMetadata">'
                   '<arg type="s" direction="in" name="uri"/>'
                   '<arg type="v" direction="out" name="metadata"/>'
+                  '</method>'
+                  '<method name="migrationQuest">'
                   '</method>'
                   '<property name="Visible" type="b" access="read"/>'
                   '<property name="RunningQuest" type="s" access="read"/>'
@@ -2832,6 +2835,30 @@ class ClubhouseApplication(Gtk.Application):
             return None
 
         return GLib.Variant('(v)', (metadata_variant,))
+
+    # D-Bus implementation
+    def migrationQuest(self):
+        MIGRATION_QUEST = 'Meet'
+
+        self._ensure_registry_loaded()
+
+        # Check if this is done, in that case, do nothing
+        quest = libquest.Registry.get_quest_by_name(MIGRATION_QUEST)
+        if quest.complete:
+            return
+
+        # Mark first contact quest (HackUnlock) as done
+        quest = libquest.Registry.get_quest_by_name('FirstContact')
+        quest.complete = True
+
+        # Unlock all hack1 lockscreens as part of the migration quest
+        OldGameStateService().unlock_lockscreens()
+
+        # This write the local flatpak override for old and new hack apps
+        Desktop.set_hack_mode(True)
+        # Launch the clubhouse window and the migration quest!
+        # This quest can make the hack icon bounce
+        self._run_quest_by_name(MIGRATION_QUEST)
 
     def _list_quests(self):
         for quest_set in libquest.Registry.get_quest_sets():
