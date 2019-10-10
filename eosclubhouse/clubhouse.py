@@ -2297,6 +2297,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_label = Gtk.Template.Child()
     _user_image_button = Gtk.Template.Child()
     _achievements_view_revealer = Gtk.Template.Child()
+    _achievements_view_revealer_revealer = Gtk.Template.Child()
 
     _pathways_menu_button = Gtk.Template.Child()
     _clubhouse_button = Gtk.Template.Child()
@@ -2536,11 +2537,25 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     @Gtk.Template.Callback()
     def _user_button_clicked_cb(self, _user_button):
-        self.hide_achievements_view()
+        revealer = self._achievements_view_revealer_revealer
+        if not revealer.props.reveal_child:
+            revealer.props.reveal_child = \
+                Desktop.get_hack_mode() and not revealer.props.reveal_child
+        else:
+            self.hide_achievements_view()
+
+    @Gtk.Template.Callback()
+    def _achievements_view_revealer_revealer_child_revealed_notify_cb(self, revealer, _pspec):
+        if revealer.props.child_revealed:
+            self._achievements_view_revealer.props.reveal_child = True
+
+    @Gtk.Template.Callback()
+    def _achievements_view_revealer_child_revealed_notify_cb(self, revealer, _pspec):
+        if not revealer.props.child_revealed:
+            self._achievements_view_revealer_revealer.props.reveal_child = False
 
     def hide_achievements_view(self):
-        revealer = self._achievements_view_revealer
-        revealer.props.reveal_child = Desktop.get_hack_mode() and not revealer.props.reveal_child
+        self._achievements_view_revealer.props.reveal_child = False
 
     @Gtk.Template.Callback()
     def _on_visibile_property_changed(self, _window, _param):
