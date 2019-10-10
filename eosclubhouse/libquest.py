@@ -1283,10 +1283,20 @@ class _Quest(GObject.GObject):
                 return tag_info[1]
             return self.DEFAULT_ACHIEVEMENT_POINTS
 
+        # Add points to skillsets in tags:
         for tag_info in self.get_tag_info_by_prefix('skillset'):
             skillset = tag_info[0]
             points = get_points(tag_info)
             manager.add_points(skillset, points)
+
+        # Add points for pathways:
+        for pathway in self.get_pathways():
+            pathway_skillset = 'pathway:' + pathway.get_name()
+            manager.add_points(pathway_skillset, self.DEFAULT_ACHIEVEMENT_POINTS)
+
+        # Add points for the difficulty:
+        difficulty_skillset = 'difficulty:' + self.get_difficulty().name
+        manager.add_points(difficulty_skillset, self.DEFAULT_ACHIEVEMENT_POINTS)
 
     def get_complete(self):
         return self.conf['complete']
