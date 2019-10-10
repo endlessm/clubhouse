@@ -1268,7 +1268,7 @@ class _Quest(GObject.GObject):
         self.conf = self.gss.get(key, value_if_missing={})
         self.complete = self.conf.get('complete', False)
 
-    def _give_achievement_points(self):
+    def _give_achievement_points(self, record_points=False):
         manager = AchievementsDB().manager
 
         def get_points(tag_info):
@@ -1280,23 +1280,23 @@ class _Quest(GObject.GObject):
         for tag_info in self.get_tag_info_by_prefix('skillset'):
             skillset = tag_info[0]
             points = get_points(tag_info)
-            manager.add_points(skillset, points)
+            manager.add_points(skillset, points, record_points)
 
         # Add points for pathways:
         for pathway in self.get_pathways():
             pathway_skillset = 'pathway:' + pathway.get_name()
-            manager.add_points(pathway_skillset, self.DEFAULT_ACHIEVEMENT_POINTS)
+            manager.add_points(pathway_skillset, self.DEFAULT_ACHIEVEMENT_POINTS, record_points)
 
         # Add points for the difficulty:
         difficulty_skillset = 'difficulty:' + self.get_difficulty().name
-        manager.add_points(difficulty_skillset, self.DEFAULT_ACHIEVEMENT_POINTS)
+        manager.add_points(difficulty_skillset, self.DEFAULT_ACHIEVEMENT_POINTS, record_points)
 
     def get_complete(self):
         return self.conf['complete']
 
     def set_complete(self, is_complete):
         if is_complete and self.conf['complete'] != is_complete:
-            self._give_achievement_points()
+            self._give_achievement_points(record_points=True)
         self.conf['complete'] = is_complete
 
     def _get_highlighted(self):
