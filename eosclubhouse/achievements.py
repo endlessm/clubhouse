@@ -81,7 +81,8 @@ class _AchievementsManager(GObject.Object):
         skillset = skillset.upper()
 
         if skillset not in self._points_per_skillset:
-            logger.error('Error adding points to skillset, doesn\'t exist: %s', skillset)
+            logger.warning('Not adding points to skillset %s, no achievements requiring it.',
+                           skillset)
             return
 
         previous_points = self._points_per_skillset[skillset]
