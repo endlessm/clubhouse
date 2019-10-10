@@ -689,6 +689,10 @@ class MessageBox(Gtk.Fixed):
         self.put(message, initial_x_pos, initial_y_pos)
 
         self._messages_in_scene.append(message)
+        if not is_main_character_message:
+            allocation = self._app_window.character.activity_list_box.get_allocation()
+            message_width = message.get_preferred_width().minimum_width
+            final_x_pos = allocation.x - message_width
         self._animate_message(message, direction, final_x_pos)
 
         self._app_window.character.update_character_image(idle=not is_main_character_message)
@@ -757,6 +761,7 @@ class CharacterView(Gtk.Grid):
     _character_image = Gtk.Template.Child()
     _character_button_label = Gtk.Template.Child()
     _missions_scrolled_window = Gtk.Template.Child()
+    activity_list_box = Gtk.Template.Child()
 
     _clubhouse_button = Gtk.Template.Child()
 
