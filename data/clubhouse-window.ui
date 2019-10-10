@@ -281,9 +281,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="index">-1</property>
-          </packing>
         </child>
         <child type="overlay">
           <object class="GtkEventBox" id="_headerbar_eventbox">
@@ -424,10 +421,9 @@
             <property name="valign">start</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkEventBox" id="_user_event_box">
+              <object class="GtkEventBox" id="_user_box_event_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="visible_window">False</property>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
@@ -468,28 +464,34 @@
                         <property name="transition_type">slide-right</property>
                         <signal name="notify::child-revealed" handler="_achievements_view_revealer_revealer_child_revealed_notify_cb" swapped="no"/>
                         <child>
-                          <object class="GtkBox" id="_achievements_view_box">
+                          <object class="GtkEventBox" id="_user_event_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkRevealer" id="_achievements_view_revealer">
+                              <object class="GtkBox" id="_achievements_view_box">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <signal name="notify::child-revealed" handler="_achievements_view_revealer_child_revealed_notify_cb" swapped="no"/>
+                                <property name="orientation">vertical</property>
                                 <child>
-                                  <placeholder/>
+                                  <object class="GtkRevealer" id="_achievements_view_revealer">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <signal name="notify::child-revealed" handler="_achievements_view_revealer_child_revealed_notify_cb" swapped="no"/>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
                                 </child>
+                                <style>
+                                  <class name="achievements-view-box"/>
+                                </style>
                               </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
                             </child>
-                            <style>
-                              <class name="achievements-view-box"/>
-                            </style>
                           </object>
                         </child>
                       </object>
@@ -502,11 +504,17 @@
                     <child>
                       <placeholder/>
                     </child>
+                    <style>
+                      <class name="user-button-box"/>
+                    </style>
                   </object>
                 </child>
+                <style>
+                  <class name="event-box"/>
+                </style>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
@@ -516,7 +524,7 @@
             </style>
           </object>
           <packing>
-            <property name="index">3</property>
+            <property name="index">2</property>
           </packing>
         </child>
         <child type="overlay">
@@ -539,7 +547,7 @@
           </object>
           <packing>
             <property name="pass_through">True</property>
-            <property name="index">2</property>
+            <property name="index">3</property>
           </packing>
         </child>
       </object>

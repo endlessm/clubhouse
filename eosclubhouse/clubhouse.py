@@ -2219,6 +2219,8 @@ class AchievementsView(Gtk.Box):
 
     DEFAULT_TRIANGLE_HEIGHT = 30
 
+    _event_box = Gtk.Template.Child()
+    _label = Gtk.Template.Child()
     _achievements_box = Gtk.Template.Child()
     _left_size_group = Gtk.Template.Child()
     _right_size_group = Gtk.Template.Child()
@@ -2226,11 +2228,17 @@ class AchievementsView(Gtk.Box):
     def __init__(self, app_window):
         super().__init__()
         self._app_window = app_window
+        self._hover = False
+        self._shape_points = None
+
         self._manager = AchievementsDB().manager
         self._achievements_achieved_id = None
 
         self._app_window.clubhouse.connect('notify::current-episode',
                                            self._current_episode_changed_cb)
+
+        self._event_box.connect('motion-notify-event', self._motion_notify_event_cb)
+        self._event_box.connect('leave-notify-event', self._leave_notify_event_cb)
 
     def _current_episode_changed_cb(self, _window, _pspec):
         if self._achievements_achieved_id is not None:
@@ -2269,7 +2277,7 @@ class AchievementsView(Gtk.Box):
     def _undraw_bottom_triangle(self, cr):
         allocation = self.get_allocation()
 
-        shape_points = [
+        self._shape_points = [
             (0, 0),
             (allocation.width, 0),
             (allocation.width, allocation.height),
@@ -2277,10 +2285,34 @@ class AchievementsView(Gtk.Box):
             (0, allocation.height)
         ]
 
-        cr.move_to(*shape_points[0])
-        for point in shape_points[1:]:
+        cr.move_to(*self._shape_points[0])
+        for point in self._shape_points[1:]:
             cr.line_to(*point)
         cr.clip()
+
+    def _get_hover(self):
+        return self._hover
+
+    def _motion_notify_event_cb(self, _view, event):
+        self._hover = self._event_coordinates_in_shape(event)
+
+    def _event_coordinates_in_shape(self, event):
+        p = (event.x, event.y)
+
+        allocation = self.get_allocation()
+        tl = (allocation.x, allocation.y)
+        tr = (allocation.x + allocation.width, allocation.y)
+        br = (allocation.x + allocation.width, allocation.y + allocation.height)
+        in_rectangle = p[0] > tl[0] and p[0] < tr[0] and p[1] > tl[1] and p[1] < br[1]
+        return in_rectangle
+
+    def _leave_notify_event_cb(self, _view, event):
+        # Instead of setting self._hover directly to False, we double check, becuase
+        # for some reason this callbacks gets called when you click inside the
+        # AchievementsView for the secnd time.
+        self._hover = self._event_coordinates_in_shape(event)
+
+    hover = property(_get_hover)
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/clubhouse-window.ui')
@@ -2292,10 +2324,15 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _headerbar = Gtk.Template.Child()
     _headerbar_box = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
+    _stack_event_box = Gtk.Template.Child()
 
     _user_box = Gtk.Template.Child()
+    _user_box_event_box = Gtk.Template.Child()
+    _user_box = Gtk.Template.Child()
+    _user_event_box = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
     _user_image_button = Gtk.Template.Child()
+    _achievements_view_box = Gtk.Template.Child()
     _achievements_view_revealer = Gtk.Template.Child()
     _achievements_view_revealer_revealer = Gtk.Template.Child()
 
@@ -2318,7 +2355,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         achievements_view = AchievementsView(self)
         self._achievements_view_revealer.add(achievements_view)
-        achievements_view.show_all()
+        self._stack_event_box.connect('button-press-event',
+                                      lambda _box, _event: self.hide_achievements_view())
+        self._user_box_event_box.connect('button-press-event',
+                                         self._user_event_box_button_press_event_cb,
+                                         achievements_view)
 
         self._stack.add_named(self.clubhouse, 'CLUBHOUSE')
         self._user_box.pack_start(self.inventory, True, True, 0)
@@ -2346,6 +2387,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
+
+    def _user_event_box_button_press_event_cb(self, _button, event, achievements_view):
+        if not achievements_view.hover:
+            self.hide_achievements_view()
 
     def _hack_mode_changed_cb(self, _settings, _key):
         self.sync_with_hack_mode()
@@ -2463,6 +2508,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             return False
 
         self.begin_move_drag(e.button, e.x_root, e.y_root, e.time)
+        self.hide_achievements_view()
         return True
 
     @Gtk.Template.Callback()
@@ -2510,6 +2556,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         # Switch page
         self._stack.set_visible_child(page)
+        self.hide_achievements_view()
 
         recorder = EosMetrics.EventRecorder.get_default()
         page_variant = GLib.Variant('s', new_page)
