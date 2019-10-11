@@ -1,3 +1,4 @@
+from collections import namedtuple
 from enum import IntEnum
 
 from eosclubhouse import config, logger
@@ -6,50 +7,11 @@ from eosclubhouse.utils import DictFromCSV
 from gi.repository import GObject
 
 
-class Achievement:
-
-    def __init__(self, data):
-        self._data = data
-
-    def achieved(self, points):
-        return points >= self._data['points_needed']
-
-    @property
-    def id_(self):
-        return self._data['id']
-
-    @property
-    def name(self):
-        return self._data['name']
-
-    @property
-    def description(self):
-        return self._data['description']
-
-    @property
-    def skillset(self):
-        return self._data['skillset']
-
-    @property
-    def points_needed(self):
-        return self._data['points_needed']
-
-    @classmethod
-    def new_from_csv_row(self, row):
-        data = {
-            'id': row[AchievementsDB.Index.ID - 1].lower().strip(),
-            'name': row[AchievementsDB.Index.NAME - 1].strip(),
-            'description': row[AchievementsDB.Index.DESCRIPTION - 1].strip(),
-            'skillset': row[AchievementsDB.Index.SKILLSET - 1].upper().strip(),
-            'points_needed': int(row[AchievementsDB.Index.POINTS_NEEDED - 1]),
-        }
-        return Achievement(data)
+Achievement = namedtuple('Achievement', ['id', 'name', 'description',
+                                         'points_needed_per_skillset'])
 
 
 class _AchievementsManager(GObject.Object):
-
-    _achievements = []
-    _points_per_skillset = {}
 
     __gsignals__ = {
         'achievement-achieved': (
@@ -58,24 +20,51 @@ class _AchievementsManager(GObject.Object):
     }
 
     def __init__(self):
+        self._achievements = {}
+        self._points_per_skillset = {}
         super().__init__()
 
-    def load_achievement(self, achievement):
-        self._achievements.append(achievement)
-        if achievement.skillset not in self._points_per_skillset:
-            self._points_per_skillset[achievement.skillset] = 0
+    def achieved(self, achievement, points_per_skillset=None):
+        if points_per_skillset is None:
+            points_per_skillset = self._points_per_skillset
+
+        for skillset, points_needed in achievement.points_needed_per_skillset.items():
+            if points_needed > points_per_skillset[skillset]:
+                return False
+
+        return True
+
+    def load_achievement_row(self, row):
+        id_ = row[AchievementsDB.Index.ID - 1].lower().strip()
+        skillset = row[AchievementsDB.Index.SKILLSET - 1].upper().strip()
+        points_needed = int(row[AchievementsDB.Index.POINTS_NEEDED - 1])
+
+        if id_ in self._achievements:
+            # Update existing achievement from the row.
+            self._achievements[id_].points_needed_per_skillset[skillset] = points_needed
+
+        else:
+            # Or create a new achievement from the row.
+            achievement = Achievement(
+                id=id_,
+                name=row[AchievementsDB.Index.NAME - 1].strip(),
+                description=row[AchievementsDB.Index.DESCRIPTION - 1].strip(),
+                points_needed_per_skillset={
+                    skillset: points_needed,
+                },
+            )
+
+            self._achievements[id_] = achievement
+
+        if skillset not in self._points_per_skillset:
+            self._points_per_skillset[skillset] = 0
 
     @property
     def skillsets(self):
         return self._points_per_skillset.keys()
 
     def get_achievements_achieved(self):
-        achievements_achieved = []
-        for achievement in self._achievements:
-            points = self._points_per_skillset[achievement.skillset]
-            if achievement.achieved(points):
-                achievements_achieved.append(achievement)
-        return achievements_achieved
+        return [a for a in self._achievements.values() if self.achieved(a)]
 
     def add_points(self, skillset, points):
         skillset = skillset.upper()
@@ -85,17 +74,19 @@ class _AchievementsManager(GObject.Object):
                            skillset)
             return
 
-        previous_points = self._points_per_skillset[skillset]
-        new_points = previous_points + points
-        self._points_per_skillset[skillset] = new_points
+        previous_points = self._points_per_skillset.copy()
+        self._points_per_skillset[skillset] += points
 
-        logger.debug('Skillset %s incremented by %r, now at %r', skillset, points, new_points)
+        logger.info('Skillset %s incremented by %r, now at %r', skillset, points,
+                    self._points_per_skillset[skillset])
 
-        for achievement in self._achievements:
-            if achievement.skillset != skillset:
+        for achievement in self._achievements.values():
+            if skillset not in achievement.points_needed_per_skillset:
+                # Filter the achievements that won't get achieved by
+                # this skillset.
                 continue
 
-            if not achievement.achieved(previous_points) and achievement.achieved(new_points):
+            if not self.achieved(achievement, previous_points) and self.achieved(achievement):
                 self.emit('achievement-achieved', achievement)
 
 
@@ -121,5 +112,4 @@ class AchievementsDB(DictFromCSV):
 
     @classmethod
     def set_key_value_from_csv_row(class_, csv_row, contents_dict):
-        achievement = Achievement.new_from_csv_row(csv_row)
-        class_._manager.load_achievement(achievement)
+        class_._manager.load_achievement_row(csv_row)
