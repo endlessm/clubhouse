@@ -506,8 +506,9 @@ InventoryView > scrolledwindow {
 }
 
 .headerbar-buttonbox.CHARACTER > button > box > label {
-    margin: 0 2em 0 0;
+    margin: 0 1em 0 0;
 }
+
 .headerbar-buttonbox.CHARACTER > button > box > button > image {
     min-width: 1.8em;
     min-height: 1.8em;
@@ -570,25 +571,6 @@ QuestRow.highlighted {
         background-color: rgba(255, 207, 92 ,0.5);
         box-shadow: 0 0 0.5em 0.2em rgba(255, 207, 92 ,0.5);
     }
-}
-
-/* Character View */
-CharacterView list {
-    background-color: unset;
-}
-
-CharacterView  #mission-list {
-    margin: 8em 3em 3em 0;
-    padding: 1em 1ex;
-    border: 1px solid gray;
-    box-shadow: 3px 3px 4px black;
-    background: rgba(255, 255, 255, 0.82);
-}
-
-CharacterView  #mission-list > label {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: #4c82c4;
 }
 
 /* Pathways View */
@@ -686,4 +668,5 @@ NewsItem > image {
     background: lavender;
     box-shadow: 0 0 3px gray inset;
 }
+
 

@@ -137,3 +137,177 @@ box.user-button-box
   animation-timing-function: ease
   animation-iteration-count: infinite
   box-shadow: 0 0 10px white
+
+// Character View
+CharacterView
+  list
+    background-color: unset
+
+  #mission-list
+    margin: 5em 1em 1em 0
+    min-height: 42.4em
+
+  scrollbar
+    border: 0
+    border-radius: 1ex
+    margin: 0.6em 0 0.6em 1.2em
+    background: rgba(255, 255, 255, 0.3)
+
+    slider
+      background-color: white
+      padding: 0
+      border: 0
+      margin: 2px
+
+@keyframes zoom_in
+    from
+      background-size: 100%
+    to
+      background-size: 110%
+
+@keyframes zoom_out
+    from
+      background-size: 110%
+    to
+      background-size: 100%
+
+// QuestCard
+QuestCard
+  border-radius: 1em
+  min-height: 20em
+  margin: 0.6em
+
+  #topbox
+    background-size: cover
+    background-position: top
+    animation: zoom_out 250ms ease
+
+    image
+      border-top-right-radius: 1em
+      background: linear-gradient(to top right, transparent 50%, white 51%)
+
+  #topbox,
+  #topbox > box
+    border-radius: 1em 1em 0 0
+    transition: background-image 150ms ease
+
+  #bottombox
+    background: white
+    padding: 0.8em
+    border-radius: 0 0 1em 1em
+
+    image
+      color: gray
+
+    #play
+      color: white
+      border-radius: 1em
+      padding: 0.25em 1em
+      background: #1e2c66
+
+      &:hover
+        background: lighten(#1e2c66, 20%)
+
+  #title
+    min-height: 3em
+    font-weight: bold
+
+  stack,
+  stackswitcher
+    margin-top: 1ex
+
+  stackswitcher > button
+    padding: 0
+    color: gray
+    font-weight: bold
+    min-width: unset
+    background: unset
+
+    label
+      padding: 0 1em 0 0
+
+  box.difficulty
+    background: white
+
+    separator
+      transition: min-height 250ms ease
+      min-height: 0.8em
+      background: unset
+
+      &:nth-child(2)
+        margin: 0 0.2em
+
+    &.secondary
+      separator
+        min-height: 0.4em
+
+  &:hover
+    #topbox
+      animation: zoom_in 250ms ease
+      background-size: 110%
+
+    box.difficulty
+      separator
+        min-height: 0.4em
+
+  &:selected:hover
+    #topbox
+      animation: unset
+
+  &:selected
+    margin: 0
+    transition: margin 200ms ease
+
+    #title
+      min-height: 0
+      transition: min-height 200ms ease 250ms
+
+    #topbox
+      transition: background-size 150ms ease
+      background-size: 110%
+      animation: unset
+
+  &.EASY
+    stackswitcher > button:checked
+      color: #00efae
+
+    &:hover,
+    &:selected
+      #topbox > box
+        background: linear-gradient(to top right, rgba(#00efae, 0.75), rgba(#00ff15, 0.2))
+
+    box.difficulty
+      separator:first-child
+        background: linear-gradient(to top right, #00efae, #00ff15)
+
+  &.NORMAL
+    stackswitcher > button:checked
+      color: #ff6300
+
+    &:hover,
+    &:selected
+      #topbox > box
+        background: linear-gradient(to top right, rgba(#f3cb14, 0.75), rgba(#fe9915, 0.2))
+
+    box.difficulty
+      separator:first-child
+        background: linear-gradient(to top right, #f3cb14, #ff9800)
+      separator:nth-child(2)
+        background: linear-gradient(to top right, #ff9600, #ff6300)
+
+  &.HARD
+    stackswitcher > button:checked
+      color: #fc0806
+
+    &:hover,
+    &:selected
+      #topbox > box
+        background: linear-gradient(to top right, rgba(#ff007e, 0.75), rgba(#ff0168, 0.2))
+
+    box.difficulty
+      separator:first-child
+        background: linear-gradient(to top right, #ff007e, #ff0168)
+      separator:nth-child(2)
+        background: linear-gradient(to top right, #ff004c, #fe2d33)
+      separator:last-child
+        background: linear-gradient(to top right, #ff003b, #fc0806)
