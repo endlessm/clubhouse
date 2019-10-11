@@ -437,14 +437,49 @@
                         <property name="relief">none</property>
                         <signal name="clicked" handler="_user_button_clicked_cb" swapped="no"/>
                         <child>
-                          <object class="GtkLabel" id="_user_label">
-                            <property name="name">user-label</property>
+                          <object class="GtkBox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="no_show_all">True</property>
-                            <property name="halign">start</property>
-                            <property name="ellipsize">end</property>
-                            <property name="max_width_chars">32</property>
+                            <child>
+                              <object class="GtkLabel" id="_user_label">
+                                <property name="name">user-label</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="no_show_all">True</property>
+                                <property name="halign">start</property>
+                                <property name="ellipsize">end</property>
+                                <property name="max_width_chars">32</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkRevealer" id="_user_button_image_revealer">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="valign">center</property>
+                                <property name="margin_right">24</property>
+                                <property name="transition_type">none</property>
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">end</property>
+                                    <property name="valign">center</property>
+                                    <property name="icon_name">clubhouse-prev</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
                           </object>
                         </child>
                         <style>
