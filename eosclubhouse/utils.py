@@ -407,3 +407,16 @@ def convert_variant_arg(variant):
                             'converted to json or GLib.Variant')
 
     raise TypeError('Error: value is not a Python dict or GLib.Variant')
+
+
+def triangle_area(a, b, c):
+    return abs(a[0] * (b[1] - c[1]) + b[0] * (c[1] - a[1]) + c[0] * (a[1] - b[1]))
+
+
+def inside_triangle(p, a, b, c):
+    abc_area = triangle_area(a, b, c)
+    pbc_area = triangle_area(p, b, c)
+    pac_area = triangle_area(p, a, c)
+    pab_area = triangle_area(p, a, b)
+
+    return abc_area - (pbc_area + pac_area + pab_area) == 0

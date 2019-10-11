@@ -2304,7 +2304,15 @@ class AchievementsView(Gtk.Box):
         tr = (allocation.x + allocation.width, allocation.y)
         br = (allocation.x + allocation.width, allocation.y + allocation.height)
         in_rectangle = p[0] > tl[0] and p[0] < tr[0] and p[1] > tl[1] and p[1] < br[1]
-        return in_rectangle
+        if not in_rectangle:
+            return False
+
+        a = self._shape_points[-1]
+        b = self._shape_points[-2]
+        c = self._shape_points[-3]
+        p = (p[0], p[1] + self._label.get_allocation().height)
+        in_triangle = utils.inside_triangle(p, a, b, c)
+        return not in_triangle
 
     def _leave_notify_event_cb(self, _view, event):
         # Instead of setting self._hover directly to False, we double check, becuase
