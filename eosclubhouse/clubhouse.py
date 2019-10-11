@@ -2339,6 +2339,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_box = Gtk.Template.Child()
     _user_event_box = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
+    _user_button_image_revealer = Gtk.Template.Child()
     _user_image_button = Gtk.Template.Child()
     _achievements_view_box = Gtk.Template.Child()
     _achievements_view_revealer = Gtk.Template.Child()
@@ -2602,11 +2603,13 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     @Gtk.Template.Callback()
     def _achievements_view_revealer_revealer_child_revealed_notify_cb(self, revealer, _pspec):
         if revealer.props.child_revealed:
+            self._user_button_image_revealer.props.reveal_child = True
             self._achievements_view_revealer.props.reveal_child = True
 
     @Gtk.Template.Callback()
     def _achievements_view_revealer_child_revealed_notify_cb(self, revealer, _pspec):
         if not revealer.props.child_revealed:
+            self._user_button_image_revealer.props.reveal_child = False
             self._achievements_view_revealer_revealer.props.reveal_child = False
 
     def hide_achievements_view(self):
