@@ -1,4 +1,5 @@
 {
+  "filename": "closeup-talk.svg",
   "default-delay": 100,
   "frames": [
     "0 1000",
@@ -28,6 +29,6 @@
     "2 200",
     4
   ],
-  "height": 604,
-  "width": 594
+  "height": 750,
+  "width": 460
 }
