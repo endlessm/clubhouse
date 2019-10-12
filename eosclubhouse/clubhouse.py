@@ -2163,6 +2163,8 @@ class AchievementItem(Gtk.Box):
     __gtype_name__ = 'AchievementItem'
 
     DEFAULT_MEDAL_SIZE = 128
+    BADGES_DIR = os.path.join(config.DATA_DIR, 'achievements', 'badges')
+    BADGES_FILES = os.listdir(BADGES_DIR) if os.path.exists(BADGES_DIR) else []
 
     _box = Gtk.Template.Child()
     _image_box = Gtk.Template.Child()
@@ -2184,13 +2186,17 @@ class AchievementItem(Gtk.Box):
 
         self._image_path = None
 
-        image_path = os.path.join(config.DATA_DIR, 'achievements', 'badges',
-                                  '{}.png'.format(self._achievement.id_))
+        image_path = os.path.join(self.BADGES_DIR, self._guess_filename())
         self.set_image_path(image_path)
 
     def set_image_path(self, filename):
-        self._image_path = os.path.join(config.DATA_DIR, 'achievements', 'medals', filename)
+        self._image_path = filename
         self._set_image_from_file_path()
+
+    def _guess_filename(self):
+        def _starts_with_filename(filename):
+            return filename.startswith('{}.'.format(self._achievement.id))
+        return next(filter(_starts_with_filename, self.BADGES_FILES), None)
 
     def _set_right_to_left(self, left_size_group, right_size_group):
         self._box.child_set_property(self._image_box, 'pack-type', Gtk.PackType.END)
