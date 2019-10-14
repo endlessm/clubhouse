@@ -45,6 +45,7 @@ DEFAULT_CHARACTER = 'ada'
 
 
 QUEST_EVENT = '50aebb1b-7a93-4caf-8698-3a601a0fc0f6'
+PROGRESS_UPDATE_EVENT = '3a037364-9164-4b42-8c07-73bcc00902de'
 
 
 class Registry(GObject.GObject):
@@ -815,6 +816,16 @@ class _Quest(GObject.GObject):
         key = GLib.Variant('s', self.get_name())
         payload = GLib.Variant('(bas)', (self.complete, pathways))
         recorder.record_stop(QUEST_EVENT, key, payload)
+
+        # recording quest completeness and a single event because right now
+        # azafea doesn't store the progress stop event
+        payload = convert_variant_arg({
+            "complete": self.complete,
+            "quest": self.get_id(),
+            "pathways": pathways,
+            "progress": Registry.get_current_episode_progress() * 100,
+        })
+        recorder.record_event(PROGRESS_UPDATE_EVENT, payload)
 
     def run(self, on_quest_finished):
         assert hasattr(self, 'step_begin'), ('Quests need to declare a "step_begin" method, in '
