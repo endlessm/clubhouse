@@ -145,19 +145,30 @@ CharacterView
 
   #mission-list
     margin: 5em 1em 1em 0
+<<<<<<< HEAD
     min-height: 42.4em
+=======
+    min-height: 42em
+>>>>>>> merging t28023 - cards
 
   scrollbar
     border: 0
     border-radius: 1ex
+<<<<<<< HEAD
     margin: 0.6em 0 0.6em 1.2em
+=======
+>>>>>>> merging t28023 - cards
     background: rgba(255, 255, 255, 0.3)
 
     slider
       background-color: white
       padding: 0
       border: 0
+<<<<<<< HEAD
       margin: 2px
+=======
+      margin: 1px
+>>>>>>> merging t28023 - cards
 
 @keyframes zoom_in
     from
@@ -182,10 +193,13 @@ QuestCard
     background-position: top
     animation: zoom_out 250ms ease
 
+<<<<<<< HEAD
     image
       border-top-right-radius: 1em
       background: linear-gradient(to top right, transparent 50%, white 51%)
 
+=======
+>>>>>>> merging t28023 - cards
   #topbox,
   #topbox > box
     border-radius: 1em 1em 0 0
@@ -193,6 +207,7 @@ QuestCard
 
   #bottombox
     background: white
+<<<<<<< HEAD
     padding: 0.8em
     border-radius: 0 0 1em 1em
 
@@ -225,6 +240,24 @@ QuestCard
 
     label
       padding: 0 1em 0 0
+=======
+    padding: 1ex
+    border-radius: 0 0 1em 1em
+
+    button
+      color: white
+      border-radius: 1em
+      background: #1e2c66
+      padding: 0.25em 1em
+
+  #title,
+  #subtitle
+    font-weight: bold
+
+  #subtitle,
+  #description
+    padding-top: 1ex
+>>>>>>> merging t28023 - cards
 
   box.difficulty
     background: white
@@ -255,6 +288,7 @@ QuestCard
       animation: unset
 
   &:selected
+<<<<<<< HEAD
     margin: 0
     transition: margin 200ms ease
 
@@ -262,13 +296,19 @@ QuestCard
       min-height: 0
       transition: min-height 200ms ease 250ms
 
+=======
+>>>>>>> merging t28023 - cards
     #topbox
       transition: background-size 150ms ease
       background-size: 110%
       animation: unset
 
   &.EASY
+<<<<<<< HEAD
     stackswitcher > button:checked
+=======
+    #subtitle
+>>>>>>> merging t28023 - cards
       color: #00efae
 
     &:hover,
@@ -281,7 +321,11 @@ QuestCard
         background: linear-gradient(to top right, #00efae, #00ff15)
 
   &.NORMAL
+<<<<<<< HEAD
     stackswitcher > button:checked
+=======
+    #subtitle
+>>>>>>> merging t28023 - cards
       color: #ff6300
 
     &:hover,
@@ -296,7 +340,11 @@ QuestCard
         background: linear-gradient(to top right, #ff9600, #ff6300)
 
   &.HARD
+<<<<<<< HEAD
     stackswitcher > button:checked
+=======
+    #subtitle
+>>>>>>> merging t28023 - cards
       color: #fc0806
 
     &:hover,

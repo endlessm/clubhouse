@@ -169,12 +169,20 @@ class Animation(GObject.GObject):
         self._reference_points = {}
 
         # path could be a json or png file
+<<<<<<< HEAD
         metadata = self.get_animation_metadata(path)
+=======
+        self.metadata = self.get_animation_metadata(path)
+>>>>>>> merging t28023 - cards
 
         # check if we should open a different file.
         # this allow us to use diferent image formats and share image data
         dirname, basename = os.path.split(path)
+<<<<<<< HEAD
         filename = metadata.get('filename')
+=======
+        filename = self.metadata.get('filename')
+>>>>>>> merging t28023 - cards
 
         if filename is None:
             filename, ext = os.path.splitext(basename)
@@ -210,10 +218,10 @@ class Animation(GObject.GObject):
         self.frames = []
 
         sprite_width = sprite_pixbuf.get_width()
-        width = metadata['width']
-        height = metadata['height']
+        width = self.metadata['width']
+        height = self.metadata['height']
 
-        self._reference_points = metadata.get('reference-points', {})
+        self._reference_points = self.metadata.get('reference-points', {})
         self._scale_reference_points(scale)
 
         subpixbufs = []
@@ -228,16 +236,16 @@ class Animation(GObject.GObject):
                                              GdkPixbuf.InterpType.BILINEAR)
             subpixbufs.append(pixbuf)
 
-        if 'frames' in metadata:
-            default_delay = metadata.get('default-delay', DEFAULT_DELAY)
-            for frame in metadata['frames']:
+        if 'frames' in self.metadata:
+            default_delay = self.metadata.get('default-delay', DEFAULT_DELAY)
+            for frame in self.metadata['frames']:
                 frame_index, delay = self._parse_frame(frame, default_delay)
                 pixbuf = subpixbufs[frame_index]
                 self.frames.append({'pixbuf': pixbuf, 'delay': delay})
 
-        self._loop = metadata.get('loop', True)
+        self._loop = self.metadata.get('loop', True)
 
-        anchor = metadata.get('anchor', (0, 0))
+        anchor = self.metadata.get('anchor', (0, 0))
         assert len(anchor) == 2, ('The anchor given by the animation in "%s" does not have'
                                   'two elements: %s', sprite_path, anchor)
         self.anchor = anchor

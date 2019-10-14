@@ -757,8 +757,13 @@ class QuestCard(Gtk.FlowBoxChild):
     __gtype_name__ = 'QuestCard'
 
     _title = Gtk.Template.Child()
+<<<<<<< HEAD
     _stack = Gtk.Template.Child()
     _category_image = Gtk.Template.Child()
+=======
+    _subtitle = Gtk.Template.Child()
+    _description = Gtk.Template.Child()
+>>>>>>> merging t28023 - cards
     _complete_image = Gtk.Template.Child()
 
     _play_button = Gtk.Template.Child()
@@ -780,12 +785,26 @@ class QuestCard(Gtk.FlowBoxChild):
         self._setup_background()
 
         # Populate info.
+<<<<<<< HEAD
         self._populate_info()
+=======
+        self._title.props.label = self._quest.get_name()
+        self._subtitle.props.label = self._quest.get_label('QUEST_SUBTITLE')
+        self._description.props.label = self._quest.get_label('QUEST_DESCRIPTION')
+
+        # Set difficulty class
+        self.get_style_context().add_class(self._quest.get_difficulty().name)
+>>>>>>> merging t28023 - cards
 
         self._quest.connect('notify::complete', self._on_quest_complete_changed)
         self._set_complete()
 
+<<<<<<< HEAD
         self._update_state()
+=======
+        # @todo: fix initial state
+        self._update_state(self.get_state_flags())
+>>>>>>> merging t28023 - cards
 
     @Gtk.Template.Callback()
     def _on_enter_notify_event(self, widget, event):
@@ -797,6 +816,7 @@ class QuestCard(Gtk.FlowBoxChild):
 
     @Gtk.Template.Callback()
     def _on_state_flags_changed(self, widget, flags):
+<<<<<<< HEAD
         self._update_state()
 
     @Gtk.Template.Callback()
@@ -806,6 +826,12 @@ class QuestCard(Gtk.FlowBoxChild):
 
     def _update_state(self):
         selected = self.get_state_flags() & Gtk.StateFlags.SELECTED
+=======
+        self._update_state(flags)
+
+    def _update_state(self, flags):
+        selected = flags & Gtk.StateFlags.SELECTED
+>>>>>>> merging t28023 - cards
         self._revealer.set_reveal_child(selected)
         self._difficulty_box.set_visible(not selected)
 
@@ -826,6 +852,7 @@ class QuestCard(Gtk.FlowBoxChild):
               url('/app/share/eos-clubhouse/quests_files/pathway-card-{}.svg');\
         }}".format(quest_id, pathway).encode())
 
+<<<<<<< HEAD
         # Set category icon
         self._category_image.props.icon_name = 'clubhouse-pathway-' + pathway + '-symbolic'
 
@@ -851,6 +878,12 @@ class QuestCard(Gtk.FlowBoxChild):
 
         # Set difficulty class
         self.get_style_context().add_class(self._quest.get_difficulty().name)
+=======
+    @Gtk.Template.Callback()
+    def _on_play_button_clicked(self, button):
+        easier_quest = self._quest_set.get_easier_quest(self._quest)
+        self._clubhouse.try_running_quest(self._quest, easier_quest)
+>>>>>>> merging t28023 - cards
 
     def _on_quest_started(self, quest):
         self.props.sensitive = False
@@ -862,7 +895,11 @@ class QuestCard(Gtk.FlowBoxChild):
         self._set_complete()
 
     def _set_complete(self):
+<<<<<<< HEAD
         self._complete_image.props.visible = self._quest.complete
+=======
+        self._complete_image.set_visible(self._quest.complete)
+>>>>>>> merging t28023 - cards
 
     def get_quest(self):
         return self._quest
