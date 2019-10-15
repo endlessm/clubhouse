@@ -1,9 +1,10 @@
-from eosclubhouse.libquest import PathWay, Registry
+from eosclubhouse.libquest import QuestSet, Registry
 
 
-class MakerPathWay(PathWay):
+class MakerPathWay(QuestSet):
 
     __pathway_name__ = 'Maker'
+    __character_id__ = 'faber'
 
 
 Registry.register_quest_set(MakerPathWay)

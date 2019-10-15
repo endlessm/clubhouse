@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from eosclubhouse.libquest import Registry, Quest, CharacterMission
+from eosclubhouse.libquest import Registry, Quest, QuestSet
 from eosclubhouse.system import GameStateService
 from eosclubhouse.utils import QuestStringCatalog
 from gi.repository import Gio, GObject
@@ -110,13 +110,14 @@ def define_quest(quest_id, available_after=[]):
                                      'step_begin': step_begin})
 
 
-def define_character_mission(quest_set_id, character_id, quest_id_deps_list=[]):
+def define_questset(quest_set_id, pathway_name, character_id, quest_id_deps_list=[]):
     quests = []
     for quest_id, dependencies in quest_id_deps_list:
         quests.append(define_quest(quest_id, dependencies))
 
-    return type(quest_set_id, (CharacterMission,), {'__quests__': quests,
-                                                    '__character_id__': character_id})
+    return type(quest_set_id, (QuestSet,), {'__quests__': quests,
+                                            '__pathway_name__': pathway_name,
+                                            '__character_id__': character_id})
 
 
 def setup_episode(quest_set_list, episode_name='tests-phony-episode'):

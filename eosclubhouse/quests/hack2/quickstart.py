@@ -4,7 +4,7 @@ from eosclubhouse.libquest import Quest
 class Quickstart(Quest):
 
     __quest_name__ = 'Tutorial - The Clubhouse - Quickstart'
-    __tags__ = ['mission:ada']
+    __tags__ = ['pathway:games']
     __auto_offer_info__ = {'confirm_before': False, 'start_after': 3}
     __available_after_completing_quests__ = ['FirstContact']
 

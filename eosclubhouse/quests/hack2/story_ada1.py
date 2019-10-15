@@ -5,8 +5,8 @@ from eosclubhouse.system import Sound
 class Story_Ada1(Quest):
 
     __quest_name__ = 'Story - Checking in with Ada'
-    __tags__ = ['mission:ada', 'skillset:Narrative']
-    __mission_order__ = 50
+    __tags__ = ['pathway:games', 'skillset:Narrative']
+    __pathway_order__ = 50
     __is_narrative__ = True
 
     QUESTION_MESSAGES = [3, 30]

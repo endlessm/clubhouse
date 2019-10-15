@@ -7,8 +7,7 @@ class T2Dragon(Quest):
     APP_NAME = 'com.endlessnetwork.dragonsapprentice'
 
     __quest_name__ = '''Terminal 2 - Dragon's Apprentice'''
-    __tags__ = ['mission:ada', 'pathway:games', 'difficulty:normal']
-    __mission_order__ = 126
+    __tags__ = ['pathway:games', 'difficulty:normal']
     __pathway_order__ = 126
 
     def setup(self):

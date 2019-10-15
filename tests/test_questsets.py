@@ -1,7 +1,7 @@
 import os
 import tempfile
 
-from eosclubhouse.libquest import Registry, Quest, CharacterMission
+from eosclubhouse.libquest import Registry, Quest, QuestSet
 from eosclubhouse.utils import QS, QuestStringCatalog
 from clubhouseunittest import ClubhouseTestCase, test_all_episodes, setup_episode
 
@@ -59,10 +59,12 @@ class TestQuestSets(ClubhouseTestCase):
         when available.
         """
 
-        class PhonyAlice(CharacterMission):
+        class PhonyAlice(QuestSet):
+            __pathway_name__ = 'web'
             __character_id__ = 'Alice'
 
-        class PhonyBob(CharacterMission):
+        class PhonyBob(QuestSet):
+            __pathway_name__ = 'art'
             __character_id__ = 'Bob'
 
             def is_active(self):
@@ -171,6 +173,7 @@ from phonyep.aquest import AQuest
 from eosclubhouse.libquest import Registry, QuestSet
 
 class TestQuestSet(QuestSet):
+    __pathway_name__ = 'web'
     __character_id__ = 'phony'
     __quests__ = [AQuest, 'ZQuest']
 

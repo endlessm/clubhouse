@@ -142,28 +142,19 @@ class Registry(GObject.GObject):
         return class_._quest_sets
 
     @classmethod
-    def get_character_missions(class_):
-        return [q for q in class_._quest_sets if isinstance(q, CharacterMission)]
-
-    @classmethod
-    def get_character_mission_for_character(class_, character_id):
-        for qs in class_.get_character_missions():
+    def get_questset_for_character(class_, character_id):
+        for qs in class_.get_quest_sets():
             if qs.get_character() == character_id:
                 return qs
         return None
 
-    @classmethod
-    def get_character_mission_for_quest(class_, quest):
-        # Note: this assumes that the character missions don't share
-        # quests. If not, it will return the first mission matching.
-        for qs in class_.get_character_missions():
+    def get_questset_for_quest(class_, quest):
+        # Note: this assumes that the questsets don't share quests. If
+        # not, it will return the first questset matching.
+        for qs in class_.get_quest_sets():
             if quest in qs.get_quests():
                 return qs
         return None
-
-    @classmethod
-    def get_pathways(class_):
-        return [q for q in class_._quest_sets if isinstance(q, PathWay)]
 
     @classmethod
     def get_quest_set_by_name(class_, name):
@@ -175,7 +166,7 @@ class Registry(GObject.GObject):
 
     @classmethod
     def has_quest_sets_highlighted(class_):
-        return any(qs.highlighted for qs in class_.get_character_missions())
+        return any(qs.highlighted for qs in class_.get_quest_sets())
 
     @classmethod
     def get_quest_by_name(class_, name):
@@ -1182,12 +1173,12 @@ class _Quest(GObject.GObject):
     @classmethod
     def get_pathways(class_):
         quest_pathways = []
-        registered_pathways = Registry.get_pathways()
+        registered_questsets = Registry.get_quest_sets()
         for tag_info in class_.get_tag_info_by_prefix('pathway'):
             pathway_name = tag_info[0]
             try:
                 pathway = \
-                    next(p for p in registered_pathways if p.get_name().upper() == pathway_name)
+                    next(p for p in registered_questsets if p.get_name().upper() == pathway_name)
                 quest_pathways.append(pathway)
             except StopIteration:
                 continue
@@ -1408,20 +1399,10 @@ class Quest(_Quest):
     This is a list of generic tags (strings). There are tags treated specially, they start with
     a prefix separated of the rest by a colon:
 
-    - 'mission:SOME_CHARACTER' -- Makes this quest belong to a character mission.
-
     - 'pathway:SOME_PATHWAY' -- Makes this quest belong to a pathway.
 
     - 'difficulty:SOME_DIFFICULTY' -- Define the difficulty of this quest. Can be 'easy',
       'normal' or 'hard'.
-
-    '''
-
-    __mission_order__ = 0
-    '''Order of this quest in missions.
-
-    Quests in the same mission will be sorted by this number. A smaller number will make the
-    quest appear closer to the beginning of the list.
 
     '''
 
@@ -1434,11 +1415,7 @@ class Quest(_Quest):
     '''
 
     __is_narrative__ = False
-    '''Whether the quest is narrative or not.
-
-    Only narrative quests can be displayed in character missions.
-
-    '''
+    '''Whether the quest is narrative or not.'''
 
     __auto_offer_info__ = {'confirm_before': True, 'start_after': 3}
     '''A dictionary containing the information for auto-offered quests.
@@ -2023,20 +2000,21 @@ class Quest(_Quest):
 
         '''
         if character_id is not None:
-            character_mission = Registry.get_character_mission_for_character(character_id)
-            if character_mission is None:
+            questset = Registry.get_questset_for_character(character_id)
+            if questset is None:
                 logger.warning('Quest "%s" is trying to highlight character "%s", but there is'
-                               ' no such character mission.', self, character_id)
+                               ' no questset matching.', self, character_id)
                 return
 
         else:
-            character_mission = Registry.get_character_mission_for_quest(self)
-            if character_mission is None:
+            questset = Registry.get_questset_for_quest(self)
+            if questset is None:
                 logger.warning('Quest "%s" is trying to highlight a character, but it doesn\'t'
-                               ' belong to any character mission.', self)
+                               ' belong to any questset.', self)
                 return
+            questset = self._questset
 
-        character_mission.highlighted = True
+        questset.highlighted = True
 
     def highlight_quest(self, quest_name):
         '''Highlight a quest listed in the UI.
@@ -2113,6 +2091,11 @@ class Quest(_Quest):
 class QuestSet(GObject.GObject):
 
     __quests__ = []
+    __pathway_name__ = None
+    __character_id__ = None
+    __empty_message__ = 'Nothing to see here!'
+
+    visible = GObject.Property(type=bool, default=True)
 
     def __init__(self):
         super().__init__()
@@ -2133,16 +2116,21 @@ class QuestSet(GObject.GObject):
 
         self._sort_quests()
 
+        self._highlighted = False
+
+        for quest in self.get_quests():
+            quest.connect('notify',
+                          lambda quest, param: self.on_quest_properties_changed(quest, param.name))
+
     @classmethod
     def get_tag(class_):
-        # @todo: This should be only implemented in the subclasses,
-        # but leaving here for now to make the tests pass.
-        return ''
+        return 'pathway:' + class_.__pathway_name__.lower()
 
     def _sort_quests(self):
-        # @todo: This should be only implemented in the subclasses,
-        # but leaving here for now to make the tests pass.
-        self._quest_objs.sort()
+        def by_order(quest):
+            return quest.__pathway_order__
+
+        self._quest_objs.sort(key=by_order)
 
     @classmethod
     def get_id(class_):
@@ -2153,30 +2141,10 @@ class QuestSet(GObject.GObject):
             return self._quest_objs
         return [q for q in self._quest_objs if not q.skippable]
 
-    # @todo: Remove this by moving all uses of QuestSet to
-    # CharacterMission.
-    def is_active(self):
-        return False
-
-    # @todo: Remove this by moving all uses of QuestSet to
-    # CharacterMission.
-    def get_next_quest(self):
-        return None
-
     def __repr__(self):
         return self.get_id()
 
-
-class PathWay(QuestSet):
-
-    __pathway_name__ = None
-
-    def __init__(self):
-        super().__init__()
-
-    @classmethod
-    def get_tag(class_):
-        return 'pathway:' + class_.__pathway_name__.lower()
+    # ----
 
     @classmethod
     def get_name(class_):
@@ -2186,38 +2154,6 @@ class PathWay(QuestSet):
     def get_icon_name(class_):
         name = class_.__pathway_name__.lower().replace(" ", "")
         return 'clubhouse-pathway-' + name + '-symbolic'
-
-    def _sort_quests(self):
-        def by_order(quest):
-            return quest.__pathway_order__
-
-        self._quest_objs.sort(key=by_order)
-
-
-class CharacterMission(QuestSet):
-
-    __character_id__ = None
-    __empty_message__ = 'Nothing to see here!'
-
-    visible = GObject.Property(type=bool, default=True)
-
-    def __init__(self):
-        super().__init__()
-        self._highlighted = False
-
-        for quest in self.get_quests():
-            quest.connect('notify',
-                          lambda quest, param: self.on_quest_properties_changed(quest, param.name))
-
-    @classmethod
-    def get_tag(class_):
-        return 'mission:' + class_.__character_id__.lower()
-
-    def _sort_quests(self):
-        def by_order(quest):
-            return quest.__mission_order__
-
-        self._quest_objs.sort(key=by_order)
 
     @classmethod
     def get_character(class_):

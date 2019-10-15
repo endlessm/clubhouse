@@ -8,7 +8,7 @@ class FirstContact(Quest):
 
     APP_NAME = 'com.hack_computer.HackUnlock'
 
-    __tags__ = ['mission:ada']
+    __tags__ = ['pathway:games']
 
     # This quest starts already in the first step. There's no prompting.
     __proposal_message_id__ = ''
