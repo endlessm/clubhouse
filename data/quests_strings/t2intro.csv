@@ -13,3 +13,5 @@ T2INTRO_NOTINSTALLED,"Uh-oh! I'm detecting that `Frogsquash` isn't installed!
 You need to download it from the App Center if you want to play.
 
 Click the icon named `More Apps` on the Desktop, then search for the program you want to install.",daemon,,,
+T2INTRO_QUEST_SUBTITLE,What you'll do,,,,
+T2INTRO_QUEST_DESCRIPTION,"Check our Frogsquash, one of the Terminal 2 Games. Program your frog to avoid danger and grab coins, or just play it yourself!",,,,

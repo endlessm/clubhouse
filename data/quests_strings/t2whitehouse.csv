@@ -5,3 +5,5 @@ T2WHITEHOUSE_NOTINSTALLED,"Uh-oh! I'm detecting that `White House` isn't install
 You need to download it from the App Center if you want to play.
 
 Click the icon named `More Apps` on the Desktop, then search for the program you want to install.",daemon,,,
+T2WHITEHOUSE_QUEST_SUBTITLE,What you'll do,,,,
+T2WHITEHOUSE_QUEST_DESCRIPTION,"Paint the town red (or green, or blue...) as you learn about Web color in this low-key first-person adventure.",,,,

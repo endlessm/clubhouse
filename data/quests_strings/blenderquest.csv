@@ -6,9 +6,9 @@ BLENDERQUEST_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
 You need to download it from the App Center if you'd like to learn how to use it.
 
 Click the icon named `More Apps` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDERQUEST_WARN1,"So, you're interested in 3d Modeling, *{{user_name}}*?
+BLENDERQUEST_WARN1,"So, you're interested in 3D Modeling, *{{user_name}}*?
 
-Your Hack system has access to Blender, a super-powerful 3d modeling program, through the App Center.
+Your Hack system has access to Blender, a super-powerful 3D modeling program, through the App Center.
 
 We've combed the web and found good guides to help you get started - and there are many more coming!",estelle,,,
 BLENDERQUEST_WARN2,"One important thing before you start - Blender is a complicated program with a lot of commands.
@@ -29,3 +29,5 @@ https://youtu.be/6mT4XFJYq-4",estelle,,,
 BLENDERQUEST_INFO_6,"You can also use Blender Guru's beginner tutorial:
 https://youtu.be/TPrnSACiTJ4",estelle,,,
 BLENDERQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
+BLENDERQUEST_QUEST_SUBTITLE,What you'll do,,,,
+BLENDERQUEST_QUEST_DESCRIPTION,"Learn the basics of 3D Modeling with Blender, the free, open-source 3D modelling program!",,,,
