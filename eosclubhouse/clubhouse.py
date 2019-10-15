@@ -2103,7 +2103,7 @@ class NewsItem(Gtk.Box):
 
         if data.character in CharacterInfo:
             info = CharacterInfo[data.character]
-            self._title_label.set_label('@' + info['username'])
+            self._title_label.set_label('+' + info['username'])
 
         self._text_label.set_markup(data.text)
         self._date_label.set_label(data.date.strftime("%x"))
