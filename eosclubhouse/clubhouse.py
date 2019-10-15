@@ -2359,7 +2359,7 @@ class AchievementsView(Gtk.Box):
         self._populate()
         self._achievements_achieved_id = \
             self._manager.connect('achievement-achieved',
-                                  lambda _manager, achievement: self._add_achievement(achievement))
+                                  lambda _manager, achievement: self._give_achievement(achievement))
 
     @property
     def items(self):
@@ -2368,6 +2368,23 @@ class AchievementsView(Gtk.Box):
     def _populate(self):
         for achievement in self._manager.get_achievements_achieved():
             self._add_achievement(achievement)
+
+    def _give_achievement(self, achievement):
+        self._shell_popup_achievement_badge(achievement)
+        self._add_achievement(achievement)
+
+    def _shell_popup_achievement_badge(self, achievement):
+        notification = Gio.Notification()
+        notification.set_body("You have a new badge! You can find it in the Profile.")
+        notification.set_title('')
+
+        icon_path = os.path.join(config.ACHIEVEMENTS_DIR, 'badges', '{}.png'.format(achievement.id))
+        icon_file = Gio.File.new_for_path(icon_path)
+        icon_bytes = icon_file.load_bytes(None)
+        icon = Gio.BytesIcon.new(icon_bytes[0])
+
+        notification.set_icon(icon)
+        Gio.Application.get_default().send_quest_item_notification(notification)
 
     def _add_achievement(self, achievement):
         right_to_left = len(self.items) % 2 != 1
