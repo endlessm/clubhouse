@@ -989,7 +989,7 @@ class ClubhouseView(FixedLayerGroup):
             self._shell_close_popup_message()
             self._proposing_quest = False
 
-    def _accept_quest_message(self, _quest_set, new_quest):
+    def _accept_quest_message(self, new_quest):
         logger.info('Start quest {}'.format(new_quest))
         self._app_window.run_quest(new_quest)
 
@@ -1204,9 +1204,7 @@ class ClubhouseView(FixedLayerGroup):
                                                                          _run_quest_after_timeout)
 
     def _propose_next_quest(self, quest):
-        quest_set = libquest.Registry.get_character_mission_for_quest(quest)
-
-        choices = [(quest.get_label('QUEST_ACCEPT'), self._accept_quest_message, quest_set, quest),
+        choices = [(quest.get_label('QUEST_ACCEPT'), self._accept_quest_message, quest),
                    (quest.get_label('QUEST_REJECT'), self._stop_quest_proposal)]
 
         self._proposing_quest = True
