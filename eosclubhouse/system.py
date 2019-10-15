@@ -35,7 +35,7 @@ from gi.repository import GLib, GObject, Gio
 class Desktop:
     SHELL_SETTINGS_SCHEMA_ID = 'org.gnome.shell'
     SETTINGS_HACK_MODE_KEY = 'hack-mode-enabled'
-    HACK_BACKGROUND = 'file://{}/share/backgrounds/Desktop-BGs-Beta-Sketch_Blue.png'\
+    HACK_BACKGROUND = 'file://{}/share/backgrounds/Desktop-BGs-Nov-release.jpg'\
         .format(get_flatpak_sandbox())
 
     HACK_CURSOR = 'cursor-hack'
