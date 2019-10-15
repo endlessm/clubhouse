@@ -65,7 +65,8 @@ def make_commit(info_file, sheet_name):
     subprocess.call(['git', 'reset', 'HEAD'])
 
     # Add any changes to the CSV file and commit them
-    subprocess.call(['git', 'add', os.path.join(CSV_PATH, info_file + '.csv')])
+    csv_path = CSV_PATH[info_file]
+    subprocess.call(['git', 'add', os.path.join(csv_path, info_file + '.csv')])
     subprocess.call(['git', 'commit', '--no-verify', '-m', message])
 
 def main(info_file, commit=False, use_alternative_path=False):
