@@ -4,8 +4,8 @@ from eosclubhouse.libquest import Quest
 class Meet(Quest):
 
     __quest_name__ = 'Tutorial - The Clubhouse'
-    __tags__ = ['mission:ada']
-    __mission_order__ = 10
+    __tags__ = ['pathway:games']
+    __pathway_order__ = 10
 
     def step_begin(self):
         self.wait_confirm('WELCOME1')

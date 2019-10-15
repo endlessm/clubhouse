@@ -7,8 +7,7 @@ class T2Passage(Quest):
     APP_NAME = 'com.endlessnetwork.passage'
 
     __quest_name__ = 'Terminal 2 - The Passage'
-    __tags__ = ['mission:ada', 'pathway:games', 'difficulty:normal']
-    __mission_order__ = 129
+    __tags__ = ['pathway:games', 'difficulty:normal']
     __pathway_order__ = 129
 
     def setup(self):

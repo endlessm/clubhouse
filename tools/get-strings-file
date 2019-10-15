@@ -47,8 +47,6 @@ def get_quest_codes():
 
     def filter_quest_files(filename):
         return (filename != '__init__.py'
-                and not filename.startswith('questset_')
-                and not filename.startswith('mission_')
                 and not filename.startswith('pathway_'))
 
     quest_codes = set(['noquest'])

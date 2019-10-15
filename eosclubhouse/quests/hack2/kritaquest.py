@@ -7,8 +7,7 @@ class KritaQuest(Quest):
     APP_NAME = 'org.kde.krita'
 
     __quest_name__ = 'Digital Painting - Monet in Mirrorshades'
-    __tags__ = ['mission:estelle', 'pathway:art', 'difficulty:medium']
-    __mission_order__ = 200
+    __tags__ = ['pathway:art', 'difficulty:medium']
     __pathway_order__ = 200
 
     def setup(self):

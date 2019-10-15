@@ -1398,7 +1398,7 @@ class ClubhouseView(FixedLayerGroup):
                 child.destroy()
 
         libquest.Registry.load_current_episode()
-        for quest_set in libquest.Registry.get_character_missions():
+        for quest_set in libquest.Registry.get_quest_sets():
             button = self.get_main_layer().add_quest_set(quest_set)
             self.get_layer(self.INFO_TIP_LAYER).add_info_tip(button)
         self.current_episode = episode_name
@@ -1678,7 +1678,7 @@ class PathwaysView(Gtk.ScrolledWindow):
         self._app_window = app_window
 
     def load_episode(self):
-        for pathway in libquest.Registry.get_pathways():
+        for pathway in libquest.Registry.get_quest_sets():
             self._add_pathway(pathway)
 
     def _quest_row_clicked_cb(self, _list_box, row):
@@ -2842,7 +2842,7 @@ class ClubhouseApplication(Gtk.Application):
             self._registry_loaded = True
 
     def _ensure_suggesting_open(self):
-        quest_sets = libquest.Registry.get_character_missions()
+        quest_sets = libquest.Registry.get_quest_sets()
         for quest_set in quest_sets:
             if quest_set.highlighted:
                 self.send_suggest_open(True)
@@ -2962,7 +2962,7 @@ class ClubhouseApplication(Gtk.Application):
     def _show_character_action_cb(self, action, arg_variant):
         character_id = arg_variant.unpack()
         if self._window:
-            qs = libquest.Registry.get_character_mission_for_character(character_id)
+            qs = libquest.Registry.get_questset_for_character(character_id)
             self._window.character.show_mission_list(qs)
             self._window.set_page('CHARACTER')
             self._show_and_focus_window()

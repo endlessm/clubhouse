@@ -6,8 +6,8 @@ import subprocess
 class PDFEarthquake(Quest):
 
     __quest_name__ = 'A Home-grown Earthquake'
-    __tags__ = ['mission:faber', 'pathway:maker']
-    __mission_order__ = 200
+    __tags__ = ['pathway:maker']
+    __pathway_order__ = 200
 
     def step_begin(self):
         # @todo

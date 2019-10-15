@@ -7,8 +7,7 @@ class System_Tour(Quest):
     APP_NAME = 'com.hack_computer.OperatingSystemApp'
 
     __quest_name__ = 'Touring the System'
-    __tags__ = ['mission:saniel', 'pathway:operating system', 'difficulty:easy']
-    __mission_order__ = 100
+    __tags__ = ['pathway:operating system', 'difficulty:easy']
     __pathway_order__ = 100
 
     def setup(self):

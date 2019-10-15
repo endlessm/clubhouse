@@ -6,8 +6,8 @@ import subprocess
 class PDFSketch(Quest):
 
     __quest_name__ = 'A Sketchy Proposition'
-    __tags__ = ['mission:faber', 'pathway:maker']
-    __mission_order__ = 300
+    __tags__ = ['pathway:maker']
+    __pathway_order__ = 300
 
     def step_begin(self):
         # @todo

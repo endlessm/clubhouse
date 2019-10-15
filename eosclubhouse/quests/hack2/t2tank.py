@@ -7,8 +7,7 @@ class T2Tank(Quest):
     APP_NAME = 'com.endlessnetwork.tankwarriors'
 
     __quest_name__ = 'Terminal 2 - Tank Warriors'
-    __tags__ = ['mission:ada', 'pathway:games', 'difficulty:normal']
-    __mission_order__ = 128
+    __tags__ = ['pathway:games', 'difficulty:normal']
     __pathway_order__ = 128
 
     def setup(self):

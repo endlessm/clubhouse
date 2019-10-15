@@ -7,8 +7,7 @@ class T2Aqueducts(Quest):
     APP_NAME = 'com.endlessnetwork.aqueducts'
 
     __quest_name__ = 'Terminal 2 - Aqueducts'
-    __tags__ = ['mission:ada', 'pathway:games', 'difficulty:normal']
-    __mission_order__ = 127
+    __tags__ = ['pathway:games', 'difficulty:normal']
     __pathway_order__ = 127
 
     def setup(self):
