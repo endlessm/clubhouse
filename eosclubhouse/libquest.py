@@ -677,21 +677,23 @@ class _Quest(GObject.GObject):
     proposal_mood = GObject.Property(type=str, default=_DEFAULT_MOOD)
     proposal_sound = GObject.Property(type=str, default="quests/quest-proposed")
 
-    _labels = {
-        'QUEST_ACCEPT': 'Sure!',
-        'QUEST_REJECT': 'Not now…',
-        'QUEST_ACCEPT_STOP': 'Yes',
-        'QUEST_REJECT_STOP': 'No',
-        'QUEST_ACCEPT_HARDER': 'Yes',
-        'QUEST_REJECT_HARDER': 'No',
-        'QUEST_SUBTITLE': 'Summary',
-        'QUEST_DESCRIPTION': '',
-    }
-
     stopping = GObject.Property(type=bool, default=False)
 
     def __init__(self):
         super().__init__()
+
+        self._labels = {
+            'QUEST_ACCEPT': 'Sure!',
+            'QUEST_REJECT': 'Not now…',
+            'QUEST_ACCEPT_STOP': 'Yes',
+            'QUEST_REJECT_STOP': 'No',
+            'QUEST_ACCEPT_HARDER': 'Yes',
+            'QUEST_REJECT_HARDER': 'No',
+            'QUEST_SUBTITLE': 'Summary',
+            'QUEST_DESCRIPTION': None,
+            'QUEST_CONTENT_TAGS': None,
+            'QUEST_CONTENT_TAGS_TITLE': 'Objectives',
+        }
 
         # We declare these variables here, instead of looking them up in the registry when
         # we need them because this way we ensure we get the values when the quest was loaded,
