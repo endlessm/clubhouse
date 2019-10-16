@@ -1,3 +1,5 @@
 P5WEBSHAPES_WELCOME,"Hello, *{{user_name}}* - I've got a treat for you. This is an online version of something called `Processing`.
 
 You can use it to make art with code! Check it out!",ada,,,
+P5WEBSHAPES_QUEST_SUBTITLE,What you'll do,,,,
+P5WEBSHAPES_QUEST_DESCRIPTION,"Play around in this unguided example of Processing, a programming language designed for art.",,,,

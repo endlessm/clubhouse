@@ -32,3 +32,5 @@ NOQUEST_NOTINSTALLED,"Uh-oh! It looks like this App isn't installed!
 You need to download it from the App Center if you want to play.
 
 Click the icon named `More Apps` on the Desktop, then search for the program you want to install.",daemon,,,
+NOQUEST_SUBTITLE,What could this be?,,,,
+NOQUEST_DESCRIPTION,It's a secret to everyone...,,,,

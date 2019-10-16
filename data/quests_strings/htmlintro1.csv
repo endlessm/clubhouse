@@ -17,3 +17,5 @@ HTMLINTRO1_13,"Let's get our hands dirty! Find the text *Hello, World!* on the p
 HTMLINTRO1_14,"Awesome! You just edited a webpage, so that makes you a web designer!",riley,,,
 HTMLINTRO1_15,"Let's take it one step further - see the `<p>`, `<h1>` and `<h2>` tags in the code? Try changing the text between some of those tags...",riley,,,
 HTMLINTRO1_END,"Nice job! HTML isn't as confusing as it looks, right?. Come back for the next activity and we'll go deeper!",riley,,,
+HTMLINTRO1_QUEST_SUBTITLE,What you'll do,,,,
+HTMLINTRO1_QUEST_DESCRIPTION,Learn the basics of web pages and the language they're written in  - HTML.,,,,
