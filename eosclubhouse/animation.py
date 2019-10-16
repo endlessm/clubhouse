@@ -56,7 +56,7 @@ class Animator(GObject.GObject):
 
     def _do_load(self, subpath, prefix=None, scale=1):
         for sprites_path in get_character_animation_dirs(subpath):
-            for sprite in glob.glob(os.path.join(sprites_path, '*png')):
+            for sprite in glob.glob(os.path.join(sprites_path, '*json')):
                 name, _ext = os.path.splitext(os.path.basename(sprite))
                 animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
                 animation = Animation(animation_name, sprite, self._target_image, scale)
@@ -164,35 +164,51 @@ class Animation(GObject.GObject):
         pixbuf = self.current_frame['pixbuf']
         self.target_image.set_from_pixbuf(pixbuf)
 
-    def load(self, sprite_path, scale=1):
+    def load(self, path, scale=1):
         self.scale = scale
         self._reference_points = {}
 
+        # path could be a json or png file
+        metadata = self.get_animation_metadata(path)
+
+        # check if we should open a different file.
+        # this allow us to use diferent image formats and share image data
+        dirname, basename = os.path.split(path)
+        filename = metadata.get('filename')
+
+        if filename is None:
+            filename, ext = os.path.splitext(basename)
+            if ext == '.json':
+                basename = filename + '.png'
+        else:
+            basename = filename
+
+        sprite_path = os.path.join(dirname, basename)
+
         file = Gio.File.new_for_path(sprite_path)
         file.read_async(GLib.PRIORITY_DEFAULT, None, self._sprite_file_read_async_cb,
-                        sprite_path, scale)
+                        sprite_path, scale, metadata)
 
-    def _sprite_file_read_async_cb(self, file, result, sprite_path, scale):
+    def _sprite_file_read_async_cb(self, file, result, sprite_path, scale, metadata):
         try:
             stream = file.read_finish(result)
             GdkPixbuf.Pixbuf.new_from_stream_async(
-                stream, None, self._sprite_pixbuf_read_async_cb, sprite_path, scale)
+                stream, None, self._sprite_pixbuf_read_async_cb, sprite_path, scale, metadata)
         except GLib.Error:
             logger.warning("Error: Failed to read file:", sprite_path)
 
-    def _sprite_pixbuf_read_async_cb(self, _stream, result, sprite_path, scale):
+    def _sprite_pixbuf_read_async_cb(self, _stream, result, sprite_path, scale, metadata):
         try:
             sprite_pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
         except GLib.Error:
             logger.warning("Error: Failed to extract pixel data from file:", sprite_pixbuf)
             return
-        self._do_load(sprite_path, sprite_pixbuf, scale)
+        self._do_load(sprite_path, sprite_pixbuf, scale, metadata)
 
-    def _do_load(self, sprite_path, sprite_pixbuf, scale):
+    def _do_load(self, sprite_path, sprite_pixbuf, scale, metadata):
         self._anchor = (0, 0)
         self.frames = []
 
-        metadata = self.get_animation_metadata(sprite_path)
         sprite_width = sprite_pixbuf.get_width()
         width = metadata['width']
         height = metadata['height']
@@ -258,10 +274,10 @@ class Animation(GObject.GObject):
         return frame, delay
 
     @staticmethod
-    def get_animation_metadata(image_path, load_json=True):
+    def get_animation_metadata(path, load_json=True):
         metadata = None
-        image_name, _ext = os.path.splitext(image_path)
-        metadata_path = image_name + '.json'
+        filename, ext = os.path.splitext(path)
+        metadata_path = path if ext == '.json' else filename + '.json'
         with open(metadata_path) as f:
             if load_json:
                 metadata = json.load(f)

@@ -5,6 +5,7 @@
     <file preprocess="xml-stripblanks">achievements-view.ui</file>
     <file preprocess="xml-stripblanks">achievement-item.ui</file>
     <file preprocess="xml-stripblanks">clubhouse-view-main-layer.ui</file>
+    <file preprocess="xml-stripblanks">quest-card.ui</file>
     <file preprocess="xml-stripblanks">character-view.ui</file>
     <file preprocess="xml-stripblanks">inventory-view.ui</file>
     <file preprocess="xml-stripblanks">episode-row.ui</file>
@@ -27,6 +28,7 @@
     <file>clubhouse_bg-blur.jpg</file>
     <file>clubhouse_bg-blur-off.jpg</file>
     <file>episodes_bg.png</file>
+    <file>quest-card-star-corner.svg</file>
     <file>hack-switch/switch.svg</file>
     <file>hack-switch/ON.svg</file>
     <file>hack-switch/OFF.svg</file>
