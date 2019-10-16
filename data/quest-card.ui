@@ -221,7 +221,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="pixel_size">32</property>
+                                <property name="pixel_size">24</property>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -237,6 +237,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="halign">end</property>
+                                <property name="valign">end</property>
                                 <signal name="clicked" handler="_on_play_button_clicked" swapped="no"/>
                               </object>
                               <packing>

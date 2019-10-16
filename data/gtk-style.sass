@@ -150,7 +150,7 @@ CharacterView
   scrollbar
     border: 0
     border-radius: 1ex
-    margin: 0.6em 0 0.6em 1.2em
+    margin: 0.5em 0 0.5em 0.5em
     background: rgba(255, 255, 255, 0.3)
 
     slider
@@ -175,7 +175,7 @@ CharacterView
 QuestCard
   border-radius: 1em
   min-height: 20em
-  margin: 0.6em
+  margin: 0.5em
 
   #topbox
     background-size: cover
@@ -197,7 +197,9 @@ QuestCard
     border-radius: 0 0 1em 1em
 
     image
-      color: gray
+      border-radius: 50%
+      padding: 0.4em
+      color: white
 
     #play
       color: white
@@ -208,6 +210,16 @@ QuestCard
       &:hover
         background: lighten(#1e2c66, 20%)
 
+    #tagsview
+      margin-left: 1em
+
+      label
+        color: black
+        border-radius: 0.8em
+        padding: 0.3em 0.8em
+        margin-bottom: 0.3em
+        background: lightgray
+
   #title
     min-height: 3em
     font-weight: bold
@@ -216,15 +228,19 @@ QuestCard
   stackswitcher
     margin-top: 1ex
 
-  stackswitcher > button
-    padding: 0
-    color: gray
-    font-weight: bold
-    min-width: unset
-    background: unset
+  stackswitcher
+    button
+      padding: 0
+      color: gray
+      font-weight: bold
+      min-width: unset
+      background: unset
 
-    label
-      padding: 0 1em 0 0
+      label
+        padding: 0
+
+    button + button
+      padding-left: 1ex
 
   box.difficulty
     background: white
@@ -268,6 +284,9 @@ QuestCard
       animation: unset
 
   &.EASY
+    #bottombox image
+      background-color: #0DE53C
+
     stackswitcher > button:checked
       color: #00efae
 
@@ -281,6 +300,9 @@ QuestCard
         background: linear-gradient(to top right, #00efae, #00ff15)
 
   &.NORMAL
+    #bottombox image
+      background-color: #FC7908
+
     stackswitcher > button:checked
       color: #ff6300
 
@@ -296,6 +318,9 @@ QuestCard
         background: linear-gradient(to top right, #ff9600, #ff6300)
 
   &.HARD
+    #bottombox image
+      background-color: #FA1E65
+
     stackswitcher > button:checked
       color: #fc0806
 
