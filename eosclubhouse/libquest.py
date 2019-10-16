@@ -1497,6 +1497,7 @@ class Quest(_Quest):
 
     def _set_complete(self, is_complete):
         self.set_complete(is_complete)
+        self.notify('complete')
 
     complete = GObject.Property(_get_complete, _set_complete, type=bool, default=False,
                                 flags=GObject.ParamFlags.READWRITE |
