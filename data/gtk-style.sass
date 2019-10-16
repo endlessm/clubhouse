@@ -120,7 +120,7 @@ QuestSetInfoTip
 
 
 AchievementItem
-  margin: 1em 0
+  margin: 2ex
 
 
 AchievementsView
@@ -128,8 +128,13 @@ AchievementsView
   color: gray
   font-size: 16px
 
-  .title
-    margin: 1em
+  .title-box
+    $hover_color: #FF0079
+
+    padding: 3ex 0em
+
+    .hover
+      color: $hover_color
 
   scrolledwindow
     border: 0
@@ -137,6 +142,23 @@ AchievementsView
     scrollbar
       background: none
       border: none
+
+    viewport
+       margin: 0 4ex
+
+
+AchievementSummaryView
+  image
+    margin: 2ex
+
+  label
+    &.title
+      font-size: 1.4em
+      font-weight: bold
+
+    &.description
+      padding: 2em
+      padding-bottom: 3em
 
 button.user-button
   color: white

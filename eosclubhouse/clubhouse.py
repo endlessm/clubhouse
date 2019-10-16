@@ -2364,7 +2364,7 @@ class AchievementItem(Gtk.Box):
 
     __gtype_name__ = 'AchievementItem'
 
-    DEFAULT_BADGE_SIZE = 100
+    DEFAULT_BADGE_SIZE = 128
 
     _image = Gtk.Template.Child()
 
@@ -2399,6 +2399,12 @@ class AchievementItem(Gtk.Box):
         return GdkPixbuf.Pixbuf.new_from_file_at_scale(image_path, -1, self.DEFAULT_BADGE_SIZE,
                                                        True)
 
+    def _get_achievement(self):
+        return self._achievement
+
+    achievement = property(_get_achievement)
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-flow-box-child.ui')
 class AchievementFlowBoxChild(Gtk.FlowBoxChild):
 
@@ -2432,16 +2438,50 @@ class AchievementFlowBoxChild(Gtk.FlowBoxChild):
         item.set_default_image()
 
 
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-summary-view.ui')
+class AchievementSummaryView(Gtk.Box):
+
+    __gtype_name__ = 'AchievementSummaryView'
+
+    DEFAULT_BADGE_SIZE = 128
+
+    _image = Gtk.Template.Child()
+    _title_label = Gtk.Template.Child()
+    _summary_label = Gtk.Template.Child()
+
+    def __init__(self):
+        super().__init__()
+        self._title_label.set_line_wrap(True)
+        self._summary_label.set_line_wrap(True)
+
+    def update_from_achievement(self, achievement):
+        badge_dir = os.path.join(config.ACHIEVEMENTS_DIR, 'badges')
+        image_path = os.path.join(badge_dir, '{}.svg'.format(achievement.id))
+
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(image_path, -1,
+                                                         self.DEFAULT_BADGE_SIZE,
+                                                         True)
+        self._image.set_from_pixbuf(pixbuf)
+        self._title_label.props.label = achievement.name
+        self._summary_label.props.label = achievement.description
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievements-view.ui')
 class AchievementsView(Gtk.Box):
 
     __gtype_name__ = 'AchievementsView'
 
     DEFAULT_TRIANGLE_HEIGHT = 30
+    PAGE_GRID = 'GRID'
+    PAGE_SUMMARY = 'SUMMARY'
 
     _event_box = Gtk.Template.Child()
-    _label = Gtk.Template.Child()
+    _title_box = Gtk.Template.Child()
+    _title_box_box = Gtk.Template.Child()
+    _title_box_icon_revealer = Gtk.Template.Child()
     _achievements_flow_box = Gtk.Template.Child()
+    _achievement_summary_box = Gtk.Template.Child()
+    _stack = Gtk.Template.Child()
 
     def __init__(self, app_window):
         super().__init__()
@@ -2455,11 +2495,35 @@ class AchievementsView(Gtk.Box):
         if self._manager.empty_state_achievement is not None:
             self._add_achievement(self._manager.empty_state_achievement)
 
+        self._achievement_summary_view = AchievementSummaryView()
+        self._achievement_summary_box.add(self._achievement_summary_view)
+        self._achievement_summary_view.show_all()
+
         self._app_window.clubhouse.connect('notify::current-episode',
                                            self._current_episode_changed_cb)
 
         self._event_box.connect('motion-notify-event', self._motion_notify_event_cb)
         self._event_box.connect('leave-notify-event', self._leave_notify_event_cb)
+
+        self.connect('notify::current-achievement', self._current_achievement_notify_cb)
+
+    def set_page(self, page):
+        if page == self.PAGE_SUMMARY:
+            if not self.current_achievement:
+                logger.warning('No current achievement')
+                return
+            self._achievement_summary_view.update_from_achievement(self.current_achievement)
+            self._title_box_icon_revealer.props.reveal_child = True
+        elif page == self.PAGE_GRID:
+            self._title_box_icon_revealer.props.reveal_child = False
+        else:
+            logger.error('Error when setting page in AchievementsView: page \'%s\' does not exist.',
+                         page)
+
+        self._stack.props.visible_child_name = page
+
+    def get_current_page(self):
+        return self._stack.props.visible_child_name
 
     def _current_episode_changed_cb(self, _window, _pspec):
         if self._achievements_achieved_id is not None:
@@ -2541,7 +2605,8 @@ class AchievementsView(Gtk.Box):
         a = self._shape_points[-1]
         b = self._shape_points[-2]
         c = self._shape_points[-3]
-        p = (p[0], p[1] + self._label.get_allocation().height)
+        # @todo: Find a way to avoid manually adding the top widget height.
+        p = (p[0], p[1] + self._title_box.get_allocation().height)
         in_triangle = utils.inside_triangle(p, a, b, c)
         return not in_triangle
 
@@ -2551,6 +2616,40 @@ class AchievementsView(Gtk.Box):
         # AchievementsView for the secnd time.
         self._hover = self._event_coordinates_in_shape(event)
 
+    @Gtk.Template.Callback()
+    def _achievements_flow_box_child_activated_cb(self, _view, achievment_flow_box_child):
+        item = achievment_flow_box_child.get_item()
+        if not item:
+            return
+        self.current_achievement = item.achievement
+
+    def _current_achievement_notify_cb(self, _view, _pspec):
+        if self.current_achievement is None:
+            page = self.PAGE_GRID
+        else:
+            page = self.PAGE_SUMMARY
+        self.set_page(page)
+
+    @Gtk.Template.Callback()
+    def _title_box_event_box_enter_notify_event_cb(self, box, _event):
+        if self.get_current_page() == self.PAGE_SUMMARY:
+            ctx = box.get_style_context()
+            ctx.add_class('hover')
+
+    @Gtk.Template.Callback()
+    def _title_box_event_box_leave_notify_event_cb(self, box, _event):
+        if self.get_current_page() == self.PAGE_SUMMARY:
+            ctx = box.get_style_context()
+            ctx.remove_class('hover')
+
+    @Gtk.Template.Callback()
+    def _title_box_event_box_button_press_event_cb(self, box, _event):
+        if self.get_current_page() == self.PAGE_SUMMARY:
+            ctx = box.get_style_context()
+            ctx.remove_class('hover')
+            self.set_page(self.PAGE_GRID)
+
+    current_achievement = GObject.Property(type=object, default=None)
     hover = property(_get_hover)
 
 
@@ -3377,6 +3476,7 @@ class ClubhouseApplication(Gtk.Application):
 clubhouse_classes = [
     AchievementFlowBoxChild,
     AchievementItem,
+    AchievementSummaryView,
     AchievementsView,
     CharacterView,
     ClubhouseView,
