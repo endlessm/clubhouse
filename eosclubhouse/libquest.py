@@ -807,14 +807,14 @@ class _Quest(GObject.GObject):
         pathways = [i.get_name() for i in self.get_pathways()]
         recorder = EosMetrics.EventRecorder.get_default()
         key = GLib.Variant('s', self.get_name())
-        payload = GLib.Variant('(bas)', (self.complete, pathways))
+        payload = GLib.Variant('(bsas)', (self.complete, self.get_id(), pathways))
         recorder.record_start(QUEST_EVENT, key, payload)
 
     def _stop_record_metrics(self):
         pathways = [i.get_name() for i in self.get_pathways()]
         recorder = EosMetrics.EventRecorder.get_default()
         key = GLib.Variant('s', self.get_name())
-        payload = GLib.Variant('(bas)', (self.complete, pathways))
+        payload = GLib.Variant('(bsas)', (self.complete, self.get_id(), pathways))
         recorder.record_stop(QUEST_EVENT, key, payload)
 
         # recording quest completeness and a single event because right now
