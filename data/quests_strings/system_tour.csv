@@ -1,7 +1,7 @@
 SYSTEM_TOUR_QUEST_SUBTITLE,What you'll do,,,,
-SYSTEM_TOUR_QUEST_DESCRIPTION,"Visit the Operating System App, and learn a little about how this computer works.",,,,
+SYSTEM_TOUR_QUEST_DESCRIPTION,"Visit the System App, and learn a little about how this computer works.",,,,
 SYSTEM_TOUR_GREET1,"Hi, *{{user_name}}*. I figured it was about time someone briefed you on the base that all programs are built on - the Operating System.",estelle,,,
-SYSTEM_TOUR_LAUNCH,You should be able to launch the Operating System App from the desktop - see it?,estelle,,,
+SYSTEM_TOUR_LAUNCH,You should be able to launch the System App from the desktop - see it?,estelle,,,
 SYSTEM_TOUR_STUFFTODO,"I hope you'll find it interesting - hover your cursor over any object to see what it is, and click to get an explanation or advance the text.
 
 If you *flip*, you might find some secrets, as well...",estelle,,,

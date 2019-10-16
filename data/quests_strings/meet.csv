@@ -1,14 +1,14 @@
-MEET_WELCOME1,"Welcome to the world of Hack! Here, you can learn the secrets of the world you live in, and how to make them work for you.",ada,,,
+MEET_WELCOME1,"Welcome to the world of Hack! We're all here to teach you the secrets of the digital world you live in, and how to unlock your hacking superpower!",ada,,,
 MEET_WELCOME2,My name's Ada - I've been around the Academy for a while. I'll be your guide.,ada,,,
 MEET_WELCOME3_GOTHINT,That was actually me at the entrance puzzle - I didn't want to distract you by introducing myself.,ada,,,
 MEET_WELCOME3_NOHINT,Great job on the entrance puzzle! Not many students solve that without help.,ada,hurray,,
 MEET_GOBACK,"First, use the buttons at the *top* of the screen to go back to the main Clubhouse area.",,,,
 MEET_EXPLAIN_MAIN1,*The Clubhouse* is a virtual place that anyone at The Academy can use to hang out and chat.,ada,,,
-MEET_EXPLAIN_MAIN2,"No matter where we are in the real world, we're always here in the virtual world.",ada,,,
-MEET_EXPLAIN_HACK1,"You might notice that your cursor and desktop are different - That's because we're in Hack Mode.
+MEET_EXPLAIN_MAIN2,We'll always be here to talk to you - that's the advantage of a virtual space!,ada,,,
+MEET_EXPLAIN_HACK1,"You're in Hack Mode right now, and that lets you flip programs to hack them, and sometimes do even more!
 
-When you're in Hack Mode, you can flip programs and hack them, and sometimes do even more!",ada,,,
-MEET_EXPLAIN_HACK2,That *big switch on the right* conrtols Hack Mode.,ada,,,
+When you're in Hack Mode, you desktop and cursor will be different, to make sure you know what's going on.",ada,,,
+MEET_EXPLAIN_HACK2,That *big switch on the right* controls Hack Mode.,ada,,,
 MEET_EXPLAIN_HACK3,"If you switch it OFF, you’ll go back to the regular desktop. This will shut down the Clubhouse and all your hacking tools.",ada,,,
 MEET_EXPLAIN_HACK4,"You can turn Hack Mode off if someone else needs to use the computer, or you need to do your homework.",ada,,,
 MEET_EXPLAIN_PATHWAYS1,"*Up top*, you'll see the Pathways button - Pathways organize all the activities we have into categories - Web, OS, Games...",ada,,,
