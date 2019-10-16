@@ -44,13 +44,13 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkBox" id="_achievements_box">
+                      <object class="GtkFlowBox" id="_achievements_flow_box">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <placeholder/>
-                        </child>
+                        <property name="valign">start</property>
+                        <property name="homogeneous">True</property>
+                        <property name="min_children_per_line">2</property>
+                        <property name="max_children_per_line">2</property>
                       </object>
                     </child>
                   </object>
@@ -75,6 +75,4 @@
       <placeholder/>
     </child>
   </template>
-  <object class="GtkSizeGroup" id="_left_size_group"/>
-  <object class="GtkSizeGroup" id="_right_size_group"/>
 </interface>

@@ -2364,45 +2364,72 @@ class AchievementItem(Gtk.Box):
 
     __gtype_name__ = 'AchievementItem'
 
-    DEFAULT_BADGE_SIZE = 128
-
-    _box = Gtk.Template.Child()
-    _image_box = Gtk.Template.Child()
-    _label_box = Gtk.Template.Child()
+    DEFAULT_BADGE_SIZE = 100
 
     _image = Gtk.Template.Child()
-    _display_name_label = Gtk.Template.Child()
 
-    def __init__(self, achievement, left_size_group, right_size_group, right_to_left=False):
+    def __init__(self, achievement):
         super().__init__()
 
         self._achievement = achievement
-        self._display_name_label.props.label = '\n'.join(achievement.name.split())
 
-        if not right_to_left:
-            self._set_left_to_right(left_size_group, right_size_group)
-        else:
-            self._set_right_to_left(left_size_group, right_size_group)
+        badge_dir = os.path.join(config.ACHIEVEMENTS_DIR, 'badges')
 
-        image_path = os.path.join(config.ACHIEVEMENTS_DIR,
-                                  'badges', '{}.svg'.format(achievement.id))
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(image_path, -1,
-                                                         self.DEFAULT_BADGE_SIZE, True)
-        self._image.set_from_pixbuf(pixbuf)
+        default_image_path = os.path.join(badge_dir, '{}.svg'.format(achievement.id))
+        hover_image_path = os.path.join(badge_dir, '{}-hover.svg'.format(achievement.id))
 
-    def _set_right_to_left(self, left_size_group, right_size_group):
-        self._box.child_set_property(self._image_box, 'pack-type', Gtk.PackType.END)
+        self._default_pixbuf = self._create_pixbuf(default_image_path)
+        try:
+            self._hover_pixbuf = self._create_pixbuf(hover_image_path)
+        except GLib.Error as ex:
+            logger.warning('Cannot create hover image for achievement \'%s\', becuase: %s',
+                           self._achievement.id, ex)
+            self._hover_pixbuf = None
 
-        self._display_name_label.props.justify = Gtk.Justification.RIGHT
-        self._display_name_label.props.halign = Gtk.Align.END
-        self._image.props.halign = Gtk.Align.START
+        self.set_default_image()
 
-        left_size_group.add_widget(self._label_box)
-        right_size_group.add_widget(self._image_box)
+    def set_default_image(self):
+        self._image.set_from_pixbuf(self._default_pixbuf)
 
-    def _set_left_to_right(self, left_size_group, right_size_group):
-        left_size_group.add_widget(self._image_box)
-        right_size_group.add_widget(self._label_box)
+    def set_hover_image(self):
+        if self._hover_pixbuf is not None:
+            self._image.set_from_pixbuf(self._hover_pixbuf)
+
+    def _create_pixbuf(self, image_path):
+        return GdkPixbuf.Pixbuf.new_from_file_at_scale(image_path, -1, self.DEFAULT_BADGE_SIZE,
+                                                       True)
+
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-flow-box-child.ui')
+class AchievementFlowBoxChild(Gtk.FlowBoxChild):
+
+    __gtype_name__ = 'AchievementFlowBoxChild'
+
+    _event_box = Gtk.Template.Child()
+
+    def __init__(self, achievement):
+        super().__init__()
+        item = AchievementItem(achievement)
+        self._event_box.add(item)
+
+    def get_item(self):
+        children = self._event_box.get_children()
+        if not children or not isinstance(children[0], AchievementItem):
+            return None
+        return children[0]
+
+    @Gtk.Template.Callback()
+    def _event_box_enter_notify_event_cb(self, _child, _event):
+        item = self.get_item()
+        if not item:
+            return
+        item.set_hover_image()
+
+    @Gtk.Template.Callback()
+    def _event_box_leave_notify_event_cb(self, _child, _event):
+        item = self.get_item()
+        if not item:
+            return
+        item.set_default_image()
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievements-view.ui')
@@ -2414,9 +2441,7 @@ class AchievementsView(Gtk.Box):
 
     _event_box = Gtk.Template.Child()
     _label = Gtk.Template.Child()
-    _achievements_box = Gtk.Template.Child()
-    _left_size_group = Gtk.Template.Child()
-    _right_size_group = Gtk.Template.Child()
+    _achievements_flow_box = Gtk.Template.Child()
 
     def __init__(self, app_window):
         super().__init__()
@@ -2444,10 +2469,6 @@ class AchievementsView(Gtk.Box):
             self._manager.connect('achievement-achieved',
                                   lambda _manager, achievement: self._give_achievement(achievement))
 
-    @property
-    def items(self):
-        return self._achievements_box.get_children()
-
     def _populate(self):
         for achievement in self._manager.get_achievements_achieved():
             self._add_achievement(achievement)
@@ -2470,18 +2491,15 @@ class AchievementsView(Gtk.Box):
         Gio.Application.get_default().send_quest_item_notification(notification)
 
     def _add_achievement(self, achievement):
-        right_to_left = len(self.items) % 2 != 1
         try:
-            achievement_item = AchievementItem(achievement,
-                                               self._left_size_group, self._right_size_group,
-                                               right_to_left)
+            achievement_item = AchievementFlowBoxChild(achievement)
         except GLib.Error as ex:
             logger.warning('Achievement %s will not be shown because of an error: %s',
                            achievement.name, ex)
             return
 
-        self._achievements_box.pack_end(achievement_item, True, True, 0)
-        self._achievements_box.show_all()
+        self._achievements_flow_box.add(achievement_item)
+        self._achievements_flow_box.show_all()
 
     def do_draw(self, cr):
         self._undraw_bottom_triangle(cr)
@@ -3357,6 +3375,7 @@ class ClubhouseApplication(Gtk.Application):
 
 # Set widget classes CSS name to be able to select by GType name
 clubhouse_classes = [
+    AchievementFlowBoxChild,
     AchievementItem,
     AchievementsView,
     CharacterView,
