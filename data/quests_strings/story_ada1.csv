@@ -3,8 +3,7 @@ STORY_ADA1_QUEST_DESCRIPTION,Learn about the purpose of the Academy and get to k
 STORY_ADA1_POSITIVE,👍,,,,
 STORY_ADA1_NEGATIVE,👎,,,,
 STORY_ADA1_1,"Hi again, *{{user_name}}*! I was so excited when Dr. Rowe mentioned that the remote student program was approved.",ada,,,
-STORY_ADA1_2,"
-I know it's not easy - you're the first person to test this system, and you have to deal with a totally new set of people, in a new place...",ada,,,
+STORY_ADA1_2,"I know it's not easy - you're the first person to test this system, and you have to deal with a totally new set of people, in a new place...",ada,,,
 STORY_ADA1_3,"So, how are you doing?",ada,,,
 STORY_ADA1_3_RPOS,"Wow, you *are* a fast learner. I knew you'd be a good fit here - It's great to see you succeed so easily.",ada,hurray,,
 STORY_ADA1_3_RNEG,"Don't get discouraged - I know it's hard to be so limited in what you can say and do. If you keep going, I'm sure you'll figure it out.",ada,,,
