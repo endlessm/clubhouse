@@ -4,7 +4,11 @@ from enum import IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.utils import DictFromCSV
 
-from gi.repository import GObject
+from gi.repository import EosMetrics, GLib, GObject
+
+
+ACHIEVEMENT_POINTS_EVENT = '86521913-bfa3-4d13-b511-a03d4e339d2f'
+ACHIEVEMENT_EVENT = '62ce2e93-bfdc-4cae-af4c-54068abfaf02'
 
 
 Achievement = namedtuple('Achievement', ['id', 'name', 'description',
@@ -66,7 +70,7 @@ class _AchievementsManager(GObject.Object):
     def get_achievements_achieved(self):
         return [a for a in self._achievements.values() if self.achieved(a)]
 
-    def add_points(self, skillset, points):
+    def add_points(self, skillset, points, record_points=False):
         skillset = skillset.upper()
 
         if skillset not in self._points_per_skillset:
@@ -76,6 +80,8 @@ class _AchievementsManager(GObject.Object):
 
         previous_points = self._points_per_skillset.copy()
         self._points_per_skillset[skillset] += points
+        if record_points:
+            self._record_points(skillset, points)
 
         logger.info('Skillset %s incremented by %r, now at %r', skillset, points,
                     self._points_per_skillset[skillset])
@@ -88,6 +94,19 @@ class _AchievementsManager(GObject.Object):
 
             if not self.achieved(achievement, previous_points) and self.achieved(achievement):
                 self.emit('achievement-achieved', achievement)
+                if record_points:
+                    self._record_achievement(skillset, achievement)
+
+    def _record_points(self, skillset, points):
+        recorder = EosMetrics.EventRecorder.get_default()
+        variant = GLib.Variant('(sii)', (skillset, points,
+                                         self._points_per_skillset[skillset]))
+        recorder.record_event(ACHIEVEMENT_POINTS_EVENT, variant)
+
+    def _record_achievement(self, skillset, achievement):
+        recorder = EosMetrics.EventRecorder.get_default()
+        variant = GLib.Variant('(ss)', (achievement.id, achievement.name))
+        recorder.record_event(ACHIEVEMENT_EVENT, variant)
 
 
 class AchievementsDB(DictFromCSV):
