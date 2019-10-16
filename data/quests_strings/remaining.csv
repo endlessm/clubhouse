@@ -1,23 +1,4 @@
 , ,,,,
-HTMLINTRO1_1,"Hi, *{{user_name}}*! I know you've used the internet before - but have you ever wondered what goes into showing you all those web pages?",riley,,,
-HTMLINTRO1_10,"You put HTML around text, and that tells your web browser what to show, and how to show it on your screen. Not so bad, right?",riley,,,
-HTMLINTRO1_11,"In HTML, everything with `<` and `>` around it is called a *tag*. Tags tell the browser how to display something - text, images, whatever.",riley,,,
-HTMLINTRO1_12,"Tags usually come in pairs - an `<opening tag>`, and a `</closing tag>`, like saying *start* and *stop*",riley,,,
-HTMLINTRO1_13,"Let's get our hands dirty! Find the text *Hello, World!* on the page, and change it. Add you name, your favorite food, whatever you like.",riley,,,
-HTMLINTRO1_14,"Awesome! You just edited a webpage, so that makes you a web designer!",riley,,,
-HTMLINTRO1_15,"Let's take it one step further - see the `<p>`, `<h1>` and `<h2>` tags in the code? Try changing the text between some of those tags...",riley,,,
-HTMLINTRO1_2,"I was wondering that, one day, and I decided to go find out. There was a ton to learn, but now that I've done the legwork, I can pass it on to you.",riley,,,
-HTMLINTRO1_3,"Before I explain anything, let's get you looking at the guts of a web page.",riley,,,
-HTMLINTRO1_4,"The page should open for you, but if it doesn't, you can try running Chrome...",riley,,,
-HTMLINTRO1_5,...Or you can click this link: https://codepen.io/madetohack/pen/BaaNeXj?editors=1000#code-area,riley,,,
-HTMLINTRO1_6,OK! Here we are. One half of your browser is showing you the code that the page is written in...,riley,,,
-HTMLINTRO1_7,...And the other half is what you'd see if you found this page on the internet.,riley,,,
-HTMLINTRO1_8,"(If you prefer to look at things side-by-side, you can click the *Change View* button in the upper right, and change the *Editor Layout* to a different one.)",riley,,,
-HTMLINTRO1_9,"Just like computer programs, web pages are written in a kind of code - It's called HTML.",riley,,,
-HTMLINTRO1_BAK,❮,,,,
-HTMLINTRO1_END,"Nice job! HTML isn't as confusing as it looks, right?. Come back for the next activity and we'll go deeper!",riley,,,
-HTMLINTRO1_FWD,❯,,,,
-HTMLINTRO1_WRONG,*SOMETHING WENT WRONG*,daemon,,,
 HTMLINTRO2_1,"Hey again! This lesson's going to go a little deeper, *{{user_name}}*...",riley,,,
 HTMLINTRO2_10,"Find another `<p>` tag and make *that* text orange, or red.",riley,,,
 HTMLINTRO2_11,I wonder what happens if you try the same logic with an `<h1>` or `<h2>` tag? Try making one of those purple.,riley,,,
@@ -181,12 +162,3 @@ OSONESHOTMAP_FWD,❯,,,,
 OSONESHOTMAP_LAUNCH,"Find the Terminal icon on the desktop, and let's get going!",riley,,,
 OSONESHOTMAP_QUEST_DESCRIPTION,"Learn about complex command-line tools, and decode a hidden map. (Part 2 of 4)",,,,
 OSONESHOTMAP_QUEST_SUBTITLE,What you'll do,,,,
-PDFPAPERBRIDGE_WELCOME,"Sometimes, you don't have the best materials at hand to build what you want.
-
-Maybe you need to build a ladder out of sticks... or a bridge out of paper. Give it a try!",faber,,,
-PDFSNAPSHOT_WELCOME,"I'm sure you've heard the phrase *""A picture is worth a thousand words.""*
-
-But have you ever tried to figure out what that means, or how you'd create that effect?",estelle,,,
-PDFVERB_WELCOME,"The best inspiration can seem like a random thought, if you're not prepared to catch it and use it.
-
-You just gotta let yourself go and see what the world decides to show you...",faber,,,
