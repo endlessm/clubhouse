@@ -1,15 +1,14 @@
 from eosclubhouse.libquest import Quest
-# from eosclubhouse.system import App
 import os
 
 
 class HTMLIntro1(Quest):
 
-    __quest_name__ = "Introduction to HTML  - Part 1"
+    __quest_name__ = "Introduction to HTML - Part 1"
     __tags__ = ['mission:riley', 'pathway:web', 'difficulty:easy']
     __pathway_order__ = 501
 
-    TOTAL_MESSAGES = 21
+    TOTAL_MESSAGES = 15
 
     def setup(self):
         return self.step_begin
