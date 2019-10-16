@@ -2427,6 +2427,9 @@ class AchievementsView(Gtk.Box):
         self._manager = AchievementsDB().manager
         self._achievements_achieved_id = None
 
+        if self._manager.empty_state_achievement is not None:
+            self._add_achievement(self._manager.empty_state_achievement)
+
         self._app_window.clubhouse.connect('notify::current-episode',
                                            self._current_episode_changed_cb)
 
