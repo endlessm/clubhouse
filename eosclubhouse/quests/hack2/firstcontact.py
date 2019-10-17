@@ -36,12 +36,7 @@ class FirstContact(Quest):
         return self._app.get_js_property('mode', default_value=0) >= 4
 
     def step_begin(self):
-        Desktop.set_hack_mode(True)
-        # While in Hack mode, because the FlipToHack button is needed, we still
-        # want to show the old background and the normal cursor.
-        Desktop.set_hack_background(False)
-        Desktop.set_hack_cursor(False)
-
+        Desktop.set_hack_mode(True, avoid_signal=True)
         self._app.launch()
 
         # Avoid spinning cursor.
@@ -118,6 +113,8 @@ class FirstContact(Quest):
     def step_show_clubhouse(self):
         self.pause(3)
 
+        # hack mode to true to emit the signal and ensure that the clubhouse is ON
+        Desktop.set_hack_mode(True)
         # show the clubhouse after the first contact quest
         clubhouse_state = ClubhouseState()
         clubhouse_state.window_is_visible = True
@@ -129,5 +126,5 @@ class FirstContact(Quest):
         self.stop()
 
     def step_abort(self):
-        Desktop.set_hack_mode(False)
+        Desktop.set_hack_mode(False, avoid_signal=True)
         super().step_abort()
