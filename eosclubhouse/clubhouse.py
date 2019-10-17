@@ -852,17 +852,30 @@ class QuestCard(Gtk.FlowBoxChild):
         # Set difficulty class
         self.get_style_context().add_class(self._quest.get_difficulty().name)
 
+    def _update_play_button(self, running):
+        if running:
+            self._play_button.set_label('running...')
+        elif self._quest.complete:
+            self._play_button.set_label('play again')
+            self._play_button.get_style_context().add_class('complete')
+        else:
+            self._play_button.get_style_context().remove_class('complete')
+            self._play_button.set_label('play')
+
     def _on_quest_started(self, quest):
         self.props.sensitive = False
+        self._update_play_button(True)
 
     def _on_quest_finished(self, quest):
         self.props.sensitive = True
+        self._update_play_button(False)
 
     def _on_quest_complete_changed(self, _quest_set, _param):
         self._set_complete()
 
     def _set_complete(self):
         self._complete_image.props.visible = self._quest.complete
+        self._update_play_button(False)
 
     def get_quest(self):
         return self._quest

@@ -200,13 +200,27 @@ QuestCard
       color: gray
 
     #play
+      $normal_color: #181866
+      $complete_color: #37DCB1
+
       color: white
+      text-shadow: none
       border-radius: 1em
       padding: 0.25em 1em
-      background: #1e2c66
+      background: $normal_color
 
       &:hover
-        background: lighten(#1e2c66, 20%)
+        background: lighten($normal_color, 20%)
+
+      &.complete
+        background: $complete_color
+
+      &.complete:hover
+        background: darken($complete_color, 10%)
+
+      &:disabled,
+      &:disabled.complete
+        background: lightgray
 
   #title
     min-height: 3em
