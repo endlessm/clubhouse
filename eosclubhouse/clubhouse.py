@@ -2269,9 +2269,7 @@ class AchievementItem(Gtk.Box):
 
     __gtype_name__ = 'AchievementItem'
 
-    DEFAULT_MEDAL_SIZE = 128
-    BADGES_DIR = os.path.join(config.DATA_DIR, 'achievements', 'badges')
-    BADGES_FILES = os.listdir(BADGES_DIR) if os.path.exists(BADGES_DIR) else []
+    DEFAULT_BADGE_SIZE = 128
 
     _box = Gtk.Template.Child()
     _image_box = Gtk.Template.Child()
@@ -2291,19 +2289,11 @@ class AchievementItem(Gtk.Box):
         else:
             self._set_right_to_left(left_size_group, right_size_group)
 
-        self._image_path = None
-
-        image_path = os.path.join(self.BADGES_DIR, self._guess_filename())
-        self.set_image_path(image_path)
-
-    def set_image_path(self, filename):
-        self._image_path = filename
-        self._set_image_from_file_path()
-
-    def _guess_filename(self):
-        def _starts_with_filename(filename):
-            return filename.startswith('{}.'.format(self._achievement.id))
-        return next(filter(_starts_with_filename, self.BADGES_FILES), None)
+        image_path = os.path.join(config.ACHIEVEMENTS_DIR,
+                                  'badges', '{}.svg'.format(achievement.id))
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(image_path, -1,
+                                                         self.DEFAULT_BADGE_SIZE, True)
+        self._image.set_from_pixbuf(pixbuf)
 
     def _set_right_to_left(self, left_size_group, right_size_group):
         self._box.child_set_property(self._image_box, 'pack-type', Gtk.PackType.END)
@@ -2318,11 +2308,6 @@ class AchievementItem(Gtk.Box):
     def _set_left_to_right(self, left_size_group, right_size_group):
         left_size_group.add_widget(self._image_box)
         right_size_group.add_widget(self._label_box)
-
-    def _set_image_from_file_path(self):
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(self._image_path, -1,
-                                                         self.DEFAULT_MEDAL_SIZE, True)
-        self._image.set_from_pixbuf(pixbuf)
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievements-view.ui')
@@ -2359,7 +2344,7 @@ class AchievementsView(Gtk.Box):
         self._populate()
         self._achievements_achieved_id = \
             self._manager.connect('achievement-achieved',
-                                  lambda _manager, achievement: self._add_achievement(achievement))
+                                  lambda _manager, achievement: self._give_achievement(achievement))
 
     @property
     def items(self):
@@ -2368,6 +2353,23 @@ class AchievementsView(Gtk.Box):
     def _populate(self):
         for achievement in self._manager.get_achievements_achieved():
             self._add_achievement(achievement)
+
+    def _give_achievement(self, achievement):
+        self._shell_popup_achievement_badge(achievement)
+        self._add_achievement(achievement)
+
+    def _shell_popup_achievement_badge(self, achievement):
+        notification = Gio.Notification()
+        notification.set_body("You have a new badge! You can find it in the Profile.")
+        notification.set_title('')
+
+        icon_path = os.path.join(config.ACHIEVEMENTS_DIR, 'badges', '{}.svg'.format(achievement.id))
+        icon_file = Gio.File.new_for_path(icon_path)
+        icon_bytes = icon_file.load_bytes(None)
+        icon = Gio.BytesIcon.new(icon_bytes[0])
+
+        notification.set_icon(icon)
+        Gio.Application.get_default().send_quest_item_notification(notification)
 
     def _add_achievement(self, achievement):
         right_to_left = len(self.items) % 2 != 1
