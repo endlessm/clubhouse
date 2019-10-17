@@ -63,7 +63,7 @@
                             <property name="can_focus">False</property>
                             <property name="halign">center</property>
                             <property name="valign">center</property>
-                            <property name="label" translatable="yes">achievements</property>
+                            <property name="label" translatable="yes">Achievements</property>
                             <style>
                               <class name="lbko"/>
                             </style>
