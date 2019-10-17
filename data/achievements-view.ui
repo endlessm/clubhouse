@@ -2,11 +2,6 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkAdjustment" id="adjustment1">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
   <template class="AchievementsView" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -99,68 +94,76 @@
               </packing>
             </child>
             <child>
-              <object class="GtkScrolledWindow">
+              <object class="GtkStack" id="_stack">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="vadjustment">adjustment1</property>
-                <property name="shadow_type">in</property>
-                <property name="min_content_width">300</property>
-                <property name="min_content_height">300</property>
-                <property name="max_content_height">500</property>
+                <property name="can_focus">False</property>
+                <property name="transition_type">crossfade</property>
+                <property name="interpolate_size">True</property>
                 <child>
-                  <object class="GtkViewport">
+                  <object class="GtkScrolledWindow">
+                    <property name="name">GRID</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="hscrollbar_policy">never</property>
+                    <property name="shadow_type">in</property>
+                    <property name="min_content_width">300</property>
+                    <property name="min_content_height">300</property>
+                    <property name="max_content_height">500</property>
                     <child>
-                      <object class="GtkBox" id="_box">
+                      <object class="GtkViewport">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkStack" id="_stack">
+                          <object class="GtkFlowBox" id="_achievements_flow_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="transition_type">crossfade</property>
-                            <child>
-                              <object class="GtkFlowBox" id="_achievements_flow_box">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <property name="homogeneous">True</property>
-                                <property name="min_children_per_line">2</property>
-                                <property name="max_children_per_line">2</property>
-                                <signal name="child-activated" handler="_achievements_flow_box_child_activated_cb" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="name">GRID</property>
-                                <property name="title" translatable="yes">page0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox" id="_achievement_summary_box">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="orientation">vertical</property>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="name">SUMMARY</property>
-                                <property name="title" translatable="yes">page1</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
+                            <property name="valign">start</property>
+                            <property name="homogeneous">True</property>
+                            <property name="min_children_per_line">2</property>
+                            <property name="max_children_per_line">2</property>
+                            <signal name="child-activated" handler="_achievements_flow_box_child_activated_cb" swapped="no"/>
                           </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
                         </child>
                       </object>
                     </child>
                   </object>
+                  <packing>
+                    <property name="name">GRID</property>
+                    <property name="title" translatable="yes">page0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="name">SUMMARY</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hscrollbar_policy">never</property>
+                    <property name="shadow_type">in</property>
+                    <property name="min_content_width">300</property>
+                    <property name="min_content_height">300</property>
+                    <property name="max_content_height">500</property>
+                    <child>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkBox" id="_achievement_summary_box">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="name">SUMMARY</property>
+                    <property name="title" translatable="yes">page1</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -178,8 +181,10 @@
         <property name="position">0</property>
       </packing>
     </child>
-    <child>
-      <placeholder/>
-    </child>
   </template>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
 </interface>
