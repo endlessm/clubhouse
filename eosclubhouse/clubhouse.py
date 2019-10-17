@@ -256,8 +256,10 @@ class Message(Gtk.Overlay):
 
         # Backward compatibility.
         # @todo: Remove when quests implement the new :icon:icon-name: format.
-        if label == '>':
+        if label == '❯':
             label = ':icon:next:'
+        elif label == '❮':
+            label = ':icon:previous:'
         elif label == '👍':
             label = ':icon:thumbsup:'
         elif label == '👎':

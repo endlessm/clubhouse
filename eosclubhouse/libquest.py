@@ -1621,7 +1621,7 @@ class Quest(_Quest):
         :param bool use_confirm: True to add a confirmation button. See
             :meth:`show_confirm_message()` to do it automatically.
 
-        :param str confirm_label: Change the label of the confirm button. By default it's '>'.
+        :param str confirm_label: Change the label of the confirm button. By default it's '❯'.
 
         '''
         if message_id is not None:
@@ -1656,7 +1656,7 @@ class Quest(_Quest):
                                 in options['choices']]
 
         if options.get('use_confirm'):
-            confirm_label = options.get('confirm_label', '>')
+            confirm_label = options.get('confirm_label', '❯')
             possible_answers = [(confirm_label, self._confirm_step)] + possible_answers
 
         sfx_sound = options.get('sfx_sound')
