@@ -773,6 +773,7 @@ class QuestCard(Gtk.FlowBoxChild):
 
         self._clubhouse = clubhouse
         self._quest_set = quest_set
+        self._button_press_time = 0
         self._quest = quest
         self._quest.connect('quest-started', self._on_quest_started)
         self._quest.connect('quest-finished', self._on_quest_finished)
@@ -804,8 +805,45 @@ class QuestCard(Gtk.FlowBoxChild):
         easier_quest = self._quest_set.get_easier_quest(self._quest)
         self._clubhouse.try_running_quest(self._quest, easier_quest)
 
+    @Gtk.Template.Callback()
+    def _on_button_press_event(self, widget, event):
+        # Consume button press event if card is selected
+        if self.is_selected():
+            # Save press button time
+            self._button_press_time = event.time
+            return True
+
+        return False
+
+    @Gtk.Template.Callback()
+    def _on_button_release_event(self, widget, event):
+        # Deselect card if its selected and press time was less than 400ms ago
+        #
+        # The default behavior of the multi press event controller used by
+        # GtkFlowBox uses uses a 400ms timeout to know if the user wanted to
+        # press it or not.
+        #
+        # Try to avoid the situation where the user press the button over the card
+        # and release it somewhere else then press the button somewhere else and
+        # release it over the card which without the timeout it will always
+        # trigger the selection.
+        #
+        # We could keep track of enter and leave events but that will complicate
+        # things even more
+        #
+        # @todo: this is the old way of handling events we should investigate
+        # if it is possible to use a GtkGesture instead.
+        if event.time - self._button_press_time < 400 and self.is_selected():
+            self.get_parent().unselect_child(self)
+            return True
+
+        return False
+
+    def _is_selected(self):
+        return self.get_state_flags() & Gtk.StateFlags.SELECTED
+
     def _update_state(self):
-        selected = self.get_state_flags() & Gtk.StateFlags.SELECTED
+        selected = self.is_selected()
         self._revealer.set_reveal_child(selected)
         self._difficulty_box.set_visible(not selected)
 
