@@ -68,6 +68,8 @@ class Desktop:
     _shell_settings = None
     _shell_schema = None
 
+    _settings_signal_handlers = {}
+
     @classmethod
     def get_dbus_proxy(klass):
         if klass._dbus_proxy is None:
@@ -264,7 +266,14 @@ class Desktop:
         settings = klass.get_shell_settings()
         if not settings:
             return 0
-        return settings.connect(signal_name, callback, *args)
+        handler_id = settings.connect(signal_name, callback, *args)
+
+        # Storing all signals to be able to block
+        handlers = klass._settings_signal_handlers.get(signal_name, [])
+        handlers.append(handler_id)
+        klass._settings_signal_handlers[signal_name] = handlers
+
+        return handler_id
 
     @classmethod
     def get_shell_settings(klass):
@@ -351,7 +360,7 @@ class Desktop:
         return klass.get_shell_settings().get_boolean(klass.SETTINGS_HACK_MODE_KEY)
 
     @classmethod
-    def set_hack_mode(klass, enabled):
+    def set_hack_mode(klass, enabled, avoid_signal=False):
         # Override clippy apps
         shell_settings = klass.get_shell_settings()
         if not shell_settings:
@@ -363,7 +372,25 @@ class Desktop:
         for name in klass.OLD_CLIPPY_APPS:
             App(name).enable_clippy(enabled, old_clippy=True)
 
-        return shell_settings.set_boolean(klass.SETTINGS_HACK_MODE_KEY, enabled)
+        signal_name = f'changed::{klass.SETTINGS_HACK_MODE_KEY}'
+        if avoid_signal:
+            klass._block_setting_signals(signal_name)
+
+        response = shell_settings.set_boolean(klass.SETTINGS_HACK_MODE_KEY, enabled)
+
+        if avoid_signal:
+            klass._block_setting_signals(signal_name, block=False)
+
+        return response
+
+    @classmethod
+    def _block_setting_signals(klass, signal_name, block=True):
+        shell_settings = klass.get_shell_settings()
+        for handler in klass._settings_signal_handlers.get(signal_name, []):
+            if block:
+                GObject.signal_handler_block(shell_settings, handler)
+            else:
+                GObject.signal_handler_unblock(shell_settings, handler)
 
 
 class App:
