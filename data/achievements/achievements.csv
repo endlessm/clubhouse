@@ -1,4 +1,5 @@
 ID,Name,Description,Skillset,Points Needed
+empty-state,Logic Summary,Everytime you complete a new quest you get points for certain skillsets. Reaching the enough points on this skillsets allows you to obtain a new badge.,,0
 launch-felix,Cat Herder,"Find Felix, no matter where he hides...",Felix,3
 launch-lore,Lore-ing's not Boring,"Get to know the Clubhouse characters through all the ""Story"" activities.",Narrative,5
 launch-games-intro,The Player of Games,"Unlocked by playing 2 ""Games"" activities",Games,2
