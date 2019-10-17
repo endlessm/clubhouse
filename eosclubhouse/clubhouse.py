@@ -847,7 +847,24 @@ class QuestCard(Gtk.FlowBoxChild):
             subtitle = self._quest.get_label('QUEST_SUBTITLE')
             self._stack.add_titled(label, 'description', subtitle)
 
-        # @todo: add objectives page if there are any tags
+        tags = self._quest.get_label('QUEST_CONTENT_TAGS')
+        if tags is not None:
+            textview = Gtk.TextView(visible=True,
+                                    name='tagsview',
+                                    editable=False,
+                                    sensitive=False,
+                                    cursor_visible=False,
+                                    wrap_mode=Gtk.WrapMode.WORD)
+            textbuffer = textview.get_buffer()
+            tags = tags.split(':')
+            for tag in tags:
+                anchor = textbuffer.create_child_anchor(textbuffer.get_end_iter())
+                label = Gtk.Label(label=tag, visible=True)
+                textview.add_child_at_anchor(label, anchor)
+                textbuffer.insert(textbuffer.get_end_iter(), ' ', 1)
+
+            title = self._quest.get_label('QUEST_CONTENT_TAGS_TITLE')
+            self._stack.add_titled(textview, 'tags', title)
 
         # Set difficulty class
         self.get_style_context().add_class(self._quest.get_difficulty().name)
@@ -2568,11 +2585,15 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         # Add class depending on screen size
         if screen_height <= 720:
             context.add_class('small')
+            factor = 0.94
         elif screen_height >= 1080:
             context.add_class('big')
+            factor = 0.8
+        else:
+            factor = 0.85
 
         # Clamp resolution to 80% of 720p-1080p
-        height = max(720, min(screen_height, 1080)) * 0.80
+        height = max(720, min(screen_height, 1080)) * factor
 
         # Set main box size
         self.set_size_request(height * BG_WIDTH / BG_HEIGHT, height)
