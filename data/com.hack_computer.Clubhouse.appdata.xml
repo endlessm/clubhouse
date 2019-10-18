@@ -1,7 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2019 Endless Mobile, Inc -->
 <component type="desktop">
   <id>com.hack_computer.Clubhouse.desktop</id>
-  <metadata_license>LicenseRef-proprietary</metadata_license>
+  <metadata_license>MIT</metadata_license>
   <project_license>LicenseRef-proprietary</project_license>
-  <name>Clubhouse</name>
+  <name>Hack</name>
+
+  <url type="homepage">https://hack-computer.com/</url>
+  <url type="faq">https://support.hack-computer.com/hc/en-us/sections/360002672392-FAQs</url>
+  <url type="help">https://support.hack-computer.com/hc/en-us</url>
+
+  <releases>
+    <release version="2.0.0" date="2019-11-15"/>
+  </releases>
+
+  <summary>The destination for kids to learn how to code</summary>
+  <description>
+    <p>
+      Kids learn how to code, develop creative problem-solving skills and build confidence in a fun and safe environment.
+    </p>
+  </description>
+  <screenshots>
+    <screenshot>
+      <image type="source">https://d3lapyynmdp1i9.cloudfront.net/screenshots/com.hack_computer.Clubhouse/C/com.hack_computer.Clubhouse1.png</image>
+      <caption>The main window with a quest running</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://d3lapyynmdp1i9.cloudfront.net/screenshots/com.hack_computer.Clubhouse/C/com.hack_computer.Clubhouse2.png</image>
+      <caption>The game pathway</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://d3lapyynmdp1i9.cloudfront.net/screenshots/com.hack_computer.Clubhouse/C/com.hack_computer.Clubhouse3.png</image>
+      <caption>The game pathway with a quest running</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://d3lapyynmdp1i9.cloudfront.net/screenshots/com.hack_computer.Clubhouse/C/com.hack_computer.Clubhouse4.png</image>
+      <caption>The main window</caption>
+    </screenshot>
+  </screenshots>
+
+  <metadata>
+    <value key="GnomeSoftware::popular-background">https://d3lapyynmdp1i9.cloudfront.net/thumbnails/com.hack_computer.Clubhouse/com.hack_computer.Clubhouse-thumb.png</value>
+  </metadata>
+
+  <launchable type="desktop-id">com.hack_computer.Clubhouse.desktop</launchable>
+  <developer_name>The Hack Team</developer_name>
+
+  <content_rating type="oars-1.1" />
 </component>

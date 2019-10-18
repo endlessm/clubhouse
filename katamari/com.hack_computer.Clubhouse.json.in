@@ -15,7 +15,6 @@
     "sdk": "org.gnome.Sdk",
 
     "command": "eos-clubhouse",
-    "rename-desktop-file": "eos-clubhouse.desktop",
 
     "finish-args": [
         "--device=dri",

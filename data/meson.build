@@ -51,7 +51,7 @@ custom_target('compile-schemas',
 )
 
 install_data(
-    'eos-clubhouse.desktop',
+    'com.hack_computer.Clubhouse.desktop',
     install_dir: join_paths(data_dir, 'applications')
 )
 
