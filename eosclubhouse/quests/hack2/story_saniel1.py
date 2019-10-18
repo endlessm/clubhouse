@@ -4,8 +4,8 @@ from eosclubhouse.system import Sound
 
 class Story_Saniel1(Quest):
 
-    __quest_name__ = 'Story - A Trip to the Archives'
-    __tags__ = ['pathway:operating system', 'skillset:Narrative']
+    __quest_name__ = 'A Trip to the Archives'
+    __tags__ = ['pathway:operating system', 'skillset:Narrative', 'difficulty:easy']
     __pathway_order__ = 50
     __is_narrative__ = True
 
