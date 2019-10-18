@@ -401,6 +401,8 @@ class App:
     _gtk_app_proxy = None
     _gtk_actions_proxy = None
     _gtk_launch_app_proxy = None
+    _ekn_search_provider_proxy = None
+    _knowledgesearch_proxy = None
 
     def __init__(self, app_dbus_name, app_dbus_path=None):
         self._app_dbus_name = app_dbus_name
@@ -409,6 +411,13 @@ class App:
     @property
     def dbus_name(self):
         return self._app_dbus_name
+
+    def _bus_label_unescape(self, bus_label):
+        # @todo: This should mimic the function with same name in
+        # eos-knowledge-services eks-search-app.c . This
+        # implementation only works for names with dots as the only
+        # special character.
+        return bus_label.replace('.', '_2E')
 
     def get_clippy_proxy(self):
         if self._clippy is None:
@@ -450,6 +459,19 @@ class App:
 
         return self._gtk_actions_proxy
 
+    def get_knowledgesearch_proxy(self):
+        if self._knowledgesearch_proxy is None:
+            self._knowledgesearch_proxy = \
+                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                               Gio.DBusProxyFlags.DO_NOT_AUTO_START_AT_CONSTRUCTION,
+                                               None,
+                                               self._app_dbus_name,
+                                               self._app_dbus_path,
+                                               'com.endlessm.KnowledgeSearch',
+                                               None)
+
+        return self._knowledgesearch_proxy
+
     def get_gtk_launch_app_proxy(self):
         if self._gtk_launch_app_proxy is None:
             self._gtk_launch_app_proxy = \
@@ -462,6 +484,46 @@ class App:
                                                None)
 
         return self._gtk_launch_app_proxy
+
+    def open_article(self, article_name):
+        def _get_ekn_id(article_name):
+            search_results = None
+            try:
+                search_results = self.get_ekn_search_provider_proxy().Query(
+                    '(aa{sv})',
+                    ({'search-terms': GLib.Variant('s', article_name)},))
+            except GLib.Error as e:
+                logger.error(e)
+                return None
+
+            results_count = search_results[1][0][0]['upper_bound']
+            if results_count == 0:
+                return None
+
+            for elem in search_results[1][0][1]:
+                if elem['title'].lower() == article_name.lower():
+                    return elem['id']
+            return None
+
+        ekn_id = _get_ekn_id(article_name)
+        if ekn_id is None:
+            return
+
+        self.get_knowledgesearch_proxy().LoadItem('(ssu)', ekn_id, '', 0)
+
+    def get_ekn_search_provider_proxy(self):
+        if self._ekn_search_provider_proxy is None:
+            self._ekn_search_provider_proxy = \
+                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                               Gio.DBusProxyFlags.DO_NOT_AUTO_START_AT_CONSTRUCTION,
+                                               None,
+                                               'com.endlessm.EknServices3.SearchProviderV3',
+                                               ('/com/endlessm/EknServices3/SearchProviderV3/' +
+                                                self._bus_label_unescape(self._app_dbus_name)),
+                                               'com.endlessm.ContentMetadata',
+                                               None)
+
+        return self._ekn_search_provider_proxy
 
     def is_running(self):
         return self.get_gtk_app_proxy().props.g_name_owner is not None
