@@ -6,7 +6,7 @@ class OSOneshotCatMouse(Quest):
 
     APP_NAME = 'org.gnome.Terminal'
 
-    __quest_name__ = 'The Terminal - 1 - Cat and Mouse'
+    __quest_name__ = 'The Command-line - Cat and Mouse'
     __tags__ = ['pathway:operating system', 'difficulty:hard']
     __pathway_order__ = 250
 

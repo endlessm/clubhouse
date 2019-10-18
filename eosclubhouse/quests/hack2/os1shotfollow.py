@@ -6,7 +6,7 @@ class OSOneshotFollow(Quest):
 
     APP_NAME = 'org.gnome.Terminal'
 
-    __quest_name__ = "The Terminal - 3 - On the Trail"
+    __quest_name__ = "The Command-line - On the Trail"
     __tags__ = ['pathway:operating system', 'difficulty:hard']
     __pathway_order__ = 260
 
