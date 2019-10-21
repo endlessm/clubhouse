@@ -388,13 +388,6 @@ EpisodeRow .progress-label  {
    margin: 0em;
 }
 
-.user-button {
-    margin: 0.75em 0.75em 0em 0.75em;
-    border-radius: 2em;
-    box-shadow: 1px 1px 2px black;
-    background: linear-gradient(to bottom right, transparentize(#FF6B00, 0.2), transparentize(#FC444C, 0.2));
-}
-
 .user-overlay #user-label {
     margin: 1em 1em 1em 4.32em;
     font-size: 1.2em;
