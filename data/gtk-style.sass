@@ -1,5 +1,32 @@
 @import 'old-gtk-style'
 
+// Common widgets
+
+// Button
+button
+  border: 0
+  padding: 0
+  margin: 0
+  box-shadow: none
+  background-image: none
+
+
+// Scrollbar
+scrollbar
+  border: 0
+  border-radius: 1ex
+  background: transparentize(white, 0.7)
+
+  slider
+    background-color: white
+    padding: 0
+    border: 0
+    margin: 2px
+
+  slider:hover
+    background-color: darken(white, 10%)
+
+
 Message
   .button-box
     button
@@ -148,16 +175,7 @@ CharacterView
     min-height: 42.4em
 
   scrollbar
-    border: 0
-    border-radius: 1ex
     margin: 0.5em 0 0.5em 0.5em
-    background: rgba(255, 255, 255, 0.3)
-
-    slider
-      background-color: white
-      padding: 0
-      border: 0
-      margin: 2px
 
 @keyframes zoom_in
     from
@@ -350,3 +368,59 @@ QuestCard
         background: linear-gradient(to top right, #ff004c, #fe2d33)
       separator:last-child
         background: linear-gradient(to top right, #ff003b, #fc0806)
+
+
+// News Page
+ClubhouseWindow.NEWS
+  background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_news_bg.jpg')
+
+  headerbar
+    background-size: cover
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_news_fg.png')
+
+NewsView
+  > box
+    padding: 1em
+    margin: 0 0 2em 2em
+    border-radius: 3em
+    background: transparentize(white, 0.2)
+
+    button
+      margin: 1em 0.8em
+
+  scrolledwindow
+    background: unset
+    margin-top: 5em
+
+    viewport > box
+      margin-top: 2em
+
+    scrollbar
+      margin: 3em 0 1em 0
+
+      slider
+        background: lightgray
+
+      slider:hover
+        background: gray
+
+NewsItem
+  font-size: 1.2em
+  margin: 1ex 2em
+  border-radius: 1em
+  background: white
+  box-shadow: 2px 2px 3px gray
+
+  #title
+    color: #181866
+    font-weight: bold
+
+  #date
+    color: gray
+
+  > box
+    margin: 1em
+
+    *:nth-child(2)
+      margin-left: 1em
+

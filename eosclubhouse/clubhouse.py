@@ -2259,6 +2259,14 @@ class EpisodesView(Gtk.EventBox):
             libquest.Registry.set_current_episode_teaser_viewed(True)
 
 
+class FixedLabel(Gtk.Label):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def do_get_preferred_width(self):
+        return self.props.width_request, self.props.width_request
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/news-item.ui')
 class NewsItem(Gtk.Box):
 
@@ -2267,7 +2275,7 @@ class NewsItem(Gtk.Box):
     _title_label = Gtk.Template.Child()
     _date_label = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
-    _text_label = Gtk.Template.Child()
+    _text_box = Gtk.Template.Child()
     _image_button = Gtk.Template.Child()
     _image = Gtk.Template.Child()
 
@@ -2276,12 +2284,18 @@ class NewsItem(Gtk.Box):
 
         self.date = data.date
 
-        if data.character in CharacterInfo:
-            info = CharacterInfo[data.character]
-            self._title_label.set_label('@' + info['username'])
+        self._title_label.set_label('@' + data.character.capitalize())
 
-        self._text_label.set_markup(data.text)
-        self._date_label.set_label(data.date.strftime("%x"))
+        self._text_label = FixedLabel(wrap=True,
+                                      visible=True,
+                                      use_markup=True,
+                                      xalign=0,
+                                      yalign=0,
+                                      width_request=480)
+        self._text_box.add(self._text_label)
+
+        self._text_label.props.label = data.text
+        self._date_label.props.label = self._get_human_date(data.date)
 
         character = os.path.join(config.NEWSFEED_DIR, 'avatar', data.character)
         self._character_image.set_from_file(character)
@@ -2290,8 +2304,19 @@ class NewsItem(Gtk.Box):
             image = os.path.join(config.NEWSFEED_DIR, data.image)
             self._image.set_from_file(image)
             self._image_button.set_uri(data.image_href)
+            self._image_button.show()
+
+    def _get_human_date(self, date):
+        today = datetime.date.today()
+
+        if date == today:
+            return 'Today'
+        elif date == today - datetime.timedelta(days=1):
+            return 'Yesterday'
+        elif date.year == today.year:
+            return date.strftime('%B %d')
         else:
-            self._image.hide()
+            return date.strftime('%B %d %Y')
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/news-view.ui')

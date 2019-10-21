@@ -14,16 +14,6 @@ ClubhouseWindow.big {
     font-size: 16px;
 }
 
-/* Common */
-
-button {
-    border: 0;
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
-    background-image: none;
-}
-
 /* Main UI components */
 
 ClubhouseWindow, headerbar {
@@ -627,46 +617,4 @@ PathwayIcon {
     padding: 1em;
     margin: 1ex;
 }
-
-/* News Page */
-NewsView > box {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 1em 0;
-    border-radius: 0 1em 1em 0
-}
-
-NewsView > box > * {
-    margin: 0.8em 0.5em;
-}
-
-NewsView > scrolledwindow {
-    margin: 7em 0 1em 0;
-    background: rgba(255, 255, 255, .8);
-    box-shadow: 3px 3px 4px black;
-}
-
-NewsItem {
-    margin: 1ex 3em;
-    padding: 1em;
-    border-radius: 1ex;
-    background: white;
-    box-shadow: 1px 1px 2px gray;
-}
-
-NewsItem > box {
-    margin: 0 1em;
-}
-
-NewsItem > box > label {
-    margin: 1em 0;
-}
-
-NewsItem > image {
-    min-width: 96px;
-    min-height: 96px;
-    border-radius: 1ex;
-    background: lavender;
-    box-shadow: 0 0 3px gray inset;
-}
-
 
