@@ -154,15 +154,15 @@ box.user-button-box
   margin-right: 2.5em
 
 
-// Nav buttons attract state
-@keyframes pulsate_nav
+// Buttons attract state
+@keyframes pulsate_shadow
     from
       box-shadow: 0 0 1px white
     to
       box-shadow: 0 0 10px white
 
-.nav-attract
-  animation-name: pulsate_nav
+.nav-attract, .button-attract
+  animation-name: pulsate_shadow
   animation-duration: 1s
   animation-direction: alternate
   animation-timing-function: ease

@@ -2546,6 +2546,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     _user_box = Gtk.Template.Child()
     _user_box_event_box = Gtk.Template.Child()
+    _user_button = Gtk.Template.Child()
     _user_box = Gtk.Template.Child()
     _user_event_box = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
@@ -2604,6 +2605,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
 
+        state = ClubhouseState()
+        state.connect('notify::user-button-highlighted',
+                      self._on_user_button_highlighted_changed_cb)
+
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
 
@@ -2613,6 +2618,13 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def _hack_mode_changed_cb(self, _settings, _key):
         self.sync_with_hack_mode()
+
+    def _on_user_button_highlighted_changed_cb(self, state, _param):
+        context = self._user_button.get_style_context()
+        if state.user_button_highlighted:
+            context.add_class('button-attract')
+        else:
+            context.remove_class('button-attract')
 
     def sync_with_hack_mode(self, init=False):
         hack_mode_enabled = Desktop.get_hack_mode()
@@ -2807,6 +2819,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     @Gtk.Template.Callback()
     def _user_button_clicked_cb(self, _user_button):
+        context = _user_button.get_style_context()
+        if context.has_class('button-attract'):
+            context.remove_class('button-attract')
+
         revealer = self._achievements_view_revealer_revealer
         if not revealer.props.reveal_child:
             revealer.props.reveal_child = \
