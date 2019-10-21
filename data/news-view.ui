@@ -47,7 +47,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="halign">start</property>
-        <property name="valign">center</property>
+        <property name="valign">end</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkLinkButton">
@@ -55,6 +55,7 @@
             <property name="can_focus">True</property>
             <property name="focus_on_click">False</property>
             <property name="receives_default">False</property>
+            <property name="tooltip_text" translatable="yes">intagram.com/madetohack</property>
             <property name="halign">center</property>
             <property name="valign">start</property>
             <property name="relief">none</property>
@@ -83,6 +84,7 @@
             <property name="can_focus">True</property>
             <property name="focus_on_click">False</property>
             <property name="receives_default">False</property>
+            <property name="tooltip_text" translatable="yes">twitter.com/madetohack</property>
             <property name="halign">center</property>
             <property name="valign">start</property>
             <property name="relief">none</property>
@@ -111,6 +113,7 @@
             <property name="can_focus">True</property>
             <property name="focus_on_click">False</property>
             <property name="receives_default">False</property>
+            <property name="tooltip_text" translatable="yes">facebook.com/madetohack</property>
             <property name="halign">center</property>
             <property name="valign">start</property>
             <property name="relief">none</property>
@@ -131,19 +134,6 @@
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">/MadeToHack</property>
-            <property name="track_visited_links">False</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">3</property>
           </packing>
         </child>
       </object>
