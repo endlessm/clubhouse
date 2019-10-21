@@ -307,6 +307,10 @@ class Desktop:
         else:
             new_picture_uri = clubhouse.get_string('hack-mode-disabled-picture-uri')
 
+        # does nothing if the background shouldn't change
+        if new_picture_uri and new_picture_uri == old_picture_uri:
+            return
+
         if new_picture_uri:
             desktop.set_string('picture-uri', new_picture_uri)
         else:
