@@ -39,7 +39,9 @@ ClubhouseWindow {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-blur.jpg');
+    background: transparent url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-blur.jpg');
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
     transition: background-image 200ms linear;
 }
 
