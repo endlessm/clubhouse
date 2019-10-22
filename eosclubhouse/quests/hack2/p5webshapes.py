@@ -4,7 +4,6 @@ import os
 
 class P5WebShapes(Quest):
 
-    __quest_name__ = 'A Taste of Processing - Shapes'
     __tags__ = ['pathway:web']
     __pathway_order__ = 400
 

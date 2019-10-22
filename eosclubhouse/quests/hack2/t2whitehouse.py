@@ -6,7 +6,6 @@ class T2Whitehouse(Quest):
 
     APP_NAME = 'com.endlessnetwork.whitehouse'
 
-    __quest_name__ = 'Terminal 2 - White House'
     __tags__ = ['pathway:games', 'difficulty:normal']
     __pathway_order__ = 131
 

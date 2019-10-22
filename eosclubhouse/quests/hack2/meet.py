@@ -3,7 +3,6 @@ from eosclubhouse.libquest import Quest
 
 class Meet(Quest):
 
-    __quest_name__ = 'Tutorial - The Clubhouse'
     __tags__ = ['pathway:games', 'difficulty:easy']
     __pathway_order__ = 10
 

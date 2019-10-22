@@ -6,7 +6,6 @@ class T2Teddy(Quest):
 
     APP_NAME = 'com.endlessnetwork.MidnightmareTeddy'
 
-    __quest_name__ = 'Terminal 2 - Midnightmare Teddy'
     __tags__ = ['pathway:games', 'difficulty:normal']
     __pathway_order__ = 130
 

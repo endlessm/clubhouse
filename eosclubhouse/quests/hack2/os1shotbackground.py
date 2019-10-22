@@ -6,7 +6,6 @@ class OSOneshotBackground(Quest):
 
     APP_NAME = 'org.gnome.Terminal'
 
-    __quest_name__ = "The Command-line - Showing Off Your Prize"
     __tags__ = ['pathway:operating system', 'difficulty:hard']
     __pathway_order__ = 265
 
