@@ -25,6 +25,7 @@ class _AchievementsManager(GObject.Object):
 
     def __init__(self):
         self._achievements = {}
+        self._empty_state_achievement = None
         self._points_per_skillset = {}
         super().__init__()
 
@@ -57,6 +58,10 @@ class _AchievementsManager(GObject.Object):
                     skillset: points_needed,
                 },
             )
+
+            if id_ == AchievementsDB.EMPTY_STATE_ID:
+                self._empty_state_achievement = achievement
+                return
 
             self._achievements[id_] = achievement
 
@@ -108,10 +113,17 @@ class _AchievementsManager(GObject.Object):
         variant = GLib.Variant('(ss)', (achievement.id, achievement.name))
         recorder.record_event(ACHIEVEMENT_EVENT, variant)
 
+    def _get_empty_state_achievement(self):
+        return self._empty_state_achievement
+
+    empty_state_achievement = property(_get_empty_state_achievement)
+
 
 class AchievementsDB(DictFromCSV):
 
     Index = IntEnum('Index', ['ID', 'NAME', 'DESCRIPTION', 'SKILLSET', 'POINTS_NEEDED'])
+
+    EMPTY_STATE_ID = 'empty-state'
     _manager = None
 
     def __init__(self):

@@ -120,9 +120,7 @@ QuestSetInfoTip
 
 
 AchievementItem
-  font-weight: bold
-  font-size: 22px
-  margin: 1em 0
+  margin: 2ex
 
 
 AchievementsView
@@ -130,8 +128,13 @@ AchievementsView
   color: gray
   font-size: 16px
 
-  .title
-    margin: 1em
+  .title-box
+    $hover_color: #FF0079
+
+    padding: 3ex 0em
+
+    .hover
+      color: $hover_color
 
   scrolledwindow
     border: 0
@@ -140,12 +143,45 @@ AchievementsView
       background: none
       border: none
 
+    viewport
+       margin: 0 4ex
+
+
+AchievementSummaryView
+  image
+    margin: 2ex
+
+  label
+    &.title
+      font-size: 1.4em
+      font-weight: bold
+
+    &.description
+      padding: 2em
+      padding-bottom: 3em
+
 button.user-button
-  color: white
-  background: linear-gradient(to bottom right, rgba(#FF6B00, 0.8), rgba(#FC444C, 0.8))
+  $default_color: #FFFFFF
+  $default_bg_color_left: #FB3102
+  $default_bg_color_right: #D80232
+  $default_hover_bg_color_left: #F9682D
+  $default_hover_bg_color_right: #E84E5E
+  $default_active_bg_color_left: #FB1435
+  $default_active_bg_color_right: #DB0066
+
   box-shadow: 1px 1px 2px black
   margin: 0.75em 0.75em 0em 0.75em
   border-radius: 2em
+
+  color: $default_color
+  background: linear-gradient(to bottom right, $default_bg_color_left, $default_bg_color_right)
+
+  &:hover
+    background: linear-gradient(to bottom right, $default_hover_bg_color_left, $default_hover_bg_color_right)
+
+  &:active
+    background: linear-gradient(to bottom right, $default_active_bg_color_left, $default_active_bg_color_right)
+
 
 box.user-button-box
   margin: 1em

@@ -16,12 +16,75 @@
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkLabel" id="_label">
+              <object class="GtkBox" id="_title_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">achievements</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkEventBox" id="_title_box_event_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <signal name="button-press-event" handler="_title_box_event_box_button_press_event_cb" swapped="no"/>
+                    <signal name="enter-notify-event" handler="_title_box_event_box_enter_notify_event_cb" swapped="no"/>
+                    <signal name="leave-notify-event" handler="_title_box_event_box_leave_notify_event_cb" swapped="no"/>
+                    <child>
+                      <object class="GtkBox" id="_title_box_box">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkRevealer" id="_title_box_icon_revealer">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="valign">center</property>
+                            <property name="transition_type">slide-left</property>
+                            <child>
+                              <object class="GtkImage">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="icon_name">clubhouse-previous</property>
+                                <property name="icon_size">2</property>
+                                <style>
+                                  <class name="image"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
+                            <property name="label" translatable="yes">Achievements</property>
+                            <style>
+                              <class name="lbko"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
                 <style>
-                  <class name="title"/>
+                  <class name="title-box"/>
                 </style>
               </object>
               <packing>
@@ -31,29 +94,76 @@
               </packing>
             </child>
             <child>
-              <object class="GtkScrolledWindow">
+              <object class="GtkStack" id="_stack">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="shadow_type">in</property>
-                <property name="min_content_width">300</property>
-                <property name="min_content_height">300</property>
-                <property name="max_content_height">500</property>
-                <property name="propagate_natural_height">True</property>
+                <property name="can_focus">False</property>
+                <property name="transition_type">crossfade</property>
+                <property name="interpolate_size">True</property>
                 <child>
-                  <object class="GtkViewport">
+                  <object class="GtkScrolledWindow">
+                    <property name="name">GRID</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="hscrollbar_policy">never</property>
+                    <property name="shadow_type">in</property>
+                    <property name="min_content_width">300</property>
+                    <property name="min_content_height">300</property>
+                    <property name="max_content_height">500</property>
                     <child>
-                      <object class="GtkBox" id="_achievements_box">
+                      <object class="GtkViewport">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="orientation">vertical</property>
                         <child>
-                          <placeholder/>
+                          <object class="GtkFlowBox" id="_achievements_flow_box">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="valign">start</property>
+                            <property name="homogeneous">True</property>
+                            <property name="min_children_per_line">2</property>
+                            <property name="max_children_per_line">2</property>
+                            <signal name="child-activated" handler="_achievements_flow_box_child_activated_cb" swapped="no"/>
+                          </object>
                         </child>
                       </object>
                     </child>
                   </object>
+                  <packing>
+                    <property name="name">GRID</property>
+                    <property name="title" translatable="yes">page0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="name">SUMMARY</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hscrollbar_policy">never</property>
+                    <property name="shadow_type">in</property>
+                    <property name="min_content_width">300</property>
+                    <property name="min_content_height">300</property>
+                    <property name="max_content_height">500</property>
+                    <child>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkBox" id="_achievement_summary_box">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="name">SUMMARY</property>
+                    <property name="title" translatable="yes">page1</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -71,10 +181,10 @@
         <property name="position">0</property>
       </packing>
     </child>
-    <child>
-      <placeholder/>
-    </child>
   </template>
-  <object class="GtkSizeGroup" id="_left_size_group"/>
-  <object class="GtkSizeGroup" id="_right_size_group"/>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
 </interface>
