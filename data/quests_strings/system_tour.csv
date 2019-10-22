@@ -1,3 +1,4 @@
+SYSTEM_TOUR_QUEST_NAME,Touring the System,,,,
 SYSTEM_TOUR_QUEST_SUBTITLE,What you'll do,,,,
 SYSTEM_TOUR_QUEST_DESCRIPTION,"Visit the System App, and learn a little about how this computer works.",,,,
 SYSTEM_TOUR_GREET1,"Hi, *{{user_name}}*. I figured it was about time someone briefed you on the base that all programs are built on - the Operating System.",estelle,,,
