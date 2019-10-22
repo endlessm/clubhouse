@@ -689,6 +689,7 @@ class _Quest(GObject.GObject):
             'QUEST_REJECT_STOP': 'No',
             'QUEST_ACCEPT_HARDER': 'Yes',
             'QUEST_REJECT_HARDER': 'No',
+            'QUEST_NAME': '',
             'QUEST_SUBTITLE': 'Summary',
             'QUEST_DESCRIPTION': None,
             'QUEST_CONTENT_TAGS': None,
@@ -1199,14 +1200,8 @@ class _Quest(GObject.GObject):
                 continue
         return quest_pathways
 
-    @classmethod
-    def get_name(class_):
-        if class_.__quest_name__ is not None:
-            return class_.__quest_name__
-
-        # Fallback to the class name:
-        logger.warning('The quest "%s" doesn\'t have a name!', class_)
-        return class_.__name__
+    def get_name(self):
+        return self.get_label('QUEST_NAME')
 
     @classmethod
     def get_tags(class_):
@@ -1410,19 +1405,6 @@ class Quest(_Quest):
     '''
 
     # ** Properties **
-
-    # @todo: Obtain the quest name from the spreadsheet.
-    __quest_name__ = None
-    '''Quest name displayed in the UI.
-
-    If not set, the class name will be used.
-
-    .. warning::
-
-       In near future this will be obtained from the spreadsheet, like every string exposed in
-       the UI.
-
-    '''
 
     __tags__ = []
     '''Generic tags for the quest.
