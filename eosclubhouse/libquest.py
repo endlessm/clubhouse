@@ -2042,6 +2042,18 @@ class Quest(_Quest):
         if other_quest:
             other_quest.props.highlighted = True
 
+    def highlight_profile_button(self):
+        '''Highlight the Profile button.
+        '''
+        state = ClubhouseState()
+        state.user_button_highlighted = True
+
+    def highlight_hack_switch(self):
+        '''Highlight the Hack switch.
+        '''
+        state = ClubhouseState()
+        state.hack_switch_highlighted = True
+
     def highlight_nav(self, nav_name):
         '''Highlight a nav button.
 
