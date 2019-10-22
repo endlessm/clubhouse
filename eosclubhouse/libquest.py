@@ -1371,6 +1371,22 @@ class _Quest(GObject.GObject):
 
         return wrapper
 
+    def _get_string_from_catalog(self, message_id):
+        '''Get the string, trying an absolute message ID first, then one prefixed.
+
+        Examples:
+
+        .. code-block::
+
+           self._get_string_from_catalog('NOQUEST_ACCEPT')
+           self._get_string_from_catalog('MY_QUEST_ACCEPT')  # Being 'MY_QUEST' this quest ID.
+           self._get_string_from_catalog('ACCEPT')  # Will try 'MY_QUEST_ACCEPT' first.
+
+        :param str message_id: ID of a message from the strings catalog.
+
+        '''
+        return QS(message_id) or QS('{}_{}'.format(self._qs_base_id, message_id))
+
     @classmethod
     def is_narrative(class_):
         return class_.__is_narrative__
@@ -1855,7 +1871,7 @@ class Quest(_Quest):
 
         choices = options.get('choices', [])
         for option_msg_id, callback, *args in user_choices:
-            option_label = QS('{}_{}'.format(self._qs_base_id, option_msg_id))
+            option_label = self._get_string_from_catalog(option_msg_id)
             if callback is None:
                 callback = _identity
             choices.append((option_label, _callback_and_resolve, async_action, callback, *args))
