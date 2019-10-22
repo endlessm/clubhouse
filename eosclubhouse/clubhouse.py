@@ -2469,8 +2469,7 @@ class ClubhouseApplication(Gtk.Application):
         self.add_main_option('set-episode', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
                              'Switch to this episode, marking it as not complete', 'EPISODE_NAME')
         self.add_main_option('set-quest', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
-                             'Make a quest available to be started. This completes all the '
-                             'quests before the given one, making it available.',
+                             'Start a quest.',
                              '[EPISODE_NAME.]QUEST_NAME')
         self.add_main_option('reset', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Reset all quests state and game progress', None)
@@ -2573,7 +2572,7 @@ class ClubhouseApplication(Gtk.Application):
             episode_value = options.lookup_value('set-quest', GLib.VariantType('s'))
             full_name = episode_value.get_string()
 
-            # The quest can be set with the episode name prefix, e.g. episode1.Fizzics2 .
+            # The quest can be set with the episode name prefix, e.g. hack2.Meet .
             full_name_split = full_name.split('.', 1)
 
             if len(full_name_split) == 1:
@@ -2893,19 +2892,11 @@ class ClubhouseApplication(Gtk.Application):
         else:
             episode_name = libquest.Registry.get_loaded_episode_name()
 
-        GameStateService().reset()
         libquest.Registry.set_current_episode(episode_name, force=True)
         libquest.Registry.load_current_episode()
 
-        quests = libquest.Registry.get_current_quests()
-
         print('Setting up {} as available'.format(quest_id))
-
-        # Reset all quests as not completed so we then only get the desired quest's dependencies
-        # as completed.
-        for quest in quests.values():
-            quest.complete = False
-            quest.save_conf()
+        self._run_quest_by_name(quest_id)
 
     def _reset(self):
         try:
