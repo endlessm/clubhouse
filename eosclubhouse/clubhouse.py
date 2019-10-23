@@ -2058,6 +2058,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     __gtype_name__ = 'ClubhouseWindow'
     _MAIN_PAGE_RESET_TIMEOUT = 60  # sec
+    _AMBIENT_SOUND_DURATION_SECONDS = 120
 
     _headerbar = Gtk.Template.Child()
     _headerbar_box = Gtk.Template.Child()
@@ -2086,6 +2087,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._user = UserAccount()
         self._page_reset_timeout = 0
         self._ambient_sound_uuid = None
+        self._play_ambient_sound = True
+        self._ambient_sound_timer_id = None
 
         self.clubhouse = ClubhouseView(self)
         self.news = NewsView()
@@ -2366,12 +2369,29 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _on_visibile_property_changed(self, _window, _param):
         if self.props.visible:
             self._stop_page_reset_timeout()
-            Sound.play('clubhouse/ambient', self._ambient_sound_uuid_cb)
+            self.play_ambient_sound()
         else:
             self._reset_selected_page_on_timeout()
             self.stop_ambient_sound()
 
         self._clubhouse_state.window_is_visible = self.props.visible
+
+    def play_ambient_sound(self):
+        if not self._play_ambient_sound:
+            return
+
+        Sound.play('clubhouse/ambient', self._ambient_sound_uuid_cb)
+        # The sound will be stopped after certain time.
+        if self._ambient_sound_timer_id is None:
+            self._ambient_sound_timer_id = \
+                GLib.timeout_add_seconds(self._AMBIENT_SOUND_DURATION_SECONDS,
+                                         self._ambient_sound_timer_cb)
+
+    def _ambient_sound_timer_cb(self):
+        self.stop_ambient_sound()
+        self._play_ambient_sound = False
+        self._ambient_sound_timer_id = None
+        return GLib.SOURCE_REMOVE
 
     def _ambient_sound_uuid_cb(self, _proxy, uuid, _data):
         if isinstance(uuid, GLib.Error):
