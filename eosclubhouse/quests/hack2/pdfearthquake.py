@@ -7,7 +7,6 @@ class PDFEarthquake(Quest):
     APP_NAME = 'com.hack_computer.MakerPathway'
     ARTICLE_NAME = 'Ahoy Maker'
 
-    __quest_name__ = 'A Home-grown Earthquake'
     __tags__ = ['pathway:maker']
     __pathway_order__ = 200
 

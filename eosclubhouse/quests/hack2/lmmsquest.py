@@ -6,7 +6,6 @@ class LMMSQuest(Quest):
 
     APP_NAME = 'io.lmms.LMMS'
 
-    __quest_name__ = "Creating Music - Not quite autotune..."
     __tags__ = ['pathway:art', 'difficulty:medium']
     __pathway_order__ = 300
 

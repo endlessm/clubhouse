@@ -7,7 +7,6 @@ class PDFSketch(Quest):
     APP_NAME = 'com.hack_computer.MakerPathway'
     ARTICLE_NAME = 'The Sketch Prototype Challenge'
 
-    __quest_name__ = 'A Sketchy Proposition'
     __tags__ = ['pathway:maker']
     __pathway_order__ = 300
 
