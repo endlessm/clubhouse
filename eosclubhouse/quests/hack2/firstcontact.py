@@ -10,9 +10,6 @@ class FirstContact(Quest):
 
     __tags__ = ['pathway:games']
 
-    # This quest starts already in the first step. There's no prompting.
-    __proposal_message_id__ = ''
-
     def setup(self):
         self._app = App(self.APP_NAME)
         # This will prevent the quest from ever being shown in the Clubhouse

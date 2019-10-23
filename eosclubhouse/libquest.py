@@ -665,16 +665,10 @@ class _Quest(GObject.GObject):
     # @todo: Document
     __available_after_completing_quests__ = []
 
-    # @todo: This should not be defined as property.
-    __proposal_message_id__ = 'QUESTION'
-
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
     _DEFAULT_MOOD = 'talk'
 
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
-    continue_message = GObject.Property(type=str, default="You haven't completed my challenge yet!")
-    proposal_message = GObject.Property(type=str, default="Do you want to go for a challenge?")
-    proposal_mood = GObject.Property(type=str, default=_DEFAULT_MOOD)
     proposal_sound = GObject.Property(type=str, default="quests/quest-proposed")
 
     stopping = GObject.Property(type=bool, default=False)
@@ -714,7 +708,6 @@ class _Quest(GObject.GObject):
         self._main_open_dialog_sound = 'clubhouse/dialog/open'
         self._default_abort_sound = 'quests/quest-aborted'
 
-        self._setup_proposal_message()
         self._setup_labels()
 
         self.gss = GameStateService()
@@ -761,28 +754,6 @@ class _Quest(GObject.GObject):
             message_info['parsed_text'] = message_info['txt']
 
         return message_info
-
-    def _setup_proposal_message(self):
-        message_id = self.__proposal_message_id__
-        message_info = self._get_message_info('{}_{}'.format(self._qs_base_id, message_id))
-
-        if message_info is None:
-            logger.debug('Proposal message %r is missing for quest %r',
-                         message_id, self._qs_base_id)
-            return
-
-        self.proposal_message = message_info['parsed_text']
-        sfx_sound = message_info.get('sfx_sound')
-        if sfx_sound:
-            self.proposal_sound = sfx_sound
-
-        character_id = message_info.get('character_id')
-        if character_id:
-            self._main_character_id = character_id
-
-        mood = message_info.get('mood')
-        if mood:
-            self.proposal_mood = mood
 
     def _setup_labels(self):
         for message_id in self._labels:
@@ -1089,9 +1060,6 @@ class _Quest(GObject.GObject):
         if self._run_context is not None:
             self._run_context.reset_stop_timeout()
             self.play_stop_bg_sound(self._last_bg_sound_event_id)
-
-    def get_continue_info(self):
-        return (self.continue_message, 'Continue', 'Stop')
 
     def _confirm_step(self):
         Sound.play('clubhouse/dialog/next')

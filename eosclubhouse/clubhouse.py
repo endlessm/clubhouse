@@ -993,7 +993,6 @@ class ClubhouseView(FixedLayerGroup):
         self.scale = 1
         self._current_quest = None
         self._scheduled_quest_info = None
-        self._proposing_quest = False
         self._delayed_message_handler = 0
 
         self._last_user_answer = 0
@@ -1063,13 +1062,6 @@ class ClubhouseView(FixedLayerGroup):
         logger.debug('Stopping quest %s', current_quest)
         current_quest.step_abort()
 
-    def _show_quest_continue_confirmation(self):
-        if self._current_quest is None:
-            return
-
-        # @todo: remove old code
-        msg, continue_label, stop_label = self._current_quest.get_continue_info()
-
     def _stop_quest_from_message(self, quest):
         if self._is_current_quest(quest):
             self._cancel_ongoing_task()
@@ -1080,11 +1072,6 @@ class ClubhouseView(FixedLayerGroup):
 
         quest.set_to_foreground()
         self._shell_show_current_popup_message()
-
-    def _stop_quest_proposal(self):
-        if self._proposing_quest:
-            self._shell_close_popup_message()
-            self._proposing_quest = False
 
     def _accept_quest_message(self, new_quest):
         logger.info('Start quest {}'.format(new_quest))
@@ -1156,8 +1143,6 @@ class ClubhouseView(FixedLayerGroup):
         self.run_quest(new_quest)
 
     def run_quest(self, quest):
-        self._stop_quest_proposal()
-
         # Stop any scheduled quests from attempting to run if we are running a quest
         self._reset_scheduled_quest()
 
@@ -1285,33 +1270,16 @@ class ClubhouseView(FixedLayerGroup):
                 return
 
             quest = self._scheduled_quest_info.quest
-            confirm_before = self._scheduled_quest_info.confirm_before
+            # @todo: remove confirm_before
+            # confirm_before = self._scheduled_quest_info.confirm_before
 
             self._reset_scheduled_quest()
-
-            if confirm_before:
-                self._propose_next_quest(quest)
-            else:
-                self.run_quest(quest)
-
+            self.run_quest(quest)
             return GLib.SOURCE_REMOVE
 
         timeout = self._scheduled_quest_info.timeout
         self._scheduled_quest_info.handler_id = GLib.timeout_add_seconds(timeout,
                                                                          _run_quest_after_timeout)
-
-    def _propose_next_quest(self, quest):
-        choices = [(quest.get_label('QUEST_ACCEPT'), self._accept_quest_message, quest),
-                   (quest.get_label('QUEST_REJECT'), self._stop_quest_proposal)]
-
-        self._proposing_quest = True
-
-        self._shell_popup_message({
-            'text': quest.proposal_message,
-            'character_id': quest.get_main_character(),
-            'sound_fx': quest.proposal_sound,
-            'choices': choices,
-        })
 
     def _key_press_event_cb(self, window, event):
         # Allow to fully quit the Clubhouse on Ctrl+Escape
@@ -1465,14 +1433,6 @@ class ClubhouseView(FixedLayerGroup):
         callback(*args)
 
         self._last_user_answer = time.time()
-
-    def set_quest_to_background(self):
-        if self._current_quest:
-            self._current_quest.set_to_background()
-        else:
-            # If the quest proposal dialog in the Shell has been dismissed, then we
-            # should reset the "proposing_quest" flag.
-            self._stop_quest_proposal()
 
     def _get_running_quest(self):
         if self._current_quest is None:
