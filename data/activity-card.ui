@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.22.0 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
-  <template class="QuestCard" parent="GtkFlowBoxChild">
+  <template class="ActivityCard" parent="GtkFlowBoxChild">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <signal name="state-flags-changed" handler="_on_state_flags_changed" swapped="no"/>
@@ -36,7 +36,7 @@
                         <property name="can_focus">False</property>
                         <property name="halign">end</property>
                         <property name="valign">start</property>
-                        <property name="resource">/com/hack_computer/Clubhouse/images/quest-card-star-corner.svg</property>
+                        <property name="resource">/com/hack_computer/Clubhouse/images/activity-card-corner.svg</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>

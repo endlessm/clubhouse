@@ -671,10 +671,10 @@ class MessageBox(Gtk.Fixed):
     max_messages = GObject.Property(default=2, type=int)
 
 
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/quest-card.ui')
-class QuestCard(Gtk.FlowBoxChild):
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/activity-card.ui')
+class ActivityCard(Gtk.FlowBoxChild):
 
-    __gtype_name__ = 'QuestCard'
+    __gtype_name__ = 'ActivityCard'
 
     _title = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
@@ -932,7 +932,7 @@ class CharacterView(Gtk.Grid):
 
         # Populate list
         for quest in quest_set.get_quests(also_skippable=False):
-            card = QuestCard(self._app_window.clubhouse, quest_set, quest)
+            card = ActivityCard(self._app_window.clubhouse, quest_set, quest)
             self._list.add(card)
             card.show()
 
@@ -2883,7 +2883,7 @@ clubhouse_classes = [
     Message,
     NewsItem,
     NewsView,
-    QuestCard,
+    ActivityCard,
     QuestSetButton,
     QuestSetInfoTip
 ]
