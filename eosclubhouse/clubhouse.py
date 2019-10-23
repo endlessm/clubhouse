@@ -635,7 +635,7 @@ class MessageBox(Gtk.Fixed):
         if direction == Direction.RIGHT:
             x_pos = -message.props.width_request
         else:
-            x_pos = allocation.width
+            x_pos = allocation.width / 2 - message.props.width_request / 2
         return x_pos, y_pos
 
     def _withdraw_top_message(self):
@@ -643,11 +643,11 @@ class MessageBox(Gtk.Fixed):
         direction = self._guess_message_direction(message).get_opposite()
         assert direction in (Direction.LEFT, Direction.RIGHT)
 
-        message_width = message.get_preferred_width().natural_width
+        message_width = message.props.width_request
         if direction == Direction.LEFT:
             final_position = -message_width
         else:
-            final_position = self.get_allocation().width
+            final_position = self.get_allocation().width / 2 - message_width / 2
 
         self._animate_message(message, direction, final_position, self.remove, message)
 
