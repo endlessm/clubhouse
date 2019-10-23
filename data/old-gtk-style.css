@@ -192,36 +192,6 @@ QuestSetButton.highlighted {
   animation-iteration-count: infinite;
 }
 
-InventoryItem {
-    background-color: transparent;
-    background-image: none;
-    border-color: transparent;
-    box-shadow: none;
-    text-shadow: none;
-    -gtk-icon-shadow: none;
-}
-
-InventoryItem > box > label {
-    color: #fff;
-    background: rgba(60, 60, 60, .6);
-    border-radius: 16px;
-    padding: 5px 10px;
-    transition-duration: 0.2s;
-}
-
-InventoryItem:hover {
-    -gtk-icon-effect: none;
-}
-
-InventoryItem:hover > box > label,
-InventoryItem.active > box > label {
-    background: rgba(60, 60, 60, .8);
-}
-
-InventoryItem.active {
-    -gtk-icon-effect: dim;
-}
-
 .clubhouse-completed-episode-headline {
     font: 34px "Metropolis ExtraBold, Sans-Serif";
     font-weight: bold;
@@ -412,11 +382,6 @@ EpisodeRow .progress-label  {
 #image.user-overlay > label {
     font-size: 2em;
     font-weight: bold;
-}
-
-InventoryView > scrolledwindow {
-    margin: 0 3em;
-    background: lavender;
 }
 
 /* Header bar buttons */

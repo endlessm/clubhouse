@@ -1730,160 +1730,6 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         recorder.record_event(CLUBHOUSE_PATHWAY_ENTER_EVENT, character)
 
 
-class InventoryItem(Gtk.Button):
-
-    __gtype_name__ = 'InventoryItem'
-
-    _ITEM_WIDTH = 150
-    _ITEM_HEIGHT = 265
-
-    def __init__(self, item_id, is_used, icon_name, icon_used_name, item_name,
-                 item_description):
-        super().__init__(height_request=self._ITEM_HEIGHT)
-
-        self.item_id = item_id
-        self.item_name = item_name
-        self.is_used = is_used
-        self._icon_name = icon_name
-        self._icon_used_name = icon_used_name
-        self._description = item_description
-
-        self.connect('clicked', self._on_item_clicked_cb)
-
-        vbox = Gtk.Box(width_request=self._ITEM_WIDTH,
-                       halign=Gtk.Align.FILL,
-                       orientation=Gtk.Orientation.VERTICAL,
-                       spacing=16)
-        self.add(vbox)
-
-        self._image = Gtk.Image()
-        vbox.add(self._image)
-
-        self._label = Gtk.Label(wrap=True,
-                                use_markup=True,
-                                max_width_chars=15,
-                                hexpand=False,
-                                halign=Gtk.Align.CENTER,
-                                justify=Gtk.Justification.CENTER)
-        self._label.set_text(item_name)
-
-        vbox.add(self._label)
-        self._update_icon()
-        self.show_all()
-
-    def _update_icon(self):
-        icon_name = self._icon_name
-        if self.is_used:
-            icon_name = self._icon_used_name
-
-        icon_path = utils.QuestItemDB.get_icon_path(icon_name)
-        self._image.set_from_file(icon_path)
-
-    def set_used(self, is_used):
-        self.is_used = is_used
-        self._update_icon()
-
-    def _is_key(self):
-        return self.item_id.startswith('item.key.')
-
-    def _on_item_clicked_cb(self, *_args):
-        self.get_style_context().add_class('active')
-        text = self._description
-
-        if not text:
-            if not self._is_key():
-                text = 'This is a special item.'
-            elif self.is_used:
-                text = 'This key has already been used.'
-            else:
-                text = 'To use this key click on the matching lock.'
-
-        self._label.set_text(text)
-        GLib.timeout_add_seconds(5, self._deactivate_on_timeout)
-
-    def _deactivate_on_timeout(self):
-        self.get_style_context().remove_class('active')
-        self._label.set_text(self.item_name)
-
-
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/inventory-view.ui')
-class InventoryView(Gtk.Revealer):
-
-    __gtype_name__ = 'InventoryView'
-
-    _inventory_box = Gtk.Template.Child()
-
-    def __init__(self, app_window):
-        super().__init__(visible=True)
-
-        self._app_window = app_window
-
-        self._inventory_box.set_sort_func(self._sort_items)
-
-        self._gss = GameStateService()
-        self._gss.connect('changed', lambda _gss: self._load_items())
-        self._items_db = utils.QuestItemDB()
-
-        self._loaded_items = {}
-        self._load_items()
-        self._update_state()
-
-    def reveal(self, reveal):
-        if reveal and len(self._loaded_items) > 0:
-            self.set_reveal_child(True)
-        else:
-            self.set_reveal_child(False)
-
-    def _sort_items(self, child_1, child_2):
-        item_1 = child_1.get_children()[0]
-        item_2 = child_2.get_children()[0]
-        return int(item_1.is_used) - int(item_2.is_used)
-
-    def _add_item(self, item_id, is_used, icon_name, icon_used_name, item_name, item_description):
-        if item_id in self._loaded_items:
-            item = self._loaded_items[item_id]
-            item.set_used(is_used)
-            return
-
-        new_item = InventoryItem(item_id, is_used, icon_name, icon_used_name, item_name,
-                                 item_description)
-        self._loaded_items[item_id] = new_item
-        self._inventory_box.add(new_item)
-
-    def _remove_item(self, item_id):
-        item = self._loaded_items.get(item_id)
-        if item:
-            self._inventory_box.remove(item.get_parent())
-            del self._loaded_items[item_id]
-
-    def _load_items(self):
-        # For now there is no method in the GameStateService to retrieve items based
-        # on a prefix, so every time there's a change in the service, we need to directly
-        # verify all the items we're interested in.
-        for item_id, (icon, icon_used, name, description) in self._items_db.get_all_items():
-            item_state = self._gss.get(item_id)
-            if item_state is None:
-                self._remove_item(item_id)
-                continue
-
-            # Used items shouldn't show up in the inventory if are consume-able
-            if (item_state.get('used', False) and
-               item_state.get('consume_after_use', False)):
-                self._remove_item(item_id)
-                continue
-
-            is_used = item_state.get('used', False)
-            self._add_item(item_id, is_used, icon, icon_used, name, description.strip())
-
-        self._update_state()
-
-    def _update_state(self):
-        if len(self._loaded_items) > 0:
-            self.set_reveal_child(True)
-        else:
-            self.set_reveal_child(False)
-
-
 class EpisodeRow(Gtk.ListBoxRow):
 
     __gtype_name__ = 'EpisodeRow'
@@ -2617,7 +2463,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_box = Gtk.Template.Child()
     _user_box_event_box = Gtk.Template.Child()
     _user_button = Gtk.Template.Child()
-    _user_box = Gtk.Template.Child()
     _user_event_box = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
     _user_button_image_revealer = Gtk.Template.Child()
@@ -2640,7 +2485,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self.clubhouse = ClubhouseView(self)
         self.news = NewsView()
-        self.inventory = InventoryView(self)
         self.character = CharacterView(self)
 
         achievements_view = AchievementsView(self)
@@ -2652,7 +2496,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                                          achievements_view)
 
         self._stack.add_named(self.clubhouse, 'CLUBHOUSE')
-        self._user_box.pack_start(self.inventory, True, True, 0)
         self._stack.add_named(self.news, 'NEWS')
         self._stack.add_named(self.character, 'CHARACTER')
 
@@ -3111,8 +2954,6 @@ class ClubhouseApplication(Gtk.Application):
         Gtk.Application.do_startup(self)
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
-                          ('item-accept-answer', self._item_accept_action_cb,
-                           GLib.VariantType.new('b'), 'inventory'),
                           ('episode-award-accept-answer', self._item_accept_action_cb,
                            GLib.VariantType.new('b'), 'episodes'),
                           ('quest-debug-skip', self._quest_debug_skip, None),
@@ -3434,8 +3275,6 @@ clubhouse_classes = [
     ClubhouseWindow,
     EpisodeRow,
     EpisodesView,
-    InventoryItem,
-    InventoryView,
     Message,
     NewsItem,
     NewsView,
