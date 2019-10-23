@@ -41,54 +41,6 @@ class TestQuests(ClubhouseTestCase):
         self.assertNotEqual(quest_a.get_main_character(), 'alice')
         self.assertNotEqual(quest_a.get_main_character(), '')
 
-    def test_main_character(self):
-        '''Tests the main character is obtained from the catalog.'''
-        QuestA = define_quest('QuestA')
-
-        string_catalog = QuestStringCatalog._csv_dict
-        QuestStringCatalog.set_key_value_from_csv_row(('QUESTA_QUESTION',
-                                                       'wanna hack?', 'alice',
-                                                       'talk', '', ''),
-                                                      string_catalog)
-
-        PhonyAlice = define_questset('PhonyAlice', 'web', 'alice')
-        PhonyAlice.__quests__ = [QuestA]
-
-        setup_episode([PhonyAlice()])
-
-        quest_a = Registry.get_quest_by_name('QuestA')
-        self.assertEqual(quest_a.get_main_character(), 'alice')
-
-    def test_proposal_message_id(self):
-        '''Tests overriding the proposal message ID of quests.'''
-        a_proposal = 'a quest question'
-        b_proposal = 'b quest welcome'
-
-        string_catalog = QuestStringCatalog._csv_dict
-        QuestStringCatalog.set_key_value_from_csv_row(('QUESTA_QUESTION',
-                                                       a_proposal, 'alice',
-                                                       'talk', '', ''),
-                                                      string_catalog)
-        QuestStringCatalog.set_key_value_from_csv_row(('QUESTB_WELCOME',
-                                                       b_proposal, 'bob',
-                                                       'talk', '', ''),
-                                                      string_catalog)
-
-        QuestA = define_quest('QuestA')
-        QuestB = define_quest('QuestB')
-        QuestB.__proposal_message_id__ = 'WELCOME'
-
-        PhonySet = define_questset('PhonySet', 'web', 'alice')
-        PhonySet.__quests__ = [QuestA, QuestB]
-
-        setup_episode([PhonySet()])
-
-        quest_a = Registry.get_quest_by_name('QuestA')
-        self.assertEqual(quest_a.proposal_message, a_proposal)
-
-        quest_b = Registry.get_quest_by_name('QuestB')
-        self.assertEqual(quest_b.proposal_message, b_proposal)
-
     def test_items_on_completion(self):
         '''Tests the __items_on_completion__ use.'''
         values_to_test = [({}, {'consume_after_use': False, 'used': False}),
