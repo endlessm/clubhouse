@@ -2,12 +2,12 @@ from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App
 
 
-class T2Dragon(Quest):
+class T2Missile(Quest):
 
-    APP_NAME = 'com.endlessnetwork.dragonsapprentice'
+    APP_NAME = 'com.endlessnetwork.missilemath'
 
     __tags__ = ['pathway:games', 'difficulty:normal']
-    __pathway_order__ = 126
+    __pathway_order__ = 131
 
     def setup(self):
         self._app = App(self.APP_NAME)
