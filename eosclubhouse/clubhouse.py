@@ -1806,81 +1806,6 @@ class InventoryItem(Gtk.Button):
         self._label.set_text(self.item_name)
 
 
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/pathway-icon.ui')
-class PathwayIcon(Gtk.Box):
-
-    __gtype_name__ = 'PathwayIcon'
-
-    _image = Gtk.Template.Child()
-    _label = Gtk.Template.Child()
-
-    def __init__(self, icon_name, label):
-        super().__init__(visible=True)
-
-        self._image.props.icon_name = icon_name
-        self._label.set_label(label)
-
-
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/pathway-list.ui')
-class PathwayList(Gtk.Box):
-
-    __gtype_name__ = 'PathwayList'
-
-    _image = Gtk.Template.Child()
-    _label = Gtk.Template.Child()
-    listbox = Gtk.Template.Child()
-
-    def __init__(self, icon_name, label):
-        super().__init__(visible=True)
-
-        self._image.props.icon_name = icon_name
-        self._label.set_label(label)
-
-    def set_quests(self, pathway, quests):
-        for quest in quests:
-            row = QuestRow(pathway, quest, has_category=False)
-            self.listbox.add(row)
-            row.show()
-
-
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/pathways-view.ui')
-class PathwaysView(Gtk.ScrolledWindow):
-
-    __gtype_name__ = 'PathwaysView'
-
-    _flowbox = Gtk.Template.Child()
-    _coming_soon_label = Gtk.Template.Child()
-    _coming_soon_flowbox = Gtk.Template.Child()
-
-    def __init__(self, app_window):
-        super().__init__(visible=True)
-        self._app_window = app_window
-
-    def load_episode(self):
-        for pathway in libquest.Registry.get_quest_sets():
-            self._add_pathway(pathway)
-
-    def _quest_row_clicked_cb(self, _list_box, row):
-        new_quest = row.get_quest()
-        self._app_window.clubhouse.try_running_quest(new_quest)
-
-    def _add_pathway(self, pathway):
-        quests = pathway.get_quests(also_skippable=False)
-        name = pathway.get_name()
-        icon = pathway.get_icon_name()
-
-        if len(quests) >= 1:
-            pathway_list = PathwayList(icon, name)
-            pathway_list.listbox.connect('row-activated', self._quest_row_clicked_cb)
-            pathway_list.set_quests(pathway, quests)
-            self._flowbox.add(pathway_list)
-        else:
-            pathway_icon = PathwayIcon(icon, name)
-            self._coming_soon_flowbox.add(pathway_icon)
-            self._coming_soon_label.show()
-            self._coming_soon_flowbox.show()
-
-
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/inventory-view.ui')
 class InventoryView(Gtk.Revealer):
 
@@ -3514,9 +3439,6 @@ clubhouse_classes = [
     Message,
     NewsItem,
     NewsView,
-    PathwayIcon,
-    PathwayList,
-    PathwaysView,
     QuestCard,
     QuestRow,
     QuestSetButton,
