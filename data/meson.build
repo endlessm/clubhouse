@@ -61,8 +61,8 @@ install_data(
 )
 
 install_data(
-    'com.hack_computer.Clubhouse.png',
-    install_dir: 'share/icons/hicolor/64x64/apps'
+    'com.hack_computer.Clubhouse.svg',
+    install_dir: 'share/icons/hicolor/scalable/apps'
 )
 
 install_data(
