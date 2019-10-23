@@ -4,8 +4,7 @@ import os
 
 class HTMLIntro5(Quest):
 
-    __quest_name__ = "HTML - Div-ision of Labor"
-    __tags__ = ['mission:riley', 'pathway:web', 'difficulty:easy']
+    __tags__ = ['pathway:web', 'difficulty:easy']
     __pathway_order__ = 505
 
     TOTAL_MESSAGES = 29

@@ -4,8 +4,7 @@ import os
 
 class HTMLIntro1(Quest):
 
-    __quest_name__ = "Introduction to HTML"
-    __tags__ = ['mission:riley', 'pathway:web', 'difficulty:easy']
+    __tags__ = ['pathway:web', 'difficulty:easy']
     __pathway_order__ = 501
 
     TOTAL_MESSAGES = 16
