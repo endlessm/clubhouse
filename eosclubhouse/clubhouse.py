@@ -520,31 +520,59 @@ class MessageBox(Gtk.Fixed):
         else:
             axis_prop = 'y'
 
-        current_position = self.child_get_property(message, axis_prop)
-        distance = abs(end_position - current_position)
+        start_position = self.child_get_property(message, axis_prop)
+        distance = abs(end_position - start_position)
         speed_ms_per_px = distance / self.DEFAULT_ANIMATION_DURATION_MS
         delta = speed_ms_per_px * self.DEFAULT_ANIMATION_INTERVAL_MS
-
         if direction in (Direction.LEFT, Direction.UP):
             delta = -delta
 
-        GLib.timeout_add(self.DEFAULT_ANIMATION_INTERVAL_MS, self._move_message_cb, message,
-                         end_position, delta, direction, axis_prop, done_action_cb, *args)
+        if direction in (Direction.LEFT, Direction.RIGHT):
+            if done_action_cb != self.remove:
+                message.props.opacity = 0.0
 
-    def _move_message_cb(self, message, end_position, delta, direction, axis_prop,
-                         done_action_cb, *args):
+        fade_in = direction in (Direction.LEFT, Direction.RIGHT)
+        GLib.timeout_add(self.DEFAULT_ANIMATION_INTERVAL_MS, self._move_message_cb, message,
+                         start_position, end_position, distance, delta, direction, axis_prop,
+                         fade_in, done_action_cb, *args)
+
+    def _move_message_cb(self, message, start_position, end_position, distance, delta, direction,
+                         axis_prop, fade_in, done_action_cb, *args):
+        def _update_message_opacity(opacity=None):
+            if not fade_in:
+                return
+
+            if opacity is not None:
+                message.props.opacity = opacity
+                return
+
+            traveled_distance_ratio = abs(new_position - start_position) / distance
+            if done_action_cb != self.remove:
+                message.props.opacity = traveled_distance_ratio
+            else:
+                message.props.opacity = 1 - traveled_distance_ratio
+
         current_position = self.child_get_property(message, axis_prop)
         new_position = current_position + delta
 
         negative_directions = (Direction.LEFT, Direction.UP)
         positive_directions = (Direction.RIGHT, Direction.DOWN)
+
         if (direction in negative_directions and new_position <= end_position or
                 direction in positive_directions and new_position >= end_position):
+
             self.child_set_property(message, axis_prop, end_position)
+            if done_action_cb == self.remove:
+                _update_message_opacity(0.0)
+            else:
+                _update_message_opacity(1.0)
+
             if done_action_cb is not None:
                 done_action_cb(*args)
             return GLib.SOURCE_REMOVE
+
         self.child_set_property(message, axis_prop, new_position)
+        _update_message_opacity()
         return True
 
     def clear_messages(self):
