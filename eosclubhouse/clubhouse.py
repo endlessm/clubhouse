@@ -43,7 +43,6 @@ from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     Direction, get_character_animation_dirs
 
-from eosclubhouse.episodes import BadgeButton, PosterWindow
 from eosclubhouse.splash import SplashWindow
 from eosclubhouse.widgets import FixedLayerGroup
 
@@ -361,87 +360,6 @@ class Message(Gtk.Overlay):
         Sound.play(sfx_sound)
 
 
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/quest-row.ui')
-class QuestRow(Gtk.ListBoxRow):
-
-    __gtype_name__ = 'QuestRow'
-
-    _category_image = Gtk.Template.Child()
-    _name_label = Gtk.Template.Child()
-    _difficulty_image = Gtk.Template.Child()
-
-    def __init__(self, quest_set, quest, has_category=True):
-        super().__init__()
-
-        self._quest_set = quest_set
-        self._quest = quest
-        self._has_category = has_category
-
-        self._quest.connect('quest-started', self._on_quest_started)
-        self._quest.connect('quest-finished', self._on_quest_finished)
-
-        # Populate row info.
-        self._setup_category_image()
-        self._name_label.props.label = self._quest.get_name()
-        self._setup_difficulty_image()
-
-        self._quest.connect('notify::highlighted', self._on_quest_highlighted_changed)
-        self._quest.connect('notify::complete', self._on_quest_complete_changed)
-
-        # Style.
-        self._set_highlighted()
-        self._set_complete()
-
-    def _setup_category_image(self):
-        if not self._has_category:
-            self._category_image.props.visible = False
-            return
-
-        pathways = self._quest.get_pathways()
-        if not pathways:
-            self._category_image.props.icon_name = 'clubhouse-pathway-unknown-symbolic'
-        else:
-            self._category_image.props.icon_name = pathways[0].get_icon_name()
-
-    def _setup_difficulty_image(self):
-        basename = self._quest.get_difficulty().name
-        self._difficulty_image.props.icon_name = 'clubhouse-difficulty-{}'.format(basename.lower())
-
-    def _on_quest_started(self, quest):
-        self.props.sensitive = False
-
-    def _on_quest_finished(self, quest):
-        self.props.sensitive = True
-
-    def _on_quest_complete_changed(self, _quest_set, _param):
-        self._set_complete()
-
-    def _on_quest_highlighted_changed(self, quest, quest_set_type):
-        self._set_highlighted()
-
-    def _set_highlighted(self):
-        highlighted_style = 'highlighted'
-        style_context = self.get_style_context()
-        if self._quest.props.highlighted:
-            style_context.add_class(highlighted_style)
-        else:
-            style_context.remove_class(highlighted_style)
-
-    def _set_complete(self):
-        complete_style = 'complete'
-        style_context = self.get_style_context()
-        if self._quest.complete:
-            style_context.add_class(complete_style)
-        else:
-            style_context.remove_class(complete_style)
-
-    def get_quest(self):
-        return self._quest
-
-    def get_quest_set(self):
-        return self._quest_set
-
-
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/quest-set-info-tip.ui')
 class QuestSetInfoTip(Gtk.Box):
 
@@ -478,9 +396,9 @@ class QuestSetInfoTip(Gtk.Box):
         return 'clubhouse-pathway-{}-symbolic'.format(pathway)
 
 
-class QuestSetButton(Gtk.Button):
+class CharacterButton(Gtk.Button):
 
-    __gtype_name__ = 'QuestSetButton'
+    __gtype_name__ = 'CharacterButton'
 
     def __init__(self, quest_set, scale=1):
         super().__init__(halign=Gtk.Align.START,
@@ -753,10 +671,10 @@ class MessageBox(Gtk.Fixed):
     max_messages = GObject.Property(default=2, type=int)
 
 
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/quest-card.ui')
-class QuestCard(Gtk.FlowBoxChild):
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/activity-card.ui')
+class ActivityCard(Gtk.FlowBoxChild):
 
-    __gtype_name__ = 'QuestCard'
+    __gtype_name__ = 'ActivityCard'
 
     _title = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
@@ -1014,7 +932,7 @@ class CharacterView(Gtk.Grid):
 
         # Populate list
         for quest in quest_set.get_quests(also_skippable=False):
-            card = QuestCard(self._app_window.clubhouse, quest_set, quest)
+            card = ActivityCard(self._app_window.clubhouse, quest_set, quest)
             self._list.add(card)
             card.show()
 
@@ -1573,7 +1491,7 @@ class ClubhouseView(FixedLayerGroup):
             episode_name = libquest.Registry.get_current_episode()['name']
 
         for child in self.get_children():
-            if isinstance(child, QuestSetButton):
+            if isinstance(child, CharacterButton):
                 child.destroy()
 
         libquest.Registry.load_current_episode()
@@ -1665,7 +1583,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
 
         # Update children allocation
         for child in self.get_children():
-            if not isinstance(child, QuestSetButton):
+            if not isinstance(child, CharacterButton):
                 child.size = child.get_size_request()
                 child.position = self.child_get(child, 'x', 'y')
 
@@ -1690,7 +1608,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
             ctx.remove_class('highlighted')
 
     def _update_child_position(self, child):
-        if isinstance(child, QuestSetButton):
+        if isinstance(child, CharacterButton):
             x, y = child.position
             self.move(child, x, y)
 
@@ -1698,7 +1616,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         self.scale = scale
         # Update children
         for child in self.get_children():
-            if isinstance(child, QuestSetButton):
+            if isinstance(child, CharacterButton):
                 child.reload(self.scale)
             else:
                 x, y = child.position
@@ -1707,7 +1625,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
                 self.move(child, x * scale, y * scale)
 
     def add_quest_set(self, quest_set):
-        button = QuestSetButton(quest_set, self.clubhouse_view.scale)
+        button = CharacterButton(quest_set, self.clubhouse_view.scale)
         quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
         button.connect('clicked', self._quest_set_button_clicked_cb)
 
@@ -1728,537 +1646,6 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         recorder = EosMetrics.EventRecorder.get_default()
         character = GLib.Variant('s', quest_set.get_character())
         recorder.record_event(CLUBHOUSE_PATHWAY_ENTER_EVENT, character)
-
-
-class InventoryItem(Gtk.Button):
-
-    __gtype_name__ = 'InventoryItem'
-
-    _ITEM_WIDTH = 150
-    _ITEM_HEIGHT = 265
-
-    def __init__(self, item_id, is_used, icon_name, icon_used_name, item_name,
-                 item_description):
-        super().__init__(height_request=self._ITEM_HEIGHT)
-
-        self.item_id = item_id
-        self.item_name = item_name
-        self.is_used = is_used
-        self._icon_name = icon_name
-        self._icon_used_name = icon_used_name
-        self._description = item_description
-
-        self.connect('clicked', self._on_item_clicked_cb)
-
-        vbox = Gtk.Box(width_request=self._ITEM_WIDTH,
-                       halign=Gtk.Align.FILL,
-                       orientation=Gtk.Orientation.VERTICAL,
-                       spacing=16)
-        self.add(vbox)
-
-        self._image = Gtk.Image()
-        vbox.add(self._image)
-
-        self._label = Gtk.Label(wrap=True,
-                                use_markup=True,
-                                max_width_chars=15,
-                                hexpand=False,
-                                halign=Gtk.Align.CENTER,
-                                justify=Gtk.Justification.CENTER)
-        self._label.set_text(item_name)
-
-        vbox.add(self._label)
-        self._update_icon()
-        self.show_all()
-
-    def _update_icon(self):
-        icon_name = self._icon_name
-        if self.is_used:
-            icon_name = self._icon_used_name
-
-        icon_path = utils.QuestItemDB.get_icon_path(icon_name)
-        self._image.set_from_file(icon_path)
-
-    def set_used(self, is_used):
-        self.is_used = is_used
-        self._update_icon()
-
-    def _is_key(self):
-        return self.item_id.startswith('item.key.')
-
-    def _on_item_clicked_cb(self, *_args):
-        self.get_style_context().add_class('active')
-        text = self._description
-
-        if not text:
-            if not self._is_key():
-                text = 'This is a special item.'
-            elif self.is_used:
-                text = 'This key has already been used.'
-            else:
-                text = 'To use this key click on the matching lock.'
-
-        self._label.set_text(text)
-        GLib.timeout_add_seconds(5, self._deactivate_on_timeout)
-
-    def _deactivate_on_timeout(self):
-        self.get_style_context().remove_class('active')
-        self._label.set_text(self.item_name)
-
-
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/pathway-icon.ui')
-class PathwayIcon(Gtk.Box):
-
-    __gtype_name__ = 'PathwayIcon'
-
-    _image = Gtk.Template.Child()
-    _label = Gtk.Template.Child()
-
-    def __init__(self, icon_name, label):
-        super().__init__(visible=True)
-
-        self._image.props.icon_name = icon_name
-        self._label.set_label(label)
-
-
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/pathway-list.ui')
-class PathwayList(Gtk.Box):
-
-    __gtype_name__ = 'PathwayList'
-
-    _image = Gtk.Template.Child()
-    _label = Gtk.Template.Child()
-    listbox = Gtk.Template.Child()
-
-    def __init__(self, icon_name, label):
-        super().__init__(visible=True)
-
-        self._image.props.icon_name = icon_name
-        self._label.set_label(label)
-
-    def set_quests(self, pathway, quests):
-        for quest in quests:
-            row = QuestRow(pathway, quest, has_category=False)
-            self.listbox.add(row)
-            row.show()
-
-
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/pathways-view.ui')
-class PathwaysView(Gtk.ScrolledWindow):
-
-    __gtype_name__ = 'PathwaysView'
-
-    _flowbox = Gtk.Template.Child()
-    _coming_soon_label = Gtk.Template.Child()
-    _coming_soon_flowbox = Gtk.Template.Child()
-
-    def __init__(self, app_window):
-        super().__init__(visible=True)
-        self._app_window = app_window
-
-    def load_episode(self):
-        for pathway in libquest.Registry.get_quest_sets():
-            self._add_pathway(pathway)
-
-    def _quest_row_clicked_cb(self, _list_box, row):
-        new_quest = row.get_quest()
-        self._app_window.clubhouse.try_running_quest(new_quest)
-
-    def _add_pathway(self, pathway):
-        quests = pathway.get_quests(also_skippable=False)
-        name = pathway.get_name()
-        icon = pathway.get_icon_name()
-
-        if len(quests) >= 1:
-            pathway_list = PathwayList(icon, name)
-            pathway_list.listbox.connect('row-activated', self._quest_row_clicked_cb)
-            pathway_list.set_quests(pathway, quests)
-            self._flowbox.add(pathway_list)
-        else:
-            pathway_icon = PathwayIcon(icon, name)
-            self._coming_soon_flowbox.add(pathway_icon)
-            self._coming_soon_label.show()
-            self._coming_soon_flowbox.show()
-
-
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/inventory-view.ui')
-class InventoryView(Gtk.Revealer):
-
-    __gtype_name__ = 'InventoryView'
-
-    _inventory_box = Gtk.Template.Child()
-
-    def __init__(self, app_window):
-        super().__init__(visible=True)
-
-        self._app_window = app_window
-
-        self._inventory_box.set_sort_func(self._sort_items)
-
-        self._gss = GameStateService()
-        self._gss.connect('changed', lambda _gss: self._load_items())
-        self._items_db = utils.QuestItemDB()
-
-        self._loaded_items = {}
-        self._load_items()
-        self._update_state()
-
-    def reveal(self, reveal):
-        if reveal and len(self._loaded_items) > 0:
-            self.set_reveal_child(True)
-        else:
-            self.set_reveal_child(False)
-
-    def _sort_items(self, child_1, child_2):
-        item_1 = child_1.get_children()[0]
-        item_2 = child_2.get_children()[0]
-        return int(item_1.is_used) - int(item_2.is_used)
-
-    def _add_item(self, item_id, is_used, icon_name, icon_used_name, item_name, item_description):
-        if item_id in self._loaded_items:
-            item = self._loaded_items[item_id]
-            item.set_used(is_used)
-            return
-
-        new_item = InventoryItem(item_id, is_used, icon_name, icon_used_name, item_name,
-                                 item_description)
-        self._loaded_items[item_id] = new_item
-        self._inventory_box.add(new_item)
-
-    def _remove_item(self, item_id):
-        item = self._loaded_items.get(item_id)
-        if item:
-            self._inventory_box.remove(item.get_parent())
-            del self._loaded_items[item_id]
-
-    def _load_items(self):
-        # For now there is no method in the GameStateService to retrieve items based
-        # on a prefix, so every time there's a change in the service, we need to directly
-        # verify all the items we're interested in.
-        for item_id, (icon, icon_used, name, description) in self._items_db.get_all_items():
-            item_state = self._gss.get(item_id)
-            if item_state is None:
-                self._remove_item(item_id)
-                continue
-
-            # Used items shouldn't show up in the inventory if are consume-able
-            if (item_state.get('used', False) and
-               item_state.get('consume_after_use', False)):
-                self._remove_item(item_id)
-                continue
-
-            is_used = item_state.get('used', False)
-            self._add_item(item_id, is_used, icon, icon_used, name, description.strip())
-
-        self._update_state()
-
-    def _update_state(self):
-        if len(self._loaded_items) > 0:
-            self.set_reveal_child(True)
-        else:
-            self.set_reveal_child(False)
-
-
-class EpisodeRow(Gtk.ListBoxRow):
-
-    __gtype_name__ = 'EpisodeRow'
-
-    __gsignals__ = {
-        'badge-clicked': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
-        ),
-    }
-
-    BADGE_INNER_MARGIN = 25
-
-    def __init__(self, episode, badges_box):
-        super().__init__(selectable=(episode.is_complete() or episode.is_current))
-        self._episode = episode
-
-        self._badges_box = badges_box
-        self._badge = None
-        self._badge_position_handler = 0
-
-        self._poster = None
-
-        self._setup_ui()
-
-    def _setup_ui(self):
-        if not self._episode.is_complete() and not self._episode.is_current:
-            self.get_style_context().add_class('locked')
-
-        builder = Gtk.Builder()
-        builder.add_from_resource('/com/hack_computer/Clubhouse/episode-row.ui')
-
-        self._expand_button = builder.get_object('episode_row_expand_button')
-        episode_name_label = builder.get_object('episode_row_name_label')
-        episode_number_label = builder.get_object('episode_row_number_label')
-        episode_comingsoon_label = builder.get_object('episode_row_comingsoon_label')
-
-        episode_number_text = 'Episode {}'.format(self._episode.number)
-
-        height = 104
-        if self._episode.percentage_complete != 100 and not self._episode.is_current:
-            height = 64
-            episode_name_label.set_label(episode_number_text)
-            episode_number_label.hide()
-            self._expand_button.set_sensitive(False)
-            if not self._episode.is_available:
-                episode_comingsoon_label.set_visible(True)
-        else:
-            episode_name_label.set_label(self._episode.name)
-            episode_number_label.set_label(episode_number_text)
-            episode_number_label.show()
-
-            self._description_label = builder.get_object('episode_row_description_label')
-            self._description_label.set_markup(self._episode.description)
-
-            self._revealer = builder.get_object('episode_row_revealer')
-
-            self._expand_button.connect('clicked', lambda _button: self._toggle_selection())
-
-        self.connect('state-flags-changed', self._on_state_changed)
-
-        self._expand_button.set_size_request(-1, height)
-
-        self.add(builder.get_object('episode_row_box'))
-
-        self._setup_badge()
-
-    def _on_state_changed(self, _row, previous_flags):
-        previously_selected = previous_flags & Gtk.StateFlags.SELECTED
-        currently_selected = self.get_state_flags() & Gtk.StateFlags.SELECTED
-
-        # Only reveal the description if the row got selected or unselected
-        if previously_selected ^ currently_selected:
-            self._revealer.set_reveal_child(currently_selected != 0)
-
-    def _toggle_selection(self):
-        list_box = self.get_parent()
-        if list_box is None:
-            return
-
-        if self.is_selected():
-            list_box.unselect_row(self)
-        else:
-            list_box.select_row(self)
-
-    def _setup_badge(self):
-        if not self._episode.is_available:
-            return
-
-        self._badge = BadgeButton(self._episode)
-        self._badges_box.put(self._badge, 0, 0)
-        self._badge.show()
-
-        self._update_badge_position()
-
-        if self._badge_position_handler == 0:
-            self._badge_position_handler = \
-                self._expand_button.connect('size-allocate',
-                                            lambda _widget, _alloc: self._update_badge_position())
-
-            # Update the badges position when the badges box is realized to make sure we place the
-            # badges when both the rows' button + the badges box have valid dimensions.
-            self._badges_box.connect_after('realize',
-                                           lambda _widget: self._update_badge_position())
-
-        self._badge.connect('clicked', self._badge_clicked_cb)
-
-    def _update_badge_position(self):
-        if not self.get_realized() or not self._badges_box.get_realized():
-            return
-
-        # We only use the button's allocation for getting the vertical position on which to set
-        # the badge (and not the width), otherwise the badges would move when the scrollbar
-        # appears (because the buttons are shortened horizontally when that happens).
-        height = self._expand_button.get_allocation().height
-        width = self.get_parent().get_allocation().width
-
-        pos_x, pos_y = self._expand_button.translate_coordinates(self._badges_box,
-                                                                 width,
-                                                                 height / 2.0)
-
-        # Place the badge horizontally as if aligned to the right.
-        pos_x -= self._badge.WIDTH
-        # Place the badge vertically using the middle-point as the anchor.
-        pos_y -= self._badge.HEIGHT / 2.0
-
-        # Pull the odd-numbered (1-based indexing) episodes further to the left (to accomplish
-        # the zig-zag placement).
-        if self._episode.number % 2 != 0:
-            pos_x -= self._badge.WIDTH / 2.0 - self.BADGE_INNER_MARGIN
-
-        self._badges_box.move(self._badge, pos_x, pos_y)
-
-    def get_badge(self):
-        return self._badge
-
-    def get_episode(self):
-        return self._episode
-
-    def do_destroy(self):
-        self.get_badge().destroy()
-
-    def _badge_clicked_cb(self, _badge):
-        self.emit('badge-clicked')
-
-    def show_poster(self):
-        if self._poster is None:
-            self._poster = PosterWindow(self._episode)
-        self._poster.show()
-        self._poster.present()
-
-
-class EpisodesView(Gtk.EventBox):
-
-    __gtype_name__ = 'EpisodesView'
-
-    __gsignals__ = {
-        'play-episode': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
-        ),
-    }
-
-    _COMPLETED = 'completed'
-
-    def __init__(self, app_window):
-        super().__init__(visible=True)
-
-        self._episodes_db = utils.EpisodesDB()
-
-        self._app_window = app_window
-        self._current_page = None
-        self._current_episode = None
-        self._episodes = {}
-
-        self._setup_ui()
-        self._update_episode_badges()
-
-        GameStateService().connect('changed', lambda _gss: self._update_episode_badges())
-
-    def _setup_ui(self):
-        builder = Gtk.Builder()
-        builder.add_from_resource('/com/hack_computer/Clubhouse/episodes-view.ui')
-
-        self._badges_box = builder.get_object('badges_box')
-        self._badges_box.show_all()
-        episodes_overlay = builder.get_object('episodes_overlay')
-        episodes_overlay.set_overlay_pass_through(self._badges_box, True)
-        self._list_box = builder.get_object('episodes_list_box')
-
-        self.add(builder.get_object('episodes_scrolled_window'))
-
-        self.reload()
-
-    def reload(self):
-        # Clear the episodes list.
-        self._episodes = {}
-        for row in self._list_box.get_children():
-            row.destroy()
-
-        available_episodes = set(libquest.Registry.get_available_episodes())
-        loaded_episode = libquest.Registry.get_loaded_episode_name()
-        episode = self._episodes_db.get_episode(loaded_episode)
-
-        completed_episodes = self._episodes_db.get_previous_episodes(episode.id)
-        for episode in self._episodes_db.get_episodes_in_season(episode.season):
-            if episode in completed_episodes:
-                episode.percentage_complete = 100
-            elif episode.id == loaded_episode:
-                episode.is_current = True
-            else:
-                episode.percentage_complete = 0
-
-            if episode.id in available_episodes:
-                episode.is_available = True
-
-            row = EpisodeRow(episode, self._badges_box)
-            row.connect('badge-clicked', self._episode_badge_clicked_cb)
-            self._list_box.add(row)
-            row.show()
-
-            # @todo: Remove the need for an episodes dictionary (it can be done by keeping
-            # the current episode object accessible).
-            self._episodes[episode.id] = row
-
-            # If this is the row for the current episode, we select it, so it shows the
-            # description by default.
-            if episode.is_current:
-                self._list_box.select_row(row)
-
-        self.update_current_episode()
-
-    def _episode_badge_clicked_cb(self, episode_row):
-        episode = episode_row.get_episode()
-        if episode.is_complete():
-            episode_row.show_poster()
-            return
-
-        if episode.is_current:
-            self.emit('play-episode')
-
-    def _get_current_episode(self):
-        loaded_episode = libquest.Registry.get_loaded_episode_name()
-        return self._episodes[loaded_episode].get_episode()
-
-    def update_current_episode(self):
-        episode = self._get_current_episode()
-        episode.percentage_complete = libquest.Registry.get_current_episode_progress() * 100
-
-        if episode.is_complete():
-            self._shell_popup_episode_badge(episode.id)
-
-    def _shell_popup_episode_badge(self, episode_id):
-        notification = Gio.Notification()
-        notification.set_body("You have a new badge! You can find it in the Episodes tab.")
-        notification.set_title('')
-
-        icon_path = os.path.join(config.EPISODES_DIR, 'badges', '{}.png'.format(episode_id))
-        icon_file = Gio.File.new_for_path(icon_path)
-        icon_bytes = icon_file.load_bytes(None)
-        icon = Gio.BytesIcon.new(icon_bytes[0])
-
-        notification.set_icon(icon)
-
-        notification.add_button('Show me', 'app.episode-award-accept-answer(true)')
-
-        Gio.Application.get_default().send_quest_item_notification(notification)
-
-    def _update_episode_badges(self):
-        current_episode = libquest.Registry.get_current_episode()
-
-        if self._current_episode == current_episode:
-            return
-
-        is_same_episode = False
-        if self._current_episode is None or \
-           self._current_episode['name'] == current_episode['name']:
-            self._current_episode = current_episode
-            is_same_episode = True
-
-        episode_name = self._current_episode['name']
-        is_teaser_viewed = self._current_episode['teaser-viewed']
-
-        # We want to show the teaser if it hasn't been viewed yet.
-        show = not is_teaser_viewed
-
-        # If there's been an episode transition, then we just check if the teaser hasn't been
-        # viewed in order to show it; otherwise, if the episode is the current one, then we also
-        # check if it's complete.
-        if not is_same_episode:
-            # Ensure we update the current episode info.
-            self._current_episode = current_episode
-            show = not is_teaser_viewed
-        else:
-            show = self._current_episode[self._COMPLETED] and not is_teaser_viewed
-
-        if show:
-            self._episodes[episode_name].show_poster()
-
-        # Only update the teaser-viewed info if there hasn't been an episode change.
-        if is_same_episode:
-            libquest.Registry.set_current_episode_teaser_viewed(True)
 
 
 class FixedLabel(Gtk.Label):
@@ -2692,7 +2079,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_box = Gtk.Template.Child()
     _user_box_event_box = Gtk.Template.Child()
     _user_button = Gtk.Template.Child()
-    _user_box = Gtk.Template.Child()
     _user_event_box = Gtk.Template.Child()
     _user_label = Gtk.Template.Child()
     _user_button_image_revealer = Gtk.Template.Child()
@@ -2715,7 +2101,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self.clubhouse = ClubhouseView(self)
         self.news = NewsView()
-        self.inventory = InventoryView(self)
         self.character = CharacterView(self)
 
         achievements_view = AchievementsView(self)
@@ -2727,7 +2112,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                                          achievements_view)
 
         self._stack.add_named(self.clubhouse, 'CLUBHOUSE')
-        self._user_box.pack_start(self.inventory, True, True, 0)
         self._stack.add_named(self.news, 'NEWS')
         self._stack.add_named(self.character, 'CHARACTER')
 
@@ -3186,10 +2570,6 @@ class ClubhouseApplication(Gtk.Application):
         Gtk.Application.do_startup(self)
 
         simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
-                          ('item-accept-answer', self._item_accept_action_cb,
-                           GLib.VariantType.new('b'), 'inventory'),
-                          ('episode-award-accept-answer', self._item_accept_action_cb,
-                           GLib.VariantType.new('b'), 'episodes'),
                           ('quest-debug-skip', self._quest_debug_skip, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('quest-view-close', self._quest_view_close_action_cb, None),
@@ -3274,13 +2654,6 @@ class ClubhouseApplication(Gtk.Application):
         if (self._window):
             self._window.clubhouse.stop_quest()
         self.close_quest_msg_notification()
-
-    def _item_accept_action_cb(self, action, arg_variant, page_to_select):
-        Sound.play('quests/key-confirm')
-        show_inventory = arg_variant.unpack()
-        if show_inventory and self._window:
-            self._window.set_page(page_to_select)
-            self._show_and_focus_window()
 
     def _debug_mode_action_cb(self, action, arg_variant):
         # Add debugging information in the Application UI:
@@ -3507,19 +2880,11 @@ clubhouse_classes = [
     ClubhouseView,
     ClubhouseViewMainLayer,
     ClubhouseWindow,
-    EpisodeRow,
-    EpisodesView,
-    InventoryItem,
-    InventoryView,
     Message,
     NewsItem,
     NewsView,
-    PathwayIcon,
-    PathwayList,
-    PathwaysView,
-    QuestCard,
-    QuestRow,
-    QuestSetButton,
+    ActivityCard,
+    CharacterButton,
     QuestSetInfoTip
 ]
 

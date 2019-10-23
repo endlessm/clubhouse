@@ -7,32 +7,22 @@
     <file preprocess="xml-stripblanks">achievement-item.ui</file>
     <file preprocess="xml-stripblanks">achievement-flow-box-child.ui</file>
     <file preprocess="xml-stripblanks">clubhouse-view-main-layer.ui</file>
-    <file preprocess="xml-stripblanks">quest-card.ui</file>
+    <file preprocess="xml-stripblanks">activity-card.ui</file>
     <file preprocess="xml-stripblanks">character-view.ui</file>
-    <file preprocess="xml-stripblanks">inventory-view.ui</file>
-    <file preprocess="xml-stripblanks">episode-row.ui</file>
-    <file preprocess="xml-stripblanks">episodes-view.ui</file>
     <file preprocess="xml-stripblanks">clubhouse-window.ui</file>
     <file preprocess="xml-stripblanks">news-view.ui</file>
     <file preprocess="xml-stripblanks">news-item.ui</file>
     <file preprocess="xml-stripblanks">message.ui</file>
-    <file preprocess="xml-stripblanks">pathway-list.ui</file>
-    <file preprocess="xml-stripblanks">pathway-icon.ui</file>
-    <file preprocess="xml-stripblanks">pathways-view.ui</file>
-    <file preprocess="xml-stripblanks">posterwindow.ui</file>
-    <file preprocess="xml-stripblanks">quest-row.ui</file>
     <file preprocess="xml-stripblanks">quest-set-info-tip.ui</file>
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/images">
-    <file>comingsoon_label_bg.png</file>
     <file>clubhouse_bg.jpg</file>
     <file>clubhouse_bg-off.jpg</file>
     <file>clubhouse_bg-blur.jpg</file>
     <file>clubhouse_bg-blur-off.jpg</file>
     <file>clubhouse_news_bg.jpg</file>
     <file>clubhouse_news_fg.png</file>
-    <file>episodes_bg.png</file>
-    <file>quest-card-star-corner.svg</file>
+    <file>activity-card-corner.svg</file>
     <file>hack-switch/switch.svg</file>
     <file>hack-switch/ON.svg</file>
     <file>hack-switch/OFF.svg</file>
