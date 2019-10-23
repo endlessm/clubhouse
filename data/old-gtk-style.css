@@ -158,31 +158,6 @@ Message .button-box button.text-button label {
     min-width: 85px
 }
 
-QuestSetButton {
-    border: none;
-    box-shadow: none;
-    -gtk-icon-shadow: none;
-    padding-bottom: 20px;
-    background-image: radial-gradient(35% 8% ellipse at center 88%, transparentize(black,0.6), transparent);
-}
-
-QuestSetButton:hover {
-    background-image: radial-gradient(50% 10% ellipse at center 90%, transparentize(#D9A784,0.1), transparentize(white,0.999));
-}
-
-@keyframes pulsate_background {
-    from { background-image: radial-gradient(35% 8% ellipse at center 88%, transparentize(#D9A784,0.6), transparentize(white,0.999)); }
-    to { background-image: radial-gradient(50% 10% ellipse at center 90%, transparentize(#D9A784,0.1), transparentize(white,0.999)); }
-}
-
-QuestSetButton.highlighted {
-  animation-name: pulsate_background;
-  animation-duration: 1s;
-  animation-direction: alternate;
-  animation-timing-function: ease;
-  animation-iteration-count: infinite;
-}
-
 /* Hack mode switch */
 #hack-switch,
 #hack-switch-panel,

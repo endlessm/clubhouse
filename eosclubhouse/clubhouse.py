@@ -396,9 +396,9 @@ class QuestSetInfoTip(Gtk.Box):
         return 'clubhouse-pathway-{}-symbolic'.format(pathway)
 
 
-class QuestSetButton(Gtk.Button):
+class CharacterButton(Gtk.Button):
 
-    __gtype_name__ = 'QuestSetButton'
+    __gtype_name__ = 'CharacterButton'
 
     def __init__(self, quest_set, scale=1):
         super().__init__(halign=Gtk.Align.START,
@@ -1491,7 +1491,7 @@ class ClubhouseView(FixedLayerGroup):
             episode_name = libquest.Registry.get_current_episode()['name']
 
         for child in self.get_children():
-            if isinstance(child, QuestSetButton):
+            if isinstance(child, CharacterButton):
                 child.destroy()
 
         libquest.Registry.load_current_episode()
@@ -1583,7 +1583,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
 
         # Update children allocation
         for child in self.get_children():
-            if not isinstance(child, QuestSetButton):
+            if not isinstance(child, CharacterButton):
                 child.size = child.get_size_request()
                 child.position = self.child_get(child, 'x', 'y')
 
@@ -1608,7 +1608,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
             ctx.remove_class('highlighted')
 
     def _update_child_position(self, child):
-        if isinstance(child, QuestSetButton):
+        if isinstance(child, CharacterButton):
             x, y = child.position
             self.move(child, x, y)
 
@@ -1616,7 +1616,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         self.scale = scale
         # Update children
         for child in self.get_children():
-            if isinstance(child, QuestSetButton):
+            if isinstance(child, CharacterButton):
                 child.reload(self.scale)
             else:
                 x, y = child.position
@@ -1625,7 +1625,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
                 self.move(child, x * scale, y * scale)
 
     def add_quest_set(self, quest_set):
-        button = QuestSetButton(quest_set, self.clubhouse_view.scale)
+        button = CharacterButton(quest_set, self.clubhouse_view.scale)
         quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
         button.connect('clicked', self._quest_set_button_clicked_cb)
 
@@ -2884,7 +2884,7 @@ clubhouse_classes = [
     NewsItem,
     NewsView,
     ActivityCard,
-    QuestSetButton,
+    CharacterButton,
     QuestSetInfoTip
 ]
 
