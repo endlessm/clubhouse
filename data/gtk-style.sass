@@ -28,6 +28,78 @@ scrollbar
     background-color: darken(white, 10%)
 
 
+// Window
+@keyframes background_zoom_in
+    from
+      background-size: 100%
+    to
+      background-size: 200%
+
+ClubhouseWindow
+  border-radius: 1ex
+  background-color: unset
+  background-size: cover
+  background-repeat: no-repeat
+  background-position: center
+  background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-blur.jpg')
+  transition: background-image 200ms linear
+
+  // Responsive resolution:
+  // Main window will have 'small' class if screen resolution is 720p or less and
+  // 'big' if its 1080p or more.
+  font-size: 14px
+
+  &.small
+    font-size: 12px
+
+  &.big
+    font-size: 16px
+
+  &.transitionable-background
+    transition: background-image 1s linear
+
+  // Backgrounds
+  &.CLUBHOUSE
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg')
+
+    &.off
+      background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-off.jpg')
+
+  &.off
+    background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-blur-off.jpg')
+
+  &.CHARACTER
+    animation: background_zoom_in 500ms normal ease 1
+    background-size: 200%
+    transition: none
+
+    &.ada
+      background-position: top left
+
+    &.estelle
+      background-position: 65% top
+
+    &.faber
+      background-position: center 75%
+
+    &.riley
+      background-position: left 85%
+
+    &.saniel
+      background-position: bottom right
+
+
+// Headerbar
+headerbar
+  border-radius: 1ex 1ex 0 0
+  border-width: 0px
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0))
+
+  > button
+    padding: 1ex
+    margin-right: 1ex
+
+
 Message
   .button-box
     button
