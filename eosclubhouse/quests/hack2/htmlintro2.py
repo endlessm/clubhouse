@@ -4,8 +4,7 @@ import os
 
 class HTMLIntro2(Quest):
 
-    __quest_name__ = "HTML - Using Web Colors"
-    __tags__ = ['mission:riley', 'pathway:web', 'difficulty:easy']
+    __tags__ = ['pathway:web', 'difficulty:easy']
     __pathway_order__ = 502
 
     TOTAL_MESSAGES = 23

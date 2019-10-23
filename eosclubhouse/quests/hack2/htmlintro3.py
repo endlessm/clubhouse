@@ -4,8 +4,7 @@ import os
 
 class HTMLIntro3(Quest):
 
-    __quest_name__ = "HTML - Advanced Text and Links"
-    __tags__ = ['mission:riley', 'pathway:web', 'difficulty:easy']
+    __tags__ = ['pathway:web', 'difficulty:easy']
     __pathway_order__ = 503
 
     TOTAL_MESSAGES = 27

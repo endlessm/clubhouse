@@ -4,8 +4,7 @@ import os
 
 class HTMLIntro4(Quest):
 
-    __quest_name__ = "HTML - CSS, The Secret Sauce"
-    __tags__ = ['mission:riley', 'pathway:web', 'difficulty:easy']
+    __tags__ = ['pathway:web', 'difficulty:easy']
     __pathway_order__ = 504
 
     TOTAL_MESSAGES = 20
