@@ -360,87 +360,6 @@ class Message(Gtk.Overlay):
         Sound.play(sfx_sound)
 
 
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/quest-row.ui')
-class QuestRow(Gtk.ListBoxRow):
-
-    __gtype_name__ = 'QuestRow'
-
-    _category_image = Gtk.Template.Child()
-    _name_label = Gtk.Template.Child()
-    _difficulty_image = Gtk.Template.Child()
-
-    def __init__(self, quest_set, quest, has_category=True):
-        super().__init__()
-
-        self._quest_set = quest_set
-        self._quest = quest
-        self._has_category = has_category
-
-        self._quest.connect('quest-started', self._on_quest_started)
-        self._quest.connect('quest-finished', self._on_quest_finished)
-
-        # Populate row info.
-        self._setup_category_image()
-        self._name_label.props.label = self._quest.get_name()
-        self._setup_difficulty_image()
-
-        self._quest.connect('notify::highlighted', self._on_quest_highlighted_changed)
-        self._quest.connect('notify::complete', self._on_quest_complete_changed)
-
-        # Style.
-        self._set_highlighted()
-        self._set_complete()
-
-    def _setup_category_image(self):
-        if not self._has_category:
-            self._category_image.props.visible = False
-            return
-
-        pathways = self._quest.get_pathways()
-        if not pathways:
-            self._category_image.props.icon_name = 'clubhouse-pathway-unknown-symbolic'
-        else:
-            self._category_image.props.icon_name = pathways[0].get_icon_name()
-
-    def _setup_difficulty_image(self):
-        basename = self._quest.get_difficulty().name
-        self._difficulty_image.props.icon_name = 'clubhouse-difficulty-{}'.format(basename.lower())
-
-    def _on_quest_started(self, quest):
-        self.props.sensitive = False
-
-    def _on_quest_finished(self, quest):
-        self.props.sensitive = True
-
-    def _on_quest_complete_changed(self, _quest_set, _param):
-        self._set_complete()
-
-    def _on_quest_highlighted_changed(self, quest, quest_set_type):
-        self._set_highlighted()
-
-    def _set_highlighted(self):
-        highlighted_style = 'highlighted'
-        style_context = self.get_style_context()
-        if self._quest.props.highlighted:
-            style_context.add_class(highlighted_style)
-        else:
-            style_context.remove_class(highlighted_style)
-
-    def _set_complete(self):
-        complete_style = 'complete'
-        style_context = self.get_style_context()
-        if self._quest.complete:
-            style_context.add_class(complete_style)
-        else:
-            style_context.remove_class(complete_style)
-
-    def get_quest(self):
-        return self._quest
-
-    def get_quest_set(self):
-        return self._quest_set
-
-
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/quest-set-info-tip.ui')
 class QuestSetInfoTip(Gtk.Box):
 
@@ -2965,7 +2884,6 @@ clubhouse_classes = [
     NewsItem,
     NewsView,
     QuestCard,
-    QuestRow,
     QuestSetButton,
     QuestSetInfoTip
 ]
