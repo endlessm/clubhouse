@@ -2109,8 +2109,6 @@ class QuestSet(GObject.GObject):
     def __repr__(self):
         return self.get_id()
 
-    # ----
-
     @classmethod
     def get_name(class_):
         return class_.__pathway_name__
