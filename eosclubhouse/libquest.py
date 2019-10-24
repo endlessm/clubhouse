@@ -479,14 +479,6 @@ class _QuestRunContext:
 
         return asyncio.get_event_loop().create_future()
 
-    def _future_get_loop(self, future):
-        # @todo: when we have Python 3.7 we can use the loop from the future's get_loop function
-        # directly; for now, we have to check what's the best way
-        if hasattr(future, 'get_loop'):
-            return future.get_loop()
-
-        return future._loop
-
     def pause(self, secs):
         async_action = self.new_async_action()
 
@@ -509,7 +501,7 @@ class _QuestRunContext:
                 self._cancellable.disconnect(cancel_handler_id)
             cancel_handler_id = 0
 
-        loop = self._future_get_loop(async_action.future)
+        loop = async_action.future.get_loop()
         pause_handler = loop.call_later(secs, _pause_finished)
 
         return self.wait_for_action(async_action)
