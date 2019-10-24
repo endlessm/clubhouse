@@ -6,7 +6,7 @@ class T2Teddy(Quest):
 
     APP_NAME = 'com.endlessnetwork.MidnightmareTeddy'
 
-    __tags__ = ['pathway:games', 'difficulty:normal']
+    __tags__ = ['pathway:games', 'difficulty:normal', 'skillset:LaunchQuests']
     __pathway_order__ = 130
 
     def setup(self):

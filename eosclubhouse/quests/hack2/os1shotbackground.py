@@ -6,7 +6,7 @@ class OSOneshotBackground(Quest):
 
     APP_NAME = 'org.gnome.Terminal'
 
-    __tags__ = ['pathway:operating system', 'difficulty:hard']
+    __tags__ = ['pathway:operating system', 'difficulty:hard', 'skillset:LaunchQuests']
     __pathway_order__ = 265
 
     TOTAL_MESSAGES = 9

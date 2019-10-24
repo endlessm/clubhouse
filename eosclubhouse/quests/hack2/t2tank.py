@@ -6,7 +6,7 @@ class T2Tank(Quest):
 
     APP_NAME = 'com.endlessnetwork.tankwarriors'
 
-    __tags__ = ['pathway:games', 'difficulty:normal']
+    __tags__ = ['pathway:games', 'difficulty:normal', 'skillset:LaunchQuests']
     __pathway_order__ = 128
 
     def setup(self):

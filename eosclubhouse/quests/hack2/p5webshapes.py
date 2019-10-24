@@ -4,7 +4,7 @@ import os
 
 class P5WebShapes(Quest):
 
-    __tags__ = ['pathway:web']
+    __tags__ = ['pathway:web', 'skillset:LaunchQuests']
     __pathway_order__ = 400
 
     def step_begin(self):

@@ -6,7 +6,7 @@ class BlenderQuest(Quest):
 
     APP_NAME = 'org.blender.Blender'
 
-    __tags__ = ['pathway:art', 'difficulty:hard']
+    __tags__ = ['pathway:art', 'difficulty:hard', 'skillset:LaunchQuests']
     __pathway_order__ = 100
 
     def setup(self):

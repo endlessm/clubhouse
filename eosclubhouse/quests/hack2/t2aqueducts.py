@@ -6,7 +6,7 @@ class T2Aqueducts(Quest):
 
     APP_NAME = 'com.endlessnetwork.aqueducts'
 
-    __tags__ = ['pathway:games', 'difficulty:normal']
+    __tags__ = ['pathway:games', 'difficulty:normal', 'skillset:LaunchQuests']
     __pathway_order__ = 127
 
     def setup(self):

@@ -6,7 +6,7 @@ class System_Tour(Quest):
 
     APP_NAME = 'com.hack_computer.OperatingSystemApp'
 
-    __tags__ = ['pathway:operating system', 'difficulty:easy']
+    __tags__ = ['pathway:operating system', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 100
 
     def setup(self):
