@@ -284,6 +284,17 @@ To automatically fetch the spreadsheet into the alternative path:
 
     ./tools/get-strings-file --use-alternative-path
 
+### ActivityCard Alternate Background Images
+
+When adding new new quest it is covenient to have an alternative directory
+to put cards background images in for easy prototyping.
+
+This is why the app will load any jpg image named as the quest id from
+`~/.var/app/com.hack_computer.Clubhouse/data/quests/cards/` directory
+
+So if you are adding an quest with an id 'my-new-quest', all you have to do is
+add an my-new-quest.jpg file in that directory
+
 ### Importing Other Information From The Spreadsheet
 
 Besides the quest strings, there is more information in other pages of the

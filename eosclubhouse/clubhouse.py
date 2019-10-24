@@ -39,7 +39,8 @@ from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import Desktop, GameStateService, OldGameStateService, \
     Sound, SoundItem, UserAccount
-from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
+from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser, \
+    get_alternative_quests_dir
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     Direction, get_character_animation_dirs
 
@@ -725,6 +726,7 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._quest = quest
         self._quest.connect('quest-started', self._on_quest_started)
         self._quest.connect('quest-finished', self._on_quest_finished)
+        self._alternative_path = os.path.join(get_alternative_quests_dir(), 'cards')
 
         self._setup_background()
 
@@ -807,10 +809,12 @@ class ActivityCard(Gtk.FlowBoxChild):
 
         info = CharacterInfo[character]
         pathway = info['pathway']
-        self._css_provider.load_from_data("box {{\
-            background-image: url('/app/share/eos-clubhouse/quests_files/cards/{}.jpg'),\
-              url('/app/share/eos-clubhouse/quests_files/pathway-card-{}.svg');\
-        }}".format(quest_id, pathway).encode())
+        urls = "url('{}/{}.jpg'), \
+            url('/app/share/eos-clubhouse/quests_files/cards/{}.jpg'), \
+            url('/app/share/eos-clubhouse/quests_files/pathway-card-{}.svg')".format(
+            self._alternative_path, quest_id, quest_id, pathway)
+
+        self._css_provider.load_from_data("box {{ background-image: {} }}".format(urls).encode())
 
         # Set category icon
         self._category_image.props.icon_name = 'clubhouse-pathway-' + pathway + '-symbolic'
@@ -2430,6 +2434,7 @@ class ClubhouseApplication(Gtk.Application):
         self._registry_loaded = False
         self._suggesting_open = False
         self._session_mode = None
+        self._cards_path = None
 
         self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'List existing quest sets and quests', None)
