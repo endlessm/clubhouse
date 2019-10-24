@@ -41,9 +41,6 @@ from gi.repository import EosMetrics, GObject, GLib
 glibcoro.install()
 
 
-DEFAULT_CHARACTER = 'ada'
-
-
 QUEST_EVENT = '50aebb1b-7a93-4caf-8698-3a601a0fc0f6'
 PROGRESS_UPDATE_EVENT = '3a037364-9164-4b42-8c07-73bcc00902de'
 
@@ -149,6 +146,7 @@ class Registry(GObject.GObject):
                 return qs
         return None
 
+    @classmethod
     def get_questset_for_quest(class_, quest):
         # Note: this assumes that the questsets don't share quests. If
         # not, it will return the first questset matching.
@@ -651,19 +649,26 @@ class _Quest(GObject.GObject):
         ),
     }
 
-    # @todo: This should be obtained from the spreadsheet, not defined as a property.
-    __sound_on_run_begin__ = 'quests/quest-given'
+    _SOUND_ON_RUN_BEGIN = 'quests/quest-given'
+    _OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
+    _ABORT_SOUND = 'quests/quest-aborted'
+    _PROPOSAL_SOUND = 'quests/quest-proposed'
 
     # @todo: Document
     __available_after_completing_quests__ = []
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
+
+    _DEFAULT_CHARACTER = 'ada'
     _DEFAULT_MOOD = 'talk'
 
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
-    proposal_sound = GObject.Property(type=str, default="quests/quest-proposed")
 
     stopping = GObject.Property(type=bool, default=False)
+
+    @property
+    def proposal_sound(self):
+        return self._PROPOSAL_SOUND
 
     def __init__(self):
         super().__init__()
@@ -694,11 +699,6 @@ class _Quest(GObject.GObject):
         self._last_bg_sound_event_id = None
 
         self._characters = {}
-
-        self._main_character_id = DEFAULT_CHARACTER
-        self._main_mood = self._DEFAULT_MOOD
-        self._main_open_dialog_sound = 'clubhouse/dialog/open'
-        self._default_abort_sound = 'quests/quest-aborted'
 
         self._setup_labels()
 
@@ -800,8 +800,7 @@ class _Quest(GObject.GObject):
         self.run_in_context(on_quest_finished)
 
     def run_in_context(self, quest_finished_cb):
-        if self.__sound_on_run_begin__:
-            Sound.play(self.__sound_on_run_begin__)
+        Sound.play(self._SOUND_ON_RUN_BEGIN)
 
         # Reset the "stopping" property before running the quest.
         self.stopping = False
@@ -1079,7 +1078,11 @@ class _Quest(GObject.GObject):
             self._cancellable.cancel()
 
     def get_main_character(self):
-        return self._main_character_id
+        questset = Registry.get_questset_for_quest(self)
+        if questset is None:
+            return self._DEFAULT_CHARACTER
+
+        return questset.get_character()
 
     def play_stop_bg_sound(self, sound_event_id=None):
         """
@@ -1552,7 +1555,7 @@ class Quest(_Quest):
             self.show_message('ABORT')
             self.pause(5)
         else:
-            Sound.play(self._default_abort_sound)
+            Sound.play(self._ABORT_SOUND)
 
         self.stop()
 
@@ -1620,11 +1623,11 @@ class Quest(_Quest):
         sfx_sound = options.get('sfx_sound')
         if not sfx_sound:
             if message_id == 'ABORT':
-                sfx_sound = self._default_abort_sound
+                sfx_sound = self._ABORT_SOUND
             elif message_id == 'QUESTION':
-                sfx_sound = self.proposal_sound
+                sfx_sound = self._PROPOSAL_SOUND
             else:
-                sfx_sound = self._main_open_dialog_sound
+                sfx_sound = self._OPEN_DIALOG_SOUND
         bg_sound = options.get('bg_sound')
 
         self.emit('message', {
@@ -1632,7 +1635,7 @@ class Quest(_Quest):
             'text': options['parsed_text'],
             'choices': possible_answers,
             'character_id': options.get('character_id') or self.get_main_character(),
-            'character_mood': options.get('mood') or self._main_mood,
+            'character_mood': options.get('mood') or self._DEFAULT_MOOD,
             'sound_fx': sfx_sound,
             'sound_bg': bg_sound,
             'type': message_type,
