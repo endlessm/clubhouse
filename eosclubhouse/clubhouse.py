@@ -38,7 +38,7 @@ from gi.repository import EosMetrics, Gdk, GdkPixbuf, Gio, GLib, Gtk, GObject, \
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import Desktop, GameStateService, OldGameStateService, \
-    Sound, UserAccount
+    Sound, SoundItem, UserAccount
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     Direction, get_character_animation_dirs
@@ -2086,7 +2086,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._gss = GameStateService()
         self._user = UserAccount()
         self._page_reset_timeout = 0
-        self._ambient_sound_uuid = None
+
+        self._ambient_sound_item = SoundItem('clubhouse/ambient')
         self._play_ambient_sound = True
         self._ambient_sound_timer_id = None
 
@@ -2159,10 +2160,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         if hack_mode_enabled:
             ctx.remove_class('off')
+            self.play_ambient_sound()
         else:
             ctx.add_class('off')
             self.clubhouse.stop_quest()
             self.hide_achievements_view()
+            self.stop_ambient_sound()
 
     def _update_window_size(self):
         BG_WIDTH = 1304
@@ -2377,10 +2380,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._clubhouse_state.window_is_visible = self.props.visible
 
     def play_ambient_sound(self):
-        if not self._play_ambient_sound:
+        if not self._play_ambient_sound or not Desktop.get_hack_mode():
             return
 
-        Sound.play('clubhouse/ambient', self._ambient_sound_uuid_cb)
+        self._ambient_sound_item.play()
         # The sound will be stopped after certain time.
         if self._ambient_sound_timer_id is None:
             self._ambient_sound_timer_id = \
@@ -2390,21 +2393,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _ambient_sound_timer_cb(self):
         self.stop_ambient_sound()
         self._play_ambient_sound = False
-        self._ambient_sound_timer_id = None
         return GLib.SOURCE_REMOVE
 
-    def _ambient_sound_uuid_cb(self, _proxy, uuid, _data):
-        if isinstance(uuid, GLib.Error):
-            logger.warning('Error when attempting to play sound: %s', uuid.message)
-            self._ambient_sound_uuid = None
-            return
-
-        self._ambient_sound_uuid = uuid
-
     def stop_ambient_sound(self):
-        if self._ambient_sound_uuid:
-            Sound.stop(self._ambient_sound_uuid)
-            self._ambient_sound_uuid = None
+        self._ambient_sound_item.stop()
 
     def hide(self):
         super().hide()
