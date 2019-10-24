@@ -102,72 +102,94 @@ headerbar
     margin-right: 1ex
 
 
-Message
-  .button-box
-    button
-      $default_margin: 14px
-      $color_variant_a: #76EECF
-      $color_variant_b: #37DCB1
-      $color_variant_c: #32BBA4
-      $color_variant_d: #2D9B98
-      $default_color: $color_variant_d
+MessageButton
+  $default_margin: 14px
+  $color_variant_a: #76EECF
+  $color_variant_b: #37DCB1
+  $color_variant_c: #32BBA4
+  $color_variant_d: #2D9B98
 
-      // This is the default for buttons after the 3rd one (unlikely).
-      background: $default_color
-      border-radius: 20px
+  $color_variant_hover_a: lighten($color_variant_a, 10%)
+  $color_variant_hover_b: lighten($color_variant_b, 10%)
+  $color_variant_hover_c: lighten($color_variant_c, 10%)
+  $color_variant_hover_d: lighten($color_variant_d, 10%)
 
-      &:nth-child(0)
-        background: linear-gradient(to right, $color_variant_a, $color_variant_b)
-      &:nth-child(1)
-        background: linear-gradient(to right, $color_variant_b, $color_variant_c)
-      &:nth-child(2)
-        background: linear-gradient(to right, $color_variant_c, $color_variant_d)
+  $color_variant_active_a: darken($color_variant_a, 10%)
+  $color_variant_active_b: darken($color_variant_b, 10%)
+  $color_variant_active_c: darken($color_variant_c, 10%)
+  $color_variant_active_d: darken($color_variant_d, 10%)
 
-      $color_variant_hover_a: lighten($color_variant_a, 10%)
-      $color_variant_hover_b: lighten($color_variant_b, 10%)
-      $color_variant_hover_c: lighten($color_variant_c, 10%)
-      $color_variant_hover_d: lighten($color_variant_d, 10%)
-      $color_variant_hover_default: $color_variant_hover_d
-      &:hover
-        background: $color_variant_hover_default
-        &:nth-child(0)
-          background: linear-gradient(to right, $color_variant_hover_a, $color_variant_hover_b)
-        &:nth-child(1)
-          background: linear-gradient(to right, $color_variant_hover_b, $color_variant_hover_c)
-        &:nth-child(2)
-          background: linear-gradient(to right, $color_variant_hover_c, $color_variant_hover_d)
+  $color_variant_hover_default: $color_variant_hover_d
+  $color_variant_active_default: $color_variant_active_d
+  $default_color: $color_variant_d
 
-      $color_variant_active_a: darken($color_variant_a, 10%)
-      $color_variant_active_b: darken($color_variant_b, 10%)
-      $color_variant_active_c: darken($color_variant_c, 10%)
-      $color_variant_active_d: darken($color_variant_d, 10%)
-      $color_variant_active_default: $color_variant_active_d
-      &:active
-        background: $color_variant_active_default
-        &:nth-child(0)
-          background: linear-gradient(to right, $color_variant_active_a, $color_variant_active_b)
-        &:nth-child(1)
-          background: linear-gradient(to right, $color_variant_active_b, $color_variant_active_c)
-        &:nth-child(2)
-          background: linear-gradient(to right, $color_variant_active_c, $color_variant_active_d)
+  // This is the default for buttons after the 3rd one (unlikely).
+  background: $default_color
+  border-radius: 20px
+  border: none
+  padding: 5px
+  margin: 0 12px 0 0
+  font: 15px "Metropolis Medium, Sans-Serif"
+  box-shadow: 0 2px 4px 4px transparentize(black,0.8)
 
-      label
-        margin-right: $default_margin
-        margin-left: $default_margin
-        // Force to vertically align the text.
-        margin-top: 4px
-        min-width: 85px
+  &:nth-child(0)
+    background: linear-gradient(to right, $color_variant_a, $color_variant_b)
+  &:nth-child(1)
+    background: linear-gradient(to right, $color_variant_b, $color_variant_c)
+  &:nth-child(2)
+    background: linear-gradient(to right, $color_variant_c, $color_variant_d)
 
-      image
-        color: white
 
-      &.icon-label
-        label
-          // The icon has already a margin. If this margin is set, a double margin will be viewed.
-          margin-left: unset
-        image
-          color: white
-          padding: $default_margin / 2
+  &:hover
+    background: $color_variant_hover_default
+    &:nth-child(0)
+      background: linear-gradient(to right, $color_variant_hover_a, $color_variant_hover_b)
+    &:nth-child(1)
+      background: linear-gradient(to right, $color_variant_hover_b, $color_variant_hover_c)
+    &:nth-child(2)
+      background: linear-gradient(to right, $color_variant_hover_c, $color_variant_hover_d)
+
+    image
+      -gtk-icon-shadow: none
+
+
+  &:active
+    background: $color_variant_active_default
+    &:nth-child(0)
+      background: linear-gradient(to right, $color_variant_active_a, $color_variant_active_b)
+    &:nth-child(1)
+      background: linear-gradient(to right, $color_variant_active_b, $color_variant_active_c)
+    &:nth-child(2)
+      background: linear-gradient(to right, $color_variant_active_c, $color_variant_active_d)
+
+  label
+    margin-right: $default_margin
+    margin-left: $default_margin
+    // Force to vertically align the text.
+    margin-top: 4px
+    min-width: 85px
+
+    color: white
+    text-shadow: 0 0.5px 2px transparentize(black,0.6)
+    font-size: 15px
+    min-width: 60px
+
+    &.text-button
+      margin: 0 10px
+      min-width: 85px
+
+  image
+    color: white
+    -gtk-icon-shadow: none
+
+  &.icon-label
+    label
+      // The icon has already a margin. If this margin is set, a double margin will be viewed.
+      margin-left: unset
+    image
+      color: white
+      padding: $default_margin / 2
+
 
 // CharacterButton
 @keyframes pulsate_background
