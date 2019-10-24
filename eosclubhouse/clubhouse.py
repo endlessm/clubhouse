@@ -1926,6 +1926,17 @@ class AchievementsView(Gtk.Box):
 
         self._stack.props.visible_child_name = page
 
+    def show_achievement(self, achievement_id):
+        for child in self._achievements_flow_box.get_children():
+            item = child.get_item()
+
+            if not item:
+                continue
+
+            if item.achievement.id == achievement_id:
+                self.current_achievement = item.achievement
+                return
+
     def get_current_page(self):
         return self._stack.props.visible_child_name
 
@@ -1954,6 +1965,9 @@ class AchievementsView(Gtk.Box):
         icon_file = Gio.File.new_for_path(icon_path)
         icon_bytes = icon_file.load_bytes(None)
         icon = Gio.BytesIcon.new(icon_bytes[0])
+
+        notification.add_button('OK', f"app.badge-notification(('{achievement.id}', false))")
+        notification.add_button('Show me', f"app.badge-notification(('{achievement.id}', true))")
 
         notification.set_icon(icon)
         Gio.Application.get_default().send_quest_item_notification(notification)
@@ -2099,13 +2113,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.news = NewsView()
         self.character = CharacterView(self)
 
-        achievements_view = AchievementsView(self)
-        self._achievements_view_revealer.add(achievements_view)
+        self._achievements_view = AchievementsView(self)
+        self._achievements_view_revealer.add(self._achievements_view)
+
         self._stack_event_box.connect('button-press-event',
                                       lambda _box, _event: self.hide_achievements_view())
         self._user_box_event_box.connect('button-press-event',
                                          self._user_event_box_button_press_event_cb,
-                                         achievements_view)
+                                         self._achievements_view)
 
         self._stack.add_named(self.clubhouse, 'CLUBHOUSE')
         self._stack.add_named(self.news, 'NEWS')
@@ -2579,7 +2594,9 @@ class ClubhouseApplication(Gtk.Application):
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
-        simple_actions = [('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
+        simple_actions = [('badge-notification', self._badge_notification_action_cb,
+                           GLib.VariantType.new('(sb)')),
+                          ('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
                           ('quest-debug-skip', self._quest_debug_skip, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('quest-view-close', self._quest_view_close_action_cb, None),
@@ -2596,6 +2613,23 @@ class ClubhouseApplication(Gtk.Application):
             action = Gio.SimpleAction.new(name, variant_type)
             action.connect('activate', callback, *callback_args)
             self.add_action(action)
+
+    def _badge_notification_action_cb(self, action, arg_variant):
+        achievement_id, show = arg_variant.unpack()
+
+        # Does nothing if we don't want to show, this will just dismiss the
+        # notification
+        if not show:
+            return
+
+        self._ensure_window()
+        self._window.set_page('CLUBHOUSE')
+        self.show(Gdk.CURRENT_TIME)
+        revealer = self._window._achievements_view_revealer_revealer
+        if not revealer.props.reveal_child:
+            revealer.props.reveal_child = True
+
+        self._window._achievements_view.show_achievement(achievement_id)
 
     def _ensure_registry_loaded(self):
         if not self._registry_loaded:
