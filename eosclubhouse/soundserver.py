@@ -136,3 +136,54 @@ class HackSoundServer:
         except GLib.Error as e:
             _logger.warning("Error: Failed to get DBus proxy:", e.message)
             return
+
+
+class HackSoundItem:
+    class Status:
+        NONE = 0
+        PENDING = 1
+        CANCELLING = 3
+
+    def __init__(self, sound_event_id):
+        self._id = HackSoundItem.Status.NONE
+        self.name = sound_event_id
+
+    def play(self):
+        # If we are about to play the sound, do nothing
+        if self._id == HackSoundItem.Status.PENDING:
+            return
+
+        # If we had to play and to stop before the first UUId was returned,
+        # then un-cancel the original sound but do not request another one.
+        if self._id == HackSoundItem.Status.CANCELLING:
+            self._id = HackSoundItem.Status.PENDING
+            return
+
+        # If we are already playing a sound, do nothing (we want to avoid
+        # overlapped sounds)
+        if self._id != HackSoundItem.Status.NONE:
+            return
+
+        self._id = HackSoundItem.Status.PENDING
+        HackSoundServer.play(self.name, result_handler=self._play_cb)
+
+    def _play_cb(self, proxy, uuid, user_data):
+        if isinstance(uuid, GLib.Error):
+            print('Error when attempting to play sound item \'%s\':'
+                  ': %s' % (self.name, uuid.message))
+            self._id == HackSoundItem.Status.NONE
+            return
+        if self._id == HackSoundItem.Status.CANCELLING:
+            HackSoundServer.stop(uuid)
+            self._id = HackSoundItem.Status.NONE
+        self._id = uuid
+
+    def stop(self):
+        if self._id == HackSoundItem.Status.PENDING:
+            self._id = HackSoundItem.Status.CANCELLING
+            return
+        if self._id in (HackSoundItem.Status.CANCELLING,
+                        HackSoundItem.Status.NONE):
+            return
+        HackSoundServer.stop(self._id)
+        self._id = HackSoundItem.Status.NONE
