@@ -224,6 +224,63 @@ class Character(GObject.GObject):
     body_animation = GObject.Property(_get_body_animation, _set_body_animation, type=str)
 
 
+class MessageButton(Gtk.Button):
+
+    __gtype_name__ = 'MessageButton'
+
+    ICONS_FOR_EMOJI = {
+        '❯': ':icon:next:',
+        '❮': ':icon:previous:',
+        '👍': ':icon:thumbsup:',
+        '👎': ':icon:thumbsdown:'
+    }
+    DEFAULT_BUTTON_ICON_SIZE = 15
+
+    def __init__(self, label, click_cb, *user_data):
+        super().__init__()
+
+        self._setup_ui(label)
+        self.connect('clicked', self._clicked_cb, click_cb, *user_data)
+
+    def _setup_ui(self, label):
+        icon_name, label = self._parse_from_label(label)
+
+        if icon_name:
+            image = Gtk.Image(icon_name=icon_name, pixel_size=self.DEFAULT_BUTTON_ICON_SIZE)
+            self.set_image(image)
+            self.set_property('always-show-image', True)
+
+            ctx = self.get_style_context()
+            ctx.add_class('icon-label')
+
+        if label:
+            self.props.label = label
+            if self.props.image:
+                label_widget = self.get_children()[0].get_children()[0].get_children()[1]
+            else:
+                label_widget = self.get_children()[0]
+            label_widget.set_property('valign', Gtk.Align.CENTER)
+
+    def _parse_from_label(self, label):
+        # Backward compatibility.
+        # @todo: Remove when quests implement the new :icon:icon-name: format.
+        if label in self.ICONS_FOR_EMOJI:
+            label = self.ICONS_FOR_EMOJI[label]
+
+        tokens = re.split(r'(^\:icon:.*\:)', label)[1:]
+        specifies_icon = bool(tokens)
+
+        icon_name = None
+        if specifies_icon:
+            icon_name = 'clubhouse-{}'.format(tokens[0].split(':icon:')[1][:-1])
+            label = tokens[1]
+
+        return icon_name, label
+
+    def _clicked_cb(self, button, caller_cb, *user_data):
+        caller_cb(*user_data)
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
 class Message(Gtk.Overlay):
 
@@ -233,15 +290,7 @@ class Message(Gtk.Overlay):
     _character_image = Gtk.Template.Child()
     _button_box = Gtk.Template.Child()
 
-    ICONS_FOR_EMOJI = {
-        '❯': ':icon:next:',
-        '❮': ':icon:previous:',
-        '👍': ':icon:thumbsup:',
-        '👎': ':icon:thumbsdown:'
-    }
-
     OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
-    DEFAULT_BUTTON_ICON_SIZE = 15
 
     def __init__(self):
         super().__init__()
@@ -257,38 +306,8 @@ class Message(Gtk.Overlay):
         return self._label.get_label()
 
     def add_button(self, label, click_cb, *user_data):
-        button = Gtk.Button()
-
-        # Backward compatibility.
-        # @todo: Remove when quests implement the new :icon:icon-name: format.
-        if label in self.ICONS_FOR_EMOJI:
-            label = self.ICONS_FOR_EMOJI[label]
-
-        tokens = re.split(r'(^\:icon:.*\:)', label)[1:]
-        specifies_icon = bool(tokens)
-
-        if specifies_icon:
-            icon_name = 'clubhouse-{}'.format(tokens[0].split(':icon:')[1][:-1])
-            label = tokens[1]
-
-            image = Gtk.Image(icon_name=icon_name, pixel_size=self.DEFAULT_BUTTON_ICON_SIZE)
-            button.set_image(image)
-            button.set_property('always-show-image', True)
-
-            ctx = button.get_style_context()
-            ctx.add_class('icon-label')
-
-        if label:
-            button.props.label = label
-            if button.props.image:
-                label_widget = button.get_children()[0].get_children()[0].get_children()[1]
-            else:
-                label_widget = button.get_children()[0]
-            label_widget.set_property('valign', Gtk.Align.CENTER)
-
-        button.connect('clicked', self._button_clicked_cb, click_cb, *user_data)
+        button = MessageButton(label, click_cb, *user_data)
         button.show()
-
         self._button_box.pack_start(button, False, False, 0)
         self._button_box.show()
 
@@ -2899,6 +2918,7 @@ clubhouse_classes = [
     ClubhouseViewMainLayer,
     ClubhouseWindow,
     Message,
+    MessageButton,
     NewsItem,
     NewsView,
     ActivityCard,
