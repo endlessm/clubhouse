@@ -2323,7 +2323,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         recorder.record_event(CLUBHOUSE_SET_PAGE_EVENT, page_variant)
 
     def _select_main_page_on_timeout(self):
-        self._stack.set_visible_child(self.clubhouse)
+        self.set_page('CLUBHOUSE')
         self._page_reset_timeout = 0
 
         return GLib.SOURCE_REMOVE
