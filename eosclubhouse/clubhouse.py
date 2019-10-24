@@ -2113,6 +2113,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::window-is-visible',
                                       self._on_clubhouse_window_visibility_changed_cb)
+        self._clubhouse_state.connect('notify::window-is-disabled',
+                                      self._on_clubhouse_window_disabled_changed_cb)
         self._clubhouse_state.connect('notify::nav-attract-state',
                                       self._on_clubhouse_nav_attract_state_changed_cb)
 
@@ -2218,6 +2220,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.show()
         else:
             self.hide()
+
+    def _on_clubhouse_window_disabled_changed_cb(self, state, _param):
+        self.props.sensitive = not state.window_is_disabled
 
     def _on_clubhouse_nav_attract_state_changed_cb(self, state, _param):
         self._clubhouse_button.get_style_context().remove_class('nav-attract')
