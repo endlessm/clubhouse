@@ -49,7 +49,6 @@
     <file preprocess="xml-stripblanks">scalable/apps/facebook-symbolic.svg</file>
     <file preprocess="xml-stripblanks">scalable/apps/instagram-symbolic.svg</file>
     <file preprocess="xml-stripblanks">scalable/apps/twitter-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">scalable/emblems/clubhouse-check-in-circle-symbolic.svg</file>
     <file preprocess="xml-stripblanks">scalable/actions/clubhouse-next-symbolic.svg</file>
     <file preprocess="xml-stripblanks">scalable/actions/clubhouse-previous-symbolic.svg</file>
     <file preprocess="xml-stripblanks">scalable/actions/clubhouse-thumbsdown-symbolic.svg</file>

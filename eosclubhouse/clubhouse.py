@@ -241,9 +241,7 @@ class Message(Gtk.Overlay):
     }
 
     OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
-    DEFAULT_BUTTON_ICON_NAME = 'clubhouse-check-in-circle'
-    DEFAULT_BUTTON_ICON_SIZE = 28
-    NON_DEFAULT_BUTTON_ICON_SIZE = 15
+    DEFAULT_BUTTON_ICON_SIZE = 15
 
     def __init__(self):
         super().__init__()
@@ -269,23 +267,16 @@ class Message(Gtk.Overlay):
         tokens = re.split(r'(^\:icon:.*\:)', label)[1:]
         specifies_icon = bool(tokens)
 
-        icon_name = self.DEFAULT_BUTTON_ICON_NAME
         if specifies_icon:
             icon_name = 'clubhouse-{}'.format(tokens[0].split(':icon:')[1][:-1])
             label = tokens[1]
 
-        icon_pixel_size = self.DEFAULT_BUTTON_ICON_SIZE
-        if icon_name != self.DEFAULT_BUTTON_ICON_NAME:
-            icon_pixel_size = self.NON_DEFAULT_BUTTON_ICON_SIZE
-
-        if len(self._button_box.get_children()) == 0 or specifies_icon:
-            image = Gtk.Image(icon_name=icon_name, pixel_size=icon_pixel_size)
+            image = Gtk.Image(icon_name=icon_name, pixel_size=self.DEFAULT_BUTTON_ICON_SIZE)
             button.set_image(image)
             button.set_property('always-show-image', True)
 
-        if button.props.image and icon_name != self.DEFAULT_BUTTON_ICON_NAME:
             ctx = button.get_style_context()
-            ctx.add_class('nondefault')
+            ctx.add_class('icon-label')
 
         if label:
             button.props.label = label
