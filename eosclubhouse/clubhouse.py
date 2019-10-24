@@ -233,6 +233,13 @@ class Message(Gtk.Overlay):
     _character_image = Gtk.Template.Child()
     _button_box = Gtk.Template.Child()
 
+    ICONS_FOR_EMOJI = {
+        '❯': ':icon:next:',
+        '❮': ':icon:previous:',
+        '👍': ':icon:thumbsup:',
+        '👎': ':icon:thumbsdown:'
+    }
+
     OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
     DEFAULT_BUTTON_ICON_NAME = 'clubhouse-check-in-circle'
     DEFAULT_BUTTON_ICON_SIZE = 28
@@ -256,14 +263,8 @@ class Message(Gtk.Overlay):
 
         # Backward compatibility.
         # @todo: Remove when quests implement the new :icon:icon-name: format.
-        if label == '❯':
-            label = ':icon:next:'
-        elif label == '❮':
-            label = ':icon:previous:'
-        elif label == '👍':
-            label = ':icon:thumbsup:'
-        elif label == '👎':
-            label = ':icon:thumbsdown:'
+        if label in self.ICONS_FOR_EMOJI:
+            label = self.ICONS_FOR_EMOJI[label]
 
         tokens = re.split(r'(^\:icon:.*\:)', label)[1:]
         specifies_icon = bool(tokens)
