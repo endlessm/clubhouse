@@ -1030,7 +1030,6 @@ class ClubhouseView(FixedLayerGroup):
         self._last_user_answer = 0
 
         self._app_window = app_window
-        self._app_window.connect('key-press-event', self._key_press_event_cb)
 
         self._app = Gio.Application.get_default()
 
@@ -1308,18 +1307,6 @@ class ClubhouseView(FixedLayerGroup):
         timeout = self._scheduled_quest_info.timeout
         self._scheduled_quest_info.handler_id = GLib.timeout_add_seconds(timeout,
                                                                          _run_quest_after_timeout)
-
-    def _key_press_event_cb(self, window, event):
-        # Allow to fully quit the Clubhouse on Ctrl+Escape
-        if event.keyval == Gdk.KEY_Escape and (event.state & Gdk.ModifierType.CONTROL_MASK):
-            self._app_window.destroy()
-            return True
-
-        if self._current_quest:
-            event_copy = event.copy()
-            self._current_quest.on_key_event(event_copy)
-
-        return False
 
     def _shell_close_popup_message(self):
         self._app.close_quest_msg_notification()

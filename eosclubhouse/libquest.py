@@ -704,8 +704,6 @@ class _Quest(GObject.GObject):
 
         self._cancellable = None
 
-        self.key_event = False
-
         self._confirmed_step = False
 
         self._toolbox_topic_clicked = None
@@ -1186,9 +1184,6 @@ class _Quest(GObject.GObject):
                 continue
 
         return class_.DEFAULT_DIFFICULTY
-
-    def on_key_event(self, event):
-        self.key_event = True
 
     def __repr__(self):
         return self.get_id()
