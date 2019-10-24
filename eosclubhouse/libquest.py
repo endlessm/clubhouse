@@ -368,7 +368,6 @@ class _QuestRunContext:
         self._step_loop = asyncio.new_event_loop()
         self._timeout_handle = None
         self._cancellable = cancellable
-        self._debug_actions = set()
         self._current_waiting_loop = None
 
     def _cancel_and_close_loop(self, loop):
@@ -533,8 +532,6 @@ class _QuestRunContext:
             for future in pending:
                 future.cancel()
 
-        self._debug_actions = set(action_list)
-
         self._current_waiting_loop = loop = asyncio.new_event_loop()
 
         loop.run_until_complete(wait_or_timeout(futures, timeout))
@@ -542,8 +539,6 @@ class _QuestRunContext:
         loop.close()
 
         self._current_waiting_loop = None
-
-        self._debug_actions.clear()
 
         # Cancel any pending actions
         for future in filter(lambda future: not future.done(), futures):
@@ -563,13 +558,6 @@ class _QuestRunContext:
                 async_action.state = AsyncAction.State.DONE
 
         return action_list
-
-    def debug_dispatch(self):
-        if not self._cancellable.is_cancelled():
-            for action in self._debug_actions:
-                action.resolve()
-
-        self._debug_actions = set()
 
 
 class AsyncAction:
@@ -717,7 +705,6 @@ class _Quest(GObject.GObject):
         self._cancellable = None
 
         self.key_event = False
-        self._debug_skip = False
 
         self._confirmed_step = False
 
@@ -1202,17 +1189,6 @@ class _Quest(GObject.GObject):
 
     def on_key_event(self, event):
         self.key_event = True
-
-    def debug_skip(self):
-        skip = self.key_event or self._debug_skip
-        self.key_event = None
-        self._debug_skip = False
-        return skip
-
-    def set_debug_skip(self, debug_skip):
-        self._debug_skip = debug_skip
-        if self._run_context is not None:
-            self._run_context.debug_dispatch()
 
     def __repr__(self):
         return self.get_id()

@@ -1075,10 +1075,6 @@ class ClubhouseView(FixedLayerGroup):
         self._cancel_ongoing_task()
         self._reset_scheduled_quest()
 
-    def quest_debug_skip(self):
-        if self._current_quest is not None:
-            self._current_quest.set_debug_skip(True)
-
     def _cancel_ongoing_task(self):
         if self._current_quest is None:
             return
@@ -1372,10 +1368,6 @@ class ClubhouseView(FixedLayerGroup):
             label = action[0]
             button_target = "app.quest-user-answer('{}')".format(key)
             notification.add_button(label, button_target)
-
-        # Add debug button (e.g. to quickly skip steps)
-        if self._app.has_debug_mode():
-            notification.add_button('🐞', 'app.quest-debug-skip')
 
         self._app.send_quest_msg_notification(notification)
 
@@ -2597,7 +2589,6 @@ class ClubhouseApplication(Gtk.Application):
         simple_actions = [('badge-notification', self._badge_notification_action_cb,
                            GLib.VariantType.new('(sb)')),
                           ('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
-                          ('quest-debug-skip', self._quest_debug_skip, None),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('quest-view-close', self._quest_view_close_action_cb, None),
                           ('quit', self._quit_action_cb, None),
@@ -2715,10 +2706,6 @@ class ClubhouseApplication(Gtk.Application):
     def _quest_view_close_action_cb(self, _action, _action_id):
         logger.debug('Shell quest view closed')
         self._stop_quest()
-
-    def _quest_debug_skip(self, action, action_id):
-        if self._window:
-            self._window.clubhouse.quest_debug_skip()
 
     def _run_quest_by_name(self, quest_name):
         self._ensure_window()
@@ -2909,9 +2896,6 @@ class ClubhouseApplication(Gtk.Application):
         except subprocess.CalledProcessError as e:
             logger.warning('Could not reset the Clubhouse: %s', e)
             return 1
-
-    def has_debug_mode(self):
-        return self._debug_mode
 
 
 # Set widget classes CSS name to be able to select by GType name
