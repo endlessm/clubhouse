@@ -38,7 +38,7 @@ class TestQuests(ClubhouseTestCase):
         setup_episode([PhonyAlice()])
 
         quest_a = Registry.get_quest_by_name('QuestA')
-        self.assertNotEqual(quest_a.get_main_character(), 'alice')
+        self.assertEqual(quest_a.get_main_character(), 'alice')
         self.assertNotEqual(quest_a.get_main_character(), '')
 
     def test_items_on_completion(self):

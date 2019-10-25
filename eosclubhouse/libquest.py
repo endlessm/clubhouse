@@ -41,9 +41,6 @@ from gi.repository import EosMetrics, GObject, GLib
 glibcoro.install()
 
 
-DEFAULT_CHARACTER = 'ada'
-
-
 QUEST_EVENT = '50aebb1b-7a93-4caf-8698-3a601a0fc0f6'
 PROGRESS_UPDATE_EVENT = '3a037364-9164-4b42-8c07-73bcc00902de'
 
@@ -149,6 +146,7 @@ class Registry(GObject.GObject):
                 return qs
         return None
 
+    @classmethod
     def get_questset_for_quest(class_, quest):
         # Note: this assumes that the questsets don't share quests. If
         # not, it will return the first questset matching.
@@ -370,7 +368,6 @@ class _QuestRunContext:
         self._step_loop = asyncio.new_event_loop()
         self._timeout_handle = None
         self._cancellable = cancellable
-        self._debug_actions = set()
         self._current_waiting_loop = None
 
     def _cancel_and_close_loop(self, loop):
@@ -479,14 +476,6 @@ class _QuestRunContext:
 
         return asyncio.get_event_loop().create_future()
 
-    def _future_get_loop(self, future):
-        # @todo: when we have Python 3.7 we can use the loop from the future's get_loop function
-        # directly; for now, we have to check what's the best way
-        if hasattr(future, 'get_loop'):
-            return future.get_loop()
-
-        return future._loop
-
     def pause(self, secs):
         async_action = self.new_async_action()
 
@@ -509,7 +498,7 @@ class _QuestRunContext:
                 self._cancellable.disconnect(cancel_handler_id)
             cancel_handler_id = 0
 
-        loop = self._future_get_loop(async_action.future)
+        loop = async_action.future.get_loop()
         pause_handler = loop.call_later(secs, _pause_finished)
 
         return self.wait_for_action(async_action)
@@ -543,8 +532,6 @@ class _QuestRunContext:
             for future in pending:
                 future.cancel()
 
-        self._debug_actions = set(action_list)
-
         self._current_waiting_loop = loop = asyncio.new_event_loop()
 
         loop.run_until_complete(wait_or_timeout(futures, timeout))
@@ -552,8 +539,6 @@ class _QuestRunContext:
         loop.close()
 
         self._current_waiting_loop = None
-
-        self._debug_actions.clear()
 
         # Cancel any pending actions
         for future in filter(lambda future: not future.done(), futures):
@@ -573,13 +558,6 @@ class _QuestRunContext:
                 async_action.state = AsyncAction.State.DONE
 
         return action_list
-
-    def debug_dispatch(self):
-        if not self._cancellable.is_cancelled():
-            for action in self._debug_actions:
-                action.resolve()
-
-        self._debug_actions = set()
 
 
 class AsyncAction:
@@ -659,19 +637,26 @@ class _Quest(GObject.GObject):
         ),
     }
 
-    # @todo: This should be obtained from the spreadsheet, not defined as a property.
-    __sound_on_run_begin__ = 'quests/quest-given'
+    _SOUND_ON_RUN_BEGIN = 'quests/quest-given'
+    _OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
+    _ABORT_SOUND = 'quests/quest-aborted'
+    _PROPOSAL_SOUND = 'quests/quest-proposed'
 
     # @todo: Document
     __available_after_completing_quests__ = []
 
     _DEFAULT_TIMEOUT = 2 * 3600  # secs
+
+    _DEFAULT_CHARACTER = 'ada'
     _DEFAULT_MOOD = 'talk'
 
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
-    proposal_sound = GObject.Property(type=str, default="quests/quest-proposed")
 
     stopping = GObject.Property(type=bool, default=False)
+
+    @property
+    def proposal_sound(self):
+        return self._PROPOSAL_SOUND
 
     def __init__(self):
         super().__init__()
@@ -703,11 +688,6 @@ class _Quest(GObject.GObject):
 
         self._characters = {}
 
-        self._main_character_id = DEFAULT_CHARACTER
-        self._main_mood = self._DEFAULT_MOOD
-        self._main_open_dialog_sound = 'clubhouse/dialog/open'
-        self._default_abort_sound = 'quests/quest-aborted'
-
         self._setup_labels()
 
         self.gss = GameStateService()
@@ -723,9 +703,6 @@ class _Quest(GObject.GObject):
             self.update_availability()
 
         self._cancellable = None
-
-        self.key_event = False
-        self._debug_skip = False
 
         self._confirmed_step = False
 
@@ -808,8 +785,7 @@ class _Quest(GObject.GObject):
         self.run_in_context(on_quest_finished)
 
     def run_in_context(self, quest_finished_cb):
-        if self.__sound_on_run_begin__:
-            Sound.play(self.__sound_on_run_begin__)
+        Sound.play(self._SOUND_ON_RUN_BEGIN)
 
         # Reset the "stopping" property before running the quest.
         self.stopping = False
@@ -1087,7 +1063,11 @@ class _Quest(GObject.GObject):
             self._cancellable.cancel()
 
     def get_main_character(self):
-        return self._main_character_id
+        questset = Registry.get_questset_for_quest(self)
+        if questset is None:
+            return self._DEFAULT_CHARACTER
+
+        return questset.get_character()
 
     def play_stop_bg_sound(self, sound_event_id=None):
         """
@@ -1204,20 +1184,6 @@ class _Quest(GObject.GObject):
                 continue
 
         return class_.DEFAULT_DIFFICULTY
-
-    def on_key_event(self, event):
-        self.key_event = True
-
-    def debug_skip(self):
-        skip = self.key_event or self._debug_skip
-        self.key_event = None
-        self._debug_skip = False
-        return skip
-
-    def set_debug_skip(self, debug_skip):
-        self._debug_skip = debug_skip
-        if self._run_context is not None:
-            self._run_context.debug_dispatch()
 
     def __repr__(self):
         return self.get_id()
@@ -1560,7 +1526,7 @@ class Quest(_Quest):
             self.show_message('ABORT')
             self.pause(5)
         else:
-            Sound.play(self._default_abort_sound)
+            Sound.play(self._ABORT_SOUND)
 
         self.stop()
 
@@ -1628,11 +1594,11 @@ class Quest(_Quest):
         sfx_sound = options.get('sfx_sound')
         if not sfx_sound:
             if message_id == 'ABORT':
-                sfx_sound = self._default_abort_sound
+                sfx_sound = self._ABORT_SOUND
             elif message_id == 'QUESTION':
-                sfx_sound = self.proposal_sound
+                sfx_sound = self._PROPOSAL_SOUND
             else:
-                sfx_sound = self._main_open_dialog_sound
+                sfx_sound = self._OPEN_DIALOG_SOUND
         bg_sound = options.get('bg_sound')
 
         self.emit('message', {
@@ -1640,7 +1606,7 @@ class Quest(_Quest):
             'text': options['parsed_text'],
             'choices': possible_answers,
             'character_id': options.get('character_id') or self.get_main_character(),
-            'character_mood': options.get('mood') or self._main_mood,
+            'character_mood': options.get('mood') or self._DEFAULT_MOOD,
             'sound_fx': sfx_sound,
             'sound_bg': bg_sound,
             'type': message_type,
@@ -2137,8 +2103,6 @@ class QuestSet(GObject.GObject):
 
     def __repr__(self):
         return self.get_id()
-
-    # ----
 
     @classmethod
     def get_name(class_):

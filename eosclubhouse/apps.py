@@ -45,19 +45,15 @@ class Fizzics(App):
         # level, but we bump it if the user has also just beaten the level.
         self._effective_level = 0
 
-    def get_effective_level(self, debug_skip=False):
-        level = self.get_current_level(debug_skip)
+    def get_effective_level(self):
+        level = self.get_current_level()
         if self.get_js_property('levelSuccess', False):
             level += 1
 
         self._effective_level = level
         return level
 
-    def get_current_level(self, debug_skip=False):
-        if debug_skip:
-            self._current_level += 1
-            return self._current_level
-
+    def get_current_level(self):
         # The level obtained is zero-based, but this is too confusing
         # because the dialogues are 1-based. So we convert to
         # 1-based here:
@@ -66,14 +62,9 @@ class Fizzics(App):
         self._current_level = level
         return level
 
-    def set_current_level(self, level, debug_skip=False):
+    def set_current_level(self, level):
         # Convert to 0-based index:
         level -= 1
-
-        if debug_skip:
-            self._current_level = level
-            return
-
         self.set_js_property('preset', ('i', level))
 
     def disable_tool(self, tool, disabled=True):
