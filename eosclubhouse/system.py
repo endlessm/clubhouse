@@ -324,17 +324,17 @@ class Desktop:
 
     @classmethod
     def ensure_hack_cursor_is_present(klass):
-        src = f'{DATA_DIR}/cursors/{klass.HACK_CURSOR}.xmc'
-        dirname = f'~/.icons/{klass.HACK_CURSOR}/cursors/'
-        dirname = os.path.expanduser(dirname)
-        cursor = os.path.join(dirname, 'left_ptr')
+        src = f'{DATA_DIR}/cursors'
+        basedir = f'~/.icons/{klass.HACK_CURSOR}'
+        basedir = os.path.expanduser(basedir)
+        dirname = f'{basedir}/cursors'
         theme = os.path.join(dirname, 'index.theme')
 
-        if os.path.exists(cursor):
-            return
+        if os.path.exists(basedir):
+            shutil.rmtree(basedir)
 
-        os.makedirs(dirname, exist_ok=True)
-        shutil.copy2(src, cursor)
+        os.makedirs(basedir, exist_ok=True)
+        shutil.copytree(src, dirname, symlinks=True)
         config = configparser.ConfigParser()
         config.optionxform = lambda opt: opt
         config.add_section('Icon Theme')
