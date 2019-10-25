@@ -728,7 +728,6 @@ class ActivityCard(Gtk.FlowBoxChild):
 
     _title = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
-    _category_image = Gtk.Template.Child()
     _complete_image = Gtk.Template.Child()
 
     _play_button = Gtk.Template.Child()
@@ -836,9 +835,6 @@ class ActivityCard(Gtk.FlowBoxChild):
             self._alternative_path, quest_id, quest_id, pathway)
 
         self._css_provider.load_from_data("box {{ background-image: {} }}".format(urls).encode())
-
-        # Set category icon
-        self._category_image.props.icon_name = 'clubhouse-pathway-' + pathway + '-symbolic'
 
     def _create_description_label(self, description):
         return Gtk.Label(visible=True,
