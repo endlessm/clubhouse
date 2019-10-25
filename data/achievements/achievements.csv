@@ -2,11 +2,11 @@ ID,Name,Description,Skillset,Points Needed
 empty-state,Logic Summary,"Every time you complete a new quest, you get points in certain categories. Reaching certain amounts of points will give you a new badge! Try out all the activities and see what you can get!",,0
 launch-felix,Cat Herder,"Find Felix, no matter where he hides...",Felix,3
 launch-lore,Lore-ing's not Boring,Unlocked by getting to know the Clubhouse characters through the story activities.,Narrative,5
-launch-games-intro,The Player of Games,"Unlocked by playing 2 ""Games"" activities",Games,2
-launch-art-intro,The Finer Arts,"Unlocked by playing 2 ""Art"" activites",Art,2
-launch-maker-intro,Get Excited and Make Things,"Unlocked by playing 2 ""Maker"" activities",Maker,2
-launch-web-intro,Web Spinner,"Unlocked by playing 2 ""Web"" activities",Web,2
-launch-os-intro,System Operator,"Unlocked by playing 2 ""Operating System"" activities",Operating System,2
+launch-games-intro,The Player of Games,"Unlocked by playing 2 ""Games"" activities",pathway:Games,2
+launch-art-intro,The Finer Arts,"Unlocked by playing 2 ""Art"" activites",pathway:Art,2
+launch-maker-intro,Get Excited and Make Things,"Unlocked by playing 2 ""Maker"" activities",pathway:Maker,2
+launch-web-intro,Web Spinner,"Unlocked by playing 2 ""Web"" activities",pathway:Web,2
+launch-os-intro,System Operator,"Unlocked by playing 2 ""Operating System"" activities",pathway:Operating System,2
 veteran-badge,sudo reboot,"Welcome back, Hack 1.0 user!",Veteran,1
 launch-veteran-felix,... Have I met you?,"You recognize that cat, like he's from an old dream.",Veteran,1
 launch-veteran-felix,,,Felix,1
