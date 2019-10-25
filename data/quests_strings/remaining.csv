@@ -1,4 +1,4 @@
-,"You should have something like `<p style=""font-size:200%; color:red"">` - Notice where the semicolon is.",,,,
+,"If you had already saved any files in your home directory, you might see them in the results of that `ls`.",,,,
 ACTIVATETRAP_ABORT,We all hope you'll check back soon! Just one more step. ,,,,
 ACTIVATETRAP_END,"Riley, hold on in there! We're all here for you and we're doing everything we can! 
 
@@ -65,12 +65,6 @@ APPLYFOB3_OPEN_CLUBHOUSE_HINT1,The button on the right opens the clubhouse. ,,,,
 APPLYFOB3_QUESTION,"Okay, friend, are you with me? Ready to try fob #3?",faber,,,
 APPLYFOB3_QUEST_ACCEPT,TOTALLY. ,,,,
 APPLYFOB3_RILEY,( ᐟ\^13 *M* @13 ∫=^^= ∫} *E*  */\‿/\*  *O* 13 *.‿.3* @ *W* 13  ∫*.‿.3}=^^= ∫* },riley,talk_glitched,,
-ARTSNAPSHOT_QUEST_DESCRIPTION,Delve into the power of photography!,,,,
-ARTSNAPSHOT_QUEST_NAME,Let's Be (photo) Realistic,,,,
-ARTSNAPSHOT_QUEST_SUBTITLE,What you'll do,,,,
-ARTSNAPSHOT_WELCOME,"I'm sure you've heard the phrase *""A picture is worth a thousand words.""*
-
-But have you ever tried to figure out what that means, or how you'd create that effect?",estelle,,,
 BONUSROUND_ABORT,"Okay but trust me, it's gonna be cool. Come back when you have more time!",riley,,,
 BONUSROUND_LAUNCH,"A.maze.ing! Sorry, couldn't resist */\‿/\*  Okay, so launch the *Sidetrack* app.",,,,
 BONUSROUND_LAUNCH_HINT1,Click the *Sidetrack* icon. ,,,,
@@ -1023,12 +1017,6 @@ MAKEDEVICE_QUESTION,Hi again! Did you get the parts to make that Stealth Device?
 MAKEDEVICE_QUEST_ACCEPT,Yes! Right here.,,,,quests/quest2-faber-conga-build
 MAKEDEVICE_QUEST_NOTYET,Not yet. I'll be back later.,,,,quests/quest2-faber-conga-build
 MAKEDEVICE_RILEY,Oh we're just doing some training experiments. Thank you!,riley,hurray,,quests/quest2-faber-conga-build
-MAKEREARTHQUAKE_QUEST_DESCRIPTION,Learn how to build a delicious and shake-resistant structure.,,,,
-MAKEREARTHQUAKE_QUEST_NAME,A Home-grown Earthquake,,,,
-MAKEREARTHQUAKE_QUEST_SUBTITLE,What you'll do,,,,
-MAKEREARTHQUAKE_WELCOME,"Now this is some mad-scientist tech! Ever wanted to control the *mighty power of earthquakes*?
-
-Who hasn't? I think you'll have a lot of fun with this one!",faber,,,
 MAKERINTRO_ABORT,"Okay, see ya later!",,,,
 MAKERINTRO_EXPLANATION,Here's your challenge: Collect all the diamonds... without flinging the orange ball.,,,,quests/quest2-fabers-fizzics
 MAKERINTRO_EXPLANATION_HINT1,"You heard me. I'll be watching, so don't try flinging.",,,,quests/quest2-fabers-fizzics
@@ -1063,12 +1051,6 @@ We just might have a use for that! Purely for research purposes of course. ʌ˽�
 
 Thanks Faber! You rule. ",riley,,,
 MAKERINTRO_WHATISIT,"Hey Faber, since we're here, do you have any clue what this weird rusty thingamajig might be?",riley,,,
-MAKERPAPERBRIDGE_QUEST_DESCRIPTION,Learn how to build a strong bridge from weak materials.,,,,
-MAKERPAPERBRIDGE_QUEST_NAME,Bridge Over Papered Water,,,,
-MAKERPAPERBRIDGE_QUEST_SUBTITLE,What you'll do,,,,
-MAKERPAPERBRIDGE_WELCOME,"Sometimes, you don't have the best materials at hand to build what you want.
-
-Maybe you need to build a ladder out of sticks... or a bridge out of paper. Give it a try!",faber,,,
 MAKERQUEST_ABORT,No worries! You can always try later.,,,,
 MAKERQUEST_END,Let me know if I can give you a hand with any interesting projects.,,,,
 MAKERQUEST_EXPLANATION,Today's puzzle is to make it so all 10 of these green balls are touching the red spiky ball at the same time.,,,,
@@ -1083,18 +1065,6 @@ MAKERQUEST_QUEST_ACCEPT,Always up for them,,,,
 MAKERQUEST_SUCCESS,"That's it! Good job!
 
 By the way, I realized I already had some *cloaking glaze*. Here you go!",,hurray,,
-MAKERSKETCH_QUEST_DESCRIPTION,Learn to capture your inspiration in sketches in this excercise.,,,,
-MAKERSKETCH_QUEST_NAME,A Sketchy Proposition,,,,
-MAKERSKETCH_QUEST_SUBTITLE,What you'll do,,,,
-MAKERSKETCH_WELCOME,"Ever tried to make a prototype? It's a sort of first-try effort at something, trying to get the biggest problems solved.
-
-That's mainly what I do in the shop all day - and it's a great excercise to get your creativity going.",faber,,,
-MAKERVERB_QUEST_DESCRIPTION,Explore the images you can generate with a few well-chosen verbs.,,,,
-MAKERVERB_QUEST_NAME,A Verb in the hand...,,,,
-MAKERVERB_QUEST_SUBTITLE,What you'll do,,,,
-MAKERVERB_WELCOME,"The best inspiration can seem like a random thought, if you're not prepared to catch it and use it.
-
-You just gotta let yourself go and see what the world decides to show you...",faber,,,
 MAZEPT1_ABORT,Come find me later and we can keep working on this! ,ada,,,
 MAZEPT1_AUTO1,"*Robots!* & *Pits!* & *Walls,* oh my! Saniel, my friend, I've got this. I'll be bouncing this maze in no time ;)",riley,hurray,,
 MAZEPT1_AUTO1_ADA,Sounds like it! Riley? Your manual controls just totally disappeared. Something must be messing with them!,ada,,,
@@ -1447,19 +1417,19 @@ OSONESHOTBACKGROUND_QUEST_DESCRIPTION,Learn how to change your desktop backgroun
 OSONESHOTBACKGROUND_QUEST_NAME,The Command-line - Showing Off You,,,,
 OSONESHOTBACKGROUND_QUEST_SUBTITLE,r Prize,,,,
 OSONESHOTCATMOUSE_1,Hey *{{user_name}}*! Ada's always saying we should search out new things to do - so I want to try teaching you some tricks in the *Terminal*!,riley,,,
-OSONESHOTCATMOUSE_10,"Right now, yours should say `~` (tilde), which means we're in your `home` directory, where all your stuff is.",riley,,,
-OSONESHOTCATMOUSE_11,"So what's a *file system*? Bascially it's like a big group of folders, and some of them contain more folders inside them, and so on...",riley,,,
-OSONESHOTCATMOUSE_12,"You might also hear these folders called *directories*, sometimes.",riley,,,
-OSONESHOTCATMOUSE_13,"To see what's around you in the current directory, you use `ls` (that's lower-case L, lower-case S)",riley,,,
-OSONESHOTCATMOUSE_14,`ls` is a command that *lists* everything in the directory you're in. It's like looking around in a room.,riley,,,
-OSONESHOTCATMOUSE_15,Type `ls` into the Terminal then hit *Enter*.,riley,,,
-OSONESHOTCATMOUSE_16,"Cool! That should have shown you a list of items, then given you a new prompt.",riley,,,
-OSONESHOTCATMOUSE_17,"Whenever you see a new, empty prompt, the Terminal is ready for another command.",riley,,,
-OSONESHOTCATMOUSE_18,"So, if you have already saved any files in your home directory, you'll see them here.",riley,,,
-OSONESHOTCATMOUSE_19,"Wait, did you create a directory named `yarnbasket`? What's that doing here?",riley,,,
+OSONESHOTCATMOUSE_10,"BTW, a *file system* is like a big group of folders, and some of them contain more folders inside them, and so on...",riley,,,
+OSONESHOTCATMOUSE_11,"To see what's around you in the current folder, you use the command `ls`",riley,,,
+OSONESHOTCATMOUSE_12,`ls` is a command that *lists* everything in the directory you're in. It's like looking around in a room.,riley,,,
+OSONESHOTCATMOUSE_13,"Type `ls` (lower-case L, lower-case S) into the Terminal, then hit *Enter*.",riley,,,
+OSONESHOTCATMOUSE_14,"Also, whenever you see a new, empty prompt, the Terminal is ready for another command. It's *super* fast!",riley,,,
+OSONESHOTCATMOUSE_15,"Running `ls` should have shown you a list of items, then given you a new prompt.",riley,,,
+OSONESHOTCATMOUSE_16,Hmm... did you create a directory named *yarnbasket*? That sounds like something a cat would do. Let's check it out!,riley,,,
+OSONESHOTCATMOUSE_17,"To go into another folder, you use the `cd` command. ",riley,,,
+OSONESHOTCATMOUSE_18,"`cd` stands for *change directory* (directory is another word for folder). Unlike `ls`, `cd` needs some information after it to tell it which directory you want to change to.",riley,,,
+OSONESHOTCATMOUSE_19,"Since we want to go into *yarnbasket*, type `cd yarnbasket`, then hit *enter*",riley,,,
 OSONESHOTCATMOUSE_2,"The Terminal is mondo cool, it's where the REAL magic in the OS happens. You know those scenes in movies where they hack into computer systems?",riley,,,
-OSONESHOTCATMOUSE_20,Let's check it out. To go into another folder (or directory) we need to use the `cd` command.,riley,,,
-OSONESHOTCATMOUSE_21,"`cd` stands for *change directory*. You need to tell `cd` where to go - so let's type `cd yarnbasket`, then hit *enter*",riley,,,
+OSONESHOTCATMOUSE_20,,riley,,,
+OSONESHOTCATMOUSE_21,,riley,,,
 OSONESHOTCATMOUSE_22,"Your prompt should change - It should say `yarnbasket`, since you typed in `cd yarnbasket`.",riley,,,
 OSONESHOTCATMOUSE_23,"Now that you're inside this folder, type `ls` again to see what's inside.",riley,,,
 OSONESHOTCATMOUSE_24,"Is that a file named.... *mouse*? Ew, Felix!",riley,,,
@@ -1473,14 +1443,14 @@ OSONESHOTCATMOUSE_30,You can actually `cat` any file - but only text files will 
 OSONESHOTCATMOUSE_31,Let's check out that file - type `cat mouse` to `cat` the file named *mouse*.,riley,,,
 OSONESHOTCATMOUSE_32,LOL! Looks like Felix played one of his pranks on us... Just like a real cat.,riley,,,
 OSONESHOTCATMOUSE_33,"That was fun! You learned *ls*, *cd*, and *cat* - and I've got much more planned for next time!",riley,hurray,,
-OSONESHOTCATMOUSE_34,Catch you later!,riley,,,
 OSONESHOTCATMOUSE_4,"Just a couple things before we start - when I do text like *this*, it's important.",riley,,,
 OSONESHOTCATMOUSE_5,Text `like this` is a command - something you could type into the terminal.,riley,,,
 OSONESHOTCATMOUSE_6,So if I say *don't* type `destroyallfiles`... hehehe.,riley,,,
 OSONESHOTCATMOUSE_7,Let's get started - I'll open the Terminal open for you.,riley,,,
-OSONESHOTCATMOUSE_8,"Nice. See that text on the left there? That's called the *prompt* - it's `your user name`, @, `your computer name`.",riley,,,
-OSONESHOTCATMOUSE_9,"After the colon (`:`) is where you are in the file system. It's a ""you are here"" for the filesystem.",riley,,,
+OSONESHOTCATMOUSE_8,"Nice. See that text on the left there? That's called the *prompt*. It tells you a lot of info, but the important part is that the part after the colon (:) tells you where you are in the filesystem.",riley,,,
+OSONESHOTCATMOUSE_9,"Right now, that should show `~` (tilde), which means we're in your `home` directory, where all your files are.",riley,,,
 OSONESHOTCATMOUSE_BAK,❮,,,,
+OSONESHOTCATMOUSE_END,Catch you later!,riley,,,
 OSONESHOTCATMOUSE_FWD,❯,,,,
 OSONESHOTCATMOUSE_QUEST_DESCRIPTION,"Start learning about the command-line, the most powerful tool on any computer. (Part 1 of 4)",,,,
 OSONESHOTCATMOUSE_QUEST_NAME,The Command-line - Cat and Mouse,,,,
