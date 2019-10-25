@@ -234,7 +234,8 @@ class MessageButton(Gtk.Button):
         '👍': ':icon:thumbsup:',
         '👎': ':icon:thumbsdown:'
     }
-    DEFAULT_BUTTON_ICON_SIZE = 15
+    DEFAULT_ICON_WITH_LABEL_SIZE = 15
+    DEFAULT_ICON_WITHOUT_LABEL_SIZE = 24
 
     def __init__(self, label, click_cb, *user_data):
         super().__init__()
@@ -246,12 +247,17 @@ class MessageButton(Gtk.Button):
         icon_name, label = self._parse_from_label(label)
 
         if icon_name:
-            image = Gtk.Image(icon_name=icon_name, pixel_size=self.DEFAULT_BUTTON_ICON_SIZE)
+            image = Gtk.Image(valign=Gtk.Align.CENTER, icon_name=icon_name)
             self.set_image(image)
             self.set_property('always-show-image', True)
 
-            ctx = self.get_style_context()
-            ctx.add_class('icon-label')
+        ctx = self.get_style_context()
+        if self.props.image:
+            if label:
+                self.props.image.props.pixel_size = self.DEFAULT_ICON_WITH_LABEL_SIZE
+            else:
+                self.props.image.props.pixel_size = self.DEFAULT_ICON_WITHOUT_LABEL_SIZE
+                ctx.add_class('icon-button')
 
         if label:
             self.props.label = label
@@ -259,7 +265,11 @@ class MessageButton(Gtk.Button):
                 label_widget = self.get_children()[0].get_children()[0].get_children()[1]
             else:
                 label_widget = self.get_children()[0]
-            label_widget.set_property('valign', Gtk.Align.CENTER)
+                ctx.add_class('text-button')
+            label_widget.props.valign = Gtk.Align.CENTER
+
+        self.props.valign = Gtk.Align.CENTER
+        self.props.can_focus = False
 
     def _parse_from_label(self, label):
         # Backward compatibility.
@@ -282,7 +292,7 @@ class MessageButton(Gtk.Button):
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
-class Message(Gtk.Overlay):
+class Message(Gtk.Box):
 
     __gtype_name__ = 'Message'
 

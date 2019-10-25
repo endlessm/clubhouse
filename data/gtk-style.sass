@@ -127,10 +127,13 @@ MessageButton
   background: $default_color
   border-radius: 20px
   border: none
-  padding: 5px
-  margin: 0 12px 0 0
-  font: 15px "Metropolis Medium, Sans-Serif"
+  padding: 10px
+  margin: 10px
+  font-family: "Metropolis Medium, Sans-Serif"
+  font-size: 15px
   box-shadow: 0 2px 4px 4px transparentize(black,0.8)
+  text-shadow: 0 0.5px 2px transparentize(black, 0.6);
+  min-width: 115px
 
   &:nth-child(0)
     background: linear-gradient(to right, $color_variant_a, $color_variant_b)
@@ -182,13 +185,48 @@ MessageButton
     color: white
     -gtk-icon-shadow: none
 
-  &.icon-label
-    label
-      // The icon has already a margin. If this margin is set, a double margin will be viewed.
-      margin-left: unset
-    image
-      color: white
-      padding: $default_margin / 2
+  &.icon-button
+    min-width: 50px
+    min-height: 50px
+    border-radius: 25px
+    padding: 0
+
+  &.text-button:first-child
+    margin-left: 60px
+
+
+Message
+  margin-left: 40px
+  margin-bottom: 40px
+
+  overlay
+    .button-box
+      min-height: 50px
+
+    .box
+      background-color: rgba(255, 255, 255, .96)
+      border-radius: 12px
+      border: 1px solid #8A6A45
+      box-shadow: 0 2px 8px 8px transparentize(black,0.8)
+      margin-bottom: 25px
+      margin-left: 25px
+
+      min-height: 110px
+      padding: 5px
+
+    .label
+      padding: 30px 0 15px 0
+      margin: 0 15px 17.5px 30px
+      font: 15px "Metropolis Medium, Sans-Serif"
+
+    .character
+      // Character image assets have a transparent border on the bottom.
+      // This is to make characters to extend out of the message boundaries.
+      // This margin aligns the "base" of the character to the base of the message box.
+      margin-bottom: -8px
+
+  &.top
+    margin-bottom: 0px
 
 
 // CharacterButton
