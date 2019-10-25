@@ -2305,6 +2305,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if current_page == new_page:
             return
 
+        if page_name == 'CLUBHOUSE':
+            self._clubhouse_button.set_active(True)
+        elif page_name == 'NEWS':
+            self._hack_news_button.set_active(True)
+
         if current_page == 'CHARACTER':
             running_quest = self.clubhouse.running_quest
             if running_quest is not None and running_quest.is_narrative():
