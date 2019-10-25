@@ -1224,6 +1224,10 @@ class _Quest(GObject.GObject):
             points = get_points(tag_info)
             manager.add_points(skillset, points, record_points)
 
+        # Don't give automatic points if the quest is hidden in the UI.
+        if self.skippable:
+            return
+
         # Add points for pathways:
         for pathway in self.get_pathways():
             pathway_skillset = 'pathway:' + pathway.get_name()
