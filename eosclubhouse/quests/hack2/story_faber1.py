@@ -4,7 +4,7 @@ from eosclubhouse.system import Sound
 
 class Story_Faber1(Quest):
 
-    __tags__ = ['pathway:maker', 'skillset:Narrative', 'difficulty:easy']
+    __tags__ = ['pathway:maker', 'skillset:Narrative', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 50
     __is_narrative__ = True
 

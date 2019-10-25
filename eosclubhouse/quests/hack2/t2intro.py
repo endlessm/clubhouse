@@ -6,7 +6,7 @@ class T2Intro(Quest):
 
     APP_NAME = 'com.endlessnetwork.frogsquash'
 
-    __tags__ = ['pathway:games', 'difficulty:easy']
+    __tags__ = ['pathway:games', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 125
 
     def setup(self):

@@ -6,7 +6,7 @@ class LMMSQuest(Quest):
 
     APP_NAME = 'io.lmms.LMMS'
 
-    __tags__ = ['pathway:art', 'difficulty:medium']
+    __tags__ = ['pathway:art', 'difficulty:medium', 'skillset:LaunchQuests']
     __pathway_order__ = 300
 
     def setup(self):

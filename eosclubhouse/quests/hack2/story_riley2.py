@@ -4,7 +4,8 @@ from eosclubhouse.system import Sound
 
 class Story_Riley2(Quest):
 
-    __tags__ = ['pathway:web', 'skillset:Narrative', 'difficulty:easy']
+    __tags__ = ['pathway:web', 'skillset:Narrative', 'difficulty:easy',
+                'skillset:LaunchQuests', 'skillset:felix']
     __pathway_order__ = 55
     __is_narrative__ = True
 

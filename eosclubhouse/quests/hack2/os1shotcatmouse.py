@@ -6,10 +6,11 @@ class OSOneshotCatMouse(Quest):
 
     APP_NAME = 'org.gnome.Terminal'
 
-    __tags__ = ['pathway:operating system', 'difficulty:hard']
+    __tags__ = ['pathway:operating system', 'difficulty:hard',
+                'skillset:LaunchQuests', 'skillset:felix']
     __pathway_order__ = 250
 
-    TOTAL_MESSAGES = 34
+    TOTAL_MESSAGES = 33
 
     def setup(self):
         self._app = App(self.APP_NAME)

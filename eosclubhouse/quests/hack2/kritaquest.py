@@ -6,7 +6,7 @@ class KritaQuest(Quest):
 
     APP_NAME = 'org.kde.krita'
 
-    __tags__ = ['pathway:art', 'difficulty:medium']
+    __tags__ = ['pathway:art', 'difficulty:medium', 'skillset:LaunchQuests']
     __pathway_order__ = 200
 
     def setup(self):

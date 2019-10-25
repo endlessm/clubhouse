@@ -4,7 +4,7 @@ import os
 
 class HTMLIntro1(Quest):
 
-    __tags__ = ['pathway:web', 'difficulty:easy']
+    __tags__ = ['pathway:web', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 501
 
     TOTAL_MESSAGES = 16

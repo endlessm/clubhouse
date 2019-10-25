@@ -6,7 +6,7 @@ class T2Whitehouse(Quest):
 
     APP_NAME = 'com.endlessnetwork.whitehouse'
 
-    __tags__ = ['pathway:games', 'difficulty:normal']
+    __tags__ = ['pathway:games', 'difficulty:normal', 'skillset:LaunchQuests']
     __pathway_order__ = 131
 
     def setup(self):
