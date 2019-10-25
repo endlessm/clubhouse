@@ -2388,7 +2388,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._clubhouse_state.window_is_visible = self.props.visible
 
     def play_ambient_sound(self):
-        if not self._play_ambient_sound or not Desktop.get_hack_mode():
+        hack_mode_enabled = Desktop.get_hack_mode()
+
+        if not self._play_ambient_sound and hack_mode_enabled:
+            self._play_ambient_sound = True
+
+        if not self._play_ambient_sound or not hack_mode_enabled:
             return
 
         self._ambient_sound_item.play()
@@ -2401,6 +2406,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _ambient_sound_timer_cb(self):
         self.stop_ambient_sound()
         self._play_ambient_sound = False
+        self._ambient_sound_timer_id = None
         return GLib.SOURCE_REMOVE
 
     def stop_ambient_sound(self):
