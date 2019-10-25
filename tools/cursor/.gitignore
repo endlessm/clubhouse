@@ -1,0 +1,4 @@
+*.png
+*.in
+output/
+.env
