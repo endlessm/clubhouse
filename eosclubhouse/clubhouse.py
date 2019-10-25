@@ -735,7 +735,6 @@ class ActivityCard(Gtk.FlowBoxChild):
     _topbox = Gtk.Template.Child()
     _revealer = Gtk.Template.Child()
     _difficulty_box = Gtk.Template.Child()
-    _secondary_difficulty_box = Gtk.Template.Child()
 
     def __init__(self, clubhouse, quest_set, quest):
         super().__init__()
@@ -829,12 +828,15 @@ class ActivityCard(Gtk.FlowBoxChild):
 
         info = CharacterInfo[character]
         pathway = info['pathway']
-        urls = "url('{}/{}.jpg'), \
-            url('/app/share/eos-clubhouse/quests_files/cards/{}.jpg'), \
-            url('/app/share/eos-clubhouse/quests_files/pathway-card-{}.svg')".format(
-            self._alternative_path, quest_id, quest_id, pathway)
 
-        self._css_provider.load_from_data("box {{ background-image: {} }}".format(urls).encode())
+        img = '{}/{}.jpg'.format(self._alternative_path, quest_id)
+        if not os.path.exists(img):
+            img = '/app/share/eos-clubhouse/quests_files/cards/{}.jpg'.format(quest_id)
+            if not os.path.exists(img):
+                img = '/app/share/eos-clubhouse/quests_files/pathway-card-{}.svg'.format(pathway)
+
+        css = "box {{ background-image: url('{}') }}".format(img).encode()
+        self._css_provider.load_from_data(css)
 
     def _create_description_label(self, description):
         return Gtk.Label(visible=True,
