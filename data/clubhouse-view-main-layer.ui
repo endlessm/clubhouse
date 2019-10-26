@@ -8,8 +8,8 @@
     <child>
       <object class="GtkBox">
         <property name="name">hack-switch</property>
-        <property name="width_request">146</property>
-        <property name="height_request">570</property>
+        <property name="width_request">145</property>
+        <property name="height_request">566</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
@@ -24,8 +24,8 @@
     <child>
       <object class="GtkToggleButton" id="_hack_switch">
         <property name="name">hack-switch-button</property>
-        <property name="width_request">90</property>
-        <property name="height_request">90</property>
+        <property name="width_request">105</property>
+        <property name="height_request">105</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="receives_default">True</property>
@@ -35,15 +35,15 @@
         </style>
       </object>
       <packing>
-        <property name="x">1085</property>
-        <property name="y">450</property>
+        <property name="x">1074</property>
+        <property name="y">440</property>
       </packing>
     </child>
     <child>
       <object class="GtkBox" id="_hack_switch_panel">
         <property name="name">hack-switch-panel</property>
-        <property name="width_request">80</property>
-        <property name="height_request">60</property>
+        <property name="width_request">100</property>
+        <property name="height_request">80</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
@@ -52,8 +52,8 @@
         </child>
       </object>
       <packing>
-        <property name="x">1090</property>
-        <property name="y">391</property>
+        <property name="x">1079</property>
+        <property name="y">379</property>
       </packing>
     </child>
     <child>
