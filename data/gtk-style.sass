@@ -12,7 +12,7 @@ button
   margin: 0
   box-shadow: none
   background-image: none
-
+  min-height: unset
 
 // Scrollbar
 scrollbar
@@ -390,9 +390,17 @@ CharacterView
 
 // ActivityCard
 ActivityCard
+  $easy_color_a: #37DCB1
+  $easy_color_b: #00E718
+  $normal_color_a: #EFBE2D
+  $normal_color_b: #FF6B00
+  $hard_color_a: #F92781
+  $hard_color_b: #FF0000
+
   border-radius: 1em
   min-height: 20em
   margin: 0.5em
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5)
 
   #topbox
     background-size: cover
@@ -425,8 +433,11 @@ ActivityCard
       color: white
       text-shadow: none
       border-radius: 1em
-      padding: 0.25em 1em
+      margin-top: 1ex
       background: $normal_color
+
+      > label
+        padding: 0.4em 1em 0.6em 1em
 
       &:hover
         background: lighten($normal_color, 20%)
@@ -475,18 +486,19 @@ ActivityCard
 
   box.difficulty
     background: white
+    transition: min-height 250ms ease
+    min-height: 0.8em
 
     separator
-      transition: min-height 250ms ease
-      min-height: 0.8em
       background: unset
 
       &:nth-child(2)
         margin: 0 0.2em
 
-    &.secondary
-      separator
-        min-height: 0.4em
+  separator.difficulty
+    margin-top: 1ex
+    min-height: 0.4em
+    min-width: 5em
 
   &:hover
     #topbox
@@ -494,8 +506,7 @@ ActivityCard
       background-size: 110%
 
     box.difficulty
-      separator
-        min-height: 0.4em
+      min-height: 0.4em
 
   &:selected:hover
     #topbox
@@ -515,58 +526,58 @@ ActivityCard
       animation: unset
 
   &.EASY
-    #bottombox image
-      background-color: #0DE53C
-
     stackswitcher > button:checked
-      color: #00efae
+      color: $easy_color_a
 
     &:hover,
     &:selected
       #topbox > box
-        background: linear-gradient(to top right, rgba(#00efae, 0.75), rgba(#00ff15, 0.2))
+        background: linear-gradient(47.32deg, $easy_color_a, rgba(4,231,34,0.45) 43.02%, rgba(2,231,30,0))
 
-    box.difficulty
-      separator:first-child
-        background: linear-gradient(to top right, #00efae, #00ff15)
+    separator.difficulty,
+    box.difficulty > separator:first-child
+      background: linear-gradient(to right, $easy_color_a, $easy_color_b)
 
   &.NORMAL
-    #bottombox image
-      background-color: #FC7908
-
     stackswitcher > button:checked
-      color: #ff6300
+      color: $normal_color_a
 
     &:hover,
     &:selected
       #topbox > box
-        background: linear-gradient(to top right, rgba(#f3cb14, 0.75), rgba(#fe9915, 0.2))
+        background: linear-gradient(49.74deg, $normal_color_a, rgba(255,107,0,0.49) 53.66%, rgba(255,107,0,0))
+
+    separator.difficulty
+      background: linear-gradient(to right, $normal_color_a, $normal_color_b)
 
     box.difficulty
+      $mix_color: mix($normal_color_a, $normal_color_b, 33%)
       separator:first-child
-        background: linear-gradient(to top right, #f3cb14, #ff9800)
+        background: linear-gradient(to right, $normal_color_a, $mix_color)
       separator:nth-child(2)
-        background: linear-gradient(to top right, #ff9600, #ff6300)
+        background: linear-gradient(to right, $mix_color, $normal_color_b)
 
   &.HARD
-    #bottombox image
-      background-color: #FA1E65
-
     stackswitcher > button:checked
-      color: #fc0806
+      color: $hard_color_a
 
     &:hover,
     &:selected
       #topbox > box
-        background: linear-gradient(to top right, rgba(#ff007e, 0.75), rgba(#ff0168, 0.2))
+        background: linear-gradient(46.17deg, rgba(249,39,129,0.9), rgba(252,68,74,0.5) 44.52%, rgba(252,68,74,0))
+
+    separator.difficulty
+      background: linear-gradient(to right, $hard_color_a, $hard_color_b)
 
     box.difficulty
+      $mix_color_a: mix($hard_color_a, $hard_color_b, 33%)
+      $mix_color_b: mix($hard_color_a, $hard_color_b, 66%)
       separator:first-child
-        background: linear-gradient(to top right, #ff007e, #ff0168)
+        background: linear-gradient(to right, $hard_color_a, $mix_color_a)
       separator:nth-child(2)
-        background: linear-gradient(to top right, #ff004c, #fe2d33)
+        background: linear-gradient(to right, $mix_color_a, $mix_color_b)
       separator:last-child
-        background: linear-gradient(to top right, #ff003b, #fc0806)
+        background: linear-gradient(to right, $mix_color_b, $hard_color_b)
 
 
 // News Page
