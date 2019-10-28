@@ -65,6 +65,10 @@ class Animator(GObject.GObject):
         return GLib.SOURCE_REMOVE
 
     def load(self, subpath, prefix=None, scale=1):
+        if self._loading:
+            logger.warning('Cannot load animations for the subpath: \'%s\'. Already loading.',
+                           subpath)
+            return
         self._loading = True
         self._animation_after_load = None
         self._animations = {}
