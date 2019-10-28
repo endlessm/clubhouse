@@ -508,12 +508,39 @@ class MessageBox(Gtk.Fixed):
     MIN_MESSAGE_WIDTH_RATIO = 0.9
 
     DEFAULT_ANIMATION_INTERVAL_MS = 20
-    DEFAULT_ANIMATION_DURATION_MS = 400
+    DEFAULT_ANIMATION_DURATION_MS = 1000
 
     def __init__(self, app_window):
         super().__init__()
         self._app_window = app_window
         self._messages_in_scene = []
+        self._messages_animation_info = {}
+        self.add_tick_callback(self._step)
+
+    def _step(self, widget, clock):
+        timestamp_ms = clock.get_frame_time() / 1000
+
+        for message in self._messages_animation_info:
+            info = self._messages_animation_info.get(message)
+            if not hasattr(message, 'last_updated'):
+                message.last_updated = timestamp_ms
+                continue
+
+            elapsed_ms = timestamp_ms - message.last_updated
+            print('elapsed_ms:', elapsed_ms)
+            delta_px = info['speed-px-per-ms'] * elapsed_ms
+            if info['direction'] in (Direction.LEFT, Direction.UP):
+                delta_px = -delta_px
+
+            self._move_message_from_info(message, info, delta_px)
+
+        for message in list(self._messages_animation_info):
+            info = self._messages_animation_info.get(message)
+            if info['completed']:
+                del self._messages_animation_info[message]
+
+        return GLib.SOURCE_CONTINUE
+
 
     def _animate_message(self, message, direction, end_position, done_action_cb=None, *args):
         if direction in (Direction.LEFT, Direction.RIGHT):
@@ -523,22 +550,34 @@ class MessageBox(Gtk.Fixed):
 
         start_position = self.child_get_property(message, axis_prop)
         distance = abs(end_position - start_position)
-        speed_ms_per_px = distance / self.DEFAULT_ANIMATION_DURATION_MS
-        delta = speed_ms_per_px * self.DEFAULT_ANIMATION_INTERVAL_MS
-        if direction in (Direction.LEFT, Direction.UP):
-            delta = -delta
+        speed_px_per_ms = distance / self.DEFAULT_ANIMATION_DURATION_MS
 
         if direction in (Direction.LEFT, Direction.RIGHT):
             if done_action_cb != self.remove:
                 message.props.opacity = 0.0
 
         fade_in = direction in (Direction.LEFT, Direction.RIGHT)
-        GLib.timeout_add(self.DEFAULT_ANIMATION_INTERVAL_MS, self._move_message_cb, message,
-                         start_position, end_position, distance, delta, direction, axis_prop,
-                         fade_in, done_action_cb, *args)
 
-    def _move_message_cb(self, message, start_position, end_position, distance, delta, direction,
-                         axis_prop, fade_in, done_action_cb, *args):
+        self._messages_animation_info[message] = {
+            'start-position': start_position,
+            'end-position': end_position,
+            'distance': distance,
+            'speed-px-per-ms': speed_px_per_ms,
+            'direction': direction,
+            'axis': axis_prop,
+            'fade-in': fade_in,
+            'done-function': functools.partial(done_action_cb, *args) if done_action_cb else None,
+            'completed': False
+        }
+
+    def _move_message_from_info(self, message, info, delta):
+        info['completed'] = self._move_message(message, info['start-position'],
+                                               info['end-position'], info['distance'], delta,
+                                               info['direction'], info['axis'], info['fade-in'],
+                                               info['done-function'])
+
+    def _move_message(self, message, start_position, end_position, distance, delta, direction,
+                      axis_prop, fade_in, done_partial_func):
         def _update_message_opacity(opacity=None):
             if not fade_in:
                 return
@@ -548,7 +587,7 @@ class MessageBox(Gtk.Fixed):
                 return
 
             traveled_distance_ratio = abs(new_position - start_position) / distance
-            if done_action_cb != self.remove:
+            if done_partial_func is not None and done_partial_func.func != self.remove:
                 message.props.opacity = traveled_distance_ratio
             else:
                 message.props.opacity = 1 - traveled_distance_ratio
@@ -563,18 +602,18 @@ class MessageBox(Gtk.Fixed):
                 direction in positive_directions and new_position >= end_position):
 
             self.child_set_property(message, axis_prop, end_position)
-            if done_action_cb == self.remove:
+            if done_partial_func is not None and done_partial_func.func == self.remove:
                 _update_message_opacity(0.0)
             else:
                 _update_message_opacity(1.0)
 
-            if done_action_cb is not None:
-                done_action_cb(*args)
-            return GLib.SOURCE_REMOVE
+            if done_partial_func is not None:
+                done_partial_func()
+            return True
 
         self.child_set_property(message, axis_prop, new_position)
         _update_message_opacity()
-        return True
+        return False
 
     def clear_messages(self):
         # @todo: Cancel pending/delayed message additions.
