@@ -1,0 +1,114 @@
+Welcome, Hacker, to...
+
+   ___  _ __        _        ___      ___                        
+  / _ \(_) /__ __ _( )___   / _ \___ / _/__ _______ ___  _______ 
+ / , _/ / / -_) // //(_-<  / , _/ -_) _/ -_) __/ -_) _ \/ __/ -_)
+/_/|_/_/_/\__/\_, / /___/ /_/|_|\__/_/ \__/_/  \__/_//_/\__/\__/ 
+             /___/                                               
+
+Written by:
+ _             
+|_) o  |  _  \/
+| \ |  | (/_ / 
+
+		...with some help from 
+
+		▄████  ▄███▄   █    ▄█     ▄  
+		█▀   ▀ █▀   ▀  █    ██ ▀▄   █ 
+		█▀▀    ██▄▄    █    ██   █ ▀  
+		█      █▄   ▄▀ ███▄ ▐█  ▄ █   
+		 █     ▀███▀       ▀ ▐ █   ▀▄ 
+		  ▀                     ▀     
+                              
+Welcome to a quick cheat-sheet for cool terminal commands!
+
++++++++++++++++++
++ Moving Around +
++++++++++++++++++
+
+cd - "change directory"
+How to use it:
+	cd  (the folder you want to go into)
+	cd ..
+Example:
+	cd yarnbasket - Takes you 'down' into "yarnbasket"
+	cd .. - Takes you up one level in the filesystem.
+Notes:
+	cd is one of those commands that has a special option for a very
+	specific thing - in this case, it's going back up through the file
+	system.
+########
+ls - "list"
+How to use it:
+	ls
+Example:
+	ls - Shows you all the files in your current directory.
+Notes:
+	ls is one of those commands you'll be using ALL the time. It's like
+	taking a look around the room you're sitting in.
+
+
+++++++++++++++++++++++
++ Dealing with Files +
+++++++++++++++++++++++
+
+mv - "move"
+How to use it:
+	mv (some file) (where you want to move the file)
+Example:
+	mv coolstuff ~/MyFolder - Moves "coolstuff" into the folder "MyFolder"
+Notes:
+	mv does the same thing as dragging a file into a folder in the
+	graphical file manager, or cutting and pasting a file into another
+	folder (Ctrl-X, Ctrl-V).
+########
+cp - "copy"
+How to use it:
+	cp (some file) (where you want it copied to)
+Example:
+	cp ImportantPaper /backups - Copies "ImportantPaper" into the folder "backups"
+Notes:
+	cp works just like mv, except it doesn't delete the original file 
+	after it puts it in the new location. Think of cp and mv like brothers,
+	sort of!
+########
+cat - "print to the screen"
+How to use it:
+	cat (the file you want to print to the Terminal)
+Example:
+	cat the_riley_reference.txt - Opens this file!
+Notes:
+	cat is one of those wierd commands whose name doesn't really have
+	anything to do with its purpose. It comes from the word "concatenate",
+	a fancy way of saying 'stick words or letters together', so you can
+	sort of see how it makes sense - it's sticking all those words and
+	letters in the file together and printing them to the screen.
+########
+mkdir - "make directory"
+How to use it:
+	mkdir (name of the directory you want to make)
+Example:
+	mkdir MySecretStuff - Creates the directory "MySecretStuff"
+Notes:
+	If you need a new directory to store your stuff in, mkdir is there
+	for you to use.
+
+++++++++++++++++++++++++++++
++ Finding more Information +
+++++++++++++++++++++++++++++
+
+Being able to find the answers to questions on your own is way more important
+than memorizing stuff! Even Saniel has to look things up all the time, and he's
+got an INSANE memory.
+If you need more info on Terminal commands, you can use an internet search
+engine - just search for something like "how to copy a file in linux", or
+something like that.
+You can try using the "man" command to get info on a specific command, but in
+my experience, it's pretty tough to understand, most of the time. I usually just
+Google it.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ You're at the bottom! Scroll up in the Terminal if you want to read the rest! +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Catch you later, hacker!
