@@ -2868,6 +2868,7 @@ class ClubhouseApplication(Gtk.Application):
         # Mark first contact quest (HackUnlock) as done
         quest = libquest.Registry.get_quest_by_name('FirstContact')
         quest.complete = True
+        quest.save_conf()
 
         # Unlock all hack1 lockscreens as part of the migration quest
         OldGameStateService().unlock_lockscreens()
