@@ -49,6 +49,7 @@ class Animator(GObject.GObject):
 
     def __init__(self, target_image):
         super().__init__()
+        self._loading = False
         self._animations = {}
         self._pending_animations = {}
         self._target_image = target_image
