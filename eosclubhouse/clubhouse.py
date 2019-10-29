@@ -1754,7 +1754,6 @@ class AchievementItem(Gtk.Box):
 
         default_image_path = os.path.join(badge_dir, '{}.svg'.format(achievement.id))
         hover_image_path = os.path.join(badge_dir, '{}-hover.svg'.format(achievement.id))
-        active_image_path = os.path.join(badge_dir, '{}-active.svg'.format(achievement.id))
 
         self._default_pixbuf = self._create_pixbuf(default_image_path)
         try:
@@ -1763,12 +1762,6 @@ class AchievementItem(Gtk.Box):
             logger.warning('Cannot create hover image for achievement \'%s\', becuase: %s',
                            self._achievement.id, ex)
             self._hover_pixbuf = None
-        try:
-            self._active_pixbuf = self._create_pixbuf(active_image_path)
-        except GLib.Error as ex:
-            logger.warning('Cannot create active image for achievement \'%s\', because: %s',
-                           self._achievement.id, ex)
-            self._active_pixbuf = None
 
         self.set_default_image()
 
@@ -1778,10 +1771,6 @@ class AchievementItem(Gtk.Box):
     def set_hover_image(self):
         if self._hover_pixbuf is not None:
             self._image.set_from_pixbuf(self._hover_pixbuf)
-
-    def set_active_image(self):
-        if self._active_pixbuf is not None:
-            self._image.set_from_pixbuf(self._active_pixbuf)
 
     def _create_pixbuf(self, image_path):
         return GdkPixbuf.Pixbuf.new_from_file_at_scale(image_path, -1, self.DEFAULT_BADGE_SIZE,
@@ -1824,20 +1813,6 @@ class AchievementFlowBoxChild(Gtk.FlowBoxChild):
         if not item:
             return
         item.set_default_image()
-
-    @Gtk.Template.Callback()
-    def _event_box_button_press_event_cb(self, _child, _event):
-        item = self.get_item()
-        if not item:
-            return
-        item.set_active_image()
-
-    @Gtk.Template.Callback()
-    def _event_box_button_release_event_cb(self, _child, _event):
-        item = self.get_item()
-        if not item:
-            return
-        item.set_hover_image()
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-summary-view.ui')
