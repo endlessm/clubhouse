@@ -35,6 +35,7 @@ from gi.repository import GLib, GObject, Gio
 class Desktop:
     SHELL_SETTINGS_SCHEMA_ID = 'org.gnome.shell'
     SETTINGS_HACK_MODE_KEY = 'hack-mode-enabled'
+    SETTINGS_HACK_ICON_PULSE = 'hack-icon-pulse'
     HACK_BACKGROUND = 'file://{}/share/backgrounds/Desktop-BGs-Nov-release.jpg'\
         .format(get_flatpak_sandbox())
 
@@ -386,6 +387,14 @@ class Desktop:
             klass._block_setting_signals(signal_name, block=False)
 
         return response
+
+    @classmethod
+    def set_hack_icon_pulse(klass, enabled):
+        shell_settings = klass.get_shell_settings()
+        if not shell_settings:
+            return
+
+        return shell_settings.set_boolean(klass.SETTINGS_HACK_ICON_PULSE, enabled)
 
     @classmethod
     def _block_setting_signals(klass, signal_name, block=True):
