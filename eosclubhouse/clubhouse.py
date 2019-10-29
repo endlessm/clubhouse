@@ -2854,7 +2854,7 @@ class ClubhouseApplication(Gtk.Application):
 
     # D-Bus implementation
     def migrationQuest(self):
-        MIGRATION_QUEST = 'Meet'
+        MIGRATION_QUEST = 'Migration'
 
         self._ensure_registry_loaded()
 
