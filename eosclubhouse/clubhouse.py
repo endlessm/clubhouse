@@ -535,6 +535,14 @@ class MessageBox(Gtk.Fixed):
         super().__init__()
         self._app_window = app_window
         self._messages_in_scene = []
+        self._msg_area_width = 0
+        self._msg_area_margin = 0
+
+        self.connect('size-allocate', self._on_size_allocate)
+
+    def _on_size_allocate(self, widget, allocation):
+        self._msg_area_width = allocation.width * 0.6
+        self._msg_area_margin = allocation.width * 0.8
 
     def _animate_message(self, message, direction, end_position, done_action_cb=None, *args):
         if direction in (Direction.LEFT, Direction.RIGHT):
@@ -616,10 +624,9 @@ class MessageBox(Gtk.Fixed):
         msg = Message()
         msg.update(message_info)
 
-        overlay_width = self._app_window.character.character_image.get_allocation().width
         msg.props.width_request = \
-            min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
-                                   overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
+            min(self._msg_area_width, max(self.MIN_MESSAGE_WIDTH,
+                                          self._msg_area_width * self.MIN_MESSAGE_WIDTH_RATIO))
 
         if self._is_main_character_message(message_info):
             msg.display_character(False)
@@ -662,9 +669,8 @@ class MessageBox(Gtk.Fixed):
 
         self._messages_in_scene.append(message)
         if not is_main_character_message:
-            allocation = self._app_window.character.activities_sw.get_allocation()
             message_width = message.get_preferred_width().minimum_width
-            final_x_pos = allocation.x - message_width
+            final_x_pos = self._msg_area_width - message_width
         self._animate_message(message, direction, final_x_pos)
 
         self._app_window.character.update_character_image(idle=not is_main_character_message)
@@ -682,10 +688,11 @@ class MessageBox(Gtk.Fixed):
         msg_height = self._get_message_height(message)
 
         y_pos = allocation.height - msg_height
+        message_width = message.get_preferred_width().minimum_width
         if direction == Direction.RIGHT:
-            x_pos = -message.props.width_request
+            x_pos = -message_width
         else:
-            x_pos = allocation.width / 2 - message.props.width_request / 2
+            x_pos = self._msg_area_margin - message_width
         return x_pos, y_pos
 
     def _withdraw_top_message(self):
@@ -693,11 +700,11 @@ class MessageBox(Gtk.Fixed):
         direction = self._guess_message_direction(message).get_opposite()
         assert direction in (Direction.LEFT, Direction.RIGHT)
 
-        message_width = message.props.width_request
+        message_width = message.get_preferred_width().minimum_width
         if direction == Direction.LEFT:
             final_position = -message_width
         else:
-            final_position = self.get_allocation().width / 2 - message_width / 2
+            final_position = self._msg_area_margin - message_width
 
         self._animate_message(message, direction, final_position, self.remove, message)
 
