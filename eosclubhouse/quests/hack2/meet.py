@@ -3,7 +3,7 @@ from eosclubhouse.libquest import Quest
 
 class Meet(Quest):
 
-    __tags__ = ['pathway:games', 'difficulty:easy', 'skillset:Veteran']
+    __tags__ = ['pathway:games', 'difficulty:easy']
     __pathway_order__ = 10
 
     def step_begin(self):
