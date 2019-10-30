@@ -24,12 +24,6 @@ class Quickstart(Quest):
         action = self.show_choices_message('WELCOME2', ('POSITIVE', None, True),
                                            ('NEGATIVE', None, False)).wait()
 
-        # Mark the quest as complete and save it to the game state
-        # before finishing, because the player already decided:
-        self.complete = True
-        self.save_conf()
-        self._clubhouse_state.window_is_disabled = False
-
         if action.future.result():
             self.highlight_nav('CLUBHOUSE')
             self.wait_confirm('HACKSWITCH1')
@@ -46,6 +40,10 @@ class Quickstart(Quest):
             self.wait_confirm('DECLINE')
 
         self.show_message('END1', choices=[('Will do!', self.step_complete_and_stop)])
+
+    def step_complete_and_stop(self):
+        self._clubhouse_state.window_is_disabled = False
+        super().step_complete_and_stop()
 
     def step_abort(self):
         # This is in case the quest is aborted between the
