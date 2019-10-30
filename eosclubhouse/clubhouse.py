@@ -1884,6 +1884,8 @@ class AchievementsView(Gtk.Box):
     _achievements_flow_box = Gtk.Template.Child()
     _achievement_summary_box = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
+    _grid_scrolled_window = Gtk.Template.Child()
+    _summary_scrolled_window = Gtk.Template.Child()
 
     def __init__(self, app_window):
         super().__init__()
@@ -1923,6 +1925,10 @@ class AchievementsView(Gtk.Box):
                          page)
 
         self._stack.props.visible_child_name = page
+
+    def reset_scrollbar_position(self):
+        self._grid_scrolled_window.props.vadjustment.props.value = 0
+        self._summary_scrolled_window.props.vadjustment.props.value = 0
 
     def show_achievement(self, achievement_id):
         for child in self._achievements_flow_box.get_children():
@@ -2386,6 +2392,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if revealer.props.child_revealed:
             self._user_button_image_revealer.props.reveal_child = True
             self._achievements_view_revealer.props.reveal_child = True
+            # Set the achievements view to its default state.
+            self._achievements_view.set_page(AchievementsView.PAGE_GRID)
+            self._achievements_view.reset_scrollbar_position()
 
     @Gtk.Template.Callback()
     def _achievements_view_revealer_child_revealed_notify_cb(self, revealer, _pspec):

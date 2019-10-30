@@ -100,7 +100,7 @@
                 <property name="transition_type">crossfade</property>
                 <property name="interpolate_size">True</property>
                 <child>
-                  <object class="GtkScrolledWindow">
+                  <object class="GtkScrolledWindow" id="_grid_scrolled_window">
                     <property name="name">GRID</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -133,7 +133,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkScrolledWindow">
+                  <object class="GtkScrolledWindow" id="_summary_scrolled_window">
                     <property name="name">SUMMARY</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
