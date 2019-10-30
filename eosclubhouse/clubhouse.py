@@ -2179,7 +2179,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         if hack_mode_enabled:
             ctx.remove_class('off')
-            self.play_ambient_sound()
+            if self.props.visible:
+                self.play_ambient_sound()
         else:
             ctx.add_class('off')
             self.clubhouse.stop_quest()
