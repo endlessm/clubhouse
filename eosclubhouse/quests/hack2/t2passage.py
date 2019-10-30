@@ -17,10 +17,10 @@ class T2Passage(Quest):
             self.wait_confirm('NOTINSTALLED', confirm_label='App Center, got it.')
             return self.step_abort
         else:
-            self.wait_confirm('GREET1')
-            self.wait_confirm('GREET2', confirm_label="We'll see!")
-            return self.step_launch
+            self._app.launch()
+            return self.step_instruct
 
-    def step_launch(self):
-        self._app.launch()
+    def step_instruct(self):
+        self.wait_confirm('GREET1')
+        self.wait_confirm('GREET2', confirm_label="We'll see!")
         return self.step_complete_and_stop
