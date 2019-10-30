@@ -1,14 +1,12 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import GameStateService
 from eosclubhouse.system import Desktop
 
 
 class Migration(Quest):
 
-    __tags__ = ['skillset:Veteran']
+    __tags__ = ['pathway:games', 'skillset:Veteran']
 
     def setup(self):
-        self._gss = GameStateService()
         self.skippable = True
 
     def step_begin(self):
