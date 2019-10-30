@@ -1937,7 +1937,7 @@ class AchievementsView(Gtk.Box):
 
     def _shell_popup_achievement_badge(self, achievement):
         notification = Gio.Notification()
-        notification.set_body("You have a new badge! You can find it in the Profile.")
+        notification.set_body(f"Got new badge <b>{achievement.name}</b>")
         notification.set_title('')
 
         icon_path = os.path.join(config.ACHIEVEMENTS_DIR, 'badges', '{}.svg'.format(achievement.id))
