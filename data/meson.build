@@ -65,11 +65,6 @@ install_data(
     install_dir: 'share/icons/hicolor/scalable/apps'
 )
 
-install_data(
-    'splash.svg',
-    install_dir: clubhouse_data_dir
-)
-
 install_subdir(
     'backgrounds',
     install_dir: join_paths(get_option('datadir'), 'backgrounds'),
@@ -91,7 +86,17 @@ quests_strings_dir_name = 'quests_strings'
 quests_files_dir_name = 'quests_files'
 tools_dir_name = 'tools'
 
-data_dir_paths = [characters_dir_name, cursors_dir_name, items_dir_name, achievements_dir_name, episodes_dir_name, newsfeed_dir_name, quests_strings_dir_name, quests_files_dir_name, tools_dir_name]
+data_dir_paths = [
+  characters_dir_name,
+  cursors_dir_name,
+  items_dir_name,
+  achievements_dir_name,
+  episodes_dir_name,
+  newsfeed_dir_name,
+  quests_strings_dir_name,
+  quests_files_dir_name,
+  tools_dir_name
+]
 
 foreach path : data_dir_paths
     install_subdir(path, install_dir: clubhouse_data_dir)
