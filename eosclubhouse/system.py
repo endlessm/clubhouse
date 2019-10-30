@@ -39,6 +39,7 @@ class Desktop:
         .format(get_flatpak_sandbox())
 
     HACK_CURSOR = 'cursor-hack'
+    HACK_CURSOR_SIZE = 32
 
     # Apps ids to override flatpak GTK3_MODULES with libclippy
     CLIPPY_APPS = [
@@ -353,8 +354,10 @@ class Desktop:
 
         if enabled:
             interface.set_string('cursor-theme', klass.HACK_CURSOR)
+            interface.set_int('cursor-size', klass.HACK_CURSOR_SIZE)
         else:
             interface.reset('cursor-theme')
+            interface.reset('cursor-size')
 
     @classmethod
     def get_hack_mode(klass):
