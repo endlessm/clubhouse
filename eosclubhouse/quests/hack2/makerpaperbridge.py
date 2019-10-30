@@ -4,7 +4,7 @@ from eosclubhouse.system import App
 
 class MakerPaperBridge(Quest):
 
-    APP_NAME = 'com.hack_computer.MakerPathway'
+    APP_NAME = 'com.hack_computer.ProjectLibrary'
     ARTICLE_NAME = 'From Paper To Bridge'
 
     __tags__ = ['pathway:maker']
