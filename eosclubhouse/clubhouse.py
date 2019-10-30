@@ -1937,7 +1937,14 @@ class AchievementsView(Gtk.Box):
 
     def _shell_popup_achievement_badge(self, achievement):
         notification = Gio.Notification()
-        notification.set_body(f"Got new badge <b>{achievement.name}</b>")
+
+        template_text = utils.QuestStringCatalog.get_string('NOQUEST_GIVE_BADGE')
+        if template_text is None:
+            template_text = 'Got new badge *{{achievement.name}}*'
+
+        template = utils.MessageTemplate(template_text)
+        text = template.substitute({'achievement.name': achievement.name})
+        notification.set_body(SimpleMarkupParser.parse(text))
         notification.set_title('')
 
         icon_path = os.path.join(config.ACHIEVEMENTS_DIR, 'badges', '{}.svg'.format(achievement.id))
