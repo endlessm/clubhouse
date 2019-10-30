@@ -1,4 +1,5 @@
 from eosclubhouse.libquest import Quest
+from eosclubhouse.system import Desktop
 
 
 class Migration(Quest):
@@ -9,5 +10,6 @@ class Migration(Quest):
         self.skippable = True
 
     def step_begin(self):
+        Desktop.set_hack_icon_pulse(True)
         self.wait_confirm('WELCOME')
         return self.step_complete_and_stop
