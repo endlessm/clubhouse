@@ -1745,7 +1745,7 @@ class AchievementItem(Gtk.Box):
 
     _image = Gtk.Template.Child()
 
-    def __init__(self, achievement):
+    def __init__(self, achievement, use_hover_image=True, use_active_image=True):
         super().__init__()
 
         self._achievement = achievement
@@ -1753,22 +1753,17 @@ class AchievementItem(Gtk.Box):
         badge_dir = os.path.join(config.ACHIEVEMENTS_DIR, 'badges')
 
         default_image_path = os.path.join(badge_dir, '{}.svg'.format(achievement.id))
-        hover_image_path = os.path.join(badge_dir, '{}-hover.svg'.format(achievement.id))
-        active_image_path = os.path.join(badge_dir, '{}-active.svg'.format(achievement.id))
-
         self._default_pixbuf = self._create_pixbuf(default_image_path)
-        try:
-            self._hover_pixbuf = self._create_pixbuf(hover_image_path)
-        except GLib.Error as ex:
-            logger.warning('Cannot create hover image for achievement \'%s\', becuase: %s',
-                           self._achievement.id, ex)
-            self._hover_pixbuf = None
-        try:
-            self._active_pixbuf = self._create_pixbuf(active_image_path)
-        except GLib.Error as ex:
-            logger.warning('Cannot create active image for achievement \'%s\', because: %s',
-                           self._achievement.id, ex)
-            self._active_pixbuf = None
+
+        self._hover_pixbuf = None
+        if use_hover_image:
+            hover_image_path = os.path.join(badge_dir, '{}-hover.svg'.format(achievement.id))
+            self._hover_pixbuf = self._maybe_create_pixbuf(hover_image_path, 'hover')
+
+        self._active_pixbuf = None
+        if use_active_image:
+            active_image_path = os.path.join(badge_dir, '{}-hover.svg'.format(achievement.id))
+            self._active_pixbuf = self._maybe_create_pixbuf(active_image_path, 'active')
 
         self.set_default_image()
 
@@ -1783,6 +1778,14 @@ class AchievementItem(Gtk.Box):
         if self._active_pixbuf is not None:
             self._image.set_from_pixbuf(self._active_pixbuf)
 
+    def _maybe_create_pixbuf(self, image_path, image_type):
+        try:
+            self._hover_pixbuf = self._create_pixbuf(image_path)
+        except GLib.Error as ex:
+            logger.warning('Cannot create hover %s for achievement \'%s\', becuase: %s',
+                           image_type, self._achievement.id, ex)
+            self._hover_pixbuf = None
+
     def _create_pixbuf(self, image_path):
         return GdkPixbuf.Pixbuf.new_from_file_at_scale(image_path, -1, self.DEFAULT_BADGE_SIZE,
                                                        True)
@@ -1793,20 +1796,58 @@ class AchievementItem(Gtk.Box):
     achievement = property(_get_achievement)
 
 
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-title-item.ui')
+class AchievementTitleItem(Gtk.Box):
+
+    __gtype_name__ = 'AchievementTitleItem'
+
+    _title_label = Gtk.Template.Child()
+
+    def __init__(self):
+        super().__init__()
+        self.connect('notify::achievement', self._achievement_notify_cb)
+
+    def justify_left(self):
+        self._title_label.props.justify = Gtk.Justification.LEFT
+        self._title_label.props.halign = Gtk.Align.START
+
+    def justify_right(self):
+        self._title_label.props.justify = Gtk.Justification.RIGHT
+        self._title_label.props.halign = Gtk.Align.END
+
+    def _achievement_notify_cb(self, _item, _pspec):
+        self._title_label.props.label = self.achievement.name
+
+    achievement = GObject.Property(type=object, default=None)
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-flow-box-child.ui')
 class AchievementFlowBoxChild(Gtk.FlowBoxChild):
 
     __gtype_name__ = 'AchievementFlowBoxChild'
 
-    _event_box = Gtk.Template.Child()
+    PAGE_PRIMARY_ITEM = 'PRIMARY-ITEM'
+    PAGE_SECONDARY_ITEM = 'SECONDARY-ITEM'
 
-    def __init__(self, achievement):
+    _event_box = Gtk.Template.Child()
+    _primary_item_box = Gtk.Template.Child()
+    _secondary_item_box = Gtk.Template.Child()
+    _stack = Gtk.Template.Child()
+
+    def __init__(self, achievement_view):
         super().__init__()
-        item = AchievementItem(achievement)
-        self._event_box.add(item)
+        self._achievement_view = achievement_view
+        self._primary_item = None
+        self._secondary_item = None
+
+    def display_secondary_item(self):
+        self._stack.props.visible_child_name = self.PAGE_SECONDARY_ITEM
+
+    def display_primary_item(self):
+        self._stack.props.visible_child_name = self.PAGE_PRIMARY_ITEM
 
     def get_item(self):
-        children = self._event_box.get_children()
+        children = self._primary_item_box.get_children()
         if not children or not isinstance(children[0], AchievementItem):
             return None
         return children[0]
@@ -1817,6 +1858,7 @@ class AchievementFlowBoxChild(Gtk.FlowBoxChild):
         if not item:
             return
         item.set_hover_image()
+        self._achievement_view.emit('rearranged', self)
 
     @Gtk.Template.Callback()
     def _event_box_leave_notify_event_cb(self, _child, _event):
@@ -1824,6 +1866,7 @@ class AchievementFlowBoxChild(Gtk.FlowBoxChild):
         if not item:
             return
         item.set_default_image()
+        self._achievement_view.emit('rearranged', None)
 
     @Gtk.Template.Callback()
     def _event_box_button_press_event_cb(self, _child, _event):
@@ -1838,6 +1881,35 @@ class AchievementFlowBoxChild(Gtk.FlowBoxChild):
         if not item:
             return
         item.set_hover_image()
+
+    def _set_primary_item(self, achievement_item):
+        if self._primary_item is not None:
+            logger.warning('Cannot set the primary item to AchievementFlowBoxChild at <%s>: '
+                           'already set.', hex(id(self)))
+            return
+        self._primary_item = achievement_item
+        self._primary_item_box.add(self._primary_item)
+
+    def _get_primary_item(self):
+        return self._primary_item
+
+    def _set_secondary_item(self, item):
+        children = self._secondary_item_box.get_children()
+        if children:
+            self._secondary_item_box.remove(children[0])
+
+        if isinstance(item, AchievementTitleItem):
+            if item.get_parent() is not None:
+                item.get_parent().remove(item)
+
+        self._secondary_item = item
+        self._secondary_item_box.add(item)
+
+    def _get_secondary_item(self):
+        return self._primary_item
+
+    primary_item = property(_get_primary_item, _set_primary_item)
+    secondary_item = property(_get_secondary_item, _set_secondary_item)
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-summary-view.ui')
@@ -1873,6 +1945,12 @@ class AchievementsView(Gtk.Box):
 
     __gtype_name__ = 'AchievementsView'
 
+    __gsignals__ = {
+        'rearranged': (
+            GObject.SignalFlags.RUN_FIRST, None, (object, )
+        ),
+    }
+
     DEFAULT_TRIANGLE_HEIGHT = 30
     PAGE_GRID = 'GRID'
     PAGE_SUMMARY = 'SUMMARY'
@@ -1893,9 +1971,12 @@ class AchievementsView(Gtk.Box):
 
         self._manager = AchievementsDB().manager
         self._achievements_achieved_id = None
+        self._temp_hover_flow_box_child = None
 
         if self._manager.empty_state_achievement is not None:
             self._add_achievement(self._manager.empty_state_achievement)
+
+        self._achievement_title_item = AchievementTitleItem()
 
         self._achievement_summary_view = AchievementSummaryView()
         self._achievement_summary_box.add(self._achievement_summary_view)
@@ -1908,6 +1989,7 @@ class AchievementsView(Gtk.Box):
         self._event_box.connect('leave-notify-event', self._leave_notify_event_cb)
 
         self.connect('notify::current-achievement', self._current_achievement_notify_cb)
+        self.connect('rearranged', self._rearranged_cb)
 
     def set_page(self, page):
         if page == self.PAGE_SUMMARY:
@@ -1972,13 +2054,15 @@ class AchievementsView(Gtk.Box):
 
     def _add_achievement(self, achievement):
         try:
-            achievement_item = AchievementFlowBoxChild(achievement)
+            flow_box_child = AchievementFlowBoxChild(self)
+            achievement_item = AchievementItem(achievement)
+            flow_box_child.primary_item = achievement_item
         except GLib.Error as ex:
             logger.warning('Achievement %s will not be shown because of an error: %s',
                            achievement.name, ex)
             return
 
-        self._achievements_flow_box.add(achievement_item)
+        self._achievements_flow_box.add(flow_box_child)
         self._achievements_flow_box.show_all()
 
     def do_draw(self, cr):
@@ -2064,6 +2148,92 @@ class AchievementsView(Gtk.Box):
             ctx = box.get_style_context()
             ctx.remove_class('hover')
             self.set_page(self.PAGE_GRID)
+
+    def _rearranged_cb(self, _view, hovered_flow_box_child):
+        if hovered_flow_box_child is None:
+            self._rearrange_unhover_state()
+        else:
+            self._rearrange_hover_state(hovered_flow_box_child)
+
+    def _rearrange_hover_state(self, hovered_flow_box_child):
+        hovered_child_index = hovered_flow_box_child.get_index()
+        title_index_delta = self._get_title_index_delta(hovered_child_index)
+        title_child_index = hovered_child_index + title_index_delta
+
+        # This is a temporary flow box child only created during the hover state, and
+        # removed after that.
+        self._temp_hover_flow_box_child = AchievementFlowBoxChild(self)
+        self._achievements_flow_box.add(self._temp_hover_flow_box_child)
+
+        # The badge title may be next to another badge on an existing FlowBoxChild or on an
+        # unexisting one, so create one, in that case.
+        title_flow_box_child = self._achievements_flow_box.get_child_at_index(title_child_index)
+        if title_flow_box_child is None:
+            title_flow_box_child = self._temp_hover_flow_box_child
+        title_flow_box_child.secondary_item = self._achievement_title_item
+
+        if hovered_flow_box_child.primary_item is not None:
+            self._achievement_title_item.achievement = \
+                hovered_flow_box_child.primary_item.achievement
+
+        self._do_rearrange(title_child_index, hovered_child_index)
+
+        if title_index_delta < 0:
+            self._achievement_title_item.justify_right()
+        else:
+            self._achievement_title_item.justify_left()
+
+        title_flow_box_child.display_secondary_item()
+        title_flow_box_child.show_all()
+
+    def _do_rearrange(self, title_child_index, hovered_child_index):
+        if hovered_child_index > title_child_index:
+            start_index = hovered_child_index + 1
+        else:
+            start_index = title_child_index + 1
+
+        children_to_rearrange = self._get_flow_box_primary_items_to_rearrange(title_child_index,
+                                                                              hovered_child_index)
+
+        for i, child_to_rearrange in enumerate(children_to_rearrange):
+            new_position = start_index + i
+            child_at_new_position = self._achievements_flow_box.get_child_at_index(new_position)
+
+            if child_to_rearrange != self._temp_hover_flow_box_child:
+                achievement = child_to_rearrange.primary_item.achievement
+                child_to_rearrange_primary_item_clone = AchievementItem(achievement,
+                                                                        use_hover_image=False,
+                                                                        use_active_image=False)
+                child_at_new_position.secondary_item = child_to_rearrange_primary_item_clone
+
+            child_at_new_position.display_secondary_item()
+            child_at_new_position.show_all()
+
+    def _get_flow_box_primary_items_to_rearrange(self, start_index, hovered_child_index):
+        n_children = len(self._achievements_flow_box.get_children())
+        indexes_to_exclude = [hovered_child_index, self._temp_hover_flow_box_child.get_index()]
+
+        for i in range(start_index, n_children):
+            if i in indexes_to_exclude:
+                continue
+            child = self._achievements_flow_box.get_child_at_index(i)
+            yield child
+
+    def _rearrange_unhover_state(self):
+        self._remove_temp_hover_flow_box_child()
+        for child in self._achievements_flow_box.get_children():
+            child.display_primary_item()
+
+    def _remove_temp_hover_flow_box_child(self):
+        if self._temp_hover_flow_box_child is not None:
+            self._achievements_flow_box.remove(self._temp_hover_flow_box_child)
+            self._temp_hover_flow_box_child = None
+
+    def _get_title_index_delta(self, flow_box_child_index):
+        max_columns = self._achievements_flow_box.props.max_children_per_line
+        if flow_box_child_index % max_columns + 1 <= max_columns // 2:
+            return 1
+        return -1
 
     current_achievement = GObject.Property(type=object, default=None)
     hover = property(_get_hover)
@@ -2922,6 +3092,7 @@ clubhouse_classes = [
     AchievementItem,
     AchievementSummaryView,
     AchievementsView,
+    AchievementTitleItem,
     CharacterView,
     ClubhouseView,
     ClubhouseViewMainLayer,
