@@ -293,6 +293,8 @@ class MessageButton(Gtk.Button):
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
 class Message(Gtk.Box):
+    # Provided animation assets should not have a height that exceeds this standard height.
+    CHARACTER_IMAGE_STANDARD_HEIGHT = 193
 
     __gtype_name__ = 'Message'
 
@@ -307,6 +309,7 @@ class Message(Gtk.Box):
         self._character = None
         self._character_mood_change_handler = 0
         self._animator = Animator(self._character_image)
+        self._character_image.props.pixel_size = self.CHARACTER_IMAGE_STANDARD_HEIGHT
         self.connect("show", lambda _: Sound.play('clubhouse/dialog/open'))
 
     def set_text(self, txt):
@@ -708,9 +711,11 @@ class MessageBox(Gtk.Fixed):
         else:
             messages_to_slide = messages_in_scene[1:]
 
+        # @todo: Avoid these hardcoded values.
+        fix_margin = -80
         for msg in messages_to_slide:
             current_y = self.child_get_property(msg, 'y')
-            self._animate_message(msg, Direction.UP, current_y - new_message_height)
+            self._animate_message(msg, Direction.UP, current_y - new_message_height - fix_margin)
 
     def _slide_messages_up_with_delay(self, messages_in_scene, new_message, duration_ms):
         GLib.timeout_add(duration_ms, self._slide_messages_up, messages_in_scene, new_message)
