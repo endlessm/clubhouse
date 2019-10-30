@@ -4,7 +4,7 @@ from eosclubhouse.system import App
 
 class MakerVerb(Quest):
 
-    APP_NAME = 'com.hack_computer.MakerPathway'
+    APP_NAME = 'com.hack_computer.ProjectLibrary'
     ARTICLE_NAME = 'Verb In A Hat'
 
     __tags__ = ['pathway:maker']

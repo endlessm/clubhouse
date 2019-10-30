@@ -4,7 +4,7 @@ from eosclubhouse.system import App
 
 class MakerEarthquake(Quest):
 
-    APP_NAME = 'com.hack_computer.MakerPathway'
+    APP_NAME = 'com.hack_computer.ProjectLibrary'
     ARTICLE_NAME = 'Earthquake At Home'
 
     __tags__ = ['pathway:maker']
