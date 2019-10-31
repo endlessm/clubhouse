@@ -322,6 +322,7 @@ class Message(Gtk.Box):
         button = MessageButton(label, click_cb, *user_data)
         button.show()
         self._button_box.pack_start(button, False, False, 0)
+        self.get_style_context().add_class('has-buttons')
         self._button_box.show()
 
     def _button_clicked_cb(self, button, caller_cb, *user_data):
@@ -339,6 +340,10 @@ class Message(Gtk.Box):
 
     def display_character(self, display):
         self._character_image.props.visible = display
+        if display:
+            self.get_style_context().add_class('has-character')
+        else:
+            self.get_style_context().remove_class('has-character')
 
     def set_character(self, character_id):
         if self._character:
