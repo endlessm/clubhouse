@@ -1357,6 +1357,9 @@ class ClubhouseView(FixedLayerGroup):
         if self._current_quest and bg_sound != self._current_quest.get_last_bg_sound_event_id():
             self._current_quest.play_stop_bg_sound(bg_sound)
 
+        if self._current_quest and not self._current_quest.dismissible_messages():
+            notification.set_priority(Gio.NotificationPriority.URGENT)
+
         if message_info.get('character_id'):
             character = Character.get_or_create(message_info['character_id'])
             character.mood = message_info['character_mood']

@@ -1325,6 +1325,10 @@ class _Quest(GObject.GObject):
         return class_.__is_narrative__
 
     @classmethod
+    def dismissible_messages(class_):
+        return class_. __dismissible_messages__
+
+    @classmethod
     def get_id(class_):
         return class_.__name__
 
@@ -1367,6 +1371,9 @@ class Quest(_Quest):
 
     __is_narrative__ = False
     '''Whether the quest is narrative or not.'''
+
+    __dismissible_messages__ = True
+    '''Whether the quest is dismissible or not.'''
 
     __auto_offer_info__ = {'confirm_before': True, 'start_after': 3}
     '''A dictionary containing the information for auto-offered quests.
