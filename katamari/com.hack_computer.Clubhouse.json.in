@@ -11,7 +11,7 @@
     "branch": "${BRANCH}",
 
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.32",
+    "runtime-version": "3.34",
     "sdk": "org.gnome.Sdk",
 
     "command": "eos-clubhouse",
@@ -124,8 +124,8 @@
             "sources": [
                  {
                      "type": "archive",
-                     "url": "http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.3.tar.xz",
-                     "sha256": "b2224e5d9c1b85ad51233f6135524bb9e16a9172d395edc79c73b89094659fd5"
+                     "url": "http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.5.tar.xz",
+                     "sha256": "44da47126349fde90aed6c5ed0915f3b43f1d8802cd827139eb15a1fff1c6ad2"
                  }
             ]
         },
