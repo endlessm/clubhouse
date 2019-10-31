@@ -9,6 +9,7 @@ class FirstContact(Quest):
     APP_NAME = 'com.hack_computer.HackUnlock'
 
     __tags__ = ['pathway:games']
+    __dismissible_messages__ = False
 
     def setup(self):
         self._app = App(self.APP_NAME)
