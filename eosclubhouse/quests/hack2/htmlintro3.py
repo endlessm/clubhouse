@@ -7,7 +7,7 @@ class HTMLIntro3(Quest):
     __tags__ = ['pathway:web', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 503
 
-    TOTAL_MESSAGES = 27
+    TOTAL_MESSAGES = 26
 
     def setup(self):
         return self.step_begin
@@ -27,8 +27,8 @@ class HTMLIntro3(Quest):
 
         message_id = str(message_index)
 
-        action = self.show_choices_message(message_id, ('BAK', None, -1),
-                                           ('FWD', None, 1)).wait()
+        action = self.show_choices_message(message_id, ('NOQUEST_NAV_BAK', None, -1),
+                                           ('NOQUEST_NAV_FWD', None, 1)).wait()
         message_index += action.future.result()
 
         return self.step_main_loop, message_index

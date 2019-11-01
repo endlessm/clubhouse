@@ -27,8 +27,8 @@ class HTMLIntro5(Quest):
 
         message_id = str(message_index)
 
-        action = self.show_choices_message(message_id, ('BAK', None, -1),
-                                           ('FWD', None, 1)).wait()
+        action = self.show_choices_message(message_id, ('NOQUEST_NAV_BAK', None, -1),
+                                           ('NOQUEST_NAV_FWD', None, 1)).wait()
         message_index += action.future.result()
 
         return self.step_main_loop, message_index
