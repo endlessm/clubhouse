@@ -43,6 +43,12 @@ def get_alternative_quests_dir():
     return os.path.join(GLib.get_user_data_dir(), 'quests')
 
 
+class _CircleList(list):
+    def __getitem__(self, key):
+        key = key % len(self)
+        return super().__getitem__(key)
+
+
 class DictFromCSV:
 
     _csv_dict = {}
@@ -143,6 +149,17 @@ class QuestStringCatalog(DictFromCSV):
             hint_keys.append(hint_key)
 
         return hint_keys
+
+    @classmethod
+    def get_loop_messages(class_, key):
+        messages = _CircleList()
+        for index in itertools.count(start=1):
+            message_id = f'{key}_{index}'
+            if class_.get_info(message_id) is None:
+                break
+            messages.append(message_id)
+
+        return messages
 
     @classmethod
     def set_key_value_from_csv_row(class_, csv_row, contents_dict):

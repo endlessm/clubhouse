@@ -1542,7 +1542,33 @@ class Quest(_Quest):
 
         self.stop()
 
-    # ** Displaying messages **
+    # ** Obtaining and displaying messages **
+
+    def get_loop_messages(self, prefix):
+        '''Return a circle list with all message IDs that have the given prefix, in order.
+
+        Example: Consider that 'MYQUEST_INFO_1' and 'MYQUEST_INFO_2' exist in the catalog:
+
+        >>> info_messages = self.get_loop_messages(prefix='INFO')
+        >>> info_messages[0]
+        'MYQUEST_INFO_1'
+        >>> info_messages[1]
+        'MYQUEST_INFO_2'
+
+        Since it's a circle list, the index can go out of bounds:
+
+        >>> info_messages[5]
+        'MYQUEST_INFO_1'
+
+        >>> info_messages[-5]
+        'MYQUEST_INFO_2'
+
+        :param str prefix: ID of a message from the strings catalog.
+
+        '''
+        if not prefix.startswith(self._qs_base_id):
+            prefix = f'{self._qs_base_id}_{prefix}'
+        return QuestStringCatalog.get_loop_messages(prefix)
 
     def show_message(self, message_id=None, **options):
         '''Show a dialogue displayig the message with ID `message_id`.
