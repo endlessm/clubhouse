@@ -791,34 +791,46 @@ ClubhouseWindow.NEWS
     background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_news_fg.png')
 
 NewsView
-  > box
-    padding: 1em
-    margin: 0 0 2em 2em
-    border-radius: 3em
-    background: transparentize(white, 0.2)
+  $default_margin: 2em
 
-    button
-      margin: 1em 0.8em
+  margin-right: 3em
 
-  scrolledwindow
-    background: unset
-    margin-top: 5em
+  box
 
-    viewport > box
-      margin-top: 2em
+    &.social
+      margin: 0 0 $default_margin 0
 
-    scrollbar
-      margin: 3em 0 1em 0
+      box
+        padding: 1em
+        border-radius: 3em
+        background: transparentize(white, 0.2)
 
-      slider
-        background: lightgray
+        button
+          margin: 1em 0.8em
 
-      slider:hover
-        background: gray
+    &.news
+      scrolledwindow
+        background: unset
+        margin-top: 5em
+
+        viewport > box
+          margin-top: 2em
+
+        scrollbar
+          margin: 3em 2.5em 1em 0
+
+          slider
+            background: lightgray
+
+          slider:hover
+            background: gray
+
 
 NewsItem
+  $default_margin: 1.75em
+
   font-size: 1.2em
-  margin: 1ex 2em
+  margin: 1ex $default_margin
   border-radius: 1em
   background: white
   box-shadow: 2px 2px 3px gray
@@ -893,3 +905,8 @@ ClubhouseWindow.off
   ClubhouseViewMainLayer
     #banister
       background-image: url($images + 'banister-off.png')
+
+ScalableImage
+  background-size: 100% 100%
+  background-repeat: no-repeat
+  background-position: center

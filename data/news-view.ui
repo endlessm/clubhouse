@@ -1,75 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
-  <template class="NewsView" parent="GtkOverlay">
+  <template class="NewsView" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkScrolledWindow">
+      <object class="GtkRevealer" id="_spacing_revealer">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="halign">center</property>
-        <property name="hscrollbar_policy">never</property>
-        <property name="propagate_natural_width">True</property>
+        <property name="can_focus">False</property>
+        <property name="transition_type">slide-right</property>
+        <property name="reveal_child">True</property>
         <child>
-          <object class="GtkViewport">
+          <object class="GtkBox" id="_left_spacing_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="shadow_type">none</property>
             <child>
-              <object class="GtkBox" id="_news_box">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">center</property>
-                <property name="valign">start</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
+              <placeholder/>
             </child>
+            <style>
+              <class name="news-slider-box"/>
+            </style>
           </object>
         </child>
       </object>
       <packing>
-        <property name="index">-1</property>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
       </packing>
     </child>
-    <child type="overlay">
-      <object class="GtkBox">
+    <child>
+      <object class="GtkBox" id="_social">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="halign">start</property>
         <property name="valign">end</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkLinkButton">
+          <object class="GtkBox" id="_social_box">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="receives_default">False</property>
-            <property name="tooltip_text" translatable="yes">instagram.com/madetohack</property>
-            <property name="halign">center</property>
-            <property name="valign">start</property>
-            <property name="relief">none</property>
-            <property name="uri">http://www.instagram.com/madetohack</property>
+            <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">end</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkImage">
+              <object class="GtkLinkButton">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="pixel_size">32</property>
-                <property name="icon_name">instagram-symbolic</property>
+                <property name="can_focus">True</property>
+                <property name="focus_on_click">False</property>
+                <property name="receives_default">False</property>
+                <property name="tooltip_text" translatable="yes">intagram.com/madetohack</property>
+                <property name="halign">start</property>
+                <property name="valign">end</property>
+                <property name="relief">none</property>
+                <property name="uri">http://www.intagram.com/madetohack</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="pixel_size">32</property>
+                    <property name="icon_name">instagram-symbolic</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="link-button"/>
+                </style>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLinkButton">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="focus_on_click">False</property>
+                <property name="receives_default">False</property>
+                <property name="tooltip_text" translatable="yes">twitter.com/madetohack</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
+                <property name="relief">none</property>
+                <property name="uri">https://twitter.com/madetohack</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="pixel_size">32</property>
+                    <property name="icon_name">twitter-symbolic</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="link-button"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLinkButton">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="focus_on_click">False</property>
+                <property name="receives_default">False</property>
+                <property name="tooltip_text" translatable="yes">facebook.com/madetohack</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
+                <property name="relief">none</property>
+                <property name="uri">https://www.facebook.com/madetohack</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="pixel_size">32</property>
+                    <property name="icon_name">facebook-symbolic</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="link-button"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
             </child>
             <style>
-              <class name="link-button"/>
+              <class name="social"/>
             </style>
           </object>
           <packing>
@@ -78,65 +140,67 @@
             <property name="position">0</property>
           </packing>
         </child>
-        <child>
-          <object class="GtkLinkButton">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="receives_default">False</property>
-            <property name="tooltip_text" translatable="yes">twitter.com/madetohack</property>
-            <property name="halign">center</property>
-            <property name="valign">start</property>
-            <property name="relief">none</property>
-            <property name="uri">https://twitter.com/madetohack</property>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="pixel_size">32</property>
-                <property name="icon_name">twitter-symbolic</property>
-              </object>
-            </child>
-            <style>
-              <class name="link-button"/>
-            </style>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLinkButton">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="receives_default">False</property>
-            <property name="tooltip_text" translatable="yes">facebook.com/madetohack</property>
-            <property name="halign">center</property>
-            <property name="valign">start</property>
-            <property name="relief">none</property>
-            <property name="uri">https://www.facebook.com/madetohack</property>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="pixel_size">32</property>
-                <property name="icon_name">facebook-symbolic</property>
-              </object>
-            </child>
-            <style>
-              <class name="link-button"/>
-            </style>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
+        <style>
+          <class name="social"/>
+        </style>
       </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox" id="_news">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="name">_news_box_box</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">never</property>
+            <property name="propagate_natural_width">True</property>
+            <child>
+              <object class="GtkViewport">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="shadow_type">none</property>
+                <child>
+                  <object class="GtkBox" id="_news_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="valign">start</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <style>
+          <class name="news"/>
+        </style>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">2</property>
+      </packing>
     </child>
   </template>
 </interface>
