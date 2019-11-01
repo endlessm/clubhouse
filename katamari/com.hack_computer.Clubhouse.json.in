@@ -47,8 +47,7 @@
         "--talk-name=ca.desrt.dconf",
         "--talk-name=com.endlessm.Libanimation",
         "--talk-name=org.freedesktop.Flatpak",
-        "--talk-name=org.gtk.Notifications",
-        "--require-version=1.5.0"
+        "--talk-name=org.gtk.Notifications"
     ],
 
     "modules": [
