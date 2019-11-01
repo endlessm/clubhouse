@@ -33,7 +33,7 @@ from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import App, Desktop, GameStateService, Sound
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
-    Performance, QuestStringCatalog, QS, convert_variant_arg
+    Performance, QuestStringCatalog, convert_variant_arg
 from gi.repository import EosMetrics, GObject, GLib
 
 
@@ -734,7 +734,7 @@ class _Quest(GObject.GObject):
 
     def _setup_labels(self):
         for message_id in self._labels:
-            label = QS('{}_{}'.format(self._qs_base_id, message_id))
+            label = QuestStringCatalog().get_string(f'{self._qs_base_id}_{message_id}')
             if label:
                 self._labels[message_id] = label
 
@@ -1318,7 +1318,8 @@ class _Quest(GObject.GObject):
         :param str message_id: ID of a message from the strings catalog.
 
         '''
-        return QS(message_id) or QS('{}_{}'.format(self._qs_base_id, message_id))
+        return (QuestStringCatalog().get_string(message_id) or
+                QuestStringCatalog().get_string(f'{self._qs_base_id}_{message_id}'))
 
     @classmethod
     def is_narrative(class_):

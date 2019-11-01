@@ -183,10 +183,6 @@ class QuestItemDB(DictFromCSV):
         return os.path.join(config.ITEM_ICONS_DIR, icon_name)
 
 
-# Convenience "QuestString" method to get a string from the catalog
-QS = QuestStringCatalog().get_string
-
-
 class Performance:
 
     _enabled = 'CLUBHOUSE_PERF_DEBUG' in os.environ

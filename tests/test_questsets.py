@@ -2,7 +2,7 @@ import os
 import tempfile
 
 from eosclubhouse.libquest import Registry, Quest, QuestSet
-from eosclubhouse.utils import QS, QuestStringCatalog
+from eosclubhouse.utils import QuestStringCatalog
 from clubhouseunittest import ClubhouseTestCase, test_all_episodes, setup_episode
 
 
@@ -34,25 +34,6 @@ class TestQuestSets(ClubhouseTestCase):
         """Tests if any QuestSets are loaded."""
         quest_sets = Registry.get_quest_sets()
         self.assertGreater(len(quest_sets), 0)
-
-    @test_all_episodes
-    def test_empty_message_with_inactive_questsets(self):
-        """Tests the QuestSets empty messages when other QuestSets are inactive."""
-        quest_sets = Registry.get_quest_sets()
-        for quest_set in quest_sets:
-            self.deactivate_quest_set(quest_set)
-
-        for quest_set in quest_sets:
-            message = quest_set.get_empty_message()
-
-            noquest_msg_id = '{}_NOTHING'.format(quest_set.get_character()).upper()
-
-            expected_message = QS('NOQUEST_{}_{}'.format(Registry.get_loaded_episode_name(),
-                                                         noquest_msg_id))
-            if expected_message is None:
-                expected_message = QS('NOQUEST_' + noquest_msg_id)
-
-            self.assertEqual(message, expected_message)
 
     def test_episode_empty_message(self):
         """Tests whether a QuestSet correctly uses the episode's specific NOQUEST messages
@@ -141,30 +122,6 @@ class TestQuestSets(ClubhouseTestCase):
                 del quests[0]
 
         quest_set.visible = False
-
-    def check_empty_message_with_active_questsets(self, quest_sets, test_quest_set):
-        # Activate one quest set at a time and verify that the NOQUEST message matches the one
-        # for quest set.
-        for quest_set in quest_sets:
-            if quest_set is test_quest_set:
-                continue
-
-            self.activate_quest_set(quest_set)
-
-            empty_message = test_quest_set.get_empty_message()
-
-            self.deactivate_quest_set(quest_set)
-
-            noquest_msg_id = 'NOQUEST_{}_{}'.format(test_quest_set.get_character(),
-                                                    quest_set.get_character())
-
-            message = QS(noquest_msg_id.upper())
-
-            quest_set.active = False
-
-            self.assertEqual(empty_message, message,
-                             'Failed while checking empty message from {} for '
-                             'active {}'.format(test_quest_set, quest_set))
 
     def test_load_mixed_quest_definitions(self):
         '''Tests loading a QuestSet with quests defined as strings and as classes.'''
