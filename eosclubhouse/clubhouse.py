@@ -2148,6 +2148,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                                       self._on_clubhouse_window_disabled_changed_cb)
         self._clubhouse_state.connect('notify::nav-attract-state',
                                       self._on_clubhouse_nav_attract_state_changed_cb)
+        self._clubhouse_state.connect('notify::user-button-highlighted',
+                                      self._on_user_button_highlighted_changed_cb)
 
         self.connect('screen-changed', self._on_screen_changed)
         self._on_screen_changed(None, None)
@@ -2157,10 +2159,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             Gdk.Screen.get_default(),
             self._css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
-
-        state = ClubhouseState()
-        state.connect('notify::user-button-highlighted',
-                      self._on_user_button_highlighted_changed_cb)
 
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
