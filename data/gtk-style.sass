@@ -1,5 +1,8 @@
 @import 'old-gtk-style'
 
+// Globals
+$images: 'resource:///com/hack_computer/Clubhouse/images/'
+
 // Common widgets
 
 *
@@ -638,3 +641,46 @@ NewsItem
     *:nth-child(2)
       margin-left: 1em
 
+
+ClubhouseViewMainLayer
+  $switchdir: $images + 'hack-switch/'
+
+  #hack-switch
+    background-size: cover
+    background-image: url($switchdir + 'switch.svg')
+
+  #hack-switch-panel
+    background-size: cover
+    background-image: url($switchdir + 'ON.svg')
+
+    &.off
+      background-image: url($switchdir + 'OFF.svg')
+
+  #hack-switch-button
+    background-size: cover
+    background-image: url($switchdir + 'OFF-static.svg')
+
+    &:hover
+      background-image: url($switchdir + 'OFF-hover.svg')
+
+    &.highlighted
+      background-image: url($switchdir + 'OFF-attract.svg')
+
+    &:checked
+      background-image: url($switchdir + 'ON-static.svg')
+
+      &:hover
+        background-image: url($switchdir + 'ON-hover.svg')
+
+      &.highlighted
+        background-image: url($switchdir + 'ON-attract.svg')
+
+  #banister
+    background-size: cover
+    background-image: url($images + 'banister.png')
+    transition: background-image 200ms linear
+
+ClubhouseWindow.off
+  ClubhouseViewMainLayer
+    #banister
+      background-image: url($images + 'banister-off.png')

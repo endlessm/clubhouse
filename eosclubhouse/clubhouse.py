@@ -83,13 +83,13 @@ Gio.Resource._register(resource)
 
 CharacterInfo = {
     'estelle': {
-        'position': (631, 102),
+        'position': (610, 144),
         'username': 'lightspeedgal',
         'pathway': 'art',
         'pathway_title': 'Art'
     },
     'ada': {
-        'position': (186, 136),
+        'position': (204, 182),
         'username': 'countesslovelace',
         'pathway': 'games',
         'pathway_title': 'Games'
@@ -1492,6 +1492,7 @@ class ClubhouseView(FixedLayerGroup):
             button = self.get_main_layer().add_quest_set(quest_set)
             self.get_layer(self.INFO_TIP_LAYER).add_info_tip(button)
         self.current_episode = episode_name
+        self.get_main_layer().bringup_fg()
 
     def _update_episode_if_needed(self):
         episode_name = libquest.Registry.get_current_episode()['name']
@@ -1627,6 +1628,17 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
 
         button.connect('notify::position', self._on_button_position_changed)
         return button
+
+    def bringup_fg(self):
+        fg = []
+        for child in self.get_children():
+            if not isinstance(child, CharacterButton):
+                fg.append(child)
+                self.remove(child)
+
+        for child in fg:
+            x, y = child.position
+            self.put(child, x * self.scale, y * self.scale)
 
     def _on_button_position_changed(self, button, _param):
         self._update_child_position(button)
