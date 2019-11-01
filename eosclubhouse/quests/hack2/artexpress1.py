@@ -2,13 +2,13 @@ from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App
 
 
-class MakerVerb(Quest):
+class ArtExpress1(Quest):
 
     APP_NAME = 'com.hack_computer.ProjectLibrary'
-    ARTICLE_NAME = 'Verb In A Hat'
+    ARTICLE_NAME = "Express Yourself (Part 1 of 2)"
 
-    __tags__ = ['pathway:maker']
-    __pathway_order__ = 230
+    __tags__ = ['pathway:art']
+    __pathway_order__ = 405
 
     def setup(self):
         self._app = App(self.APP_NAME)
