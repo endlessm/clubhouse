@@ -9,7 +9,7 @@ class OSOneshotBackground(Quest):
     __tags__ = ['pathway:operating system', 'difficulty:hard', 'skillset:LaunchQuests']
     __pathway_order__ = 265
 
-    TOTAL_MESSAGES = 9
+    TOTAL_MESSAGES = 10
 
     def setup(self):
         self._app = App(self.APP_NAME)
@@ -33,16 +33,8 @@ class OSOneshotBackground(Quest):
 
         message_id = str(message_index)
 
-        def _direction_choice(direction_choice_var):
-            return direction_choice_var
-
-        action = self.show_choices_message(message_id, ('BAK', _direction_choice, True),
-                                           ('FWD', _direction_choice, False)).wait()
-        go_back = action.future.result()
-
-        if go_back:
-            message_index -= 1
-        else:
-            message_index += 1
+        action = self.show_choices_message(message_id, ('NOQUEST_NAV_BAK', None, -1),
+                                           ('NOQUEST_NAV_FWD', None, 1)).wait()
+        message_index += action.future.result()
 
         return self.step_main_loop, message_index
