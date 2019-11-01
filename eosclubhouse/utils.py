@@ -422,3 +422,18 @@ def inside_triangle(p, a, b, c):
     pab_area = triangle_area(p, a, b)
 
     return abc_area - (pbc_area + pac_area + pab_area) == 0
+
+
+
+def get_minimum_bounding_box(points):
+    """
+    Gives the minimum bounding box containing all the points.
+
+    This is a Naive approach.
+    """
+    bot_left_x = min(point[0] for point in points)
+    bot_left_y = min(point[1] for point in points)
+    top_right_x = max(point[0] for point in points)
+    top_right_y = max(point[1] for point in points)
+
+    return [(bot_left_x, bot_left_y), (top_right_x, top_right_y)]

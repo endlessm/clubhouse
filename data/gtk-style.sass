@@ -106,6 +106,22 @@ headerbar
     &:hover
       background-color: transparentize(white, 0.5)
 
+MessageBox
+  background-color: rgba(255, 255, 255, .96)
+  border-radius: 12px
+  border: 1px solid #8A6A45
+  box-shadow: 0 2px 8px 8px transparentize(black,0.8)
+
+  min-height: 110px
+  padding: 5px
+
+  label
+    padding: 30px 0 15px 0
+    margin: 0 15px 17.5px 30px
+    font: 15px "Metropolis Medium, Sans-Serif"
+    color: black
+
+
 MessageButton
   $default_margin: 14px
   $color_variant_a: #76EECF
@@ -199,7 +215,17 @@ MessageButton
     margin-left: 60px
 
 
+//MessageButtonBox
+//  min-height: 50px
+//  margin: -25px
+
+
 Message
+  .character
+    margin-bottom: -32px
+
+
+OldMessage
   margin-left: 40px
   margin-bottom: 40px
 

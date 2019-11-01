@@ -291,10 +291,153 @@ class MessageButton(Gtk.Button):
         caller_cb(*user_data)
 
 
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
-class Message(Gtk.Box):
+class MessageButtonBox(Gtk.Box):
+
+    __gtype_name__ = 'MessageButtonBox'
+
+    def __init__(self):
+        super().__init__(halign=Gtk.Align.START, valign=Gtk.Align.END)
+
+    def add_button(self, label, click_cb, *user_data):
+        button = MessageButton(label, click_cb, *user_data)
+        button.show()
+        self.pack_start(button, False, False, 0)
+        self.show()
+
+
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message-box.ui')
+class MessageBox(Gtk.Box):
+
+    __gtype_name__ = 'MessageBox'
+
+    _label = Gtk.Template.Child()
+
+    def __init__(self):
+        super().__init__()
+
+    def _get_text(self):
+        return self._label.props.label
+
+    def _set_text(self, text):
+        self._label.props.label = text
+
+    text = GObject.Property(_get_text, _set_text)
+
+
+class Message(Gtk.Overlay):
 
     __gtype_name__ = 'Message'
+
+    def __init__(self, message_info):
+        super().__init__()
+        self._character = None
+
+        self._character_image = Gtk.Image(halign=Gtk.Align.END, valign=Gtk.Align.END)
+        self._message_box = MessageBox()
+        self._button_box = MessageButtonBox()
+
+        self._animator = Animator(self._character_image)
+        self._character_image.connect('notify::pixbuf', self._character_image_pixbuf_notify_cb)
+
+        self._setup_ui()
+        self._setup_from_message_info(message_info)
+
+    def _setup_ui(self):
+        self._character_image.get_style_context().add_class('character')
+        self.add(self._message_box)
+        self.add_overlay(self._character_image)
+        self.add_overlay(self._button_box)
+
+    def _setup_from_message_info(self, message_info):
+        self._message_box.text = message_info.get('text', '')
+        self._set_character(message_info.get('character_id'))
+
+        print('info: ', message_info)
+        for answer in message_info.get('choices', []):
+            self._button_box.add_button(answer[0], *answer[1:])
+
+        """
+        # @todo: bg sounds are not supported yet.
+        sfx_sound = message_info.get('sound_fx')
+        if not sfx_sound:
+            sfx_sound = self.OPEN_DIALOG_SOUND
+        Sound.play(sfx_sound)
+        """
+
+
+
+    def _character_image_pixbuf_notify_cb(self, character_image, _pspec):
+        return
+        if character_image.props.pixbuf is not None:
+            self.queue_allocate()
+
+    def do_size_allocate(self, allocation):
+        if allocation.x == -1 or allocation.y == -1:
+            return Gtk.Overlay.do_size_allocate(self, allocation)
+
+
+        message_box_alloc = self._message_box.get_allocation()
+        if message_box_alloc.x == -1 or message_box_alloc.y == -1:
+            return Gtk.Overlay.do_size_allocate(self, allocation)
+
+        character_image_alloc = self._character_image.get_allocation()
+        if (self._character_image.props.pixbuf is None or
+                character_image_alloc.x == -1 or character_image_alloc.y == -1 or
+                character_image_alloc.width == 1 or character_image_alloc.height == 1):
+            return Gtk.Overlay.do_size_allocate(self, allocation)
+
+        button_box_alloc = self._button_box.get_allocation()
+        if button_box_alloc.x == -1 or button_box_alloc.y == -1:
+            return Gtk.Overlay.do_size_allocate(self, allocation)
+
+
+
+        allocation.y = allocation.y + allocation.height - character_image_alloc.height
+        allocation.height = max(message_box_alloc.height, character_image_alloc.height)
+
+        Gtk.Overlay.do_size_allocate(self, allocation)
+
+    def _set_character(self, character_id):
+        if self._character:
+            if self._character.id == character_id:
+                return
+
+            self._character.disconnect(self._character_mood_change_handler)
+            self._character_mood_change_handler = 0
+            self._character = None
+
+        if character_id is None:
+            return
+
+        self._character = Character.get_or_create(character_id)
+        self._character_mood_change_handler = \
+            self._character.connect('notify::mood', self._character_mood_changed_cb)
+        self._character_mood_changed_cb(self._character)
+
+    def get_character(self):
+        return self._character
+
+    def display_character(self, display):
+        self._character_image.props.visible = True
+
+    def _character_mood_changed_cb(self, character, prop=None):
+        logger.debug('Character mood changed: mood=%s',
+                     character.mood)
+
+        animation_id = '{}/{}'.format(character.id, character.mood)
+        if not self._animator.has_animation(animation_id):
+            self._animator.load(character.get_moods_path(), character.id)
+
+        self._animator.play(animation_id)
+
+
+
+
+
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
+class OldMessage(Gtk.Box):
+
+    __gtype_name__ = 'OldMessage'
 
     _label = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
@@ -524,7 +667,129 @@ class CharacterButton(Gtk.Button):
     position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
 
 
-class MessageBox(Gtk.Fixed):
+class NarrativeMessageLayer(Gtk.Fixed):
+    _DUMMY_MARGIN = -1000
+
+    def __init__(self, narrative_message_box, message):
+        super().__init__()
+        self._narrative_message_box = narrative_message_box
+        self._message = message
+
+        print(self._message)
+        self._message_size_allocate_id = self._message.connect('size-allocate',
+                                                               self._message_size_allocate_cb)
+        self._message_image_pixbuf_notify_id = None
+
+        self.put(message, 300, 300)
+
+    def _message_size_allocate_cb(self, message, allocation):
+        print('message %s allocated: ' % (self.name, ))
+        print('height: ', allocation.height)
+        print('pixbuf: ', message._character_image.props.pixbuf)
+        message.disconnect(self._message_size_allocate_id)
+
+        self._message_size_allocate_id = None
+        return
+        if message._character_image.props.pixbuf is None:
+            self._message_image_pixbuf_notify_id.connect('notify::pixbuf',
+                                                         self._message_image_pixbuf_notify_cb)
+
+    def _get_layer_name(self):
+        return str(hex(id(self)))
+
+    name = property(_get_layer_name)
+
+
+class NarrativeMessageBox(FixedLayerGroup):
+    MIN_MESSAGE_WIDTH = 320
+    MIN_MESSAGE_WIDTH_RATIO = 0.9
+
+    def __init__(self, app_window):
+        super().__init__()
+        self._app_window = app_window
+        self._layers = {}
+        self._messages_in_scene = []
+
+
+    """
+    def _get_next_initial_position(self, message, direction):
+        assert direction in (Direction.LEFT, Direction.RIGHT)
+
+        allocation = self.get_allocation()
+        msg_height = self._get_message_height(message)
+
+        y_pos = allocation.height - msg_height
+        if direction == Direction.RIGHT:
+            x_pos = -message.props.width_request
+        else:
+            x_pos = allocation.width / 2 - message.props.width_request / 2
+        return x_pos, y_pos
+    """
+
+    def _is_main_character_message(self, message_info):
+        return message_info.get('character_id') == self._app_window.character._character.id
+
+    def _build_message_from_info(self, message_info):
+        msg = Message(message_info)
+
+        overlay_width = self._app_window.character.character_image.get_allocation().width
+        msg.props.width_request = \
+            min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
+                                   overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
+
+        if self._is_main_character_message(message_info):
+            msg.display_character(False)
+            msg.props.halign = Gtk.Align.START
+        else:
+            msg.display_character(True)
+        return msg
+
+    def add_message(self, message_info):
+        current_quest = self._app_window.clubhouse.running_quest
+        if current_quest is None or current_quest.stopping:
+            return
+
+        message = self._build_message_from_info(message_info)
+        layer = NarrativeMessageLayer(self, message)
+        self.add_layer(layer, layer.name)
+
+        self.show_all()
+
+
+        return layer
+
+
+    """
+    def _add_message_old(self):
+        direction = self._guess_message_direction(message)
+        is_main_character_message = self._is_main_character_message(message_info)
+
+        message.connect('size-allocate', self._message_size_allocate_cb)
+
+        print('allocation-width: ', message.get_allocation().width)
+        print('allocation-height: ', message.get_allocation().height)
+
+        # Hide actions on old messages.
+        for child_message in self.get_children():
+            child_message.clear_buttons()
+
+        messages_in_scene = [msg for msg in self._messages_in_scene]
+        if len(messages_in_scene) == self.max_messages:
+            self._withdraw_top_message()
+            self._slide_messages_up_with_delay(messages_in_scene, message,
+                                               self.DEFAULT_ANIMATION_DURATION_MS)
+            self._add_message_with_delay(messages_in_scene, message, direction,
+                                         is_main_character_message,
+                                         self.DEFAULT_ANIMATION_DURATION_MS * 2)
+        else:
+            self._slide_messages_up(messages_in_scene, message)
+            self._add_message_with_delay(messages_in_scene, message, direction,
+                                         is_main_character_message,
+                                         self.DEFAULT_ANIMATION_DURATION_MS)
+    """
+
+
+class OldMessageBox(Gtk.Fixed):
     MIN_MESSAGE_WIDTH = 320
     MIN_MESSAGE_WIDTH_RATIO = 0.9
 
@@ -928,7 +1193,7 @@ class CharacterView(Gtk.Grid):
         super().__init__(visible=True)
         self._app_window = app_window
 
-        self.message_box = MessageBox(app_window)
+        self.message_box = NarrativeMessageBox(app_window)
         self._view_overlay.add_overlay(self.message_box)
         self._view_overlay.set_overlay_pass_through(self.message_box, True)
 
@@ -2914,7 +3179,9 @@ clubhouse_classes = [
     ClubhouseViewMainLayer,
     ClubhouseWindow,
     Message,
+    MessageBox,
     MessageButton,
+    MessageButtonBox,
     NewsItem,
     NewsView,
     ActivityCard,
