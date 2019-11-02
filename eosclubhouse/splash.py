@@ -15,19 +15,26 @@ class SplashWindow(Gtk.ApplicationWindow):
                          decorated=False,
                          skip_pager_hint=True,
                          skip_taskbar_hint=True,
-                         default_width=480,
-                         default_height=360)
+                         default_width=200,
+                         default_height=230)
 
         self.set_visual(self.get_screen().get_rgba_visual())
         self.set_keep_above(True)
 
         self._css_provider = Gtk.CssProvider()
         self._css_provider.load_from_data("\
+        @keyframes pulsate {\
+            from { opacity: 0.9; background-size: 100%; }\
+            to   { opacity: 0.5; background-size: 92%;  }\
+        }\
         window.splash {\
+            opacity: 0.9;\
             background-color: unset;\
-            background: url('/app/share/eos-clubhouse/splash.svg');\
+            background-image: url('/app/share/eos-clubhouse/splash.svg');\
             background-size: cover;\
-            transition: opacity 1s ease-in-out;\
+            background-position: center;\
+            background-repeat: no-repeat;\
+            animation: pulsate 500ms ease-in-out infinite alternate;\
         }\
         window.splash.fadeout {\
             opacity: 0;\
