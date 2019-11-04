@@ -29,8 +29,19 @@ class Quickstart(Quest):
             self.highlight_nav('CLUBHOUSE')
             self.wait_confirm('HACKSWITCH1')
             self.highlight_nav('')
-            self.wait_confirm('HACKSWITCH2')
-            self.wait_confirm('HACKSWITCH3')
+
+            # If the user played with the hack switch before the
+            # explanation, we reset to normal:
+            if not self._clubhouse_state.lights_on:
+                self._clubhouse_state.lights_on = True
+
+            self._clubhouse_state.hack_switch_highlighted = True
+            self.show_message('HACKSWITCH2')
+            self.connect_clubhouse_changes(['lights-on']).wait()
+            self._clubhouse_state.hack_switch_highlighted = False
+            self.show_message('HACKSWITCH3')
+            self.connect_clubhouse_changes(['lights-on']).wait()
+
             self.highlight_nav('PATHWAYS')
             self.wait_confirm('PATHWAYS1')
             self.wait_confirm('PATHWAYS2')
@@ -42,12 +53,15 @@ class Quickstart(Quest):
 
         self.show_message('END1', choices=[('Will do!', self.step_complete_and_stop)])
 
-    def step_complete_and_stop(self):
+    def _back_to_normal(self):
         self._clubhouse_state.characters_disabled = False
+        if not self._clubhouse_state.lights_on:
+            self._clubhouse_state.lights_on = True
+
+    def step_complete_and_stop(self):
+        self._back_to_normal()
         super().step_complete_and_stop()
 
     def step_abort(self):
-        # This is in case the quest is aborted between the
-        # disable/enable of the window:
-        self._clubhouse_state.characters_disabled = False
+        self._back_to_normal()
         super().step_abort()
