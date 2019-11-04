@@ -43,6 +43,12 @@ def get_alternative_quests_dir():
     return os.path.join(GLib.get_user_data_dir(), 'quests')
 
 
+class _CircleList(list):
+    def __getitem__(self, key):
+        key = key % len(self)
+        return super().__getitem__(key)
+
+
 class DictFromCSV:
 
     _csv_dict = {}
@@ -145,6 +151,17 @@ class QuestStringCatalog(DictFromCSV):
         return hint_keys
 
     @classmethod
+    def get_loop_messages(class_, key):
+        messages = _CircleList()
+        for index in itertools.count(start=1):
+            message_id = f'{key}_{index}'
+            if class_.get_info(message_id) is None:
+                break
+            messages.append(message_id)
+
+        return messages
+
+    @classmethod
     def set_key_value_from_csv_row(class_, csv_row, contents_dict):
         if len(csv_row) == 6:
             # TODO: Remove this when all the CSV files have 6 columns.
@@ -181,10 +198,6 @@ class QuestItemDB(DictFromCSV):
     @classmethod
     def get_icon_path(self, icon_name):
         return os.path.join(config.ITEM_ICONS_DIR, icon_name)
-
-
-# Convenience "QuestString" method to get a string from the catalog
-QS = QuestStringCatalog().get_string
 
 
 class Performance:

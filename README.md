@@ -131,17 +131,16 @@ specific quest.
 
 The general way to get the information related to a message ID is through the
 `QuestStringCatalog`class. This is what methods like `show_message()` use
-internally. There is a shortcut `QS` to get just the text. Usually you don't
-have to use the catalog directly, but if do:
+internally. Usually you don't have to use the catalog directly, but if do:
 
 ``` python
-from eosclubhouse.utils import QuestStringCatalog, QS
+from eosclubhouse.utils import QuestStringCatalog
 
 # Get some info:
 info = QuestStringCatalog.get_info('LOSTFILES_HELLO')
 
 # Get some text:
-text = QS('NOQUEST_ADA_NOTHING')
+text = QuestStringCatalog.get_string('NOQUEST_ADA_NOTHING')
 ```
 
 #### Text Markup
