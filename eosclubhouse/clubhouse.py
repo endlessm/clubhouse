@@ -1622,6 +1622,14 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         self._hack_switch.handler_block(self._hack_switch_handler_id)
         self._hack_switch.set_active(active)
         self._hack_switch.handler_unblock(self._hack_switch_handler_id)
+        self._update_switch_css()
+
+    def _update_switch_css(self):
+        ctx = self._hack_switch_panel.get_style_context()
+        if self._hack_switch.get_active():
+            ctx.remove_class('off')
+        else:
+            ctx.add_class('off')
 
     def _on_hack_switch_toggled(self, button):
         mock_hack_mode = (self._app_window.clubhouse.running_quest is not None and
@@ -1631,11 +1639,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         else:
             Desktop.set_hack_mode(button.get_active())
 
-        ctx = self._hack_switch_panel.get_style_context()
-        if button.get_active():
-            ctx.remove_class('off')
-        else:
-            ctx.add_class('off')
+        self._update_switch_css()
 
     def _on_lights_changed_cb(self, state, _param):
         if state.lights_on != self._hack_switch.get_active():
