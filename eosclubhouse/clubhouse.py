@@ -451,10 +451,12 @@ class CharacterButton(Gtk.Button):
         self._on_hover = False
 
         clubhouse_state = ClubhouseState()
-        clubhouse_state.bind_property('lights-on', self, 'sensitive')
+        clubhouse_state.connect('notify::characters-disabled',
+                                self._on_characters_disabled_changed_cb)
         clubhouse_state.connect('notify::lights-on',
-                                lambda _state, _param: self._update_character_animation())
+                                self._on_lights_changed_cb)
 
+        self._update_sensitivity(clubhouse_state)
         self._update_character_animation()
 
         self.connect('clicked', self._on_button_clicked_cb)
@@ -511,6 +513,20 @@ class CharacterButton(Gtk.Button):
             style_context.add_class(highlighted_style)
         else:
             style_context.remove_class(highlighted_style)
+
+    def _on_characters_disabled_changed_cb(self, state, _param):
+        self._update_sensitivity(state)
+
+    def _on_lights_changed_cb(self, state, _param):
+        self._update_sensitivity(state)
+        self._update_character_animation()
+
+    def _update_sensitivity(self, state):
+        # characters-disabled takes precedence over lights-on:
+        if state.characters_disabled:
+            self.props.sensitive = False
+        else:
+            self.props.sensitive = state.lights_on
 
     def _update_character_animation(self):
         new_animation = None
@@ -2156,8 +2172,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::window-is-visible',
                                       self._on_clubhouse_window_visibility_changed_cb)
-        self._clubhouse_state.connect('notify::window-is-disabled',
-                                      self._on_clubhouse_window_disabled_changed_cb)
         self._clubhouse_state.connect('notify::nav-attract-state',
                                       self._on_clubhouse_nav_attract_state_changed_cb)
         self._clubhouse_state.connect('notify::user-button-highlighted',
@@ -2274,9 +2288,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.show()
         else:
             self.hide()
-
-    def _on_clubhouse_window_disabled_changed_cb(self, state, _param):
-        self.props.sensitive = not state.window_is_disabled
 
     def _on_clubhouse_nav_attract_state_changed_cb(self, state, _param):
         self._clubhouse_button.get_style_context().remove_class('nav-attract')
