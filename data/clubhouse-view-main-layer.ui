@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <template class="ClubhouseViewMainLayer" parent="GtkFixed">
@@ -54,6 +54,23 @@
       <packing>
         <property name="x">1090</property>
         <property name="y">391</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="name">banister</property>
+        <property name="width_request">850</property>
+        <property name="height_request">162</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+      <packing>
+        <property name="x">12</property>
+        <property name="y">329</property>
       </packing>
     </child>
   </template>

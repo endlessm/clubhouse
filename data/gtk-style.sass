@@ -1,5 +1,8 @@
 @import 'old-gtk-style'
 
+// Globals
+$images: 'resource:///com/hack_computer/Clubhouse/images/'
+
 // Common widgets
 
 *
@@ -60,6 +63,21 @@ ClubhouseWindow
   &.transitionable-background
     transition: background-image 1s linear
 
+  // Headerbar
+  headerbar
+    padding: 0
+    border-radius: 1ex 1ex 0 0
+    border-width: 0px
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0))
+
+    > button
+      margin: 1ex
+      padding: 1ex
+      border-radius: 50%
+
+      &:hover
+        background-color: transparentize(white, 0.5)
+
   // Backgrounds
   &.CLUBHOUSE
     background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg')
@@ -69,6 +87,12 @@ ClubhouseWindow
 
   &.off
     background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-blur-off.jpg')
+
+    headerbar > button
+      color: gray
+
+      &:hover
+        background-color: transparentize(white, 0.8)
 
   &.CHARACTER
     animation: background_zoom_in 500ms normal ease 1
@@ -90,21 +114,10 @@ ClubhouseWindow
     &.saniel
       background-position: bottom right
 
+  &.NEWS
+    headerbar > button:hover
+      background-color: transparentize(black, 0.8)
 
-// Headerbar
-headerbar
-  padding: 0
-  border-radius: 1ex 1ex 0 0
-  border-width: 0px
-  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0))
-
-  > button
-    margin: 1ex
-    padding: 1ex
-    border-radius: 50%
-
-    &:hover
-      background-color: transparentize(white, 0.5)
 
 MessageButton
   $default_margin: 14px
@@ -644,3 +657,46 @@ NewsItem
     *:nth-child(2)
       margin-left: 1em
 
+
+ClubhouseViewMainLayer
+  $switchdir: $images + 'hack-switch/'
+
+  #hack-switch
+    background-size: cover
+    background-image: url($switchdir + 'switch.svg')
+
+  #hack-switch-panel
+    background-size: cover
+    background-image: url($switchdir + 'ON.svg')
+
+    &.off
+      background-image: url($switchdir + 'OFF.svg')
+
+  #hack-switch-button
+    background-size: cover
+    background-image: url($switchdir + 'OFF-static.svg')
+
+    &:hover
+      background-image: url($switchdir + 'OFF-hover.svg')
+
+    &.highlighted
+      background-image: url($switchdir + 'OFF-attract.svg')
+
+    &:checked
+      background-image: url($switchdir + 'ON-static.svg')
+
+      &:hover
+        background-image: url($switchdir + 'ON-hover.svg')
+
+      &.highlighted
+        background-image: url($switchdir + 'ON-attract.svg')
+
+  #banister
+    background-size: cover
+    background-image: url($images + 'banister.png')
+    transition: background-image 200ms linear
+
+ClubhouseWindow.off
+  ClubhouseViewMainLayer
+    #banister
+      background-image: url($images + 'banister-off.png')

@@ -18,49 +18,6 @@ popover.menu > stack > box > button > box > image {
     color: #4387c5;
 }
 
-/* Hack mode switch */
-#hack-switch,
-#hack-switch-panel,
-#hack-switch-button {
-    background-size: cover;
-}
-
-#hack-switch {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/switch.svg');
-}
-
-#hack-switch-panel {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/ON.svg');
-}
-
-#hack-switch-panel.off {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF.svg');
-}
-
-#hack-switch-button {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF-static.svg');
-}
-
-#hack-switch-button:hover {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF-hover.svg');
-}
-
-#hack-switch-button.highlighted {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF-attract.svg');
-}
-
-#hack-switch-button:checked {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-static.svg');
-}
-
-#hack-switch-button:checked:hover {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-hover.svg');
-}
-
-#hack-switch-button:checked.highlighted {
-    background-image: url('resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-attract.svg');
-}
-
 /* User Hud */
 .user-overlay {
    margin: 0em;

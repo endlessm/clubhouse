@@ -16,6 +16,8 @@
     <file preprocess="xml-stripblanks">quest-set-info-tip.ui</file>
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/images">
+    <file>banister.png</file>
+    <file>banister-off.png</file>
     <file>clubhouse_bg.jpg</file>
     <file>clubhouse_bg-off.jpg</file>
     <file>clubhouse_bg-blur.jpg</file>
