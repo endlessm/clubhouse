@@ -1603,6 +1603,8 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         state = ClubhouseState()
         state.connect('notify::hack-switch-highlighted',
                       self._on_hack_switch_highlighted_changed_cb)
+        state.connect('notify::lights-on',
+                      self._on_lights_changed_cb)
 
         # Update children allocation
         for child in self.get_children():
@@ -1616,7 +1618,6 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
 
         self._app.send_suggest_open(libquest.Registry.has_quest_sets_highlighted())
 
-    # Workaround for https://phabricator.endlessm.com/T28479
     def set_switch_active(self, active=True):
         self._hack_switch.handler_block(self._hack_switch_handler_id)
         self._hack_switch.set_active(active)
@@ -1635,6 +1636,10 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
             ctx.remove_class('off')
         else:
             ctx.add_class('off')
+
+    def _on_lights_changed_cb(self, state, _param):
+        if state.lights_on != self._hack_switch.get_active():
+            self.set_switch_active(state.lights_on)
 
     def _on_hack_switch_highlighted_changed_cb(self, state, _param):
         ctx = self._hack_switch.get_style_context()
