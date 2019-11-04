@@ -34,11 +34,11 @@ class T2Intro(Quest):
         return self.step_normalrun
 
     def step_normalrun(self):
+        self._app.launch()
+        return self.step_instruct
+
+    def step_instruct(self):
         self.wait_confirm('GREET1')
         self.wait_confirm('GREET2', confirm_label='Will do!')
-        return self.step_launch
-
-    def step_launch(self):
         self.wait_confirm('BYE')
-        self._app.launch()
         return self.step_complete_and_stop
