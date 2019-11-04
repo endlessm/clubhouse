@@ -21,7 +21,6 @@ gsettings reset org.gnome.desktop.interface cursor-theme
 
 echo "Resetting the desktop background"
 gsettings reset org.gnome.desktop.background picture-uri
-gsettings reset com.hack_computer.clubhouse hack-mode-enabled-picture-uri
 gsettings reset com.hack_computer.clubhouse hack-mode-disabled-picture-uri
 
 echo "Resetting wobbly windows"

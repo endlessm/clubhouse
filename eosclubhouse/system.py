@@ -297,32 +297,29 @@ class Desktop:
 
     @classmethod
     def set_hack_background(klass, enabled):
-        ''' This changes the background to the Hack one '''
+        ''' This changes the background to the Hack one
+
+        When enabling the background will be always set to the HACK_BACKGROUND.
+
+        When disabling the background will be reset to the previous one stored
+        or if the user changes the background we keep the user custom.
+        '''
 
         desktop = Gio.Settings('org.gnome.desktop.background')
         clubhouse = Gio.Settings('com.hack_computer.clubhouse')
 
         old_picture_uri = desktop.get_string('picture-uri')
-        if enabled:
-            new_picture_uri = \
-                clubhouse.get_string('hack-mode-enabled-picture-uri') or klass.HACK_BACKGROUND
-        else:
+        # Enabling and the background is not the hack background yet
+        if enabled and old_picture_uri != klass.HACK_BACKGROUND:
+            desktop.set_string('picture-uri', klass.HACK_BACKGROUND)
+            clubhouse.set_string('hack-mode-disabled-picture-uri', old_picture_uri)
+        # Disabling hack and the background has not been changed
+        elif not enabled and old_picture_uri == klass.HACK_BACKGROUND:
             new_picture_uri = clubhouse.get_string('hack-mode-disabled-picture-uri')
-
-        # does nothing if the background shouldn't change
-        if new_picture_uri and new_picture_uri == old_picture_uri:
-            return
-
-        if new_picture_uri:
-            desktop.set_string('picture-uri', new_picture_uri)
-        else:
-            desktop.reset('picture-uri')
-
-        if old_picture_uri:
-            if enabled:
-                clubhouse.set_string('hack-mode-disabled-picture-uri', old_picture_uri)
+            if new_picture_uri:
+                desktop.set_string('picture-uri', new_picture_uri)
             else:
-                clubhouse.set_string('hack-mode-enabled-picture-uri', old_picture_uri)
+                desktop.reset('picture-uri')
 
     @classmethod
     def ensure_hack_cursor_is_present(klass):
