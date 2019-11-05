@@ -2,7 +2,7 @@ from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App
 
 
-class T2Intro(Quest):
+class T2FrogSquash(Quest):
 
     APP_NAME = 'com.endlessnetwork.frogsquash'
 
