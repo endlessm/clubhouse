@@ -50,6 +50,7 @@ from eosclubhouse.widgets import FixedLayerGroup
 # Metrics event ids
 CLUBHOUSE_SET_PAGE_EVENT = '2c765b36-a4c9-40ee-b313-dc73c4fa1f0d'
 CLUBHOUSE_PATHWAY_ENTER_EVENT = '600c1cae-b391-4cb4-9930-ea284792fdfb'
+HACK_MODE_EVENT = '7587784b-c3ed-4d74-b0fa-1023033698c0'
 
 
 CLUBHOUSE_NAME = 'com.hack_computer.Clubhouse'
@@ -1637,6 +1638,11 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
             self._app_window._clubhouse_state.lights_on = button.get_active()
         else:
             Desktop.set_hack_mode(button.get_active())
+
+            # Recording Hack switch event
+            recorder = EosMetrics.EventRecorder.get_default()
+            hack_mode = GLib.Variant('b', button.get_active())
+            recorder.record_event(HACK_MODE_EVENT, hack_mode)
 
         self._update_switch_css()
 
