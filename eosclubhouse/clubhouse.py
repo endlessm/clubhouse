@@ -2754,24 +2754,9 @@ class ClubhouseApplication(Gtk.Application):
         logger.debug('Shell quest view closed')
         self._stop_quest()
 
-    def on_first_contact_quest_finished(self, quest):
-        quest.save_conf()
-        self._ensure_window()
-        self._show_and_focus_window()
-
     def _run_quest_by_name(self, quest_name):
-        # Special case FirstContact quest, since this quest does not depend on
-        # the clubhouse window we can run it manually to avoid
-        # having to create the whole window before showing the puzzle
-        if quest_name == 'AdaMission.FirstContact':
-            quest = libquest.Registry.get_quest_by_name(quest_name)
-            quest.set_cancellable(Gio.Cancellable())
-            quest.run(self.on_first_contact_quest_finished)
-        else:
-            # @todo: FIXME: run_quest_by_name() should be a GtkApplication
-            # API, and quests should say if they depend on the clubhouse or not!
-            self._ensure_window()
-            self._window.clubhouse.run_quest_by_name(quest_name)
+        self._ensure_window()
+        self._window.clubhouse.run_quest_by_name(quest_name)
 
     def _run_quest_action_cb(self, action, arg_variant):
         quest_name, _obsolete = arg_variant.unpack()
