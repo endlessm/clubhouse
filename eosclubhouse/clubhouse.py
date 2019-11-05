@@ -967,6 +967,8 @@ class CharacterView(Gtk.Grid):
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::nav-attract-state',
                                       self._on_clubhouse_nav_attract_state_changed_cb)
+        self._clubhouse_state.connect('notify::characters-disabled',
+                                      self._on_characters_disabled_changed_cb)
 
         self.message_box.show_all()
 
@@ -1048,6 +1050,9 @@ class CharacterView(Gtk.Grid):
             self._clubhouse_button.get_style_context().add_class('nav-attract')
         else:
             self._clubhouse_button.get_style_context().remove_class('nav-attract')
+
+    def _on_characters_disabled_changed_cb(self, state, _param):
+        self._app_window.character.activities_sw.props.sensitive = not state.characters_disabled
 
 
 class ClubhouseView(FixedLayerGroup):
