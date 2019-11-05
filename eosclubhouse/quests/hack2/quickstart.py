@@ -61,7 +61,9 @@ class Quickstart(Quest):
             self.wait_confirm('PATHWAYS1')
             self.wait_confirm('PATHWAYS2')
             self.highlight_nav('')
+            self._clubhouse_state.user_button_highlighted = True
             self.wait_confirm('PROFILE1')
+            self._clubhouse_state.user_button_highlighted = False
             self.wait_confirm('PROFILE2')
         else:
             self.wait_confirm('DECLINE')
