@@ -345,10 +345,11 @@ class SimpleMarkupParser:
 class _ClubhouseStateImpl(GObject.GObject):
 
     current_page = GObject.Property(type=GObject.TYPE_PYOBJECT)
+    lights_on = GObject.Property(type=bool, default=True)
     hack_switch_highlighted = GObject.Property(type=bool, default=False)
     user_button_highlighted = GObject.Property(type=bool, default=False)
     window_is_visible = GObject.Property(type=bool, default=False)
-    window_is_disabled = GObject.Property(type=bool, default=False)
+    characters_disabled = GObject.Property(type=bool, default=False)
     nav_attract_state = GObject.Property(type=GObject.TYPE_PYOBJECT)
 
 

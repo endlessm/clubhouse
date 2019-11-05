@@ -7,6 +7,7 @@ class Quickstart(Quest):
     __tags__ = ['pathway:games']
     __auto_offer_info__ = {'confirm_before': False, 'start_after': 0}
     __available_after_completing_quests__ = ['FirstContact']
+    __dismissible_messages__ = False
 
     def setup(self):
         self.auto_offer = True
@@ -15,9 +16,9 @@ class Quickstart(Quest):
         self._clubhouse_state = ClubhouseState()
 
     def step_begin(self):
-        # Disable the entire Clubhouse UI until the player chooses
-        # between accept or decline the quickstart:
-        self._clubhouse_state.window_is_disabled = True
+        # Disable the characters in the UI to prevent launching any
+        # other quest while the player is running the quickstart:
+        self._clubhouse_state.characters_disabled = True
 
         self.wait_confirm('WELCOME1')
 
@@ -28,8 +29,19 @@ class Quickstart(Quest):
             self.highlight_nav('CLUBHOUSE')
             self.wait_confirm('HACKSWITCH1')
             self.highlight_nav('')
-            self.wait_confirm('HACKSWITCH2')
-            self.wait_confirm('HACKSWITCH3')
+
+            # If the user played with the hack switch before the
+            # explanation, we reset to normal:
+            if not self._clubhouse_state.lights_on:
+                self._clubhouse_state.lights_on = True
+
+            self._clubhouse_state.hack_switch_highlighted = True
+            self.show_message('HACKSWITCH2')
+            self.connect_clubhouse_changes(['lights-on']).wait()
+            self._clubhouse_state.hack_switch_highlighted = False
+            self.show_message('HACKSWITCH3')
+            self.connect_clubhouse_changes(['lights-on']).wait()
+
             self.highlight_nav('PATHWAYS')
             self.wait_confirm('PATHWAYS1')
             self.wait_confirm('PATHWAYS2')
@@ -41,12 +53,15 @@ class Quickstart(Quest):
 
         self.show_message('END1', choices=[('Will do!', self.step_complete_and_stop)])
 
+    def _back_to_normal(self):
+        self._clubhouse_state.characters_disabled = False
+        if not self._clubhouse_state.lights_on:
+            self._clubhouse_state.lights_on = True
+
     def step_complete_and_stop(self):
-        self._clubhouse_state.window_is_disabled = False
+        self._back_to_normal()
         super().step_complete_and_stop()
 
     def step_abort(self):
-        # This is in case the quest is aborted between the
-        # disable/enable of the window:
-        self._clubhouse_state.window_is_disabled = False
+        self._back_to_normal()
         super().step_abort()

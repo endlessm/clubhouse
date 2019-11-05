@@ -131,7 +131,7 @@ class Character(GObject.GObject):
     DEFAULT_MOOD = 'talk'
     DEFAULT_BODY_ANIMATION = 'idle'
     HIGHLIGHTED_ANIMATION = 'hi'
-    HACK_MODE_DISABLED_ANIMATION = 'idle-off'
+    LIGHTS_OFF_ANIMATION = 'idle-off'
 
     @classmethod
     def get_or_create(class_, character_id):
@@ -449,8 +449,13 @@ class CharacterButton(Gtk.Button):
         self._previous_body_animation = None
         self._on_hover = False
 
-        Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
-                                       lambda _settings, _key: self._update_character_animation())
+        clubhouse_state = ClubhouseState()
+        clubhouse_state.connect('notify::characters-disabled',
+                                self._on_characters_disabled_changed_cb)
+        clubhouse_state.connect('notify::lights-on',
+                                self._on_lights_changed_cb)
+
+        self._update_sensitivity(clubhouse_state)
         self._update_character_animation()
 
         self.connect('clicked', self._on_button_clicked_cb)
@@ -461,7 +466,6 @@ class CharacterButton(Gtk.Button):
         self._quest_set.bind_property('visible', self, 'visible',
                                       GObject.BindingFlags.BIDIRECTIONAL |
                                       GObject.BindingFlags.SYNC_CREATE)
-        Desktop.shell_settings_bind(Desktop.SETTINGS_HACK_MODE_KEY, self, 'sensitive')
 
     def reload(self, scale):
         self._scale = scale
@@ -509,11 +513,25 @@ class CharacterButton(Gtk.Button):
         else:
             style_context.remove_class(highlighted_style)
 
+    def _on_characters_disabled_changed_cb(self, state, _param):
+        self._update_sensitivity(state)
+
+    def _on_lights_changed_cb(self, state, _param):
+        self._update_sensitivity(state)
+        self._update_character_animation()
+
+    def _update_sensitivity(self, state):
+        # characters-disabled takes precedence over lights-on:
+        if state.characters_disabled:
+            self.props.sensitive = False
+        else:
+            self.props.sensitive = state.lights_on
+
     def _update_character_animation(self):
         new_animation = None
 
-        if not Desktop.get_hack_mode():
-            new_animation = self._character.HACK_MODE_DISABLED_ANIMATION
+        if not ClubhouseState().lights_on:
+            new_animation = self._character.LIGHTS_OFF_ANIMATION
         elif self._quest_set.highlighted or self._on_hover:
             new_animation = self._character.HIGHLIGHTED_ANIMATION
         else:
@@ -1577,12 +1595,15 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
 
         self.add_tick_callback(AnimationSystem.step)
 
-        Desktop.shell_settings_bind(Desktop.SETTINGS_HACK_MODE_KEY, self._hack_switch, 'active')
-        self._hack_switch.connect('toggled', self._on_hack_switch_toggled)
+        self._hack_switch.set_active(Desktop.get_hack_mode())
+        self._hack_switch_handler_id = self._hack_switch.connect(
+            'toggled', self._on_hack_switch_toggled)
 
         state = ClubhouseState()
         state.connect('notify::hack-switch-highlighted',
                       self._on_hack_switch_highlighted_changed_cb)
+        state.connect('notify::lights-on',
+                      self._on_lights_changed_cb)
 
         # Update children allocation
         for child in self.get_children():
@@ -1596,12 +1617,32 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
 
         self._app.send_suggest_open(libquest.Registry.has_quest_sets_highlighted())
 
-    def _on_hack_switch_toggled(self, button):
+    def set_switch_active(self, active=True):
+        self._hack_switch.handler_block(self._hack_switch_handler_id)
+        self._hack_switch.set_active(active)
+        self._hack_switch.handler_unblock(self._hack_switch_handler_id)
+        self._update_switch_css()
+
+    def _update_switch_css(self):
         ctx = self._hack_switch_panel.get_style_context()
-        if button.get_active():
+        if self._hack_switch.get_active():
             ctx.remove_class('off')
         else:
             ctx.add_class('off')
+
+    def _on_hack_switch_toggled(self, button):
+        mock_hack_mode = (self._app_window.clubhouse.running_quest is not None and
+                          self._app_window.clubhouse.running_quest.get_id() == 'Quickstart')
+        if mock_hack_mode:
+            self._app_window._clubhouse_state.lights_on = button.get_active()
+        else:
+            Desktop.set_hack_mode(button.get_active())
+
+        self._update_switch_css()
+
+    def _on_lights_changed_cb(self, state, _param):
+        if state.lights_on != self._hack_switch.get_active():
+            self.set_switch_active(state.lights_on)
 
     def _on_hack_switch_highlighted_changed_cb(self, state, _param):
         ctx = self._hack_switch.get_style_context()
@@ -2136,17 +2177,19 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._stack.add_named(self.news, 'NEWS')
         self._stack.add_named(self.character, 'CHARACTER')
 
-        self.sync_with_hack_mode(init=True)
-        Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
-                                       self._hack_mode_changed_cb)
-
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::window-is-visible',
                                       self._on_clubhouse_window_visibility_changed_cb)
-        self._clubhouse_state.connect('notify::window-is-disabled',
-                                      self._on_clubhouse_window_disabled_changed_cb)
         self._clubhouse_state.connect('notify::nav-attract-state',
                                       self._on_clubhouse_nav_attract_state_changed_cb)
+        self._clubhouse_state.connect('notify::user-button-highlighted',
+                                      self._on_user_button_highlighted_changed_cb)
+        self._clubhouse_state.connect('notify::lights-on',
+                                      self._on_lights_changed_cb)
+
+        self.sync_with_hack_mode()
+        Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
+                                       self._hack_mode_changed_cb)
 
         self.connect('screen-changed', self._on_screen_changed)
         self._on_screen_changed(None, None)
@@ -2157,16 +2200,19 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
 
-        state = ClubhouseState()
-        state.connect('notify::user-button-highlighted',
-                      self._on_user_button_highlighted_changed_cb)
-
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
 
     def _user_event_box_button_press_event_cb(self, _button, event, achievements_view):
         if not achievements_view.hover:
             self.hide_achievements_view()
+
+    def sync_with_hack_mode(self):
+        hack_mode_enabled = Desktop.get_hack_mode()
+        if not hack_mode_enabled:
+            self.clubhouse.stop_quest()
+
+        self._clubhouse_state.lights_on = hack_mode_enabled
 
     def _hack_mode_changed_cb(self, _settings, _key):
         self.sync_with_hack_mode()
@@ -2178,24 +2224,21 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         else:
             context.remove_class('button-attract')
 
-    def sync_with_hack_mode(self, init=False):
-        hack_mode_enabled = Desktop.get_hack_mode()
-
-        if not init:
-            Desktop.set_hack_background(hack_mode_enabled)
-        Desktop.set_hack_cursor(hack_mode_enabled)
-        self._pathways_menu_button.props.sensitive = hack_mode_enabled
+    def _on_lights_changed_cb(self, state, _param):
+        lights_on = self._clubhouse_state.lights_on
+        Desktop.set_hack_background(lights_on)
+        Desktop.set_hack_cursor(lights_on)
+        self._pathways_menu_button.props.sensitive = lights_on
 
         ctx = self.get_style_context()
         ctx.add_class('transitionable-background')
 
-        if hack_mode_enabled:
+        if lights_on:
             ctx.remove_class('off')
             if self.props.visible:
                 self.play_ambient_sound()
         else:
             ctx.add_class('off')
-            self.clubhouse.stop_quest()
             self.hide_achievements_view()
             self.stop_ambient_sound()
 
@@ -2253,9 +2296,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self.show()
         else:
             self.hide()
-
-    def _on_clubhouse_window_disabled_changed_cb(self, state, _param):
-        self.props.sensitive = not state.window_is_disabled
 
     def _on_clubhouse_nav_attract_state_changed_cb(self, state, _param):
         self._clubhouse_button.get_style_context().remove_class('nav-attract')
@@ -2511,6 +2551,10 @@ class ClubhouseApplication(Gtk.Application):
             self._ensure_window()
             self.show(Gdk.CURRENT_TIME)
             self._show_and_focus_window()
+        else:
+            # Workaround for https://phabricator.endlessm.com/T28479
+            mail_layer = self._window.clubhouse.get_main_layer()
+            mail_layer.set_switch_active()
 
     def _run_episode_autorun_quest_if_needed(self):
         autorun_quest = libquest.Registry.get_autorun_quest()
