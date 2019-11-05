@@ -65,11 +65,6 @@ install_data(
     install_dir: 'share/icons/hicolor/scalable/apps'
 )
 
-install_data(
-    'splash.svg',
-    install_dir: clubhouse_data_dir
-)
-
 install_subdir(
     'backgrounds',
     install_dir: join_paths(get_option('datadir'), 'backgrounds'),

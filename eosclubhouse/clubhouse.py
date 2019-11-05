@@ -44,7 +44,6 @@ from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser, 
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     Direction, get_character_animation_dirs
 
-from eosclubhouse.splash import SplashWindow
 from eosclubhouse.widgets import FixedLayerGroup
 
 
@@ -2469,8 +2468,6 @@ class ClubhouseApplication(Gtk.Application):
                          resource_base_path='/com/hack_computer/Clubhouse')
 
         self._window = None
-        self._splash_window = None
-        self._showing_splash = False
         self._debug_mode = False
         self._registry_loaded = False
         self._suggesting_open = False
@@ -2506,23 +2503,6 @@ class ClubhouseApplication(Gtk.Application):
 
     @Performance.timeit
     def do_activate(self):
-        show_splash = self._window is None
-        if show_splash and not self._showing_splash:
-            self._showing_splash = True
-            self._ensure_splash_window()
-            self._splash_window.connect_after('realize', self._splash_window_realize_cb)
-            self._splash_window.present()
-            self._splash_window.show_all()
-        else:
-            self._activate_window()
-
-    def _splash_window_realize_cb(self, splash_window, *_args):
-        splash_window.disconnect_by_func(self._splash_window_realize_cb)
-        self._ensure_window()
-        self._window.connect_after('realize', self._window_realize_cb)
-        GLib.idle_add(self._activate_window)
-
-    def _activate_window(self):
         self._ensure_registry_loaded()
         self._ensure_suggesting_open()
         self._init_style()
@@ -2531,16 +2511,6 @@ class ClubhouseApplication(Gtk.Application):
             self._ensure_window()
             self.show(Gdk.CURRENT_TIME)
             self._show_and_focus_window()
-
-    def _window_realize_cb(self, window, *_args):
-        window.disconnect_by_func(self._window_realize_cb)
-
-        Gtk.Window.set_auto_startup_notification(True)
-        assert self._splash_window is not None
-
-        self._splash_window.destroy_with_fadeout()
-        self._showing_splash = False
-        self._splash_window = None
 
     def _run_episode_autorun_quest_if_needed(self):
         autorun_quest = libquest.Registry.get_autorun_quest()
@@ -2670,12 +2640,6 @@ class ClubhouseApplication(Gtk.Application):
     def _load_episode(self):
         # @todo: Move staff from clubhouse_page.load_episode() here
         self._window.clubhouse.load_episode()
-
-    def _ensure_splash_window(self):
-        if self._splash_window:
-            return
-        self._splash_window = SplashWindow(self)
-        self.add_window(self._splash_window)
 
     def _ensure_window(self):
         if self._window:
