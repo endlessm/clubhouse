@@ -29,7 +29,7 @@ class BlenderQuest(Quest):
             self._app.launch()
             self.pause(4)
             return self.step_info_loop
-        return self.step_complete_and_stop
+        return self.step_abort
 
     def step_info_loop(self, message_index=0):
         message_id = self._info_messages[message_index]

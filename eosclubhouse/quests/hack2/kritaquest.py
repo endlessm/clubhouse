@@ -33,13 +33,13 @@ class KritaQuest(Quest):
 
         if message_index == self.NUM_INFO_MESSAGES:
             action = self.show_choices_message(message_id,
-                                               ('BAK', None, -1),
-                                               ('FWD', None, 1),
+                                               ('NOQUEST_NAV_BAK', None, -1),
+                                               ('NOQUEST_NAV_FWD', None, 1),
                                                ('QUIT', None, 0)).wait()
         else:
             action = self.show_choices_message(message_id,
-                                               ('BAK', None, -1),
-                                               ('FWD', None, 1)).wait()
+                                               ('NOQUEST_NAV_BAK', None, -1),
+                                               ('NOQUEST_NAV_FWD', None, 1)).wait()
 
         chosen_action = action.future.result()
 
