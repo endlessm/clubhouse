@@ -31,7 +31,7 @@ from collections import OrderedDict
 from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
-from eosclubhouse.system import App, Desktop, GameStateService, Sound
+from eosclubhouse.system import App, Desktop, GameStateService, Sound, UserAccount
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
     Performance, QuestStringCatalog, convert_variant_arg
 from gi.repository import EosMetrics, GObject, GLib
@@ -1095,7 +1095,7 @@ class _Quest(GObject.GObject):
         self._last_bg_sound_event_id = sound_event_id
 
     def _get_message_variables(self):
-        return {'user_name': GLib.get_real_name()}
+        return {'user_name': UserAccount().get('RealName')}
 
     def get_last_bg_sound_event_id(self):
         return self._last_bg_sound_uuid
