@@ -2904,8 +2904,7 @@ class ClubhouseApplication(Gtk.Application):
             quest.complete = True
             quest.save_conf()
 
-        # Unlock all hack1 lockscreens as part of the migration quest
-        OldGameStateService().unlock_lockscreens()
+        OldGameStateService().migrate()
 
         # This write the local flatpak override for old and new hack apps
         Desktop.set_hack_mode(True)

@@ -19,6 +19,7 @@
 #
 
 import configparser
+import json
 import os
 import shutil
 import subprocess
@@ -808,6 +809,10 @@ class OldGameStateService(GameStateService):
     _DBUS_PATH = '/com/endlessm/GameStateService'
     _DBUS_ID = 'com.endlessm.GameStateService'
 
+    def migrate(self):
+        self.unlock_lockscreens()
+        self.complete_toy_apps_levels()
+
     def unlock_lockscreens(self):
         keys = [
             'lock.fizzics.1',
@@ -825,6 +830,21 @@ class OldGameStateService(GameStateService):
 
         for key in keys:
             self.set_async(key, {'locked': False})
+
+    def complete_toy_apps_levels(self):
+        apps_info = {
+            'sidetrack': {
+                'key': 'com.endlessm.Sidetrack.State',
+                'value': {'availableLevels': 50, 'highestAchievedLevel': 50, 'levelParameters': []},
+                'dump-value': True
+            }
+        }
+
+        for _, info in apps_info.items():
+            key, value = info['key'], info['value']
+            if info.get('dump-value'):
+                value = json.dumps(value)
+            self.set_async(key, value)
 
 
 class ToolBoxTopic(GObject.GObject):

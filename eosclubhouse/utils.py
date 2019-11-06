@@ -410,9 +410,12 @@ def get_flatpak_sandbox():
 
 
 def convert_variant_arg(variant):
-    """Convert Python dict to GLib.Variant"""
+    """Convert Python object to GLib.Variant"""
     if isinstance(variant, GLib.Variant):
         return variant
+
+    if isinstance(variant, str):
+        return GLib.Variant('s', variant)
 
     if isinstance(variant, dict):
         try:
