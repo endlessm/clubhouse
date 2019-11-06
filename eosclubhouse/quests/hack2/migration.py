@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App, Desktop
+from eosclubhouse.system import Desktop
 from eosclubhouse.utils import ClubhouseState
 
 
@@ -19,7 +19,10 @@ class Migration(Quest):
     def step_open_clubhouse(self):
         self.show_hints_message('OPENIT')
         Desktop.set_hack_icon_pulse(True)
-        self.wait_for_app_in_foreground(App('com.hack_computer.Clubhouse'))
+        # @todo: we should use wait_for_app_in_foreground() here instead of
+        # doing a busy wait, see https://phabricator.endlessm.com/T28521
+        while not Desktop.is_app_in_foreground('com.hack_computer.Clubhouse'):
+            self.pause(3)
         return self.step_explain_old_apps
 
     def step_explain_old_apps(self):
