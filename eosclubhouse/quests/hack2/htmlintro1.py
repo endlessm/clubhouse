@@ -7,7 +7,7 @@ class HTMLIntro1(Quest):
     __tags__ = ['pathway:web', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 501
 
-    TOTAL_MESSAGES = 16
+    TOTAL_MESSAGES = 18
 
     def setup(self):
         return self.step_begin
@@ -16,12 +16,15 @@ class HTMLIntro1(Quest):
         self.wait_confirm('1')
         self.wait_confirm('2')
         self.wait_confirm('3')
+        return self.step_launch
+
+    def step_launch(self):
         os.system('xdg-open https://codepen.io/madetohack/pen/BaaNeXj?editors=1000#code-area')
         return self.step_main_loop, 4
 
     def step_main_loop(self, message_index):
         if message_index > self.TOTAL_MESSAGES:
-            self.wait_confirm('END')
+            self.wait_confirm('END', confirm_label='Color? Count me in!')
             return self.step_complete_and_stop
         elif message_index < 1:
             message_index = 1
