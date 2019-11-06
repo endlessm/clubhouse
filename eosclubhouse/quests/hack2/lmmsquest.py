@@ -11,7 +11,7 @@ class LMMSQuest(Quest):
 
     def setup(self):
         self._app = App(self.APP_NAME)
-        self.NUM_INFO_MESSAGES = 6
+        self._info_messages = self.get_loop_messages('INFO')
 
     def step_begin(self):
         if not self._app.is_installed():
@@ -23,23 +23,18 @@ class LMMSQuest(Quest):
         self.pause(4)
         return self.step_info_loop
 
-    def step_info_loop(self, message_index=1):
-        if message_index > self.NUM_INFO_MESSAGES:
-            message_index = 1
-        elif message_index < 1:
-            message_index = self.NUM_INFO_MESSAGES
+    def step_info_loop(self, message_index=0):
+        message_id = self._info_messages[message_index]
 
-        message_id = 'INFO_' + str(message_index)
+        options = [
+            ('NOQUEST_NAV_BAK', None, -1),
+            ('NOQUEST_NAV_FWD', None, 1),
+        ]
 
-        if message_index == self.NUM_INFO_MESSAGES:
-            action = self.show_choices_message(message_id,
-                                               ('NOQUEST_NAV_BAK', None, -1),
-                                               ('NOQUEST_NAV_FWD', None, 1),
-                                               ('QUIT', None, 0)).wait()
-        else:
-            action = self.show_choices_message(message_id,
-                                               ('NOQUEST_NAV_BAK', None, -1),
-                                               ('NOQUEST_NAV_FWD', None, 1)).wait()
+        if message_id == self._info_messages[-1]:
+            options.append(('QUIT', None, 0))
+
+        action = self.show_choices_message(message_id, *options).wait()
 
         chosen_action = action.future.result()
 
@@ -47,5 +42,4 @@ class LMMSQuest(Quest):
             self.wait_confirm('BYE')
             return self.step_complete_and_stop
         else:
-            message_index += chosen_action
-            return self.step_info_loop, message_index
+            return self.step_info_loop, message_index + chosen_action

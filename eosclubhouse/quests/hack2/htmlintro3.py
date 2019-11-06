@@ -7,10 +7,8 @@ class HTMLIntro3(Quest):
     __tags__ = ['pathway:web', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 503
 
-    TOTAL_MESSAGES = 31
-
     def setup(self):
-        return self.step_begin
+        self._info_messages = self.get_loop_messages('HTMLINTRO3', start=4)
 
     def step_begin(self):
         self.wait_confirm('1')
@@ -20,19 +18,20 @@ class HTMLIntro3(Quest):
 
     def step_launch(self):
         os.system('xdg-open https://codepen.io/madetohack/pen/oNNYNXB?editors=1000#code-area')
-        return self.step_main_loop, 4
+        return self.step_main_loop
 
-    def step_main_loop(self, message_index):
-        if message_index > self.TOTAL_MESSAGES:
-            self.wait_confirm('END', confirm_label='A secret? Cool!')
+    def step_main_loop(self, message_index=0):
+        message_id = self._info_messages[message_index]
+
+        if message_id == self._info_messages[-1]:
+            self.wait_confirm(message_id, confirm_label='A secret? Cool!')
             return self.step_complete_and_stop
-        elif message_index < 1:
-            message_index = 1
 
-        message_id = str(message_index)
+        options = []
+        if message_id != self._info_messages[0]:
+            options.append(('NOQUEST_NAV_BAK', None, -1))
 
-        action = self.show_choices_message(message_id, ('NOQUEST_NAV_BAK', None, -1),
-                                           ('NOQUEST_NAV_FWD', None, 1)).wait()
-        message_index += action.future.result()
+        options.append(('NOQUEST_NAV_FWD', None, 1))
 
-        return self.step_main_loop, message_index
+        action = self.show_choices_message(message_id, *options).wait()
+        return self.step_main_loop, message_index + action.future.result()
