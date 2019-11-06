@@ -23,11 +23,4 @@ echo "Resetting the desktop background"
 gsettings reset org.gnome.desktop.background picture-uri
 gsettings reset com.hack_computer.clubhouse hack-mode-disabled-picture-uri
 
-echo "Resetting wobbly windows"
-gsettings reset org.gnome.shell wobbly-effect
-gsettings reset org.gnome.shell wobbly-object-movement-range
-gsettings reset org.gnome.shell wobbly-slowdown-factor
-gsettings reset org.gnome.shell wobbly-spring-friction
-gsettings reset org.gnome.shell wobbly-spring-k
-
 echo "Done"
