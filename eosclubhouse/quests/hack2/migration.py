@@ -1,5 +1,6 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import App, Desktop
+from eosclubhouse.utils import ClubhouseState
 
 
 class Migration(Quest):
@@ -8,6 +9,7 @@ class Migration(Quest):
 
     def setup(self):
         self.skippable = True
+        self._clubhouse_state = ClubhouseState()
 
     def step_begin(self):
         for msgid in ['WELCOME', 'WELCOME2']:
@@ -42,7 +44,10 @@ class Migration(Quest):
 
     def step_explain_profile(self):
         # explain how the profile works and how to change your name
-        for msgid in ['PROFILE1', 'PROFILE2', 'PROFILE3']:
+        self._clubhouse_state.user_button_highlighted = True
+        self.wait_confirm('PROFILE1')
+        self._clubhouse_state.user_button_highlighted = False
+        for msgid in ['PROFILE2', 'PROFILE3']:
             self.wait_confirm(msgid)
         action = self.show_choices_message('PROFILE_ASK', ('PROFILE_POS', None, True),
                                            ('PROFILE_NEG', None, False)).wait()

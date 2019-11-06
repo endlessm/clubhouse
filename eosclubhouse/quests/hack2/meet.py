@@ -1,10 +1,14 @@
 from eosclubhouse.libquest import Quest
+from eosclubhouse.utils import ClubhouseState
 
 
 class Meet(Quest):
 
     __tags__ = ['pathway:games', 'difficulty:easy']
     __pathway_order__ = 10
+
+    def setup(self):
+        self._clubhouse_state = ClubhouseState()
 
     def step_begin(self):
         self.wait_confirm('WELCOME1')
@@ -32,7 +36,10 @@ class Meet(Quest):
 
     def step_profile(self):
         # explain the profile
-        for msgid in ['EXPLAIN_PROFILE1', 'EXPLAIN_PROFILE2', 'EXPLAIN_PROFILE3']:
+        self._clubhouse_state.user_button_highlighted = True
+        self.wait_confirm('EXPLAIN_PROFILE1')
+        self._clubhouse_state.user_button_highlighted = False
+        for msgid in ['EXPLAIN_PROFILE2', 'EXPLAIN_PROFILE3']:
             self.wait_confirm(msgid)
 
         # ask if player wants to change their name

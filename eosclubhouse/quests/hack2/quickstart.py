@@ -36,17 +36,34 @@ class Quickstart(Quest):
                 self._clubhouse_state.lights_on = True
 
             self._clubhouse_state.hack_switch_highlighted = True
-            self.show_message('HACKSWITCH2')
-            self.connect_clubhouse_changes(['lights-on']).wait()
+            skip_action = self.show_confirm_message('HACKSWITCH2',
+                                                    confirm_label='No, I am really shy')
+
+            user_action = self.connect_clubhouse_changes(['lights-on'])
+            self.wait_for_one([skip_action, user_action])
             self._clubhouse_state.hack_switch_highlighted = False
-            self.show_message('HACKSWITCH3')
-            self.connect_clubhouse_changes(['lights-on']).wait()
+            if skip_action.is_done():
+                # Automatically turn the lights off because the player
+                # wants to skip using the switcher:
+                self._clubhouse_state.lights_on = False
+
+            skip_action = self.show_confirm_message('HACKSWITCH3',
+                                                    confirm_label='No, I am really shy')
+
+            user_action = self.connect_clubhouse_changes(['lights-on'])
+            self.wait_for_one([skip_action, user_action])
+            if skip_action.is_done():
+                # Automatically turn the lights on because the player
+                # wants to skip using the switcher:
+                self._clubhouse_state.lights_on = True
 
             self.highlight_nav('PATHWAYS')
             self.wait_confirm('PATHWAYS1')
             self.wait_confirm('PATHWAYS2')
             self.highlight_nav('')
+            self._clubhouse_state.user_button_highlighted = True
             self.wait_confirm('PROFILE1')
+            self._clubhouse_state.user_button_highlighted = False
             self.wait_confirm('PROFILE2')
         else:
             self.wait_confirm('DECLINE')
