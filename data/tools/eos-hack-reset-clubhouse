@@ -1,33 +1,77 @@
 #!/bin/bash
+usage() {
+    echo "Usage: $0 [OPTION1] [OPTION2] ..." 1>&2;
+    echo "Reset all quests state and game progress as well as system settings changed through the Clubhouse application in Hack2." 1>&2
+    echo "    -h | --help       Help." 1>&2
+    echo "    --all             Reset all" 1>&2
+    echo "    --base            Reset games, 'Hack mode' and desktop icons" 1>&2
+    echo "    --wobbly-windows  Reset wobbly windows" 1>&2
+    exit 1
+}
 
-echo "Resetting com.hack_computer.GameStateService"
-gdbus call --session \
-    --dest com.hack_computer.GameStateService \
-    --object-path /com/hack_computer/GameStateService \
-    --method com.hack_computer.GameStateService.Reset
+if [ $# -eq 0 ]; then
+  usage
+fi
 
-echo "Resetting the hack-mode"
-gsettings reset org.gnome.shell hack-mode-enabled
+reset_all=0
+reset_base=0
+reset_wobbly_windows=0
 
-echo "Removing com.hack_computer.Fizzics state"
-flatpak-spawn --host rm -rf ~/.var/app/com.hack_computer.Fizzics/data/webkitgtk/localstorage/
 
-echo "Resetting desktop icons"
-flatpak-spawn --host eos-reset-desktop
+opts=$(getopt \
+    --longoptions "all base wobbly-windows help" \
+    --name "$(basename "$0")" \
+    --options "h" \
+    -- "$@"
+)
 
-echo "Resetting cursor"
-gsettings reset org.gnome.desktop.interface cursor-size
-gsettings reset org.gnome.desktop.interface cursor-theme
+while true; do
+  case "$1" in
+    --all)
+        reset_all=1
+        ;;
+    --base)
+        reset_base=1
+        ;;
+    --wobbly-windows)
+        reset_wobbly_windows=1
+        ;;
+    -h | --help)
+        usage
+        ;;
+    *)
+        break;;
+    esac
+    shift
+done;
 
-echo "Resetting the desktop background"
-gsettings reset org.gnome.desktop.background picture-uri
-gsettings reset com.hack_computer.clubhouse hack-mode-disabled-picture-uri
 
-echo "Resetting wobbly windows"
-gsettings reset org.gnome.shell wobbly-effect
-gsettings reset org.gnome.shell wobbly-object-movement-range
-gsettings reset org.gnome.shell wobbly-slowdown-factor
-gsettings reset org.gnome.shell wobbly-spring-friction
-gsettings reset org.gnome.shell wobbly-spring-k
+if [ "$reset_all" == 1 ] || [ "$reset_base" == 1 ]; then
+  echo "Resetting com.hack_computer.GameStateService"
+  gdbus call --session \
+      --dest com.hack_computer.GameStateService \
+      --object-path /com/hack_computer/GameStateService \
+      --method com.hack_computer.GameStateService.Reset
 
-echo "Done"
+  echo "Resetting the hack-mode"
+  gsettings reset org.gnome.shell hack-mode-enabled
+
+  echo "Removing com.hack_computer.Fizzics state"
+  flatpak-spawn --host rm -rf ~/.var/app/com.hack_computer.Fizzics/data/webkitgtk/localstorage/
+
+  echo "Resetting desktop icons"
+  flatpak-spawn --host eos-reset-desktop
+
+  echo "Resetting cursor"
+  gsettings reset org.gnome.desktop.interface cursor-size
+  gsettings reset org.gnome.desktop.interface cursor-theme
+fi
+
+if [ "$reset_all" == 1 ] || [ "$reset_wobbly_windows" == 1 ]; then
+  echo "Resetting wobbly windows"
+  gsettings reset org.gnome.shell wobbly-effect
+  gsettings reset org.gnome.shell wobbly-object-movement-range
+  gsettings reset org.gnome.shell wobbly-slowdown-factor
+  gsettings reset org.gnome.shell wobbly-spring-friction
+  gsettings reset org.gnome.shell wobbly-spring-k
+fi

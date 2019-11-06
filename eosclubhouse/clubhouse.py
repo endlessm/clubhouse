@@ -2505,6 +2505,8 @@ class ClubhouseApplication(Gtk.Application):
 
     QUEST_MSG_NOTIFICATION_ID = 'quest-message'
     QUEST_ITEM_NOTIFICATION_ID = 'quest-item'
+    RESET_ARGUMENT_OPTIONS = ('base', 'wobbly-windows', 'all')
+    RESET_ARGUMENT_DEFAULT_OPTION = 'base'
 
     _INACTIVITY_TIMEOUT = 5 * 60 * 1000  # millisecs
 
@@ -2531,8 +2533,9 @@ class ClubhouseApplication(Gtk.Application):
         self.add_main_option('set-quest', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
                              'Start a quest.',
                              '[EPISODE_NAME.]QUEST_NAME')
-        self.add_main_option('reset', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
-                             'Reset all quests state and game progress', None)
+        self.add_main_option('reset', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING_ARRAY,
+                             'Reset all quests state and game progress',
+                             ','.join(self.RESET_ARGUMENT_OPTIONS))
         self.add_main_option('debug', ord('d'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Turn on debug mode', None)
         self.add_main_option('quit', ord('x'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
@@ -2572,6 +2575,14 @@ class ClubhouseApplication(Gtk.Application):
         libquest.Registry.try_offer_quest()
 
         return False
+
+    def do_local_command_line(self, arguments):
+        new_arguments = []
+        for arg in arguments:
+            if arg == '--reset':
+                arg = '{}={}'.format(arg, self.RESET_ARGUMENT_DEFAULT_OPTION)
+            new_arguments.append(arg)
+        return Gtk.Application.do_local_command_line(self, new_arguments)
 
     def do_handle_local_options(self, options):
         self.register(None)
@@ -2624,7 +2635,8 @@ class ClubhouseApplication(Gtk.Application):
 
         if options.contains('reset'):
             self.activate_action('quit', None)
-            return self._reset()
+            reset_options = options.lookup_value('reset', GLib.VariantType('as'))
+            return self._reset(reset_options)
 
         if options.contains('debug'):
             self.activate_action('debug-mode', GLib.Variant('b', True))
@@ -2930,9 +2942,15 @@ class ClubhouseApplication(Gtk.Application):
         print('Setting up {} as available'.format(quest_id))
         self._run_quest_by_name(quest_id)
 
-    def _reset(self):
+    def _reset(self, options):
+        if not set(options) <= set(self.RESET_ARGUMENT_OPTIONS):
+            logger.warning('Invalid options. Valid options are: %s',
+                           ', '.join(self.RESET_ARGUMENT_OPTIONS))
+            return 1
+
+        script_args = ['--{}'.format(opt) for opt in options]
         try:
-            subprocess.run(config.RESET_SCRIPT_PATH, check=True)
+            subprocess.run([config.RESET_SCRIPT_PATH] + script_args, check=True)
             return 0
         except subprocess.CalledProcessError as e:
             logger.warning('Could not reset the Clubhouse: %s', e)
