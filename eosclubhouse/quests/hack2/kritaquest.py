@@ -39,7 +39,7 @@ class KritaQuest(Quest):
         chosen_action = action.future.result()
 
         if chosen_action == 0:
-            self.wait_confirm('BYE')
+            self.wait_confirm('BYE', confirm_label='See you later!')
             return self.step_complete_and_stop
         else:
             return self.step_info_loop, message_index + chosen_action
