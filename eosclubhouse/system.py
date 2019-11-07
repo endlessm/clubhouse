@@ -686,6 +686,7 @@ class App:
             hack_sound_server_id = 'com.endlessm.HackSoundServer'
             # replace the flatpak branch to stable
             clippy_sandbox = clippy_sandbox.replace('com.hack_computer', 'com.endlessm')\
+                                           .replace('eos3', 'stable')\
                                            .replace('custom', 'stable')\
                                            .replace('master', 'stable')
             sandbox = clippy_sandbox
