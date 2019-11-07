@@ -151,9 +151,9 @@ class QuestStringCatalog(DictFromCSV):
         return hint_keys
 
     @classmethod
-    def get_loop_messages(class_, key):
+    def get_loop_messages(class_, key, start=1):
         messages = _CircleList()
-        for index in itertools.count(start=1):
+        for index in itertools.count(start=start):
             message_id = f'{key}_{index}'
             if class_.get_info(message_id) is None:
                 break

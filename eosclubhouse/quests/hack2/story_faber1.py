@@ -1,5 +1,4 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Sound
 
 
 class Story_Faber1(Quest):
@@ -8,41 +7,30 @@ class Story_Faber1(Quest):
     __pathway_order__ = 50
     __is_narrative__ = True
 
-    QUESTION_MESSAGES = [2]
-    TOTAL_MESSAGES = 24
+    QUESTION_MESSAGES = ['STORY_FABER1_2']
 
-    def step_begin(self):
-        return self.step_main_loop, 1
+    def setup(self):
+        self._info_messages = self.get_loop_messages('STORY_FABER1')
 
-    def step_main_loop(self, message_index):
+    def step_begin(self, message_index=0):
+        message_id = self._info_messages[message_index]
 
-        if message_index > self.TOTAL_MESSAGES:
-            return self.step_end
-
-        message_id = str(message_index)
-
-        is_answer_positive = False
-
-        def _answer_choice(user_answer):
-            nonlocal is_answer_positive
-            is_answer_positive = user_answer
-
-        if message_index in self.QUESTION_MESSAGES:
-            self.show_choices_message(message_id,
-                                      ('POSITIVE', _answer_choice, True),
-                                      ('NEGATIVE', _answer_choice, False),
-                                      narrative=True).wait()
-            suffix = '_RPOS' if is_answer_positive else '_RNEG'
+        if message_id in self.QUESTION_MESSAGES:
+            action = self.show_choices_message(message_id,
+                                               ('NOQUEST_POSITIVE', None, True),
+                                               ('NOQUEST_NEGATIVE', None, False),
+                                               narrative=True).wait()
+            suffix = '_RPOS' if action.future.result() else '_RNEG'
             self.show_confirm_message(message_id + suffix, narrative=True).wait()
 
         else:
             self.wait_confirm(message_id, narrative=True)
 
-        return self.step_main_loop, message_index + 1
+        if message_id == self._info_messages[-1]:
+            return self.step_complete_and_stop
 
-    def step_end(self):
+        return self.step_begin, message_index + 1
+
+    def step_complete_and_stop(self):
         self.dismiss_message(narrative=True)
-        self.complete = True
-        self.available = False
-        Sound.play('quests/quest-complete')
-        self.stop()
+        super().step_complete_and_stop()
