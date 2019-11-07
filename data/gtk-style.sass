@@ -666,35 +666,49 @@ NewsItem
 ClubhouseViewMainLayer
   $switchdir: $images + 'hack-switch/'
 
+  @keyframes off_attract_pulsate
+    from
+      background-image: url($switchdir + 'OFF-hover.png')
+    to
+      background-image: url($switchdir + 'OFF-attract.png')
+
+  @keyframes on_attract_pulsate
+    from
+      background-image: url($switchdir + 'ON-hover.png')
+    to
+      background-image: url($switchdir + 'ON-attract.png')
+
   #hack-switch
     background-size: cover
     background-image: url($switchdir + 'switch.svg')
 
   #hack-switch-panel
     background-size: cover
-    background-image: url($switchdir + 'ON.svg')
+    background-image: url($switchdir + 'ON.png')
 
     &.off
-      background-image: url($switchdir + 'OFF.svg')
+      background-image: url($switchdir + 'OFF.png')
 
   #hack-switch-button
     background-size: cover
-    background-image: url($switchdir + 'OFF-static.svg')
+    background-image: url($switchdir + 'OFF-static.png')
 
     &:hover
-      background-image: url($switchdir + 'OFF-hover.svg')
+      background-image: url($switchdir + 'OFF-hover.png')
 
     &.highlighted
-      background-image: url($switchdir + 'OFF-attract.svg')
+      background-image: url($switchdir + 'OFF-attract.png')
+      animation: off_attract_pulsate 500ms ease-in-out alternate infinite
 
     &:checked
-      background-image: url($switchdir + 'ON-static.svg')
+      background-image: url($switchdir + 'ON-static.png')
 
       &:hover
-        background-image: url($switchdir + 'ON-hover.svg')
+        background-image: url($switchdir + 'ON-hover.png')
 
       &.highlighted
-        background-image: url($switchdir + 'ON-attract.svg')
+        background-image: url($switchdir + 'ON-attract.png')
+        animation: on_attract_pulsate 500ms ease-in-out alternate infinite
 
   #banister
     background-size: cover
