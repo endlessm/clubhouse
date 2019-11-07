@@ -1,3 +1,4 @@
+import datetime
 import unittest
 
 from eosclubhouse.utils import convert_variant_arg
@@ -12,4 +13,4 @@ class TestVariantConversion(unittest.TestCase):
         self.assertTrue(variant.unpack() == {'hints_given': True})
 
         with self.assertRaises(TypeError):
-            convert_variant_arg('not a dict or variant')
+            convert_variant_arg({'no_serializable': datetime.datetime.now()})
