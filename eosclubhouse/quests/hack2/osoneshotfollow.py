@@ -27,7 +27,7 @@ class OSOneshotFollow(Quest):
         message_id = self._info_messages[message_index]
 
         if message_id == self._info_messages[-1]:
-            self.wait_confirm(message_id)
+            self.wait_confirm(message_id, confirm_label='Will do!')
             return self.step_complete_and_stop
         elif message_id == 'OSONESHOTFOLLOW_20':
             # put the reference file into the user's documents folder

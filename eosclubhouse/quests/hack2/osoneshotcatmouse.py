@@ -31,7 +31,7 @@ class OSOneshotCatMouse(Quest):
         message_id = self._info_messages[message_index]
 
         if message_id == self._info_messages[-1]:
-            self.wait_confirm(message_id)
+            self.wait_confirm(message_id, confirm_label='See you around!')
             return self.step_complete_and_stop
         elif message_id == 'OSONESHOTCATMOUSE_48':
             self.deploy_file('maybe_a_mouse', '~/yarnbasket/greenyarn/', override=True)

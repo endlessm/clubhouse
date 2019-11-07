@@ -26,7 +26,7 @@ class OSOneshotBackground(Quest):
         message_id = self._info_messages[message_index]
 
         if message_id == self._info_messages[-1]:
-            self.wait_confirm(message_id)
+            self.wait_confirm(message_id, confirm_label='Looking forward to it!')
             return self.step_complete_and_stop
 
         options = []
