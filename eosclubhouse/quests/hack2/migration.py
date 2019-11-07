@@ -6,6 +6,7 @@ from eosclubhouse.utils import ClubhouseState
 class Migration(Quest):
 
     __tags__ = ['pathway:games', 'skillset:Veteran']
+    __dismissible_messages__ = False
 
     def setup(self):
         self.skippable = True
