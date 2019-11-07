@@ -994,6 +994,31 @@ LIGHTSPEEDTWEAK_SUCCESS,Brilliant solution! That worked like a dream! You're rea
 LIGHTSPEEDTWEAK_UNLOCK,There. Now click on the lock to unlock the panel and let's get this party started!,,,,
 LIGHTSPEEDTWEAK_WRONGLEVEL,Go back to Level 2. That's the one we're working on.,,,,
 LIGHTSPEEDTWEAK_WRONGLEVEL_HINT1,"Go to the start screen, select Level 2, and start playing.",,,,
+LMMSQUEST_BAK,❮,,,,
+LMMSQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
+LMMSQUEST_FWD,❯,,,,
+LMMSQUEST_INFO_1,Click the links for these tutorials to open them in your browser and follow along.,estelle,,,
+LMMSQUEST_INFO_2,The best way to use these videos is to resize your windows so you can can see both LMMS and the video.,estelle,,,
+LMMSQUEST_INFO_3,"That way, you can watch the video and follow along at the same time.",estelle,,,
+LMMSQUEST_INFO_4,"Here's a link to a full playlist of tutorials on how to get started:
+https://youtu.be/TrMTlpeSw8Y",estelle,,,
+LMMSQUEST_INFO_5,"Here's a single tutorial that should be great for beginners: 
+https://youtu.be/MP7VxyhCkrA ",estelle,,,
+LMMSQUEST_INFO_6,"If you want to read the documentation, the wiki is located at https://lmms.io/wiki/index.php",estelle,,,
+LMMSQUEST_LAUNCH,"LMMS is a program that lets you create music on your Hack system.
+
+With a little practice, you can easily sample, remix, make mash-ups, and share them with friends.
+
+We've got some useful tutorials linked in here for you, give them a try!",estelle,,,
+LMMSQUEST_NOTINSTALLED,"Uh-oh! Looks like `LMMS` isn't installed!
+
+You need to download it from the App Center if you'd like to learn how to use it.
+
+Click the icon named `More Apps` on the Desktop, then search for `LMMS`, and install it. ",daemon,,,
+LMMSQUEST_QUEST_DESCRIPTION,"Try out some tutorials for LMMS, a fully-featured music creation program.",,,,
+LMMSQUEST_QUEST_NAME,Creating Music - Not quite autotune...,,,,
+LMMSQUEST_QUEST_SUBTITLE,What you'll do,,,,
+LMMSQUEST_QUIT,See you later!,,,,
 LOSTFILES_EXPLANATION1,The files are just empty. Only one other person knows the protocol to access this. ,ada,,,quests/shutdown-start
 LOSTFILES_EXPLANATION2,"Hey, guys? I was ""looking around"" and I noticed a super weird pattern in the System journal.",riley,,,quests/quest-march-start
 LOSTFILES_EXPLANATION3,"I'm not liking this one bit. First, Roster. Now Ada's data has vanished. No sign of a breach. This is starting to look all too familiar.
@@ -1420,6 +1445,12 @@ OSINTRO_SANIEL_FLIP_HINT1,Go back the same way you got here: press the *Flip but
 OSINTRO_WRAPUP,"He's a bit fierce at first, but his heart's definitely in the right place. I'm glad you could meet him. 
 
 Well, time for me to bounce! My research is calling me ;) ",ada,,,quests/saniel-theme-start
+P5WEBSHAPES_QUEST_DESCRIPTION,"Play around in this unguided example of Processing, a programming language designed for art.",,,,
+P5WEBSHAPES_QUEST_NAME,A Taste of Processing - Shapes,,,,
+P5WEBSHAPES_QUEST_SUBTITLE,What you'll do,,,,
+P5WEBSHAPES_WELCOME,"Hello, *{{user_name}}* - I've got a treat for you. This is an online version of something called `Processing`.
+
+You can use it to make art with code! Check it out!",ada,,,
 POWERUPA1_ABORT,Check back later and we can keep exploring. ,,,,
 POWERUPA1_ABOUTTOPLAY,Start playing the level.,,,,
 POWERUPA1_ABOUTTOPLAY_HINT1,Press *Restart.* ,,,,
@@ -1703,6 +1734,26 @@ Click the icon named `More Apps` on the Desktop, then search for the program you
 T2DRAGON_QUEST_DESCRIPTION,Learn magic and save the realm in this 3rd-person action RPG.,,,,
 T2DRAGON_QUEST_NAME,Terminal 2 - Dragon's Apprentice,,,,
 T2DRAGON_QUEST_SUBTITLE,What you'll do,,,,
+T2MISSILE_GREET1,"You know, people have been trying to fling things out of airplanes at targets for over 100 years, now...",saniel,,,
+T2MISSILE_GREET2,"... But for the longest time, it was mostly up to chance and luck if you hit. Care to improve those statistics?",saniel,,,
+T2MISSILE_NOTINSTALLED,"Uh-oh! I'm detecting that `Missile Math` isn't installed!
+
+You need to download it from the App Center if you want to play.
+
+Click the icon named `More Apps` on the Desktop, then search for the program you want to install.",daemon,,,
+T2MISSILE_QUEST_DESCRIPTION,Pilot your plane to victory with the power of mathematics!,,,,
+T2MISSILE_QUEST_NAME,Terminal 2 - Missile Math,,,,
+T2MISSILE_QUEST_SUBTITLE,What you'll do,,,,
+T2TEDDY_GREET1,"Midnightmare Teddy, sounds rather spooky. You can launch it through the Desktop, as well.",saniel,,,
+T2TEDDY_GREET2,"I'm not a big fan of scary games or movies, but I can always appreciate a math-based game.",saniel,,,
+T2TEDDY_NOTINSTALLED,"Uh-oh! I'm detecting that `Midnightmare Teddy` isn't installed!
+
+You need to download it from the App Center if you want to play.
+
+Click the icon named `More Apps` on the Desktop, then search for the program you want to install.",daemon,,,
+T2TEDDY_QUEST_DESCRIPTION,Use the power of mathematics (and your trusty equation rifle) to banish the nightmares coming from every direction!,,,,
+T2TEDDY_QUEST_NAME,Terminal 2 - Midnightmare Teddy,,,,
+T2TEDDY_QUEST_SUBTITLE,What you'll do,,,,
 T2WEBFABLEMAKER_GREET1,"So, you know about fables, right? A lot like fairy tales, but with a specific lesson at the end.",riley,,,
 T2WEBFABLEMAKER_GREET2,"In this game you can hack the HTML behind the scenes to change the stories! Cool, huh?",riley,,,
 T2WEBFABLEMAKER_NOTINSTALLED,"Uh-oh! I'm detecting that `Fablemaker` isn't installed!
@@ -1713,6 +1764,16 @@ Click the icon named `More Apps` on the Desktop, then search for the program you
 T2WEBFABLEMAKER_QUEST_DESCRIPTION,Create your own mashups of classic fables using the power of HTML!,,,,
 T2WEBFABLEMAKER_QUEST_NAME,Terminal 2 - Fablemaker,,,,
 T2WEBFABLEMAKER_QUEST_SUBTITLE,What you'll do,,,,
+T2WHITEHOUSE_GREET1,"This one's about color, and exploration. Give it a shot! It's part of the Terminal 2 Network, and you can launch it through the Desktop, as well.",ada,,,
+T2WHITEHOUSE_GREET2,It's always interesting when people mash up art and games - see what you think.,ada,,,
+T2WHITEHOUSE_NOTINSTALLED,"Uh-oh! I'm detecting that `White House` isn't installed!
+
+You need to download it from the App Center if you want to play.
+
+Click the icon named `More Apps` on the Desktop, then search for the program you want to install.",daemon,,,
+T2WHITEHOUSE_QUEST_DESCRIPTION,"Paint the town red (or green, or blue...) as you learn about Web color in this low-key first-person adventure.",,,,
+T2WHITEHOUSE_QUEST_NAME,Terminal 2 - White House,,,,
+T2WHITEHOUSE_QUEST_SUBTITLE,What you'll do,,,,
 TRAPINTRO_QUESTION,"{{{fx /\ /\#  _transcoding_ 
 ((∞) =∞=   _complete_ 
 ?=))∞)))§    PLEASE 
