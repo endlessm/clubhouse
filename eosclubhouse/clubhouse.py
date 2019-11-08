@@ -46,6 +46,7 @@ from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, A
 
 from eosclubhouse.widgets import FixedLayerGroup
 
+MIGRATION_QUEST = 'Migration'
 
 # Metrics event ids
 CLUBHOUSE_SET_PAGE_EVENT = '2c765b36-a4c9-40ee-b313-dc73c4fa1f0d'
@@ -2220,7 +2221,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def sync_with_hack_mode(self):
         hack_mode_enabled = Desktop.get_hack_mode()
-        if not hack_mode_enabled:
+
+        migration_quest = libquest.Registry.get_quest_by_name(MIGRATION_QUEST)
+        if not hack_mode_enabled and self.clubhouse.props.running_quest != migration_quest:
             self.clubhouse.stop_quest()
 
         # The most common behavior is to turn lights on when the hack mode gets enabled.
@@ -2908,8 +2911,6 @@ class ClubhouseApplication(Gtk.Application):
 
             self.migrating = False
             clubhouse.disconnect_by_func(notify_running_quest_cb)
-
-        MIGRATION_QUEST = 'Migration'
 
         self._ensure_window()
         migration_quest = libquest.Registry.get_quest_by_name(MIGRATION_QUEST)
