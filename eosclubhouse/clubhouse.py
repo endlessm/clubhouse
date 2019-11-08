@@ -2223,7 +2223,15 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if not hack_mode_enabled:
             self.clubhouse.stop_quest()
 
-        self._clubhouse_state.lights_on = hack_mode_enabled
+        # The most common behavior is to turn lights on when the hack mode gets enabled.
+        # However, the migration quest is an exception, in which we turn on the hack mode
+        # (just because quests, including the migration quest, depends on the hack mode on)
+        # but keep the lights off.
+        app = Gio.Application.get_default()
+        migrating = app.migrating
+
+        if not migrating:
+            self._clubhouse_state.lights_on = hack_mode_enabled
 
     def _hack_mode_changed_cb(self, _settings, _key):
         self.sync_with_hack_mode()
@@ -2524,6 +2532,7 @@ class ClubhouseApplication(Gtk.Application):
         self._suggesting_open = False
         self._session_mode = None
         self._cards_path = None
+        self.migrating = False
 
         self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'List existing quest sets and quests', None)
@@ -2889,14 +2898,30 @@ class ClubhouseApplication(Gtk.Application):
 
     # D-Bus implementation
     def migrationQuest(self):
+        def notify_running_quest_cb(clubhouse, _pspec):
+            if not clubhouse.props.running_quest:
+                return
+
+            if self.migrating and clubhouse.props.running_quest == migration_quest:
+                # This write the local flatpak override for old and new hack apps
+                Desktop.set_hack_mode(True)
+
+            self.migrating = False
+            clubhouse.disconnect_by_func(notify_running_quest_cb)
+
         MIGRATION_QUEST = 'Migration'
 
-        self._ensure_registry_loaded()
+        self._ensure_window()
+        migration_quest = libquest.Registry.get_quest_by_name(MIGRATION_QUEST)
+        if self.migrating and self._window.clubhouse.props.running_quest == migration_quest:
+            return
 
         # Check if this is done, in that case, do nothing
-        quest = libquest.Registry.get_quest_by_name(MIGRATION_QUEST)
-        if quest.complete:
+        if migration_quest.complete:
             return
+
+        self.migrating = True
+        self._ensure_registry_loaded()
 
         # Mark first contact quest (HackUnlock) as done
         for quest_id in ['FirstContact', 'Quickstart']:
@@ -2906,10 +2931,10 @@ class ClubhouseApplication(Gtk.Application):
 
         OldGameStateService().migrate()
 
-        # This write the local flatpak override for old and new hack apps
-        Desktop.set_hack_mode(True)
+        self._window.clubhouse.connect('notify::running-quest', notify_running_quest_cb)
         # Launch the clubhouse window and the migration quest!
         # This quest can make the hack icon bounce
+        # GLib.idle_add(_run_migration_quest)
         self._run_quest_by_name(MIGRATION_QUEST)
 
     def _list_quests(self):
