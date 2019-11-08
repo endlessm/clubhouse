@@ -11,7 +11,7 @@
     "branch": "${BRANCH}",
 
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.32",
+    "runtime-version": "3.34",
     "sdk": "org.gnome.Sdk",
 
     "command": "eos-clubhouse",
@@ -123,9 +123,17 @@
             ],
             "sources": [
                  {
-                     "type": "archive",
-                     "url": "http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.3.tar.xz",
-                     "sha256": "b2224e5d9c1b85ad51233f6135524bb9e16a9172d395edc79c73b89094659fd5"
+                    "type": "archive",
+                    "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.1.tar.xz",
+                    "sha256": "56481c95339b8985af13bac19b18bc8da7118c2a7d9440ed70e7dcd799c2adb5"
+                 },
+                 {
+                    "type": "patch",
+                    "path": "${PATCH_DIR}/gstreamer-plugins-soundtouch/gst-plugins-bad-Optional-LRDF-dep-for-ladspa.patch"
+                 },
+                 {
+                    "type": "patch",
+                    "path": "${PATCH_DIR}/gstreamer-plugins-soundtouch/graceful-error-noopenh264.patch"
                  }
             ]
         },

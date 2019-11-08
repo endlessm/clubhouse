@@ -33,6 +33,12 @@ DEFAULTS = {
 }
 
 
+def get_git_root_dir():
+    cmd = 'git rev-parse --show-toplevel'
+    return subprocess.Popen(cmd.split(),
+                            stdout=subprocess.PIPE).communicate()[0].rstrip().decode('utf-8')
+
+
 class BuildError(Exception):
     pass
 
@@ -90,6 +96,7 @@ class Config:
     def get_template_values(self, modules):
         template_values = {
             'BRANCH': self.get_flatpak_branch(),
+            'PATCH_DIR': os.path.join(get_git_root_dir(), 'katamari', 'patches')
         }
 
         default_git_branch = self.get_default_branch()

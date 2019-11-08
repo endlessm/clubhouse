@@ -1,0 +1,25 @@
+From 47f7ba41c9d8aa80a06629462c899042be25208a Mon Sep 17 00:00:00 2001
+From: Thomas Coldrick <othko97@gmail.com>
+Date: Thu, 6 Jun 2019 15:08:22 +0100
+Subject: [PATCH] gst-plugins-bad: Optional LRDF dep for ladspa
+
+---
+ ext/ladspa/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ext/ladspa/meson.build b/ext/ladspa/meson.build
+index 381ce2f4f..8fdbad055 100644
+--- a/ext/ladspa/meson.build
++++ b/ext/ladspa/meson.build
+@@ -13,7 +13,7 @@ if get_option('ladspa').disabled()
+ endif
+ 
+ # This is an optional dep, but we make it optional only in auto mode
+-lrdf_dep = dependency('lrdf', required : get_option('ladspa'))
++lrdf_dep = dependency('lrdf', required : false)
+ if lrdf_dep.found()
+   ladspa_cargs = ['-DHAVE_LRDF']
+ endif
+-- 
+2.21.0
+

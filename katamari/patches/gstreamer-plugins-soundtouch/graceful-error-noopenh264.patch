@@ -1,0 +1,33 @@
+diff -ur gstreamer-plugins-bad.old/ext/openh264/gstopenh264dec.cpp gstreamer-plugins-bad/ext/openh264/gstopenh264dec.cpp
+--- gstreamer-plugins-bad.old/ext/openh264/gstopenh264dec.cpp	2019-09-06 15:28:47.700177589 +0200
++++ gstreamer-plugins-bad/ext/openh264/gstopenh264dec.cpp	2019-09-06 15:34:34.724925743 +0200
+@@ -159,7 +159,11 @@
+     WelsDestroyDecoder (openh264dec->decoder);
+     openh264dec->decoder = NULL;
+   }
+-  WelsCreateDecoder (&(openh264dec->decoder));
++
++  if (WelsCreateDecoder (&(openh264dec->decoder)) != 0) {
++    GST_DEBUG_OBJECT (openh264dec, "openh264dec_start, cannot create decoder");
++    return 0;
++  }
+ 
+ #ifndef GST_DISABLE_GST_DEBUG
+   {
+diff -ur gstreamer-plugins-bad.old/ext/openh264/gstopenh264enc.cpp gstreamer-plugins-bad/ext/openh264/gstopenh264enc.cpp
+--- gstreamer-plugins-bad.old/ext/openh264/gstopenh264enc.cpp	2019-09-06 15:28:47.700177589 +0200
++++ gstreamer-plugins-bad/ext/openh264/gstopenh264enc.cpp	2019-09-18 10:52:45.380039398 +0200
+@@ -711,7 +711,12 @@
+     WelsDestroySVCEncoder (openh264enc->encoder);
+     openh264enc->encoder = NULL;
+   }
+-  WelsCreateSVCEncoder (&openh264enc->encoder);
++
++  if (WelsCreateSVCEncoder (&openh264enc->encoder) != 0) {
++    GST_ERROR_OBJECT (openh264enc, "openh264enc_set_format, cannot create encoder");
++    return 0;
++  }
++
+   unsigned int uiTraceLevel = WELS_LOG_ERROR;
+   openh264enc->encoder->SetOption (ENCODER_OPTION_TRACE_LEVEL, &uiTraceLevel);
+ 
