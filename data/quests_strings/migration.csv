@@ -10,7 +10,7 @@ MIGRATION_OLDSTUFF5,"It's one of our ways of saying ""thanks"" to you for sticki
 MIGRATION_NEWSTUFF,"Now, let's talk about the new Clubhouse.",ada,,,
 MIGRATION_HACKMODE1,"There's a new system we've added, called *Hack Mode*. When you're in Hack Mode (like you are now), you can use flip-to-hack on all the apps and games that support it.",ada,,,
 MIGRATION_HACKMODE2,"Also, your desktop and cursor will change to remind you.",ada,,,
-MIGRATION_HACKMODE3,That *big switch on the right* controls Hack Mode.,ada,,,
+MIGRATION_HACKMODE3,That *big switch on the right* controls Hack Mode. Give it a try!,ada,,,
 MIGRATION_HACKMODE4,"If you switch Hack Mode OFF, you’ll go back to the regular desktop, and all your hacking tools will shut down.",ada,,,
 MIGRATION_HACKMODE5,"Think of it sort of like 'stealth mode' - you can use it if someone else needs to use the computer, or you need to do your homework.",ada,,,
 MIGRATION_ACTIVITIES1,"In this new version of Hack, you can play whatever activities you want, whenever you want.",ada,,,
