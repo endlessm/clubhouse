@@ -31,7 +31,8 @@ class Quickstart(Quest):
             if not self._clubhouse_state.lights_on:
                 self._clubhouse_state.lights_on = True
             self._clubhouse_state.hack_switch_highlighted = True
-            skip_action = self.show_confirm_message('HACKSWITCH2', confirm_label='I see...')
+            skip_action = self.show_confirm_message('HACKSWITCH2',
+                                                    confirm_label="I'd prefer not to, but thanks.")
             user_action = self.connect_clubhouse_changes(['lights-on'])
             self.wait_for_one([skip_action, user_action])
             self._clubhouse_state.hack_switch_highlighted = False
@@ -39,7 +40,7 @@ class Quickstart(Quest):
                 # Automatically turn the lights off because the player
                 # wants to skip using the switcher:
                 self._clubhouse_state.lights_on = False
-            skip_action = self.show_confirm_message('HACKSWITCH3', confirm_label='Got it.')
+            skip_action = self.show_confirm_message('HACKSWITCH3', confirm_label='OK, I see.')
             user_action = self.connect_clubhouse_changes(['lights-on'])
             self.wait_for_one([skip_action, user_action])
             if skip_action.is_done():

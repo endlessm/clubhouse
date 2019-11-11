@@ -11,25 +11,41 @@ class Meet(Quest):
         self._clubhouse_state = ClubhouseState()
 
     def step_begin(self):
+        self._clubhouse_state.characters_disabled = True
         self.wait_confirm('WELCOME1')
         self.wait_confirm('WELCOME2')
-        return self.step_mainwindow
-
-    def step_mainwindow(self):
         self.highlight_nav('CLUBHOUSE')
-        self.wait_confirm('GOBACK')
-        # explain the concept of the clubhouse
+        self.show_hints_message('GOBACK')
+        self.connect_clubhouse_changes(['current-page']).wait()
         self.highlight_nav('')
         self.wait_confirm('EXPLAIN_MAIN1')
         self.wait_confirm('EXPLAIN_MAIN2')
         return self.step_hackmode
 
     def step_hackmode(self):
-        # explain hack mode and how it works
-        self.wait_confirm('EXPLAIN_HACK1')
-        self._clubhouse_state.hack_switch_highlighted = True
-        for msgid in ['EXPLAIN_HACK2', 'EXPLAIN_HACK3', 'EXPLAIN_HACK4']:
+        # If the user played with the hack switch before the
+        # explanation, we reset to normal:
+        if not self._clubhouse_state.lights_on:
+            self._clubhouse_state.lights_on = True
+        for msgid in ['EXPLAIN_HACK1', 'EXPLAIN_HACK2']:
             self.wait_confirm(msgid)
+        self._clubhouse_state.hack_switch_highlighted = True
+        skip_action = self.show_confirm_message('EXPLAIN_HACK3',
+                                                confirm_label="I'd prefer not to, but thanks.")
+        user_action = self.connect_clubhouse_changes(['lights-on'])
+        self.wait_for_one([skip_action, user_action])
+        self._clubhouse_state.hack_switch_highlighted = False
+        if skip_action.is_done():
+            # Automatically turn the lights off because the player
+            # wants to skip using the switcher:
+            self._clubhouse_state.lights_on = False
+        skip_action = self.show_confirm_message('EXPLAIN_HACK4', confirm_label='OK, I see.')
+        user_action = self.connect_clubhouse_changes(['lights-on'])
+        self.wait_for_one([skip_action, user_action])
+        if skip_action.is_done():
+            # Automatically turn the lights on because the player
+            # wants to skip using the switcher:
+            self._clubhouse_state.lights_on = True
         self._clubhouse_state.hack_switch_highlighted = False
         return self.step_pathways
 
@@ -44,24 +60,33 @@ class Meet(Quest):
     def step_profile(self):
         # explain the profile
         self._clubhouse_state.user_button_highlighted = True
-        self.wait_confirm('EXPLAIN_PROFILE1')
-        self._clubhouse_state.user_button_highlighted = False
-        for msgid in ['EXPLAIN_PROFILE2', 'EXPLAIN_PROFILE3']:
+        for msgid in ['EXPLAIN_PROFILE1', 'EXPLAIN_PROFILE2', 'EXPLAIN_PROFILE3']:
             self.wait_confirm(msgid)
-
+        self._clubhouse_state.user_button_highlighted = False
         # ask if player wants to change their name
-        def _choice(choice_var):
-            return choice_var
-
-        action = self.show_choices_message('CHANGE_NAME_ASK', ('CHANGE_NAME_YES', _choice, True),
-                                           ('CHANGE_NAME_NO', _choice, False)).wait()
-        choice = action.future.result()
-
-        if choice:
+        action = self.show_choices_message('CHANGE_NAME_ASK', ('CHANGE_NAME_YES', None, True),
+                                           ('CHANGE_NAME_NO', None, False)).wait()
+        if action.future.result():
             for msgid in ['CHANGE_NAME1', 'CHANGE_NAME2', 'CHANGE_NAME3', 'CHANGE_NAME4']:
                 self.wait_confirm(msgid)
+        return self.step_ending
 
+    def step_ending(self):
         for msgid in ['END1', 'END2']:
             self.wait_confirm(msgid)
         self.wait_confirm('END3', confirm_label="See you!")
+        self._clubhouse_state.characters_disabled = False
         return self.step_complete_and_stop
+
+    def _back_to_normal(self):
+        self._clubhouse_state.characters_disabled = False
+        if not self._clubhouse_state.lights_on:
+            self._clubhouse_state.lights_on = True
+
+    def step_complete_and_stop(self):
+        self._back_to_normal()
+        super().step_complete_and_stop()
+
+    def step_abort(self):
+        self._back_to_normal()
+        super().step_abort()
