@@ -28,8 +28,10 @@ class Migration(Quest):
 
     def step_explain_old_apps(self):
         # explain what we did to the old apps
-        for msgid in ['OLDSTUFF1', 'OLDSTUFF2', 'OLDSTUFF3',
-                      'OLDSTUFF4', 'OLDSTUFF5']:
+        for msgid in ['OLDSTUFF1', 'OLDSTUFF2', 'OLDSTUFF3']:
+            self.wait_confirm(msgid)
+        self.complete = True
+        for msgid in ['OLDSTUFF4', 'OLDSTUFF5']:
             self.wait_confirm(msgid)
         return self.step_explain_new_stuff
 
