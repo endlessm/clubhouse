@@ -142,6 +142,7 @@ def _get_dir_source(directory):
     return {
         'type': 'dir',
         'path': directory,
+        'skip': ['.flatpak-builder'],
     }
 
 
