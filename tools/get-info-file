@@ -11,6 +11,7 @@ CSV_PATH = {
     'quests_items': 'data',
     'episodes': 'data',
     'achievements': os.path.join('data', 'achievements'),
+    'newsfeed': os.path.join('data', 'newsfeed'),
 }
 
 CSV_ALTERNATIVE_PATH = os.path.expanduser('~/.var/app/com.hack_computer.Clubhouse' +
@@ -19,6 +20,7 @@ SHEETS_FOR_FILES = {
     'quests_items': 'Items',
     'episodes': 'Episodes',
     'achievements': 'Badges',
+    'newsfeed': 'Newsfeed',
 }
 
 URL_TEMPLATE = ('https://docs.google.com/spreadsheets/d/{key}/' +
@@ -31,6 +33,7 @@ RANGES_FOR_SHEET = {
     'Items': 'A:E',
     'Episodes': 'A:F',
     'Badges': 'A:E',
+    'Newsfeed': 'A:E',
 }
 
 
