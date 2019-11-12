@@ -1,111 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="Message" parent="GtkBox">
+  <template class="Message" parent="GtkOverlay">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="orientation">vertical</property>
     <child>
-      <object class="GtkOverlay">
+      <object class="GtkBox" id="_box">
+        <property name="name">message-box</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="halign">start</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkLabel" id="_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="valign">end</property>
-            <child>
-              <object class="GtkLabel" id="_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="valign">center</property>
-                <property name="hexpand">True</property>
-                <property name="wrap">True</property>
-                <property name="ellipsize">end</property>
-                <property name="lines">7</property>
-                <property name="xalign">0</property>
-                <property name="yalign">0</property>
-                <style>
-                  <class name="label"/>
-                </style>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="_dummy_padding_box">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <style>
-              <class name="box"/>
-            </style>
+            <property name="wrap">True</property>
+            <property name="width_chars">40</property>
+            <property name="lines">7</property>
+            <property name="xalign">0</property>
+            <property name="yalign">0</property>
           </object>
           <packing>
-            <property name="index">-1</property>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
           </packing>
         </child>
-        <child type="overlay">
+        <child>
           <object class="GtkImage" id="_character_image">
             <property name="can_focus">False</property>
-            <property name="halign">end</property>
             <property name="valign">end</property>
-            <style>
-              <class name="character"/>
-            </style>
           </object>
           <packing>
-            <property name="pass_through">True</property>
-            <property name="index">1</property>
-          </packing>
-        </child>
-        <child type="overlay">
-          <object class="GtkBox" id="_button_box">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="halign">start</property>
-            <property name="valign">end</property>
-            <style>
-              <class name="button-box"/>
-            </style>
-          </object>
-          <packing>
-            <property name="pass_through">True</property>
-            <property name="index">2</property>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>
       <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
+        <property name="index">-1</property>
       </packing>
     </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
+    <child type="overlay">
+      <object class="GtkBox" id="_button_box">
+        <property name="name">button-box</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">start</property>
+        <property name="valign">end</property>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
     </child>
   </template>
-  <object class="GtkSizeGroup" id="_character_image_size_group">
-    <widgets>
-      <widget name="_dummy_padding_box"/>
-      <widget name="_character_image"/>
-    </widgets>
-  </object>
 </interface>
