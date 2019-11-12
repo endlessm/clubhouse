@@ -307,11 +307,11 @@ class EpisodesDB(DictFromCSV):
 class NewsFeedItem():
     def __init__(self, date, character, image, image_href, text):
         super().__init__()
-        self.date = datetime.date.fromisoformat(date)
-        self.character = character
-        self.image = image
-        self.image_href = image_href
-        self.text = text
+        self.date = datetime.date.fromisoformat(date.strip())
+        self.character = character.lower().strip()
+        self.image = image.lower().strip()
+        self.image_href = image_href.lower().strip()
+        self.text = text.strip()
 
 
 class NewsFeedDB(_ListFromCSV):
