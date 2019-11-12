@@ -5,7 +5,6 @@ import random
 
 from gi.repository import Gio, GLib, Gtk, GObject, GdkPixbuf
 
-from enum import Enum
 from eosclubhouse import config, logger
 
 # The default delay if not provided in the animation metadata:
@@ -334,13 +333,3 @@ class AnimationSystem:
                 animation.last_updated = timestamp
 
         return GLib.SOURCE_CONTINUE
-
-
-class Direction(Enum):
-    LEFT = -1
-    RIGHT = 1
-    DOWN = 2
-    UP = -2
-
-    def get_opposite(self):
-        return Direction(-self.value)

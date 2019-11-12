@@ -33,6 +33,8 @@ import time
 import datetime
 
 from collections import OrderedDict
+from enum import Enum
+
 from gi.repository import EosMetrics, Gdk, GdkPixbuf, Gio, GLib, Gtk, GObject, \
     Json, Pango
 from eosclubhouse import config, logger, libquest, utils
@@ -42,7 +44,7 @@ from eosclubhouse.system import Desktop, GameStateService, OldGameStateService, 
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser, \
     get_alternative_quests_dir
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
-    Direction, get_character_animation_dirs
+    get_character_animation_dirs
 
 from eosclubhouse.widgets import FixedLayerGroup
 
@@ -557,13 +559,22 @@ class MessageBox(Gtk.Fixed):
     DEFAULT_ANIMATION_INTERVAL_MS = 20
     DEFAULT_ANIMATION_DURATION_MS = 400
 
+    class Direction(Enum):
+        LEFT = -1
+        RIGHT = 1
+        DOWN = 2
+        UP = -2
+
+        def get_opposite(self):
+            return MessageBox.Direction(-self.value)
+
     def __init__(self, app_window):
         super().__init__()
         self._app_window = app_window
         self._messages_in_scene = []
 
     def _animate_message(self, message, direction, end_position, done_action_cb=None, *args):
-        if direction in (Direction.LEFT, Direction.RIGHT):
+        if direction in (self.Direction.LEFT, self.Direction.RIGHT):
             axis_prop = 'x'
         else:
             axis_prop = 'y'
@@ -572,14 +583,14 @@ class MessageBox(Gtk.Fixed):
         distance = abs(end_position - start_position)
         speed_ms_per_px = distance / self.DEFAULT_ANIMATION_DURATION_MS
         delta = speed_ms_per_px * self.DEFAULT_ANIMATION_INTERVAL_MS
-        if direction in (Direction.LEFT, Direction.UP):
+        if direction in (self.Direction.LEFT, self.Direction.UP):
             delta = -delta
 
-        if direction in (Direction.LEFT, Direction.RIGHT):
+        if direction in (self.Direction.LEFT, self.Direction.RIGHT):
             if done_action_cb != self.remove:
                 message.props.opacity = 0.0
 
-        fade_in = direction in (Direction.LEFT, Direction.RIGHT)
+        fade_in = direction in (self.Direction.LEFT, self.Direction.RIGHT)
         GLib.timeout_add(self.DEFAULT_ANIMATION_INTERVAL_MS, self._move_message_cb, message,
                          start_position, end_position, distance, delta, direction, axis_prop,
                          fade_in, done_action_cb, *args)
@@ -603,8 +614,8 @@ class MessageBox(Gtk.Fixed):
         current_position = self.child_get_property(message, axis_prop)
         new_position = current_position + delta
 
-        negative_directions = (Direction.LEFT, Direction.UP)
-        positive_directions = (Direction.RIGHT, Direction.DOWN)
+        negative_directions = (self.Direction.LEFT, self.Direction.UP)
+        positive_directions = (self.Direction.RIGHT, self.Direction.DOWN)
 
         if (direction in negative_directions and new_position <= end_position or
                 direction in positive_directions and new_position >= end_position):
@@ -635,8 +646,8 @@ class MessageBox(Gtk.Fixed):
 
     def _guess_message_direction(self, message):
         if message.get_character().id == self._app_window.character._character.id:
-            return Direction.RIGHT
-        return Direction.LEFT
+            return self.Direction.RIGHT
+        return self.Direction.LEFT
 
     def _build_message_from_info(self, message_info):
         msg = Message()
@@ -702,13 +713,13 @@ class MessageBox(Gtk.Fixed):
                          is_main_character_message)
 
     def _get_next_initial_position(self, message, direction):
-        assert direction in (Direction.LEFT, Direction.RIGHT)
+        assert direction in (self.Direction.LEFT, self.Direction.RIGHT)
 
         allocation = self.get_allocation()
         msg_height = self._get_message_height(message)
 
         y_pos = allocation.height - msg_height
-        if direction == Direction.RIGHT:
+        if direction == self.Direction.RIGHT:
             x_pos = -message.props.width_request
         else:
             x_pos = allocation.width / 2 - message.props.width_request / 2
@@ -717,10 +728,10 @@ class MessageBox(Gtk.Fixed):
     def _withdraw_top_message(self):
         message = self._messages_in_scene.pop(0)
         direction = self._guess_message_direction(message).get_opposite()
-        assert direction in (Direction.LEFT, Direction.RIGHT)
+        assert direction in (self.Direction.LEFT, self.Direction.RIGHT)
 
         message_width = message.props.width_request
-        if direction == Direction.LEFT:
+        if direction == self.Direction.LEFT:
             final_position = -message_width
         else:
             final_position = self.get_allocation().width / 2 - message_width / 2
@@ -738,7 +749,8 @@ class MessageBox(Gtk.Fixed):
         fix_margin = -80
         for msg in messages_to_slide:
             current_y = self.child_get_property(msg, 'y')
-            self._animate_message(msg, Direction.UP, current_y - new_message_height - fix_margin)
+            self._animate_message(msg, self.Direction.UP,
+                                  current_y - new_message_height - fix_margin)
 
     def _slide_messages_up_with_delay(self, messages_in_scene, new_message, duration_ms):
         GLib.timeout_add(duration_ms, self._slide_messages_up, messages_in_scene, new_message)
