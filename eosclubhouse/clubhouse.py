@@ -48,6 +48,9 @@ from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, A
 
 from eosclubhouse.widgets import FixedLayerGroup
 
+from eosclubhouse.tweener import Tweener
+# from eosclubhouse.easefunctions import EaseFunctions
+
 
 # Metrics event ids
 CLUBHOUSE_SET_PAGE_EVENT = '2c765b36-a4c9-40ee-b313-dc73c4fa1f0d'
@@ -574,6 +577,12 @@ class MessageBox(Gtk.Fixed):
         self._messages_in_scene = []
 
     def _animate_message(self, message, direction, end_position, done_action_cb=None, *args):
+        def _callback():
+            print('callback test')
+
+        message.props.opacity = 0.0
+        Tweener.add(message.props).to({'opacity': 1.0}, 500000).wait(100000).then(_callback)
+
         if direction in (self.Direction.LEFT, self.Direction.RIGHT):
             axis_prop = 'x'
         else:
@@ -621,17 +630,17 @@ class MessageBox(Gtk.Fixed):
                 direction in positive_directions and new_position >= end_position):
 
             self.child_set_property(message, axis_prop, end_position)
-            if done_action_cb == self.remove:
-                _update_message_opacity(0.0)
-            else:
-                _update_message_opacity(1.0)
+            # if done_action_cb == self.remove:
+            #     _update_message_opacity(0.0)
+            # else:
+            #     _update_message_opacity(1.0)
 
             if done_action_cb is not None:
                 done_action_cb(*args)
             return GLib.SOURCE_REMOVE
 
         self.child_set_property(message, axis_prop, new_position)
-        _update_message_opacity()
+        # _update_message_opacity()
         return True
 
     def clear_messages(self):
