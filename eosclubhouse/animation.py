@@ -6,6 +6,7 @@ import random
 from gi.repository import Gio, GLib, Gtk, GObject, GdkPixbuf
 
 from eosclubhouse import config, logger
+from eosclubhouse.tweener import Tweener
 
 # The default delay if not provided in the animation metadata:
 DEFAULT_DELAY = 100
@@ -302,6 +303,7 @@ class Animation(GObject.GObject):
 
 class AnimationSystem:
     _animations = {}
+    _tweener_last_updated = None
 
     @classmethod
     def animate(class_, id_, animation):
@@ -318,8 +320,7 @@ class AnimationSystem:
             del class_._animations[id_]
 
     @classmethod
-    def step(class_, _widget, clock):
-        timestamp = clock.get_frame_time()
+    def _step_frame_by_frame_animations(class_, timestamp):
 
         for animation in class_._animations.values():
             if animation.last_updated is None:
@@ -332,4 +333,18 @@ class AnimationSystem:
 
                 animation.last_updated = timestamp
 
+    @classmethod
+    def _step_tween_animations(class_, timestamp):
+        timestamp = timestamp / 1000  # Convert from microseconds
+        if class_._tweener_last_updated is None:
+            class_._tweener_last_updated = timestamp
+
+        elapsed = timestamp - class_._tweener_last_updated
+        Tweener.update(elapsed)
+
+    @classmethod
+    def step(class_, _widget, clock):
+        timestamp = clock.get_frame_time()
+        class_._step_frame_by_frame_animations(timestamp)
+        class_._step_tween_animations(timestamp)
         return GLib.SOURCE_CONTINUE
