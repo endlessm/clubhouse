@@ -61,8 +61,15 @@ class Animator(GObject.GObject):
                 name, _ext = os.path.splitext(os.path.basename(sprite))
                 animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
                 animation = Animation(animation_name, sprite, self._target_image, scale)
-                animation.connect('animation-loaded', self._on_animation_loaded)
+
                 self._pending_animations[animation_name] = animation
+
+                # We could hit the cache and have the animation ready by now
+                if animation.is_loaded():
+                    self._on_animation_loaded(animation)
+                else:
+                    animation.connect('animation-loaded', self._on_animation_loaded)
+
         return GLib.SOURCE_REMOVE
 
     def load(self, subpath, prefix=None, scale=1):
@@ -125,6 +132,8 @@ class Animation(GObject.GObject):
         ),
     }
 
+    _pixbuf_cache = {}
+
     def __init__(self, name, path, target_image, scale=1):
         super().__init__()
         self._loop = True
@@ -139,6 +148,7 @@ class Animation(GObject.GObject):
 
     def reset(self):
         self.frame_index = 0
+        self._is_loaded = False
 
     def advance_frame(self):
         num_frames = len(self.frames)
@@ -190,9 +200,12 @@ class Animation(GObject.GObject):
 
         sprite_path = os.path.join(dirname, basename)
 
-        file = Gio.File.new_for_path(sprite_path)
-        file.read_async(GLib.PRIORITY_DEFAULT, None, self._sprite_file_read_async_cb,
-                        sprite_path, scale, metadata)
+        if sprite_path not in self._pixbuf_cache:
+            file = Gio.File.new_for_path(sprite_path)
+            file.read_async(GLib.PRIORITY_DEFAULT, None, self._sprite_file_read_async_cb,
+                            sprite_path, scale, metadata)
+        else:
+            self._do_load(sprite_path, self._pixbuf_cache[sprite_path], scale, metadata)
 
     def _sprite_file_read_async_cb(self, file, result, sprite_path, scale, metadata):
         try:
@@ -208,6 +221,8 @@ class Animation(GObject.GObject):
         except GLib.Error:
             logger.warning("Error: Failed to extract pixel data from file:", sprite_pixbuf)
             return
+
+        self._pixbuf_cache[sprite_path] = sprite_pixbuf
         self._do_load(sprite_path, sprite_pixbuf, scale, metadata)
 
     def _do_load(self, sprite_path, sprite_pixbuf, scale, metadata):
@@ -248,6 +263,7 @@ class Animation(GObject.GObject):
         self.anchor = anchor
         self._set_current_frame_delay()
         self.emit('animation-loaded')
+        self._is_loaded = True
 
     def _scale_reference_points(self, scale):
         for refpoint_name in self._reference_points:
@@ -296,6 +312,9 @@ class Animation(GObject.GObject):
 
     def _set_anchor(self, anchor):
         self._anchor = tuple(anchor)
+
+    def is_loaded(self):
+        return self._is_loaded
 
     anchor = GObject.Property(_get_anchor, _set_anchor, type=GObject.TYPE_PYOBJECT)
     current_frame = property(_get_current_frame)
