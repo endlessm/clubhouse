@@ -64,6 +64,7 @@ remote_hash=$(git rev-parse origin/$branch_name 2> /dev/null) || true
 ./tools/get-info-file episodes --commit
 ./tools/get-info-file quests_items --commit
 ./tools/get-info-file achievements --commit
+./tools/get-info-file newsfeed --commit
 
 new_hash=$(git rev-parse HEAD)
 if [ "$remote_hash" = "$new_hash" ]; then
