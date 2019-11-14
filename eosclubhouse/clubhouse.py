@@ -118,7 +118,7 @@ CharacterInfo = {
         'pathway': None,
         'pathway_title': None
     },
-    'metatron': {
+    'endless': {
         'position': None,
         'username': 'Endless',
         'pathway': None,
