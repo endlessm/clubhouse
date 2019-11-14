@@ -420,7 +420,8 @@ class Message(Gtk.Overlay):
         if not has_anim or self._animator.get_animation_scale(anim) != self._scale:
             self._animator.load(character.get_moods_path(),
                                 character.id,
-                                self._scale)
+                                self._scale,
+                                character.mood)
 
         self._animator.play(anim)
 
@@ -936,12 +937,14 @@ class CharacterView(Gtk.Grid):
             return
 
         scale = self._app_window.props.scale
-        animation_id = self._character.id + '/closeup-talk' + ('' if not idle else '-idle')
+        animation = 'closeup-talk' + ('' if not idle else '-idle')
+        animation_id = self._character.id + '/' + animation
         if not self._animator.has_animation(animation_id) or \
            self._animator.get_animation_scale(animation_id) != scale:
             self._animator.load(self._character.get_moods_path(),
                                 self._character.id,
-                                scale)
+                                scale,
+                                animation)
 
         # @todo: play animation only when a dialog is added
         self._animator.play(animation_id)
