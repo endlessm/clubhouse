@@ -374,6 +374,7 @@ class Message(Gtk.Overlay):
             self._remove_buttons()
 
     def display_character(self, display):
+        self._display_character = display
         self._character_image.props.visible = display
         if display:
             self.get_style_context().add_class('has-character')
@@ -395,6 +396,9 @@ class Message(Gtk.Overlay):
 
         if character_id is None:
             return
+
+        if self._animator is None:
+            self._animator = Animator(self._character_image)
 
         self._character = Character.get_or_create(character_id)
         self._character_mood_change_handler = \
@@ -423,7 +427,9 @@ class Message(Gtk.Overlay):
     def update(self, message_info):
         self.reset()
         self.set_text(message_info.get('text', ''))
-        self.set_character(message_info.get('character_id'))
+
+        if self._display_character:
+            self.set_character(message_info.get('character_id'))
 
         for answer in message_info.get('choices', []):
             self.add_button(answer[0], *answer[1:])
