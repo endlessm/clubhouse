@@ -1784,6 +1784,7 @@ class NewsView(Gtk.Overlay):
 
     def __init__(self):
         super().__init__()
+        self._app = Gio.Application.get_default()
         self._news_db = utils.NewsFeedDB()
         self._populate_news()
         self._update_news_visivility()
@@ -1797,7 +1798,7 @@ class NewsView(Gtk.Overlay):
         today = datetime.date.today()
 
         for child in self._news_box.get_children():
-            if (child.date <= today):
+            if (child.date <= today) or self._app.has_debug('newsfeed'):
                 child.show()
             else:
                 child.hide()
@@ -2520,7 +2521,7 @@ class ClubhouseApplication(Gtk.Application):
                          resource_base_path='/com/hack_computer/Clubhouse')
 
         self._window = None
-        self._debug_mode = False
+        self._debug = {}
         self._registry_loaded = False
         self._suggesting_open = False
         self._session_mode = None
@@ -2540,7 +2541,9 @@ class ClubhouseApplication(Gtk.Application):
         self.add_main_option('reset', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Reset all quests state and game progress', None)
         self.add_main_option('debug', ord('d'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
-                             'Turn on debug mode', None)
+                             'Set debug level in logs.', None)
+        self.add_main_option('debug-newsfeed', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             'Turn on debug in newsfeed, displaying all items.', None)
         self.add_main_option('quit', ord('x'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Fully close the application', None)
 
@@ -2633,7 +2636,11 @@ class ClubhouseApplication(Gtk.Application):
             return self._reset()
 
         if options.contains('debug'):
-            self.activate_action('debug-mode', GLib.Variant('b', True))
+            self.activate_action('debug-logs', GLib.Variant('b', True))
+            return 0
+
+        if options.contains('debug-newsfeed'):
+            self.activate_action('debug-newsfeed', GLib.Variant('b', True))
             return 0
 
         if options.contains('quit'):
@@ -2647,7 +2654,9 @@ class ClubhouseApplication(Gtk.Application):
 
         simple_actions = [('badge-notification', self._badge_notification_action_cb,
                            GLib.VariantType.new('(sb)')),
-                          ('debug-mode', self._debug_mode_action_cb, GLib.VariantType.new('b')),
+                          ('debug-logs', self._debug_logs_action_cb, GLib.VariantType.new('b')),
+                          ('debug-newsfeed', self._debug_newsfeed_action_cb,
+                           GLib.VariantType.new('b')),
                           ('quest-user-answer', self._quest_user_answer, GLib.VariantType.new('s')),
                           ('quest-view-close', self._quest_view_close_action_cb, None),
                           ('quit', self._quit_action_cb, None),
@@ -2743,13 +2752,12 @@ class ClubhouseApplication(Gtk.Application):
             self._window.clubhouse.stop_quest()
         self.close_quest_msg_notification()
 
-    def _debug_mode_action_cb(self, action, arg_variant):
-        # Add debugging information in the Application UI:
-        self._debug_mode = arg_variant.unpack()
-
-        # Also set the logging level:
+    def _debug_logs_action_cb(self, action, arg_variant):
         logger.setLevel(logging.DEBUG)
+        self._ensure_window()
 
+    def _debug_newsfeed_action_cb(self, action, arg_variant):
+        self._debug['newsfeed'] = arg_variant.unpack()
         self._ensure_window()
 
     def _quest_user_answer(self, action, action_id):
@@ -2810,6 +2818,9 @@ class ClubhouseApplication(Gtk.Application):
 
         changed_props = {'Visible': GLib.Variant('b', self._window.is_visible())}
         self._emit_dbus_props_changed(changed_props)
+
+    def has_debug(self, mode):
+        return self._debug.get(mode, False)
 
     def do_dbus_register(self, connection, path):
         introspection_data = Gio.DBusNodeInfo.new_for_xml(ClubhouseIface)
