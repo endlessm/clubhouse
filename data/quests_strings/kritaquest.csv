@@ -6,7 +6,7 @@ KRITAQUEST_NOTINSTALLED,"Uh-oh! Looks like `Krita` isn't installed!
 
 You need to download it from the App Center if you'd like to learn how to use it.
 
-Click the icon named `More Apps` on the Desktop, then search for `Krita`, and install it. ",daemon,,,
+Click the icon named `App Center` on the Desktop, then search for `Krita`, and install it. ",daemon,,,
 KRITAQUEST_LAUNCH,"Krita's an art program for people of any skill level - it's got all the tools for amazing visuals.
 
 We've got some useful tutorials linked in here for you, give them a try!
