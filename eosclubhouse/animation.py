@@ -55,24 +55,34 @@ class Animator(GObject.GObject):
         self._target_image = target_image
         self._animation_after_load = None
 
-    def _do_load(self, subpath, prefix=None, scale=1):
+    def _do_load_animation(self, json_path, prefix, scale):
+        name, _ext = os.path.splitext(os.path.basename(json_path))
+        animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
+        animation = Animation(animation_name, json_path, self._target_image, scale)
+
+        self._pending_animations[animation_name] = animation
+
+        # We could hit the cache and have the animation ready by now
+        if animation.is_loaded():
+            self._on_animation_loaded(animation)
+        else:
+            animation.connect('animation-loaded', self._on_animation_loaded)
+
+    def _do_load(self, subpath, prefix=None, scale=1, name=None):
         for sprites_path in get_character_animation_dirs(subpath):
-            for sprite in glob.glob(os.path.join(sprites_path, '*json')):
-                name, _ext = os.path.splitext(os.path.basename(sprite))
-                animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
-                animation = Animation(animation_name, sprite, self._target_image, scale)
-
-                self._pending_animations[animation_name] = animation
-
-                # We could hit the cache and have the animation ready by now
-                if animation.is_loaded():
-                    self._on_animation_loaded(animation)
-                else:
-                    animation.connect('animation-loaded', self._on_animation_loaded)
+            # If animation name is specified then only load that one
+            if name is not None:
+                sprite_path = os.path.join(sprites_path, name + '.json')
+                if os.path.exists(sprite_path):
+                    self._do_load_animation(sprite_path, prefix, scale)
+            else:
+                # Load All the animations for this path/character
+                for sprite in glob.glob(os.path.join(sprites_path, '*json')):
+                    self._do_load_animation(sprite, prefix, scale)
 
         return GLib.SOURCE_REMOVE
 
-    def load(self, subpath, prefix=None, scale=1):
+    def load(self, subpath, prefix=None, scale=1, name=None):
         if self._loading:
             logger.warning('Cannot load animations for the subpath: \'%s\'. Already loading.',
                            subpath)
@@ -80,7 +90,7 @@ class Animator(GObject.GObject):
         self._loading = True
         self._animation_after_load = None
         self._animations = {}
-        GLib.idle_add(self._do_load, subpath, prefix, scale)
+        GLib.idle_add(self._do_load, subpath, prefix, scale, name)
 
     def _on_animation_loaded(self, animation):
         self._animations[animation.name] = animation
