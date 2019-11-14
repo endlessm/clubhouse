@@ -2906,6 +2906,14 @@ class ClubhouseApplication(Gtk.Application):
             quest.save_conf()
 
         OldGameStateService().migrate()
+        gss = GameStateService()
+        keys = [
+            'lock.OperatingSystemApp.1',
+            'lock.OperatingSystemApp.2',
+            'lock.OperatingSystemApp.3'
+        ]
+        for key in keys:
+            gss.set_async(key, {'locked': False})
 
         # This write the local flatpak override for old and new hack apps
         Desktop.set_hack_mode(True)
