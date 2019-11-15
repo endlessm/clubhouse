@@ -34,9 +34,12 @@ from gi.repository import GLib, GObject, Gio
 
 
 class Desktop:
-    SHELL_SETTINGS_SCHEMA_ID = 'org.gnome.shell'
-    SETTINGS_HACK_MODE_KEY = 'hack-mode-enabled'
-    SETTINGS_HACK_ICON_PULSE = 'hack-icon-pulse'
+    _HACK_DBUS = 'com.hack_computer.hack'
+    _HACK_OBJECT_PATH = '/com/hack_computer/hack'
+    _BLOCK_HACK_PROPS = False
+
+    SETTINGS_HACK_MODE_KEY = 'HackModeEnabled'
+    SETTINGS_HACK_ICON_PULSE = 'HackIconPulse'
     HACK_BACKGROUND = 'file://{}/share/backgrounds/Desktop-BGs-Nov-release.jpg'\
         .format(get_flatpak_sandbox())
 
@@ -70,7 +73,13 @@ class Desktop:
     _shell_proxy = None
     _shell_settings = None
     _shell_schema = None
+    _hack_proxy = None
+    _hack_property_proxy = None
 
+    # This is needed to work with EOS <= 3.7
+    SHELL_SETTINGS_SCHEMA_ID = 'org.gnome.shell'
+    SHELL_SETTINGS_HACK_MODE_KEY = 'hack-mode-enabled'
+    SHELL_SETTINGS_HACK_ICON_PULSE = 'hack-icon-pulse'
     _settings_signal_handlers = {}
 
     @classmethod
@@ -127,6 +136,62 @@ class Desktop:
         return klass._shell_proxy
 
     @classmethod
+    def get_shell_version(klass):
+        shell_proxy = klass.get_shell_proxy()
+        prop = shell_proxy.get_cached_property('ShellVersion')
+        return prop.unpack()
+
+    @classmethod
+    def get_hack_proxy(klass):
+        # Fallback to get_shell_proxy for EOS <= 3.7
+        if (klass.get_shell_version < '3.36'):
+            return klass.get_shell_proxy()
+
+        if klass._hack_proxy is None:
+            klass._hack_proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                               0,
+                                                               None,
+                                                               klass._HACK_DBUS,
+                                                               klass._HACK_OBJECT_PATH,
+                                                               klass._HACK_DBUS,
+                                                               None)
+
+        return klass._hack_proxy
+
+    @classmethod
+    def _get_hack_properties_proxy(klass):
+        if klass._hack_property_proxy is None:
+            klass._hack_property_proxy = Gio.DBusProxy.new_for_bus_sync(
+                Gio.BusType.SESSION,
+                0,
+                None,
+                klass._HACK_DBUS,
+                klass._HACK_OBJECT_PATH,
+                'org.freedesktop.DBus.Properties',
+                None,
+            )
+
+        return klass._hack_property_proxy
+
+    @classmethod
+    def get_hack_property(klass, prop_name):
+        variant = GLib.Variant('(ss)', (klass._HACK_DBUS, prop_name))
+        value = klass._get_hack_properties_proxy().call_sync('Get', variant,
+                                                             Gio.DBusCallFlags.NONE, -1, None)
+        if value is None:
+            logger.warning(f"Failed to get '{prop_name}' property"
+                           " from  %s", klass._HACK_DBUS)
+            return None
+        return value.unpack()[0]
+
+    @classmethod
+    def set_hack_property(klass, prop_name, value):
+        value = convert_variant_arg(value)
+        variant = GLib.Variant('(ssv)', (klass._HACK_DBUS, prop_name, value))
+        return klass._get_hack_properties_proxy().call_sync('Set', variant,
+                                                            Gio.DBusCallFlags.NONE, -1, None)
+
+    @classmethod
     def get_shell_proxy_async(klass, callback, *callback_args):
         def _on_shell_proxy_ready(proxy, result):
             try:
@@ -161,7 +226,7 @@ class Desktop:
         Minimizes all the windows from the overview.
         """
         try:
-            klass.get_shell_proxy().MinimizeAll()
+            klass.get_hack_proxy().MinimizeAll()
         except GLib.Error as e:
             logger.error(e)
             return False
@@ -232,7 +297,7 @@ class Desktop:
         app_name = klass.get_app_desktop_name(app_name)
 
         try:
-            prop = klass.get_shell_proxy().get_cached_property('FocusedApp')
+            prop = klass.get_hack_proxy().get_cached_property('FocusedApp')
             if prop is not None:
                 return prop.unpack() == app_name
         except GLib.Error as e:
@@ -248,15 +313,30 @@ class Desktop:
             if app_in_foreground is not None:
                 app_in_foreground_cb(app_in_foreground, *args)
 
-        shell_proxy = klass.get_shell_proxy()
+        shell_proxy = klass.get_hack_proxy()
         return shell_proxy.connect('g-properties-changed', _props_changed_cb,
                                    app_in_foreground_cb, *args)
 
     @classmethod
     def disconnect_app_in_foreground_change(klass, handler_id):
-        shell_proxy = klass.get_shell_proxy()
+        shell_proxy = klass.get_hack_proxy()
         return shell_proxy.disconnect(handler_id)
 
+    @classmethod
+    def hack_property_connect(klass, prop_name, callback, *args):
+        def _props_changed_cb(_proxy, changed_properties, _invalidated, *args):
+            if klass._BLOCK_HACK_PROPS:
+                return
+
+            changed_properties_dict = changed_properties.unpack()
+            if prop_name in changed_properties_dict:
+                new_value = changed_properties_dict.get(prop_name)
+                callback(new_value, *args)
+
+        shell_proxy = klass.get_hack_proxy()
+        return shell_proxy.connect('g-properties-changed', _props_changed_cb, *args)
+
+    # This is needed to work with EOS <= 3.7
     @classmethod
     def shell_settings_bind(klass, key, target_object, target_property,
                             flags=Gio.SettingsBindFlags.DEFAULT):
@@ -264,6 +344,7 @@ class Desktop:
         if settings:
             settings.bind(key, target_object, target_property, flags)
 
+    # This is needed to work with EOS <= 3.7
     @classmethod
     def shell_settings_connect(klass, signal_name, callback, *args):
         settings = klass.get_shell_settings()
@@ -278,6 +359,7 @@ class Desktop:
 
         return handler_id
 
+    # This is needed to work with EOS <= 3.7
     @classmethod
     def get_shell_settings(klass):
         if not klass._get_shell_schema():
@@ -360,42 +442,60 @@ class Desktop:
 
     @classmethod
     def get_hack_mode(klass):
-        shell_settings = klass.get_shell_settings()
-        if not shell_settings:
-            return False
-        return klass.get_shell_settings().get_boolean(klass.SETTINGS_HACK_MODE_KEY)
+        # Compatible with EOS <= 3.7
+        if (klass.get_shell_version < '3.36'):
+            shell_settings = klass.get_shell_settings()
+            if not shell_settings:
+                return False
+            return klass.get_shell_settings().get_boolean(klass.SHELL_SETTINGS_HACK_MODE_KEY)
+
+        return klass.get_hack_property(klass.SETTINGS_HACK_MODE_KEY)
 
     @classmethod
-    def set_hack_mode(klass, enabled, avoid_signal=False):
-        # Override clippy apps
+    def set_hack_mode_shell(klass, enabled, avoid_signal=False):
         shell_settings = klass.get_shell_settings()
         if not shell_settings:
             return
 
-        for name in klass.CLIPPY_APPS:
-            App(name).enable_clippy(enabled)
-
-        for name in klass.OLD_CLIPPY_APPS:
-            App(name).enable_clippy(enabled, old_clippy=True)
-
-        signal_name = f'changed::{klass.SETTINGS_HACK_MODE_KEY}'
+        signal_name = f'changed::{klass.SHELL_SETTINGS_HACK_MODE_KEY}'
         if avoid_signal:
             klass._block_setting_signals(signal_name)
-
-        response = shell_settings.set_boolean(klass.SETTINGS_HACK_MODE_KEY, enabled)
-
+        response = shell_settings.set_boolean(klass.SHELL_SETTINGS_HACK_MODE_KEY, enabled)
         if avoid_signal:
             klass._block_setting_signals(signal_name, block=False)
 
         return response
 
     @classmethod
-    def set_hack_icon_pulse(klass, enabled):
-        shell_settings = klass.get_shell_settings()
-        if not shell_settings:
-            return
+    def set_hack_mode(klass, enabled, avoid_signal=False):
+        # Override clippy apps
+        for name in klass.CLIPPY_APPS:
+            App(name).enable_clippy(enabled)
 
-        return shell_settings.set_boolean(klass.SETTINGS_HACK_ICON_PULSE, enabled)
+        for name in klass.OLD_CLIPPY_APPS:
+            App(name).enable_clippy(enabled, old_clippy=True)
+
+        # Compatible with EOS <= 3.7
+        if (klass.get_shell_version < '3.36'):
+            return klass.set_hack_mode_shell(enabled, avoid_signal)
+
+        klass._BLOCK_HACK_PROPS = avoid_signal
+        response = klass.set_hack_property(klass.SETTINGS_HACK_MODE_KEY, enabled)
+        if avoid_signal:
+            klass._BLOCK_HACK_PROPS = False
+
+        return response
+
+    @classmethod
+    def set_hack_icon_pulse(klass, enabled):
+        # Compatible with EOS <= 3.7
+        if (klass.get_shell_version < '3.36'):
+            shell_settings = klass.get_shell_settings()
+            if not shell_settings:
+                return
+            return shell_settings.set_boolean(klass.SHELL_SETTINGS_HACK_ICON_PULSE, enabled)
+
+        return klass.set_hack_property(klass.SETTINGS_HACK_ICON_PULSE, enabled)
 
     @classmethod
     def _block_setting_signals(klass, signal_name, block=True):
