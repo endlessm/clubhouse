@@ -414,6 +414,9 @@ def convert_variant_arg(variant):
     if isinstance(variant, GLib.Variant):
         return variant
 
+    if isinstance(variant, bool):
+        return GLib.Variant('b', variant)
+
     if isinstance(variant, str):
         return GLib.Variant('s', variant)
 

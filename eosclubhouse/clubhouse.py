@@ -1723,8 +1723,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                                       self._on_lights_changed_cb)
 
         self.sync_with_hack_mode()
-        Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
-                                       self._hack_mode_changed_cb)
+        Desktop.hack_property_connect(Desktop.SETTINGS_HACK_MODE_KEY, self._hack_mode_changed_cb)
 
         self._css_provider = Gtk.CssProvider()
         self.get_style_context().add_provider_for_screen(
@@ -1750,7 +1749,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._clubhouse_state.lights_on = hack_mode_enabled
 
-    def _hack_mode_changed_cb(self, _settings, _key):
+    def _hack_mode_changed_cb(self, _value):
         self.sync_with_hack_mode()
 
     def _on_user_button_highlighted_changed_cb(self, state, _param):
