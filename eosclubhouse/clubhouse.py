@@ -557,9 +557,10 @@ class MessageBox(Gtk.Fixed):
     DEFAULT_ANIMATION_INTERVAL_MS = 20
     DEFAULT_ANIMATION_DURATION_MS = 400
 
-    def __init__(self, app_window):
+    def __init__(self):
         super().__init__()
-        self._app_window = app_window
+        app = Gio.Application.get_default()
+        self._app_window = app.get_active_window()
         self._messages_in_scene = []
 
     def _animate_message(self, message, direction, end_position, done_action_cb=None, *args):
@@ -952,11 +953,12 @@ class CharacterView(Gtk.Grid):
     _character_button_label = Gtk.Template.Child()
     _clubhouse_button = Gtk.Template.Child()
 
-    def __init__(self, app_window):
+    def __init__(self):
         super().__init__(visible=True)
-        self._app_window = app_window
+        app = Gio.Application.get_default()
+        self._app_window = app.get_active_window()
 
-        self.message_box = MessageBox(app_window)
+        self.message_box = MessageBox()
         self._view_overlay.add_overlay(self.message_box)
         self._view_overlay.set_overlay_pass_through(self.message_box, True)
 
@@ -1072,7 +1074,7 @@ class ClubhouseView(FixedLayerGroup):
             self.timeout = timeout
             self.handler_id = handler_id
 
-    def __init__(self, app_window):
+    def __init__(self):
         super().__init__()
         self.scale = 1
         self._current_quest = None
@@ -1081,9 +1083,8 @@ class ClubhouseView(FixedLayerGroup):
 
         self._last_user_answer = 0
 
-        self._app_window = app_window
-
         self._app = Gio.Application.get_default()
+        self._app_window = self._app.get_active_window()
 
         self._reset_quest_actions()
 
@@ -1914,9 +1915,10 @@ class AchievementsView(Gtk.Box):
     _grid_scrolled_window = Gtk.Template.Child()
     _summary_scrolled_window = Gtk.Template.Child()
 
-    def __init__(self, app_window):
+    def __init__(self):
         super().__init__()
-        self._app_window = app_window
+        app = Gio.Application.get_default()
+        self._app_window = app.get_active_window()
         self._hover = False
         self._shape_points = None
 
@@ -2135,11 +2137,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._play_ambient_sound = True
         self._ambient_sound_timer_id = None
 
-        self.clubhouse = ClubhouseView(self)
+        self.clubhouse = ClubhouseView()
         self.news = NewsView()
-        self.character = CharacterView(self)
+        self.character = CharacterView()
 
-        self._achievements_view = AchievementsView(self)
+        self._achievements_view = AchievementsView()
         self._achievements_view_revealer.add(self._achievements_view)
 
         self._stack_event_box.connect('button-press-event',
