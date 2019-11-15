@@ -110,8 +110,15 @@ class Registry(GObject.GObject):
             class_._loaded_modules.add(module_with_episode)
 
         for quest_set_class in class_._quest_sets_to_register:
-            class_._quest_sets.append(quest_set_class())
+            quest_set = quest_set_class()
+            class_._quest_sets.append(quest_set)
             logger.debug('QuestSet registered: %s', quest_set_class)
+
+        # @todo: Prevent iterating twice.
+        for quest_set_class in class_._quest_sets_to_register:
+            quest_set = quest_set_class()
+            for quest in quest_set.get_quests():
+                quest.sync_from_conf()
 
         if parent_dir is not None:
             del sys.path[sys.path.index(parent_dir)]
@@ -693,8 +700,6 @@ class _Quest(GObject.GObject):
         self.gss = GameStateService()
         self.conf = {}
         self.load_conf()
-        if self.complete:
-            self._give_achievement_points()
 
         self._highlighted = False
         self._available = self.__available_after_completing_quests__ == []
@@ -1209,6 +1214,10 @@ class _Quest(GObject.GObject):
         key = self._get_conf_key()
         self.conf = self.gss.get(key, value_if_missing={})
         self.complete = self.conf.get('complete', False)
+
+    def sync_from_conf(self):
+        if self.complete:
+            self._give_achievement_points()
 
     def _give_achievement_points(self, record_points=False):
         manager = AchievementsDB().manager
