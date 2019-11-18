@@ -1256,7 +1256,16 @@ class FixedLabel(Gtk.Label):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    def do_get_preferred_height_for_width(self, width):
+        layout = self.get_layout()
+        height = layout.get_pixel_size().height
+        return height, height
+
     def do_get_preferred_width(self):
+        # @fixme: This is a hacky way to prevent a big space below the text during
+        # the first time the NewsFeed is displayed. This approach may cause slowness
+        # In the animation.
+        self.get_parent().queue_resize()
         return self.props.width_request, self.props.width_request
 
 
@@ -1284,8 +1293,9 @@ class NewsItem(Gtk.Box):
                                       use_markup=True,
                                       xalign=0,
                                       yalign=0,
-                                      width_request=480 * 0.6)
+                                      width_request=240)
         self._text_box.add(self._text_label)
+        self._text_box.connect_after('size-allocate', lambda *_: self._text_label.queue_resize())
 
         self._text_label.props.label = data.text
         self._date_label.props.label = self._get_human_date(data.date)
