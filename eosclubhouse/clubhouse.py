@@ -635,6 +635,7 @@ class MessageBox(Gtk.Box):
             self.remove(vrevealer)
 
         self._children.clear()
+        self._app_window.character.update_character_image(idle=True)
 
     def _is_main_character_message(self, message_info):
         return message_info.get('character_id') == self._app_window.character._character.id
@@ -662,6 +663,12 @@ class MessageBox(Gtk.Box):
             hrevealer.set_reveal_child(False)
             self._children.remove(message)
 
+    def _update_main_character_animation(self, is_main):
+        if self._is_main == is_main:
+            return
+        self._app_window.character.update_character_image(idle=not is_main)
+        self._is_main = is_main
+
     def add_message(self, message_info):
         current_quest = self._app.quest_runner.running_quest
         if current_quest is None or current_quest.stopping:
@@ -680,6 +687,9 @@ class MessageBox(Gtk.Box):
         else:
             direction = Gtk.RevealerTransitionType.SLIDE_LEFT
             alignment = Gtk.Align.END
+
+        # Make main charater talk if needed
+        self._update_main_character_animation(is_main)
 
         # Create message and wrap it in a revealer
         message = self._build_message_from_info(message_info, not is_main)
@@ -949,7 +959,6 @@ class CharacterView(Gtk.Grid):
                                 scale,
                                 animation)
 
-        # @todo: play animation only when a dialog is added
         self._animator.play(animation_id)
 
     def show_mission_list(self, quest_set):
