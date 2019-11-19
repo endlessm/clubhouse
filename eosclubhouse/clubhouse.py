@@ -367,6 +367,9 @@ class Message(Gtk.Overlay):
     def clear_buttons(self, animate=False):
         self.get_style_context().remove_class('has-buttons')
 
+        if self._animator:
+            self._animator.stop()
+
         if animate:
             self._button_box.props.sensitive = False
             GLib.timeout_add(400, self._on_buttons_clear_animation_end)
