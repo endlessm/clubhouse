@@ -33,7 +33,7 @@ import time
 import datetime
 
 from collections import OrderedDict
-from gi.repository import EosMetrics, Gdk, GdkPixbuf, Gio, GLib, Gtk, GObject, \
+from gi.repository import EosMetrics, Gdk, Gio, GLib, Gtk, GObject, \
     Json, Pango
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.achievements import AchievementsDB
@@ -1819,10 +1819,7 @@ class AchievementItem(Gtk.FlowBoxChild):
 
     __gtype_name__ = 'AchievementItem'
 
-    DEFAULT_BADGE_SIZE = 128
     BADGE_DIR = os.path.join(config.ACHIEVEMENTS_DIR, 'badges')
-
-    # _image_box = Gtk.Template.Child()
 
     def __init__(self, achievement, achievements_view):
         super().__init__()
@@ -1871,14 +1868,17 @@ class AchievementSummaryView(Gtk.Box):
 
     __gtype_name__ = 'AchievementSummaryView'
 
-    DEFAULT_BADGE_SIZE = 128
-
-    _image = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _summary_label = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
+        self._css_provider = Gtk.CssProvider()
+        self.get_style_context().add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            self._css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+
         self._title_label.set_line_wrap(True)
         self._summary_label.set_line_wrap(True)
 
@@ -1886,10 +1886,11 @@ class AchievementSummaryView(Gtk.Box):
         badge_dir = os.path.join(config.ACHIEVEMENTS_DIR, 'badges')
         image_path = os.path.join(badge_dir, '{}.svg'.format(achievement.id))
 
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(image_path, -1,
-                                                         self.DEFAULT_BADGE_SIZE,
-                                                         True)
-        self._image.set_from_pixbuf(pixbuf)
+        css = "AchievementSummaryView .image {{\
+            background-image: url('{}');\
+        }}".format(image_path)
+        self._css_provider.load_from_data(css.encode())
+
         self._title_label.props.label = achievement.name
         self._summary_label.props.label = achievement.description
 

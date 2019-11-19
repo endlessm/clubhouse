@@ -343,8 +343,15 @@ AchievementsView
 
 
 AchievementSummaryView
-  image
-    margin: 2ex
+  $default_badge_size: 8em
+
+  .image
+    min-width: $default_badge_size
+    min-height: $default_badge_size
+    background-size: $default_badge_size $default_badge_size
+    background-repeat: no-repeat
+    background-position: center
+    margin: 1em
 
   label
     &.title
