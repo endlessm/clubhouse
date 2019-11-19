@@ -1815,82 +1815,55 @@ class NewsView(Gtk.Overlay):
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-item.ui')
-class AchievementItem(Gtk.Box):
+class AchievementItem(Gtk.FlowBoxChild):
 
     __gtype_name__ = 'AchievementItem'
 
     DEFAULT_BADGE_SIZE = 128
+    BADGE_DIR = os.path.join(config.ACHIEVEMENTS_DIR, 'badges')
 
-    _image = Gtk.Template.Child()
+    # _image_box = Gtk.Template.Child()
 
-    def __init__(self, achievement):
+    def __init__(self, achievement, achievements_view):
         super().__init__()
+        self._view = achievements_view
 
         self._achievement = achievement
 
-        badge_dir = os.path.join(config.ACHIEVEMENTS_DIR, 'badges')
+        self._css_provider = Gtk.CssProvider()
+        self.get_style_context().add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            self._css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
 
-        default_image_path = os.path.join(badge_dir, '{}.svg'.format(achievement.id))
-        hover_image_path = os.path.join(badge_dir, '{}-hover.svg'.format(achievement.id))
+        ctx = self.get_style_context()
+        ctx.add_class(achievement.id)
 
-        self._default_pixbuf = self._create_pixbuf(default_image_path)
-        try:
-            self._hover_pixbuf = self._create_pixbuf(hover_image_path)
-        except GLib.Error as ex:
-            logger.warning('Cannot create hover image for achievement \'%s\', becuase: %s',
-                           self._achievement.id, ex)
-            self._hover_pixbuf = None
+        self._load_image_style()
 
-        self.set_default_image()
+    def _generate_css_image_style(self, url, selector=''):
+        return "AchievementItem.{} button{} {{\
+            background-image: url('{}');\
+        }}".format(self.achievement.id, selector, url)
 
-    def set_default_image(self):
-        self._image.set_from_pixbuf(self._default_pixbuf)
+    def _load_image_style(self):
+        default_url = os.path.join(self.BADGE_DIR, '{}.svg'.format(self.achievement.id))
+        hover_url = os.path.join(self.BADGE_DIR, '{}-hover.svg'.format(self.achievement.id))
 
-    def set_hover_image(self):
-        if self._hover_pixbuf is not None:
-            self._image.set_from_pixbuf(self._hover_pixbuf)
+        default_css = self._generate_css_image_style(default_url)
+        hover_css = self._generate_css_image_style(hover_url, selector=":hover")
 
-    def _create_pixbuf(self, image_path):
-        return GdkPixbuf.Pixbuf.new_from_file_at_scale(image_path, -1, self.DEFAULT_BADGE_SIZE,
-                                                       True)
+        css = default_css + '\n' + hover_css
+        self._css_provider.load_from_data(css.encode())
+
+    @Gtk.Template.Callback()
+    def _image_button_clicked_cb(self, _button):
+        self._view.current_achievement = self.achievement
 
     def _get_achievement(self):
         return self._achievement
 
     achievement = property(_get_achievement)
-
-
-@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-flow-box-child.ui')
-class AchievementFlowBoxChild(Gtk.FlowBoxChild):
-
-    __gtype_name__ = 'AchievementFlowBoxChild'
-
-    _event_box = Gtk.Template.Child()
-
-    def __init__(self, achievement):
-        super().__init__()
-        item = AchievementItem(achievement)
-        self._event_box.add(item)
-
-    def get_item(self):
-        children = self._event_box.get_children()
-        if not children or not isinstance(children[0], AchievementItem):
-            return None
-        return children[0]
-
-    @Gtk.Template.Callback()
-    def _event_box_enter_notify_event_cb(self, _child, _event):
-        item = self.get_item()
-        if not item:
-            return
-        item.set_hover_image()
-
-    @Gtk.Template.Callback()
-    def _event_box_leave_notify_event_cb(self, _child, _event):
-        item = self.get_item()
-        if not item:
-            return
-        item.set_default_image()
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-summary-view.ui')
@@ -1984,12 +1957,7 @@ class AchievementsView(Gtk.Box):
         self._summary_scrolled_window.props.vadjustment.props.value = 0
 
     def show_achievement(self, achievement_id):
-        for child in self._achievements_flow_box.get_children():
-            item = child.get_item()
-
-            if not item:
-                continue
-
+        for item in self._achievements_flow_box.get_children():
             if item.achievement.id == achievement_id:
                 self.current_achievement = item.achievement
                 return
@@ -2038,7 +2006,7 @@ class AchievementsView(Gtk.Box):
 
     def _add_achievement(self, achievement):
         try:
-            achievement_item = AchievementFlowBoxChild(achievement)
+            achievement_item = AchievementItem(achievement, self)
         except GLib.Error as ex:
             logger.warning('Achievement %s will not be shown because of an error: %s',
                            achievement.name, ex)
@@ -2097,13 +2065,6 @@ class AchievementsView(Gtk.Box):
         # for some reason this callbacks gets called when you click inside the
         # AchievementsView for the secnd time.
         self._hover = self._event_coordinates_in_shape(event)
-
-    @Gtk.Template.Callback()
-    def _achievements_flow_box_child_activated_cb(self, _view, achievment_flow_box_child):
-        item = achievment_flow_box_child.get_item()
-        if not item:
-            return
-        self.current_achievement = item.achievement
 
     def _current_achievement_notify_cb(self, _view, _pspec):
         if self.current_achievement is None:
@@ -2965,7 +2926,6 @@ class ClubhouseApplication(Gtk.Application):
 
 # Set widget classes CSS name to be able to select by GType name
 clubhouse_classes = [
-    AchievementFlowBoxChild,
     AchievementItem,
     AchievementSummaryView,
     AchievementsView,
