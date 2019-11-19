@@ -559,8 +559,8 @@ class MessageBox(Gtk.Fixed):
 
     def __init__(self):
         super().__init__()
-        app = Gio.Application.get_default()
-        self._app_window = app.get_active_window()
+        self._app = Gio.Application.get_default()
+        self._app_window = self._app.get_active_window()
         self._messages_in_scene = []
 
     def _animate_message(self, message, direction, end_position, done_action_cb=None, *args):
@@ -656,7 +656,7 @@ class MessageBox(Gtk.Fixed):
         return msg
 
     def add_message(self, message_info):
-        current_quest = self._app_window.clubhouse.running_quest
+        current_quest = self._app.quest_runner.running_quest
         if current_quest is None or current_quest.stopping:
             return
 
@@ -765,10 +765,10 @@ class ActivityCard(Gtk.FlowBoxChild):
     _revealer = Gtk.Template.Child()
     _difficulty_box = Gtk.Template.Child()
 
-    def __init__(self, clubhouse, quest_set, quest):
+    def __init__(self, quest_set, quest):
         super().__init__()
 
-        self._clubhouse = clubhouse
+        self._app = Gio.Application.get_default()
         self._quest_set = quest_set
         self._button_press_time = 0
         self._quest = quest
@@ -801,7 +801,7 @@ class ActivityCard(Gtk.FlowBoxChild):
     @Gtk.Template.Callback()
     def _on_play_button_clicked(self, button):
         easier_quest = self._quest_set.get_easier_quest(self._quest)
-        self._clubhouse.try_running_quest(self._quest, easier_quest)
+        self._app.quest_runner.try_running_quest(self._quest, easier_quest)
 
     @Gtk.Template.Callback()
     def _on_button_press_event(self, widget, event):
@@ -1015,7 +1015,7 @@ class CharacterView(Gtk.Grid):
 
         # Populate list
         for quest in quest_set.get_quests(also_skippable=False):
-            card = ActivityCard(self._app_window.clubhouse, quest_set, quest)
+            card = ActivityCard(quest_set, quest)
             self._list.add(card)
             card.show()
 
@@ -1064,46 +1064,39 @@ class ClubhouseView(FixedLayerGroup):
     MAIN_LAYER_NAME = 'main-layer'
     INFO_TIP_LAYER = 'infotip-layer'
 
-    SYSTEM_CHARACTER_ID = 'daemon'
-    SYSTEM_CHARACTER_MOOD = 'talk'
-
-    class _QuestScheduleInfo:
-        def __init__(self, quest, confirm_before, timeout, handler_id):
-            self.quest = quest
-            self.confirm_before = confirm_before
-            self.timeout = timeout
-            self.handler_id = handler_id
-
     def __init__(self):
         super().__init__()
         self.scale = 1
-        self._current_quest = None
-        self._scheduled_quest_info = None
-        self._delayed_message_handler = 0
-
-        self._last_user_answer = 0
 
         self._app = Gio.Application.get_default()
         self._app_window = self._app.get_active_window()
 
-        self._reset_quest_actions()
-
-        self.current_episode = None
-        self._current_quest_notification = None
-
         self.add_tick_callback(AnimationSystem.step)
-
-        self._gss = GameStateService()
-        self._gss_hander_id = self._gss.connect('changed',
-                                                lambda _gss: self._update_episode_if_needed())
-
-        registry = libquest.Registry.get_or_create()
-        registry.connect('schedule-quest', self._quest_scheduled_cb)
 
         self._add_main_layer()
         self._add_info_tip_layer()
 
+        self._app.quest_runner.connect('notify::current-episode',
+                                       self._current_episode_changed_cb)
+
+        self._setup_questsets()
+
+        self.set_scale(1)
+        self.get_main_layer().bringup_fg()
+
         self.show_all()
+
+    def _setup_questsets(self):
+        for quest_set in libquest.Registry.get_quest_sets():
+            button = self.get_main_layer().add_quest_set(quest_set)
+            self.get_layer(self.INFO_TIP_LAYER).add_info_tip(button)
+
+    def _current_episode_changed_cb(self, _quest_runner, _value):
+        for child in self.get_children():
+            if isinstance(child, CharacterButton):
+                child.destroy()
+
+        self._setup_questsets()
 
     def get_main_layer(self):
         return self.get_layer(self.MAIN_LAYER_NAME)
@@ -1122,424 +1115,6 @@ class ClubhouseView(FixedLayerGroup):
 
         for layer in self.get_children():
             layer.set_scale(self.scale)
-
-    def stop_quest(self):
-        self._cancel_ongoing_task()
-        self._reset_scheduled_quest()
-
-    def _cancel_ongoing_task(self):
-        if self._current_quest is None:
-            return
-
-        current_quest = self._current_quest
-        # This should be done before calling step_abort to avoid infinite
-        # recursion with quests that change can change the hack-mode-enabled
-        # like the firstcontact, because setting hack-mode-enabled to false
-        # will call to this function and if the quest is not set to None we've
-        # the recursion
-        self._set_current_quest(None)
-
-        logger.debug('Stopping quest %s', current_quest)
-        current_quest.step_abort()
-
-    def _stop_quest_from_message(self, quest):
-        if self._is_current_quest(quest):
-            self._cancel_ongoing_task()
-
-    def _continue_quest(self, quest):
-        if not self._is_current_quest(quest):
-            return
-
-        quest.set_to_foreground()
-        self._shell_show_current_popup_message()
-
-    def _accept_quest_message(self, new_quest):
-        logger.info('Start quest {}'.format(new_quest))
-        self._app_window.run_quest(new_quest)
-
-    def connect_quest(self, quest):
-        # Don't update the episode if we're running a quest; this is so we avoid reloading the
-        # Clubhouse while running a quest if it changes the episode.
-        self._gss.handler_block(self._gss_hander_id)
-
-        quest.connect('message', self._quest_message_cb)
-        quest.connect('dismiss-message', self._quest_dismiss_message_cb)
-        quest.connect('item-given', self._quest_item_given_cb)
-
-    def disconnect_quest(self, quest):
-        self._gss.handler_unblock(self._gss_hander_id)
-        quest.disconnect_by_func(self._quest_message_cb)
-        quest.disconnect_by_func(self._quest_dismiss_message_cb)
-        quest.disconnect_by_func(self._quest_item_given_cb)
-
-    def _ask_stop_quest(self, new_quest):
-
-        def accept_stop(new_quest):
-            self.run_quest(new_quest)
-
-        def reject_stop():
-            Sound.play('clubhouse/dialog/close')
-            self._continue_quest(self._current_quest)
-
-        self._shell_popup_message({
-            # @todo: This string should not be hardcoded:
-            'text': 'You are already in a quest, do you want to start a new one?',
-            'system_notification': True,
-            'character_id': self.SYSTEM_CHARACTER_ID,
-            'character_mood': self.SYSTEM_CHARACTER_MOOD,
-            'sound_fx': self.running_quest.proposal_sound,
-            'choices': [(self.running_quest.get_label('QUEST_ACCEPT_STOP'), accept_stop, new_quest),
-                        (self.running_quest.get_label('QUEST_REJECT_STOP'), reject_stop)],
-        })
-
-    def _ask_harder_quest(self, new_quest, easier_quest):
-
-        def accept_harder(new_quest):
-            self.run_quest(new_quest)
-
-        def reject_harder():
-            Sound.play('clubhouse/dialog/close')
-
-        self._shell_popup_message({
-            # @todo: This string should not be hardcoded:
-            'text': 'There is an easier quest, do you want to continue anyways?',
-            'system_notification': True,
-            'character_id': self.SYSTEM_CHARACTER_ID,
-            'character_mood': self.SYSTEM_CHARACTER_MOOD,
-            'sound_fx': new_quest.proposal_sound,
-            'choices': [(new_quest.get_label('QUEST_ACCEPT_HARDER'), accept_harder, new_quest),
-                        (new_quest.get_label('QUEST_REJECT_HARDER'), reject_harder)],
-        })
-
-    def try_running_quest(self, new_quest, easier_quest=None):
-        if self.running_quest is not None and not self.running_quest.stopping:
-            self._ask_stop_quest(new_quest)
-            return
-
-        if easier_quest is not None:
-            self._ask_harder_quest(new_quest, easier_quest)
-            return
-
-        self.run_quest(new_quest)
-
-    def run_quest(self, quest):
-        # Stop any scheduled quests from attempting to run if we are running a quest
-        self._reset_scheduled_quest()
-
-        # Ensure the app stays alive at least for as long as we're running the quest
-        self._app.hold()
-
-        self._cancel_ongoing_task()
-
-        # Start running the new quest only when the mainloop is idle so we allow any previous
-        # events (from other quests) to be dispatched.
-        GLib.idle_add(self._run_new_quest, quest)
-
-    def _run_new_quest(self, quest):
-        logger.info('Running quest "%s"', quest)
-
-        self.connect_quest(quest)
-
-        quest.set_cancellable(Gio.Cancellable())
-
-        self._set_current_quest(quest)
-
-        self._current_quest.run(self.on_quest_finished)
-        return GLib.SOURCE_REMOVE
-
-    def run_quest_by_name(self, quest_name):
-        quest = libquest.Registry.get_quest_by_name(quest_name)
-        if quest is None:
-            logger.warning('No quest with name "%s" found!', quest_name)
-            return
-
-        if self._is_current_quest(quest):
-            logger.warning('Quest "%s" is already being run!', quest_name)
-            return
-
-        self._cancel_ongoing_task()
-
-        self.run_quest(quest)
-
-    def _is_current_quest(self, quest):
-        return self._current_quest is not None and self._current_quest == quest
-
-    def _quest_scheduled_cb(self, _registry, quest_name, confirm_before, start_after_timeout):
-        self._reset_scheduled_quest()
-
-        # This means that scheduling a quest called '' just removes the scheduled quest
-        if not quest_name:
-            return
-
-        quest = libquest.Registry.get_quest_by_name(quest_name)
-        if quest is None:
-            logger.warning('No quest with name "%s" found when setting up next quest from '
-                           'running quest "%s"!', quest_name, quest.get_id())
-            return
-
-        self._scheduled_quest_info = self._QuestScheduleInfo(quest, confirm_before,
-                                                             start_after_timeout, 0)
-        self._schedule_next_quest()
-
-    def _quest_item_given_cb(self, quest, item_id, text):
-        self._shell_popup_item(item_id, text)
-
-    def _quest_message_cb(self, quest, message_info):
-        logger.debug('Message %s: %s character_id=%s mood=%s choices=[%s]',
-                     message_info['id'], message_info['text'],
-                     message_info['character_id'], message_info['character_mood'],
-                     '|'.join([answer for answer, _cb, *_args in message_info['choices']]))
-
-        if message_info['type'] == libquest.Quest.MessageType.POPUP:
-            self._shell_popup_message(message_info)
-        elif message_info['type'] == libquest.Quest.MessageType.NARRATIVE:
-            self._app_window.character.message_box.add_message(message_info)
-
-    def _quest_dismiss_message_cb(self, quest, narrative=False):
-        if not narrative:
-            self._shell_close_popup_message()
-        else:
-            self._app_window.character.message_box.clear_messages()
-
-    def _reset_delayed_message(self):
-        if self._delayed_message_handler > 0:
-            GLib.source_remove(self._delayed_message_handler)
-            self._delayed_message_handler = 0
-
-    def on_quest_finished(self, quest):
-        logger.debug('Quest {} finished'.format(quest))
-        self.disconnect_quest(quest)
-        self._reset_delayed_message()
-        quest.save_conf()
-
-        # Ensure we reset the running quest (only if we haven't started a different quest in the
-        # meanwhile) quest and close any eventual message popups
-        if self._is_current_quest(quest):
-            self._set_current_quest(None)
-
-        if self._current_quest is None:
-            self._shell_close_popup_message()
-            self._app_window.character.message_box.clear_messages()
-
-        self._current_quest_notification = None
-
-        self._update_episode_if_needed()
-
-        # Ensure the app can be quit if inactive now
-        self._app.release()
-
-        # Unhighlight highlighted quests.
-        for quest_set in libquest.Registry.get_quest_sets():
-            for quest in quest_set.get_quests():
-                quest.props.highlighted = False
-
-    def _reset_scheduled_quest(self):
-        if self._scheduled_quest_info is not None:
-            if self._scheduled_quest_info.handler_id > 0:
-                GLib.source_remove(self._scheduled_quest_info.handler_id)
-                self._scheduled_quest_info.handler_id = 0
-
-            self._scheduled_quest_info = None
-
-    def _schedule_next_quest(self):
-        if self._scheduled_quest_info is None:
-            return
-
-        def _run_quest_after_timeout():
-            if self._scheduled_quest_info is None:
-                return
-
-            quest = self._scheduled_quest_info.quest
-            # @todo: remove confirm_before
-            # confirm_before = self._scheduled_quest_info.confirm_before
-
-            self._reset_scheduled_quest()
-            self.run_quest(quest)
-            return GLib.SOURCE_REMOVE
-
-        timeout = self._scheduled_quest_info.timeout
-        self._scheduled_quest_info.handler_id = GLib.timeout_add_seconds(timeout,
-                                                                         _run_quest_after_timeout)
-
-    def _shell_close_popup_message(self):
-        self._app.close_quest_msg_notification()
-
-    def _shell_popup_message(self, message_info):
-        real_popup_message = functools.partial(self._shell_popup_message_real, message_info)
-
-        # If the user last interacted with a notification longer than a second ago, then we delay
-        # the new notification a bit. The delaying is so that it is more noticeable to the user
-        # that the notification has changed; the "last time" check is so we don't delay if the
-        # new notification is a result of a user recent interaction.
-        if time.time() - self._last_user_answer > 1:
-            self._app.withdraw_notification(self._app.QUEST_MSG_NOTIFICATION_ID)
-            self._reset_delayed_message()
-            self._delayed_message_handler = GLib.timeout_add(300, real_popup_message)
-        else:
-            real_popup_message()
-
-    def _shell_popup_message_real(self, message_info):
-        notification = Gio.Notification()
-        text = message_info.get('text', '')
-        notification.set_body(SimpleMarkupParser.parse(text))
-        notification.set_title('')
-
-        sfx_sound = message_info.get('sound_fx')
-        if sfx_sound:
-            Sound.play(sfx_sound)
-        bg_sound = message_info.get('sound_bg')
-        if self._current_quest and bg_sound != self._current_quest.get_last_bg_sound_event_id():
-            self._current_quest.play_stop_bg_sound(bg_sound)
-
-        if self._current_quest and not self._current_quest.dismissible_messages():
-            notification.set_priority(Gio.NotificationPriority.URGENT)
-
-        if message_info.get('character_id'):
-            character = Character.get_or_create(message_info['character_id'])
-            character.mood = message_info['character_mood']
-
-            notification.set_icon(character.get_mood_icon())
-            Sound.play('clubhouse/{}/mood/{}'.format(character.id,
-                                                     character.mood))
-
-        self._reset_quest_actions()
-
-        for answer in message_info.get('choices', []):
-            self._add_quest_action(answer)
-
-        for key, action in self._actions.items():
-            label = action[0]
-            button_target = "app.quest-user-answer('{}')".format(key)
-            notification.add_button(label, button_target)
-
-        self._app.send_quest_msg_notification(notification)
-
-        if not message_info.get('system_notification', False):
-            self._current_quest_notification = (notification, self._actions, sfx_sound)
-
-        self._delayed_message_handler = 0
-        return GLib.SOURCE_REMOVE
-
-    def _shell_show_current_popup_message(self):
-        if self._current_quest_notification is None:
-            return
-
-        notification, actions, sound = self._current_quest_notification
-
-        self._recover_quest_actions(actions)
-
-        if sound:
-            Sound.play(sound)
-
-        self._app.send_quest_msg_notification(notification)
-
-    def _shell_popup_item(self, item_id, text):
-        item = utils.QuestItemDB.get_item(item_id)
-        if item is None:
-            logger.debug('Failed to get item %s from DB', item_id)
-            return
-
-        icon_name, _icon_used_name, item_name = item[:3]
-
-        notification = Gio.Notification()
-        if text is None:
-            text = 'You got a new item! {}'.format(item_name)
-
-        notification.set_body(SimpleMarkupParser.parse(text))
-        notification.set_title('')
-
-        icon_file = Gio.File.new_for_path(utils.QuestItemDB.get_icon_path(icon_name))
-        icon_bytes = icon_file.load_bytes(None)
-        icon = Gio.BytesIcon.new(icon_bytes[0])
-
-        notification.set_icon(icon)
-
-        notification.add_button('OK', 'app.item-accept-answer(false)')
-        notification.add_button('Show me', 'app.item-accept-answer(true)')
-
-        Sound.play('quests/key-given')
-
-        self._app.send_quest_item_notification(notification)
-
-    def _reset_quest_actions(self):
-        # We need to maintain the order of the quest actions, so we use an OrderedDict here.
-        self._actions = OrderedDict()
-
-    def _recover_quest_actions(self, actions):
-        self._actions = actions
-
-    def _add_quest_action(self, action):
-        # Lazy import UUID module because it takes a while to do so, and we only need it here
-        import uuid
-
-        key = str(uuid.uuid1())
-        self._actions[key] = action
-        return key
-
-    def quest_action(self, action_key):
-        actions = self._actions
-        action = self._actions.get(action_key)
-
-        # We close the popup once we get a response from the user, otherwise the dialog would just
-        # keep getting displayed until closed or replaced from elsewhere.
-        self._shell_close_popup_message()
-
-        if action is None:
-            logger.debug('Failed to get action for key %s', action_key)
-            logger.debug('Current actions: %s', actions)
-            return
-
-        # It's important to reset the quest actions only after the check above, as the same action
-        # can be triggered twice by clicking the Quest view button's very quickly, and in that case,
-        # the second time we could be resetting the actions when new ones have been added by the
-        # quests in the meanwhile.
-        self._reset_quest_actions()
-
-        # Call the action
-        callback, args = action[1], action[2:]
-        callback(*args)
-
-        self._last_user_answer = time.time()
-
-    def _get_running_quest(self):
-        if self._current_quest is None:
-            return None
-        return self._current_quest
-
-    def _set_current_quest(self, quest_obj):
-        if quest_obj is not self._current_quest:
-            self._current_quest = quest_obj
-            self.notify('running-quest')
-
-    def load_episode(self, episode_name=None):
-        self._cancel_ongoing_task()
-
-        if episode_name is None:
-            episode_name = libquest.Registry.get_current_episode()['name']
-
-        for child in self.get_children():
-            if isinstance(child, CharacterButton):
-                child.destroy()
-
-        libquest.Registry.load_current_episode()
-        for quest_set in libquest.Registry.get_quest_sets():
-            button = self.get_main_layer().add_quest_set(quest_set)
-            self.get_layer(self.INFO_TIP_LAYER).add_info_tip(button)
-        self.current_episode = episode_name
-        self.get_main_layer().bringup_fg()
-
-    def _update_episode_if_needed(self):
-        episode_name = libquest.Registry.get_current_episode()['name']
-        if self.current_episode != episode_name:
-            self.load_episode(episode_name)
-
-    current_episode = GObject.Property(type=str)
-    running_quest = GObject.Property(_get_running_quest,
-                                     _set_current_quest,
-                                     type=GObject.TYPE_PYOBJECT,
-                                     default=None,
-                                     flags=GObject.ParamFlags.READABLE |
-                                     GObject.ParamFlags.EXPLICIT_NOTIFY)
 
 
 class ClubhouseViewInfoTipLayer(Gtk.Fixed):
@@ -1639,8 +1214,8 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
 
     def _on_hack_switch_toggled(self, button):
         mock_quests = ['Quickstart', 'Migration', 'Meet']
-        mock_hack_mode = (self._app_window.clubhouse.running_quest is not None and
-                          self._app_window.clubhouse.running_quest.get_id() in mock_quests)
+        mock_hack_mode = (self._app.quest_runner.running_quest is not None and
+                          self._app.quest_runner.running_quest.get_id() in mock_quests)
         if mock_hack_mode:
             self._app_window._clubhouse_state.lights_on = button.get_active()
         else:
@@ -1917,8 +1492,7 @@ class AchievementsView(Gtk.Box):
 
     def __init__(self):
         super().__init__()
-        app = Gio.Application.get_default()
-        self._app_window = app.get_active_window()
+        self._app = Gio.Application.get_default()
         self._hover = False
         self._shape_points = None
 
@@ -1932,8 +1506,8 @@ class AchievementsView(Gtk.Box):
         self._achievement_summary_box.add(self._achievement_summary_view)
         self._achievement_summary_view.show_all()
 
-        self._app_window.clubhouse.connect('notify::current-episode',
-                                           self._current_episode_changed_cb)
+        self._app.quest_runner.connect('notify::current-episode',
+                                       self._current_episode_changed_cb)
 
         self._event_box.connect('motion-notify-event', self._motion_notify_event_cb)
         self._event_box.connect('leave-notify-event', self._leave_notify_event_cb)
@@ -1968,7 +1542,7 @@ class AchievementsView(Gtk.Box):
     def get_current_page(self):
         return self._stack.props.visible_child_name
 
-    def _current_episode_changed_cb(self, _window, _pspec):
+    def _current_episode_changed_cb(self, _quest_runner, _pspec):
         if self._achievements_achieved_id is not None:
             self._manager.disconnect(self._achievements_achieved_id)
         self._populate()
@@ -2129,6 +1703,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
 
+        self._app = app
         self._gss = GameStateService()
         self._user = UserAccount()
         self._page_reset_timeout = 0
@@ -2187,7 +1762,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def sync_with_hack_mode(self):
         hack_mode_enabled = Desktop.get_hack_mode()
         if not hack_mode_enabled:
-            self.clubhouse.stop_quest()
+            self._app.quest_runner.stop_quest()
 
         self._clubhouse_state.lights_on = hack_mode_enabled
 
@@ -2339,7 +1914,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._hack_news_button.set_active(True)
 
         if current_page == 'CHARACTER':
-            running_quest = self.clubhouse.running_quest
+            running_quest = self._app.quest_runner.running_quest
             if running_quest is not None and running_quest.is_narrative():
                 running_quest.step_abort()
 
@@ -2467,9 +2042,458 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def hide(self):
         super().hide()
 
+
+class QuestRunner(GObject.GObject):
+
+    SYSTEM_CHARACTER_ID = 'daemon'
+    SYSTEM_CHARACTER_MOOD = 'talk'
+
+    class _QuestScheduleInfo:
+        def __init__(self, quest, confirm_before, timeout, handler_id):
+            self.quest = quest
+            self.confirm_before = confirm_before
+            self.timeout = timeout
+            self.handler_id = handler_id
+
+    def __init__(self):
+        super().__init__()
+        self._app = Gio.Application.get_default()
+        self._current_quest = None
+        self._scheduled_quest_info = None
+        self._delayed_message_handler = 0
+        self._last_user_answer = 0
+
+        self._reset_quest_actions()
+
+        self.current_episode = None
+        self._current_quest_notification = None
+
+        self._gss = GameStateService()
+        self._gss_hander_id = self._gss.connect('changed',
+                                                lambda _gss: self._update_episode_if_needed())
+
+        registry = libquest.Registry.get_or_create()
+        registry.connect('schedule-quest', self._quest_scheduled_cb)
+
+    def stop_quest(self):
+        self._cancel_ongoing_task()
+        self._reset_scheduled_quest()
+
+    def _cancel_ongoing_task(self):
+        if self._current_quest is None:
+            return
+
+        current_quest = self._current_quest
+        # This should be done before calling step_abort to avoid infinite
+        # recursion with quests that change can change the hack-mode-enabled
+        # like the firstcontact, because setting hack-mode-enabled to false
+        # will call to this function and if the quest is not set to None we've
+        # the recursion
+        self._set_current_quest(None)
+
+        logger.debug('Stopping quest %s', current_quest)
+        current_quest.step_abort()
+
+    def _stop_quest_from_message(self, quest):
+        if self._is_current_quest(quest):
+            self._cancel_ongoing_task()
+
+    def _continue_quest(self, quest):
+        if not self._is_current_quest(quest):
+            return
+
+        quest.set_to_foreground()
+        self._shell_show_current_popup_message()
+
+    def _accept_quest_message(self, new_quest):
+        logger.info('Start quest {}'.format(new_quest))
+        self.run_quest(new_quest)
+
+    def connect_quest(self, quest):
+        # Don't update the episode if we're running a quest; this is so we avoid reloading the
+        # Clubhouse while running a quest if it changes the episode.
+        self._gss.handler_block(self._gss_hander_id)
+
+        quest.connect('message', self._quest_message_cb)
+        quest.connect('dismiss-message', self._quest_dismiss_message_cb)
+        quest.connect('item-given', self._quest_item_given_cb)
+
+    def disconnect_quest(self, quest):
+        self._gss.handler_unblock(self._gss_hander_id)
+        quest.disconnect_by_func(self._quest_message_cb)
+        quest.disconnect_by_func(self._quest_dismiss_message_cb)
+        quest.disconnect_by_func(self._quest_item_given_cb)
+
+    def _ask_stop_quest(self, new_quest):
+
+        def reject_stop():
+            Sound.play('clubhouse/dialog/close')
+            self._continue_quest(self._current_quest)
+
+        self._shell_popup_message({
+            # @todo: This string should not be hardcoded:
+            'text': 'You are already in a quest, do you want to start a new one?',
+            'system_notification': True,
+            'character_id': self.SYSTEM_CHARACTER_ID,
+            'character_mood': self.SYSTEM_CHARACTER_MOOD,
+            'sound_fx': self.running_quest.proposal_sound,
+            'choices': [(self.running_quest.get_label('QUEST_ACCEPT_STOP'),
+                         self.run_quest, new_quest),
+                        (self.running_quest.get_label('QUEST_REJECT_STOP'),
+                         reject_stop)],
+        })
+
+    def _ask_harder_quest(self, new_quest, easier_quest):
+
+        def reject_harder():
+            Sound.play('clubhouse/dialog/close')
+
+        self._shell_popup_message({
+            # @todo: This string should not be hardcoded:
+            'text': 'There is an easier quest, do you want to continue anyways?',
+            'system_notification': True,
+            'character_id': self.SYSTEM_CHARACTER_ID,
+            'character_mood': self.SYSTEM_CHARACTER_MOOD,
+            'sound_fx': new_quest.proposal_sound,
+            'choices': [(new_quest.get_label('QUEST_ACCEPT_HARDER'), self.run_quest, new_quest),
+                        (new_quest.get_label('QUEST_REJECT_HARDER'), reject_harder)],
+        })
+
+    def try_running_quest(self, new_quest, easier_quest=None):
+        if self.running_quest is not None and not self.running_quest.stopping:
+            self._ask_stop_quest(new_quest)
+            return
+
+        if easier_quest is not None:
+            self._ask_harder_quest(new_quest, easier_quest)
+            return
+
+        self.run_quest(new_quest)
+
     def run_quest(self, quest):
-        logger.info('Start quest {}'.format(quest))
-        self.clubhouse.run_quest(quest)
+        # Stop any scheduled quests from attempting to run if we are running a quest
+        self._reset_scheduled_quest()
+
+        # Ensure the app stays alive at least for as long as we're running the quest
+        self._app.hold()
+
+        self._cancel_ongoing_task()
+
+        # Start running the new quest only when the mainloop is idle so we allow any previous
+        # events (from other quests) to be dispatched.
+        GLib.idle_add(self._run_new_quest, quest)
+
+    def _run_new_quest(self, quest):
+        logger.info('Running quest "%s"', quest)
+
+        self.connect_quest(quest)
+
+        quest.set_cancellable(Gio.Cancellable())
+
+        self._set_current_quest(quest)
+
+        self._current_quest.run(self.on_quest_finished)
+        return GLib.SOURCE_REMOVE
+
+    def run_quest_by_name(self, quest_name):
+        quest = libquest.Registry.get_quest_by_name(quest_name)
+        if quest is None:
+            logger.warning('No quest with name "%s" found!', quest_name)
+            return
+
+        if self._is_current_quest(quest):
+            logger.warning('Quest "%s" is already being run!', quest_name)
+            return
+
+        self._cancel_ongoing_task()
+
+        self.run_quest(quest)
+
+    def _is_current_quest(self, quest):
+        return self._current_quest is not None and self._current_quest == quest
+
+    def _quest_scheduled_cb(self, _registry, quest_name, confirm_before, start_after_timeout):
+        self._reset_scheduled_quest()
+
+        # This means that scheduling a quest called '' just removes the scheduled quest
+        if not quest_name:
+            return
+
+        quest = libquest.Registry.get_quest_by_name(quest_name)
+        if quest is None:
+            logger.warning('No quest with name "%s" found when setting up next quest from '
+                           'running quest "%s"!', quest_name, quest.get_id())
+            return
+
+        self._scheduled_quest_info = self._QuestScheduleInfo(quest, confirm_before,
+                                                             start_after_timeout, 0)
+        self._schedule_next_quest()
+
+    def _quest_item_given_cb(self, quest, item_id, text):
+        self._shell_popup_item(item_id, text)
+
+    def _quest_message_cb(self, quest, message_info):
+        logger.debug('Message %s: %s character_id=%s mood=%s choices=[%s]',
+                     message_info['id'], message_info['text'],
+                     message_info['character_id'], message_info['character_mood'],
+                     '|'.join([answer for answer, _cb, *_args in message_info['choices']]))
+
+        if message_info['type'] == libquest.Quest.MessageType.POPUP:
+            self._shell_popup_message(message_info)
+        elif message_info['type'] == libquest.Quest.MessageType.NARRATIVE:
+            # @todo: Make the messagebox listen to the signal instead
+            app_window = self._app.get_active_window()
+            if app_window:
+                app_window.character.message_box.add_message(message_info)
+
+    def _quest_dismiss_message_cb(self, quest, narrative=False):
+        if not narrative:
+            self._shell_close_popup_message()
+        else:
+            # @todo: Make the messagebox listen to the signal instead
+            app_window = self._app.get_active_window()
+            if app_window:
+                app_window.character.message_box.clear_messages()
+
+    def _reset_delayed_message(self):
+        if self._delayed_message_handler > 0:
+            GLib.source_remove(self._delayed_message_handler)
+            self._delayed_message_handler = 0
+
+    def on_quest_finished(self, quest):
+        logger.debug('Quest {} finished'.format(quest))
+        self.disconnect_quest(quest)
+        self._reset_delayed_message()
+        quest.save_conf()
+
+        # Ensure we reset the running quest (only if we haven't started a different quest in the
+        # meanwhile) quest and close any eventual message popups
+        if self._is_current_quest(quest):
+            self._set_current_quest(None)
+
+        if self._current_quest is None:
+            self._shell_close_popup_message()
+            # @todo: Make the messagebox listen to the signal instead
+            app_window = self._app.get_active_window()
+            if app_window:
+                app_window.character.message_box.clear_messages()
+
+        self._current_quest_notification = None
+
+        self._update_episode_if_needed()
+
+        # Ensure the app can be quit if inactive now
+        self._app.release()
+
+        # Show window if it was the first quest
+        if quest.get_id() == 'FirstContact':
+            self._app.on_first_contact_quest_finished()
+
+        # Unhighlight highlighted quests.
+        for quest_set in libquest.Registry.get_quest_sets():
+            for quest in quest_set.get_quests():
+                quest.props.highlighted = False
+
+    def _reset_scheduled_quest(self):
+        if self._scheduled_quest_info is not None:
+            if self._scheduled_quest_info.handler_id > 0:
+                GLib.source_remove(self._scheduled_quest_info.handler_id)
+                self._scheduled_quest_info.handler_id = 0
+
+            self._scheduled_quest_info = None
+
+    def _schedule_next_quest(self):
+        if self._scheduled_quest_info is None:
+            return
+
+        def _run_quest_after_timeout():
+            if self._scheduled_quest_info is None:
+                return
+
+            quest = self._scheduled_quest_info.quest
+            # @todo: remove confirm_before
+            # confirm_before = self._scheduled_quest_info.confirm_before
+
+            self._reset_scheduled_quest()
+            self.run_quest(quest)
+            return GLib.SOURCE_REMOVE
+
+        timeout = self._scheduled_quest_info.timeout
+        self._scheduled_quest_info.handler_id = GLib.timeout_add_seconds(timeout,
+                                                                         _run_quest_after_timeout)
+
+    def _shell_close_popup_message(self):
+        self._app.close_quest_msg_notification()
+
+    def _shell_popup_message(self, message_info):
+        real_popup_message = functools.partial(self._shell_popup_message_real, message_info)
+
+        # If the user last interacted with a notification longer than a second ago, then we delay
+        # the new notification a bit. The delaying is so that it is more noticeable to the user
+        # that the notification has changed; the "last time" check is so we don't delay if the
+        # new notification is a result of a user recent interaction.
+        if time.time() - self._last_user_answer > 1:
+            self._app.withdraw_notification(self._app.QUEST_MSG_NOTIFICATION_ID)
+            self._reset_delayed_message()
+            self._delayed_message_handler = GLib.timeout_add(300, real_popup_message)
+        else:
+            real_popup_message()
+
+    def _shell_popup_message_real(self, message_info):
+        notification = Gio.Notification()
+        text = message_info.get('text', '')
+        notification.set_body(SimpleMarkupParser.parse(text))
+        notification.set_title('')
+
+        sfx_sound = message_info.get('sound_fx')
+        if sfx_sound:
+            Sound.play(sfx_sound)
+        bg_sound = message_info.get('sound_bg')
+        if self._current_quest and bg_sound != self._current_quest.get_last_bg_sound_event_id():
+            self._current_quest.play_stop_bg_sound(bg_sound)
+
+        if self._current_quest and not self._current_quest.dismissible_messages():
+            notification.set_priority(Gio.NotificationPriority.URGENT)
+
+        if message_info.get('character_id'):
+            character = Character.get_or_create(message_info['character_id'])
+            character.mood = message_info['character_mood']
+
+            notification.set_icon(character.get_mood_icon())
+            Sound.play('clubhouse/{}/mood/{}'.format(character.id,
+                                                     character.mood))
+
+        self._reset_quest_actions()
+
+        for answer in message_info.get('choices', []):
+            self._add_quest_action(answer)
+
+        for key, action in self._actions.items():
+            label = action[0]
+            button_target = "app.quest-user-answer('{}')".format(key)
+            notification.add_button(label, button_target)
+
+        self._app.send_quest_msg_notification(notification)
+
+        if not message_info.get('system_notification', False):
+            self._current_quest_notification = (notification, self._actions, sfx_sound)
+
+        self._delayed_message_handler = 0
+        return GLib.SOURCE_REMOVE
+
+    def _shell_show_current_popup_message(self):
+        if self._current_quest_notification is None:
+            return
+
+        notification, actions, sound = self._current_quest_notification
+
+        self._recover_quest_actions(actions)
+
+        if sound:
+            Sound.play(sound)
+
+        self._app.send_quest_msg_notification(notification)
+
+    def _shell_popup_item(self, item_id, text):
+        item = utils.QuestItemDB.get_item(item_id)
+        if item is None:
+            logger.debug('Failed to get item %s from DB', item_id)
+            return
+
+        icon_name, _icon_used_name, item_name = item[:3]
+
+        notification = Gio.Notification()
+        if text is None:
+            text = 'You got a new item! {}'.format(item_name)
+
+        notification.set_body(SimpleMarkupParser.parse(text))
+        notification.set_title('')
+
+        icon_file = Gio.File.new_for_path(utils.QuestItemDB.get_icon_path(icon_name))
+        icon_bytes = icon_file.load_bytes(None)
+        icon = Gio.BytesIcon.new(icon_bytes[0])
+
+        notification.set_icon(icon)
+
+        notification.add_button('OK', 'app.item-accept-answer(false)')
+        notification.add_button('Show me', 'app.item-accept-answer(true)')
+
+        Sound.play('quests/key-given')
+
+        self._app.send_quest_item_notification(notification)
+
+    def _reset_quest_actions(self):
+        # We need to maintain the order of the quest actions, so we use an OrderedDict here.
+        self._actions = OrderedDict()
+
+    def _recover_quest_actions(self, actions):
+        self._actions = actions
+
+    def _add_quest_action(self, action):
+        # Lazy import UUID module because it takes a while to do so, and we only need it here
+        import uuid
+
+        key = str(uuid.uuid1())
+        self._actions[key] = action
+        return key
+
+    def quest_action(self, action_key):
+        actions = self._actions
+        action = self._actions.get(action_key)
+
+        # We close the popup once we get a response from the user, otherwise the dialog would just
+        # keep getting displayed until closed or replaced from elsewhere.
+        self._shell_close_popup_message()
+
+        if action is None:
+            logger.debug('Failed to get action for key %s', action_key)
+            logger.debug('Current actions: %s', actions)
+            return
+
+        # It's important to reset the quest actions only after the check above, as the same action
+        # can be triggered twice by clicking the Quest view button's very quickly, and in that case,
+        # the second time we could be resetting the actions when new ones have been added by the
+        # quests in the meanwhile.
+        self._reset_quest_actions()
+
+        # Call the action
+        callback, args = action[1], action[2:]
+        callback(*args)
+
+        self._last_user_answer = time.time()
+
+    def _get_running_quest(self):
+        if self._current_quest is None:
+            return None
+        return self._current_quest
+
+    def _set_current_quest(self, quest_obj):
+        if quest_obj is not self._current_quest:
+            self._current_quest = quest_obj
+            self.notify('running-quest')
+
+    def load_episode(self, episode_name=None):
+        self._cancel_ongoing_task()
+
+        if episode_name is None:
+            episode_name = libquest.Registry.get_current_episode()['name']
+
+        libquest.Registry.load_current_episode()
+
+        self.current_episode = episode_name
+
+    def _update_episode_if_needed(self):
+        episode_name = libquest.Registry.get_current_episode()['name']
+        if self.current_episode != episode_name:
+            self.load_episode(episode_name)
+
+    current_episode = GObject.Property(type=str)
+    running_quest = GObject.Property(_get_running_quest,
+                                     _set_current_quest,
+                                     type=GObject.TYPE_PYOBJECT,
+                                     default=None,
+                                     flags=GObject.ParamFlags.READABLE |
+                                     GObject.ParamFlags.EXPLICIT_NOTIFY)
 
 
 class ClubhouseApplication(Gtk.Application):
@@ -2484,6 +2508,7 @@ class ClubhouseApplication(Gtk.Application):
                          inactivity_timeout=self._INACTIVITY_TIMEOUT,
                          resource_base_path='/com/hack_computer/Clubhouse')
 
+        self._quest_runner = QuestRunner()
         self._window = None
         self._debug = {}
         self._registry_loaded = False
@@ -2511,6 +2536,10 @@ class ClubhouseApplication(Gtk.Application):
         self.add_main_option('quit', ord('x'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Fully close the application', None)
 
+    @property
+    def quest_runner(self):
+        return self._quest_runner
+
     def _init_style(self):
         css_file = Gio.File.new_for_uri('resource:///com/hack_computer/Clubhouse/gtk-style.css')
         css_provider = Gtk.CssProvider()
@@ -2524,16 +2553,16 @@ class ClubhouseApplication(Gtk.Application):
     def do_activate(self):
         self._ensure_registry_loaded()
         self._ensure_suggesting_open()
-        self._init_style()
+
+        self.quest_runner.connect('notify::running-quest',
+                                  self._running_quest_notify_cb)
+
+        self.quest_runner.load_episode()
 
         if not self._run_episode_autorun_quest_if_needed():
             self._ensure_window()
             self.show(Gdk.CURRENT_TIME)
             self._show_and_focus_window()
-        else:
-            # Workaround for https://phabricator.endlessm.com/T28479
-            mail_layer = self._window.clubhouse.get_main_layer()
-            mail_layer.set_switch_active()
 
     def _run_episode_autorun_quest_if_needed(self):
         autorun_quest = libquest.Registry.get_autorun_quest()
@@ -2666,20 +2695,13 @@ class ClubhouseApplication(Gtk.Application):
                 self.send_suggest_open(True)
                 break
 
-    def _load_episode(self):
-        # @todo: Move staff from clubhouse_page.load_episode() here
-        self._window.clubhouse.load_episode()
-
     def _ensure_window(self):
         if self._window:
             return
 
+        self._init_style()
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._visibility_notify_cb)
-        self._window.clubhouse.connect('notify::running-quest',
-                                       self._running_quest_notify_cb)
-
-        self._load_episode()
 
     def send_quest_msg_notification(self, notification):
         self.send_notification(self.QUEST_MSG_NOTIFICATION_ID, notification)
@@ -2712,8 +2734,7 @@ class ClubhouseApplication(Gtk.Application):
         self._emit_dbus_props_changed(changed_props)
 
     def _stop_quest(self, *args):
-        if (self._window):
-            self._window.clubhouse.stop_quest()
+        self.quest_runner.stop_quest()
         self.close_quest_msg_notification()
 
     def _debug_logs_action_cb(self, action, arg_variant):
@@ -2725,35 +2746,19 @@ class ClubhouseApplication(Gtk.Application):
         self._ensure_window()
 
     def _quest_user_answer(self, action, action_id):
-        if self._window:
-            self._window.clubhouse.quest_action(action_id.unpack())
+        self.quest_runner.quest_action(action_id.unpack())
 
     def _quest_view_close_action_cb(self, _action, _action_id):
         logger.debug('Shell quest view closed')
         self._stop_quest()
 
-    def on_first_contact_quest_finished(self, quest):
-        quest.save_conf()
+    def on_first_contact_quest_finished(self):
         self._ensure_window()
         self._show_and_focus_window()
 
-    def _run_quest_by_name(self, quest_name):
-        # Special case FirstContact quest, since this quest does not depend on
-        # the clubhouse window we can run it manually to avoid
-        # having to create the whole window before showing the puzzle
-        if quest_name == 'AdaMission.FirstContact':
-            quest = libquest.Registry.get_quest_by_name(quest_name)
-            quest.set_cancellable(Gio.Cancellable())
-            quest.run(self.on_first_contact_quest_finished)
-        else:
-            # @todo: FIXME: run_quest_by_name() should be a GtkApplication
-            # API, and quests should say if they depend on the clubhouse or not!
-            self._ensure_window()
-            self._window.clubhouse.run_quest_by_name(quest_name)
-
     def _run_quest_action_cb(self, action, arg_variant):
         quest_name, _obsolete = arg_variant.unpack()
-        self._run_quest_by_name(quest_name)
+        self.quest_runner.run_quest_by_name(quest_name)
 
     def _quit_action_cb(self, action, arg_variant):
         self._stop_quest()
@@ -2835,10 +2840,9 @@ class ClubhouseApplication(Gtk.Application):
         self._emit_dbus_props_changed(changed_props)
 
     def _get_running_quest_name(self):
-        if self._window is not None:
-            quest = self._window.clubhouse.props.running_quest
-            if quest is not None:
-                return quest.get_id()
+        quest = self.quest_runner.props.running_quest
+        if quest is not None:
+            return quest.get_id()
         return ''
 
     # D-Bus implementation
@@ -2909,7 +2913,7 @@ class ClubhouseApplication(Gtk.Application):
         Desktop.set_hack_mode(True)
         # Launch the clubhouse window and the migration quest!
         # This quest can make the hack icon bounce
-        self._run_quest_by_name(MIGRATION_QUEST)
+        self.quest_runner.run_quest_by_name(MIGRATION_QUEST)
 
     def _list_quests(self):
         for quest_set in libquest.Registry.get_quest_sets():
@@ -2931,7 +2935,7 @@ class ClubhouseApplication(Gtk.Application):
         libquest.Registry.load_current_episode()
 
         print('Setting up {} as available'.format(quest_id))
-        self._run_quest_by_name(quest_id)
+        self.quest_runner.run_quest_by_name(quest_id)
 
     def _reset(self):
         try:
