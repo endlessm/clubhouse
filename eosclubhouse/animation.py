@@ -121,6 +121,14 @@ class Animator(GObject.GObject):
 
         AnimationSystem.animate(id(self), new_animation)
 
+    def stop(self):
+        # Reset Image to first frame
+        current = self.get_current_animation()
+        self._target_image.set_from_pixbuf(current.frames[0]['pixbuf'])
+
+        # Stop animation
+        AnimationSystem.remove_animation(id(self))
+
     def has_animation(self, name):
         return self._animations.get(name) is not None
 
