@@ -955,8 +955,8 @@ class CharacterView(Gtk.Grid):
 
     def __init__(self):
         super().__init__(visible=True)
-        app = Gio.Application.get_default()
-        self._app_window = app.get_active_window()
+        self._app = Gio.Application.get_default()
+        self._app_window = self._app.get_active_window()
 
         self.message_box = MessageBox()
         self._view_overlay.add_overlay(self.message_box)
@@ -964,13 +964,14 @@ class CharacterView(Gtk.Grid):
 
         self._animator = Animator(self.character_image)
         self._character = None
-        self._scale = 1
 
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::nav-attract-state',
                                       self._on_clubhouse_nav_attract_state_changed_cb)
         self._clubhouse_state.connect('notify::characters-disabled',
                                       self._on_characters_disabled_changed_cb)
+        self._app_window.connect('notify::scale', lambda app, pspec:
+                                 self.update_character_image(idle=True))
 
         self.message_box.show_all()
 
@@ -978,19 +979,16 @@ class CharacterView(Gtk.Grid):
         if self._character is None:
             return
 
+        scale = self._app_window.props.scale
         animation_id = self._character.id + '/closeup-talk' + ('' if not idle else '-idle')
         if not self._animator.has_animation(animation_id) or \
-           self._animator.get_animation_scale(animation_id) != self._scale:
+           self._animator.get_animation_scale(animation_id) != scale:
             self._animator.load(self._character.get_moods_path(),
                                 self._character.id,
-                                self._scale)
+                                scale)
 
         # @todo: play animation only when a dialog is added
         self._animator.play(animation_id)
-
-    def set_scale(self, scale):
-        self._scale = scale
-        self.update_character_image(idle=True)
 
     def show_mission_list(self, quest_set):
         ctx = self._app_window.get_style_context()
@@ -1066,10 +1064,8 @@ class ClubhouseView(FixedLayerGroup):
 
     def __init__(self):
         super().__init__()
-        self.scale = 1
 
         self._app = Gio.Application.get_default()
-        self._app_window = self._app.get_active_window()
 
         self.add_tick_callback(AnimationSystem.step)
 
@@ -1080,8 +1076,6 @@ class ClubhouseView(FixedLayerGroup):
                                        self._current_episode_changed_cb)
 
         self._setup_questsets()
-
-        self.set_scale(1)
         self.get_main_layer().bringup_fg()
 
         self.show_all()
@@ -1109,13 +1103,6 @@ class ClubhouseView(FixedLayerGroup):
         layer = ClubhouseViewInfoTipLayer(self)
         self.add_layer(layer, self.INFO_TIP_LAYER)
 
-    def set_scale(self, scale):
-        self.scale = scale
-        # Update children
-
-        for layer in self.get_children():
-            layer.set_scale(self.scale)
-
 
 class ClubhouseViewInfoTipLayer(Gtk.Fixed):
 
@@ -1124,9 +1111,6 @@ class ClubhouseViewInfoTipLayer(Gtk.Fixed):
     def __init__(self, clubhouse_view):
         super().__init__(visible=True)
         self.clubhouse_view = clubhouse_view
-
-    def set_scale(self, scale):
-        pass
 
     def add_info_tip(self, quest_set_button):
         infotip = QuestSetInfoTip(quest_set_button)
@@ -1193,6 +1177,9 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
                 child.size = child.get_size_request()
                 child.position = self.child_get(child, 'x', 'y')
 
+        self._app_window.connect('notify::scale', lambda app, p: self._update_scale())
+        self._update_scale()
+
     def _on_quest_set_highlighted_changed(self, quest_set, _param):
         if self._app_window.is_visible():
             return
@@ -1244,12 +1231,12 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
             x, y = child.position
             self.move(child, x, y)
 
-    def set_scale(self, scale):
-        self.scale = scale
+    def _update_scale(self):
+        scale = self._app_window.props.scale
         # Update children
         for child in self.get_children():
             if isinstance(child, CharacterButton):
-                child.reload(self.scale)
+                child.reload(scale)
             else:
                 x, y = child.position
                 child.set_size_request(child.size.width * scale,
@@ -1257,7 +1244,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
                 self.move(child, x * scale, y * scale)
 
     def add_quest_set(self, quest_set):
-        button = CharacterButton(quest_set, self.clubhouse_view.scale)
+        button = CharacterButton(quest_set, self._app_window.props.scale)
         quest_set.connect('notify::highlighted', self._on_quest_set_highlighted_changed)
         button.connect('clicked', self._quest_set_button_clicked_cb)
 
@@ -1275,8 +1262,9 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
                 self.remove(child)
 
         for child in fg:
+            scale = self._app_window.props.scale
             x, y = child.position
-            self.put(child, x * self.scale, y * self.scale)
+            self.put(child, x * scale, y * scale)
 
     def _on_button_position_changed(self, button, _param):
         self._update_child_position(button)
@@ -1698,9 +1686,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._user = UserAccount()
         self._page_reset_timeout = 0
 
+        self._scale = 1
         self._ambient_sound_item = SoundItem('clubhouse/ambient')
         self._play_ambient_sound = True
         self._ambient_sound_timer_id = None
+
+        # Get scale before creating the rest of the UI
+        self.connect('screen-changed', self._on_screen_changed)
+        self._on_screen_changed(None, None)
 
         self.clubhouse = ClubhouseView()
         self.news = NewsView()
@@ -1733,9 +1726,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
                                        self._hack_mode_changed_cb)
 
-        self.connect('screen-changed', self._on_screen_changed)
-        self._on_screen_changed(None, None)
-
         self._css_provider = Gtk.CssProvider()
         self.get_style_context().add_provider_for_screen(
             Gdk.Screen.get_default(),
@@ -1744,6 +1734,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
+
+    @GObject.Property(type=float)
+    def scale(self):
+        return self._scale
 
     def _user_event_box_button_press_event_cb(self, _button, event, achievements_view):
         if not achievements_view.hover:
@@ -1816,8 +1810,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.set_size_request(height * BG_WIDTH / BG_HEIGHT, height)
 
         scale = height / BG_HEIGHT
-        self.clubhouse.set_scale(scale)
-        self.character.set_scale(scale)
+        if self._scale != scale:
+            self._scale = scale
+            self.notify('scale')
 
     def _on_screen_size_changed(self, screen):
         self._update_window_size()
