@@ -1405,8 +1405,8 @@ class AchievementItem(Gtk.FlowBoxChild):
         self._achievement = achievement
 
         self._css_provider = Gtk.CssProvider()
-        self._image_button.get_style_context().add_provider(self._css_provider,
-                                                            Gtk.STYLE_PROVIDER_PRIORITY_USER)
+        self._image_button.get_style_context().add_provider(
+            self._css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
         self._load_image_style()
 
     def _generate_css_image_style(self, url, selector=''):
@@ -1444,8 +1444,8 @@ class AchievementSummaryView(Gtk.Box):
     def __init__(self):
         super().__init__()
         self._css_provider = Gtk.CssProvider()
-        self._image_box.get_style_context().add_provider(self._css_provider,
-                                                         Gtk.STYLE_PROVIDER_PRIORITY_USER)
+        self._image_box.get_style_context().add_provider(
+            self._css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
 
         self._title_label.set_line_wrap(True)
         self._summary_label.set_line_wrap(True)
