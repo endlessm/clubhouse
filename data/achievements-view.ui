@@ -121,7 +121,6 @@
                             <property name="homogeneous">True</property>
                             <property name="min_children_per_line">2</property>
                             <property name="max_children_per_line">2</property>
-                            <signal name="child-activated" handler="_achievements_flow_box_child_activated_cb" swapped="no"/>
                           </object>
                         </child>
                       </object>

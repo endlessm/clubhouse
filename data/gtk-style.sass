@@ -301,7 +301,16 @@ QuestSetInfoTip
 
 
 AchievementItem
-  margin: 2ex
+  $default_badge_size: 8em
+
+  min-width: $default_badge_size
+  min-height: $default_badge_size
+
+  button
+    background-size: $default_badge_size $default_badge_size
+    background-repeat: no-repeat
+    background-position: center
+    padding: 2em
 
 
 AchievementsView
@@ -330,12 +339,19 @@ AchievementsView
         background-color: darken(lightgray, 10%)
 
     viewport
-       margin: 0 4ex
+       margin: 0 1em
 
 
 AchievementSummaryView
-  image
-    margin: 2ex
+  $default_badge_size: 8em
+
+  .image
+    min-width: $default_badge_size
+    min-height: $default_badge_size
+    background-size: $default_badge_size $default_badge_size
+    background-repeat: no-repeat
+    background-position: center
+    margin: 1em
 
   label
     &.title

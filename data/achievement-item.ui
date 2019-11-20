@@ -2,22 +2,19 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="AchievementItem" parent="GtkBox">
-    <property name="visible">True</property>
+  <template class="AchievementItem" parent="GtkFlowBoxChild">
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkImage" id="_image">
+      <object class="GtkButton" id="_image_button">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="halign">center</property>
-        <property name="valign">center</property>
-        <property name="stock">gtk-missing-image</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="vexpand">True</property>
+        <signal name="clicked" handler="_image_button_clicked_cb" swapped="no"/>
+        <child>
+          <placeholder/>
+        </child>
       </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
     </child>
   </template>
 </interface>
