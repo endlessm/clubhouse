@@ -1397,27 +1397,20 @@ class AchievementItem(Gtk.FlowBoxChild):
 
     BADGE_DIR = os.path.join(config.ACHIEVEMENTS_DIR, 'badges')
 
+    _image_button = Gtk.Template.Child()
+
     def __init__(self, achievement, achievements_view):
         super().__init__()
         self._view = achievements_view
-
         self._achievement = achievement
 
         self._css_provider = Gtk.CssProvider()
-        self.get_style_context().add_provider_for_screen(
-            Gdk.Screen.get_default(),
-            self._css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
-
-        ctx = self.get_style_context()
-        ctx.add_class(achievement.id)
-
+        self._image_button.get_style_context().add_provider(self._css_provider,
+                                                            Gtk.STYLE_PROVIDER_PRIORITY_USER)
         self._load_image_style()
 
     def _generate_css_image_style(self, url, selector=''):
-        return "AchievementItem.{} button{} {{\
-            background-image: url('{}');\
-        }}".format(self.achievement.id, selector, url)
+        return "button{} {{ background-image: url('{}') }}".format(selector, url)
 
     def _load_image_style(self):
         default_url = os.path.join(self.BADGE_DIR, '{}.svg'.format(self.achievement.id))
@@ -1444,16 +1437,15 @@ class AchievementSummaryView(Gtk.Box):
 
     __gtype_name__ = 'AchievementSummaryView'
 
+    _image_box = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _summary_label = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
         self._css_provider = Gtk.CssProvider()
-        self.get_style_context().add_provider_for_screen(
-            Gdk.Screen.get_default(),
-            self._css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+        self._image_box.get_style_context().add_provider(self._css_provider,
+                                                         Gtk.STYLE_PROVIDER_PRIORITY_USER)
 
         self._title_label.set_line_wrap(True)
         self._summary_label.set_line_wrap(True)
@@ -1462,9 +1454,7 @@ class AchievementSummaryView(Gtk.Box):
         badge_dir = os.path.join(config.ACHIEVEMENTS_DIR, 'badges')
         image_path = os.path.join(badge_dir, '{}.svg'.format(achievement.id))
 
-        css = "AchievementSummaryView .image {{\
-            background-image: url('{}');\
-        }}".format(image_path)
+        css = "box {{ background-image: url('{}') }}".format(image_path)
         self._css_provider.load_from_data(css.encode())
 
         self._title_label.props.label = achievement.name
