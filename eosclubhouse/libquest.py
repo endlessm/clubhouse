@@ -1974,9 +1974,8 @@ class Quest(_Quest):
 
         '''
         conf_key = self._get_conf_key()
-        for key, value in self.conf.items():
-            variant = convert_variant_arg({key: value})
-            self.gss.set_async(conf_key, variant)
+        variant = convert_variant_arg(self.conf)
+        self.gss.set_async(conf_key, variant)
 
         if self.complete:
             for item_id, extra_info in self.__items_on_completion__.items():
