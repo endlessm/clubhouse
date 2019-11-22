@@ -389,10 +389,13 @@ class Message(Gtk.Overlay):
             self._label.props.max_width_chars = self.MAX_WIDTH
 
     def set_character(self, character_id):
+        img_ctx = self._character_image.get_style_context()
+
         if self._character:
             if self._character.id == character_id:
                 return
 
+            img_ctx.remove_class(self._character.id)
             self._character.disconnect(self._character_mood_change_handler)
             self._character_mood_change_handler = 0
             self._character = None
@@ -403,6 +406,7 @@ class Message(Gtk.Overlay):
         if self._animator is None:
             self._animator = Animator(self._character_image)
 
+        img_ctx.add_class(character_id)
         self._character = Character.get_or_create(character_id)
         self._character_mood_change_handler = \
             self._character.connect('notify::mood', self._character_mood_changed_cb)

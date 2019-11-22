@@ -346,9 +346,16 @@ Message
         // Let the character overlap label and parent box margins
         margin-top: -1.8em
 
+        // Most character have too much right padding
+        margin-right: -0.8em
+
         // Images have 33px of space at the bottom, we need to adjust this
         // programatically depending on the scale of the main window
         margin-bottom: -33px
+
+        // Special case felixnet to make his tail be out of the msg box
+        &.felixnet
+          margin-right: -3.2em
 
     > #button-box
       margin-left: 1em
