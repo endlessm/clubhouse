@@ -1,5 +1,3 @@
-@import 'old-gtk-style'
-
 // Globals
 $images: 'resource:///com/hack_computer/Clubhouse/images/'
 
@@ -32,6 +30,21 @@ scrollbar
   slider:hover
     background-color: darken(white, 10%)
 
+// Menu popovers
+popover.menu
+  background-color: transparentize(white, 0.1)
+
+  > stack > box > button
+    font-size: 1.4em
+    padding: 1ex 1em
+
+    &:hover
+      background: linear-gradient(to bottom right, transparentize(#2D9B98, 0.7), transparentize(#22597F, 0.7))
+
+    > box > image
+      -gtk-icon-shadow: none
+      margin-right: 1ex
+      color: #4387c5
 
 // Window
 @keyframes background_zoom_in
