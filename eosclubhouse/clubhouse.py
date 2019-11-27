@@ -2055,7 +2055,7 @@ class QuestRunner(GObject.GObject):
 
         self._gss = GameStateService()
         self._gss_hander_id = self._gss.connect('changed',
-                                                lambda _gss: self._update_episode_if_needed())
+                                                lambda _gss: self.update_episode_if_needed())
 
         registry = libquest.Registry.get_or_create()
         registry.connect('schedule-quest', self._quest_scheduled_cb)
@@ -2265,7 +2265,7 @@ class QuestRunner(GObject.GObject):
 
         self._current_quest_notification = None
 
-        self._update_episode_if_needed()
+        self.update_episode_if_needed()
 
         # Ensure the app can be quit if inactive now
         self._app.release()
@@ -2457,20 +2457,12 @@ class QuestRunner(GObject.GObject):
             self._current_quest = quest_obj
             self.notify('running-quest')
 
-    def load_episode(self, episode_name=None):
-        self._cancel_ongoing_task()
-
-        if episode_name is None:
-            episode_name = libquest.Registry.get_current_episode()['name']
-
-        libquest.Registry.load_current_episode()
-
-        self.current_episode = episode_name
-
-    def _update_episode_if_needed(self):
+    def update_episode_if_needed(self):
         episode_name = libquest.Registry.get_current_episode()['name']
         if self.current_episode != episode_name:
-            self.load_episode(episode_name)
+            self._cancel_ongoing_task()
+            libquest.Registry.load_current_episode()
+            self.current_episode = episode_name
 
     current_episode = GObject.Property(type=str)
     running_quest = GObject.Property(_get_running_quest,
@@ -2542,7 +2534,7 @@ class ClubhouseApplication(Gtk.Application):
         self.quest_runner.connect('notify::running-quest',
                                   self._running_quest_notify_cb)
 
-        self.quest_runner.load_episode()
+        self.quest_runner.update_episode_if_needed()
 
         if not self._run_episode_autorun_quest_if_needed():
             self._ensure_window()
