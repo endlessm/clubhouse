@@ -2050,7 +2050,7 @@ class QuestRunner(GObject.GObject):
 
         self._reset_quest_actions()
 
-        self.current_episode = None
+        self._current_episode = None
         self._current_quest_notification = None
 
         self._gss = GameStateService()
@@ -2457,6 +2457,14 @@ class QuestRunner(GObject.GObject):
             self._current_quest = quest_obj
             self.notify('running-quest')
 
+    def _get_current_episode(self):
+        return self._current_episode
+
+    def _set_current_episode(self, episode):
+        if self._current_episode != episode:
+            self._current_episode = episode
+            self.notify('current-episode')
+
     def load_episode(self, episode_name=None):
         self._cancel_ongoing_task()
 
@@ -2472,7 +2480,12 @@ class QuestRunner(GObject.GObject):
         if self.current_episode != episode_name:
             self.load_episode(episode_name)
 
-    current_episode = GObject.Property(type=str)
+    current_episode = GObject.Property(_get_current_episode,
+                                       _set_current_episode,
+                                       type=str,
+                                       default=None,
+                                       flags=GObject.ParamFlags.READWRITE |
+                                       GObject.ParamFlags.EXPLICIT_NOTIFY)
     running_quest = GObject.Property(_get_running_quest,
                                      _set_current_quest,
                                      type=GObject.TYPE_PYOBJECT,
