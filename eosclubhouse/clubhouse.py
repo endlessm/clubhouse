@@ -1475,7 +1475,6 @@ class AchievementsView(Gtk.Box):
         self._shape_points = None
 
         self._manager = AchievementsDB().manager
-        self._achievements_achieved_id = None
 
         if self._manager.empty_state_achievement is not None:
             self._add_achievement(self._manager.empty_state_achievement)
@@ -1484,8 +1483,9 @@ class AchievementsView(Gtk.Box):
         self._achievement_summary_box.add(self._achievement_summary_view)
         self._achievement_summary_view.show_all()
 
-        self._app.quest_runner.connect('notify::current-episode',
-                                       self._current_episode_changed_cb)
+        self._populate()
+        self._manager.connect('achievement-achieved',
+                              lambda _manager, achievement: self._give_achievement(achievement))
 
         self._event_box.connect('motion-notify-event', self._motion_notify_event_cb)
         self._event_box.connect('leave-notify-event', self._leave_notify_event_cb)
@@ -1519,14 +1519,6 @@ class AchievementsView(Gtk.Box):
 
     def get_current_page(self):
         return self._stack.props.visible_child_name
-
-    def _current_episode_changed_cb(self, _quest_runner, _pspec):
-        if self._achievements_achieved_id is not None:
-            self._manager.disconnect(self._achievements_achieved_id)
-        self._populate()
-        self._achievements_achieved_id = \
-            self._manager.connect('achievement-achieved',
-                                  lambda _manager, achievement: self._give_achievement(achievement))
 
     def _populate(self):
         for achievement in self._manager.get_achievements_achieved():
