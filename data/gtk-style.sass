@@ -78,6 +78,83 @@ ClubhouseWindow
       &:hover
         background-color: transparentize(white, 0.5)
 
+    // Header bar buttons.
+    .headerbar-buttonbox
+      min-height: 1.8em
+      margin: 2em 1ex
+      font-size: 1.4em
+      font-weight: bold
+
+      // For spacing.
+      > label
+        margin: 0 1.5em
+
+      > button
+        color: white
+        text-shadow: none
+        border: 0
+        margin: 0
+        padding: 3px /* this is the border offset for checked state and needs to be in pixels to avoid rounding errors */
+        border-radius: 3em
+        box-shadow: 1px 1px 3px black
+        transition: none
+        background: linear-gradient(to bottom right, transparentize(#2D9B98, 0.2), transparentize(#22597F, 0.2))
+        transition: background-image 200ms linear
+
+        &:hover
+          background: linear-gradient(to bottom right, #2D9B98, #22597F)
+
+        &:checked
+          padding: 0
+          border: 3px solid white
+          background: linear-gradient(to bottom right, transparentize(#2D9B98, 0.05), transparentize(#22597F, 0.05))
+
+        &:first-child
+          background: linear-gradient(to bottom right, transparentize(#37DCB1, 0.2), transparentize(#2D9B98, 0.2))
+
+          &:hover
+            background: linear-gradient(to bottom right, #37DCB1, #2D9B98)
+
+          &:checked
+            background: linear-gradient(to bottom right, transparentize(#37DCB1, 0.05), transparentize(#2D9B98, 0.05))
+
+        &:last-child
+          background: linear-gradient(to bottom right, transparentize(#22597F, 0.2), transparentize(#181866, 0.2))
+
+          &:hover
+            background: linear-gradient(to bottom right, #22597F, #181866)
+
+          &:checked
+            background: linear-gradient(to bottom right, transparentize(#22597F, 0.05), transparentize(#181866, 0.05))
+
+        label
+          margin: 0 1em
+
+      // Headerbar buttons in character view.
+      &.CHARACTER
+         > button
+          &:first-child
+            border-radius: 3em 0 0 3em
+
+          &:last-child
+            border-radius: 0 3em 3em 0
+
+          > box
+            > label
+              margin: 0 1em 0 0
+
+            > button
+              > image
+                min-width: 1.8em
+                min-height: 1.8em
+                margin: -3px
+                margin-left: -2ex
+                margin-right: 1ex
+                border-radius: 50%
+                color: #37DCB1
+                background: white
+
+
   // Backgrounds
   &.CLUBHOUSE
     background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg')
