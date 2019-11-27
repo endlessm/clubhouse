@@ -10,6 +10,10 @@
   <url type="faq">https://support.hack-computer.com/hc/en-us/sections/360002672392-FAQs</url>
   <url type="help">https://support.hack-computer.com/hc/en-us</url>
 
+  <categories>
+    <category>LearnToCode</category>
+  </categories>
+
   <releases>
     <release version="0.0.99" date="2019-10-18"/>
   </releases>
