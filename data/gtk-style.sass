@@ -167,31 +167,6 @@ ClubhouseWindow
                 color: #37DCB1
                 background: white
 
-  // User Hud/Profile
-  .user-overlay
-    margin: 0em
-
-    #user-label
-      margin: 1em 1em 1em 4.32em
-      font-size: 1.2em
-      font-weight: bold
-
-  #image.user-overlay
-    margin: 1em
-    min-width: 5em
-    min-height: 5em
-    border-radius: 50%
-    border: 0.2ex solid white
-    box-shadow:  1px 1px 2px #555
-    background-color: #2D9B98
-    background-size: cover
-    background-position: center
-    background-repeat: no-repeat
-
-    > label
-      font-size: 2em
-      font-weight: bold
-
   // Backgrounds
   &.CLUBHOUSE
     background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg')
@@ -475,6 +450,34 @@ AchievementSummaryView
       padding: 2em
       padding-bottom: 3em
 
+// User Hud/Profile
+.user-overlay
+  margin: 0em
+
+  #user-label
+    margin: 1em 1em 1em calc(4.32em - 2.5em)
+    font-size: 1.2em
+    font-weight: bold
+
+#image.user-overlay
+  margin: 1em
+  min-width: 5em
+  min-height: 5em
+  border-radius: 50%
+  border: 0.2ex solid white
+  box-shadow:  1px 1px 2px #555
+  background-color: #2D9B98
+  background-size: cover
+  background-position: center
+  background-repeat: no-repeat
+
+  > label
+    font-size: 2em
+    font-weight: bold
+
+#user-button-left-margin
+  min-width: 2.5em
+
 button.user-button
   $default_color: #FFFFFF
   $default_bg_color_left: #FB3102
@@ -485,8 +488,12 @@ button.user-button
   $default_active_bg_color_right: #DB0066
 
   box-shadow: 1px 1px 2px black
+  border-radius: 0em 2em 2em 0em
   margin: 0.75em 0.75em 0em 0.75em
-  border-radius: 2em
+  min-width: 20em
+
+  box
+    margin-right: 1em
 
   color: $default_color
   background: linear-gradient(to bottom right, $default_bg_color_left, $default_bg_color_right)
