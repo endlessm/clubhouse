@@ -103,6 +103,14 @@ ClubhouseWindow
         margin: 0 1.5em
 
       > button
+        $color_variants: #37DCB1, #2D9B98, #22597F, #181866
+
+        @function bg($index, $alpha)
+          $color_a: transparentize(nth($color_variants, $index), $alpha)
+          $color_b: transparentize(nth($color_variants, $index % length($color_variants) + 1), $alpha)
+          @debug $color_b
+          @return linear-gradient(to bottom right, $color_a, $color_b)
+
         color: white
         text-shadow: none
         border: 0
@@ -111,34 +119,25 @@ ClubhouseWindow
         border-radius: 3em
         box-shadow: 1px 1px 3px black
         transition: none
-        background: linear-gradient(to bottom right, transparentize(#2D9B98, 0.2), transparentize(#22597F, 0.2))
         transition: background-image 200ms linear
 
-        &:hover
-          background: linear-gradient(to bottom right, #2D9B98, #22597F)
+        // The headerbar button background.
+        @mixin bg($index)
+          // We use the odd children, because there is a helper label between the buttons.
+          &:nth-child(#{2 * ($index - 1) + 1})
+            background: bg($index, 0.2)
+            &:hover
+              background: bg($index, 0)
+            &:checked
+              background: bg($index, 0.05)
+
+        @include bg(1)
+        @include bg(2)
+        @include bg(3)
 
         &:checked
           padding: 0
           border: 3px solid white
-          background: linear-gradient(to bottom right, transparentize(#2D9B98, 0.05), transparentize(#22597F, 0.05))
-
-        &:first-child
-          background: linear-gradient(to bottom right, transparentize(#37DCB1, 0.2), transparentize(#2D9B98, 0.2))
-
-          &:hover
-            background: linear-gradient(to bottom right, #37DCB1, #2D9B98)
-
-          &:checked
-            background: linear-gradient(to bottom right, transparentize(#37DCB1, 0.05), transparentize(#2D9B98, 0.05))
-
-        &:last-child
-          background: linear-gradient(to bottom right, transparentize(#22597F, 0.2), transparentize(#181866, 0.2))
-
-          &:hover
-            background: linear-gradient(to bottom right, #22597F, #181866)
-
-          &:checked
-            background: linear-gradient(to bottom right, transparentize(#22597F, 0.05), transparentize(#181866, 0.05))
 
         label
           margin: 0 1em
