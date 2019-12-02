@@ -55,11 +55,11 @@
             <property name="can_focus">True</property>
             <property name="focus_on_click">False</property>
             <property name="receives_default">False</property>
-            <property name="tooltip_text" translatable="yes">intagram.com/madetohack</property>
+            <property name="tooltip_text" translatable="yes">instagram.com/madetohack</property>
             <property name="halign">center</property>
             <property name="valign">start</property>
             <property name="relief">none</property>
-            <property name="uri">http://www.intagram.com/madetohack</property>
+            <property name="uri">http://www.instagram.com/madetohack</property>
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
