@@ -6,6 +6,7 @@
     <file preprocess="xml-stripblanks">achievement-summary-view.ui</file>
     <file preprocess="xml-stripblanks">achievement-item.ui</file>
     <file preprocess="xml-stripblanks">achievement-flow-box-child.ui</file>
+    <file preprocess="xml-stripblanks">breadcrumb-button.ui</file>
     <file preprocess="xml-stripblanks">clubhouse-view-main-layer.ui</file>
     <file preprocess="xml-stripblanks">activity-card.ui</file>
     <file preprocess="xml-stripblanks">character-view.ui</file>
