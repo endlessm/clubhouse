@@ -295,25 +295,30 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="valign">start</property>
+                <child>
+                  <placeholder/>
+                </child>
                 <child type="title">
                   <object class="GtkBox" id="_headerbar_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="halign">end</property>
+                    <property name="halign">fill</property>
                     <property name="hexpand">True</property>
                     <child>
-                      <object class="GtkRadioButton" id="_clubhouse_button">
+                      <object class="BreadcrumbButton" id="_clubhouse_button">
                         <property name="label" translatable="yes">Clubhouse</property>
+                        <property name="icon_name">go-home-symbolic</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="receives_default">False</property>
+                        <property name="receives_default">True</property>
                         <property name="action_name">app.show-page</property>
                         <property name="action_target">'CLUBHOUSE'</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">False</property>
+                        <property name="popover">_pathways_popovermenu</property>
+                        <property name="popover-label" translatable="yes">Pathways</property>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
@@ -330,50 +335,17 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkMenuButton" id="_pathways_menu_button">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="popover">_pathways_popovermenu</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Pathways</property>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkOverlay">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>
-                          <object class="GtkRadioButton" id="_hack_news_button">
+                          <object class="GtkToggleButton" id="_hack_news_button">
                             <property name="label" translatable="yes">Hack News</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="can_focus">False</property>
                             <property name="receives_default">False</property>
                             <property name="action_name">app.show-page</property>
                             <property name="action_target">'NEWS'</property>
-                            <property name="draw_indicator">False</property>
-                            <property name="group">_clubhouse_button</property>
                             <style>
                               <class name="newsfeed"/>
                             </style>
@@ -405,8 +377,9 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="valign">center</property>
+                        <property name="valign">start</property>
                         <property name="action_name">app.close</property>
+                        <property name="relief">none</property>
                         <child>
                           <object class="GtkImage">
                             <property name="visible">True</property>
@@ -437,6 +410,7 @@
             <property name="index">1</property>
           </packing>
         </child>
+
         <child type="overlay">
           <object class="GtkBox" id="_user_box">
             <property name="visible">True</property>
@@ -476,10 +450,11 @@
                         <child>
                           <object class="GtkRevealer" id="_user_button_revealer">
                             <property name="name">user-button-revealer</property>
-                            <property name="visible">True</property>
+                            <property name="visible">False</property>
                             <property name="can_focus">False</property>
                             <property name="transition_type">slide-right</property>
                             <signal name="notify::child-revealed" handler="_user_button_revealer_child_revealed_notify_cb" swapped="no"/>
+                            <signal name="notify::reveal-child" handler="_user_button_revealer_reveal_child_cb" swapped="no"/>
                             <child>
                               <object class="GtkButton" id="_user_button">
                                 <property name="visible">True</property>
@@ -605,6 +580,7 @@
             <property name="index">2</property>
           </packing>
         </child>
+
         <child type="overlay">
           <object class="GtkButton" id="_user_image_button">
             <property name="name">image</property>
@@ -628,6 +604,7 @@
             <property name="index">3</property>
           </packing>
         </child>
+
       </object>
     </child>
     <child type="titlebar">

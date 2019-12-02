@@ -91,6 +91,9 @@ ClubhouseWindow
       &:hover
         background-color: transparentize(white, 0.5)
 
+    .headerbar-buttonbox.profile
+      margin-left: 20em
+
     // Header bar buttons.
     .headerbar-buttonbox
       // The headerbar button background.
@@ -111,8 +114,10 @@ ClubhouseWindow
 
       min-height: 1.8em
       margin: 2em 1ex
+      margin-left: 6em
       font-size: 1.4em
       font-weight: bold
+      transition: margin 200ms linear
 
       // For spacing.
       > label
@@ -130,7 +135,7 @@ ClubhouseWindow
         padding: 0.2em
         box-shadow: 1px 1px 2px black
 
-      > button
+      > button, .newsfeed
         color: white
         text-shadow: none
         border: 0
@@ -169,30 +174,45 @@ ClubhouseWindow
         min-height: 1.4em
         min-width: 1.4em
 
-      // Headerbar buttons in character view.
-      &.CHARACTER
-        > button
-          &:first-child
-            @include bg($color_index: 1)
-            border-radius: 3em 0 0 3em
+      .breadcrumb > button,
+      .breadcrumb > button > label
+        color: white
+        text-shadow: none
+        border: 0
+        margin: 0
+        border-radius: 3em
+        -gtk-icon-shadow: none
 
-          &:last-child
-            @include bg($color_index: 3)
-            border-radius: 0 3em 3em 0
+      .breadcrumb
+        border: 0
+        margin: 0
+        border-radius: 3em
+        box-shadow: 1px 1px 3px black
+        background: bg(2, 0.5)
+        transition: background-image 200ms linear
 
-          > box
-            > label
-              margin: 0 1em 0 0
+      .breadcrumb > .main
+        background: bg(1, 0)
+        border: 3px solid white
+        padding: 3px 1em
 
-            > image
-              min-width: 1.8em
-              min-height: 1.8em
-              margin: -3px
-              margin-left: -2ex
-              margin-right: 1ex
-              border-radius: 50%
-              color: #37DCB1
-              background: white
+      .breadcrumb > .popdown
+        padding-left: 1em
+        padding-right: 0.5em
+
+      .breadcrumb > .inactive
+        background: bg(1, 0)
+        border-radius: 3em
+        padding: 3px 0px
+
+      .breadcrumb, .breadcrumb > .popdown image
+        color: transparentize(white, 0.7)
+
+      .breadcrumb .back
+        color: white
+        padding-left: 0.5em
+        text-shadow: none
+        -gtk-icon-shadow: none
 
   // Backgrounds
   &.CLUBHOUSE
