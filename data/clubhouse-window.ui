@@ -308,15 +308,15 @@
                     <property name="halign">end</property>
                     <property name="hexpand">True</property>
                     <child>
-                      <object class="GtkRadioButton" id="_clubhouse_button">
+                      <object class="BreadcrumbButton" id="_clubhouse_button">
                         <property name="label" translatable="yes">Clubhouse</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="receives_default">False</property>
+                        <property name="receives_default">True</property>
                         <property name="action_name">app.show-page</property>
                         <property name="action_target">'CLUBHOUSE'</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">False</property>
+                        <property name="popover">_pathways_popovermenu</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -336,46 +336,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkMenuButton" id="_pathways_menu_button">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="popover">_pathways_popovermenu</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Pathways</property>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="_hack_news_button">
+                      <object class="GtkToggleButton" id="_hack_news_button">
                         <property name="label" translatable="yes">Hack News</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="receives_default">False</property>
                         <property name="action_name">app.show-page</property>
                         <property name="action_target">'NEWS'</property>
-                        <property name="draw_indicator">False</property>
-                        <property name="group">_clubhouse_button</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>

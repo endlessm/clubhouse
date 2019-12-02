@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.0 -->
+<interface>
+  <requires lib="gtk+" version="3.22"/>
+  <template class="BreadcrumbButton" parent="GtkBox">
+    <property name="visible">True</property>
+    <property name="valign">center</property>
+    <property name="orientation">horizontal</property>
+
+    <child>
+      <object class="GtkButton" id="_inactive_button">
+        <property name="visible">False</property>
+        <style>
+          <class name="inactive"/>
+        </style>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+
+    <child>
+      <object class="GtkBox" id="_back_box">
+        <property name="visible">False</property>
+        <property name="valign">center</property>
+        <property name="orientation">horizontal</property>
+        <child>
+          <object class="GtkButton" id="_back_button">
+            <property name="visible">True</property>
+            <style>
+              <class name="back"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkImage" id="_back_image">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="icon_name">go-previous-symbolic</property>
+            <property name="icon_size">3</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+
+    <child>
+      <object class="GtkButton" id="_main_button">
+        <property name="visible">True</property>
+        <style>
+          <class name="main"/>
+        </style>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">2</property>
+      </packing>
+    </child>
+
+    <child>
+      <object class="GtkMenuButton" id="_popover_button">
+        <property name="visible">False</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="relief">none</property>
+        <child>
+          <object class="GtkImage" id="_popover_button_image">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="icon_name">go-down-symbolic</property>
+            <property name="icon_size">3</property>
+          </object>
+        </child>
+        <style>
+          <class name="popdown"/>
+        </style>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">3</property>
+      </packing>
+    </child>
+
+    <style>
+      <class name="breadcrumb"/>
+    </style>
+  </template>
+</interface>
+

@@ -154,29 +154,42 @@ ClubhouseWindow
         min-height: 1.4em
         min-width: 1.4em
 
-      // Headerbar buttons in character view.
-      &.CHARACTER
-         > button
-          &:nth-child(1)
-            border-radius: 3em 0 0 3em
+      .breadcrumb > button
+        color: white
+        text-shadow: none
+        border: 0
+        margin: 0
+        border-radius: 3em
 
-          &:nth-child(2)
-            border-radius: 0 3em 3em 0
+      .breadcrumb
+        border: 0
+        margin: 0
+        border-radius: 3em
+        box-shadow: 1px 1px 3px black
+        background: bg(2, 0.5)
+        transition: background-image 200ms linear
 
-          > box
-            > label
-              margin: 0 1em 0 0
+      .breadcrumb > .main
+        background: bg(1, 0)
+        border: 3px solid white
+        padding: 3px 1em
 
-            > button
-              > image
-                min-width: 1.8em
-                min-height: 1.8em
-                margin: -3px
-                margin-left: -2ex
-                margin-right: 1ex
-                border-radius: 50%
-                color: #37DCB1
-                background: white
+      .breadcrumb > .popdown
+        padding-left: 1em
+        padding-right: 0.5em
+
+      .breadcrumb > .inactive
+        background: bg(1, 0)
+        border-radius: 3em
+        padding: 3px 0px
+
+      .breadcrumb, .breadcrumb > .popdown image
+        color: transparentize(white, 0.7)
+
+      .breadcrumb .back label
+        color: white
+        padding-left: 0.5em
+        text-shadow: none
 
   // Backgrounds
   &.CLUBHOUSE

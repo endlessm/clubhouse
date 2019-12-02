@@ -35,7 +35,13 @@ import datetime
 from collections import OrderedDict
 from gi.repository import EosMetrics, Gdk, Gio, GLib, Gtk, GObject, \
     Json, Pango
+
 from eosclubhouse import config, logger, libquest, utils
+
+# Load Resources
+resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
+Gio.Resource._register(resource)
+
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import Desktop, GameStateService, OldGameStateService, \
     Sound, SoundItem, UserAccount
@@ -45,7 +51,6 @@ from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, A
     get_character_animation_dirs
 
 from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, gtk_widget_add_custom_css_provider
-
 
 # Metrics event ids
 CLUBHOUSE_SET_PAGE_EVENT = '2c765b36-a4c9-40ee-b313-dc73c4fa1f0d'
@@ -76,10 +81,6 @@ ClubhouseIface = ('<node>'
                   '<property name="SuggestingOpen" type="b" access="read"/>'
                   '</interface>'
                   '</node>')
-
-# Load Resources
-resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
-Gio.Resource._register(resource)
 
 CharacterInfo = {
     'estelle': {
@@ -923,8 +924,7 @@ class CharacterView(Gtk.Grid):
 
     _list = Gtk.Template.Child()
     _view_overlay = Gtk.Template.Child()
-    _character_button_label = Gtk.Template.Child()
-    _clubhouse_button = Gtk.Template.Child()
+    _character_button = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__(visible=True)
@@ -975,7 +975,7 @@ class CharacterView(Gtk.Grid):
         ctx.add_class(self._character.id)
 
         # Set page title
-        self._character_button_label.set_text(self._character.pathway_title)
+        self._character_button.label = self._character.pathway_title
 
         # Set character image
         self.update_character_image(idle=True)
@@ -1020,9 +1020,9 @@ class CharacterView(Gtk.Grid):
 
     def _on_clubhouse_nav_attract_state_changed_cb(self, state, _param):
         if state.nav_attract_state == ClubhouseState.Page.CLUBHOUSE:
-            self._clubhouse_button.get_style_context().add_class('nav-attract')
+            self._character_button.get_style_context().add_class('nav-attract')
         else:
-            self._clubhouse_button.get_style_context().remove_class('nav-attract')
+            self._character_button.get_style_context().remove_class('nav-attract')
 
     def _on_characters_disabled_changed_cb(self, state, _param):
         self._app_window.character.activities_sw.props.sensitive = not state.characters_disabled
@@ -1660,7 +1660,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _achievements_view_box = Gtk.Template.Child()
     _achievements_view_revealer = Gtk.Template.Child()
 
-    _pathways_menu_button = Gtk.Template.Child()
     _clubhouse_button = Gtk.Template.Child()
     _hack_news_button = Gtk.Template.Child()
 
@@ -1746,7 +1745,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         lights_on = self._clubhouse_state.lights_on
         Desktop.set_hack_background(lights_on)
         Desktop.set_hack_cursor(lights_on)
-        self._pathways_menu_button.props.sensitive = lights_on
 
         ctx = self.get_style_context()
         ctx.add_class('transitionable-background')
@@ -1818,13 +1816,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def _on_clubhouse_nav_attract_state_changed_cb(self, state, _param):
         self._clubhouse_button.get_style_context().remove_class('nav-attract')
-        self._pathways_menu_button.get_style_context().remove_class('nav-attract')
         self._hack_news_button.get_style_context().remove_class('nav-attract')
 
         if state.nav_attract_state == ClubhouseState.Page.CLUBHOUSE:
             self._clubhouse_button.get_style_context().add_class('nav-attract')
-        elif state.nav_attract_state == ClubhouseState.Page.PATHWAYS:
-            self._pathways_menu_button.get_style_context().add_class('nav-attract')
         elif state.nav_attract_state == ClubhouseState.Page.NEWS:
             self._hack_news_button.get_style_context().add_class('nav-attract')
 
@@ -1876,9 +1871,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             return
 
         if page_name == 'CLUBHOUSE':
+            self._hack_news_button.set_active(False)
             self._clubhouse_button.set_active(True)
         elif page_name == 'NEWS':
+            self._clubhouse_button.set_active(False)
             self._hack_news_button.set_active(True)
+        else:
+            self._clubhouse_button.set_active(False)
+            self._hack_news_button.set_active(False)
 
         if current_page == 'CHARACTER':
             self.hide_achievements_view()
