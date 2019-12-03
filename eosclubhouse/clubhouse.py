@@ -42,7 +42,7 @@ from eosclubhouse.system import Desktop, GameStateService, OldGameStateService, 
 from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser, \
     get_alternative_quests_dir
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
-    Direction, get_character_animation_dirs
+    get_character_animation_dirs
 
 from eosclubhouse.widgets import FixedLayerGroup
 
@@ -292,10 +292,7 @@ class MessageButton(Gtk.Button):
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
-class Message(Gtk.Box):
-    # Provided animation assets should not have a height that exceeds this standard height.
-    CHARACTER_IMAGE_STANDARD_HEIGHT = 193
-
+class Message(Gtk.Overlay):
     __gtype_name__ = 'Message'
 
     _label = Gtk.Template.Child()
@@ -304,13 +301,26 @@ class Message(Gtk.Box):
 
     OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
 
-    def __init__(self):
+    # Define maximum message width with and without character image
+    MAX_WIDTH = 40
+    MAX_WIDTH_WITH_CHARACTER = 25
+
+    def __init__(self, scale=1):
         super().__init__()
         self._character = None
         self._character_mood_change_handler = 0
-        self._animator = Animator(self._character_image)
-        self._character_image.props.pixel_size = self.CHARACTER_IMAGE_STANDARD_HEIGHT
+        self._display_character = False
+        self._scale = None
+        self._animator = None
+
+        self._css_provider = Gtk.CssProvider()
+        self._character_image.get_style_context().add_provider(
+            self._css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+
         self.connect("show", lambda _: Sound.play('clubhouse/dialog/open'))
+
+        self.set_scale(scale)
 
     def set_text(self, txt):
         self._label.set_markup(SimpleMarkupParser.parse(txt))
@@ -318,12 +328,25 @@ class Message(Gtk.Box):
     def get_text(self):
         return self._label.get_label()
 
+    def set_scale(self, scale):
+        if scale == self._scale:
+            return
+
+        self._scale = scale
+
+        # Images have 33px of space at the bottom, we need to adjust this
+        # programatically depending on the scale of the main window
+        # @todo: add content box or margin to image metadata
+        css = "image {{ margin-bottom: -{}px }}".format(int(round(33 * scale)))
+        self._css_provider.load_from_data(css.encode())
+
+        self._character_mood_changed_cb(self._character)
+
     def add_button(self, label, click_cb, *user_data):
-        button = MessageButton(label, click_cb, *user_data)
-        button.show()
-        self._button_box.pack_start(button, False, False, 0)
         self.get_style_context().add_class('has-buttons')
-        self._button_box.show()
+        button = MessageButton(label, click_cb, *user_data)
+        self._button_box.pack_start(button, False, False, 0)
+        button.show()
 
     def _button_clicked_cb(self, button, caller_cb, *user_data):
         caller_cb(*user_data)
@@ -333,23 +356,46 @@ class Message(Gtk.Box):
         self.set_character(None)
         self.clear_buttons()
 
-    def clear_buttons(self):
+    def _remove_buttons(self):
         for child in self._button_box:
             child.destroy()
-        self._button_box.hide()
+
+    def _on_buttons_clear_animation_end(self):
+        self._remove_buttons()
+        return GLib.SOURCE_REMOVE
+
+    def clear_buttons(self, animate=False):
+        self.get_style_context().remove_class('has-buttons')
+
+        if self._animator:
+            self._animator.stop()
+
+        if animate:
+            self._button_box.props.sensitive = False
+            GLib.timeout_add(400, self._on_buttons_clear_animation_end)
+        else:
+            self._remove_buttons()
 
     def display_character(self, display):
+        self._display_character = display
         self._character_image.props.visible = display
         if display:
             self.get_style_context().add_class('has-character')
+            self._label.props.width_chars = self.MAX_WIDTH_WITH_CHARACTER
+            self._label.props.max_width_chars = self.MAX_WIDTH_WITH_CHARACTER
         else:
             self.get_style_context().remove_class('has-character')
+            self._label.props.width_chars = self.MAX_WIDTH
+            self._label.props.max_width_chars = self.MAX_WIDTH
 
     def set_character(self, character_id):
+        img_ctx = self._character_image.get_style_context()
+
         if self._character:
             if self._character.id == character_id:
                 return
 
+            img_ctx.remove_class(self._character.id)
             self._character.disconnect(self._character_mood_change_handler)
             self._character_mood_change_handler = 0
             self._character = None
@@ -357,6 +403,10 @@ class Message(Gtk.Box):
         if character_id is None:
             return
 
+        if self._animator is None:
+            self._animator = Animator(self._character_image)
+
+        img_ctx.add_class(character_id)
         self._character = Character.get_or_create(character_id)
         self._character_mood_change_handler = \
             self._character.connect('notify::mood', self._character_mood_changed_cb)
@@ -366,19 +416,28 @@ class Message(Gtk.Box):
         return self._character
 
     def _character_mood_changed_cb(self, character, prop=None):
+        if self._animator is None or character is None:
+            return
+
         logger.debug('Character mood changed: mood=%s',
                      character.mood)
 
-        animation_id = '{}/{}'.format(character.id, character.mood)
-        if not self._animator.has_animation(animation_id):
-            self._animator.load(character.get_moods_path(), character.id)
+        anim = '{}/{}'.format(character.id, character.mood)
+        has_anim = self._animator.has_animation(anim)
+        if not has_anim or self._animator.get_animation_scale(anim) != self._scale:
+            self._animator.load(character.get_moods_path(),
+                                character.id,
+                                self._scale,
+                                character.mood)
 
-        self._animator.play(animation_id)
+        self._animator.play(anim)
 
     def update(self, message_info):
         self.reset()
         self.set_text(message_info.get('text', ''))
-        self.set_character(message_info.get('character_id'))
+
+        if self._display_character:
+            self.set_character(message_info.get('character_id'))
 
         for answer in message_info.get('choices', []):
             self.add_button(answer[0], *answer[1:])
@@ -550,202 +609,118 @@ class CharacterButton(Gtk.Button):
     position = GObject.Property(_get_position, type=GObject.TYPE_PYOBJECT)
 
 
-class MessageBox(Gtk.Fixed):
-    MIN_MESSAGE_WIDTH = 320
-    MIN_MESSAGE_WIDTH_RATIO = 0.95
-
-    DEFAULT_ANIMATION_INTERVAL_MS = 20
-    DEFAULT_ANIMATION_DURATION_MS = 400
+class MessageBox(Gtk.Box):
+    __gtype_name__ = 'MessageBox'
 
     def __init__(self):
-        super().__init__()
+        super().__init__(orientation=Gtk.Orientation.VERTICAL,
+                         halign=Gtk.Align.START,
+                         valign=Gtk.Align.END,
+                         visible=True)
+
         self._app = Gio.Application.get_default()
         self._app_window = self._app.get_active_window()
-        self._messages_in_scene = []
+        self._children = []
+        self._is_main = False
+        self._app_window.connect('notify::scale', self._on_scale_changed_cb)
 
-    def _animate_message(self, message, direction, end_position, done_action_cb=None, *args):
-        if direction in (Direction.LEFT, Direction.RIGHT):
-            axis_prop = 'x'
-        else:
-            axis_prop = 'y'
+    def _on_scale_changed_cb(self, window, pspec):
+        scale = self._app_window.props.scale
 
-        start_position = self.child_get_property(message, axis_prop)
-        distance = abs(end_position - start_position)
-        speed_ms_per_px = distance / self.DEFAULT_ANIMATION_DURATION_MS
-        delta = speed_ms_per_px * self.DEFAULT_ANIMATION_INTERVAL_MS
-        if direction in (Direction.LEFT, Direction.UP):
-            delta = -delta
-
-        if direction in (Direction.LEFT, Direction.RIGHT):
-            if done_action_cb != self.remove:
-                message.props.opacity = 0.0
-
-        fade_in = direction in (Direction.LEFT, Direction.RIGHT)
-        GLib.timeout_add(self.DEFAULT_ANIMATION_INTERVAL_MS, self._move_message_cb, message,
-                         start_position, end_position, distance, delta, direction, axis_prop,
-                         fade_in, done_action_cb, *args)
-
-    def _move_message_cb(self, message, start_position, end_position, distance, delta, direction,
-                         axis_prop, fade_in, done_action_cb, *args):
-        def _update_message_opacity(opacity=None):
-            if not fade_in:
-                return
-
-            if opacity is not None:
-                message.props.opacity = opacity
-                return
-
-            traveled_distance_ratio = abs(new_position - start_position) / distance
-            if done_action_cb != self.remove:
-                message.props.opacity = traveled_distance_ratio
-            else:
-                message.props.opacity = 1 - traveled_distance_ratio
-
-        current_position = self.child_get_property(message, axis_prop)
-        new_position = current_position + delta
-
-        negative_directions = (Direction.LEFT, Direction.UP)
-        positive_directions = (Direction.RIGHT, Direction.DOWN)
-
-        if (direction in negative_directions and new_position <= end_position or
-                direction in positive_directions and new_position >= end_position):
-
-            self.child_set_property(message, axis_prop, end_position)
-            if done_action_cb == self.remove:
-                _update_message_opacity(0.0)
-            else:
-                _update_message_opacity(1.0)
-
-            if done_action_cb is not None:
-                done_action_cb(*args)
-            return GLib.SOURCE_REMOVE
-
-        self.child_set_property(message, axis_prop, new_position)
-        _update_message_opacity()
-        return True
+        for child in self.get_children():
+            msg = child.get_child().get_child()
+            msg.set_scale(scale)
 
     def clear_messages(self):
-        # @todo: Cancel pending/delayed message additions.
-        for message in self.get_children():
-            self.remove(message)
-        self._messages_in_scene = []
+        for vrevealer in self.get_children():
+            hrevealer = vrevealer.get_child()
+            hrevealer.disconnect_by_func(self._on_hrevealer_revealed)
+            vrevealer.disconnect_by_func(self._on_vrevealer_revealed)
+            self.remove(vrevealer)
+
+        self._children.clear()
         self._app_window.character.update_character_image(idle=True)
 
     def _is_main_character_message(self, message_info):
         return message_info.get('character_id') == self._app_window.character._character.id
 
-    def _guess_message_direction(self, message):
-        if message.get_character().id == self._app_window.character._character.id:
-            return Direction.RIGHT
-        return Direction.LEFT
-
-    def _build_message_from_info(self, message_info):
-        msg = Message()
+    def _build_message_from_info(self, message_info, show_character):
+        msg = Message(self._app_window.props.scale)
+        msg.display_character(show_character)
         msg.update(message_info)
 
-        overlay_width = self._app_window.character.character_image.get_allocation().width
-        msg.props.width_request = \
-            min(overlay_width, max(self.MIN_MESSAGE_WIDTH,
-                                   overlay_width * self.MIN_MESSAGE_WIDTH_RATIO))
-
-        if self._is_main_character_message(message_info):
-            msg.display_character(False)
-            msg.props.halign = Gtk.Align.START
-        else:
-            msg.display_character(True)
         return msg
+
+    def _on_hrevealer_revealed(self, hrevealer, pspec):
+        if not hrevealer.props.child_revealed:
+            self.remove(hrevealer.get_parent())
+
+    def _on_vrevealer_revealed(self, vrevealer, pspec):
+        vrevealer.get_child().set_reveal_child(True)
+        vrevealer.get_style_context().add_class('visible')
+
+        # Limit number of messages
+        if len(self._children) > self.max_messages:
+            message = self._children[0]
+            hrevealer = message.get_parent()
+            hrevealer.get_parent().get_style_context().remove_class('visible')
+            hrevealer.set_reveal_child(False)
+            self._children.remove(message)
+
+    def _update_main_character_animation(self, is_main):
+        if self._is_main == is_main:
+            return
+        self._app_window.character.update_character_image(idle=not is_main)
+        self._is_main = is_main
 
     def add_message(self, message_info):
         current_quest = self._app.quest_runner.running_quest
         if current_quest is None or current_quest.stopping:
             return
 
-        message = self._build_message_from_info(message_info)
-        direction = self._guess_message_direction(message)
-        is_main_character_message = self._is_main_character_message(message_info)
+        # Hide actions on old message
+        n_children = len(self._children)
+        if n_children > 0:
+            oldmsg = self._children[n_children - 1]
+            oldmsg.clear_buttons(True)
 
-        # Hide actions on old messages.
-        for child_message in self.get_children():
-            child_message.clear_buttons()
-
-        messages_in_scene = [msg for msg in self._messages_in_scene]
-        if len(messages_in_scene) == self.max_messages:
-            self._withdraw_top_message()
-            self._slide_messages_up_with_delay(messages_in_scene, message,
-                                               self.DEFAULT_ANIMATION_DURATION_MS)
-            self._add_message_with_delay(messages_in_scene, message, direction,
-                                         is_main_character_message,
-                                         self.DEFAULT_ANIMATION_DURATION_MS * 2)
+        is_main = self._is_main_character_message(message_info)
+        if is_main:
+            direction = Gtk.RevealerTransitionType.SLIDE_RIGHT
+            alignment = Gtk.Align.START
         else:
-            self._slide_messages_up(messages_in_scene, message)
-            self._add_message_with_delay(messages_in_scene, message, direction,
-                                         is_main_character_message,
-                                         self.DEFAULT_ANIMATION_DURATION_MS)
+            direction = Gtk.RevealerTransitionType.SLIDE_LEFT
+            alignment = Gtk.Align.END
 
-    def _add_message(self, messages_in_scene, message, direction, is_main_character_message):
-        initial_x_pos, initial_y_pos = self._get_next_initial_position(message, direction)
-        final_x_pos = 0
-        self.put(message, initial_x_pos, initial_y_pos)
+        # Make main charater talk if needed
+        self._update_main_character_animation(is_main)
 
-        self._messages_in_scene.append(message)
-        if not is_main_character_message:
-            allocation = self._app_window.character.activities_sw.get_allocation()
-            message_width = message.get_preferred_width().minimum_width
-            final_x_pos = allocation.x - message_width
-        self._animate_message(message, direction, final_x_pos)
+        # Create message and wrap it in a revealer
+        message = self._build_message_from_info(message_info, not is_main)
 
-        self._app_window.character.update_character_image(idle=not is_main_character_message)
-        message.show()
+        # This will make animate the old msg UP to make room for the new msg
+        vrevealer = Gtk.Revealer(transition_type=Gtk.RevealerTransitionType.SLIDE_UP,
+                                 transition_duration=800,
+                                 visible=True)
 
-    def _add_message_with_delay(self, messages_in_scene, message, direction,
-                                is_main_character_message, duration_ms):
-        GLib.timeout_add(duration_ms, self._add_message, messages_in_scene, message, direction,
-                         is_main_character_message)
+        # Start the horizontal animation as soon as there is room for the new msg
+        vrevealer.connect('notify::child-revealed', self._on_vrevealer_revealed)
 
-    def _get_next_initial_position(self, message, direction):
-        assert direction in (Direction.LEFT, Direction.RIGHT)
+        # This will animate the message horizontaly
+        hrevealer = Gtk.Revealer(transition_type=direction,
+                                 transition_duration=800,
+                                 halign=alignment,
+                                 visible=True)
+        hrevealer.connect('notify::child-revealed', self._on_hrevealer_revealed)
 
-        allocation = self.get_allocation()
-        msg_height = self._get_message_height(message)
+        vrevealer.add(hrevealer)
+        hrevealer.add(message)
 
-        y_pos = allocation.height - msg_height
-        if direction == Direction.RIGHT:
-            x_pos = -message.props.width_request
-        else:
-            x_pos = allocation.width / 2 - message.props.width_request / 2
-        return x_pos, y_pos
+        # Add message
+        self.pack_start(vrevealer, False, True, 0)
+        self._children.append(message)
 
-    def _withdraw_top_message(self):
-        message = self._messages_in_scene.pop(0)
-        direction = self._guess_message_direction(message).get_opposite()
-        assert direction in (Direction.LEFT, Direction.RIGHT)
-
-        message_width = message.props.width_request
-        if direction == Direction.LEFT:
-            final_position = -message_width
-        else:
-            final_position = self.get_allocation().width / 2 - message_width / 2
-
-        self._animate_message(message, direction, final_position, self.remove, message)
-
-    def _slide_messages_up(self, messages_in_scene, new_message):
-        new_message_height = self._get_message_height(new_message)
-        if len(messages_in_scene) < self.max_messages:
-            messages_to_slide = messages_in_scene
-        else:
-            messages_to_slide = messages_in_scene[1:]
-
-        # @todo: Avoid these hardcoded values.
-        fix_margin = -80
-        for msg in messages_to_slide:
-            current_y = self.child_get_property(msg, 'y')
-            self._animate_message(msg, Direction.UP, current_y - new_message_height - fix_margin)
-
-    def _slide_messages_up_with_delay(self, messages_in_scene, new_message, duration_ms):
-        GLib.timeout_add(duration_ms, self._slide_messages_up, messages_in_scene, new_message)
-
-    def _get_message_height(self, message):
-        return message.get_preferred_height_for_width(message.props.width_request).natural_height
+        vrevealer.set_reveal_child(True)
 
     max_messages = GObject.Property(default=2, type=int)
 
@@ -960,7 +935,6 @@ class CharacterView(Gtk.Grid):
 
         self.message_box = MessageBox()
         self._view_overlay.add_overlay(self.message_box)
-        self._view_overlay.set_overlay_pass_through(self.message_box, True)
 
         self._animator = Animator(self.character_image)
         self._character = None
@@ -980,14 +954,15 @@ class CharacterView(Gtk.Grid):
             return
 
         scale = self._app_window.props.scale
-        animation_id = self._character.id + '/closeup-talk' + ('' if not idle else '-idle')
+        animation = 'closeup-talk' + ('' if not idle else '-idle')
+        animation_id = self._character.id + '/' + animation
         if not self._animator.has_animation(animation_id) or \
            self._animator.get_animation_scale(animation_id) != scale:
             self._animator.load(self._character.get_moods_path(),
                                 self._character.id,
-                                scale)
+                                scale,
+                                animation)
 
-        # @todo: play animation only when a dialog is added
         self._animator.play(animation_id)
 
     def show_mission_list(self, quest_set):
@@ -2919,16 +2894,17 @@ clubhouse_classes = [
     AchievementItem,
     AchievementSummaryView,
     AchievementsView,
+    ActivityCard,
+    CharacterButton,
     CharacterView,
     ClubhouseView,
     ClubhouseViewMainLayer,
     ClubhouseWindow,
     Message,
+    MessageBox,
     MessageButton,
     NewsItem,
     NewsView,
-    ActivityCard,
-    CharacterButton,
     QuestSetInfoTip
 ]
 

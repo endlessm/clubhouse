@@ -220,7 +220,6 @@ ClubhouseWindow
 
 
 MessageButton
-  $default_margin: 14px
   $color_variant_a: #76EECF
   $color_variant_b: #37DCB1
   $color_variant_c: #32BBA4
@@ -242,15 +241,12 @@ MessageButton
 
   // This is the default for buttons after the 3rd one (unlikely).
   background: $default_color
-  border-radius: 20px
-  border: none
-  padding: 10px
-  margin: 10px
-  font-family: "Metropolis Medium, Sans-Serif"
-  font-size: 15px
-  box-shadow: 0 2px 4px 4px transparentize(black,0.8)
-  text-shadow: 0 0.5px 2px transparentize(black, 0.6);
-  min-width: 115px
+  border-radius: 2em
+  padding: 0.6em
+  margin: 0.6em
+  box-shadow: 0 0.2em 0.3em transparentize(black, 0.8)
+  text-shadow: 0 1px 3px transparentize(black, 0.6)
+  min-width: 7em
 
   &:nth-child(0)
     background: linear-gradient(to right, $color_variant_a, $color_variant_b)
@@ -272,7 +268,6 @@ MessageButton
     image
       -gtk-icon-shadow: none
 
-
   &:active
     background: $color_variant_active_default
     &:nth-child(0)
@@ -283,73 +278,105 @@ MessageButton
       background: linear-gradient(to right, $color_variant_active_c, $color_variant_active_d)
 
   label
-    margin-right: $default_margin
-    margin-left: $default_margin
     // Force to vertically align the text.
-    margin-top: 4px
-    min-width: 85px
+    margin-top: 0.25em
+    min-width: 3em
 
     color: white
     text-shadow: 0 0.5px 2px transparentize(black,0.6)
-    font-size: 15px
-    min-width: 60px
 
     &.text-button
-      margin: 0 10px
-      min-width: 85px
+      margin: 0 0.6em
+      min-width: 5em
 
   image
     color: white
     -gtk-icon-shadow: none
 
   &.icon-button
-    min-width: 50px
-    min-height: 50px
-    border-radius: 25px
+    min-width: 3em
+    min-height: 3em
+    border-radius: 50%
     padding: 0
-
-  &.text-button:first-child
-    margin-left: 60px
 
 
 Message
-  margin-left: 0.5em
-  margin-bottom: 40px
+  $bg_color: rgba(255, 255, 255, .96)
+  $border_color: #8A6A45
 
-  overlay
-    .button-box
-      min-height: 50px
+  font-family: "Metropolis Medium, Sans-Serif"
 
-    .box
-      background-color: rgba(255, 255, 255, .96)
-      border-radius: 12px
-      border: 1px solid #8A6A45
-      box-shadow: 0 2px 8px 8px transparentize(black,0.8)
-      margin-bottom: 25px
-      margin-left: 25px
-      min-height: 110px
-      padding: 5px
-      margin-top: 40px
+  > #message-box
+    margin: 1em 1em 1em 2em
+    background-color: $bg_color
+    border-radius: 0.75em
+    border: 1px solid $border_color
+    box-shadow: 0 2px 1ex 1ex transparentize(black,0.8)
+    transition: margin-bottom 400ms ease
 
-    .label
+    > label
+      transition: margin-bottom 400ms ease
       margin: 1em
-      font: 15px "Metropolis Medium, Sans-Serif"
 
-    .character
-      // Character image assets have a transparent border on the bottom.
-      // This is to make characters to extend out of the message boundaries.
-      // This margin aligns the "base" of the character to the base of the message box.
-      margin-bottom: -8px
-
-  &.has-character
-    overlay
-      .label
-        margin-right: -1em
+  > #button-box
+    transition: all 600ms ease
+    min-height: 3em
+    margin-bottom: 2em
+    opacity: 0
 
   &.has-buttons
-    overlay
-      .label
-        margin: 1em 1em 2.5em 1em
+    > #message-box
+      margin-bottom: 2em
+
+      > label
+        margin-bottom: 1.5em
+
+    > #button-box
+      margin-bottom: 0
+      opacity: 1
+
+  &.has-character
+    > #message-box
+      margin-left: 3em
+
+      > label
+        margin-right: 0
+
+      > image
+        // Let the character overlap label and parent box margins
+        margin-top: -1.8em
+
+        // Most character have too much right padding
+        margin-right: -0.8em
+
+        // Images have 33px of space at the bottom, we need to adjust this
+        // programatically depending on the scale of the main window
+        margin-bottom: -33px
+
+        // Special case felixnet to make his tail be out of the msg box
+        &.felixnet
+          margin-right: -3.2em
+
+    > #button-box
+      margin-left: 1em
+
+
+MessageBox
+  min-width: 50em
+  margin-bottom: 0.5em
+
+  > revealer
+    opacity: 0
+    transition: opacity 1s ease
+
+    &.visible
+      opacity: 1
+
+    > revealer
+      padding-left: 0.5em
+
+      > Message.has-character > #message-box
+        margin-right: 20em
 
 
 // CharacterButton

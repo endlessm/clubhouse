@@ -55,17 +55,34 @@ class Animator(GObject.GObject):
         self._target_image = target_image
         self._animation_after_load = None
 
-    def _do_load(self, subpath, prefix=None, scale=1):
+    def _do_load_animation(self, json_path, prefix, scale):
+        name, _ext = os.path.splitext(os.path.basename(json_path))
+        animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
+        animation = Animation(animation_name, json_path, self._target_image, scale)
+
+        self._pending_animations[animation_name] = animation
+
+        # We could hit the cache and have the animation ready by now
+        if animation.is_loaded():
+            self._on_animation_loaded(animation)
+        else:
+            animation.connect('animation-loaded', self._on_animation_loaded)
+
+    def _do_load(self, subpath, prefix=None, scale=1, name=None):
         for sprites_path in get_character_animation_dirs(subpath):
-            for sprite in glob.glob(os.path.join(sprites_path, '*json')):
-                name, _ext = os.path.splitext(os.path.basename(sprite))
-                animation_name = name if prefix is None else '{}/{}'.format(prefix, name)
-                animation = Animation(animation_name, sprite, self._target_image, scale)
-                animation.connect('animation-loaded', self._on_animation_loaded)
-                self._pending_animations[animation_name] = animation
+            # If animation name is specified then only load that one
+            if name is not None:
+                sprite_path = os.path.join(sprites_path, name + '.json')
+                if os.path.exists(sprite_path):
+                    self._do_load_animation(sprite_path, prefix, scale)
+            else:
+                # Load All the animations for this path/character
+                for sprite in glob.glob(os.path.join(sprites_path, '*json')):
+                    self._do_load_animation(sprite, prefix, scale)
+
         return GLib.SOURCE_REMOVE
 
-    def load(self, subpath, prefix=None, scale=1):
+    def load(self, subpath, prefix=None, scale=1, name=None):
         if self._loading:
             logger.warning('Cannot load animations for the subpath: \'%s\'. Already loading.',
                            subpath)
@@ -73,7 +90,7 @@ class Animator(GObject.GObject):
         self._loading = True
         self._animation_after_load = None
         self._animations = {}
-        GLib.idle_add(self._do_load, subpath, prefix, scale)
+        GLib.idle_add(self._do_load, subpath, prefix, scale, name)
 
     def _on_animation_loaded(self, animation):
         self._animations[animation.name] = animation
@@ -104,6 +121,14 @@ class Animator(GObject.GObject):
 
         AnimationSystem.animate(id(self), new_animation)
 
+    def stop(self):
+        # Reset Image to first frame
+        current = self.get_current_animation()
+        self._target_image.set_from_pixbuf(current.frames[0]['pixbuf'])
+
+        # Stop animation
+        AnimationSystem.remove_animation(id(self))
+
     def has_animation(self, name):
         return self._animations.get(name) is not None
 
@@ -125,6 +150,8 @@ class Animation(GObject.GObject):
         ),
     }
 
+    _pixbuf_cache = {}
+
     def __init__(self, name, path, target_image, scale=1):
         super().__init__()
         self._loop = True
@@ -139,6 +166,7 @@ class Animation(GObject.GObject):
 
     def reset(self):
         self.frame_index = 0
+        self._is_loaded = False
 
     def advance_frame(self):
         num_frames = len(self.frames)
@@ -190,9 +218,12 @@ class Animation(GObject.GObject):
 
         sprite_path = os.path.join(dirname, basename)
 
-        file = Gio.File.new_for_path(sprite_path)
-        file.read_async(GLib.PRIORITY_DEFAULT, None, self._sprite_file_read_async_cb,
-                        sprite_path, scale, metadata)
+        if sprite_path not in self._pixbuf_cache:
+            file = Gio.File.new_for_path(sprite_path)
+            file.read_async(GLib.PRIORITY_DEFAULT, None, self._sprite_file_read_async_cb,
+                            sprite_path, scale, metadata)
+        else:
+            self._do_load(sprite_path, self._pixbuf_cache[sprite_path], scale, metadata)
 
     def _sprite_file_read_async_cb(self, file, result, sprite_path, scale, metadata):
         try:
@@ -208,6 +239,8 @@ class Animation(GObject.GObject):
         except GLib.Error:
             logger.warning("Error: Failed to extract pixel data from file:", sprite_pixbuf)
             return
+
+        self._pixbuf_cache[sprite_path] = sprite_pixbuf
         self._do_load(sprite_path, sprite_pixbuf, scale, metadata)
 
     def _do_load(self, sprite_path, sprite_pixbuf, scale, metadata):
@@ -248,6 +281,7 @@ class Animation(GObject.GObject):
         self.anchor = anchor
         self._set_current_frame_delay()
         self.emit('animation-loaded')
+        self._is_loaded = True
 
     def _scale_reference_points(self, scale):
         for refpoint_name in self._reference_points:
@@ -296,6 +330,9 @@ class Animation(GObject.GObject):
 
     def _set_anchor(self, anchor):
         self._anchor = tuple(anchor)
+
+    def is_loaded(self):
+        return self._is_loaded
 
     anchor = GObject.Property(_get_anchor, _set_anchor, type=GObject.TYPE_PYOBJECT)
     current_frame = property(_get_current_frame)
