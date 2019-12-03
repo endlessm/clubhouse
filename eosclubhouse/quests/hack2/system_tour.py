@@ -1,16 +1,14 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App, GameStateService
+from eosclubhouse.system import GameStateService
 
 
 class System_Tour(Quest):
 
-    APP_NAME = 'com.hack_computer.OperatingSystemApp'
-
+    __app_id__ = 'com.hack_computer.OperatingSystemApp'
     __tags__ = ['pathway:operating system', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 100
 
     def setup(self):
-        self._app = App(self.APP_NAME)
         self._gss = GameStateService()
 
     def step_begin(self):
@@ -21,12 +19,12 @@ class System_Tour(Quest):
         return self.step_launch
 
     def step_launch(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='LAUNCH')
+        self.ask_for_app_launch()
         return self.step_app_running
 
-    @Quest.with_app_launched(APP_NAME)
+    @Quest.with_app_launched()
     def step_app_running(self):
         self.wait_confirm('STUFFTODO')
-        self.wait_for_app_js_props_changed(self._app, ['flipped'])
+        self.wait_for_app_js_props_changed(props=['flipped'])
         self.wait_confirm('FLIPPEDSTUFF')
         return self.step_complete_and_stop(available=False)
