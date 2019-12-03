@@ -46,6 +46,8 @@ EOF
 	run_in_python_venv pip install --upgrade pip
         echo "Installing flake8"
 	run_in_python_venv pip install flake8
+        echo "Installing libsass"
+	run_in_python_venv pip install libsass
         echo "Installing sphinx-autoapi"
 	run_in_python_venv pip install sphinx-autoapi
         return 0
@@ -60,6 +62,8 @@ function upgrade_venv {
 	run_in_python_venv pip install --upgrade pip
         echo "Upgrading flake8"
 	run_in_python_venv pip install flake8 --upgrade
+        echo "Upgrading libsass"
+	run_in_python_venv pip install libsass --upgrade
         echo "Upgrading sphinx-autoapi"
 	run_in_python_venv pip install sphinx-autoapi --upgrade
         return 0
