@@ -1,17 +1,14 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App
 
 
 class OSOneshotCatMouse(Quest):
 
-    APP_NAME = 'org.gnome.Terminal'
-
+    __app_id__ = 'org.gnome.Terminal'
     __tags__ = ['pathway:operating system', 'difficulty:hard',
                 'skillset:LaunchQuests', 'skillset:felix']
     __pathway_order__ = 250
 
     def setup(self):
-        self._app = App(self.APP_NAME)
         self._info_messages = self.get_loop_messages('OSONESHOTCATMOUSE', start=7)
 
     def step_begin(self):
@@ -22,8 +19,8 @@ class OSOneshotCatMouse(Quest):
         for index in range(1, 7):
             self.wait_confirm(str(index))
         # launch the terminal for the user, makes it easier - this is the first quest
-        self._app.launch()
-        self.wait_for_app_launch(self._app, pause_after_launch=2)
+        self.app.launch()
+        self.wait_for_app_launch()
 
         return self.step_main_loop
 

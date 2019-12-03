@@ -1,16 +1,13 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App
 
 
 class WobblyBash(Quest):
 
-    APP_NAME = 'org.gnome.Terminal'
-
+    __app_id__ = 'org.gnome.Terminal'
     __tags__ = ['pathway:operating system', 'difficulty:hard']
     __pathway_order__ = 400
 
     def setup(self):
-        self._app = App(self.APP_NAME)
         self._info_messages = self.get_loop_messages('WOBBLYBASH', start=3)
 
     def step_begin(self):
@@ -23,10 +20,9 @@ class WobblyBash(Quest):
         return self.step_launch
 
     def step_launch(self):
-        self.ask_for_app_launch(self._app, pause_after_launch=2, message_id='2')
+        self.ask_for_app_launch(message_id='2')
         return self.step_main_loop
 
-    # @Quest.with_app_launched(APP_NAME)
     def step_main_loop(self, message_index=0):
         message_id = self._info_messages[message_index]
 

@@ -1,20 +1,16 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import App
 
 
 class ArtVerb(Quest):
 
-    APP_NAME = 'com.hack_computer.ProjectLibrary'
+    __app_id__ = 'com.hack_computer.ProjectLibrary'
     ARTICLE_NAME = 'Verb In A Hat'
 
     __tags__ = ['pathway:art', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 415
 
-    def setup(self):
-        self._app = App(self.APP_NAME)
-
     def step_begin(self):
-        if not self._app.is_installed():
+        if not self.app.is_installed():
             self.wait_confirm('NOQUEST_PROJLIB_NOTINSTALLED', confirm_label='App Center, got it.')
             return self.step_abort
         else:
@@ -22,5 +18,5 @@ class ArtVerb(Quest):
 
     def step_instruct(self):
         self.wait_confirm('WELCOME', confirm_label="I'll try it!")
-        self._app.open_article(self.ARTICLE_NAME)
+        self.app.open_article(self.ARTICLE_NAME)
         return self.step_complete_and_stop
