@@ -994,9 +994,7 @@ LIGHTSPEEDTWEAK_SUCCESS,Brilliant solution! That worked like a dream! You're rea
 LIGHTSPEEDTWEAK_UNLOCK,There. Now click on the lock to unlock the panel and let's get this party started!,,,,
 LIGHTSPEEDTWEAK_WRONGLEVEL,Go back to Level 2. That's the one we're working on.,,,,
 LIGHTSPEEDTWEAK_WRONGLEVEL_HINT1,"Go to the start screen, select Level 2, and start playing.",,,,
-LMMSQUEST_BAK,❮,,,,
 LMMSQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
-LMMSQUEST_FWD,❯,,,,
 LMMSQUEST_INFO_1,Click the links for these tutorials to open them in your browser and follow along.,estelle,,,
 LMMSQUEST_INFO_2,The best way to use these videos is to resize your windows so you can can see both LMMS and the video.,estelle,,,
 LMMSQUEST_INFO_3,"That way, you can watch the video and follow along at the same time.",estelle,,,
@@ -1015,7 +1013,7 @@ LMMSQUEST_NOTINSTALLED,"Uh-oh! Looks like `LMMS` isn't installed!
 You need to download it from the App Center if you'd like to learn how to use it.
 
 Click the icon named `App Center` on the Desktop, then search for `LMMS`, and install it. ",daemon,,,
-LMMSQUEST_QUEST_DESCRIPTION,"Try out some tutorials for LMMS, a fully-featured music creation program.",,,,
+LMMSQUEST_QUEST_DESCRIPTION,"Try out some tutorials for LMMS, a fully-featured, open-source music creation program.",,,,
 LMMSQUEST_QUEST_NAME,Creating Music - Not quite autotune...,,,,
 LMMSQUEST_QUEST_SUBTITLE,What you'll do,,,,
 LMMSQUEST_QUIT,See you later!,,,,
@@ -1105,11 +1103,11 @@ By the way, I realized I already had some *cloaking glaze*. Here you go!",,hurra
 MAKERTECHDRAW_QUEST_DESCRIPTION,"Learn how draw objects in a way that describes them for building, like a blueprint.",,,,
 MAKERTECHDRAW_QUEST_NAME,Technical Drawing,,,,
 MAKERTECHDRAW_QUEST_SUBTITLE,What you'll do,,,,
-MAKERTECHDRAW_WELCOME,"Oh man, I *love* this part of a project. I've got framed blueprints up on my walls from really cool stuff I've designed.",,,,
+MAKERTECHDRAW_WELCOME,"Oh man, I *love* this part of a project. I've got framed blueprints up on my walls from really cool stuff I've designed.",faber,,,
 MAKERTENSION_QUEST_DESCRIPTION,Learn about the principles of tension and compression in construction.,,,,
 MAKERTENSION_QUEST_NAME,Tension and Compression,,,,
 MAKERTENSION_QUEST_SUBTITLE,What you'll do,,,,
-MAKERTENSION_WELCOME,"You'd think that a lamp and a ceiling fan are very different - but they actually use the same principle, just inverted. Sounds interesting, huh?",,,,
+MAKERTENSION_WELCOME,"You'd think that a lamp and a ceiling fan are very different - but they actually use the same principle, just inverted. Sounds interesting, huh?",faber,,,
 MAZEPT1_ABORT,Come find me later and we can keep working on this! ,ada,,,
 MAZEPT1_AUTO1,"*Robots!* & *Pits!* & *Walls,* oh my! Saniel, my friend, I've got this. I'll be bouncing this maze in no time ;)",riley,hurray,,
 MAZEPT1_AUTO1_ADA,Sounds like it! Riley? Your manual controls just totally disappeared. Something must be messing with them!,ada,,,
@@ -1738,14 +1736,14 @@ Click the icon named `App Center` on the Desktop, then search for the program yo
 T2MISSILE_QUEST_DESCRIPTION,Pilot your plane to victory with the power of mathematics!,,,,
 T2MISSILE_QUEST_NAME,Terminal 2 - Missile Math,,,,
 T2MISSILE_QUEST_SUBTITLE,What you'll do,,,,
-T2TEDDY_GREET1,"Midnightmare Teddy, sounds rather spooky. You can launch it through the Desktop, as well.",saniel,,,
-T2TEDDY_GREET2,"I'm not a big fan of scary games or movies, but I can always appreciate a math-based game.",saniel,,,
+T2TEDDY_GREET1,"Midnightmare Teddy... sounds rather forbidding. It looks like you can launch it through the Desktop, as well.",saniel,,,
+T2TEDDY_GREET2,"I'm not a big fan of scary games or movies, but I can always appreciate a math-based game. Banish those nightmares with the power of calculation!",saniel,,,
 T2TEDDY_NOTINSTALLED,"Uh-oh! I'm detecting that `Midnightmare Teddy` isn't installed!
 
 You need to download it from the App Center if you want to play.
 
 Click the icon named `App Center` on the Desktop, then search for the program you want to install.",daemon,,,
-T2TEDDY_QUEST_DESCRIPTION,Use the power of mathematics (and your trusty equation rifle) to banish the nightmares coming from every direction!,,,,
+T2TEDDY_QUEST_DESCRIPTION,Use your trusty equation rifle to vanquish the nightmares coming from every direction!,,,,
 T2TEDDY_QUEST_NAME,Terminal 2 - Midnightmare Teddy,,,,
 T2TEDDY_QUEST_SUBTITLE,What you'll do,,,,
 T2WEBFABLEMAKER_GREET1,"So, you know about fables, right? A lot like fairy tales, but with a specific lesson at the end.",riley,,,
