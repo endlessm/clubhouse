@@ -4,7 +4,7 @@ import os
 
 class P5JSIntro2(Quest):
 
-    __tags__ = ['pathway:web', 'difficulty:medum']
+    __tags__ = ['pathway:art', 'difficulty:medum']
     __pathway_order__ = 552
 
     def setup(self):
