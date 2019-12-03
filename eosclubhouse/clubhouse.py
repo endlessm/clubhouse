@@ -1743,7 +1743,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _stack_event_box = Gtk.Template.Child()
 
     _user_box = Gtk.Template.Child()
-    _user_box_event_box = Gtk.Template.Child()
     _user_button = Gtk.Template.Child()
     _user_button_revealer = Gtk.Template.Child()
     _user_event_box = Gtk.Template.Child()
@@ -1791,9 +1790,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._stack_event_box.connect('button-press-event',
                                       lambda _box, _event: self.hide_achievements_view())
-        self._user_box_event_box.connect('button-press-event',
-                                         self._user_event_box_button_press_event_cb,
-                                         self._achievements_view)
 
         self._stack.add_named(self.clubhouse, 'CLUBHOUSE')
         self._stack.add_named(self.news, 'NEWS')
@@ -2081,6 +2077,13 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _user_button_revealer_child_revealed_notify_cb(self, _button, _pspec):
         if self._user_button_revealer.props.child_revealed:
             self._achievements_view_revealer.props.reveal_child = True
+
+    @Gtk.Template.Callback()
+    def _user_button_revealer_reveal_child_cb(self, _button, _pspec):
+        if self._user_button_revealer.props.child_revealed:
+            self._headerbar_box.get_style_context().remove_class('profile')
+        else:
+            self._headerbar_box.get_style_context().add_class('profile')
 
     @Gtk.Template.Callback()
     def _achievements_view_revealer_child_revealed_notify_cb(self, revealer, _pspec):
