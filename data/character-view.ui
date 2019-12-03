@@ -73,7 +73,7 @@
   <object class="GtkBox" id="header_box">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="halign">end</property>
+    <property name="halign">fill</property>
     <property name="valign">center</property>
     <property name="hexpand">True</property>
     <child>
