@@ -32,8 +32,8 @@ from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import App, Desktop, GameStateService, Sound, UserAccount
-from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
-    Performance, QuestStringCatalog, convert_variant_arg
+from eosclubhouse.utils import get_alternative_quests_dir, CategoriesDB, ClubhouseState, \
+    MessageTemplate, Performance, QuestStringCatalog, convert_variant_arg
 from gi.repository import EosMetrics, Gio, GObject, GLib
 
 
@@ -1198,6 +1198,17 @@ class _Quest(GObject.GObject):
 
         return class_.DEFAULT_DIFFICULTY
 
+    @classmethod
+    def get_categories(class_):
+        categories = set()
+        for tag_info in class_.get_tag_info_by_prefix('category'):
+            category = CategoriesDB.get(tag_info[0].lower())
+            if category is None:
+                continue
+            if category not in categories:
+                yield category
+            categories.add(category)
+
     def __repr__(self):
         return self.get_id()
 
@@ -2194,9 +2205,20 @@ class QuestSet(GObject.GObject):
         return class_.__name__
 
     def get_quests(self, also_skippable=True):
-        if also_skippable:
-            return self._quest_objs
-        return [q for q in self._quest_objs if not q.skippable]
+        return filter(lambda q: also_skippable or not q.skippable, self._quest_objs)
+
+    def get_quests_by_category(self, category, also_skippable=True):
+        for q in self.get_quests(also_skippable):
+            if category in q.get_categories():
+                yield q
+
+    def get_categories(self, also_skippable=True):
+        categories = set()
+        for q in self.get_quests(also_skippable):
+            for category in q.get_categories():
+                if category not in categories:
+                    yield category
+                categories.add(category)
 
     def __repr__(self):
         return self.get_id()
