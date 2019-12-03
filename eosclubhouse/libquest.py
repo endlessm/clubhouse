@@ -32,8 +32,8 @@ from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import App, Desktop, GameStateService, Sound, UserAccount
-from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
-    Performance, QuestStringCatalog, convert_variant_arg
+from eosclubhouse.utils import get_alternative_quests_dir, CategoriesDB, ClubhouseState, \
+    MessageTemplate, Performance, QuestStringCatalog, convert_variant_arg
 from gi.repository import EosMetrics, Gio, GObject, GLib
 
 
@@ -1167,6 +1167,17 @@ class _Quest(GObject.GObject):
 
         return class_.DEFAULT_DIFFICULTY
 
+    @classmethod
+    def get_categories(class_):
+        categories = set()
+        for tag_info in class_.get_tag_info_by_prefix('category'):
+            category = CategoriesDB.get(tag_info[0].lower())
+            if category is None:
+                continue
+            if category not in categories:
+                yield category
+            categories.add(category)
+
     def __repr__(self):
         return self.get_id()
 
@@ -2256,6 +2267,24 @@ class QuestSet(GObject.GObject):
 
     def get_quests(self):
         return self._quest_objs
+
+    def get_quests_by_category(self, category, also_skippable=True):
+        for q in self.get_quests():
+            if not also_skippable and q.skippable:
+                continue
+            if category in q.get_categories():
+                yield q
+
+    def get_categories(self, also_skippable=True):
+        categories = set()
+        for q in self.get_quests():
+            if not also_skippable and q.skippable:
+                continue
+
+            for category in q.get_categories():
+                if category not in categories:
+                    yield category
+                categories.add(category)
 
     def __repr__(self):
         return self.get_id()
