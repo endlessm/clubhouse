@@ -715,6 +715,8 @@ class _Quest(GObject.GObject):
 
         self._run_context = None
 
+        self._app = None
+
         self.reset_hints_given_once()
 
         self.clubhouse_state = ClubhouseState()
@@ -826,7 +828,7 @@ class _Quest(GObject.GObject):
         assert self._run_context is not None
         self._run_context.set_next_step(step_func, delay, args)
 
-    def wait_for_app_js_props_changed(self, app, props, timeout=None):
+    def wait_for_app_js_props_changed(self, app=None, props=None, timeout=None):
         return self.connect_app_js_props_changes(app, props).wait(timeout)
 
     def wait_for_app_in_foreground(self, app, timeout=None):
@@ -864,10 +866,16 @@ class _Quest(GObject.GObject):
         assert len(props) > 0
         return self._connect_app_changes(app, obj, props)
 
-    def connect_app_js_props_changes(self, app, props):
+    def connect_app_js_props_changes(self, app=None, props=None):
+        if app is None:
+            app = self.app
+        if props is None:
+            props = []
         return self.connect_app_object_props_changes(app, app.APP_JS_PARAMS, props)
 
-    def connect_app_quit(self, app):
+    def connect_app_quit(self, app=None):
+        if app is None:
+            app = self.app
         return self._connect_app_changes(app, None, [])
 
     def connect_app_props_changes(self, app, props):
@@ -1275,11 +1283,15 @@ class _Quest(GObject.GObject):
         data = self.get_named_quest_conf(class_name, 'complete')
         return data is not None and data
 
-    def with_app_launched(app_name, otherwise='step_abort'):
+    def with_app_launched(app_name=None, otherwise='step_abort'):
         def wrapper(func):
-            app = App(app_name)
 
             def wrapped_func(instance, *args):
+                if app_name is None and instance.app is not None:
+                    app = instance.app
+                else:
+                    app = App(app_name)
+
                 app_quit_callback = getattr(instance, otherwise)
                 app_was_quit = False
                 handler_id = 0
@@ -1357,6 +1369,13 @@ class Quest(_Quest):
     '''
 
     # ** Properties **
+
+    __app_id__ = None
+    '''ID of the application used by this quest, if any.
+
+    See :attr:`app`.
+
+    '''
 
     __tags__ = []
     '''Generic tags for the quest.
@@ -1463,6 +1482,24 @@ class Quest(_Quest):
     :meth:`step_complete_and_stop()` method, which does it for you.
 
     '''
+
+    @property
+    def app(self):
+        '''Instance of the application object as defined by :attr:`__app_id__`.
+
+        If `__app_id__` is set, this will be an instance with methods to manage the
+        application. Otherwise this will be None.
+
+        '''
+        if self.__app_id__ is None:
+            return None
+        if self._app is None:
+            # @todo: For now we instantiate the generic App class. In
+            # the future we might want to instantiate subclasses of
+            # App living in the eosclubhouse.apps module, like
+            # Sidetrack, depending on the app ID specified.
+            self._app = App(self.__app_id__)
+        return self._app
 
     def __init__(self):
         super().__init__()
@@ -1847,19 +1884,22 @@ class Quest(_Quest):
 
     # ** App launching **
 
-    def ask_for_app_launch(self, app, timeout=None, pause_after_launch=2, message_id='LAUNCH',
+    def ask_for_app_launch(self, app=None, timeout=None, pause_after_launch=2, message_id='LAUNCH',
                            give_app_icon=True):
         '''Ask the player to launch `app`.
 
         And wait until the app is launched.
 
-        :param app: The application. This is the only mandatory parameter.
+        :param app: The application. If not passed, it will use :attr:`app`.
         :param timeout: If not None, the wait will timeout after this amount of seconds.
         :type timeout: int or None
         :param int pause_after_launch: Pause in seconds after the app is launched.
         :param str message_id: The message ID to use in the dialogue. Can be a message with hints.
 
         '''
+        if app is None:
+            app = self.app
+
         if app.is_running() or self.is_cancelled():
             return
 
@@ -1887,13 +1927,13 @@ class Quest(_Quest):
 
         Desktop.focus_app(app_name)
 
-    def wait_for_app_launch(self, app, timeout=None, pause_after_launch=0):
+    def wait_for_app_launch(self, app=None, timeout=None, pause_after_launch=0):
         '''Wait until `app` is launched.
 
         You can use `:meth:ask_for_app_launch()` instead to also ask the player to launch the
         app with a dialogue.
 
-        :param app: The application. This is the only mandatory parameter.
+        :param app: The application. If not passed, it will use :attr:`app`.
         :param timeout: If not None, the wait will timeout after this amount of seconds.
         :type timeout: int or None
         :param int pause_after_launch: Pause in seconds after the app is launched.
@@ -1901,6 +1941,9 @@ class Quest(_Quest):
 
         '''
         assert self._run_context is not None
+
+        if app is None:
+            app = self.app
 
         async_action = self._run_context.new_async_action()
         if async_action.is_cancelled():
