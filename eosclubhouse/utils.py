@@ -31,7 +31,7 @@ import re
 import time
 import datetime
 
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 from enum import Enum
 from gi.repository import GLib, GObject, Json
 from string import Template
@@ -321,6 +321,33 @@ class NewsFeedDB(_ListFromCSV):
     @classmethod
     def append_value_from_csv_row(class_, csv_row, contents):
         contents.append(NewsFeedItem(*csv_row))
+
+
+Category = namedtuple('Category', ['id', 'title', 'description', 'image'])
+
+
+class _CategoriesDB(_ListFromCSV):
+    _db = {}
+
+    def __init__(self):
+        super().__init__(config.CATEGORIES_CSV)
+
+    def __contains__(self, key):
+        return key in self._db
+
+    def __iter__(self):
+        return self._db.items()
+
+    def get(self, key):
+        return self._db.get(key)
+
+    @classmethod
+    def append_value_from_csv_row(class_, csv_row, contents):
+        category_id = csv_row[0]
+        class_._db[category_id] = Category(*[*csv_row, '{}.jpg'.format(category_id)])
+
+
+CategoriesDB = _CategoriesDB()
 
 
 class SimpleMarkupParser:
