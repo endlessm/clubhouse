@@ -44,7 +44,7 @@ from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser, 
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 
-from eosclubhouse.widgets import FixedLayerGroup
+from eosclubhouse.widgets import FixedLayerGroup, gtk_widget_add_custom_css_provider
 
 
 # Metrics event ids
@@ -821,9 +821,7 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._difficulty_box.set_visible(not selected)
 
     def _setup_background(self):
-        self._css_provider = Gtk.CssProvider()
-        self._topbox.get_style_context().add_provider(self._css_provider,
-                                                      Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+        self._css_provider = gtk_widget_add_custom_css_provider(self._topbox)
 
         quest_id = self._quest.get_id().lower()
         character = self._quest_set.get_character()
@@ -1366,10 +1364,8 @@ class AchievementItem(Gtk.FlowBoxChild):
         super().__init__()
         self._view = achievements_view
         self._achievement = achievement
+        self._css_provider = gtk_widget_add_custom_css_provider(self._image_button)
 
-        self._css_provider = Gtk.CssProvider()
-        self._image_button.get_style_context().add_provider(
-            self._css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
         self._load_image_style()
 
     def _generate_css_image_style(self, url, selector=''):
@@ -1406,9 +1402,7 @@ class AchievementSummaryView(Gtk.Box):
 
     def __init__(self):
         super().__init__()
-        self._css_provider = Gtk.CssProvider()
-        self._image_box.get_style_context().add_provider(
-            self._css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+        self._css_provider = gtk_widget_add_custom_css_provider(self._image_box)
 
         self._title_label.set_line_wrap(True)
         self._summary_label.set_line_wrap(True)
@@ -1692,11 +1686,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
                                        self._hack_mode_changed_cb)
 
-        self._css_provider = Gtk.CssProvider()
-        self.get_style_context().add_provider_for_screen(
-            Gdk.Screen.get_default(),
-            self._css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+        self._css_provider = gtk_widget_add_custom_css_provider(self, for_screen=True)
 
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()

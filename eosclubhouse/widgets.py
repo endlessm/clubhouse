@@ -1,4 +1,15 @@
-from gi.repository import Gtk
+from gi.repository import Gdk, Gtk
+
+
+def gtk_widget_add_custom_css_provider(widget, for_screen=False,
+                                       priority=Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1):
+    css_provider = Gtk.CssProvider()
+    context = widget.get_style_context()
+    if not for_screen:
+        context.add_provider(css_provider, priority)
+    else:
+        context.add_provider_for_screen(Gdk.Screen.get_default(), css_provider, priority)
+    return css_provider
 
 
 class FixedLayerGroup(Gtk.Bin):
