@@ -44,7 +44,7 @@ from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser, 
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 
-from eosclubhouse.widgets import FixedLayerGroup
+from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, gtk_widget_add_custom_css_provider
 
 
 # Metrics event ids
@@ -821,9 +821,7 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._difficulty_box.set_visible(not selected)
 
     def _setup_background(self):
-        self._css_provider = Gtk.CssProvider()
-        self._topbox.get_style_context().add_provider(self._css_provider,
-                                                      Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+        self._css_provider = gtk_widget_add_custom_css_provider(self._topbox)
 
         quest_id = self._quest.get_id().lower()
         character = self._quest_set.get_character()
@@ -1258,7 +1256,16 @@ class FixedLabel(Gtk.Label):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    def do_get_preferred_height_for_width(self, width):
+        layout = self.get_layout()
+        height = layout.get_pixel_size().height
+        return height, height
+
     def do_get_preferred_width(self):
+        # @fixme: This is a hacky way to prevent a big space below the text during
+        # the first time the NewsFeed is displayed. This approach may cause slowness
+        # In the animation.
+        self.get_parent().queue_resize()
         return self.props.width_request, self.props.width_request
 
 
@@ -1272,10 +1279,10 @@ class NewsItem(Gtk.Box):
     _character_image = Gtk.Template.Child()
     _text_box = Gtk.Template.Child()
     _image_button = Gtk.Template.Child()
-    _image = Gtk.Template.Child()
 
     def __init__(self, data):
         super().__init__()
+        self._app_window = Gio.Application.get_default().get_active_window()
 
         self.date = data.date
 
@@ -1286,8 +1293,9 @@ class NewsItem(Gtk.Box):
                                       use_markup=True,
                                       xalign=0,
                                       yalign=0,
-                                      width_request=480)
+                                      width_request=240)
         self._text_box.add(self._text_label)
+        self._text_box.connect_after('size-allocate', lambda *_: self._text_label.queue_resize())
 
         self._text_label.props.label = data.text
         self._date_label.props.label = self._get_human_date(data.date)
@@ -1297,9 +1305,13 @@ class NewsItem(Gtk.Box):
 
         if data.image != '':
             image = os.path.join(config.NEWSFEED_DIR, data.image)
-            self._image.set_from_file(image)
+            self._set_image_from_path(image)
             self._image_button.set_uri(data.image_href)
-            self._image_button.show()
+            self._image_button.show_all()
+
+    def _set_image_from_path(self, path):
+        image = ScalableImage(path)
+        self._image_button.add(image)
 
     def _get_human_date(self, date):
         today = datetime.date.today()
@@ -1315,16 +1327,24 @@ class NewsItem(Gtk.Box):
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/news-view.ui')
-class NewsView(Gtk.Overlay):
+class NewsView(Gtk.Box):
 
     __gtype_name__ = 'NewsView'
 
+    _news = Gtk.Template.Child()
     _news_box = Gtk.Template.Child()
+    _left_spacing_box = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
         self._app = Gio.Application.get_default()
+        self._app_window = self._app.get_active_window()
         self._news_db = utils.NewsFeedDB()
+
+        self._populate()
+        self._app_window._user_box.connect_after('size-allocate', self._user_box_size_allocate_cb)
+
+    def _populate(self):
         self._populate_news()
         self._update_news_visivility()
 
@@ -1352,6 +1372,10 @@ class NewsView(Gtk.Overlay):
 
         return GLib.SOURCE_REMOVE
 
+    def _user_box_size_allocate_cb(self, _user_box, allocation):
+        if self._left_spacing_box.props.width_request != allocation.width:
+            self._left_spacing_box.props.width_request = allocation.width
+
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-item.ui')
 class AchievementItem(Gtk.FlowBoxChild):
@@ -1366,10 +1390,8 @@ class AchievementItem(Gtk.FlowBoxChild):
         super().__init__()
         self._view = achievements_view
         self._achievement = achievement
+        self._css_provider = gtk_widget_add_custom_css_provider(self._image_button)
 
-        self._css_provider = Gtk.CssProvider()
-        self._image_button.get_style_context().add_provider(
-            self._css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
         self._load_image_style()
 
     def _generate_css_image_style(self, url, selector=''):
@@ -1406,9 +1428,7 @@ class AchievementSummaryView(Gtk.Box):
 
     def __init__(self):
         super().__init__()
-        self._css_provider = Gtk.CssProvider()
-        self._image_box.get_style_context().add_provider(
-            self._css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+        self._css_provider = gtk_widget_add_custom_css_provider(self._image_box)
 
         self._title_label.set_line_wrap(True)
         self._summary_label.set_line_wrap(True)
@@ -1692,11 +1712,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
                                        self._hack_mode_changed_cb)
 
-        self._css_provider = Gtk.CssProvider()
-        self.get_style_context().add_provider_for_screen(
-            Gdk.Screen.get_default(),
-            self._css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+        self._css_provider = gtk_widget_add_custom_css_provider(self, for_screen=True)
 
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()

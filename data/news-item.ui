@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
   <template class="NewsItem" parent="GtkBox">
@@ -60,12 +60,7 @@
         <property name="receives_default">True</property>
         <property name="relief">none</property>
         <child>
-          <object class="GtkImage" id="_image">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
-          </object>
+          <placeholder/>
         </child>
         <style>
           <class name="flat"/>
@@ -79,7 +74,6 @@
     </child>
     <child>
       <object class="GtkBox" id="_text_box">
-        <property name="width_request">600</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>

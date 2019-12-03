@@ -1,4 +1,15 @@
-from gi.repository import Gtk
+from gi.repository import Gdk, GdkPixbuf, Gtk
+
+
+def gtk_widget_add_custom_css_provider(widget, for_screen=False,
+                                       priority=Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1):
+    css_provider = Gtk.CssProvider()
+    context = widget.get_style_context()
+    if not for_screen:
+        context.add_provider(css_provider, priority)
+    else:
+        context.add_provider_for_screen(Gdk.Screen.get_default(), css_provider, priority)
+    return css_provider
 
 
 class FixedLayerGroup(Gtk.Bin):
@@ -43,3 +54,35 @@ class FixedLayerGroup(Gtk.Bin):
         fixed.props.valign = Gtk.Align.FILL
 
         return fixed
+
+
+class ScalableImage(Gtk.Box):
+
+    __gtype_name__ = 'ScalableImage'
+
+    def __init__(self, path):
+        super().__init__()
+        image_info = GdkPixbuf.Pixbuf.get_file_info(path)
+        self.aspect_ratio = image_info.width / image_info.height
+
+        self._css_provider = gtk_widget_add_custom_css_provider(self)
+
+        css = "ScalableImage {{ background-image: url('{}') }}".format(path)
+        self._css_provider.load_from_data(css.encode())
+
+    def do_get_request_mode(self):
+        return Gtk.SizeRequestMode.HEIGHT_FOR_WIDTH
+
+    def do_get_preferred_height_for_width(self, width):
+        height = width / self.aspect_ratio
+        return height, height
+
+
+# Set widget classes CSS name to be able to select by GType name
+widgets_classes = [
+    FixedLayerGroup,
+    ScalableImage
+]
+
+for klass in widgets_classes:
+    klass.set_css_name(klass.__gtype_name__)
