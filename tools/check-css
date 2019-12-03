@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# Convience script to check if the CSS is in sync with the SASS file.
+#
+# Copyright (c) 2019 Endless Mobile Inc.
+#
+
+css_files=(data/gtk-style.css)
+
+./tools/compile-css
+ret=0
+updated_files=$(git diff --exit-code --name-only -- $css_files) || ret=$?
+git checkout -- $css_files
+
+if [ $ret -ne 0 ]; then
+    message="The following CSS files are not in sync:\n"
+    message+="$updated_files\n"
+    echo -e "\e[01;31m$message\e[0m"
+fi
+
+if [ ! -z "$message" ]; then
+    message="Please commit the out-of-sync CSS files; or to ignore this check, run:\n"
+    message+=" SKIP_COMPILE_CSS=true git commit"
+    echo -e "\e[01;31m$message\e[0m"
+
+    exit 1
+fi

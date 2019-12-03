@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# Convience script to compile the SASS into CSS.
+#
+# Copyright (c) 2019 Endless Mobile Inc.
+#
+
+sass_file=data/gtk-style.sass
+css_file=data/gtk-style.css
+
+ARGS=$(getopt -o h \
+              -l "commit,help" \
+              -n "$0" -- "$@")
+eval set -- "$ARGS"
+
+usage() {
+    cat <<EOF
+Usage: $0 [OPTION]
+Compile the SASS into CSS.
+
+  --commit                  Make a commit with the updated CSS.
+  -h, --help                Display this help and exit.
+
+EOF
+}
+
+COMMIT=false
+
+while true; do
+    case "$1" in
+        --commit)
+            COMMIT=true
+            shift
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "Unrecognized option \"$1\"" >&2
+            exit 1
+            ;;
+    esac
+done
+
+source_dir="$(git rev-parse --show-toplevel)"
+
+pushd "$source_dir"
+
+source tools/setup-venv
+
+setup_venv
+
+run_in_python_venv pysassc $sass_file $css_file $@ || ret=$?
+
+if [ ! -z "$ret" ] && [ $ret -ne 0 ]; then
+    message="There was an error compiling the CSS. Please fix the SASS file."
+    echo -e "\e[01;31m$message\e[0m"
+fi
+
+if $COMMIT; then
+    return
+    # Ensure we don't include previously added things in this commit
+    git reset HEAD
+    git add $css_file
+    git commit --no-verify -m "data: Update CSS file"
+fi
+
+popd
+
+exit $ret

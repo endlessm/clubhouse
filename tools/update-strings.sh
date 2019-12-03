@@ -1,6 +1,6 @@
 #!/bin/bash -e
 #
-# Convience script to update the CSV strings files for the quests, episodes, and items.
+# Convience script to update the CSV strings files and compile the CSS.
 #
 # Copyright (c) 2019 Endless Mobile Inc.
 #
@@ -60,6 +60,7 @@ git pull --rebase origin HEAD 2> /dev/null || true
 
 remote_hash=$(git rev-parse origin/$branch_name 2> /dev/null) || true
 
+./tools/compile-css --commit
 ./tools/get-strings-file --commit
 ./tools/get-info-file episodes --commit
 ./tools/get-info-file quests_items --commit
