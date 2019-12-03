@@ -281,6 +281,9 @@
               </object>
             </child>
           </object>
+          <packing>
+            <property name="index">-1</property>
+          </packing>
         </child>
         <child type="overlay">
           <object class="GtkEventBox" id="_headerbar_eventbox">
@@ -430,61 +433,88 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkButton" id="_user_button">
+                      <object class="GtkBox">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="relief">none</property>
-                        <signal name="clicked" handler="_user_button_clicked_cb" swapped="no"/>
+                        <property name="can_focus">False</property>
                         <child>
                           <object class="GtkBox">
+                            <property name="name">user-button-left-margin</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel" id="_user_label">
-                                <property name="name">user-label</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="no_show_all">True</property>
-                                <property name="halign">start</property>
-                                <property name="ellipsize">end</property>
-                                <property name="max_width_chars">32</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkRevealer" id="_user_button_image_revealer">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">end</property>
-                                <property name="valign">center</property>
-                                <property name="margin_right">24</property>
-                                <property name="transition_type">none</property>
-                                <child>
-                                  <object class="GtkImage">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">end</property>
-                                    <property name="valign">center</property>
-                                    <property name="icon_name">clubhouse-prev</property>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                           </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
                         </child>
-                        <style>
-                          <class name="user-button"/>
-                        </style>
+                        <child>
+                          <object class="GtkRevealer" id="_user_button_revealer">
+                            <property name="name">user-button-revealer</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="transition_type">slide-right</property>
+                            <signal name="notify::child-revealed" handler="_user_button_revealer_child_revealed_notify_cb" swapped="no"/>
+                            <child>
+                              <object class="GtkButton" id="_user_button">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="relief">none</property>
+                                <signal name="clicked" handler="_user_button_clicked_cb" swapped="no"/>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <child>
+                                      <object class="GtkLabel" id="_user_label">
+                                        <property name="name">user-label</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="no_show_all">True</property>
+                                        <property name="halign">start</property>
+                                        <property name="ellipsize">end</property>
+                                        <property name="max_width_chars">32</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkImage">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="halign">end</property>
+                                        <property name="valign">center</property>
+                                        <property name="icon_name">clubhouse-prev</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="pack_type">end</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                </child>
+                                <style>
+                                  <class name="user-button"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -493,51 +523,43 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRevealer" id="_achievements_view_revealer_revealer">
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <object class="GtkEventBox" id="_user_event_box">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="transition_type">slide-right</property>
-                        <signal name="notify::child-revealed" handler="_achievements_view_revealer_revealer_child_revealed_notify_cb" swapped="no"/>
                         <child>
-                          <object class="GtkEventBox" id="_user_event_box">
+                          <object class="GtkBox" id="_achievements_view_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkBox" id="_achievements_view_box">
+                              <object class="GtkRevealer" id="_achievements_view_revealer">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="orientation">vertical</property>
+                                <signal name="notify::child-revealed" handler="_achievements_view_revealer_child_revealed_notify_cb" swapped="no"/>
                                 <child>
-                                  <object class="GtkRevealer" id="_achievements_view_revealer">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <signal name="notify::child-revealed" handler="_achievements_view_revealer_child_revealed_notify_cb" swapped="no"/>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
+                                  <placeholder/>
                                 </child>
-                                <style>
-                                  <class name="achievements-view-box"/>
-                                </style>
                               </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
+                            <style>
+                              <class name="achievements-view-box"/>
+                            </style>
                           </object>
                         </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="position">2</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                     <style>
                       <class name="user-button-box"/>
@@ -572,7 +594,7 @@
             <property name="halign">start</property>
             <property name="valign">start</property>
             <property name="relief">none</property>
-            <signal name="clicked" handler="_user_button_clicked_cb" swapped="no"/>
+            <signal name="clicked" handler="_user_image_button_clicked_cb" swapped="no"/>
             <child>
               <placeholder/>
             </child>
