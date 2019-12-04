@@ -24,17 +24,46 @@
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
                 <child>
-                  <object class="GtkViewport">
+                  <object class="GtkViewport" id="_cards_viewport">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkFlowBox" id="_list">
+                      <object class="GtkStack" id="_cards_stack">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="valign">start</property>
-                        <property name="homogeneous">True</property>
-                        <property name="min_children_per_line">3</property>
-                        <property name="max_children_per_line">3</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                        <property name="transition_duration">300</property>
+                        <property name="transition_type">crossfade</property>
+                        <child>
+                          <object class="GtkFlowBox" id="_categories_flow_box">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="valign">start</property>
+                            <property name="homogeneous">True</property>
+                            <property name="min_children_per_line">3</property>
+                            <property name="max_children_per_line">3</property>
+                          </object>
+                          <packing>
+                            <property name="name">page0</property>
+                            <property name="title" translatable="yes">page0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFlowBox" id="_quests_flow_box">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="valign">start</property>
+                            <property name="homogeneous">True</property>
+                            <property name="min_children_per_line">3</property>
+                            <property name="max_children_per_line">3</property>
+                          </object>
+                          <packing>
+                            <property name="name">page1</property>
+                            <property name="title" translatable="yes">page1</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -115,11 +144,12 @@
         </style>
       </object>
       <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
         <property name="pack_type">end</property>
         <property name="position">1</property>
       </packing>
     </child>
-
     <style>
       <class name="headerbar-buttonbox"/>
       <class name="headerbar-character-buttonbox"/>
