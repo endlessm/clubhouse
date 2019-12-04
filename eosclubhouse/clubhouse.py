@@ -728,6 +728,44 @@ class MessageBox(Gtk.Box):
     max_messages = GObject.Property(default=2, type=int)
 
 
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/category-card.ui')
+class CategoryCard(Gtk.FlowBoxChild):
+
+    __gtype_name__ = 'CategoryCard'
+
+    _title = Gtk.Template.Child()
+    _topbox = Gtk.Template.Child()
+
+    def __init__(self, character_view, quest_set, category):
+        super().__init__()
+        self._character_view = character_view
+        self._quest_set = quest_set
+        self._category = category
+        self._alternative_path = os.path.join(get_alternative_quests_dir(), 'cards')
+
+        self._title.props.label = self._category.title
+        self._setup_background()
+
+    def _setup_background(self):
+        self._css_provider = gtk_widget_add_custom_css_provider(self._topbox)
+
+        img = '{}/cards/categories/{}'.format(self._alternative_path, self._category.image)
+        if not os.path.exists(img):
+            img = os.path.join(config.CATEGORIES_DIR, 'cards', '{}').format(self._category.image)
+
+        if os.path.exists(img):
+            css = "box {{ background-image: url('{}') }}".format(img).encode()
+        else:
+            css = "box {{ background-image: linear-gradient(to right, #{}, #{}) }}".format(
+                utils.random_hex_color(), utils.random_hex_color()).encode()
+        self._css_provider.load_from_data(css)
+
+    @Gtk.Template.Callback()
+    def _on_button_press_event(self, widget, event):
+        self._character_view.populate_quests(self._quest_set, self._category)
+        self._character_view.show_quests()
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/activity-card.ui')
 class ActivityCard(Gtk.FlowBoxChild):
 
@@ -914,7 +952,11 @@ class CharacterView(Gtk.Grid):
     character_image = Gtk.Template.Child()
     activities_sw = Gtk.Template.Child()
 
-    _list = Gtk.Template.Child()
+    _categories_flow_box = Gtk.Template.Child()
+    _quests_flow_box = Gtk.Template.Child()
+
+    _cards_stack = Gtk.Template.Child()
+
     _view_overlay = Gtk.Template.Child()
     _character_button = Gtk.Template.Child()
 
@@ -938,6 +980,34 @@ class CharacterView(Gtk.Grid):
                                  self.update_character_image(idle=True))
 
         self.message_box.show_all()
+
+    def show_categories(self):
+        self._cards_stack.set_visible_child(self._categories_flow_box)
+
+    def show_quests(self):
+        self._cards_stack.set_visible_child(self._quests_flow_box)
+
+    def _clear_categories_flow_box(self):
+        for child in self._categories_flow_box.get_children():
+            self._categories_flow_box.remove(child)
+
+    def populate_categories(self, quest_set):
+        self._clear_quest_flow_box()
+        self._clear_categories_flow_box()
+        for category in quest_set.get_categories(also_skippable=False):
+            card = CategoryCard(self, quest_set, category)
+            self._categories_flow_box.add(card)
+
+    def _clear_quest_flow_box(self):
+        for child in self._quests_flow_box.get_children():
+            self._quests_flow_box.remove(child)
+
+    def populate_quests(self, quest_set, category):
+        self._clear_quest_flow_box()
+        self._clear_categories_flow_box()
+        for quest in quest_set.get_quests_by_category(category, also_skippable=False):
+            card = ActivityCard(quest_set, quest)
+            self._quests_flow_box.add(card)
 
     def update_character_image(self, idle=False):
         if self._character is None:
@@ -972,17 +1042,8 @@ class CharacterView(Gtk.Grid):
         # Set character image
         self.update_character_image(idle=True)
 
-        # Clear list
-        for child in self._list.get_children():
-            self._list.remove(child)
-
-        # Populate list
-        for quest in quest_set.get_quests(also_skippable=False):
-            card = ActivityCard(quest_set, quest)
-            self._list.add(card)
-            card.show()
-
-        # @todo: Scroll the first non completed quest.
+        self.populate_categories(quest_set)
+        self.show_categories()
 
     def _on_row_size_allocate(self, row, _rect):
         self._scroll_to_first_non_completed_quest()
@@ -3014,6 +3075,7 @@ clubhouse_classes = [
     AchievementSummaryView,
     AchievementsView,
     ActivityCard,
+    CategoryCard,
     CharacterButton,
     CharacterView,
     ClubhouseView,
