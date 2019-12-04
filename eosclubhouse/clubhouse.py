@@ -728,6 +728,44 @@ class MessageBox(Gtk.Box):
     max_messages = GObject.Property(default=2, type=int)
 
 
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/category-card.ui')
+class CategoryCard(Gtk.FlowBoxChild):
+
+    __gtype_name__ = 'CategoryCard'
+
+    _title = Gtk.Template.Child()
+    _topbox = Gtk.Template.Child()
+
+    def __init__(self, character_view, quest_set, category):
+        super().__init__()
+        self._character_view = character_view
+        self._quest_set = quest_set
+        self._category = category
+        self._alternative_path = os.path.join(get_alternative_quests_dir(), 'cards')
+
+        self._title.props.label = self._category.title
+        self._setup_background()
+
+    def _setup_background(self):
+        self._css_provider = gtk_widget_add_custom_css_provider(self._topbox)
+
+        img = '{}/cards/categories/{}'.format(self._alternative_path, self._category.image)
+        if not os.path.exists(img):
+            img = os.path.join(config.CATEGORIES_DIR, 'cards', '{}').format(self._category.image)
+
+        if os.path.exists(img):
+            css = "box {{ background-image: url('{}') }}".format(img).encode()
+        else:
+            css = "box {{ background-image: linear-gradient(to right, #{}, #{}) }}".format(
+                utils.random_hex_color(), utils.random_hex_color()).encode()
+        self._css_provider.load_from_data(css)
+
+    @Gtk.Template.Callback()
+    def _on_button_press_event(self, widget, event):
+        self._character_view.populate_quests(self._quest_set, self._category)
+        self._character_view.show_quests()
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/activity-card.ui')
 class ActivityCard(Gtk.FlowBoxChild):
 
@@ -914,7 +952,11 @@ class CharacterView(Gtk.Grid):
     character_image = Gtk.Template.Child()
     activities_sw = Gtk.Template.Child()
 
-    _list = Gtk.Template.Child()
+    _categories_flow_box = Gtk.Template.Child()
+    _quests_flow_box = Gtk.Template.Child()
+
+    _cards_stack = Gtk.Template.Child()
+
     _view_overlay = Gtk.Template.Child()
     _character_button = Gtk.Template.Child()
 
@@ -941,6 +983,45 @@ class CharacterView(Gtk.Grid):
                                  self.update_character_image(idle=True))
 
         self.message_box.show_all()
+
+    def show_categories(self):
+        self._cards_stack.set_visible_child(self._categories_flow_box)
+
+    def show_quests(self):
+        self._cards_stack.set_visible_child(self._quests_flow_box)
+
+    def _clear_categories_flow_box(self):
+        for child in self._categories_flow_box.get_children():
+            self._categories_flow_box.remove(child)
+
+    def populate_categories(self, quest_set):
+        self._clear_quest_flow_box()
+        self._clear_categories_flow_box()
+        for category in quest_set.get_categories(also_skippable=False):
+            card = CategoryCard(self, quest_set, category)
+            self._categories_flow_box.add(card)
+
+    def _clear_quest_flow_box(self):
+        for child in self._quests_flow_box.get_children():
+            self._quests_flow_box.remove(child)
+        for quest, handler_id in self._quests_handlers:
+            quest.disconnect(handler_id)
+        self._quests_handlers = []
+
+        # Set scrollbar back to the beginning
+        self.activities_sw.props.vadjustment.props.value = 0
+        self._quest_set = None
+
+    def populate_quests(self, quest_set, category):
+        self._clear_quest_flow_box()
+        self._clear_categories_flow_box()
+        for quest in quest_set.get_quests_by_category(category, also_skippable=False):
+            handler_id = quest.connect('notify::available',
+                                       self._on_quest_available_changed_cb, quest_set)
+            self._quests_handlers.append((quest, handler_id))
+            if not quest.available:
+                continue
+            self._add_activity_card(quest_set, quest)
 
     def update_character_image(self, idle=False):
         if self._character is None:
@@ -979,41 +1060,19 @@ class CharacterView(Gtk.Grid):
         # Set character image
         self.update_character_image(idle=True)
 
-        self._clear_list()
-        self._populate_list(quest_set)
+        self.populate_categories(quest_set)
+        self.show_categories()
         self._quest_set = quest_set
-
-    def _clear_list(self):
-        for child in self._list.get_children():
-            self._list.remove(child)
-        for quest, handler_id in self._quests_handlers:
-            quest.disconnect(handler_id)
-        self._quests_handlers = []
-
-        # Set scrollbar back to the beginning
-        self.activities_sw.props.vadjustment.props.value = 0
-        self._quest_set = None
-
-    def _populate_list(self, quest_set):
-        for quest in quest_set.get_quests():
-            if quest.skippable:
-                continue
-            handler_id = quest.connect('notify::available',
-                                       self._on_quest_available_changed_cb, quest_set)
-            self._quests_handlers.append((quest, handler_id))
-            if not quest.available:
-                continue
-            self._add_activity_card(quest_set, quest)
 
     def _add_activity_card(self, quest_set, quest):
         card = ActivityCard(quest_set, quest)
-        self._list.add(card)
+        self._quests_flow_box.add(card)
         card.show()
 
     def _remove_activity_card(self, quest_set, quest):
-        for child in self._list.get_children():
+        for child in self._quests_flow_box.get_children():
             if child.get_quest() == quest and child.get_quest_set() == quest_set:
-                self._list.remove(child)
+                self._quests_flow_box.remove(child)
 
     def _on_quest_available_changed_cb(self, quest, _value, quest_set):
         if quest.available:
@@ -1036,14 +1095,14 @@ class CharacterView(Gtk.Grid):
         vadjustment.props.value = y
 
     def _get_first_non_completed_mission_index(self):
-        for i, row in enumerate(self._list.get_children()):
+        for i, row in enumerate(self._quests_flow_box.get_children()):
             if not row.get_quest().complete:
                 return i
         return -1
 
     def _scroll_to_first_non_completed_quest(self):
         index = self._get_first_non_completed_mission_index()
-        reference_row = self._list.get_row_at_index(0)
+        reference_row = self._quests_flow_box.get_row_at_index(0)
         if reference_row:
             self._scroll_to_mission_row_at_index(index, reference_row)
 
@@ -3049,6 +3108,7 @@ clubhouse_classes = [
     AchievementSummaryView,
     AchievementsView,
     ActivityCard,
+    CategoryCard,
     CharacterButton,
     CharacterView,
     ClubhouseView,

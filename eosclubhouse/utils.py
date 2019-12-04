@@ -446,3 +446,8 @@ def inside_triangle(p, a, b, c):
     pab_area = triangle_area(p, a, b)
 
     return abc_area - (pbc_area + pac_area + pab_area) == 0
+
+
+def random_hex_color():
+    import random
+    return ''.join(random.sample('0123456789abcdef', 6))
