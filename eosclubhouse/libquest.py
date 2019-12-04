@@ -1169,7 +1169,9 @@ class _Quest(GObject.GObject):
 
     @classmethod
     def get_categories(class_):
-        categories = set()
+        all_category = CategoriesDB.get('all')
+        yield all_category
+        categories = set(all_category)
         for tag_info in class_.get_tag_info_by_prefix('category'):
             category = CategoriesDB.get(tag_info[0].lower())
             if category is None:
