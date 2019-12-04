@@ -13,7 +13,7 @@ HTMLINTRO3_9,"Along with bold text, you can also use italics, by putting `<i>` a
 HTMLINTRO3_10,"Now, let's try changing the size of the text. Size works like color, so it goes inside the `<p>` tag.",riley,,,
 HTMLINTRO3_11,"Try `<p style=""font-size:200%"">` on a paragraph.",riley,,,
 HTMLINTRO3_12,"See how that's similar to what we did with colors? We're adding another 'style' to the text, but this one talks about size.",riley,,,
-HTMLINTRO3_13,"You can also use words like *xx-large* and *small* for `font-size`, instead of percentages. Here's a link to the W3Schools page with more info: `https://www.w3schools.com/css/css_font.asp`",riley,,,
+HTMLINTRO3_13,"You can also use words like *xx-large* and *small* for `font-size`, instead of percentages. Here's a link to the W3Schools page with more info: https://www.w3schools.com/css/css_font.asp",riley,,,
 HTMLINTRO3_14,"Now, we know that colors and sizes are just adding styles to the `<p>` tag, so check this out: You can combine them!",riley,,,
 HTMLINTRO3_15,"Let's make the text in one of the `<p>` tags double-size and red: `<p style=""font-size:200%; color:red"">` Do you see where the semicolon (;) is?",riley,,,
 HTMLINTRO3_16,The semicolon tells the browser that we're separating 2 different formatting instructions.,,,,
