@@ -92,6 +92,8 @@ class BreadcrumbButton(Gtk.Box):
     _main_button = Gtk.Template.Child()
     _popover_button = Gtk.Template.Child()
     _popover_button_image = Gtk.Template.Child()
+    _popover_revealer = Gtk.Template.Child()
+    _popover_label = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__(self)
@@ -101,8 +103,10 @@ class BreadcrumbButton(Gtk.Box):
     def _popover_toggled_cb(self, widget, prop):
         if widget.props.visible:
             self._popover_button_image.props.icon_name = 'go-up-symbolic'
+            self._popover_revealer.set_reveal_child(True)
         else:
             self._popover_button_image.props.icon_name = 'go-down-symbolic'
+            self._popover_revealer.set_reveal_child(False)
 
     def _get_popover(self):
         return self._popover_button.get_popover()
@@ -138,6 +142,21 @@ class BreadcrumbButton(Gtk.Box):
     def _set_label(self, value):
         self._main_button.set_label(value)
 
+    def _get_icon_name(self):
+        return self._main_button.props.image.get_icon_name
+
+    def _set_icon_name(self, value):
+        self._main_button.props.image = Gtk.Image(icon_name=value)
+        self._main_button.props.image.props.valign = Gtk.Align.CENTER
+        self._inactive_button.props.image = Gtk.Image(icon_name=value)
+        self._inactive_button.props.image.props.valign = Gtk.Align.CENTER
+
+    def _get_popover_label(self):
+        return self._popover_label.get_label()
+
+    def _set_popover_label(self, value):
+        self._popover_label.set_label(value)
+
     def get_active(self):
         return self._active
 
@@ -172,6 +191,13 @@ class BreadcrumbButton(Gtk.Box):
     def _set_back_label(self, value):
         self._back_button.set_label(value)
 
+    def _get_back_icon_name(self):
+        return self._back_button.props.image.get_icon_name
+
+    def _set_back_icon_name(self, value):
+        self._back_button.props.image = Gtk.Image(icon_name=value)
+        self._back_button.props.image.props.valign = Gtk.Align.CENTER
+
     def _get_back_action_name(self):
         return self._back_button.get_action_name()
 
@@ -185,12 +211,15 @@ class BreadcrumbButton(Gtk.Box):
         self._back_button.set_action_target_value(value)
 
     popover = GObject.Property(_get_popover, _set_popover, type=GObject.TYPE_OBJECT)
+    popover_label = GObject.Property(_get_popover_label, _set_popover_label, type=str)
     action_name = GObject.Property(_get_action_name, _set_action_name, type=str)
     action_target = GObject.Property(_get_action_target,
                                      _set_action_target,
                                      type=GObject.TYPE_VARIANT)
     label = GObject.Property(_get_label, _set_label, type=str)
+    icon_name = GObject.Property(_get_icon_name, _set_icon_name, type=str)
     back_label = GObject.Property(_get_back_label, _set_back_label, type=str)
+    back_icon_name = GObject.Property(_get_back_icon_name, _set_back_icon_name, type=str)
     back_action_name = GObject.Property(_get_back_action_name,
                                         _set_back_action_name,
                                         type=str)
