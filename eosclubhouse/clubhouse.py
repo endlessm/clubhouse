@@ -2254,7 +2254,7 @@ class QuestRunner(GObject.GObject):
         self._app.release()
 
         # Show window if it was the first quest
-        if quest.get_id() == 'FirstContact':
+        if quest.get_id() == 'FirstContact' and quest.complete:
             self._app.on_first_contact_quest_finished()
 
         # Unhighlight highlighted quests.
