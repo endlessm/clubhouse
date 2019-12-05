@@ -1,0 +1,620 @@
+* {
+  outline: none; }
+
+button {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  background-image: none;
+  min-height: unset; }
+
+scrollbar {
+  border: 0;
+  border-radius: 1ex;
+  background: rgba(255, 255, 255, 0.3); }
+  scrollbar slider {
+    background-color: white;
+    padding: 0;
+    border: 0;
+    margin: 2px; }
+  scrollbar slider:hover {
+    background-color: #e6e6e6; }
+
+popover.menu {
+  background-color: rgba(255, 255, 255, 0.9); }
+  popover.menu > stack > box > button {
+    font-size: 1.4em;
+    padding: 1ex 1em; }
+    popover.menu > stack > box > button:hover {
+      background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.3), rgba(34, 89, 127, 0.3)); }
+    popover.menu > stack > box > button > box > image {
+      -gtk-icon-shadow: none;
+      margin-right: 1ex;
+      color: #4387c5; }
+
+@keyframes background_zoom_in {
+  from {
+    background-size: 100%; }
+  to {
+    background-size: 200%; } }
+
+ClubhouseWindow {
+  border-radius: 1ex;
+  background-color: unset;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-blur.jpg");
+  transition: background-image 200ms linear;
+  font-size: 14px; }
+  ClubhouseWindow.small {
+    font-size: 12px; }
+  ClubhouseWindow.big {
+    font-size: 16px; }
+  ClubhouseWindow.transitionable-background {
+    transition: background-image 1s linear; }
+  ClubhouseWindow headerbar {
+    padding: 0;
+    border-radius: 1ex 1ex 0 0;
+    border-width: 0px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0)); }
+    ClubhouseWindow headerbar > button {
+      margin: 1ex;
+      padding: 1ex;
+      border-radius: 50%; }
+      ClubhouseWindow headerbar > button:hover {
+        background-color: rgba(255, 255, 255, 0.5); }
+    ClubhouseWindow headerbar .headerbar-buttonbox {
+      min-height: 1.8em;
+      margin: 2em 1ex;
+      font-size: 1.4em;
+      font-weight: bold; }
+      ClubhouseWindow headerbar .headerbar-buttonbox > label {
+        margin: 0 1.5em; }
+      ClubhouseWindow headerbar .headerbar-buttonbox > button {
+        color: white;
+        text-shadow: none;
+        border: 0;
+        margin: 0;
+        padding: 3px;
+        border-radius: 3em;
+        box-shadow: 1px 1px 3px black;
+        transition: none;
+        transition: background-image 200ms linear; }
+        ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(1) {
+          background: linear-gradient(to bottom right, rgba(55, 220, 177, 0.8), rgba(45, 155, 152, 0.8)); }
+          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(1):hover {
+            background: linear-gradient(to bottom right, #37dcb1, #2d9b98); }
+          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(1):checked {
+            background: linear-gradient(to bottom right, rgba(55, 220, 177, 0.95), rgba(45, 155, 152, 0.95)); }
+        ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(3) {
+          background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.8), rgba(34, 89, 127, 0.8)); }
+          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(3):hover {
+            background: linear-gradient(to bottom right, #2d9b98, #22597f); }
+          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(3):checked {
+            background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.95), rgba(34, 89, 127, 0.95)); }
+        ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(5) {
+          background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.8), rgba(24, 24, 102, 0.8)); }
+          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(5):hover {
+            background: linear-gradient(to bottom right, #22597f, #181866); }
+          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(5):checked {
+            background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.95), rgba(24, 24, 102, 0.95)); }
+        ClubhouseWindow headerbar .headerbar-buttonbox > button:checked {
+          padding: 0;
+          border: 3px solid white; }
+        ClubhouseWindow headerbar .headerbar-buttonbox > button label {
+          margin: 0 1em; }
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:first-child {
+        border-radius: 3em 0 0 3em; }
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:last-child {
+        border-radius: 0 3em 3em 0; }
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button > box > label {
+        margin: 0 1em 0 0; }
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button > box > button > image {
+        min-width: 1.8em;
+        min-height: 1.8em;
+        margin: -3px;
+        margin-left: -2ex;
+        margin-right: 1ex;
+        border-radius: 50%;
+        color: #37DCB1;
+        background: white; }
+  ClubhouseWindow .user-overlay {
+    margin: 0em; }
+    ClubhouseWindow .user-overlay #user-label {
+      margin: 1em 1em 1em 4.32em;
+      font-size: 1.2em;
+      font-weight: bold; }
+  ClubhouseWindow #image.user-overlay {
+    margin: 1em;
+    min-width: 5em;
+    min-height: 5em;
+    border-radius: 50%;
+    border: 0.2ex solid white;
+    box-shadow: 1px 1px 2px #555;
+    background-color: #2D9B98;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; }
+    ClubhouseWindow #image.user-overlay > label {
+      font-size: 2em;
+      font-weight: bold; }
+  ClubhouseWindow.CLUBHOUSE {
+    background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg"); }
+    ClubhouseWindow.CLUBHOUSE.off {
+      background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-off.jpg"); }
+  ClubhouseWindow.off {
+    background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-blur-off.jpg"); }
+    ClubhouseWindow.off headerbar > button {
+      color: gray; }
+      ClubhouseWindow.off headerbar > button:hover {
+        background-color: rgba(255, 255, 255, 0.2); }
+  ClubhouseWindow.CHARACTER {
+    animation: background_zoom_in 500ms normal ease 1;
+    background-size: 200%;
+    transition: none; }
+    ClubhouseWindow.CHARACTER.ada {
+      background-position: top left; }
+    ClubhouseWindow.CHARACTER.estelle {
+      background-position: 65% top; }
+    ClubhouseWindow.CHARACTER.faber {
+      background-position: center 75%; }
+    ClubhouseWindow.CHARACTER.riley {
+      background-position: left 85%; }
+    ClubhouseWindow.CHARACTER.saniel {
+      background-position: bottom right; }
+  ClubhouseWindow.NEWS headerbar > button:hover {
+    background-color: rgba(0, 0, 0, 0.2); }
+
+MessageButton {
+  background: #2D9B98;
+  border-radius: 2em;
+  padding: 0.6em;
+  margin: 0.6em;
+  box-shadow: 0 0.2em 0.3em rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  min-width: 7em; }
+  MessageButton:nth-child(0) {
+    background: linear-gradient(to right, #76EECF, #37DCB1); }
+  MessageButton:nth-child(1) {
+    background: linear-gradient(to right, #37DCB1, #32BBA4); }
+  MessageButton:nth-child(2) {
+    background: linear-gradient(to right, #32BBA4, #2D9B98); }
+  MessageButton:hover {
+    background: #38c3bf; }
+    MessageButton:hover:nth-child(0) {
+      background: linear-gradient(to right, #a3f4df, #62e4c2); }
+    MessageButton:hover:nth-child(1) {
+      background: linear-gradient(to right, #62e4c2, #50d0bb); }
+    MessageButton:hover:nth-child(2) {
+      background: linear-gradient(to right, #50d0bb, #38c3bf); }
+    MessageButton:hover image {
+      -gtk-icon-shadow: none; }
+  MessageButton:active {
+    background: #227371; }
+    MessageButton:active:nth-child(0) {
+      background: linear-gradient(to right, #49e8bf, #21bf96); }
+    MessageButton:active:nth-child(1) {
+      background: linear-gradient(to right, #21bf96, #279381); }
+    MessageButton:active:nth-child(2) {
+      background: linear-gradient(to right, #279381, #227371); }
+  MessageButton label {
+    margin-top: 0.25em;
+    min-width: 3em;
+    color: white;
+    text-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.4); }
+    MessageButton label.text-button {
+      margin: 0 0.6em;
+      min-width: 5em; }
+  MessageButton image {
+    color: white;
+    -gtk-icon-shadow: none; }
+  MessageButton.icon-button {
+    min-width: 3em;
+    min-height: 3em;
+    border-radius: 50%;
+    padding: 0; }
+
+Message {
+  font-family: "Metropolis Medium, Sans-Serif"; }
+  Message > #message-box {
+    margin: 1em 1em 1em 2em;
+    background-color: rgba(255, 255, 255, 0.96);
+    border-radius: 0.75em;
+    border: 1px solid #8A6A45;
+    box-shadow: 0 2px 1ex 1ex rgba(0, 0, 0, 0.2);
+    transition: margin-bottom 400ms ease; }
+    Message > #message-box > label {
+      transition: margin-bottom 400ms ease;
+      margin: 1em; }
+  Message > #button-box {
+    transition: all 600ms ease;
+    min-height: 3em;
+    margin-bottom: 2em;
+    opacity: 0; }
+  Message.has-buttons > #message-box {
+    margin-bottom: 2em; }
+    Message.has-buttons > #message-box > label {
+      margin-bottom: 1.5em; }
+  Message.has-buttons > #button-box {
+    margin-bottom: 0;
+    opacity: 1; }
+  Message.has-character > #message-box {
+    margin-left: 3em; }
+    Message.has-character > #message-box > label {
+      margin-right: 0; }
+    Message.has-character > #message-box > image {
+      margin-top: -1.8em;
+      margin-right: -0.8em;
+      margin-bottom: -33px; }
+      Message.has-character > #message-box > image.felixnet {
+        margin-right: -3.2em; }
+  Message.has-character > #button-box {
+    margin-left: 1em; }
+
+MessageBox {
+  min-width: 50em;
+  margin-bottom: 0.5em; }
+  MessageBox > revealer {
+    opacity: 0;
+    transition: opacity 1s ease; }
+    MessageBox > revealer.visible {
+      opacity: 1; }
+    MessageBox > revealer > revealer {
+      padding-left: 0.5em; }
+      MessageBox > revealer > revealer > Message.has-character > #message-box {
+        margin-right: 20em; }
+
+@keyframes pulsate_background {
+  from {
+    background-image: radial-gradient(35% 8% ellipse at center 88%, rgba(217, 167, 132, 0.4), rgba(255, 255, 255, 0.001)); }
+  to {
+    background-image: radial-gradient(50% 10% ellipse at center 90%, rgba(217, 167, 132, 0.9), rgba(255, 255, 255, 0.001)); } }
+
+CharacterButton {
+  border: none;
+  box-shadow: none;
+  -gtk-icon-shadow: none;
+  padding-bottom: 20px;
+  background-image: radial-gradient(35% 8% ellipse at center 88%, rgba(0, 0, 0, 0.4), transparent); }
+  CharacterButton:hover {
+    background-image: radial-gradient(50% 10% ellipse at center 90%, rgba(217, 167, 132, 0.9), rgba(255, 255, 255, 0.001)); }
+  CharacterButton.highlighted {
+    animation-name: pulsate_background;
+    animation-duration: 1s;
+    animation-direction: alternate;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite; }
+
+QuestSetInfoTip {
+  background-color: rgba(42, 35, 104, 0.9);
+  color: white;
+  border-radius: 40ex;
+  padding: 2ex 4ex;
+  opacity: 0.0;
+  transition: opacity .55s ease-in-out; }
+  QuestSetInfoTip.visible {
+    opacity: 1.0; }
+  QuestSetInfoTip box box {
+    margin-left: 1ex; }
+    QuestSetInfoTip box box label {
+      color: white;
+      font-size: 1.4em; }
+      QuestSetInfoTip box box label:nth-child(2) {
+        font-weight: bold; }
+
+AchievementItem {
+  min-width: 8em;
+  min-height: 8em;
+  margin-bottom: 1em; }
+  AchievementItem button {
+    background-size: 8em 8em;
+    background-repeat: no-repeat;
+    background-position: center; }
+
+AchievementsView {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: gray; }
+  AchievementsView .title-box {
+    padding: 3ex 0em; }
+    AchievementsView .title-box .hover {
+      color: #FF0079; }
+  AchievementsView scrolledwindow {
+    border: 0; }
+    AchievementsView scrolledwindow scrollbar {
+      background: none; }
+      AchievementsView scrolledwindow scrollbar slider {
+        background-color: lightgray; }
+      AchievementsView scrolledwindow scrollbar slider:hover {
+        background-color: #bababa; }
+    AchievementsView scrolledwindow viewport {
+      margin: 0 1em; }
+
+AchievementSummaryView .image {
+  min-width: 8em;
+  min-height: 8em;
+  background-size: 8em 8em;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 1em; }
+
+AchievementSummaryView label.title {
+  font-size: 1.4em;
+  font-weight: bold; }
+
+AchievementSummaryView label.description {
+  padding: 2em;
+  padding-bottom: 3em; }
+
+button.user-button {
+  box-shadow: 1px 1px 2px black;
+  margin: 0.75em 0.75em 0em 0.75em;
+  border-radius: 2em;
+  color: #FFFFFF;
+  background: linear-gradient(to bottom right, #FB3102, #D80232); }
+  button.user-button:hover {
+    background: linear-gradient(to bottom right, #F9682D, #E84E5E); }
+  button.user-button:active {
+    background: linear-gradient(to bottom right, #FB1435, #DB0066); }
+
+box.user-button-box {
+  margin: 1em; }
+
+.achievements-view-box {
+  margin-left: 2.5em;
+  margin-right: 2.5em; }
+
+@keyframes pulsate_shadow {
+  from {
+    box-shadow: 0 0 1px white; }
+  to {
+    box-shadow: 0 0 10px white; } }
+
+.nav-attract, .button-attract {
+  animation-name: pulsate_shadow;
+  animation-duration: 1s;
+  animation-direction: alternate;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+  box-shadow: 0 0 10px white; }
+
+CharacterView list {
+  background-color: unset; }
+
+CharacterView #mission-list {
+  margin: 5em 1em 1em 0;
+  min-height: 42.4em; }
+
+CharacterView scrollbar {
+  margin: 0.5em 0 0.5em 0.5em; }
+
+@keyframes zoom_in {
+  from {
+    background-size: 100%; }
+  to {
+    background-size: 110%; } }
+
+@keyframes zoom_out {
+  from {
+    background-size: 110%; }
+  to {
+    background-size: 100%; } }
+
+ActivityCard {
+  border-radius: 1em;
+  min-height: 20em;
+  margin: 0.5em;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); }
+  ActivityCard #topbox {
+    background-size: cover;
+    background-position: top;
+    animation: zoom_out 250ms ease; }
+    ActivityCard #topbox image {
+      border-top-right-radius: 1em;
+      background: linear-gradient(to top right, transparent 50%, white 51%); }
+  ActivityCard #topbox,
+  ActivityCard #topbox > box {
+    border-radius: 1em 1em 0 0;
+    transition: background-image 150ms ease; }
+  ActivityCard #bottombox {
+    background: white;
+    padding: 0.8em;
+    border-radius: 0 0 1em 1em; }
+    ActivityCard #bottombox image {
+      border-radius: 50%;
+      padding: 0.4em;
+      color: white; }
+    ActivityCard #bottombox #play {
+      color: white;
+      text-shadow: none;
+      border-radius: 1em;
+      margin-top: 1ex;
+      background: #181866; }
+      ActivityCard #bottombox #play > label {
+        padding: 0.4em 1em 0.6em 1em; }
+      ActivityCard #bottombox #play:hover {
+        background: #2b2bb9; }
+      ActivityCard #bottombox #play.complete {
+        background: #37DCB1; }
+      ActivityCard #bottombox #play.complete:hover {
+        background: #21bf96; }
+      ActivityCard #bottombox #play:disabled, ActivityCard #bottombox #play:disabled.complete {
+        background: lightgray; }
+    ActivityCard #bottombox #tagsview {
+      margin-left: 1em; }
+      ActivityCard #bottombox #tagsview label {
+        color: black;
+        border-radius: 0.8em;
+        padding: 0.3em 0.8em;
+        margin-bottom: 0.3em;
+        background: lightgray; }
+  ActivityCard #title {
+    min-height: 3em;
+    font-weight: bold; }
+  ActivityCard stack,
+  ActivityCard stackswitcher {
+    margin-top: 1ex; }
+  ActivityCard stackswitcher button {
+    padding: 0;
+    color: gray;
+    font-weight: bold;
+    min-width: unset;
+    background: unset; }
+    ActivityCard stackswitcher button label {
+      padding: 0; }
+  ActivityCard stackswitcher button + button {
+    padding-left: 1ex; }
+  ActivityCard box.difficulty {
+    background: white;
+    transition: min-height 250ms ease;
+    min-height: 0.8em; }
+    ActivityCard box.difficulty separator {
+      background: unset; }
+      ActivityCard box.difficulty separator:nth-child(2) {
+        margin: 0 0.2em; }
+  ActivityCard separator.difficulty {
+    margin-top: 1ex;
+    min-height: 0.4em;
+    min-width: 5em; }
+  ActivityCard:hover #topbox {
+    animation: zoom_in 250ms ease;
+    background-size: 110%; }
+  ActivityCard:hover box.difficulty {
+    min-height: 0.4em; }
+  ActivityCard:selected:hover #topbox {
+    animation: unset; }
+  ActivityCard:selected {
+    margin: 0;
+    transition: margin 200ms ease; }
+    ActivityCard:selected #title {
+      min-height: 0;
+      transition: min-height 250ms ease; }
+    ActivityCard:selected #topbox {
+      transition: background-size 150ms ease;
+      background-size: 110%;
+      animation: unset; }
+  ActivityCard.EASY stackswitcher > button:checked {
+    color: #37DCB1; }
+  ActivityCard.EASY:hover #topbox > box, ActivityCard.EASY:selected #topbox > box {
+    background: linear-gradient(47.32deg, #37DCB1, rgba(4, 231, 34, 0.45) 43.02%, rgba(2, 231, 30, 0)); }
+  ActivityCard.EASY separator.difficulty,
+  ActivityCard.EASY box.difficulty > separator:first-child {
+    background: linear-gradient(to right, #37DCB1, #00E718); }
+  ActivityCard.NORMAL stackswitcher > button:checked {
+    color: #EFBE2D; }
+  ActivityCard.NORMAL:hover #topbox > box, ActivityCard.NORMAL:selected #topbox > box {
+    background: linear-gradient(49.74deg, #EFBE2D, rgba(255, 107, 0, 0.49) 53.66%, rgba(255, 107, 0, 0)); }
+  ActivityCard.NORMAL separator.difficulty {
+    background: linear-gradient(to right, #EFBE2D, #FF6B00); }
+  ActivityCard.NORMAL box.difficulty separator:first-child {
+    background: linear-gradient(to right, #EFBE2D, #fa860f); }
+  ActivityCard.NORMAL box.difficulty separator:nth-child(2) {
+    background: linear-gradient(to right, #fa860f, #FF6B00); }
+  ActivityCard.HARD stackswitcher > button:checked {
+    color: #F92781; }
+  ActivityCard.HARD:hover #topbox > box, ActivityCard.HARD:selected #topbox > box {
+    background: linear-gradient(46.17deg, rgba(249, 39, 129, 0.9), rgba(252, 68, 74, 0.5) 44.52%, rgba(252, 68, 74, 0)); }
+  ActivityCard.HARD separator.difficulty {
+    background: linear-gradient(to right, #F92781, #FF0000); }
+  ActivityCard.HARD box.difficulty separator:first-child {
+    background: linear-gradient(to right, #F92781, #fd0d2b); }
+  ActivityCard.HARD box.difficulty separator:nth-child(2) {
+    background: linear-gradient(to right, #fd0d2b, #fb1a55); }
+  ActivityCard.HARD box.difficulty separator:last-child {
+    background: linear-gradient(to right, #fb1a55, #FF0000); }
+
+ClubhouseWindow.NEWS {
+  background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_news_bg.jpg"); }
+  ClubhouseWindow.NEWS headerbar {
+    background-size: cover;
+    background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_news_fg.png"); }
+
+NewsView {
+  margin-right: 3em; }
+  NewsView box.social {
+    margin: 0 0 2em 0; }
+    NewsView box.social box {
+      padding: 1em;
+      border-radius: 3em;
+      background: rgba(255, 255, 255, 0.8); }
+      NewsView box.social box button {
+        margin: 1em 0.8em; }
+  NewsView box.news scrolledwindow {
+    background: unset;
+    margin-top: 5em; }
+    NewsView box.news scrolledwindow viewport > box {
+      margin-top: 2em; }
+    NewsView box.news scrolledwindow scrollbar {
+      margin: 3em 2.5em 1em 0; }
+      NewsView box.news scrolledwindow scrollbar slider {
+        background: lightgray; }
+      NewsView box.news scrolledwindow scrollbar slider:hover {
+        background: gray; }
+
+NewsItem {
+  font-size: 1.2em;
+  margin: 1ex 1.75em;
+  border-radius: 1em;
+  background: white;
+  box-shadow: 2px 2px 3px gray; }
+  NewsItem #title {
+    color: #181866;
+    font-weight: bold; }
+  NewsItem #date {
+    color: gray; }
+  NewsItem > box {
+    margin: 1em; }
+    NewsItem > box *:nth-child(2) {
+      margin-left: 1em; }
+
+@keyframes off_attract_pulsate {
+  from {
+    background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF-hover.png"); }
+  to {
+    background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF-attract.png"); } }
+
+@keyframes on_attract_pulsate {
+  from {
+    background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-hover.png"); }
+  to {
+    background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-attract.png"); } }
+
+ClubhouseViewMainLayer #hack-switch {
+  background-size: cover;
+  background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/switch.svg"); }
+
+ClubhouseViewMainLayer #hack-switch-panel {
+  background-size: cover;
+  background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON.png"); }
+  ClubhouseViewMainLayer #hack-switch-panel.off {
+    background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF.png"); }
+
+ClubhouseViewMainLayer #hack-switch-button {
+  background-size: cover;
+  background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF-static.png"); }
+  ClubhouseViewMainLayer #hack-switch-button:hover {
+    background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF-hover.png"); }
+  ClubhouseViewMainLayer #hack-switch-button.highlighted {
+    background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/OFF-attract.png");
+    animation: off_attract_pulsate 500ms ease-in-out alternate infinite; }
+  ClubhouseViewMainLayer #hack-switch-button:checked {
+    background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-static.png"); }
+    ClubhouseViewMainLayer #hack-switch-button:checked:hover {
+      background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-hover.png"); }
+    ClubhouseViewMainLayer #hack-switch-button:checked.highlighted {
+      background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-attract.png");
+      animation: on_attract_pulsate 500ms ease-in-out alternate infinite; }
+
+ClubhouseViewMainLayer #banister {
+  background-size: cover;
+  background-image: url("resource:///com/hack_computer/Clubhouse/images/banister.png");
+  transition: background-image 200ms linear; }
+
+ClubhouseWindow.off ClubhouseViewMainLayer #banister {
+  background-image: url("resource:///com/hack_computer/Clubhouse/images/banister-off.png"); }
+
+ScalableImage {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center; }
