@@ -1874,7 +1874,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._user_box.show()
         else:
             self._user_image_button.hide()
-            self._user_box.hide()
 
         if current_page == 'CHARACTER':
             self.hide_achievements_view()
@@ -1941,6 +1940,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if self._stack.props.visible_child_name == 'CHARACTER':
             return
 
+        self._user_button_revealer.set_visible(True)
         button_revealer = self._user_button_revealer
         if not button_revealer.props.reveal_child:
             button_revealer.props.reveal_child = Desktop.get_hack_mode() and \
@@ -1957,6 +1957,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     def _user_button_revealer_child_revealed_notify_cb(self, _button, _pspec):
         if self._user_button_revealer.props.child_revealed:
             self._achievements_view_revealer.props.reveal_child = True
+        else:
+            self._user_button_revealer.set_visible(False)
 
     @Gtk.Template.Callback()
     def _user_button_revealer_reveal_child_cb(self, _button, _pspec):
@@ -2643,6 +2645,7 @@ class ClubhouseApplication(Gtk.Application):
         self._ensure_window()
         self._window.set_page('CLUBHOUSE')
         self.show(Gdk.CURRENT_TIME)
+        self._user_button_revealer.set_visible(True)
         revealer = self._window._user_button_revealer
         if not revealer.props.reveal_child:
             revealer.props.reveal_child = True

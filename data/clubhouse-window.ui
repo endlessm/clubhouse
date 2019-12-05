@@ -286,6 +286,111 @@
           </packing>
         </child>
         <child type="overlay">
+          <object class="GtkEventBox" id="_headerbar_eventbox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
+            <property name="valign">start</property>
+            <property name="visible_window">False</property>
+            <signal name="button-press-event" handler="_on_button_press_event" swapped="no"/>
+            <child>
+              <object class="GtkHeaderBar" id="_headerbar">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="valign">start</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child type="title">
+                  <object class="GtkBox" id="_headerbar_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">fill</property>
+                    <property name="hexpand">True</property>
+                    <child>
+                      <object class="BreadcrumbButton" id="_clubhouse_button">
+                        <property name="label" translatable="yes">Clubhouse</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="receives_default">True</property>
+                        <property name="action_name">app.show-page</property>
+                        <property name="action_target">'CLUBHOUSE'</property>
+                        <property name="active">True</property>
+                        <property name="popover">_pathways_popovermenu</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkToggleButton" id="_hack_news_button">
+                        <property name="label" translatable="yes">Hack News</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="receives_default">False</property>
+                        <property name="action_name">app.show-page</property>
+                        <property name="action_target">'NEWS'</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">4</property>
+                      </packing>
+                    </child>
+
+                    <child>
+                      <object class="GtkButton">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="valign">start</property>
+                        <property name="action_name">app.close</property>
+                        <property name="relief">none</property>
+                        <child>
+                          <object class="GtkImage">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon_name">window-close-symbolic</property>
+                            <property name="icon_size">3</property>
+                          </object>
+                        </child>
+                        <style>
+                          <class name="closebutton"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="pack_type">end</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+
+                    <style>
+                      <class name="headerbar-buttonbox"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="index">1</property>
+          </packing>
+        </child>
+
+        <child type="overlay">
           <object class="GtkBox" id="_user_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -324,7 +429,7 @@
                         <child>
                           <object class="GtkRevealer" id="_user_button_revealer">
                             <property name="name">user-button-revealer</property>
-                            <property name="visible">True</property>
+                            <property name="visible">False</property>
                             <property name="can_focus">False</property>
                             <property name="transition_type">slide-right</property>
                             <signal name="notify::child-revealed" handler="_user_button_revealer_child_revealed_notify_cb" swapped="no"/>
@@ -454,6 +559,7 @@
             <property name="index">2</property>
           </packing>
         </child>
+
         <child type="overlay">
           <object class="GtkButton" id="_user_image_button">
             <property name="name">image</property>
@@ -477,110 +583,7 @@
             <property name="index">3</property>
           </packing>
         </child>
-        <child type="overlay">
-          <object class="GtkEventBox" id="_headerbar_eventbox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
-            <property name="valign">start</property>
-            <property name="visible_window">False</property>
-            <signal name="button-press-event" handler="_on_button_press_event" swapped="no"/>
-            <child>
-              <object class="GtkHeaderBar" id="_headerbar">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="valign">start</property>
-                <child>
-                  <placeholder/>
-                </child>
-                <child type="title">
-                  <object class="GtkBox" id="_headerbar_box">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">fill</property>
-                    <property name="hexpand">True</property>
-                    <child>
-                      <object class="BreadcrumbButton" id="_clubhouse_button">
-                        <property name="label" translatable="yes">Clubhouse</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="action_name">app.show-page</property>
-                        <property name="action_target">'CLUBHOUSE'</property>
-                        <property name="active">True</property>
-                        <property name="popover">_pathways_popovermenu</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkToggleButton" id="_hack_news_button">
-                        <property name="label" translatable="yes">Hack News</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="receives_default">False</property>
-                        <property name="action_name">app.show-page</property>
-                        <property name="action_target">'NEWS'</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">4</property>
-                      </packing>
-                    </child>
 
-                    <child>
-                      <object class="GtkButton">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="valign">start</property>
-                        <property name="action_name">app.close</property>
-                        <property name="relief">none</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="icon_name">window-close-symbolic</property>
-                            <property name="icon_size">3</property>
-                          </object>
-                        </child>
-                        <style>
-                          <class name="closebutton"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="pack_type">end</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-
-                    <style>
-                      <class name="headerbar-buttonbox"/>
-                    </style>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="index">1</property>
-          </packing>
-        </child>
       </object>
     </child>
     <style>
