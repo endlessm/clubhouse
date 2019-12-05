@@ -29,6 +29,7 @@
         <child>
           <object class="GtkButton" id="_back_button">
             <property name="visible">True</property>
+            <property name="always_show_image">True</property>
             <style>
               <class name="back"/>
             </style>
@@ -63,6 +64,7 @@
     <child>
       <object class="GtkButton" id="_main_button">
         <property name="visible">True</property>
+        <property name="always_show_image">True</property>
         <style>
           <class name="main"/>
         </style>
@@ -81,11 +83,48 @@
         <property name="receives_default">True</property>
         <property name="relief">none</property>
         <child>
-          <object class="GtkImage" id="_popover_button_image">
+          <object class="GtkBox">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="icon_name">go-down-symbolic</property>
-            <property name="icon_size">3</property>
+            <property name="valign">center</property>
+            <property name="orientation">horizontal</property>
+            <child>
+              <object class="GtkRevealer" id="_popover_revealer">
+                <property name="name">user-button-revealer</property>
+                <property name="visible">False</property>
+                <property name="can_focus">False</property>
+                <property name="transition_type">slide-right</property>
+                <child>
+                  <object class="GtkLabel" id="_popover_label">
+                    <property name="name">popover-label</property>
+                    <property name="label">POPOVER</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="no_show_all">True</property>
+                    <property name="halign">start</property>
+                    <property name="ellipsize">end</property>
+                    <property name="max_width_chars">32</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkImage" id="_popover_button_image">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">go-down-symbolic</property>
+                <property name="icon_size">3</property>
+              </object>
+               <packing>
+                 <property name="expand">False</property>
+                 <property name="fill">True</property>
+                 <property name="position">1</property>
+               </packing>
+            </child>
           </object>
         </child>
         <style>

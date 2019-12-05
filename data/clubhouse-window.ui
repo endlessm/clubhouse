@@ -307,6 +307,7 @@
                     <child>
                       <object class="BreadcrumbButton" id="_clubhouse_button">
                         <property name="label" translatable="yes">Clubhouse</property>
+                        <property name="icon_name">go-home-symbolic</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="receives_default">True</property>
@@ -314,6 +315,7 @@
                         <property name="action_target">'CLUBHOUSE'</property>
                         <property name="active">True</property>
                         <property name="popover">_pathways_popovermenu</property>
+                        <property name="popover-label" translatable="yes">Pathways</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>

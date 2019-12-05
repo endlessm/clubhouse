@@ -80,6 +80,7 @@
       <object class="BreadcrumbButton" id="_character_button">
         <property name="label" translatable="yes">Workspace</property>
         <property name="back_label" translatable="yes">Clubhouse</property>
+        <property name="back_icon_name">go-home-symbolic</property>
         <property name="back_action_name">app.show-page</property>
         <property name="back_action_target">'CLUBHOUSE'</property>
         <property name="visible">True</property>
