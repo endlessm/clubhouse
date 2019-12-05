@@ -1881,7 +1881,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._hack_news_button.set_active(True)
 
         if current_page == 'CHARACTER':
-            self.hide_achievements_view()
             running_quest = self._app.quest_runner.running_quest
             if running_quest is not None and running_quest.is_narrative():
                 running_quest.step_abort()
@@ -1942,9 +1941,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     @Gtk.Template.Callback()
     def _user_image_button_clicked_cb(self, _user_image_button):
-        if self._stack.props.visible_child_name == 'CHARACTER':
-            return
-
         button_revealer = self._user_button_revealer
         if not button_revealer.props.reveal_child:
             button_revealer.props.reveal_child = Desktop.get_hack_mode() and \
