@@ -93,24 +93,6 @@ ClubhouseWindow
 
     // Header bar buttons.
     .headerbar-buttonbox
-      $color_variants: #37DCB1, #2D9B98, #22597F, #181866
-
-      @function bg($index, $alpha)
-        $color_a: transparentize(nth($color_variants, $index), $alpha)
-        $color_b: transparentize(nth($color_variants, $index % length($color_variants) + 1), $alpha)
-        @debug $color_b
-        @return linear-gradient(to bottom right, $color_a, $color_b)
-
-      // The headerbar button background.
-      @mixin bg($index)
-        // We use the odd children, because there is a helper label between the buttons.
-        &:nth-child(#{2 * ($index - 1) + 1})
-          background: bg($index, 0.2)
-          &:hover
-            background: bg($index, 0)
-          &:checked
-            background: bg($index, 0.05)
-
       min-height: 1.8em
       margin: 2em 1ex
       font-size: 1.4em
@@ -121,6 +103,14 @@ ClubhouseWindow
         margin: 0 1.5em
 
       > button
+        $color_variants: #37DCB1, #2D9B98, #22597F, #181866
+
+        @function bg($index, $alpha)
+          $color_a: transparentize(nth($color_variants, $index), $alpha)
+          $color_b: transparentize(nth($color_variants, $index % length($color_variants) + 1), $alpha)
+          @debug $color_b
+          @return linear-gradient(to bottom right, $color_a, $color_b)
+
         color: white
         text-shadow: none
         border: 0
@@ -131,15 +121,19 @@ ClubhouseWindow
         transition: none
         transition: background-image 200ms linear
 
+        // The headerbar button background.
+        @mixin bg($index)
+          // We use the odd children, because there is a helper label between the buttons.
+          &:nth-child(#{2 * ($index - 1) + 1})
+            background: bg($index, 0.2)
+            &:hover
+              background: bg($index, 0)
+            &:checked
+              background: bg($index, 0.05)
+
         @include bg(1)
         @include bg(2)
         @include bg(3)
-
-        background: bg(3, 0.2)
-        &:hover
-          background: bg(3, 0)
-        &:checked
-          background: bg(3, 0.05)
 
         &:checked
           padding: 0
@@ -148,19 +142,13 @@ ClubhouseWindow
         label
           margin: 0 1em
 
-      > button.closebutton
-        margin-left: 1em
-        margin-right: 1em
-        min-height: 1.4em
-        min-width: 1.4em
-
       // Headerbar buttons in character view.
       &.CHARACTER
          > button
-          &:nth-child(1)
+          &:first-child
             border-radius: 3em 0 0 3em
 
-          &:nth-child(2)
+          &:last-child
             border-radius: 0 3em 3em 0
 
           > box
