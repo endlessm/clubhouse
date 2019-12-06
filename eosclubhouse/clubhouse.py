@@ -762,8 +762,7 @@ class CategoryCard(Gtk.FlowBoxChild):
 
     @Gtk.Template.Callback()
     def _on_button_press_event(self, widget, event):
-        self._character_view.populate_quests(self._quest_set, self._category)
-        self._character_view.show_quests()
+        self._character_view.set_page_state({'category': self._category.id})
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/activity-card.ui')
@@ -968,6 +967,7 @@ class CharacterView(Gtk.Grid):
         self.message_box = MessageBox()
         self._view_overlay.add_overlay(self.message_box)
 
+        self._quest_set = None
         self._animator = Animator(self.character_image)
         self._character = None
         self._quest_set = None
@@ -982,6 +982,7 @@ class CharacterView(Gtk.Grid):
         self._app_window.connect('notify::scale', lambda app, pspec:
                                  self.update_character_image(idle=True))
 
+        self.connect('notify::category', self._category_notify_cb)
         self.message_box.show_all()
 
     def show_categories(self):
@@ -1010,7 +1011,6 @@ class CharacterView(Gtk.Grid):
 
         # Set scrollbar back to the beginning
         self.activities_sw.props.vadjustment.props.value = 0
-        self._quest_set = None
 
     def populate_quests(self, quest_set, category):
         self._clear_quest_flow_box()
@@ -1049,20 +1049,14 @@ class CharacterView(Gtk.Grid):
         if self._character is not None:
             ctx.remove_class(self._character.id)
 
+        self._quest_set = quest_set
         # Get character
         self._character = Character.get_or_create(quest_set.get_character())
 
         ctx.add_class(self._character.id)
 
-        # Set page title
-        self._character_button.label = self._character.pathway_title
-
-        # Set character image
+        self.set_page_state({})
         self.update_character_image(idle=True)
-
-        self.populate_categories(quest_set)
-        self.show_categories()
-        self._quest_set = quest_set
 
     def _add_activity_card(self, quest_set, quest):
         card = ActivityCard(quest_set, quest)
@@ -1079,6 +1073,17 @@ class CharacterView(Gtk.Grid):
             self._add_activity_card(quest_set, quest)
         else:
             self._remove_activity_card(quest_set, quest)
+
+    def _new_categories_popover(self, quest_set):
+        category_menu = Gio.Menu()
+        for category in quest_set.get_categories():
+            state = utils.convert_variant_arg({'category': category.id})
+            menu_item = Gio.MenuItem()
+            menu_item.set_label(category.title)
+            menu_item.set_action_and_target_value('app.set-page-state',
+                                                  GLib.Variant('(sv)', ('CHARACTER', state)))
+            category_menu.append_item(menu_item)
+        return Gtk.Popover.new_from_model(None, category_menu)
 
     def _on_row_size_allocate(self, row, _rect):
         self._scroll_to_first_non_completed_quest()
@@ -1114,6 +1119,45 @@ class CharacterView(Gtk.Grid):
 
     def _on_characters_disabled_changed_cb(self, state, _param):
         self._app_window.character.activities_sw.props.sensitive = not state.characters_disabled
+
+    def _setup_category_view(self):
+        self._character_button.label = '{} Pathway'.format(self._character.pathway_title)
+        self._character_button.popover_label = 'Categories'
+        self._character_button.popover = self._new_categories_popover(self._quest_set)
+
+        self._character_button.set_back_actions_visible(False)
+        self._character_button.set_active(True)
+
+        self.populate_categories(self._quest_set)
+        self.show_categories()
+
+    def _setup_quest_view(self):
+        self._character_button.back_label = '{} Pathway'.format(self._character.pathway_title)
+        self._character_button.back_action_name = 'app.set-page-state'
+        state = utils.convert_variant_arg({})
+        self._character_button.back_action_target = GLib.Variant('(sv)', ('CHARACTER', state))
+        self._character_button.label = self.props.category.title
+
+        self._character_button.set_back_actions_visible(True)
+        self._character_button.show_all()
+        self._character_button.set_active(True)
+        self._character_button.popover = None
+
+        self.populate_quests(self._quest_set, self.props.category)
+        self.show_quests()
+
+    def _category_notify_cb(self, *_args):
+        if self.props.category is None:
+            self._setup_category_view()
+        else:
+            self._setup_quest_view()
+
+    def set_page_state(self, state):
+        self.props.category = state.get('category')
+        category_id = state.get('category')
+        self.props.category = utils.CategoriesDB.get(category_id)
+
+    category = GObject.Property(type=object)
 
 
 class ClubhouseView(FixedLayerGroup):
@@ -2097,6 +2141,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         page_variant = GLib.Variant('s', new_page)
         recorder.record_event(CLUBHOUSE_SET_PAGE_EVENT, page_variant)
 
+    def get_page(self, name):
+        return self._stack.get_child_by_name(name)
+
     def _select_main_page_on_timeout(self):
         self.set_page('CLUBHOUSE')
         self._page_reset_timeout = 0
@@ -2801,6 +2848,8 @@ class ClubhouseApplication(Gtk.Application):
                           ('close', self._close_action_cb, None),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
                           ('show-page', self._show_page_action_cb, GLib.VariantType.new('s')),
+                          ('set-page-state', self._set_page_state_action_cb,
+                           GLib.VariantType.new('(sv)')),
                           ('show-character', self._show_character_action_cb,
                            GLib.VariantType.new('s')),
                           ('stop-quest', self._stop_quest, None),
@@ -2929,6 +2978,17 @@ class ClubhouseApplication(Gtk.Application):
         if self._window:
             self._window.set_page(page_name)
             self._show_and_focus_window()
+
+    def _set_page_state_action_cb(self, action, arg_variant):
+        if self._window is None:
+            return
+
+        page_name, state = arg_variant.unpack()
+        page = self._window.get_page(page_name)
+
+        if page is None:
+            return
+        page.set_page_state(state)
 
     def _show_character_action_cb(self, action, arg_variant):
         character_id = arg_variant.unpack()
