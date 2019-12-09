@@ -1,0 +1,7 @@
+RPIWEBCARD_QUEST_NAME,A Card for All Seasons,,,,
+RPIWEBCARD_QUEST_SUBTITLE,What you'll do,,,,
+RPIWEBCARD_QUEST_DESCRIPTION,"Use your knowledge of HTML and CSS to create a greeting card, using a tool called Trinket.",,,,
+RPIWEBCARD_QUIT,See you later!,,,,
+RPIWEBCARD_WELCOME,"*{{user_name}}*, what's happening? You know how you have to go buy cards for people for birthdays, holidays, and things like that? Wouldn't it be more fun if you could just make your own? ",riley,,,
+RPIWEBCARD_LINK,"I was thinking that, and started poking around the web - and I found this! Send your browser over to https://projects.raspberrypi.org/en/projects/happy-birthday/7 if it doesn't load automatically.",riley,,,
+RPIWEBCARD_BYE,"Cool, huh? If you figure this out well enough, you'll never have to buy a card again! See ya! ",riley,,,
