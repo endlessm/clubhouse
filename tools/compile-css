@@ -63,7 +63,6 @@ if [ ! -z "$ret" ] && [ $ret -ne 0 ]; then
 fi
 
 if $COMMIT; then
-    return
     # Ensure we don't include previously added things in this commit
     git reset HEAD
     git add $css_file
