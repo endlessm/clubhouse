@@ -69,49 +69,6 @@ ARTEXPRESS2_QUEST_DESCRIPTION,"Create a new wearable, based on your work in Part
 ARTEXPRESS2_QUEST_NAME,Express Yourself - Part 2,,,,
 ARTEXPRESS2_QUEST_SUBTITLE,What you'll do,,,,
 ARTEXPRESS2_WELCOME,"If you liked the previous part, you're sure to like this one - take your self-expression to the next level!",estelle,,,
-BLENDMONSTER1_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
-BLENDMONSTER1_INFO_1,"The best way to use this tutorial is to adjust your windows so that you can see both Blender and the video.
-That way, you can watch the video and follow along with the instructions at the same time.",estelle,,,
-BLENDMONSTER1_INFO_2,Here's the tutorial - https://www.youtube.com/watch?v=7MRonzqYJgw,estelle,,,
-BLENDMONSTER1_LAUNCH,Let's go! I'll launch Blender and start us off!,estelle,,,
-BLENDMONSTER1_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
-
-You need to download it from the App Center if you'd like to learn how to use it.
-
-Click the icon named `App Center` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDMONSTER1_QUEST_DESCRIPTION,"In part 1 of this quest, start your journey towards making a full Blender scene with a spooky monster!",,,,
-BLENDMONSTER1_QUEST_NAME,A 3D Monster Smoothie!,,,,
-BLENDMONSTER1_QUEST_SUBTITLE,What you'll do,,,,
-BLENDMONSTER1_QUIT,See you later!,,,,
-BLENDMONSTER1_WARN,"Hey, *{{user_name}}*! One important thing before we start - Blender is a powerful program with a lot of commands, so it would help you a *lot* if you could plug in a USB mouse with 2 buttons and a scroll wheel, so that you can use everything properly.",estelle,,,
-BLENDMONSTER2_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
-BLENDMONSTER2_INFO_1,"Don't forget to adjust your windows so that you can see both Blender and the video, so you can follow along.",estelle,,,
-BLENDMONSTER2_INFO_2,Here's the link - https://www.youtube.com/watch?v=L0AY61v6-M4,estelle,,,
-BLENDMONSTER2_LAUNCH,Time to get moving - Here comes Blender.,estelle,,,
-BLENDMONSTER2_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
-
-You need to download it from the App Center if you'd like to learn how to use it.
-
-Click the icon named `App Center` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDMONSTER2_QUEST_DESCRIPTION,"In part 2 of this quest, it's time to dive into modeling one of the characters in your scene.",,,,
-BLENDMONSTER2_QUEST_NAME,Monster Smoothie - Assembling the Ingredients,,,,
-BLENDMONSTER2_QUEST_SUBTITLE,What you'll do,,,,
-BLENDMONSTER2_QUIT,See you later!,,,,
-BLENDMONSTER2_WARN,"Welcome back, *{{user_name}}*! If you haven't yet done the previous part of this quest, it's recommended. If you've got a USB mouse handy, now would be a great time to plug it in.",estelle,,,
-BLENDMONSTER3_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
-BLENDMONSTER3_INFO_1,"Remember to adjust your windows so that you can see both Blender and the video, to follow along.",estelle,,,
-BLENDMONSTER3_INFO_2,Here's your link - https://www.youtube.com/watch?v=WFzIbz2FN28,estelle,,,
-BLENDMONSTER3_LAUNCH,Let's go!,estelle,,,
-BLENDMONSTER3_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
-
-You need to download it from the App Center if you'd like to learn how to use it.
-
-Click the icon named `App Center` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDMONSTER3_QUEST_DESCRIPTION,"In part 3 of this quest, you'll explore new modeling techniques, and continue building the main charcter.",,,,
-BLENDMONSTER3_QUEST_NAME,Monster Smoothie - Chopping and Re-shaping,,,,
-BLENDMONSTER3_QUEST_SUBTITLE,What you'll do,,,,
-BLENDMONSTER3_QUIT,See you later!,,,,
-BLENDMONSTER3_WARN,"Hey again, *{{user_name}}*. If you haven't done the previous section of the quest, I'd recommend it. Don't forget your USB mouse (if it's not already connected)!",estelle,,,
 BONUSROUND_ABORT,"Okay but trust me, it's gonna be cool. Come back when you have more time!",riley,,,
 BONUSROUND_LAUNCH,"A.maze.ing! Sorry, couldn't resist */\‿/\*  Okay, so launch the *Sidetrack* app.",,,,
 BONUSROUND_LAUNCH_HINT1,Click the *Sidetrack* icon. ,,,,
