@@ -2468,6 +2468,7 @@ class ClubhouseApplication(Gtk.Application):
                          inactivity_timeout=self._INACTIVITY_TIMEOUT,
                          resource_base_path='/com/hack_computer/Clubhouse')
 
+        self._quest_runner_handler = None
         self._quest_runner = QuestRunner()
         self._window = None
         self._debug = {}
@@ -2514,8 +2515,9 @@ class ClubhouseApplication(Gtk.Application):
         self._ensure_registry_loaded()
         self._ensure_suggesting_open()
 
-        self.quest_runner.connect('notify::running-quest',
-                                  self._running_quest_notify_cb)
+        if not self._quest_runner_handler:
+            self._quest_runner_handler = self.quest_runner.connect('notify::running-quest',
+                                                                   self._running_quest_notify_cb)
 
         self.quest_runner.update_episode_if_needed()
 
@@ -2741,7 +2743,13 @@ class ClubhouseApplication(Gtk.Application):
 
     def _show_character_action_cb(self, action, arg_variant):
         character_id = arg_variant.unpack()
-        if self._window:
+
+        if not self._window:
+            self.do_activate()
+
+        running_quest = self._get_running_quest_name()
+
+        if not running_quest and Desktop.get_hack_mode():
             qs = libquest.Registry.get_questset_for_character(character_id)
             self._window.character.show_mission_list(qs)
             self._window.set_page('CHARACTER')
