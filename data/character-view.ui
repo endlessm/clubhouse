@@ -105,6 +105,33 @@
     <property name="valign">center</property>
     <property name="hexpand">True</property>
     <child>
+      <object class="GtkButton" id="_home_button">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="valign">start</property>
+        <property name="action_name">app.show-page</property>
+        <property name="action_target">'CLUBHOUSE'</property>
+        <property name="relief">none</property>
+        <child>
+          <object class="GtkImage">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="icon_name">go-home-symbolic</property>
+            <property name="icon_size">3</property>
+          </object>
+        </child>
+        <style>
+          <class name="closebutton"/>
+        </style>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
       <object class="GtkButton">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
