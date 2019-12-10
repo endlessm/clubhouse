@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
   <template class="CharacterView" parent="GtkGrid">
@@ -102,27 +102,8 @@
   <object class="GtkBox" id="header_box">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="halign">fill</property>
     <property name="valign">center</property>
     <property name="hexpand">True</property>
-    <child>
-      <object class="BreadcrumbButton" id="_character_button">
-        <property name="label" translatable="yes">Workspace</property>
-        <property name="back_label" translatable="yes">Clubhouse</property>
-        <property name="back_icon_name">go-home-symbolic</property>
-        <property name="back_action_name">app.show-page</property>
-        <property name="back_action_target">'CLUBHOUSE'</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="receives_default">True</property>
-        <property name="active">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
     <child>
       <object class="GtkButton">
         <property name="visible">True</property>
@@ -142,6 +123,25 @@
         <style>
           <class name="closebutton"/>
         </style>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="pack_type">end</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="BreadcrumbButton" id="_character_button">
+        <property name="label" translatable="yes">Workspace</property>
+        <property name="back_label" translatable="yes">Clubhouse</property>
+        <property name="back_icon_name">go-home-symbolic</property>
+        <property name="back_action_name">app.show-page</property>
+        <property name="back_action_target">'CLUBHOUSE'</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="receives_default">True</property>
+        <property name="active">True</property>
       </object>
       <packing>
         <property name="expand">False</property>
