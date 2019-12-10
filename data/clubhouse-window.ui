@@ -76,6 +76,7 @@
                           </object>
                         </child>
                         <style>
+                          <class name="circular"/>
                           <class name="closebutton"/>
                         </style>
                       </object>
