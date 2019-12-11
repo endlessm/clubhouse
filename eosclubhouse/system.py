@@ -741,7 +741,6 @@ class GameStateService(GObject.GObject):
     @classmethod
     def _get_gss_proxy(klass):
         if klass._proxy is None:
-            logger.warning(f'{klass}: {klass._DBUS_ID}')
             klass._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
                                                           0,
                                                           None,
