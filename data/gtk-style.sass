@@ -154,17 +154,24 @@ ClubhouseWindow
           padding: 0
           border: 3px solid white
 
+        &.closebutton
+          @include bg($color_index: 3)
+          margin-left: 1em
+          margin-right: 1em
+          min-height: 1.4em
+          min-width: 1.4em
+
         label
           margin: 0 1em
 
       // Headerbar buttons in character view.
       &.CHARACTER
         > button
-          &:first-child
+          &:nth-child(1)
             @include bg($color_index: 1)
             border-radius: 3em 0 0 3em
 
-          &:last-child
+          &:nth-child(2)
             @include bg($color_index: 3)
             border-radius: 0 3em 3em 0
 
