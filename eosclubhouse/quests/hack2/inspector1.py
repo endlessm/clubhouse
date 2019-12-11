@@ -1,5 +1,5 @@
 from eosclubhouse.libquest import Quest
-import os
+from gi.repository import Gio
 
 
 class Inspector1(Quest):
@@ -8,13 +8,15 @@ class Inspector1(Quest):
     __pathway_order__ = 581
 
     def setup(self):
-        self._info_messages = self.get_loop_messages('INSPECTOR1', start=1)
+        self._info_messages = self.get_loop_messages('INSPECTOR1', start=3)
 
     def step_begin(self):
+        self.wait_confirm('1')
+        self.wait_confirm('2')
         return self.step_launch
 
     def step_launch(self):
-        os.system('xdg-open about:blank')
+        Gio.AppInfo.launch_default_for_uri_async('about:blank')
         return self.step_main_loop
 
     def step_main_loop(self, message_index=0):
