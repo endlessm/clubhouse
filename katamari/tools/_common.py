@@ -73,7 +73,7 @@ class Config:
         return method(key, self._defs[section][key])
 
     def get_default_branch(self):
-        return 'stable' if self.get('Common', 'stable') else 'master'
+        return 'eos3' if self.get('Common', 'stable') else 'master'
 
     def get_flatpak_branch(self):
         # First, check if there is an override in the advanced
