@@ -73,7 +73,7 @@ class Config:
         return method(key, self._defs[section][key])
 
     def get_default_branch(self):
-        return 'stable' if self.get('Common', 'stable') else 'master'
+        return 'eos3' if self.get('Common', 'stable') else 'master'
 
     def get_flatpak_branch(self):
         # First, check if there is an override in the advanced
@@ -87,12 +87,12 @@ class Config:
 
         return self.get_default_branch()
 
-    def get_template_values(self, modules):
+    def get_template_values(self, modules, template=None):
         template_values = {
             'BRANCH': self.get_flatpak_branch(),
         }
 
-        default_git_branch = self.get_default_branch()
+        default_git_branch = '@BRANCH@' if template else self.get_default_branch()
 
         for module in modules:
             source_key = _get_source_key(module)
@@ -199,7 +199,7 @@ def _get_source(module, module_value, default_git_branch):
 
 
 def create_flatpak_manifest(config, modules, manifest, template=None):
-    template_values = config.get_template_values(modules)
+    template_values = config.get_template_values(modules, template)
 
     manifest_file = manifest
     if template:
