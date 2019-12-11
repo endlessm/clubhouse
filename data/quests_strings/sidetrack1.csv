@@ -1,0 +1,88 @@
+SIDETRACK1_QUEST_NAME,Sidetrack - Robots and Pits,,,,
+SIDETRACK1_QUEST_SUBTITLE,What you'll do,,,,
+SIDETRACK1_QUEST_DESCRIPTION,Escape the maze of pits and robots,,,,
+SIDETRACK1_NOTINSTALLED,"Uh-oh! Looks like `Sidetrack` isn't installed!
+
+You need to download it from the App Center to run this quest.
+
+Click the icon named `App Center` on the Desktop, then search for `Sidetrack`, and install it.",daemon,,,
+SIDETRACK1_LAUNCH_ADA,Go ahead and Launch *Sidetrack*.,ada,,,
+SIDETRACK1_LAUNCH_ADA_HINT1,Click the *Sidetrack* icon on the desktop.,,,,
+SIDETRACK1_ASSIGNMENT_ADA,"For the summer assignment in the Academy we asked the students to build a maze game.
+
+There were just a view requirements: the students had to own the project and the project management. They could ask for help and guidance from the various teachers.
+
+The game had to be interactive and Hacking should be involved in order to complete the maze. This is the maze Riley came up with.",ada,,,
+SIDETRACK1_ASSIGNMENT_RILEY,I learned tons creating the maze. Thanks again Ada for all the help with the game design.,riley,,,
+SIDETRACK1_ASSIGNMENT_FABER,"And of course Riley had to feature herself :)
+
+Riley, to do the presentation, I think you also need someone to try out the maze...",faber,,,
+SIDETRACK1_ASSIGNMENT_STUDENT,Riiight. *{{user_name}}* do you want to try out my new maze so I can show it off to my teachers?,riley,,,
+SIDETRACK1_ASSIGNMENT_ESTELLE,"Riley, we are all very curious to see your final result.",estelle,,,
+SIDETRACK1_ASSIGNMENT_SANIEL,Indeed Estelle. Let's dimm the lights and let the show begin.,saniel,,,
+SIDETRACK1_MANUAL1_INTRO,"See that *Exit*? That's my dream, to get to that *Exit*. And you can help me get there!",riley,,,
+SIDETRACK1_MANUAL1,"Use the FORWARD, UP, and DOWN *Instructions* to move me through these obstacles.",riley,,,
+SIDETRACK1_MANUAL1_HINT1,"I always run one space to the right, but I can also move UP or DOWN at the same time.",riley,,,
+SIDETRACK1_MANUAL1_HINT2,Watch out for those *Walls*!,riley,,,
+SIDETRACK1_DIED_RESTART,Ooopff. Let's try to avoid these *Walls*!,riley,,,
+SIDETRACK1_MANUAL2,"Hey, another level. You thought you just had to get to the exit! This was just the start...",riley,,,
+SIDETRACK1_MANUAL3,I like the music you came up with Riley. All those harmony classes with me paid off in the end.,faber,,,
+SIDETRACK1_MANUAL4,"*Pits*? Oh no, how to cross those?",saniel,,,
+SIDETRACK1_MANUAL5,"You will have to use the JUMP *Instruction*  to cross the *Pits*!
+
+There's a trick to the JUMP though! JUMP only works if the *Pit* is _directly_ in front of you.",riley,,,
+SIDETRACK1_MANUAL6,Those pits were not so easy to draw actually. Really hard to create a sense of deepness.,riley,,,
+SIDETRACK1_MANUAL7,"You did great Riley, I wish every student is as skilled.",estelle,,,
+SIDETRACK1_ROBOTS1,"What are these? *Robot* insects? Insects, really? LOL. Hi! `My.` `Name.` `Is.` `Faber.` `What's.` `Your.` `Name.`",faber,,,
+SIDETRACK1_ROBOTS2,"That was helarious, Faber :) Be careful *{{user_name}}*. Study how they move. Keep in mind that when you move, they're moving too.",riley,,,
+SIDETRACK1_ROBOTS3,Watch the movement of the robots carefully to plan your next move. Think about the space they open when they move.,riley,,,
+SIDETRACK1_ROBOTS3_HINT1,"These *Robots* only move DOWN, never left or right. Try to use their own rules to get past them.",riley,,,
+SIDETRACK1_ROBOTS3_HINT2,"And when they walk off the bottom, they reappear at the top! So keep your eye out for that!",riley,,,
+SIDETRACK1_MOREROBOTS,"Another *Robot*! This new type only moves UP, just like the first only moves DOWN. They glow in the direction they're facing!",riley,,,
+SIDETRACK1_AUTO1,"*Robots!* & *Pits!* oh my! Riley, this storyline is great.",ada,hurray,,
+SIDETRACK1_AUTO1_FELIX,mjau ^ = ^ mjav //\\ ngiyaw /\ ^  miav,felixnet,,,
+SIDETRACK1_AUTO1_FABER,Hold up. Listen. Was that meowing? Is one of Saniel's cats in the maze too?,faber,,,
+SIDETRACK1_AUTO1_ADA,Sounds like it! Riley? The manual controls just totally disappeared. Something must be messing with them!,ada,,,
+SIDETRACK1_AUTO1_PLOT,"Heh, not to worry. This is all part of my plot. Now the fun part starts.",riley,,,
+SIDETRACK1_AUTO1_ESTELLE_REACTION,I see the maze has given a set of *Instructions* already.,estelle,,,
+SIDETRACK1_AUTO1_RILEY,*{{user_name}}* see that PLAY button? Try pushing that.,riley,,,
+SIDETRACK1_AUTO1_RILEY_HINT1,Press the PLAY button to activate the *Instructions*.,riley,,,
+SIDETRACK1_AUTO2_INTRO,"You can still move, but now you have to plan all your moves in advance.
+
+It's a new kind of challenge – you just have to give yourself time to think it through.",riley,,,
+SIDETRACK1_AUTO2,"After you have the *Instructions* lined up, you press PLAY and that moves you through the maze.",riley,,,
+SIDETRACK1_AUTO3,This set of *Instructions* won't cut it! Study the obstacles and put the *Instructions* in a new order.,riley,,,
+SIDETRACK1_AUTO3_HINT1,You’ll need to drag and drop those *Instructions* to put them in a new order.,riley,,,
+SIDETRACK1_AUTO3_HINT2,Press PLAY to execute the *Instructions* and get through the level.,riley,,,
+SIDETRACK1_AUTO3_HINT3,"And keep in mind, once you press PLAY you can no longer change the *Instructions!*",riley,,,
+SIDETRACK1_AUTO3_SUCCESS,Excellent! Riley sailed right through! Thanks to your strategic thinking *{{user_name}}*!,saniel,hurray,,
+SIDETRACK1_AUTO3_FAILURE,Good try! Let's review the order of the *Instructions* and try again. Do you see a different order to try?,saniel,,,
+SIDETRACK1_AUTO4_SANIEL,"Riley, I like how you have built up the plot to progress from puzzle solving to strategic thinking.",saniel,,,
+SIDETRACK1_AUTO4_RILEY,"Thanks Saniel, your praise means a lot to me.",riley,,,
+SIDETRACK1_ONEJUMP_PRE,"Hey Riley, how's it going in there?",faber,,,
+SIDETRACK1_ONEJUMP,"Heh Faber, you know, just chillin' in here!
+
+*{{user_name}}* I hope you are having as much fun as we have.",riley,,,
+SIDETRACK1_ONEJUMP_ADA,Look closely. You only have one JUMP. Think strategically!,ada,,,
+SIDETRACK1_ONEJUMP_ADA_HINT1,"If you only have one JUMP, then you need to use it on the only pit you can't walk around.",ada,,,
+SIDETRACK1_ONEFORWARD,Slowly building up. This time you have two JUMP *Instructions*.,riley,,,
+SIDETRACK1_ONEFORWARD_ADA,"Yes, but now there is only one FORWARD Instruction! We have to think carefully where should it go?",ada,,,
+SIDETRACK1_ONEFORWARD_ADA_HINT1,"There's one place in this level that you _must_ move forward, not up or down. Use FORWARD there!",ada,,,
+SIDETRACK1_SLIDING,"Oh, truly awesome. So many DOWN *Instructions* and Riley need to move FORWARD!
+
+Hmmm, I wonder what happens when you use DOWN when Riley is already at the bottom.
+
+Hope she doesn't fall off. Maybe she'll sort of slide along the bottom edge? Only one way to find out!",faber,,,
+SIDETRACK1_WASTEJUMPS,"Think about it, you don't have to have a *Pit* in front of you to use a JUMP.
+
+Maybe you could use a JUMP to go forward? You never know when that will come in handy!",,,,
+SIDETRACK1_DRAMA_ADA,This looks familiar.,ada,,,
+SIDETRACK1_DRAMA_FABER,"Yeah, just need to power through.",faber,,,
+SIDETRACK1_AUTO5,What’s _that_  *Instruction*? The one at position 3. Something's totally _wrong_ with it!,estelle,,,
+SIDETRACK1_AUTO5_ADA,*{{user_name}}* try pressing PLAY just to see if you can get through anyway.,ada,,,
+SIDETRACK1_AUTO5_ADA_HINT1,There's no way forward unless we at least try! Press PLAY.,ada,,,
+SIDETRACK1_AUTO5_FAILURE_SANIEL,"Okay, it was worth trying, but we're not going anywhere with it like that.",saniel,,,
+SIDETRACK1_AUTO5_FAILURE_SANIEL2,"There must be an error, but to be sure we’ll need to see the code.",saniel,,,
+SIDETRACK1_AUTO5_FAILURE_ADA,I see where this is going. Maybe we should do a short break first.,ada,,,
+SIDETRACK1_SUCCESS,"Yes, this is a really amazing assignment you have put together. Let's meet here again after a short bio break.",faber,hurray,,
+SIDETRACK1_ABORT,Come find me later and we can keep working on this!,ada,,,
