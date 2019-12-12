@@ -1307,8 +1307,8 @@ class NewsItem(Gtk.Box):
         self._text_label.props.label = data.text
         self._date_label.props.label = self._get_human_date(data.date)
 
-        character = os.path.join(config.NEWSFEED_DIR, 'avatar', data.character)
-        self._character_image.set_from_file(character)
+        self._character = data.character
+        self._character_image.set_from_file(self.get_character_path())
 
         if data.image != '':
             image = os.path.join(config.NEWSFEED_DIR, data.image)
@@ -1341,6 +1341,9 @@ class NewsItem(Gtk.Box):
         else:
             return date.strftime('%B %d %Y')
 
+    def get_character_path(self):
+        return os.path.join(config.NEWSFEED_DIR, 'avatar', self._character)
+
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/news-view.ui')
 class NewsView(Gtk.Box):
@@ -1350,6 +1353,8 @@ class NewsView(Gtk.Box):
     _news = Gtk.Template.Child()
     _news_box = Gtk.Template.Child()
     _left_spacing_box = Gtk.Template.Child()
+    _hack_mode_popover = Gtk.Template.Child()
+    _hack_mode_popover_image = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
@@ -1364,8 +1369,20 @@ class NewsView(Gtk.Box):
         self._populate_news()
         self._update_news_visivility()
 
+    def get_pointer_rect(self):
+        r = Gdk.Rectangle()
+        _win, x, y, mask = self.get_window().get_pointer()
+        r.x, r.y, r.width, r.height = x, y, 1, 1
+        return r
+
     def _on_news_item_run_quest(self, item, name):
-        self._app.quest_runner.run_quest_by_name(name)
+        if Desktop.get_hack_mode():
+            self._app.quest_runner.run_quest_by_name(name)
+        else:
+            self._hack_mode_popover_image.set_from_file(item.get_character_path())
+            self._hack_mode_popover.set_relative_to(self)
+            self._hack_mode_popover.set_pointing_to(self.get_pointer_rect())
+            self._hack_mode_popover.popup()
 
     def _populate_news(self):
         for data in self._news_db.get_list():
