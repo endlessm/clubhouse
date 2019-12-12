@@ -1715,6 +1715,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._css_provider = gtk_widget_add_custom_css_provider(self, for_screen=True)
 
+        self._app.quest_runner.connect('notify::running-quest', self._running_quest_notify_cb)
+
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
 
@@ -1760,6 +1762,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             ctx.add_class('off')
             self.hide_achievements_view()
             self.stop_ambient_sound()
+
+    def _running_quest_notify_cb(self, _clubhouse, _pspec):
+        quest = self._app.quest_runner.props.running_quest
+
+        if quest is not None and quest.is_narrative():
+            qs = libquest.Registry.get_questset_for_quest(quest)
+            self.character.show_mission_list(qs)
+            self.set_page('CHARACTER')
 
     def _update_window_size(self):
         BG_WIDTH = 1304
