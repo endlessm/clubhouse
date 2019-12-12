@@ -68,7 +68,15 @@ class Animator(GObject.GObject):
         else:
             animation.connect('animation-loaded', self._on_animation_loaded)
 
-    def _do_load(self, subpath, prefix=None, scale=1, name=None):
+    def load(self, subpath, prefix=None, scale=1, name=None):
+        if self._loading:
+            logger.warning('Cannot load animations for the subpath: \'%s\'. Already loading.',
+                           subpath)
+            return
+        self._loading = True
+        self._animation_after_load = None
+        self._animations = {}
+
         for sprites_path in get_character_animation_dirs(subpath):
             # If animation name is specified then only load that one
             if name is not None:
@@ -79,18 +87,6 @@ class Animator(GObject.GObject):
                 # Load All the animations for this path/character
                 for sprite in glob.glob(os.path.join(sprites_path, '*json')):
                     self._do_load_animation(sprite, prefix, scale)
-
-        return GLib.SOURCE_REMOVE
-
-    def load(self, subpath, prefix=None, scale=1, name=None):
-        if self._loading:
-            logger.warning('Cannot load animations for the subpath: \'%s\'. Already loading.',
-                           subpath)
-            return
-        self._loading = True
-        self._animation_after_load = None
-        self._animations = {}
-        GLib.idle_add(self._do_load, subpath, prefix, scale, name)
 
     def _on_animation_loaded(self, animation):
         self._animations[animation.name] = animation
