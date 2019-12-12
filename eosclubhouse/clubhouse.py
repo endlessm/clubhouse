@@ -46,6 +46,7 @@ from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, A
 
 from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, gtk_widget_add_custom_css_provider
 
+from urllib.parse import urlparse
 
 # Metrics event ids
 CLUBHOUSE_SET_PAGE_EVENT = '2c765b36-a4c9-40ee-b313-dc73c4fa1f0d'
@@ -1274,6 +1275,12 @@ class NewsItem(Gtk.Box):
 
     __gtype_name__ = 'NewsItem'
 
+    __gsignals__ = {
+        'run-quest': (
+            GObject.SignalFlags.RUN_FIRST, None, (str, )
+        ),
+    }
+
     _title_label = Gtk.Template.Child()
     _date_label = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
@@ -1282,7 +1289,6 @@ class NewsItem(Gtk.Box):
 
     def __init__(self, data):
         super().__init__()
-        self._app_window = Gio.Application.get_default().get_active_window()
 
         self.date = data.date
 
@@ -1294,6 +1300,7 @@ class NewsItem(Gtk.Box):
                                       xalign=0,
                                       yalign=0,
                                       width_request=240)
+        self._text_label.connect('activate-link', self._on_text_label_activate_link)
         self._text_box.add(self._text_label)
         self._text_box.connect_after('size-allocate', lambda *_: self._text_label.queue_resize())
 
@@ -1308,6 +1315,15 @@ class NewsItem(Gtk.Box):
             self._set_image_from_path(image)
             self._image_button.set_uri(data.image_href)
             self._image_button.show_all()
+
+    def _on_text_label_activate_link(self, label, uri):
+        data = urlparse(uri)
+        if data.scheme == 'quest':
+            # quest://questname
+            self.emit('run-quest', data.netloc)
+            return True
+
+        return False
 
     def _set_image_from_path(self, path):
         image = ScalableImage(path)
@@ -1348,9 +1364,13 @@ class NewsView(Gtk.Box):
         self._populate_news()
         self._update_news_visivility()
 
+    def _on_news_item_run_quest(self, item, name):
+        self._app.quest_runner.run_quest_by_name(name)
+
     def _populate_news(self):
         for data in self._news_db.get_list():
             item = NewsItem(data)
+            item.connect('run-quest', self._on_news_item_run_quest)
             self._news_box.pack_start(item, True, False, 0)
 
     def _update_news_visivility(self):
