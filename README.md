@@ -16,11 +16,11 @@ The GTK application contains both the UI and also the Quests code, even
 though the latter is decoupled from the main application code (as a
 different module for now, but in the future it may become a different
 process even).
-The main window adapts itself to the screen resolution using 75% of the screen
-height and using the background aspect ratio for its width.
-The supported resolution range goes from 720p to 1080p and different CSS classes
-are used to adapt the rest of the UI other than the artwork to the different
-sizes.
+The main window adapts it size to the screen resolution using different CSS
+classes 'small' for resolutions <= 800p, 'big' for >= 1080p and none for the rest
+The main difference between those classes is the default font size 12px, 14px
+and 16px respectively the rest of the values like margins and padding should be 
+in relative units like em and ex so that it adapts automatically.
 
 ### Shell
 
