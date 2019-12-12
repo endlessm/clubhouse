@@ -98,7 +98,10 @@ class BreadcrumbButton(Gtk.Box):
     def __init__(self):
         super().__init__(self)
         self._active = True
+        self._main_button_label = ''
+        self._main_popover_label = ''
         self._popup_handler = None
+        self._main_popup_handler = None
 
     def _popover_toggled_cb(self, widget, prop):
         if widget.props.visible:
@@ -122,6 +125,29 @@ class BreadcrumbButton(Gtk.Box):
         self._popover_button.set_popover(value)
         self._popover_button.show_all()
 
+    def _main_popover_toggled_cb(self, widget, prop):
+        if widget.props.visible:
+            self._main_button.props.label = self._main_popover_label
+            self._main_button.props.always_show_image = False
+        else:
+            self._main_button.props.label = self._main_button_label
+            self._main_button.props.always_show_image = True
+
+    def _get_main_popover(self):
+        return self._main_button.get_popover()
+
+    def _set_main_popover(self, value):
+        if self._main_popup_handler:
+            self._main_button.props.popover.disconnect(self._main_popup_handler)
+            self._main_popup_handler = None
+
+        if value:
+            self._main_popup_handler = value.connect('notify::visible',
+                                                     self._main_popover_toggled_cb)
+
+            self._main_button.set_popover(value)
+            self._main_button.show_all()
+
     def _get_action_name(self):
         return self._main_button.get_action_name()
 
@@ -137,9 +163,10 @@ class BreadcrumbButton(Gtk.Box):
         self._inactive_button.set_action_target_value(value)
 
     def _get_label(self):
-        return self._main_button.get_label()
+        return self._main_button_label
 
     def _set_label(self, value):
+        self._main_button_label = value
         self._main_button.set_label(value)
 
     def _get_icon_name(self):
@@ -156,6 +183,12 @@ class BreadcrumbButton(Gtk.Box):
 
     def _set_popover_label(self, value):
         self._popover_label.set_label(value)
+
+    def _get_main_popover_label(self):
+        return self._main_popover_label
+
+    def _set_main_popover_label(self, value):
+        self._main_popover_label = value
 
     def get_active(self):
         return self._active
@@ -210,6 +243,12 @@ class BreadcrumbButton(Gtk.Box):
     def _set_back_action_target(self, value):
         self._back_button.set_action_target_value(value)
 
+    main_popover = GObject.Property(_get_main_popover,
+                                    _set_main_popover,
+                                    type=GObject.TYPE_OBJECT)
+    main_popover_label = GObject.Property(_get_main_popover_label,
+                                          _set_main_popover_label,
+                                          type=str)
     popover = GObject.Property(_get_popover, _set_popover, type=GObject.TYPE_OBJECT)
     popover_label = GObject.Property(_get_popover_label, _set_popover_label, type=str)
     action_name = GObject.Property(_get_action_name, _set_action_name, type=str)
