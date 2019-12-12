@@ -62,7 +62,7 @@
     </child>
 
     <child>
-      <object class="GtkButton" id="_main_button">
+      <object class="GtkMenuButton" id="_main_button">
         <property name="visible">True</property>
         <property name="always_show_image">True</property>
         <style>
