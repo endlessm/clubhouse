@@ -6,6 +6,7 @@ class Sidetrack1(Quest):
 
     __app_id__ = 'com.hack_computer.Sidetrack'
 
+    __items_on_completion__ = {'item.key.sidetrack.1': {}}
     __tags__ = ['pathway:games', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 100
 
@@ -149,6 +150,7 @@ class Sidetrack1(Quest):
         return self.step_success
 
     def step_success(self):
+        self.give_item('item.key.sidetrack.1')
         self.wait_confirm('SUCCESS')
         Sound.play('quests/quest-complete')
         return self.step_complete_and_stop(available=False)
