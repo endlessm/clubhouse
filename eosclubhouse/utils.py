@@ -310,7 +310,7 @@ class NewsFeedItem():
         self.date = datetime.date.fromisoformat(date.strip())
         self.character = character.lower().strip()
         self.image = image.lower().strip()
-        self.image_href = image_href.lower().strip()
+        self.image_href = image_href.strip()
         self.text = text.strip()
 
 
