@@ -552,6 +552,12 @@ NewsView {
       NewsView box.news scrolledwindow scrollbar slider:hover {
         background: gray; }
 
+popover.NewsView {
+  padding: 1em;
+  background: rgba(255, 255, 255, 0.8); }
+  popover.NewsView image {
+    margin-right: 1em; }
+
 NewsItem {
   font-size: 1.2em;
   margin: 1ex 1.75em;
