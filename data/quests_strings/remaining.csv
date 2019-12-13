@@ -69,49 +69,6 @@ ARTEXPRESS2_QUEST_DESCRIPTION,"Create a new wearable, based on your work in Part
 ARTEXPRESS2_QUEST_NAME,Express Yourself - Part 2,,,,
 ARTEXPRESS2_QUEST_SUBTITLE,What you'll do,,,,
 ARTEXPRESS2_WELCOME,"If you liked the previous part, you're sure to like this one - take your self-expression to the next level!",estelle,,,
-BLENDMONSTER1_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
-BLENDMONSTER1_INFO_1,"The best way to use this tutorial is to adjust your windows so that you can see both Blender and the video.
-That way, you can watch the video and follow along with the instructions at the same time.",estelle,,,
-BLENDMONSTER1_INFO_2,Here's the tutorial - https://www.youtube.com/watch?v=7MRonzqYJgw,estelle,,,
-BLENDMONSTER1_LAUNCH,Let's go! I'll launch Blender and start us off!,estelle,,,
-BLENDMONSTER1_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
-
-You need to download it from the App Center if you'd like to learn how to use it.
-
-Click the icon named `App Center` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDMONSTER1_QUEST_DESCRIPTION,"In part 1 of this quest, start your journey towards making a full Blender scene with a spooky monster!",,,,
-BLENDMONSTER1_QUEST_NAME,A 3D Monster Smoothie!,,,,
-BLENDMONSTER1_QUEST_SUBTITLE,What you'll do,,,,
-BLENDMONSTER1_QUIT,See you later!,,,,
-BLENDMONSTER1_WARN,"Hey, *{{user_name}}*! One important thing before we start - Blender is a powerful program with a lot of commands, so it would help you a *lot* if you could plug in a USB mouse with 2 buttons and a scroll wheel, so that you can use everything properly.",estelle,,,
-BLENDMONSTER2_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
-BLENDMONSTER2_INFO_1,"Don't forget to adjust your windows so that you can see both Blender and the video, so you can follow along.",estelle,,,
-BLENDMONSTER2_INFO_2,Here's the link - https://www.youtube.com/watch?v=L0AY61v6-M4,estelle,,,
-BLENDMONSTER2_LAUNCH,Time to get moving - Here comes Blender.,estelle,,,
-BLENDMONSTER2_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
-
-You need to download it from the App Center if you'd like to learn how to use it.
-
-Click the icon named `App Center` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDMONSTER2_QUEST_DESCRIPTION,"In part 2 of this quest, it's time to dive into modeling one of the characters in your scene.",,,,
-BLENDMONSTER2_QUEST_NAME,Monster Smoothie - Assembling the Ingredients,,,,
-BLENDMONSTER2_QUEST_SUBTITLE,What you'll do,,,,
-BLENDMONSTER2_QUIT,See you later!,,,,
-BLENDMONSTER2_WARN,"Welcome back, *{{user_name}}*! If you haven't yet done the previous part of this quest, it's recommended. If you've got a USB mouse handy, now would be a great time to plug it in.",estelle,,,
-BLENDMONSTER3_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
-BLENDMONSTER3_INFO_1,"Remember to adjust your windows so that you can see both Blender and the video, to follow along.",estelle,,,
-BLENDMONSTER3_INFO_2,Here's your link - https://www.youtube.com/watch?v=WFzIbz2FN28,estelle,,,
-BLENDMONSTER3_LAUNCH,Let's go!,estelle,,,
-BLENDMONSTER3_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
-
-You need to download it from the App Center if you'd like to learn how to use it.
-
-Click the icon named `App Center` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDMONSTER3_QUEST_DESCRIPTION,"In part 3 of this quest, you'll explore new modeling techniques, and continue building the main charcter.",,,,
-BLENDMONSTER3_QUEST_NAME,Monster Smoothie - Chopping and Re-shaping,,,,
-BLENDMONSTER3_QUEST_SUBTITLE,What you'll do,,,,
-BLENDMONSTER3_QUIT,See you later!,,,,
-BLENDMONSTER3_WARN,"Hey again, *{{user_name}}*. If you haven't done the previous section of the quest, I'd recommend it. Don't forget your USB mouse (if it's not already connected)!",estelle,,,
 BONUSROUND_ABORT,"Okay but trust me, it's gonna be cool. Come back when you have more time!",riley,,,
 BONUSROUND_LAUNCH,"A.maze.ing! Sorry, couldn't resist */\‿/\*  Okay, so launch the *Sidetrack* app.",,,,
 BONUSROUND_LAUNCH_HINT1,Click the *Sidetrack* icon. ,,,,
@@ -1720,6 +1677,13 @@ ROSTER_PRELAUNCH,We're going to visit the Roster.,,,,
 ROSTER_QUESTION,"Okay, we have another important part of the tour. I'm going to give you some info you're going to need. ",ada,,,
 ROSTER_QUEST_ACCEPT,I'm in,,,,
 ROSTER_SUCCESS,"You found it. Excellent. Quite fascinating, isn't he?",,,,
+RPIWEBCARD_BYE,"Cool, huh? If you figure this out well enough, you'll never have to buy a card again! See ya! ",riley,,,
+RPIWEBCARD_LINK,"I was thinking that, and started poking around the web - and I found this! Send your browser over to https://projects.raspberrypi.org/en/projects/happy-birthday/7 if it doesn't load automatically.",riley,,,
+RPIWEBCARD_QUEST_DESCRIPTION,"Use your knowledge of HTML and CSS to create a greeting card, using a tool called Trinket.",,,,
+RPIWEBCARD_QUEST_NAME,A Card for All Seasons,,,,
+RPIWEBCARD_QUEST_SUBTITLE,What you'll do,,,,
+RPIWEBCARD_QUIT,See you later!,,,,
+RPIWEBCARD_WELCOME,"*{{user_name}}*, what's happening? You know how you have to go buy cards for people for birthdays, holidays, and things like that? Wouldn't it be more fun if you could just make your own? ",riley,,,
 SETUP_ABORT,"OK, hope you'll be back later!",,,,
 SETUP_END,Our job is to get to each of those levels and retrieve the coded fobs and open those panels!,ada,,,
 SETUP_EXPLAIN,"Oh, hey! Super glad to to see you. We def need your excellent skillllzzzz on this. 
@@ -1737,6 +1701,82 @@ SETUP_EXPLAIN4,"The challenge we face is that the box is locked down tight with 
 The codes are embedded on 3 small tags, or ""fobs,"" hidden deep in Fizzics and Lightspeed.",saniel,,,
 SETUP_QUESTION,Glad to see you! We've got a bit of a situation here. We have to rescue Riley! Can you help us?,saniel,,,
 SETUP_QUESTION_ACCEPT,Definitely! ,,,,
+SIDETRACK1_ABORT,"Come find me later, and we'll get back into it!",ada,,,
+SIDETRACK1_ASSIGNMENT_ADA,"Last summer, we decided to try something new - Instead of a book report, or an essay, all the students here at The Academy had to build a game.
+
+The game had to focus on a maze of some kind, and requrie hacking in order to beat it. Each student needed to own the project and manage it themselves, but they could ask anyone around The Academy for help and guidance.
+
+You've probably guessed whose project this is already - our star student, Riley!",ada,,,
+SIDETRACK1_ASSIGNMENT_ESTELLE,"Oh, hello! Seems I just made it before everything started. I'm very interested to see what you've come up with, Riley.",estelle,,,
+SIDETRACK1_ASSIGNMENT_FABER,"Don't sell yourself short, Riley! It takes a lot of skill and talent to put something like this together, and no big project is ever a one-person job. How do you think I weld big pieces together? ",faber,,,
+SIDETRACK1_ASSIGNMENT_RILEY,"Oh, jeez... Um, yeah. I didn't do everything, I mean, Ada helped a ton with design, and Saniel helped me with the code, and Felix-- ",riley,,,
+SIDETRACK1_ASSIGNMENT_SANIEL,"Indeed, as are we all. Let's dim the lights, shall we? Riley, the room is yours.",saniel,,,
+SIDETRACK1_ASSIGNMENT_STUDENT,"... I guess you need someone to hold them in place. Well, yeah. So, *{{user_name}}*, you ready to try out *Sidetrack*?",riley,,,
+SIDETRACK1_AUTO1,"Bugbots, pits... Riley, you've done a great job here.",ada,hurray,,
+SIDETRACK1_AUTO1_ADA,"I think we have a problem! Riley, it looks like the manual controls for your maze just disappeared. Any ideas?",ada,,,
+SIDETRACK1_AUTO1_ESTELLE_REACTION,"Look, *{{user_name}}* - there's a pre-made set of instructions already here.",estelle,,,
+SIDETRACK1_AUTO1_FABER,What was *that*? Riley?,faber,,,
+SIDETRACK1_AUTO1_FELIX,"_mjau ^ = ^ mjav //\\ ngiyaw /\ ^  miav, meow!_",felixnet,,,
+SIDETRACK1_AUTO1_PLOT,"I was wondering when Felix would show up. For once, he's on time and doing exactly what I asked him to. *Now* things are going to get interesting!",riley,,,
+SIDETRACK1_AUTO1_RILEY,"And now, we enter hard-mode! See that *Play* button? Try pushing it.",riley,,,
+SIDETRACK1_AUTO1_RILEY_HINT1,"If you press the *Play* button, it'll activate the *Instructions*.",riley,,,
+SIDETRACK1_AUTO2,"Once your instructions are laid out in the order you want them, press *play* to start our journey through the maze.",riley,,,
+SIDETRACK1_AUTO2_INTRO,"In this mode, we can still move around the level, but you'll have to plan all your moves in advance. Just think it through, and you'll pass these levels in no time.",riley,,,
+SIDETRACK1_AUTO3,"Hmm, there's just no way this set of instructions could finish this level. You'll have to re-order them.",saniel,,,
+SIDETRACK1_AUTO3_FAILURE,"Not quite, but you're getting there. Review the order of the *Instructions* and try again. It might help to try and work backward from the ending",saniel,,,
+SIDETRACK1_AUTO3_HINT1,Drag and drop the instructions to re-order them.,riley,,,
+SIDETRACK1_AUTO3_HINT2,"Press *Play* to execute the *Instructions*  - and hopefully, get through the level.",riley,,,
+SIDETRACK1_AUTO3_HINT3,"Oh yeah, and once your press play? That's it for that run, no changing instructions around until you succeed... or fail!",riley,,,
+SIDETRACK1_AUTO3_SUCCESS,"Fantastic work, you practically sailed through that level, *{{user_name}}*. Excellent planning!",saniel,hurray,,
+SIDETRACK1_AUTO4_RILEY,"Woah. T-thanks, Saniel! That really means a lot to me.",riley,,,
+SIDETRACK1_AUTO4_SANIEL,"Riley - I can see the progression from mere puzzle-solving to strategic planning in this game, and I'm impressed.",saniel,,,
+SIDETRACK1_AUTO5,What’s up with the instruction at *position 3*? There's something very wrong with it!,estelle,,,
+SIDETRACK1_AUTO5_ADA,"Interesting, I wonder what happens if we just press Play and try to forge ahead?",ada,,,
+SIDETRACK1_AUTO5_ADA_HINT1,There's no way forward unless we at least try! Press Play.,ada,,,
+SIDETRACK1_AUTO5_FAILURE_ADA,"Yes, I see where this is going - I think we've reached a good point to take a break, I'm sure we could all use it.",ada,,,
+SIDETRACK1_AUTO5_FAILURE_SANIEL,"Well, at least we've proved that there's a problem.",saniel,,,
+SIDETRACK1_AUTO5_FAILURE_SANIEL2,"There's clearly an error, but we’ll need to see the code to debug it.",saniel,,,
+SIDETRACK1_DIED_RESTART,"Ow. This might be virtual, but that's still uncomfortable. Let's try to avoid the *Walls*, OK?",riley,,,
+SIDETRACK1_DRAMA_ADA,This looks... familliar.,ada,,,
+SIDETRACK1_DRAMA_FABER,"With a twist, though. Let's get to it!",faber,,,
+SIDETRACK1_LAUNCH_ADA,"Hi, *{{user_name}}*! I've got a new game for you to try out. It's called *Sidetrack*, and it should be sitting on your desktop. Let's check it out!",ada,,,
+SIDETRACK1_LAUNCH_ADA_HINT1,Click the *Sidetrack* icon on the desktop.,,,,
+SIDETRACK1_MANUAL1,"Use the FORWARD, UP, and DOWN *Instructions* to move through these obstacles.",riley,,,
+SIDETRACK1_MANUAL1_HINT1,"I always run one space to the right, but I can also move UP or DOWN at the same time.",riley,,,
+SIDETRACK1_MANUAL1_HINT2,Watch out for those *Walls*!,riley,,,
+SIDETRACK1_MANUAL1_INTRO,Wohoo! Here we are! See that *Exit* on the far side of the screen? That's our goal! Let's get there!,riley,,,
+SIDETRACK1_MANUAL2,"Haha, another level! What, you thought I'd just let you go after the exit? Nope, this is only the beginning!",riley,,,
+SIDETRACK1_MANUAL3,"Nice job on the music, Riley. Looks like all our jam sessions pad off!",faber,,,
+SIDETRACK1_MANUAL4,"Oh ho! *Pits*, eh? I wonder how you'll cross those...",saniel,,,
+SIDETRACK1_MANUAL5,"You need to use the *Jump* instruction to cross *Pits*! There's a trick to it, though. *Jump* can only cross a *pit* if it's *directly* in front of you.",riley,,,
+SIDETRACK1_MANUAL6,"BTW, those pits weren't easy to draw... it's tough trying to get that feeling of a deep, black hole, but only using colors.",riley,,,
+SIDETRACK1_MANUAL7,"Riley, you did extremely well. I wish every student had your drive!",estelle,,,
+SIDETRACK1_MOREROBOTS,"Time for new bugbots! This new type *only moves up*, just like the first *only moves down*. Be sure to note which way they're facing...",riley,,,
+SIDETRACK1_NOTINSTALLED,"Uh-oh! Looks like `Sidetrack` isn't installed!
+
+You need to download it from the App Center to run this quest.
+
+Click the icon named `App Center` on the Desktop, then search for `Sidetrack`, and install it.",daemon,,,
+SIDETRACK1_ONEFORWARD,Let's turn the heat up - now you've got 2 Jumps.,riley,,,
+SIDETRACK1_ONEFORWARD_ADA,"It might look easier, but now you only have a single forward instruction. Think carefully about where you might need it.",ada,,,
+SIDETRACK1_ONEFORWARD_ADA_HINT1,"I'm prety sure there's only one spot in this level that you absolutely *must* move forward, and not down or up. Can you find it?",ada,,,
+SIDETRACK1_ONEJUMP,"It's pretty... a-maze-ing! :D Seriously, *{{user_name}}* I hope you're having as much fun as we are. It's so cool to see someone play something I helpd build!",riley,,,
+SIDETRACK1_ONEJUMP_ADA,"Ah hah, look at your instructions carefully. You've only got one jump, so use it well.",ada,,,
+SIDETRACK1_ONEJUMP_ADA_HINT1,"If there's only one jump to use, you'll have to use other ways of getting around all the other pits.",ada,,,
+SIDETRACK1_ONEJUMP_PRE,"Hey Riley, how's your maze going?",faber,,,
+SIDETRACK1_QUEST_DESCRIPTION,"Explore a new game with Riley, full of robots and pits!",,,,
+SIDETRACK1_QUEST_NAME,Sidetrack - Robots and Pits,,,,
+SIDETRACK1_QUEST_SUBTITLE,What you'll do,,,,
+SIDETRACK1_ROBOTS1,"Hey Riley, I think your game has some *bugs*, LOL! What a cool bunch of robots. `Beep. Boop. Hello. Faber. I. Am. A. Bugbot.`",faber,,,
+SIDETRACK1_ROBOTS2,"I knew you'd like that one, Faber :D
+
+Stay alert, *{{user_name}}*! The bugbots move when you do, so you'll have to plan out your moves carefully.",riley,,,
+SIDETRACK1_ROBOTS3,"Watch how the bugbots move and where they go, and think about the spaces they open up when they move.",riley,,,
+SIDETRACK1_ROBOTS3_HINT1,"These bugbots *only move down*, never left or right, so that might let you find a... bug... in their behavior.",riley,,,
+SIDETRACK1_ROBOTS3_HINT2,"Oh, and when they walk off the bottom, they reappear at the top! So keep your eye out for that!",riley,,,
+SIDETRACK1_SLIDING,"I'd say something about this level bringing me *down*, but this game is too cool for that. How are you supposed to move forward when all you can do is go down, though? Might as well give it a shot!",faber,,,
+SIDETRACK1_SUCCESS,"Congrats, Riley - This is an awesome project you've pulled together. We'll meet back up here later to keep going, and debug that broken instruction.",faber,hurray,,
+SIDETRACK1_WASTEJUMPS,"You know, you don't have to have a pit in front of you to use a jump instruction. Maybe you could use jump to go forward? You never know when that will come in handy!",,,,
 STEALTHDEVICE_END,"Sure. We're on it. Thanks, Faber!",riley,,,quests/quest2-faber-werks
 STEALTHDEVICE_EXPLANATION,"Oh, yeah, the stealth device. Hmmm. These are very tricky, but I have studied them quite extensively. 
 
