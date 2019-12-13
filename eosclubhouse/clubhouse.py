@@ -2391,7 +2391,7 @@ class QuestRunner(GObject.GObject):
         self._app.send_quest_msg_notification(notification)
 
     def _shell_popup_item(self, item_id, text):
-        item = utils.QuestItemDB.get_item(item_id)
+        item = utils.QuestItemDB().get_item(item_id)
         if item is None:
             logger.debug('Failed to get item %s from DB', item_id)
             return
@@ -2411,8 +2411,7 @@ class QuestRunner(GObject.GObject):
 
         notification.set_icon(icon)
 
-        notification.add_button('OK', 'app.item-accept-answer(false)')
-        notification.add_button('Show me', 'app.item-accept-answer(true)')
+        notification.add_button('OK', 'app.item-notification(false)')
 
         Sound.play('quests/key-given')
 
@@ -2637,6 +2636,8 @@ class ClubhouseApplication(Gtk.Application):
 
         simple_actions = [('badge-notification', self._badge_notification_action_cb,
                            GLib.VariantType.new('(sb)')),
+                          ('item-notification', self._item_notification_action_cb,
+                           GLib.VariantType.new('b')),
                           ('debug-logs', self._debug_logs_action_cb, GLib.VariantType.new('b')),
                           ('debug-newsfeed', self._debug_newsfeed_action_cb,
                            GLib.VariantType.new('b')),
@@ -2672,6 +2673,10 @@ class ClubhouseApplication(Gtk.Application):
             revealer.props.reveal_child = True
 
         self._window._achievements_view.show_achievement(achievement_id)
+
+    def _item_notification_action_cb(self, action, arg_variant):
+        # @todo: We don't have inventory for now, so do nothing.
+        return
 
     def _ensure_registry_loaded(self):
         if not self._registry_loaded:
