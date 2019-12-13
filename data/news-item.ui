@@ -64,6 +64,7 @@
         </child>
         <style>
           <class name="flat"/>
+          <class name="image"/>
         </style>
       </object>
       <packing>
