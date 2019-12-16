@@ -1361,6 +1361,7 @@ class NewsView(Gtk.Box):
         self._app = Gio.Application.get_default()
         self._app_window = self._app.get_active_window()
         self._news_db = utils.NewsFeedDB()
+        self._last_seen = None
 
         self._populate()
         self._app_window._user_box.connect_after('size-allocate', self._user_box_size_allocate_cb)
@@ -1412,6 +1413,26 @@ class NewsView(Gtk.Box):
     def _user_box_size_allocate_cb(self, _user_box, allocation):
         if self._left_spacing_box.props.width_request != allocation.width:
             self._left_spacing_box.props.width_request = allocation.width
+
+    @property
+    def last_seen(self):
+        return self._last_seen
+
+    @last_seen.setter
+    def last_seen(self, value):
+        self._last_seen = value
+
+        today = datetime.date.today()
+        count = 0
+
+        for child in self._news_box.get_children():
+            if value is None or (child.date <= today and child.date > value):
+                count = count + 1
+
+        if self.news_count != count:
+            self.news_count = count
+
+    news_count = GObject.Property(type=int, default=0)
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/achievement-item.ui')
@@ -1720,7 +1741,16 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._on_screen_changed(None, None)
 
         self.clubhouse = ClubhouseView()
+
         self.news = NewsView()
+        self.news.connect('notify::news-count', self._on_news_count_notify)
+
+        # Load Last seen date for News
+        news = self._gss.get('clubhouse.News')
+        if news is not None:
+            last_seen = datetime.datetime.strptime(news['last-seen'], '%Y-%m-%d')
+            self.news.last_seen = last_seen.date()
+
         self.character = CharacterView()
 
         self._achievements_view = AchievementsView()
@@ -1914,6 +1944,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         widget.hide()
         return True
 
+    def _on_news_count_notify(self, news, pspec):
+        if news.props.news_count > 0:
+            self._hack_news_button.get_style_context().add_class('nav-attract')
+        else:
+            self._hack_news_button.get_style_context().remove_class('nav-attract')
+
     def set_page(self, page_name):
         current_page = self._stack.get_visible_child_name()
         new_page = page_name.upper()
@@ -1925,6 +1961,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._clubhouse_button.set_active(True)
         elif page_name == 'NEWS':
             self._hack_news_button.set_active(True)
+
+            # Save News last seen date
+            today = datetime.date.today()
+            last_seen = today.strftime('%Y-%m-%d')
+            self._gss.set_async('clubhouse.News', {'last-seen': last_seen})
+            self.news.last_seen = today
 
         if current_page == 'CHARACTER':
             running_quest = self._app.quest_runner.running_quest
