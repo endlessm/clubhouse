@@ -25,7 +25,7 @@ class TestMarkup(unittest.TestCase):
         custom_tags = {
             'inlinecode_start': '<tt><span size="small">',
             'inlinecode_end': '</span></tt>',
-            'url_start': '<u><span color="blue">',
+            'url_start': '<u><span fg_color="blue">',
             'url_end': '</span></u>',
         }
         parser = SimpleMarkupParser(custom_tags)
@@ -40,11 +40,14 @@ class TestMarkup(unittest.TestCase):
             ('Try setting `gravity = 0` in the code.',
              'Try setting <tt><span size="small">gravity = 0</span></tt> in the code.'),
             ('Checkout this site! https://www.w3.org/2000/svg',
-             'Checkout this site! <u><span color="blue">https://www.w3.org/2000/svg</span></u>'),
+             'Checkout this site! <u><span fg_color="blue">https://www.w3.org/2000/svg</span></u>'),
+            ('Link with an underscore should not break: https://test.org/hello_world',
+             ('Link with an underscore should not break: '
+              '<u><span fg_color="blue">https://test.org/hello_world</span></u>')),
             ('Mixing `code and *bold*` allowed',
              'Mixing <tt><span size="small">code and <b>bold</b></span></tt> allowed'),
             ('URL in code `https://www.hack-computer.com/` allowed',
-             ('URL in code <tt><span size="small"><u><span color="blue">'
+             ('URL in code <tt><span size="small"><u><span fg_color="blue">'
               'https://www.hack-computer.com/</span></u></span></tt> allowed')),
         ]
 
