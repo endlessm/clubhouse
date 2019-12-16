@@ -581,8 +581,12 @@ NewsItem {
     font-weight: bold; }
   NewsItem #date {
     color: gray; }
+  NewsItem > .image {
+    margin-top: 1em; }
   NewsItem > box {
     margin: 1em; }
+    NewsItem > box:first-child {
+      margin-bottom: 0em; }
     NewsItem > box *:nth-child(2) {
       margin-left: 1em; }
 
