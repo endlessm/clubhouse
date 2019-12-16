@@ -1747,7 +1747,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         # Load Last seen date for News
         news = self._gss.get('clubhouse.News')
-        if news is not None:
+        if news is not None and 'last-seen' in news:
             last_seen = datetime.datetime.strptime(news['last-seen'], '%Y-%m-%d')
             self.news.last_seen = last_seen.date()
 
