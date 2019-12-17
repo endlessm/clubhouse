@@ -494,28 +494,28 @@ ActivityCard {
     background-size: 110%; }
   ActivityCard:hover box.difficulty {
     min-height: 0.4em; }
-  ActivityCard:selected:hover #topbox {
+  ActivityCard.expanded:hover #topbox {
     animation: unset; }
   ActivityCard:selected {
     margin: 0;
     transition: margin 200ms ease; }
-    ActivityCard:selected #title {
-      min-height: 0;
-      transition: min-height 250ms ease; }
-    ActivityCard:selected #topbox {
-      transition: background-size 150ms ease;
-      background-size: 110%;
-      animation: unset; }
+  ActivityCard.expanded #title {
+    min-height: 0;
+    transition: min-height 250ms ease; }
+  ActivityCard.expanded #topbox {
+    transition: background-size 150ms ease;
+    background-size: 110%;
+    animation: unset; }
   ActivityCard.EASY stackswitcher > button:checked {
     color: #37DCB1; }
-  ActivityCard.EASY:hover #topbox > box, ActivityCard.EASY:selected #topbox > box {
+  ActivityCard.EASY:hover #topbox > box, ActivityCard.EASY.expanded #topbox > box {
     background: linear-gradient(47.32deg, #37DCB1, rgba(4, 231, 34, 0.45) 43.02%, rgba(2, 231, 30, 0)); }
   ActivityCard.EASY separator.difficulty,
   ActivityCard.EASY box.difficulty > separator:first-child {
     background: linear-gradient(to right, #37DCB1, #00E718); }
   ActivityCard.NORMAL stackswitcher > button:checked {
     color: #EFBE2D; }
-  ActivityCard.NORMAL:hover #topbox > box, ActivityCard.NORMAL:selected #topbox > box {
+  ActivityCard.NORMAL:hover #topbox > box, ActivityCard.NORMAL.expanded #topbox > box {
     background: linear-gradient(49.74deg, #EFBE2D, rgba(255, 107, 0, 0.49) 53.66%, rgba(255, 107, 0, 0)); }
   ActivityCard.NORMAL separator.difficulty {
     background: linear-gradient(to right, #EFBE2D, #FF6B00); }
@@ -525,7 +525,7 @@ ActivityCard {
     background: linear-gradient(to right, #fa860f, #FF6B00); }
   ActivityCard.HARD stackswitcher > button:checked {
     color: #F92781; }
-  ActivityCard.HARD:hover #topbox > box, ActivityCard.HARD:selected #topbox > box {
+  ActivityCard.HARD:hover #topbox > box, ActivityCard.HARD.expanded #topbox > box {
     background: linear-gradient(46.17deg, rgba(249, 39, 129, 0.9), rgba(252, 68, 74, 0.5) 44.52%, rgba(252, 68, 74, 0)); }
   ActivityCard.HARD separator.difficulty {
     background: linear-gradient(to right, #F92781, #FF0000); }
