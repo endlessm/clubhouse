@@ -218,6 +218,16 @@ ClubhouseWindow
         text-shadow: none
         -gtk-icon-shadow: none
 
+      .selector-box
+        SelectorWidget
+          margin-right: 1em
+
+          &.status
+            min-width: 6.5em
+
+          &.level
+            min-width: 5.5em
+
   // Backgrounds
   &.CLUBHOUSE
     background-image: url('resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg')
@@ -1013,3 +1023,37 @@ ScalableImage
   background-size: 100% 100%
   background-repeat: no-repeat
   background-position: center
+
+
+SelectorWidget
+  $default_left_bg_color: #133e60
+  $default_right_bg_color: #1c0053
+
+  background: linear-gradient(to right, $default_left_bg_color, $default_right_bg_color)
+  border-radius: 3em
+  color: white
+  padding: 3px 1em
+
+  &.selected
+    border: 3px solid white
+
+  > button
+    &.title
+      > label
+        color: white
+
+    &.close
+      > image
+        color: #36d9af
+
+popover.selector-widget
+  font-size: 1.4em
+  background-color: transparentize(white, 0.1)
+
+  > list
+    > row
+      padding: 1ex 1em
+      border-radius: 5px
+
+      &:hover
+        background: linear-gradient(to bottom right, transparentize(#2D9B98, 0.7), transparentize(#22597F, 0.7))

@@ -50,7 +50,8 @@ from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser, 
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 
-from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, gtk_widget_add_custom_css_provider
+from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, SelectorWidgetPopoverItem, \
+    gtk_widget_add_custom_css_provider
 
 from urllib.parse import urlparse
 
@@ -959,6 +960,10 @@ class CharacterView(Gtk.Grid):
     _view_overlay = Gtk.Template.Child()
     _character_button = Gtk.Template.Child()
 
+    _selector_box = Gtk.Template.Child()
+    _status_selector = Gtk.Template.Child()
+    _level_selector = Gtk.Template.Child()
+
     def __init__(self):
         super().__init__(visible=True)
         self._app = Gio.Application.get_default()
@@ -971,6 +976,15 @@ class CharacterView(Gtk.Grid):
         self._character = None
         self._abort_running_quest_on_category_view = True
 
+        self._quests_flow_box.set_filter_func(self._quests_flow_box_filter_func)
+        self._status_selector.props.list_store = self._build_status_model()
+        self._level_selector.props.list_store = self._build_difficulty_model()
+
+        self._level_selector.connect('notify::selected-item',
+                                     self._level_selector_selected_item_notify_cb)
+        self._status_selector.connect('notify::selected-item',
+                                      self._status_selector_selected_item_notify_cb)
+
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::nav-attract-state',
                                       self._on_clubhouse_nav_attract_state_changed_cb)
@@ -979,8 +993,10 @@ class CharacterView(Gtk.Grid):
         self._app_window.connect('notify::scale', lambda app, pspec:
                                  self.update_character_image(idle=True))
 
-        self.connect('notify::category', self._category_notify_cb)
         self.connect('notify::quest-set', self._quest_set_notify_cb)
+        self.connect('notify::category', self._category_notify_cb)
+        self.connect('notify::level', self._level_notify_cb)
+        self.connect('notify::status', self._status_notify_cb)
 
         self.message_box.show_all()
 
@@ -989,6 +1005,15 @@ class CharacterView(Gtk.Grid):
 
     def show_quests(self):
         self._cards_stack.set_visible_child(self._quests_flow_box)
+
+    def _quests_flow_box_filter_func(self, card):
+        q = card.get_quest()
+        return (self.props.quest_set == card.get_quest_set() and
+                (self.props.category is None or self.props.category in q.get_categories()) and
+                (self.props.level is None or self.props.level == q.get_difficulty()) and
+                (self.props.status is None or
+                    self.props.status == 'complete' and q.get_complete() or
+                    self.props.status == 'incomplete' and not q.get_complete()))
 
     def _clear_categories_flow_box(self):
         for child in self._categories_flow_box.get_children():
@@ -1087,6 +1112,37 @@ class CharacterView(Gtk.Grid):
     def _on_characters_disabled_changed_cb(self, state, _param):
         self._app_window.character.activities_sw.props.sensitive = not state.characters_disabled
 
+    def _build_difficulty_model(self):
+        store = Gio.ListStore()
+        for difficulty in libquest.Quest.Difficulty:
+            item = SelectorWidgetPopoverItem(difficulty.name, difficulty.name.capitalize())
+            store.append(item)
+        return store
+
+    def _build_status_model(self):
+        store = Gio.ListStore()
+        store.append(SelectorWidgetPopoverItem('complete', 'Complete'))
+        store.append(SelectorWidgetPopoverItem('incomplete', 'Incomplete'))
+        return store
+
+    def _level_selector_selected_item_notify_cb(self, selector, _pspec):
+        item = selector.props.selected_item
+        if item is None:
+            self.props.level = None
+        else:
+            self.props.level = libquest.Quest.Difficulty[item.id]
+
+    def _status_selector_selected_item_notify_cb(self, selector, _pspec):
+        item = selector.props.selected_item
+        if item is None:
+            self.props.status = None
+        else:
+            self.props.status = item.id
+
+    def _unselect_selectors(self):
+        self._level_selector.props.selected_item = None
+        self._status_selector.props.selected_item = None
+
     def _setup_category_view(self):
         if self._abort_running_quest_on_category_view:
             running_quest = self._app.quest_runner.running_quest
@@ -1097,6 +1153,7 @@ class CharacterView(Gtk.Grid):
         self._character_button.popover_label = 'Categories'
         self._character_button.popover = self._new_categories_popover(self.props.quest_set)
 
+        self._selector_box.props.visible = False
         self._character_button.set_back_actions_visible(False)
         self._character_button.set_active(True)
 
@@ -1110,6 +1167,8 @@ class CharacterView(Gtk.Grid):
         self._character_button.back_action_target = GLib.Variant('(sv)', ('CHARACTER', state))
         self._character_button.label = self.props.category.title
 
+        self._unselect_selectors()
+        self._selector_box.props.visible = True
         self._character_button.set_back_actions_visible(True)
         self._character_button.show_all()
         self._character_button.set_active(True)
@@ -1132,13 +1191,21 @@ class CharacterView(Gtk.Grid):
         else:
             self._setup_quest_view()
 
+    def _level_notify_cb(self, *args):
+        self._quests_flow_box.invalidate_filter()
+
+    def _status_notify_cb(self, *_args):
+        self._quests_flow_box.invalidate_filter()
+
     def set_page_state(self, state):
         self.props.category = state.get('category')
         category_id = state.get('category')
         self.props.category = utils.CategoriesDB.get(category_id)
 
-    category = GObject.Property(type=object)
     quest_set = GObject.Property(type=object)
+    category = GObject.Property(type=object)
+    level = GObject.Property(type=object)
+    status = GObject.Property(type=object)
 
 
 class ClubhouseView(FixedLayerGroup):
