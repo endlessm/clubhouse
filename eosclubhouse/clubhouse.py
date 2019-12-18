@@ -1712,6 +1712,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _pathways_menu_button = Gtk.Template.Child()
     _clubhouse_button = Gtk.Template.Child()
     _hack_news_button = Gtk.Template.Child()
+    _hack_news_count = Gtk.Template.Child()
 
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
@@ -1936,9 +1937,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def _on_news_count_notify(self, news, pspec):
         if news.props.news_count > 0:
-            self._hack_news_button.get_style_context().add_class('nav-attract')
+            self._hack_news_count.props.label = str(news.props.news_count)
+            self._hack_news_count.show()
         else:
-            self._hack_news_button.get_style_context().remove_class('nav-attract')
+            self._hack_news_count.hide()
 
     def set_page(self, page_name):
         current_page = self._stack.get_visible_child_name()
