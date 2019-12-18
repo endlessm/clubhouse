@@ -748,8 +748,6 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._quest_set = quest_set
         self._button_press_time = 0
         self._quest = quest
-        self._quest.connect('quest-started', self._on_quest_started)
-        self._quest.connect('quest-finished', self._on_quest_finished)
         self._alternative_path = os.path.join(get_alternative_quests_dir(), 'cards')
 
         self._setup_background()
@@ -757,10 +755,10 @@ class ActivityCard(Gtk.FlowBoxChild):
         # Populate info.
         self._populate_info()
 
-        self._quest.connect('notify::complete', self._on_quest_complete_changed)
-        self._set_complete()
-
-        self._update_state()
+        self._quest.connect('quest-started', lambda q: self._update_card_state())
+        self._quest.connect('quest-finished', lambda q: self._update_card_state())
+        self._quest.connect('notify::complete', lambda w, ps: self._update_card_state())
+        self._update_card_state()
 
     @Gtk.Template.Callback()
     def _on_enter_notify_event(self, widget, event):
@@ -772,7 +770,7 @@ class ActivityCard(Gtk.FlowBoxChild):
 
     @Gtk.Template.Callback()
     def _on_state_flags_changed(self, widget, flags):
-        self._update_state()
+        self._update_card_state()
 
     @Gtk.Template.Callback()
     def _on_play_button_clicked(self, button):
@@ -812,14 +810,6 @@ class ActivityCard(Gtk.FlowBoxChild):
             return True
 
         return False
-
-    def _is_selected(self):
-        return self.get_state_flags() & Gtk.StateFlags.SELECTED
-
-    def _update_state(self):
-        selected = self.is_selected()
-        self._revealer.set_reveal_child(selected)
-        self._difficulty_box.set_visible(not selected)
 
     def _setup_background(self):
         self._css_provider = gtk_widget_add_custom_css_provider(self._topbox)
@@ -881,30 +871,30 @@ class ActivityCard(Gtk.FlowBoxChild):
         # Set difficulty class
         self.get_style_context().add_class(self._quest.get_difficulty().name)
 
-    def _update_play_button(self, running):
-        if running:
-            self._play_button.set_label('running...')
-        elif self._quest.complete:
-            self._play_button.set_label('play again')
-            self._play_button.get_style_context().add_class('complete')
-        else:
-            self._play_button.get_style_context().remove_class('complete')
-            self._play_button.set_label('play')
-
-    def _on_quest_started(self, quest):
-        self.props.sensitive = False
-        self._update_play_button(True)
-
-    def _on_quest_finished(self, quest):
-        self.props.sensitive = True
-        self._update_play_button(False)
-
-    def _on_quest_complete_changed(self, _quest_set, _param):
-        self._set_complete()
-
-    def _set_complete(self):
+    def _update_card_state(self):
         self._complete_image.props.visible = self._quest.complete
-        self._update_play_button(False)
+
+        if self._app.quest_runner.running_quest == self._quest:
+            self._play_button.set_label('running...')
+            self.props.sensitive = False
+            expand = True
+        else:
+            expand = self.is_selected()
+            self.props.sensitive = True
+            if self._quest.complete:
+                self._play_button.set_label('play again')
+                self._play_button.get_style_context().add_class('complete')
+            else:
+                self._play_button.get_style_context().remove_class('complete')
+                self._play_button.set_label('play')
+
+        if expand:
+            self.get_style_context().add_class('expanded')
+        else:
+            self.get_style_context().remove_class('expanded')
+
+        self._revealer.set_reveal_child(expand)
+        self._difficulty_box.set_visible(not expand)
 
     def get_quest(self):
         return self._quest

@@ -695,7 +695,7 @@ ActivityCard
     box.difficulty
       min-height: 0.4em
 
-  &:selected:hover
+  &.expanded:hover
     #topbox
       animation: unset
 
@@ -703,6 +703,7 @@ ActivityCard
     margin: 0
     transition: margin 200ms ease
 
+  &.expanded
     #title
       min-height: 0
       transition: min-height 250ms ease
@@ -717,7 +718,7 @@ ActivityCard
       color: $easy_color_a
 
     &:hover,
-    &:selected
+    &.expanded
       #topbox > box
         background: linear-gradient(47.32deg, $easy_color_a, rgba(4,231,34,0.45) 43.02%, rgba(2,231,30,0))
 
@@ -730,7 +731,7 @@ ActivityCard
       color: $normal_color_a
 
     &:hover,
-    &:selected
+    &.expanded
       #topbox > box
         background: linear-gradient(49.74deg, $normal_color_a, rgba(255,107,0,0.49) 53.66%, rgba(255,107,0,0))
 
@@ -749,7 +750,7 @@ ActivityCard
       color: $hard_color_a
 
     &:hover,
-    &:selected
+    &.expanded
       #topbox > box
         background: linear-gradient(46.17deg, rgba(249,39,129,0.9), rgba(252,68,74,0.5) 44.52%, rgba(252,68,74,0))
 
