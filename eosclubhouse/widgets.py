@@ -231,11 +231,89 @@ class BreadcrumbButton(Gtk.Box):
     active = GObject.Property(get_active, set_active, type=bool, default=True)
 
 
+class SelectorWidgetPopoverItem(GObject.Object):
+    def __init__(self, id_, title):
+        super().__init__()
+        self.id = id_
+        self.title = title
+
+
+class SelectorWidgetPopoverRow(Gtk.ListBoxRow):
+
+    __gtype_name__ = 'SelectorWidgetPopoverRow'
+
+    def __init__(self, popover_item):
+        super().__init__()
+        self.item = popover_item
+        label = Gtk.Label(label=self.item.title)
+        self.add(label)
+
+
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/selector-widget.ui')
+class SelectorWidget(Gtk.EventBox):
+
+    __gtype_name__ = 'SelectorWidget'
+
+    _stack = Gtk.Template.Child()
+    _title_label = Gtk.Template.Child()
+    _selected_item_label = Gtk.Template.Child()
+
+    _popover = Gtk.Template.Child()
+    _popover_list_box = Gtk.Template.Child()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._list_store = None
+
+    def _set_page(self, page):
+        if page == 'TITLE':
+            self.props.selected_item = None
+        self._stack.props.visible_child_name = page
+
+    @Gtk.Template.Callback()
+    def _button_press_event_cb(self, _box, _event):
+        self._popover.popup()
+        self._popover.show_all()
+
+    @Gtk.Template.Callback()
+    def _popover_list_box_row_activated_cb(self, list_box, row):
+        self._selected_item_label.props.label = row.item.title
+        self.props.selected_item = row.item.id
+        self._set_page('ITEM')
+
+    @Gtk.Template.Callback()
+    def _item_close_button_clicked_cb(self, _button):
+        self._set_page('TITLE')
+
+    def _create_widget_func(self, item, _user_data):
+        row = SelectorWidgetPopoverRow(item)
+        return row
+
+    def _set_list_store(self, list_store):
+        self._popover_list_box.bind_model(list_store, self._create_widget_func, None)
+        self._list_store = list_store
+
+    def _get_list_store(self):
+        return self._list_store
+
+    def _set_default_label(self, label):
+        self._title_label.props.label = label
+        self._default_label = label
+
+    def _get_default_label(self):
+        return self._default_label
+
+    default_label = GObject.Property(_get_default_label, _set_default_label, type=str)
+    selected_item = GObject.Property(type=str)
+    list_store = GObject.Property(_get_list_store, _set_list_store, type=object)
+
+
 # Set widget classes CSS name to be able to select by GType name
 widgets_classes = [
     BreadcrumbButton,
     FixedLayerGroup,
-    ScalableImage
+    ScalableImage,
+    SelectorWidget
 ]
 
 for klass in widgets_classes:

@@ -50,7 +50,8 @@ from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser, 
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 
-from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, gtk_widget_add_custom_css_provider
+from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, SelectorWidgetPopoverItem, \
+    gtk_widget_add_custom_css_provider
 
 # Metrics event ids
 CLUBHOUSE_SET_PAGE_EVENT = '2c765b36-a4c9-40ee-b313-dc73c4fa1f0d'
@@ -967,6 +968,10 @@ class CharacterView(Gtk.Grid):
     _view_overlay = Gtk.Template.Child()
     _character_button = Gtk.Template.Child()
 
+    _selector_box = Gtk.Template.Child()
+    _status_selector = Gtk.Template.Child()
+    _level_selector = Gtk.Template.Child()
+
     def __init__(self):
         super().__init__(visible=True)
         self._app = Gio.Application.get_default()
@@ -979,6 +984,14 @@ class CharacterView(Gtk.Grid):
         self._animator = Animator(self.character_image)
         self._character = None
 
+        self._status_selector.props.list_store = self._build_status_model()
+        self._level_selector.props.list_store = self._build_difficulty_model()
+
+        self._level_selector.connect('notify::selected-item',
+                                     self._level_selector_selected_item_notify_cb)
+        self._status_selector.connect('notify::selected-item',
+                                      self._status_selector_selected_item_notify_cb)
+
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::nav-attract-state',
                                       self._on_clubhouse_nav_attract_state_changed_cb)
@@ -986,6 +999,10 @@ class CharacterView(Gtk.Grid):
                                       self._on_characters_disabled_changed_cb)
         self._app_window.connect('notify::scale', lambda app, pspec:
                                  self.update_character_image(idle=True))
+
+        self.connect('notify::category', self._category_notify_cb)
+        self.connect('notify::level', self._level_notify_cb)
+        self.connect('notify::status', self._status_notify_cb)
 
         self.message_box.show_all()
 
@@ -1008,6 +1025,16 @@ class CharacterView(Gtk.Grid):
             self._quests_flow_box.remove(child)
 
         for quest in quest_set.get_quests_by_category(category, also_skippable=False):
+
+            if self.props.level is not None and quest.get_difficulty() != self.props.level:
+                continue
+
+            if self.props.status is not None:
+                if self.props.status == 'complete' and not quest.get_complete():
+                    continue
+                elif self.props.status == 'incomplete' and quest.get_complete():
+                    continue
+
             card = ActivityCard(quest_set, quest)
             self._quests_flow_box.add(card)
 
@@ -1088,39 +1115,83 @@ class CharacterView(Gtk.Grid):
     def _on_characters_disabled_changed_cb(self, state, _param):
         self._app_window.character.activities_sw.props.sensitive = not state.characters_disabled
 
-    def set_page_state(self, state):
-        if 'category' in state:
-            category_id = state.get('category')
-            category = utils.CategoriesDB.get(category_id)
-            if category is None:
-                return
+    def _build_difficulty_model(self):
+        store = Gio.ListStore()
+        for difficulty in libquest.Quest.Difficulty:
+            item = SelectorWidgetPopoverItem(difficulty.name, difficulty.name.capitalize())
+            store.append(item)
+        return store
 
-            self._character_button.back_label = '{} Pathway'.format(self._character.pathway_title)
-            self._character_button.back_action_name = 'app.set-page-state'
-            state = utils.convert_variant_arg({})
-            self._character_button.back_action_target = GLib.Variant('(sv)', ('CHARACTER', state))
-            self._character_button.label = category.title
+    def _build_status_model(self):
+        store = Gio.ListStore()
+        store.append(SelectorWidgetPopoverItem('complete', 'Complete'))
+        store.append(SelectorWidgetPopoverItem('incomplete', 'incomplete'))
+        return store
 
-            self._character_button._back_image.props.visible = True
-            self._character_button._back_button.props.visible = True
-            self._character_button.show_all()
-            self._character_button.set_active(True)
-            self._character_button.popover = None
-
-            self.populate_quests(self._quest_set, category)
-            self.show_quests()
+    def _level_selector_selected_item_notify_cb(self, selector, _pspec):
+        item = selector.props.selected_item
+        if item is None:
+            self.props.level = None
         else:
-            self._character_button._back_image.props.visible = False
-            self._character_button._back_button.props.visible = False
+            self.props.level = libquest.Quest.Difficulty[item]
 
-            self._character_button.label = '{} Pathway'.format(self._character.pathway_title)
-            self._character_button.popover_label = 'Categories'
-            self._character_button.popover = self._new_categories_popover(self._quest_set)
+    def _status_selector_selected_item_notify_cb(self, selector, _pspec):
+        item = selector.props.selected_item
+        self.props.status = item
 
-            self._character_button.set_active(True)
+    def _setup_category_view(self):
+        self._selector_box.props.visible = False
 
-            self.populate_categories(self._quest_set)
-            self.show_categories()
+        self._character_button._back_image.props.visible = False
+        self._character_button._back_button.props.visible = False
+
+        self._character_button.label = '{} Pathway'.format(self._character.pathway_title)
+        self._character_button.popover_label = 'Categories'
+        self._character_button.popover = self._new_categories_popover(self._quest_set)
+
+        self._character_button.set_active(True)
+
+        self.populate_categories(self._quest_set)
+        self.show_categories()
+
+    def _setup_quest_view(self):
+        self._selector_box.props.visible = True
+
+        self._character_button.back_label = '{} Pathway'.format(self._character.pathway_title)
+        self._character_button.back_action_name = 'app.set-page-state'
+        state = utils.convert_variant_arg({})
+        self._character_button.back_action_target = GLib.Variant('(sv)', ('CHARACTER', state))
+        self._character_button.label = self.props.category.title
+
+        self._character_button._back_image.props.visible = True
+        self._character_button._back_button.props.visible = True
+        self._character_button.show_all()
+        self._character_button.set_active(True)
+        self._character_button.popover = None
+
+        self.populate_quests(self._quest_set, self.props.category)
+        self.show_quests()
+
+    def _category_notify_cb(self, *_args):
+        if self.props.category is None:
+            self._setup_category_view()
+        else:
+            self._setup_quest_view()
+
+    def _level_notify_cb(self, *args):
+        self.populate_quests(self._quest_set, self.props.category)
+
+    def _status_notify_cb(self, *_args):
+        self.populate_quests(self._quest_set, self.props.category)
+
+    def set_page_state(self, state):
+        self.props.category = state.get('category')
+        category_id = state.get('category')
+        self.props.category = utils.CategoriesDB.get(category_id)
+
+    category = GObject.Property(type=object)
+    level = GObject.Property(type=object)
+    status = GObject.Property(type=object)
 
 
 class ClubhouseView(FixedLayerGroup):

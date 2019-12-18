@@ -979,3 +979,28 @@ ScalableImage
   background-size: 100% 100%
   background-repeat: no-repeat
   background-position: center
+
+
+SelectorWidget
+  $default_left_bg_color: #133e60
+  $default_right_bg_color: #1c0053
+
+  background: linear-gradient(to right, $default_left_bg_color, $default_right_bg_color)
+  border-radius: 3em
+  color: white
+
+  > stack
+    > box
+      min-width: 6em
+
+  .TITLE
+    padding: 0 1em
+
+  .ITEM
+    padding: 3px 1em
+    border: 3px solid white
+    border-radius: 3em
+
+    > button
+      > image
+        color: #36d9af
