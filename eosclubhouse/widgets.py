@@ -280,11 +280,116 @@ class BreadcrumbButton(Gtk.Box):
     active = GObject.Property(get_active, set_active, type=bool, default=True)
 
 
+class SelectorWidgetPopoverItem(GObject.Object):
+    def __init__(self, id_, title):
+        super().__init__()
+        self.id = id_
+        self.title = title
+
+
+class SelectorWidgetPopoverRow(Gtk.ListBoxRow):
+
+    __gtype_name__ = 'SelectorWidgetPopoverRow'
+
+    def __init__(self, popover_item):
+        super().__init__(halign=Gtk.Align.FILL)
+        self.item = popover_item
+        label = Gtk.Label(label=self.item.title, halign=Gtk.Align.START)
+        self.add(label)
+
+
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/selector-widget.ui')
+class SelectorWidget(Gtk.Box):
+
+    __gtype_name__ = 'SelectorWidget'
+
+    # _stack = Gtk.Template.Child()
+    _title_label = Gtk.Template.Child()
+    _close_button = Gtk.Template.Child()
+    # _selected_item_label = Gtk.Template.Child()
+
+    _popover = Gtk.Template.Child()
+    _popover_list_box = Gtk.Template.Child()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._list_store = None
+        self._selected_item = None
+        self.connect('notify::selected-item', self._notify_selected_item_cb)
+
+    def _setup_unselected_state(self):
+        self._title_label.props.label = self.props.default_label
+        self._title_label.props.halign = Gtk.Align.CENTER
+        self._close_button.props.visible = False
+        ctx = self.get_style_context()
+        ctx.remove_class('selected')
+
+    def _setup_selected_state(self):
+        self._title_label.props.label = self.props.selected_item.title
+        self._title_label.props.halign = Gtk.Align.START
+        self._close_button.props.visible = True
+        ctx = self.get_style_context()
+        ctx.add_class('selected')
+
+    def _notify_selected_item_cb(self, *_args):
+        if self.props.selected_item is not None:
+            self._setup_selected_state()
+        else:
+            self._setup_unselected_state()
+
+    def _create_widget_func(self, item, _user_data):
+        row = SelectorWidgetPopoverRow(item)
+        return row
+
+    @Gtk.Template.Callback()
+    def _title_button_clicked_cb(self, _button):
+        self._popover.popup()
+        self._popover.show_all()
+
+    @Gtk.Template.Callback()
+    def _close_button_clicked_cb(self, _button):
+        self.props.selected_item = None
+
+    @Gtk.Template.Callback()
+    def _popover_list_box_row_activated_cb(self, list_box, row):
+        self.props.selected_item = row.item
+        self._popover.popdown()
+
+    def _set_list_store(self, list_store):
+        self._popover_list_box.bind_model(list_store, self._create_widget_func, None)
+        self._list_store = list_store
+
+    def _get_list_store(self):
+        return self._list_store
+
+    def _set_default_label(self, label):
+        self._title_label.props.label = label
+        self._default_label = label
+
+    def _get_default_label(self):
+        return self._default_label
+
+    def _set_selected_item(self, value):
+        if self._selected_item != value:
+            self._selected_item = value
+            self.notify('selected-item')
+
+    def _get_selected_item(self):
+        return self._selected_item
+
+    default_label = GObject.Property(_get_default_label, _set_default_label, type=str)
+    selected_item = GObject.Property(_get_selected_item, _set_selected_item, type=object,
+                                     flags=(GObject.ParamFlags.READWRITE |
+                                            GObject.ParamFlags.EXPLICIT_NOTIFY))
+    list_store = GObject.Property(_get_list_store, _set_list_store, type=object)
+
+
 # Set widget classes CSS name to be able to select by GType name
 widgets_classes = [
     BreadcrumbButton,
     FixedLayerGroup,
-    ScalableImage
+    ScalableImage,
+    SelectorWidget
 ]
 
 for klass in widgets_classes:

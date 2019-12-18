@@ -15,6 +15,7 @@
     <file preprocess="xml-stripblanks">news-view.ui</file>
     <file preprocess="xml-stripblanks">news-item.ui</file>
     <file preprocess="xml-stripblanks">message.ui</file>
+    <file preprocess="xml-stripblanks">selector-widget.ui</file>
     <file preprocess="xml-stripblanks">quest-set-info-tip.ui</file>
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/images">
