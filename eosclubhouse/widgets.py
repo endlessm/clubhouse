@@ -63,6 +63,9 @@ class ScalableImage(Gtk.Box):
     def __init__(self, path):
         super().__init__()
         image_info = GdkPixbuf.Pixbuf.get_file_info(path)
+        if image_info[0] is None or image_info.width == 0 or image_info.height == 0:
+            raise IOError('Image file \'{}\' does not exist or unsupported format.'.format(path))
+
         self.aspect_ratio = image_info.width / image_info.height
 
         self._css_provider = gtk_widget_add_custom_css_provider(self)
