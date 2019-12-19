@@ -374,6 +374,9 @@
                             <property name="action_target">'NEWS'</property>
                             <property name="draw_indicator">False</property>
                             <property name="group">_clubhouse_button</property>
+                            <style>
+                              <class name="newsfeed"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="index">-1</property>
