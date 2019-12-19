@@ -1849,6 +1849,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         ctx = self.get_style_context()
         ctx.add_class('transitionable-background')
 
+        self._clubhouse_button.set_popover_button_visible(lights_on)
         if lights_on:
             ctx.remove_class('off')
             if self.props.visible:
