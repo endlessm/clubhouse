@@ -119,7 +119,19 @@ ClubhouseWindow
       > label
         margin: 0 1.5em
 
-      > button
+      label.overlay-badge
+        min-width: 1.4em
+        min-height: 1.4em
+        font-size: 0.7em
+        color: white
+        background: red
+        border-radius: 50%
+        border: 0.1em solid white
+        margin: -0.5em -0.5em 0 0
+        padding: 0.2em
+        box-shadow: 1px 1px 2px black
+
+      button
         color: white
         text-shadow: none
         border: 0
@@ -141,14 +153,12 @@ ClubhouseWindow
         label
           margin: 0 1em
 
+      // Headerbar buttons in character view.
       &.CHARACTER
-        > button
+        button
           @include nth_child_bg($nth_child: 1, $color_index: 1)
           @include nth_child_bg($nth_child: 2, $color_index: 3)
 
-      // Headerbar buttons in character view.
-      &.CHARACTER
-         > button
           &:first-child
             border-radius: 3em 0 0 3em
 

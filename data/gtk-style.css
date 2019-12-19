@@ -72,7 +72,18 @@ ClubhouseWindow {
       font-weight: bold; }
       ClubhouseWindow headerbar .headerbar-buttonbox > label {
         margin: 0 1.5em; }
-      ClubhouseWindow headerbar .headerbar-buttonbox > button {
+      ClubhouseWindow headerbar .headerbar-buttonbox label.overlay-badge {
+        min-width: 1.4em;
+        min-height: 1.4em;
+        font-size: 0.7em;
+        color: white;
+        background: red;
+        border-radius: 50%;
+        border: 0.1em solid white;
+        margin: -0.5em -0.5em 0 0;
+        padding: 0.2em;
+        box-shadow: 1px 1px 2px black; }
+      ClubhouseWindow headerbar .headerbar-buttonbox button {
         color: white;
         text-shadow: none;
         border: 0;
@@ -82,48 +93,48 @@ ClubhouseWindow {
         box-shadow: 1px 1px 3px black;
         transition: none;
         transition: background-image 200ms linear; }
-        ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(1) {
+        ClubhouseWindow headerbar .headerbar-buttonbox button:nth-child(1) {
           background: linear-gradient(to bottom right, rgba(55, 220, 177, 0.8), rgba(45, 155, 152, 0.8)); }
-          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(1):hover {
+          ClubhouseWindow headerbar .headerbar-buttonbox button:nth-child(1):hover {
             background: linear-gradient(to bottom right, #37dcb1, #2d9b98); }
-          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(1):checked {
+          ClubhouseWindow headerbar .headerbar-buttonbox button:nth-child(1):checked {
             background: linear-gradient(to bottom right, rgba(55, 220, 177, 0.95), rgba(45, 155, 152, 0.95)); }
-        ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(3) {
+        ClubhouseWindow headerbar .headerbar-buttonbox button:nth-child(3) {
           background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.8), rgba(34, 89, 127, 0.8)); }
-          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(3):hover {
+          ClubhouseWindow headerbar .headerbar-buttonbox button:nth-child(3):hover {
             background: linear-gradient(to bottom right, #2d9b98, #22597f); }
-          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(3):checked {
+          ClubhouseWindow headerbar .headerbar-buttonbox button:nth-child(3):checked {
             background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.95), rgba(34, 89, 127, 0.95)); }
-        ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(5) {
+        ClubhouseWindow headerbar .headerbar-buttonbox button:nth-child(5) {
           background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.8), rgba(24, 24, 102, 0.8)); }
-          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(5):hover {
+          ClubhouseWindow headerbar .headerbar-buttonbox button:nth-child(5):hover {
             background: linear-gradient(to bottom right, #22597f, #181866); }
-          ClubhouseWindow headerbar .headerbar-buttonbox > button:nth-child(5):checked {
+          ClubhouseWindow headerbar .headerbar-buttonbox button:nth-child(5):checked {
             background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.95), rgba(24, 24, 102, 0.95)); }
-        ClubhouseWindow headerbar .headerbar-buttonbox > button:checked {
+        ClubhouseWindow headerbar .headerbar-buttonbox button:checked {
           padding: 0;
           border: 3px solid white; }
-        ClubhouseWindow headerbar .headerbar-buttonbox > button label {
+        ClubhouseWindow headerbar .headerbar-buttonbox button label {
           margin: 0 1em; }
-      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(1) {
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER button:nth-child(1) {
         background: linear-gradient(to bottom right, rgba(55, 220, 177, 0.8), rgba(45, 155, 152, 0.8)); }
-        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(1):hover {
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER button:nth-child(1):hover {
           background: linear-gradient(to bottom right, #37dcb1, #2d9b98); }
-        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(1):checked {
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER button:nth-child(1):checked {
           background: linear-gradient(to bottom right, rgba(55, 220, 177, 0.95), rgba(45, 155, 152, 0.95)); }
-      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(2) {
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER button:nth-child(2) {
         background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.8), rgba(24, 24, 102, 0.8)); }
-        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(2):hover {
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER button:nth-child(2):hover {
           background: linear-gradient(to bottom right, #22597f, #181866); }
-        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(2):checked {
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER button:nth-child(2):checked {
           background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.95), rgba(24, 24, 102, 0.95)); }
-      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:first-child {
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER button:first-child {
         border-radius: 3em 0 0 3em; }
-      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:last-child {
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER button:last-child {
         border-radius: 0 3em 3em 0; }
-      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button > box > label {
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER button > box > label {
         margin: 0 1em 0 0; }
-      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button > box > button > image {
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER button > box > button > image {
         min-width: 1.8em;
         min-height: 1.8em;
         margin: -3px;
