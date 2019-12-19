@@ -134,7 +134,8 @@ ClubhouseWindow {
           background: linear-gradient(to bottom right, #22597f, #181866); }
         ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton:checked {
           background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.95), rgba(24, 24, 102, 0.95)); }
-      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > button {
+      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > button,
+      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > button > label {
         color: white;
         text-shadow: none;
         border: 0;
