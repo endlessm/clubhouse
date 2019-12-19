@@ -58,18 +58,22 @@ ClubhouseWindow {
     padding: 0;
     border-radius: 1ex 1ex 0 0;
     border-width: 0px;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0)); }
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 5%, rgba(0, 0, 0, 0) 20%); }
     ClubhouseWindow headerbar > button {
       margin: 1ex;
       padding: 1ex;
       border-radius: 50%; }
       ClubhouseWindow headerbar > button:hover {
         background-color: rgba(255, 255, 255, 0.5); }
+    ClubhouseWindow headerbar .headerbar-buttonbox.profile {
+      margin-left: 20em; }
     ClubhouseWindow headerbar .headerbar-buttonbox {
       min-height: 1.8em;
       margin: 2em 1ex;
+      margin-left: 6em;
       font-size: 1.4em;
-      font-weight: bold; }
+      font-weight: bold;
+      transition: margin 200ms linear; }
       ClubhouseWindow headerbar .headerbar-buttonbox > label {
         margin: 0 1.5em; }
       ClubhouseWindow headerbar .headerbar-buttonbox label.overlay-badge {
