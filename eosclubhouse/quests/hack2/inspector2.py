@@ -1,5 +1,4 @@
 from eosclubhouse.libquest import Quest
-from gi.repository import Gio
 
 
 class Inspector2(Quest):
@@ -15,7 +14,7 @@ class Inspector2(Quest):
         return self.step_launch
 
     def step_launch(self):
-        Gio.AppInfo.launch_default_for_uri_async('about:blank')
+        self.open_url_in_browser('about:blank')
         return self.step_main_loop
 
     def step_main_loop(self, message_index=0):

@@ -34,7 +34,7 @@ from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import App, Desktop, GameStateService, Sound, UserAccount
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
     Performance, QuestStringCatalog, convert_variant_arg
-from gi.repository import EosMetrics, GObject, GLib
+from gi.repository import EosMetrics, Gio, GObject, GLib
 
 
 # Set up the asyncio loop implementation
@@ -2090,7 +2090,7 @@ class Quest(_Quest):
 
         state.nav_attract_state = new_nav
 
-    # ** Deploying files **
+    # ** MISC **
 
     def deploy_file(self, file_name, directory_path, override=False):
         '''Deploy a file inside the player home directory.
@@ -2136,6 +2136,13 @@ class Quest(_Quest):
 
         os.makedirs(dest_dir, exist_ok=True)
         shutil.copyfile(source, destination)
+
+    def open_url_in_browser(self, url):
+        """Open the given URL in an external browser.
+
+        :param str url: The URL to open.
+        """
+        return Gio.AppInfo.launch_default_for_uri_async(url)
 
 
 class QuestSet(GObject.GObject):
