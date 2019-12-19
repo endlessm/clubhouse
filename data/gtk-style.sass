@@ -93,6 +93,7 @@ ClubhouseWindow
 
     // Header bar buttons.
     .headerbar-buttonbox
+      // The headerbar button background.
       $color_variants: #37DCB1, #2D9B98, #22597F, #181866
 
       @function bg($index, $alpha)
@@ -101,14 +102,12 @@ ClubhouseWindow
         @debug $color_b
         @return linear-gradient(to bottom right, $color_a, $color_b)
 
-      // The headerbar button background.
-      @mixin nth_child_bg($nth_child, $color_index)
-        &:nth-child(#{$nth_child})
-          background: bg($color_index, 0.2)
-          &:hover
-            background: bg($color_index, 0)
-          &:checked
-            background: bg($color_index, 0.05)
+      @mixin bg($color_index)
+        background: bg($color_index, 0.2)
+        &:hover
+          background: bg($color_index, 0)
+        &:checked
+          background: bg($color_index, 0.05)
 
       min-height: 1.8em
       margin: 2em 1ex
@@ -142,9 +141,14 @@ ClubhouseWindow
         transition: none
         transition: background-image 200ms linear
 
-        @include nth_child_bg($nth_child: 1, $color_index: 1)
-        @include nth_child_bg($nth_child: 3, $color_index: 2)
-        @include nth_child_bg($nth_child: 5, $color_index: 3)
+        &:nth-child(1)
+          @include bg($color_index: 1)
+
+        &:nth-child(3)
+          @include bg($color_index: 2)
+
+        &.newsfeed
+          @include bg($color_index: 3)
 
         &:checked
           padding: 0
@@ -156,13 +160,12 @@ ClubhouseWindow
       // Headerbar buttons in character view.
       &.CHARACTER
         button
-          @include nth_child_bg($nth_child: 1, $color_index: 1)
-          @include nth_child_bg($nth_child: 2, $color_index: 3)
-
           &:first-child
+            @include bg($color_index: 1)
             border-radius: 3em 0 0 3em
 
           &:last-child
+            @include bg($color_index: 3)
             border-radius: 0 3em 3em 0
 
           > box
