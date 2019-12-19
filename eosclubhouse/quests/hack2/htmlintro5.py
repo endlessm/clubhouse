@@ -1,5 +1,4 @@
 from eosclubhouse.libquest import Quest
-import os
 
 
 class HTMLIntro5(Quest):
@@ -16,7 +15,7 @@ class HTMLIntro5(Quest):
         return self.step_launch
 
     def step_launch(self):
-        os.system('xdg-open https://codepen.io/madetohack/pen/LYYxzOo?editors=1000#code-area')
+        self.open_url_in_browser('https://codepen.io/madetohack/pen/LYYxzOo?editors=1000#code-area')
         return self.step_main_loop
 
     def step_main_loop(self, message_index=0):

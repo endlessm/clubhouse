@@ -1,5 +1,4 @@
 from eosclubhouse.libquest import Quest
-from gi.repository import Gio
 
 
 class HolidayPoster(Quest):
@@ -14,8 +13,7 @@ class HolidayPoster(Quest):
         return self.step_launch
 
     def step_launch(self):
-        Gio.AppInfo.launch_default_for_uri_async(
-            'https://codepen.io/madetohack/pen/abzNgQe?editors=1100')
+        self.open_url_in_browser('https://codepen.io/madetohack/pen/abzNgQe?editors=1100')
         return self.step_main_loop
 
     def step_main_loop(self, message_index=0):
