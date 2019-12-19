@@ -1,5 +1,5 @@
 Date,Character,ImageResource,ImageLink,Text
-2020-01-16,Endless,brittany.png,http://bit.ly/2lxNdcz,"Brittany Wenger, taught herself to code in middle school. At 15, her cousin was diagnosed with breast cancer so she created Cloud4Cancer, an AI breast cancer app that took first place in the 2012 Google Science Fair. Brittany successfully trained the network to have a 99.11% accuracy rate in determining whether a sample of breast tissue is malignant or benign. She is now studying at Duke University.
+2020-01-16,Endless,brittany.jpg,http://bit.ly/2lxNdcz,"Brittany Wenger, taught herself to code in middle school. At 15, her cousin was diagnosed with breast cancer so she created Cloud4Cancer, an AI breast cancer app that took first place in the 2012 Google Science Fair. Brittany successfully trained the network to have a 99.11% accuracy rate in determining whether a sample of breast tissue is malignant or benign. She is now studying at Duke University.
 
 We can't wait to see what you'll do next! "
 2020-01-11,Riley,,,@Faber psst
@@ -105,28 +105,36 @@ We can't wait to see what you'll do next! "
 2019-12-24,Estelle,,,@Saniel Haha!
 2019-12-24,Faber,,,@Saniel XD
 2019-12-24,Ada,,,"@Saniel Now there’s a true Christmas gift – a joke from Saniel Rowe. Happy Holidays, everyone!"
-2019-12-21,Endless,lego2.png,https://www.leocad.org/,Are you a Lego maniac? Create your own Lego design and built it in real life with this design application. Tag #MadeToHack on your designs and we'll like our favs. 
+2019-12-21,Endless,lego2.jpg,https://www.leocad.org/,Are you a Lego maniac? Create your own Lego design and built it in real life with this design application. Tag #MadeToHack on your designs and we'll like our favs. 
 2019-12-20,Endless,kedar.jpg,http://bit.ly/2Yr0O49,"At the age of 7, Kedar Narayan is solving real-world problems with code. Check out his Ted talk as he explains how he invented Storibot, a code-based board game for the blind."
-2019-12-19,Endless,hack-release.png,,"<b>Hack December Release</b>
+2019-12-19,Endless,hack-release.jpg,,"<b>Hack December Release</b>
 Today, we proudly announce Hack's December Release! We hope you like it - let us know what you think on social media with #MadeToHack!
 
 The following content has been added:
 
-<b>Midnightmare Teddy:</b> Banish the nightmares from your bedroom, armed only with your trusty equation rifle and the knowledge of mathematics! <a href='quest://T2Teddy'>Play Now!</a>
+<b>Midnightmare Teddy:</b> Banish the nightmares from your bedroom, armed only with your trusty equation rifle and the knowledge of mathematics!
+<a href='quest://T2Teddy'>Play Now!</a>
 
-<b>Monster Smoothie, Parts 1-7:</b> Learn how to create a full scene in Blender, complete with a monster and a crazy old man! Also, look inside the files used to create the tutorial and see exactly how it was done, if you have any questions. <a href='quest://BlendMonster1'>Play Now!</a>
+<b>Monster Smoothie, Parts 1-7:</b> In this 7-part quest, you'll learn how to create your very own complete Blender scene, including a spooky monster, a crazy old man, lighting effects, atmosphere, and more! Part 7 lets you dig into the actual files used to create the tutorial to see exactly how it was done.
+<a href='quest://BlendMonster1'>Play Now!</a>
 
-<b>Introduction to Procesing, Parts 1-4:</b> Begin the journey down the path of learning how to use Processing. Draw a circle, get it to follow the mouse, then turn it into a paintbrush.<a href='quest://P5JSIntro1'>Play Now!</a>
+<b>Introduction to Procesing, Parts 1-4:</b> Begin your journey into the world of Processing, a lightweight, art-focused programming language. In these quests, you'll learn how to draw shapes, use the mouse to move them, and even create a simple painter.
+<a href='quest://P5JSIntro1'>Play Now!</a>
 
-<b>The Inspector, Parts 1 and 2: </b>Learn to use the browser inspector to hack webpages and figure out how they're put together. <a href='quest://Inspector1'>Play Now!</a>
+<b>The Inspector, Parts 1 and 2: </b>Let Ada introduce you to a hidden feature in every web browser - the Inspector. Pick apart and hack any webpage on the internet and learn how it's all put together!
+<a href='quest://Inspector1'>Play Now!</a>
 
-<b>Make A Poster: </b>Make your very own ""wanted"" poster by messing with CSS and HTML. <a href='quest://HolidayPoster'>Play Now!</a>
+<b>Make A Poster: </b>Use you knowledge of CSS and HTML to make your very own ""wanted"" poster - then transform it into whatever you want... maybe a holiday greeting card?
+<a href='quest://HolidayPoster'>Play Now!</a>
 
-<b>Tension and Compression: </b>Learn how the principles of Tension and Compression are actually just the same idea, just in reverse directions. <a href='quest://MakerTension'>Play Now!</a>
+<b>Tension and Compression: </b>Learn about the principles of tension and compression, and why a well-designed building would actually work just as well suspended in the sky!
+<a href='quest://MakerTension'>Play Now!</a>
 
-<b>The Wobblin' Shell-Bash: </b>Learn the basics of shell scripting, and use it to turn the ""Wobbly Windows"" feature on and off. <a href='quest://WobblyBash'>Play Now!</a>
+<b>The Wobblin' Shell-Bash: </b>Saniel's got a challenge for you - Through the basics of shell-scripting, learn to control the impressive ""Wobbly Windows"" feature.
+<a href='quest://WobblyBash'>Play Now!</a>
 
-<b>Sidetrack 1 - Robots and Pits: </b>Place instructions in the correct order to help Riley get through the maze! You’ll need to think carefully and plan out your moves, because when Felix arrives, things just get more complex... <a href='quest://Sidetrack1'>Play Now!</a>"
+<b>Sidetrack 1 - Robots and Pits: </b>Place instructions in the correct order to help Riley get through the maze! You’ll need to think carefully and plan out your moves, because when Felix arrives, things just get more complex...
+<a href='quest://Sidetrack1'>Play Now!</a>"
 2019-12-17,Saniel,,,"@Faber Hello, Faber. Is this how you send a private message?"
 2019-12-17,Faber,,,"@Saniel yep. what’s up, doc?"
 2019-12-17,Faber,,,@Saniel sorry! couldn’t resist XD
@@ -163,20 +171,20 @@ The following content has been added:
 2019-12-17,Saniel,,,"@Faber Thank you, Faber, for your help."
 2019-12-17,Faber,,,"@Saniel anytime. you already knew what to do, though. trust your feelings, doc, you’ve got a good heart."
 2019-12-17,Saniel,,,"@Faber Well, if you say so. Now, to find a record-pressing company that does small runs..."
-2019-12-14,Endless,dotgrid.png,https://hundredrabbits.itch.io/dotgrid,"Looking to create your own logos, icons and type for your Hack profile? Check out #Dotgrid! Tag us on your creations @MadeToHack. We can't wait to see what you've created."
-2019-12-12,Endless,zora.png,https://youtu.be/9oEZjpEqCwM,"When she was 7, Zora Ball, became the youngest individual to create a full version of a mobile game. Plus, she has also became a master of the Bootstrap programming language. Way to go, Zora. You're a rockstar! 🔥🔥🔥"
+2019-12-14,Endless,dotgrid.jpg,https://hundredrabbits.itch.io/dotgrid,"Looking to create your own logos, icons and type for your Hack profile? Check out #Dotgrid! Tag us on your creations @MadeToHack. We can't wait to see what you've created."
+2019-12-12,Endless,zora.jpg,https://youtu.be/9oEZjpEqCwM,"When she was 7, Zora Ball, became the youngest individual to create a full version of a mobile game. Plus, she has also became a master of the Bootstrap programming language. Way to go, Zora. You're a rockstar! 🔥🔥🔥"
 2019-12-10,Endless,survey_image.jpg,http://bit.ly/hacknewsfeedsurvey,"Loving our new Hack experience? We'd love to hear from you. Click the image to get to the feedback form, and we'll send a few lucky winners some Hack schwag. Good luck!"
-2019-12-07,Endless,hoverboard1.png,https://experiments.withgoogle.com/hvbrd,"Got a skateboard and want to try a cool interactive hoverboard game made with JavaScript? Connect using your phone, place it on a skateboard and start moving to avoid obstacles! Share your high score @MadeToHack."
-2019-12-05,Endless,bosca.png,https://terrycavanagh.itch.io/bosca-ceoil,Making music on your Hack has never been easier. You only need 5 minutes to learn and they have a robust tutorial. It's free to download and use. Check it out.
+2019-12-07,Endless,hoverboard1.jpg,https://experiments.withgoogle.com/hvbrd,"Got a skateboard and want to try a cool interactive hoverboard game made with JavaScript? Connect using your phone, place it on a skateboard and start moving to avoid obstacles! Share your high score @MadeToHack."
+2019-12-05,Endless,bosca.jpg,https://terrycavanagh.itch.io/bosca-ceoil,Making music on your Hack has never been easier. You only need 5 minutes to learn and they have a robust tutorial. It's free to download and use. Check it out.
 2019-12-03,Endless,,http://bit.ly/36BkVRp,Hack protip: Enhance your Blender learning experience by emulating a third mouse button? Check out our blog post for more information.
 2019-11-30,Endless,sequencer.jpg, https://experiments.withgoogle.com/scan-sequencer,Love making music? How about making music using your webcam? Check out this Javascript sequencer that uses your body to generate music in real-time.
-2019-11-28,Endless,2019-11-28.png,,Happy holidays from your friends at Hack!
-2019-11-26,Endless,2019-11-26.png,,"With Hack, you have access to a library of free apps from the Linux community. Go to your desktop and launch the 'More Apps' application and download a new app today!"
+2019-11-28,Endless,2019-11-28.jpg,,Happy holidays from your friends at Hack!
+2019-11-26,Endless,2019-11-26.jpg,,"With Hack, you have access to a library of free apps from the Linux community. Go to your desktop and launch the 'More Apps' application and download a new app today!"
 2019-11-23,Endless,2019-11-23.jpg,https://amzn.to/2NfIiZj,Do you have a friend or family member who'd love Hack? The Hack laptop and key are on sale at Amazon. Tell your friends!
-2019-11-21,Endless,2019-11-21.png, https://geoguessr.com/,"Embark on a journey that takes you all over the world. From the most desolate roads in Australia to the busy, bustling streets of New York City with the power of GoogleMaps. How close is your guess from the real location? Tell us your highest score and see where you rank amoung our Hack users."
+2019-11-21,Endless,2019-11-21.jpg, https://geoguessr.com/,"Embark on a journey that takes you all over the world. From the most desolate roads in Australia to the busy, bustling streets of New York City with the power of GoogleMaps. How close is your guess from the real location? Tell us your highest score and see where you rank amoung our Hack users."
 2019-11-19,Endless,,,Looking for new and interesting sites to explore? Check out our social posts Thursday and we'll share our favs.
-2019-11-17,Endless,2019-11-17.png,https://youtu.be/wcbbF9k-A5M,Have you updated your Hack computer and started on the all new Hack experience? Check out our video on YouTube and learn how you can update your Hack from the terminal.
-2019-11-16,Endless,2019-11-16.png,https://hack-computer.com/blogs/made-to-hack/the-new-hack-is-here,"We've spent all summer working and rebuilt your Hack experience from the ground up! Download the latest update from the app store and launch Hack from the desktop. For a full overview of our changes, check out our blog post."
+2019-11-17,Endless,2019-11-17.jpg,https://youtu.be/wcbbF9k-A5M,Have you updated your Hack computer and started on the all new Hack experience? Check out our video on YouTube and learn how you can update your Hack from the terminal.
+2019-11-16,Endless,2019-11-16.jpg,https://hack-computer.com/blogs/made-to-hack/the-new-hack-is-here,"We've spent all summer working and rebuilt your Hack experience from the ground up! Download the latest update from the app store and launch Hack from the desktop. For a full overview of our changes, check out our blog post."
 2019-11-13,Estelle,pillars.jpg,https://www.nasa.gov/multimedia/imagegallery/iotd.html,#spacelife
 2019-11-12,Riley,,,@Ada whats the digital version of a flea collar?
 2019-11-12,Ada,,,@Riley I’d think it’s an antivirus program. Why?
