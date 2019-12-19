@@ -114,21 +114,31 @@ ClubhouseWindow {
         ClubhouseWindow headerbar .headerbar-buttonbox button:checked {
           padding: 0;
           border: 3px solid white; }
+        ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton {
+          background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.8), rgba(24, 24, 102, 0.8));
+          margin-left: 1em;
+          margin-right: 1em;
+          min-height: 1.4em;
+          min-width: 1.4em; }
+          ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton:hover {
+            background: linear-gradient(to bottom right, #22597f, #181866); }
+          ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton:checked {
+            background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.95), rgba(24, 24, 102, 0.95)); }
         ClubhouseWindow headerbar .headerbar-buttonbox button label {
           margin: 0 1em; }
-      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:first-child {
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(1) {
         background: linear-gradient(to bottom right, rgba(55, 220, 177, 0.8), rgba(45, 155, 152, 0.8));
         border-radius: 3em 0 0 3em; }
-        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:first-child:hover {
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(1):hover {
           background: linear-gradient(to bottom right, #37dcb1, #2d9b98); }
-        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:first-child:checked {
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(1):checked {
           background: linear-gradient(to bottom right, rgba(55, 220, 177, 0.95), rgba(45, 155, 152, 0.95)); }
-      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:last-child {
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(2) {
         background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.8), rgba(24, 24, 102, 0.8));
         border-radius: 0 3em 3em 0; }
-        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:last-child:hover {
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(2):hover {
           background: linear-gradient(to bottom right, #22597f, #181866); }
-        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:last-child:checked {
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(2):checked {
           background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.95), rgba(24, 24, 102, 0.95)); }
       ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button > box > label {
         margin: 0 1em 0 0; }
@@ -141,26 +151,6 @@ ClubhouseWindow {
         border-radius: 50%;
         color: #37DCB1;
         background: white; }
-  ClubhouseWindow .user-overlay {
-    margin: 0em; }
-    ClubhouseWindow .user-overlay #user-label {
-      margin: 1em 1em 1em 4.32em;
-      font-size: 1.2em;
-      font-weight: bold; }
-  ClubhouseWindow #image.user-overlay {
-    margin: 1em;
-    min-width: 5em;
-    min-height: 5em;
-    border-radius: 50%;
-    border: 0.2ex solid white;
-    box-shadow: 1px 1px 2px #555;
-    background-color: #2D9B98;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat; }
-    ClubhouseWindow #image.user-overlay > label {
-      font-size: 2em;
-      font-weight: bold; }
   ClubhouseWindow.CLUBHOUSE {
     background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg"); }
     ClubhouseWindow.CLUBHOUSE.off {
@@ -368,12 +358,40 @@ AchievementSummaryView label.description {
   padding: 2em;
   padding-bottom: 3em; }
 
+.user-overlay {
+  margin: 0em; }
+  .user-overlay #user-label {
+    margin: 1em 1em 1em calc(4.32em - 2.5em);
+    font-size: 1.2em;
+    font-weight: bold; }
+
+#image.user-overlay {
+  margin: 1em;
+  min-width: 5em;
+  min-height: 5em;
+  border-radius: 50%;
+  border: 0.2ex solid white;
+  box-shadow: 1px 1px 2px #555;
+  background-color: #2D9B98;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; }
+  #image.user-overlay > label {
+    font-size: 2em;
+    font-weight: bold; }
+
+#user-button-left-margin {
+  min-width: 2.5em; }
+
 button.user-button {
   box-shadow: 1px 1px 2px black;
+  border-radius: 0em 2em 2em 0em;
   margin: 0.75em 0.75em 0em 0.75em;
-  border-radius: 2em;
+  min-width: 20em;
   color: #FFFFFF;
   background: linear-gradient(to bottom right, #FB3102, #D80232); }
+  button.user-button box {
+    margin-right: 1em; }
   button.user-button:hover {
     background: linear-gradient(to bottom right, #F9682D, #E84E5E); }
   button.user-button:active {
