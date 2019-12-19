@@ -139,7 +139,8 @@ ClubhouseWindow {
         text-shadow: none;
         border: 0;
         margin: 0;
-        border-radius: 3em; }
+        border-radius: 3em;
+        -gtk-icon-shadow: none; }
       ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb {
         border: 0;
         margin: 0;
@@ -160,10 +161,11 @@ ClubhouseWindow {
         padding: 3px 0px; }
       ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb, ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > .popdown image {
         color: rgba(255, 255, 255, 0.3); }
-      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb .back label {
+      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb .back {
         color: white;
         padding-left: 0.5em;
-        text-shadow: none; }
+        text-shadow: none;
+        -gtk-icon-shadow: none; }
   ClubhouseWindow.CLUBHOUSE {
     background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg"); }
     ClubhouseWindow.CLUBHOUSE.off {
