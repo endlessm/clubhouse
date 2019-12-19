@@ -159,7 +159,7 @@ ClubhouseWindow
 
       // Headerbar buttons in character view.
       &.CHARACTER
-        button
+        > button
           &:first-child
             @include bg($color_index: 1)
             border-radius: 3em 0 0 3em
@@ -172,16 +172,15 @@ ClubhouseWindow
             > label
               margin: 0 1em 0 0
 
-            > button
-              > image
-                min-width: 1.8em
-                min-height: 1.8em
-                margin: -3px
-                margin-left: -2ex
-                margin-right: 1ex
-                border-radius: 50%
-                color: #37DCB1
-                background: white
+            > image
+              min-width: 1.8em
+              min-height: 1.8em
+              margin: -3px
+              margin-left: -2ex
+              margin-right: 1ex
+              border-radius: 50%
+              color: #37DCB1
+              background: white
 
   // User Hud/Profile
   .user-overlay
