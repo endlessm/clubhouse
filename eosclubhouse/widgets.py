@@ -103,6 +103,9 @@ class BreadcrumbButton(Gtk.Box):
         self._popup_handler = None
         self._main_popup_handler = None
 
+    def set_popover_button_visible(self, visible):
+        self._popover_button.props.visible = visible
+
     def _popover_toggled_cb(self, widget, prop):
         if widget.props.visible:
             self._popover_button_image.props.icon_name = 'go-up-symbolic'
