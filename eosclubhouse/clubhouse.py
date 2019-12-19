@@ -1316,8 +1316,12 @@ class NewsItem(Gtk.Box):
         return False
 
     def _set_image_from_path(self, path):
-        image = ScalableImage(path)
-        self._image_button.add(image)
+        try:
+            image = ScalableImage(path)
+        except IOError as ex:
+            logger.warning('Error loading NewsFeed image file: %s', ex)
+        else:
+            self._image_button.add(image)
 
     def _get_human_date(self, date):
         today = datetime.date.today()
