@@ -1,5 +1,4 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Sound
 from eosclubhouse import logger
 
 
@@ -163,5 +162,4 @@ class Sidetrack1(Quest):
 
     def step_success(self):
         self.wait_confirm('SUCCESS')
-        Sound.play('quests/quest-complete')
-        return self.step_complete_and_stop(available=False)
+        return self.step_complete_and_stop

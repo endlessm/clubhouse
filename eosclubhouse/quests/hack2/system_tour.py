@@ -27,4 +27,4 @@ class System_Tour(Quest):
         self.wait_confirm('STUFFTODO')
         self.wait_for_app_js_props_changed(props=['flipped'])
         self.wait_confirm('FLIPPEDSTUFF')
-        return self.step_complete_and_stop(available=False)
+        return self.step_complete_and_stop
