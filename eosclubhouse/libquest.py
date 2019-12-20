@@ -831,37 +831,6 @@ class _Quest(GObject.GObject):
     def wait_for_app_js_props_changed(self, app=None, props=None, timeout=None):
         return self.connect_app_js_props_changes(app, props).wait(timeout)
 
-    def wait_for_app_in_foreground(self, app, timeout=None):
-        assert self._run_context is not None
-        async_action = self._run_context.new_async_action()
-
-        if Desktop.is_app_in_foreground(app.dbus_name):
-            async_action.state = AsyncAction.State.DONE
-            return async_action
-
-        def _on_app_running_changed(app, async_action):
-            if not app.is_running() and not async_action.is_resolved():
-                async_action.resolve()
-
-        def _on_app_in_foreground_changed(app_in_foreground_name, app_name, async_action):
-            app_name = Desktop.get_app_desktop_name(app_name)
-            if app_in_foreground_name == app_name and not async_action.is_resolved():
-                async_action.resolve()
-
-        if async_action.is_cancelled():
-            return async_action
-
-        in_foreground_handler_id = Desktop.connect_app_in_foreground_change(
-            _on_app_in_foreground_changed, app.dbus_name, async_action)
-        running_handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
-
-        self._run_context.wait_for_action(async_action, timeout)
-
-        Desktop.disconnect_app_in_foreground_change(in_foreground_handler_id)
-        app.disconnect_running_change(running_handler_id)
-
-        return async_action
-
     def connect_app_object_props_changes(self, app, obj, props):
         assert len(props) > 0
         return self._connect_app_changes(app, obj, props)
@@ -1319,6 +1288,45 @@ class _Quest(GObject.GObject):
 
                 # We only disconnect here if the app wasn't quit
                 app.disconnect_running_change(handler_id)
+                return ret
+
+            return wrapped_func
+
+        return wrapper
+
+    def with_app_in_foreground(app_name=None, otherwise='step_abort'):
+        def wrapper(func):
+
+            def wrapped_func(instance, *args):
+                if app_name is None and instance.app is not None:
+                    app = instance.app
+                else:
+                    app = App(app_name)
+
+                app_quit_callback = getattr(instance, otherwise)
+                app_was_quit = False
+                handler_id = 0
+
+                if not Desktop.is_app_in_foreground(app.dbus_name):
+                    return app_quit_callback
+
+                def _app_in_foreground_changed(name, app_name):
+                    nonlocal app_was_quit
+
+                    if name != app_name:
+                        Desktop.disconnect_app_in_foreground_change(handler_id)
+                        app_was_quit = True
+                        app_quit_callback()
+
+                handler_id = Desktop.connect_app_in_foreground_change(
+                    _app_in_foreground_changed, app.dbus_name)
+
+                ret = func(instance, *args)
+
+                if app_was_quit:
+                    return None
+
+                Desktop.disconnect_app_in_foreground_change(handler_id)
                 return ret
 
             return wrapped_func
@@ -1965,6 +1973,59 @@ class Quest(_Quest):
 
         if async_action.is_done() and pause_after_launch > 0:
             self.pause(pause_after_launch)
+
+        return async_action
+
+    def wait_for_app_in_foreground(self, app=None, in_foreground=True, timeout=None):
+        '''Wait until `app` is in foreground/background.
+
+        :param app: The application. If not passed, it will use :attr:`app`.
+        :param in_foreground: Use False to wait for app in background, default is True.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :rtype: AsyncAction
+
+        '''
+        assert self._run_context is not None
+        async_action = self._run_context.new_async_action()
+
+        if app is None:
+            app = self.app
+
+        its_done = Desktop.is_app_in_foreground(app.dbus_name)
+
+        if not in_foreground:
+            its_done = not its_done
+
+        if its_done:
+            async_action.state = AsyncAction.State.DONE
+            return async_action
+
+        def _on_app_running_changed(app, async_action):
+            if not app.is_running() and not async_action.is_resolved():
+                async_action.resolve()
+
+        def _on_app_in_foreground_changed(app_in_foreground_name, app_name, async_action):
+            app_name = Desktop.get_app_desktop_name(app_name)
+
+            is_app = app_in_foreground_name == app_name
+            if not in_foreground:
+                is_app = not is_app
+
+            if is_app and not async_action.is_resolved():
+                async_action.resolve()
+
+        if async_action.is_cancelled():
+            return async_action
+
+        in_foreground_handler_id = Desktop.connect_app_in_foreground_change(
+            _on_app_in_foreground_changed, app.dbus_name, async_action)
+        running_handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
+
+        self._run_context.wait_for_action(async_action, timeout)
+
+        Desktop.disconnect_app_in_foreground_change(in_foreground_handler_id)
+        app.disconnect_running_change(running_handler_id)
 
         return async_action
 
