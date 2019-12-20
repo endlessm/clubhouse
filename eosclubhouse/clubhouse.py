@@ -967,7 +967,6 @@ class CharacterView(Gtk.Grid):
         self.message_box = MessageBox()
         self._view_overlay.add_overlay(self.message_box)
 
-        self._quest_set = None
         self._animator = Animator(self.character_image)
         self._character = None
 
@@ -980,6 +979,8 @@ class CharacterView(Gtk.Grid):
                                  self.update_character_image(idle=True))
 
         self.connect('notify::category', self._category_notify_cb)
+        self.connect('notify::quest-set', self._quest_set_notify_cb)
+
         self.message_box.show_all()
 
     def show_categories(self):
@@ -1032,9 +1033,7 @@ class CharacterView(Gtk.Grid):
         if self._character is not None:
             ctx.remove_class(self._character.id)
 
-        self._quest_set = quest_set
-        # Get character
-        self._character = Character.get_or_create(quest_set.get_character())
+        self.props.quest_set = quest_set
 
         ctx.add_class(self._character.id)
 
@@ -1090,12 +1089,12 @@ class CharacterView(Gtk.Grid):
     def _setup_category_view(self):
         self._character_button.label = '{} Pathway'.format(self._character.pathway_title)
         self._character_button.popover_label = 'Categories'
-        self._character_button.popover = self._new_categories_popover(self._quest_set)
+        self._character_button.popover = self._new_categories_popover(self.props.quest_set)
 
         self._character_button.set_back_actions_visible(False)
         self._character_button.set_active(True)
 
-        self.populate_categories(self._quest_set)
+        self.populate_categories(self.props.quest_set)
         self.show_categories()
 
     def _setup_quest_view(self):
@@ -1110,8 +1109,13 @@ class CharacterView(Gtk.Grid):
         self._character_button.set_active(True)
         self._character_button.popover = None
 
-        self.populate_quests(self._quest_set, self.props.category)
+        self.populate_quests(self.props.quest_set, self.props.category)
         self.show_quests()
+
+    def _quest_set_notify_cb(self, *_args):
+        # Get character
+        self._character = Character.get_or_create(self.props.quest_set.get_character())
+        self.props.category = None
 
     def _category_notify_cb(self, *_args):
         if self.props.category is None:
@@ -1125,6 +1129,7 @@ class CharacterView(Gtk.Grid):
         self.props.category = utils.CategoriesDB.get(category_id)
 
     category = GObject.Property(type=object)
+    quest_set = GObject.Property(type=object)
 
 
 class ClubhouseView(FixedLayerGroup):
@@ -1929,11 +1934,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def _running_quest_notify_cb(self, _clubhouse, _pspec):
         quest = self._app.quest_runner.props.running_quest
-
         if quest is not None and quest.is_narrative():
-            qs = libquest.Registry.get_questset_for_quest(quest)
-            self.character.show_mission_list(qs)
-            self.set_page('CHARACTER')
+            current_page = self._stack.get_visible_child_name()
+            if current_page != 'CHARACTER':
+                self.set_page('CHARACTER')
+                self.character.quest_set = libquest.Registry.get_questset_for_quest(quest)
+                self.character.set_page_state({'category': 'all'})
 
     def _update_window_size(self):
         BG_WIDTH = 1304
