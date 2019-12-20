@@ -1950,7 +1950,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._clubhouse_button.set_active(True)
             self._hack_news_button.set_active(False)
         elif page_name == 'NEWS':
-            self._clubhouse_button.set_active(False)
             self._hack_news_button.set_active(True)
         else:
             self._clubhouse_button.set_active(False)
