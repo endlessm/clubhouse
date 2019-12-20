@@ -1945,7 +1945,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if current_page == new_page:
             return
 
-
         if page_name == 'CLUBHOUSE':
             self._clubhouse_button.set_active(True)
             self._hack_news_button.set_active(False)
@@ -1954,7 +1953,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         else:
             self._clubhouse_button.set_active(False)
             self._hack_news_button.set_active(False)
-
 
             # Save News last seen date
             today = datetime.date.today()
