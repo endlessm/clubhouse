@@ -976,7 +976,9 @@ class CharacterView(Gtk.Grid):
             self._list.remove(child)
 
         # Populate list
-        for quest in quest_set.get_quests(also_skippable=False):
+        for quest in quest_set.get_quests():
+            if quest.skippable:
+                continue
             card = ActivityCard(quest_set, quest)
             self._list.add(card)
             card.show()

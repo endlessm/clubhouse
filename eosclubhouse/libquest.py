@@ -2254,10 +2254,8 @@ class QuestSet(GObject.GObject):
     def get_id(class_):
         return class_.__name__
 
-    def get_quests(self, also_skippable=True):
-        if also_skippable:
-            return self._quest_objs
-        return [q for q in self._quest_objs if not q.skippable]
+    def get_quests(self):
+        return self._quest_objs
 
     def __repr__(self):
         return self.get_id()
@@ -2342,8 +2340,8 @@ class QuestSet(GObject.GObject):
         if quest.complete:
             return None
 
-        for q in self.get_quests(also_skippable=False):
-            if not q.complete and q.get_difficulty() < quest.get_difficulty():
+        for q in self.get_quests():
+            if not q.skippable and not q.complete and q.get_difficulty() < quest.get_difficulty():
                 return q
 
         return None
