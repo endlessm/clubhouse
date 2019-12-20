@@ -1985,6 +1985,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             return
 
         self._clubhouse_button.active = new_page == 'CLUBHOUSE'
+        self._hack_news_button.props.active = new_page == 'NEWS'
 
         if new_page in ['CLUBHOUSE', 'NEWS']:
             self._user_image_button.show()
