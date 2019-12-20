@@ -969,9 +969,8 @@ class CharacterView(Gtk.Grid):
 
         self._animator = Animator(self.character_image)
         self._character = None
-        self._quest_set = None
-
         self._quests_handlers = []
+        self._abort_running_quest_on_category_view = True
 
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::nav-attract-state',
@@ -1042,7 +1041,7 @@ class CharacterView(Gtk.Grid):
 
     def show_mission_list(self, quest_set):
         # Do nothing if the quest set is already loaded
-        if self._quest_set == quest_set:
+        if self.props.quest_set == quest_set:
             return
 
         ctx = self._app_window.get_style_context()
@@ -1120,6 +1119,11 @@ class CharacterView(Gtk.Grid):
         self._app_window.character.activities_sw.props.sensitive = not state.characters_disabled
 
     def _setup_category_view(self):
+        if self._abort_running_quest_on_category_view:
+            running_quest = self._app.quest_runner.running_quest
+            if running_quest is not None and running_quest.is_narrative():
+                running_quest.step_abort()
+
         self._character_button.label = '{} Pathway'.format(self._character.pathway_title)
         self._character_button.popover_label = 'Categories'
         self._character_button.popover = self._new_categories_popover(self.props.quest_set)
@@ -1148,7 +1152,10 @@ class CharacterView(Gtk.Grid):
     def _quest_set_notify_cb(self, *_args):
         # Get character
         self._character = Character.get_or_create(self.props.quest_set.get_character())
+
+        self._abort_running_quest_on_category_view = False
         self.props.category = None
+        self._abort_running_quest_on_category_view = True
 
     def _category_notify_cb(self, *_args):
         if self.props.category is None:
