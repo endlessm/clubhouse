@@ -1984,14 +1984,17 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if current_page == new_page:
             return
 
-        self._clubhouse_button.active = new_page == 'CLUBHOUSE'
-        self._hack_news_button.props.active = new_page == 'NEWS'
 
-        if new_page in ['CLUBHOUSE', 'NEWS']:
-            self._user_image_button.show()
-            self._user_box.show()
+        if page_name == 'CLUBHOUSE':
+            self._clubhouse_button.set_active(True)
+            self._hack_news_button.set_active(False)
+        elif page_name == 'NEWS':
+            self._clubhouse_button.set_active(False)
+            self._hack_news_button.set_active(True)
         else:
-            self._user_image_button.hide()
+            self._clubhouse_button.set_active(False)
+            self._hack_news_button.set_active(False)
+
 
             # Save News last seen date
             today = datetime.date.today()
@@ -2086,14 +2089,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     @Gtk.Template.Callback()
     def _user_button_revealer_reveal_child_cb(self, _button, _pspec):
-        current_page = self._stack.get_visible_child_name()
-
         if self._user_button_revealer.props.child_revealed:
             self._headerbar_box.get_style_context().remove_class('profile')
-            self._clubhouse_button.active = current_page == 'CLUBHOUSE'
         else:
             self._headerbar_box.get_style_context().add_class('profile')
-            self._clubhouse_button.active = False
 
     @Gtk.Template.Callback()
     def _achievements_view_revealer_child_revealed_notify_cb(self, revealer, _pspec):
