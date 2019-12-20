@@ -120,20 +120,27 @@ ClubhouseWindow {
           border: 3px solid white; }
         ClubhouseWindow headerbar .headerbar-buttonbox button.newsfeed label {
           margin: 0 1em; }
-      ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton {
+      ClubhouseWindow headerbar .headerbar-buttonbox button.circular {
         color: white;
         border-radius: 3em;
         box-shadow: 1px 1px 3px black;
         padding: 3px;
+        min-height: 1.4em;
+        min-width: 1.4em; }
+      ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton {
         margin-left: 1em;
         margin-right: 1em;
-        min-height: 1.4em;
-        min-width: 1.4em;
         background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.8), rgba(24, 24, 102, 0.8)); }
         ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton:hover {
           background: linear-gradient(to bottom right, #22597f, #181866); }
         ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton:checked {
           background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.95), rgba(24, 24, 102, 0.95)); }
+      ClubhouseWindow headerbar .headerbar-buttonbox button.homebutton {
+        background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.8), rgba(34, 89, 127, 0.8)); }
+        ClubhouseWindow headerbar .headerbar-buttonbox button.homebutton:hover {
+          background: linear-gradient(to bottom right, #2d9b98, #22597f); }
+        ClubhouseWindow headerbar .headerbar-buttonbox button.homebutton:checked {
+          background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.95), rgba(34, 89, 127, 0.95)); }
       ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > button,
       ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > button > label {
         color: white;
