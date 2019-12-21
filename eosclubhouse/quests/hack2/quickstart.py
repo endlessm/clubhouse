@@ -1,12 +1,12 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.utils import ClubhouseState
+from eosclubhouse.system import Desktop
 
 
 class Quickstart(Quest):
 
     __tags__ = ['pathway:games']
     __auto_offer_info__ = {'confirm_before': False, 'start_after': 0}
-    __available_after_completing_quests__ = ['FirstContact']
     __dismissible_messages__ = False
 
     def setup(self):
@@ -16,6 +16,9 @@ class Quickstart(Quest):
         self._clubhouse_state = ClubhouseState()
 
     def step_begin(self):
+        # This quest will run first, turn Hack mode on
+        Desktop.set_hack_mode(True)
+
         # Disable the characters in the UI to prevent launching any
         # other quest while the player is running the quickstart:
         self._clubhouse_state.characters_disabled = True
@@ -64,4 +67,5 @@ class Quickstart(Quest):
 
     def step_abort(self):
         self._back_to_normal()
+        Desktop.set_hack_mode(False)
         super().step_abort()

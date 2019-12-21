@@ -35,7 +35,6 @@
         "--own-name=com.hack_computer.GameStateService",
         "--own-name=com.hack_computer.HackSoundServer",
         "--own-name=com.hack_computer.HackToolbox",
-        "--own-name=com.hack_computer.HackUnlock",
         "--share=ipc",
         "--share=network",
         "--socket=pulseaudio",
@@ -277,18 +276,6 @@
           "run-tests": false,
           "sources": [
               ${HACK_TOOLBOX_APP_SOURCE}
-          ]
-        },
-
-        /** hack-unlock-app **/
-        {
-          "name": "toyapp",
-          "buildsystem": "meson",
-          "config-opts": [
-            "-Dapp-id=com.hack_computer.HackUnlock"
-          ],
-          "sources": [
-              ${HACK_TOY_APPS_SOURCE}
           ]
         },
 

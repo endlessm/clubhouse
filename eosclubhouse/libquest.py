@@ -267,7 +267,7 @@ class Registry(GObject.GObject):
     def get_autorun_quest(class_):
         if class_._autorun_quest is not None:
             quest = class_.get_quest_by_name(class_._autorun_quest)
-            if not quest.complete:
+            if quest is not None and not quest.complete:
                 return class_._autorun_quest
 
         return None
