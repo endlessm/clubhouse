@@ -928,6 +928,8 @@ class CharacterView(Gtk.Grid):
         self._animator = Animator(self.character_image)
         self._character = None
 
+        self._quests_handlers = []
+
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::nav-attract-state',
                                       self._on_clubhouse_nav_attract_state_changed_cb)
@@ -971,19 +973,42 @@ class CharacterView(Gtk.Grid):
         # Set character image
         self.update_character_image(idle=True)
 
-        # Clear list
+        self._clear_list()
+        self._populate_list(quest_set)
+
+    def _clear_list(self):
         for child in self._list.get_children():
             self._list.remove(child)
+        for quest, handler_id in self._quests_handlers:
+            quest.disconnect(handler_id)
+        self._quests_handlers = []
 
-        # Populate list
+    def _populate_list(self, quest_set):
         for quest in quest_set.get_quests():
             if quest.skippable:
                 continue
-            card = ActivityCard(quest_set, quest)
-            self._list.add(card)
-            card.show()
+            handler_id = quest.connect('notify::available',
+                                       self._on_quest_available_changed_cb, quest_set)
+            self._quests_handlers.append((quest, handler_id))
+            if not quest.available:
+                continue
+            self._add_activity_card(quest_set, quest)
 
-        # @todo: Scroll the first non completed quest.
+    def _add_activity_card(self, quest_set, quest):
+        card = ActivityCard(quest_set, quest)
+        self._list.add(card)
+        card.show()
+
+    def _remove_activity_card(self, quest_set, quest):
+        for child in self._list.get_children():
+            if child.get_quest() == quest and child.get_quest_set() == quest_set:
+                self._list.remove(child)
+
+    def _on_quest_available_changed_cb(self, quest, _value, quest_set):
+        if quest.available:
+            self._add_activity_card(quest_set, quest)
+        else:
+            self._remove_activity_card(quest_set, quest)
 
     def _on_row_size_allocate(self, row, _rect):
         self._scroll_to_first_non_completed_quest()
