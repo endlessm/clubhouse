@@ -31,7 +31,7 @@ import re
 import time
 import datetime
 
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 from enum import Enum
 from gi.repository import GLib, GObject, Json
 from string import Template
@@ -323,6 +323,33 @@ class NewsFeedDB(_ListFromCSV):
         contents.append(NewsFeedItem(*csv_row))
 
 
+Category = namedtuple('Category', ['id', 'title', 'description', 'image'])
+
+
+class _CategoriesDB(_ListFromCSV):
+    _db = {}
+
+    def __init__(self):
+        super().__init__(config.CATEGORIES_CSV)
+
+    def __contains__(self, key):
+        return key in self._db
+
+    def __iter__(self):
+        return iter(self._db.values())
+
+    def get(self, key):
+        return self._db.get(key)
+
+    @classmethod
+    def append_value_from_csv_row(class_, csv_row, contents):
+        category_id = csv_row[0]
+        class_._db[category_id] = Category(*[*csv_row, '{}.jpg'.format(category_id)])
+
+
+CategoriesDB = _CategoriesDB()
+
+
 class SimpleMarkupParser:
 
     DEFAULT_TAGS = {
@@ -473,3 +500,8 @@ def inside_triangle(p, a, b, c):
     pab_area = triangle_area(p, a, b)
 
     return abc_area - (pbc_area + pac_area + pab_area) == 0
+
+
+def random_hex_color():
+    import random
+    return ''.join(random.sample('0123456789abcdef', 6))

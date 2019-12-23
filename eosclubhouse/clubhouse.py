@@ -728,6 +728,43 @@ class MessageBox(Gtk.Box):
     max_messages = GObject.Property(default=2, type=int)
 
 
+@Gtk.Template.from_resource('/com/hack_computer/Clubhouse/category-card.ui')
+class CategoryCard(Gtk.FlowBoxChild):
+
+    __gtype_name__ = 'CategoryCard'
+
+    _title = Gtk.Template.Child()
+    _topbox = Gtk.Template.Child()
+
+    def __init__(self, character_view, quest_set, category):
+        super().__init__()
+        self._character_view = character_view
+        self._quest_set = quest_set
+        self._category = category
+        self._alternative_path = os.path.join(get_alternative_quests_dir(), 'cards')
+
+        self._title.props.label = self._category.title
+        self._setup_background()
+
+    def _setup_background(self):
+        self._css_provider = gtk_widget_add_custom_css_provider(self._topbox)
+
+        img = '{}/cards/categories/{}'.format(self._alternative_path, self._category.image)
+        if not os.path.exists(img):
+            img = os.path.join(config.CATEGORIES_DIR, 'cards', '{}').format(self._category.image)
+
+        if os.path.exists(img):
+            css = "box {{ background-image: url('{}') }}".format(img).encode()
+        else:
+            css = "box {{ background-image: linear-gradient(to right, #{}, #{}) }}".format(
+                utils.random_hex_color(), utils.random_hex_color()).encode()
+        self._css_provider.load_from_data(css)
+
+    @Gtk.Template.Callback()
+    def _on_button_press_event(self, widget, event):
+        self._character_view.set_page_state({'category': self._category.id})
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/activity-card.ui')
 class ActivityCard(Gtk.FlowBoxChild):
 
@@ -914,7 +951,11 @@ class CharacterView(Gtk.Grid):
     character_image = Gtk.Template.Child()
     activities_sw = Gtk.Template.Child()
 
-    _list = Gtk.Template.Child()
+    _categories_flow_box = Gtk.Template.Child()
+    _quests_flow_box = Gtk.Template.Child()
+
+    _cards_stack = Gtk.Template.Child()
+
     _view_overlay = Gtk.Template.Child()
     _character_button = Gtk.Template.Child()
 
@@ -928,6 +969,7 @@ class CharacterView(Gtk.Grid):
 
         self._animator = Animator(self.character_image)
         self._character = None
+        self._abort_running_quest_on_category_view = True
 
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::nav-attract-state',
@@ -937,7 +979,38 @@ class CharacterView(Gtk.Grid):
         self._app_window.connect('notify::scale', lambda app, pspec:
                                  self.update_character_image(idle=True))
 
+        self.connect('notify::category', self._category_notify_cb)
+        self.connect('notify::quest-set', self._quest_set_notify_cb)
+
         self.message_box.show_all()
+
+    def show_categories(self):
+        self._cards_stack.set_visible_child(self._categories_flow_box)
+
+    def show_quests(self):
+        self._cards_stack.set_visible_child(self._quests_flow_box)
+
+    def _clear_categories_flow_box(self):
+        for child in self._categories_flow_box.get_children():
+            self._categories_flow_box.remove(child)
+
+    def populate_categories(self, quest_set):
+        self._clear_quest_flow_box()
+        self._clear_categories_flow_box()
+        for category in quest_set.get_categories(also_skippable=False):
+            card = CategoryCard(self, quest_set, category)
+            self._categories_flow_box.add(card)
+
+    def _clear_quest_flow_box(self):
+        for child in self._quests_flow_box.get_children():
+            self._quests_flow_box.remove(child)
+
+    def populate_quests(self, quest_set, category):
+        self._clear_quest_flow_box()
+        self._clear_categories_flow_box()
+        for quest in quest_set.get_quests_by_category(category, also_skippable=False):
+            card = ActivityCard(quest_set, quest)
+            self._quests_flow_box.add(card)
 
     def update_character_image(self, idle=False):
         if self._character is None:
@@ -961,28 +1034,23 @@ class CharacterView(Gtk.Grid):
         if self._character is not None:
             ctx.remove_class(self._character.id)
 
-        # Get character
-        self._character = Character.get_or_create(quest_set.get_character())
+        self.props.quest_set = quest_set
 
         ctx.add_class(self._character.id)
 
-        # Set page title
-        self._character_button.label = self._character.pathway_title
-
-        # Set character image
+        self.set_page_state({})
         self.update_character_image(idle=True)
 
-        # Clear list
-        for child in self._list.get_children():
-            self._list.remove(child)
-
-        # Populate list
-        for quest in quest_set.get_quests(also_skippable=False):
-            card = ActivityCard(quest_set, quest)
-            self._list.add(card)
-            card.show()
-
-        # @todo: Scroll the first non completed quest.
+    def _new_categories_popover(self, quest_set):
+        category_menu = Gio.Menu()
+        for category in quest_set.get_categories():
+            state = utils.convert_variant_arg({'category': category.id})
+            menu_item = Gio.MenuItem()
+            menu_item.set_label(category.title)
+            menu_item.set_action_and_target_value('app.set-page-state',
+                                                  GLib.Variant('(sv)', ('CHARACTER', state)))
+            category_menu.append_item(menu_item)
+        return Gtk.Popover.new_from_model(None, category_menu)
 
     def _on_row_size_allocate(self, row, _rect):
         self._scroll_to_first_non_completed_quest()
@@ -1018,6 +1086,59 @@ class CharacterView(Gtk.Grid):
 
     def _on_characters_disabled_changed_cb(self, state, _param):
         self._app_window.character.activities_sw.props.sensitive = not state.characters_disabled
+
+    def _setup_category_view(self):
+        if self._abort_running_quest_on_category_view:
+            running_quest = self._app.quest_runner.running_quest
+            if running_quest is not None and running_quest.is_narrative():
+                running_quest.step_abort()
+
+        self._character_button.label = '{} Pathway'.format(self._character.pathway_title)
+        self._character_button.popover_label = 'Categories'
+        self._character_button.popover = self._new_categories_popover(self.props.quest_set)
+
+        self._character_button.set_back_actions_visible(False)
+        self._character_button.set_active(True)
+
+        self.populate_categories(self.props.quest_set)
+        self.show_categories()
+
+    def _setup_quest_view(self):
+        self._character_button.back_label = '{} Pathway'.format(self._character.pathway_title)
+        self._character_button.back_action_name = 'app.set-page-state'
+        state = utils.convert_variant_arg({})
+        self._character_button.back_action_target = GLib.Variant('(sv)', ('CHARACTER', state))
+        self._character_button.label = self.props.category.title
+
+        self._character_button.set_back_actions_visible(True)
+        self._character_button.show_all()
+        self._character_button.set_active(True)
+        self._character_button.popover = None
+
+        self.populate_quests(self.props.quest_set, self.props.category)
+        self.show_quests()
+
+    def _quest_set_notify_cb(self, *_args):
+        # Get character
+        self._character = Character.get_or_create(self.props.quest_set.get_character())
+
+        self._abort_running_quest_on_category_view = False
+        self.props.category = None
+        self._abort_running_quest_on_category_view = True
+
+    def _category_notify_cb(self, *_args):
+        if self.props.category is None:
+            self._setup_category_view()
+        else:
+            self._setup_quest_view()
+
+    def set_page_state(self, state):
+        self.props.category = state.get('category')
+        category_id = state.get('category')
+        self.props.category = utils.CategoriesDB.get(category_id)
+
+    category = GObject.Property(type=object)
+    quest_set = GObject.Property(type=object)
 
 
 class ClubhouseView(FixedLayerGroup):
@@ -1822,11 +1943,12 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def _running_quest_notify_cb(self, _clubhouse, _pspec):
         quest = self._app.quest_runner.props.running_quest
-
         if quest is not None and quest.is_narrative():
-            qs = libquest.Registry.get_questset_for_quest(quest)
-            self.character.show_mission_list(qs)
-            self.set_page('CHARACTER')
+            current_page = self._stack.get_visible_child_name()
+            if current_page != 'CHARACTER':
+                self.set_page('CHARACTER')
+                self.character.quest_set = libquest.Registry.get_questset_for_quest(quest)
+                self.character.set_page_state({'category': 'all'})
 
     def _update_window_size(self):
         BG_WIDTH = 1304
@@ -1945,22 +2067,19 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if current_page == new_page:
             return
 
-
         if page_name == 'CLUBHOUSE':
             self._clubhouse_button.set_active(True)
             self._hack_news_button.set_active(False)
         elif page_name == 'NEWS':
             self._hack_news_button.set_active(True)
-        else:
-            self._clubhouse_button.set_active(False)
-            self._hack_news_button.set_active(False)
-
-
             # Save News last seen date
             today = datetime.date.today()
             last_seen = today.strftime('%Y-%m-%d')
             self._gss.set_async('clubhouse.News', {'last-seen': last_seen})
             self.news.last_seen = today
+        else:
+            self._clubhouse_button.set_active(False)
+            self._hack_news_button.set_active(False)
 
         if current_page == 'CHARACTER':
             self.hide_achievements_view()
@@ -2001,6 +2120,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         recorder = EosMetrics.EventRecorder.get_default()
         page_variant = GLib.Variant('s', new_page)
         recorder.record_event(CLUBHOUSE_SET_PAGE_EVENT, page_variant)
+
+    def get_page(self, name):
+        return self._stack.get_child_by_name(name)
 
     def _select_main_page_on_timeout(self):
         self.set_page('CLUBHOUSE')
@@ -2710,6 +2832,8 @@ class ClubhouseApplication(Gtk.Application):
                           ('close', self._close_action_cb, None),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
                           ('show-page', self._show_page_action_cb, GLib.VariantType.new('s')),
+                          ('set-page-state', self._set_page_state_action_cb,
+                           GLib.VariantType.new('(sv)')),
                           ('show-character', self._show_character_action_cb,
                            GLib.VariantType.new('s')),
                           ('stop-quest', self._stop_quest, None),
@@ -2837,6 +2961,17 @@ class ClubhouseApplication(Gtk.Application):
         if self._window:
             self._window.set_page(page_name)
             self._show_and_focus_window()
+
+    def _set_page_state_action_cb(self, action, arg_variant):
+        if self._window is None:
+            return
+
+        page_name, state = arg_variant.unpack()
+        page = self._window.get_page(page_name)
+
+        if page is None:
+            return
+        page.set_page_state(state)
 
     def _show_character_action_cb(self, action, arg_variant):
         character_id = arg_variant.unpack()
@@ -3017,6 +3152,7 @@ clubhouse_classes = [
     AchievementSummaryView,
     AchievementsView,
     ActivityCard,
+    CategoryCard,
     CharacterButton,
     CharacterView,
     ClubhouseView,

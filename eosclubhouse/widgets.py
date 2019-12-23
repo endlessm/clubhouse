@@ -88,6 +88,7 @@ class BreadcrumbButton(Gtk.Box):
 
     _back_box = Gtk.Template.Child()
     _back_button = Gtk.Template.Child()
+    _back_image = Gtk.Template.Child()
     _inactive_button = Gtk.Template.Child()
     _main_button = Gtk.Template.Child()
     _popover_button = Gtk.Template.Child()
@@ -106,6 +107,10 @@ class BreadcrumbButton(Gtk.Box):
     def set_popover_button_visible(self, visible):
         self._popover_button.props.visible = visible
 
+    def set_back_actions_visible(self, visible):
+        self._back_button.props.visible = visible
+        self._back_image.props.visible = visible
+
     def _popover_toggled_cb(self, widget, prop):
         if widget.props.visible:
             self._popover_button_image.props.icon_name = 'go-up-symbolic'
@@ -121,6 +126,10 @@ class BreadcrumbButton(Gtk.Box):
         if self._popup_handler:
             self._popover_button.props.popover.disconnect(self._popup_handler)
             self._popup_handler = None
+
+        self._popover_button.props.visible = bool(value)
+        if value is None:
+            return
 
         self._popup_handler = value.connect('notify::visible',
                                             self._popover_toggled_cb)
