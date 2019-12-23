@@ -1989,15 +1989,14 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._hack_news_button.set_active(False)
         elif page_name == 'NEWS':
             self._hack_news_button.set_active(True)
-        else:
-            self._clubhouse_button.set_active(False)
-            self._hack_news_button.set_active(False)
-
             # Save News last seen date
             today = datetime.date.today()
             last_seen = today.strftime('%Y-%m-%d')
             self._gss.set_async('clubhouse.News', {'last-seen': last_seen})
             self.news.last_seen = today
+        else:
+            self._clubhouse_button.set_active(False)
+            self._hack_news_button.set_active(False)
 
         if current_page == 'CHARACTER':
             self.hide_achievements_view()
