@@ -26,6 +26,8 @@ class Sidetrack1(Quest):
         return None
 
     def step_begin(self):
+        return self.step_success
+
         if not self.app.is_installed():
             self.wait_confirm('NOTINSTALLED', confirm_label='Got it!')
             return self.step_abort
