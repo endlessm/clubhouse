@@ -29,11 +29,13 @@ class T2FrogSquash(Quest):
         return self.step_normalrun
 
     def step_normalrun(self):
-        self.app.launch()
-        return self.step_instruct
-
-    def step_instruct(self):
         self.wait_confirm('GREET1')
         self.wait_confirm('GREET2', confirm_label='Will do!')
         self.wait_confirm('BYE')
+        return self.step_launch
+
+    def step_launch(self):
+        self.app.launch()
+        self.wait_for_app_in_foreground()
+        self.wait_for_app_in_foreground(in_foreground=False)
         return self.step_complete_and_stop
