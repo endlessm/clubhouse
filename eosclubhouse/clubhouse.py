@@ -2842,6 +2842,11 @@ class ClubhouseApplication(Gtk.Application):
         if self._window:
             self._window.hide()
 
+        # Quit app if we are running the quickstart since the user might have
+        # opened the clubhouse by mistake!
+        if self._get_running_quest_name() == 'Quickstart':
+            self.activate_action('quit', None)
+
     def _show_page_action_cb(self, action, arg_variant):
         page_name = arg_variant.unpack()
         if self._window:
