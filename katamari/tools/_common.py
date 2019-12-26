@@ -89,6 +89,25 @@ class Config:
 
         return self.get_default_branch()
 
+    def get_flatpak_build_options(self):
+        repo = self.get('Advanced', 'repo')
+        flatpak_builder_options = ['--force-clean', '--repo=' + repo]
+
+        extra_build_options = self.get('Advanced', 'extra_build_options')
+        if extra_build_options:
+            flatpak_builder_options.extend(extra_build_options.split())
+
+        return flatpak_builder_options
+
+    def get_flatpak_install_options(self):
+        flatpak_install_options = ['--reinstall']
+
+        extra_install_options = self.get('Advanced', 'extra_install_options')
+        if extra_install_options:
+            flatpak_install_options.extend(extra_install_options.split())
+
+        return flatpak_install_options
+
     def get_template_values(self, modules, template=None):
         template_values = {
             'BRANCH': self.get_flatpak_branch(),
@@ -225,18 +244,11 @@ def run_command(*args, **kwargs):
         raise BuildError('Error running: {}'.format(' '.join(p.args)))
 
 
-def build_flatpak(repo, manifest, extra_build_options=None):
-    flatpak_builder_options = ['--force-clean', '--repo=' + repo]
-    if extra_build_options:
-        flatpak_builder_options.extend(extra_build_options.split())
-
+def build_flatpak(manifest, flatpak_builder_options):
     run_command(['flatpak-builder', 'build', manifest] + flatpak_builder_options)
 
 
-def install_flatpak(repo, flatpak_branch, app_id, extra_install_options=None):
-    flatpak_install_options = ['--reinstall']
-    if extra_install_options:
-        flatpak_install_options.extend(extra_install_options.split())
+def install_flatpak(repo, flatpak_branch, app_id, flatpak_install_options):
     run_command(['flatpak', 'install'] +
                 flatpak_install_options +
                 ['./' + repo, app_id + '//' + flatpak_branch])
