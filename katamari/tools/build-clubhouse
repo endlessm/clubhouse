@@ -12,6 +12,7 @@ from _common import (
     build_flatpak,
     install_flatpak,
     build_bundle,
+    print_error,
     run_command,
     run,
 )
@@ -68,6 +69,10 @@ def main(config, template=None):
     # Create the manifest:
     create_flatpak_manifest(config, MODULES, MANIFEST_FILE, template)
     if template:
+        return
+
+    if config.get('Common', 'offline') and config.get('clubhouse', 'run_lint'):
+        print_error('Can\'t build clubhouse with run_lint setting in offline mode.')
         return
 
     repo = config.get('Advanced', 'repo')

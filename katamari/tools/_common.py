@@ -266,6 +266,10 @@ def build_bundle(repo, flatpak_branch, app_id, options=[]):
                  app_id, flatpak_branch, *options])
 
 
+def print_error(message):
+    sys.stderr.write('\x1b[1;31m' + 'Error: ' + message + '\x1b[0m' + '\n')
+
+
 def run(main, *args, **kwargs):
     parser = argparse.ArgumentParser(description='Tool to build and install a Flatpak.')
     parser.add_argument('mode', nargs='?', choices=('print-config',),
