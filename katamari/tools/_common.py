@@ -24,6 +24,7 @@ DEFAULTS = {
         'install': True,
         'bundle': False,
         'stable': False,
+        'offline': False,
     },
     'Advanced': {
         'repo': 'repo',
@@ -93,6 +94,9 @@ class Config:
         repo = self.get('Advanced', 'repo')
         flatpak_builder_options = ['--force-clean', '--repo=' + repo]
 
+        if self.get('Common', 'offline'):
+            flatpak_builder_options.append('--disable-download')
+
         extra_build_options = self.get('Advanced', 'extra_build_options')
         if extra_build_options:
             flatpak_builder_options.extend(extra_build_options.split())
@@ -101,6 +105,9 @@ class Config:
 
     def get_flatpak_install_options(self):
         flatpak_install_options = ['--reinstall']
+
+        if self.get('Common', 'offline'):
+            flatpak_install_options.append('--no-deps')
 
         extra_install_options = self.get('Advanced', 'extra_install_options')
         if extra_install_options:
