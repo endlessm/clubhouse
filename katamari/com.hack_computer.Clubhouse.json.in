@@ -129,34 +129,6 @@
             ]
         },
         {
-            "name": "python3-vcver",
-            "buildsystem": "simple",
-            "build-commands": [
-                "pip3 install --no-index --find-links=\"file://$${PWD}\" --prefix=$${FLATPAK_DEST} vcver"
-            ],
-            "sources": [
-                {
-                    "type": "file",
-                    "url": "https://files.pythonhosted.org/packages/fd/5d/c8c80d1a6c4f0bed4cd52747294ba95219bb79587da27d34d9e428b5849c/vcver-0.1.1.tar.gz",
-                    "sha256": "e4c1eff7af4123cca80597367cb5d41dd57cd9711de0d5804d7b3935cc04f1a0"
-                }
-            ]
-        },
-        {
-            "name": "python3-deepmerge",
-            "buildsystem": "simple",
-            "build-commands": [
-                "pip3 install --no-index --find-links=\"file://$${PWD}\" --prefix=$${FLATPAK_DEST} deepmerge"
-            ],
-            "sources": [
-                {
-                    "type": "file",
-                    "url": "https://files.pythonhosted.org/packages/a9/14/7bd117a34ed4199664ad28367814ebac54012c5f6176ed333667d7d469b6/deepmerge-0.0.5.tar.gz",
-                    "sha256": "d8c5c309340a51e0d7a84adb020d459dc79794d789ea03a56e954ac115089fa5"
-                }
-            ]
-        },
-        {
             "name": "hack-sound-server",
             "buildsystem": "meson",
             "config-opts" : [
