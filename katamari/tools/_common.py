@@ -6,6 +6,7 @@
 
 import argparse
 import configparser
+import functools
 import json
 import os
 import re
@@ -60,6 +61,7 @@ class Config:
         if flatpak_branch:
             self._config['Advanced']['branch'] = flatpak_branch
 
+    @functools.lru_cache(maxsize=None)
     def get(self, section, key):
         if section not in self._config:
             return self._defs[section][key]
