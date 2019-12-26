@@ -2363,10 +2363,6 @@ class QuestRunner(GObject.GObject):
         # Ensure the app can be quit if inactive now
         self._app.release()
 
-        # Show window if it was the first quest
-        if quest.get_id() == 'FirstContact' and quest.complete:
-            self._app.on_first_contact_quest_finished()
-
         # Unhighlight highlighted quests.
         for quest_set in libquest.Registry.get_quest_sets():
             for quest in quest_set.get_quests():
@@ -2829,10 +2825,6 @@ class ClubhouseApplication(Gtk.Application):
         logger.debug('Shell quest view closed')
         self._stop_quest()
 
-    def on_first_contact_quest_finished(self):
-        self._ensure_window()
-        self._show_and_focus_window()
-
     def _run_quest_action_cb(self, action, arg_variant):
         quest_name, _obsolete = arg_variant.unpack()
         self.quest_runner.run_quest_by_name(quest_name)
@@ -2849,6 +2841,11 @@ class ClubhouseApplication(Gtk.Application):
     def _close_action_cb(self, action, arg_variant):
         if self._window:
             self._window.hide()
+
+        # Quit app if we are running the quickstart since the user might have
+        # opened the clubhouse by mistake!
+        if self._get_running_quest_name() == 'Quickstart':
+            self.activate_action('quit', None)
 
     def _show_page_action_cb(self, action, arg_variant):
         page_name = arg_variant.unpack()
@@ -2976,11 +2973,10 @@ class ClubhouseApplication(Gtk.Application):
         if quest.complete:
             return
 
-        # Mark first contact quest (HackUnlock) as done
-        for quest_id in ['FirstContact', 'Quickstart']:
-            quest = libquest.Registry.get_quest_by_name(quest_id)
-            quest.complete = True
-            quest.save_conf()
+        # Mark quickstart quest as done
+        quest = libquest.Registry.get_quest_by_name('Quickstart')
+        quest.complete = True
+        quest.save_conf()
 
         OldGameStateService().migrate()
         gss = GameStateService()
