@@ -6,6 +6,7 @@
 
 import argparse
 import configparser
+import functools
 import json
 import os
 import re
@@ -23,6 +24,7 @@ DEFAULTS = {
         'install': True,
         'bundle': False,
         'stable': False,
+        'offline': False,
     },
     'Advanced': {
         'repo': 'repo',
@@ -60,6 +62,7 @@ class Config:
         if flatpak_branch:
             self._config['Advanced']['branch'] = flatpak_branch
 
+    @functools.lru_cache(maxsize=None)
     def get(self, section, key):
         if section not in self._config:
             return self._defs[section][key]
@@ -86,6 +89,31 @@ class Config:
             return 'custom'
 
         return self.get_default_branch()
+
+    def get_flatpak_build_options(self):
+        repo = self.get('Advanced', 'repo')
+        flatpak_builder_options = ['--force-clean', '--repo=' + repo]
+
+        if self.get('Common', 'offline'):
+            flatpak_builder_options.append('--disable-download')
+
+        extra_build_options = self.get('Advanced', 'extra_build_options')
+        if extra_build_options:
+            flatpak_builder_options.extend(extra_build_options.split())
+
+        return flatpak_builder_options
+
+    def get_flatpak_install_options(self):
+        flatpak_install_options = ['--reinstall']
+
+        if self.get('Common', 'offline'):
+            flatpak_install_options.append('--no-deps')
+
+        extra_install_options = self.get('Advanced', 'extra_install_options')
+        if extra_install_options:
+            flatpak_install_options.extend(extra_install_options.split())
+
+        return flatpak_install_options
 
     def get_template_values(self, modules, template=None):
         template_values = {
@@ -223,18 +251,11 @@ def run_command(*args, **kwargs):
         raise BuildError('Error running: {}'.format(' '.join(p.args)))
 
 
-def build_flatpak(repo, manifest, extra_build_options=None):
-    flatpak_builder_options = ['--force-clean', '--repo=' + repo]
-    if extra_build_options:
-        flatpak_builder_options.extend(extra_build_options.split())
-
+def build_flatpak(manifest, flatpak_builder_options):
     run_command(['flatpak-builder', 'build', manifest] + flatpak_builder_options)
 
 
-def install_flatpak(repo, flatpak_branch, app_id, extra_install_options=None):
-    flatpak_install_options = ['--reinstall']
-    if extra_install_options:
-        flatpak_install_options.extend(extra_install_options.split())
+def install_flatpak(repo, flatpak_branch, app_id, flatpak_install_options):
     run_command(['flatpak', 'install'] +
                 flatpak_install_options +
                 ['./' + repo, app_id + '//' + flatpak_branch])
@@ -243,6 +264,10 @@ def install_flatpak(repo, flatpak_branch, app_id, extra_install_options=None):
 def build_bundle(repo, flatpak_branch, app_id, options=[]):
     run_command(['flatpak', 'build-bundle', repo, app_id + '.flatpak',
                  app_id, flatpak_branch, *options])
+
+
+def print_error(message):
+    sys.stderr.write('\x1b[1;31m' + 'Error: ' + message + '\x1b[0m' + '\n')
 
 
 def run(main, *args, **kwargs):

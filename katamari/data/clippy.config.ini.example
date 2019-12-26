@@ -17,6 +17,12 @@
 
 # stable = no
 
+## Build offline. This tweaks a number of other settings to allow
+## building offline. It requires a previous build with similar
+## settings, otherwise the modules won't be cached.
+
+# offline = no
+
 [Modules]
 
 ## These are the modules you want to customize. Setting any of these

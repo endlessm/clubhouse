@@ -12,6 +12,7 @@ from _common import (
     build_flatpak,
     install_flatpak,
     build_bundle,
+    print_error,
     run_command,
     run,
 )
@@ -70,17 +71,19 @@ def main(config, template=None):
     if template:
         return
 
+    if config.get('Common', 'offline') and config.get('clubhouse', 'run_lint'):
+        print_error('Can\'t build clubhouse with run_lint setting in offline mode.')
+        return
+
     repo = config.get('Advanced', 'repo')
     flatpak_branch = config.get_flatpak_branch()
 
     # Build the flatpak:
-    extra_build_options = config.get('Advanced', 'extra_build_options')
-    build_flatpak(repo, MANIFEST_FILE, extra_build_options)
+    build_flatpak(MANIFEST_FILE, config.get_flatpak_build_options())
 
     # Install the build in the system:
     if config.get('Common', 'install'):
-        extra_install_options = config.get('Advanced', 'extra_install_options')
-        install_flatpak(repo, flatpak_branch, APP_ID, extra_install_options)
+        install_flatpak(repo, flatpak_branch, APP_ID, config.get_flatpak_install_options())
 
         # Reload the Game State Service after install:
         if config.get('Common', 'reload-gss'):
