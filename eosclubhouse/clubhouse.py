@@ -927,6 +927,7 @@ class CharacterView(Gtk.Grid):
 
         self._animator = Animator(self.character_image)
         self._character = None
+        self._quest_set = None
 
         self._quests_handlers = []
 
@@ -957,6 +958,10 @@ class CharacterView(Gtk.Grid):
         self._animator.play(animation_id)
 
     def show_mission_list(self, quest_set):
+        # Do nothing if the quest set is already loaded
+        if self._quest_set == quest_set:
+            return
+
         ctx = self._app_window.get_style_context()
 
         if self._character is not None:
@@ -975,6 +980,7 @@ class CharacterView(Gtk.Grid):
 
         self._clear_list()
         self._populate_list(quest_set)
+        self._quest_set = quest_set
 
     def _clear_list(self):
         for child in self._list.get_children():
@@ -982,6 +988,10 @@ class CharacterView(Gtk.Grid):
         for quest, handler_id in self._quests_handlers:
             quest.disconnect(handler_id)
         self._quests_handlers = []
+
+        # Set scrollbar back to the beginning
+        self.activities_sw.props.vadjustment.props.value = 0
+        self._quest_set = None
 
     def _populate_list(self, quest_set):
         for quest in quest_set.get_quests():
