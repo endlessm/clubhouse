@@ -1399,7 +1399,9 @@ class NewsView(Gtk.Box):
 
     def _on_news_item_run_quest(self, item, name):
         if Desktop.get_hack_mode():
-            self._app.quest_runner.run_quest_by_name(name)
+            quest = libquest.Registry.get_quest_by_name(name)
+            if quest is not None:
+                self._app.quest_runner.try_running_quest(quest)
         else:
             self._hack_mode_popover_image.set_from_file(item.get_character_path())
             self._hack_mode_popover.set_relative_to(self)
