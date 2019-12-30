@@ -27,7 +27,6 @@ import itertools
 import json
 gi.require_version('Json', '1.0')
 import os
-import re
 import time
 import datetime
 
@@ -321,59 +320,6 @@ class NewsFeedDB(_ListFromCSV):
     @classmethod
     def append_value_from_csv_row(class_, csv_row, contents):
         contents.append(NewsFeedItem(*csv_row))
-
-
-class SimpleMarkupParser:
-
-    DEFAULT_TAGS = {
-        'bold_start': '<b>',
-        'bold_end': '</b>',
-        'italics_start': '<i>',
-        'italics_end': '</i>',
-        'strikethrough_start': '<s>',
-        'strikethrough_end': '</s>',
-        'inlinecode_start': ('<tt><span insert_hyphens="false" '
-                             'foreground="#287A8C" background="#FFFFFF">'),
-        'inlinecode_end': '</span></tt>',
-        'url_start': '<u><span insert_hyphens="false" foreground="#3584E4">',
-        'url_end': '</span></u>',
-    }
-    _convertions = None
-    _instance = None
-
-    def __init__(self, custom_tags=None):
-        tags = self.DEFAULT_TAGS.copy()
-        if isinstance(custom_tags, dict):
-            tags.update(custom_tags)
-
-        self._convertions = [
-            [re.compile(r'<', re.S), r'&lt;'],
-            [re.compile(r'>', re.S), r'&gt;'],
-            [re.compile(
-                # From http://www.noah.org/wiki/RegEx_Python#URL_regex_pattern
-                (r'(http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|'
-                 r'(?:%[0-9a-fA-F][0-9a-fA-F]))+)'), re.S),
-             f'{tags["url_start"]}\\1{tags["url_end"]}'],
-            [re.compile(r'(?!<span[^>]*?>)(\*)(?=\S)(.+?)(?<=\S)\1(?![^<]*?</span>)', re.S),
-             f'{tags["bold_start"]}\\2{tags["bold_end"]}'],
-            [re.compile(r'(?!<span[^>]*?>)(_)(?=\S)(.+?)(?<=\S)\1(?![^<]*?</span>)', re.S),
-             f'{tags["italics_start"]}\\2{tags["italics_end"]}'],
-            [re.compile(r'(?!<span[^>]*?>)(~)(?=\S)(.+?)(?<=\S)\1(?![^<]*?</span>)', re.S),
-             f'{tags["strikethrough_start"]}\\2{tags["strikethrough_end"]}'],
-            [re.compile(r'(`)(?=\S)(.+?)(?<=\S)\1', re.S),
-             f'{tags["inlinecode_start"]}\\2{tags["inlinecode_end"]}'],
-        ]
-
-    def _do_parse(self, text):
-        for regex, replacement in self._convertions:
-            text = regex.sub(replacement, text)
-        return text
-
-    @classmethod
-    def parse(class_, text):
-        if class_._instance is None:
-            class_._instance = class_()
-        return class_._instance._do_parse(text)
 
 
 class _ClubhouseStateImpl(GObject.GObject):

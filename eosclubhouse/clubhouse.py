@@ -39,7 +39,7 @@ from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import Desktop, GameStateService, OldGameStateService, \
     Sound, SoundItem, UserAccount
-from eosclubhouse.utils import ClubhouseState, Performance, SimpleMarkupParser, \
+from eosclubhouse.utils import ClubhouseState, Performance, \
     get_alternative_quests_dir
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
@@ -324,7 +324,7 @@ class Message(Gtk.Overlay):
         self.set_scale(scale)
 
     def set_text(self, txt):
-        self._label.set_markup(SimpleMarkupParser.parse(txt))
+        self._label.set_markup(txt)
 
     def get_text(self):
         return self._label.get_label()
@@ -1611,7 +1611,7 @@ class AchievementsView(Gtk.Box):
 
         template = utils.MessageTemplate(template_text)
         text = template.substitute({'achievement.name': achievement.name})
-        notification.set_body(SimpleMarkupParser.parse(text))
+        notification.set_body(text)
         notification.set_title('')
 
         icon_path = os.path.join(config.ACHIEVEMENTS_DIR, 'badges', '{}.svg'.format(achievement.id))
@@ -2416,7 +2416,7 @@ class QuestRunner(GObject.GObject):
     def _shell_popup_message_real(self, message_info):
         notification = Gio.Notification()
         text = message_info.get('text', '')
-        notification.set_body(SimpleMarkupParser.parse(text))
+        notification.set_body(text)
         notification.set_title('')
 
         sfx_sound = message_info.get('sound_fx')
@@ -2480,7 +2480,7 @@ class QuestRunner(GObject.GObject):
         if text is None:
             text = 'You got a new item! {}'.format(item_name)
 
-        notification.set_body(SimpleMarkupParser.parse(text))
+        notification.set_body(text)
         notification.set_title('')
 
         icon_file = Gio.File.new_for_path(utils.QuestItemDB.get_icon_path(icon_name))

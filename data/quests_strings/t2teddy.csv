@@ -1,10 +1,10 @@
 T2TEDDY_QUEST_NAME,Terminal 2 - Midnightmare Teddy,,,,
 T2TEDDY_GREET1,"Midnightmare Teddy... sounds rather forbidding. It looks like you can launch it through the Desktop, as well.",saniel,,,
 T2TEDDY_GREET2,"I'm not a big fan of scary games or movies, but I can always appreciate a math-based game. Banish those nightmares with the power of calculation!",saniel,,,
-T2TEDDY_NOTINSTALLED,"Uh-oh! I'm detecting that `Midnightmare Teddy` isn't installed!
+T2TEDDY_NOTINSTALLED,"Uh-oh! I'm detecting that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Midnightmare Teddy</span></tt> isn't installed!
 
 You need to download it from the App Center if you want to play.
 
-Click the icon named `App Center` on the Desktop, then search for the program you want to install.",daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
 T2TEDDY_QUEST_SUBTITLE,What you'll do,,,,
 T2TEDDY_QUEST_DESCRIPTION,Use your trusty equation rifle to vanquish the nightmares coming from every direction!,,,,

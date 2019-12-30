@@ -7,11 +7,11 @@ ACTIVATETRAP_OPEN_CLUBHOUSE,"That's what I like to hear! Okay, so open the clubh
 ACTIVATETRAP_OPEN_CLUBHOUSE_HINT1,Click on the button at the right to open the clubhouse.,,,,
 ACTIVATETRAP_QUESTION,How very odd. All three panels are activated. But the box is still closed. Not liking the looks of this. ,saniel,,,
 ACTIVATETRAP_QUEST_ACCEPT,Let's keep trying!,,,,
-ACTIVATETRAP_TRANSCODING,"Wait – What's all this? The display says it's  _TRANSCODING_ . Okay. Transcoding. Not thrilled.
+ACTIVATETRAP_TRANSCODING,"Wait – What's all this? The display says it's  <i>TRANSCODING</i> . Okay. Transcoding. Not thrilled.
 
 Not thrilled at all. I must say, this really has me stumped. I had hoped we would free Riley today.
 
-This transcoding sequence is likely to tie things up for _quite_ a while still. ",,,,
+This transcoding sequence is likely to tie things up for <i>quite</i> a while still. ",,,,
 ACTIVATETRAP_TRY,"Now, what are we missing? I fully expected that box to spring open. What are we still not seeing? 
 
 Let's consider everything we have. Each time we activated a fob, Riley spoke to us. 
@@ -23,7 +23,7 @@ ACTIVATETRAP_TRY2,"When I was in there, I distinctly heard Riley say MEOW!",ada,
 ACTIVATETRAP_TRY3,"Exactly! That's the one word, as it were, that came forth clearly for me as well. MEOW!",saniel,,,
 ACTIVATETRAP_TRY4,"MEOW! Whoa. I totally caught that too, but I was all like, why is Riley meowing?
 
-But that's _gotta_ mean something! MEOW. MEOW. And again, MEOW. 
+But that's <i>gotta</i> mean something! MEOW. MEOW. And again, MEOW. 
 
 ",faber,,,
 ACTIVATETRAP_TRY5,"MEOWMEOWMEOW. I must say, this password gives me pause. 
@@ -42,9 +42,9 @@ APPLYFOB1_OPEN_CLUBHOUSE,"Totally. Fingers crossed. Okay, the first step is to o
 APPLYFOB1_OPEN_CLUBHOUSE_HINT1,"To open the clubhouse, click on the button at the right.",,,,
 APPLYFOB1_QUESTION,Ready to try this first fob on Panel 1? ,ada,,,
 APPLYFOB1_QUEST_ACCEPT,So curious! Let's hope it works!,,,,
-APPLYFOB1_RILEY1,ADA! ADA! Can you hear me? So glad you're )^here +* x・^)^ *I'M* ∫~}(=^ *O* ∫}(=^ *K*,riley,talk_glitched,,
-APPLYFOB1_RILEY2,There'$$@still */ᐠ｡｡ᐟ\*}(^ [_1_]_more_*%++_st3p_*/ᐠ｡ꞈ｡ᐟ\*,riley,talk_glitched,,
-APPLYFOB1_RILEY3,(=11^ $!!‥^*M*)/ 1*E*1(=^ ∫*O*(^= (1 1^^=~ */ᐠ｡ꞈ｡ᐟ\* *W* (=^ *(^・x・^)*,riley,talk_glitched,,
+APPLYFOB1_RILEY1,ADA! ADA! Can you hear me? So glad you're )^here +* x・^)^ <b>I'M</b> ∫~}(=^ <b>O</b> ∫}(=^ <b>K</b>,riley,talk_glitched,,
+APPLYFOB1_RILEY2,There'$$@still <b>/ᐠ｡｡ᐟ\</b>}(^ [<i>1</i>]<i>more</i><b>%++<i>st3p</i></b>/ᐠ｡ꞈ｡ᐟ\*,riley,talk_glitched,,
+APPLYFOB1_RILEY3,(=11^ $!!‥^<b>M</b>)/ 1<b>E</b>1(=^ ∫<b>O</b>(^= (1 1^^=~ <b>/ᐠ｡ꞈ｡ᐟ\</b> <b>W</b> (=^ <b>(^・x・^)</b>,riley,talk_glitched,,
 APPLYFOB2_ABORT,Check back later and we'll keep working on getting access to the box.,,,,
 APPLYFOB2_APPLY,"Alright, here goes! Let's see if this old fob works!",,,,
 APPLYFOB2_END,"If I know Riley, she's trying to tell us something. I'm taking note of everything she's saying.
@@ -55,7 +55,7 @@ APPLYFOB2_OPEN_CLUBHOUSE,"Great. So, as before, let's go to the clubhouse.",,,,
 APPLYFOB2_OPEN_CLUBHOUSE_HINT1,Click on the button at the right to open the clubhouse.,,,,
 APPLYFOB2_QUESTION,Ready to try the second fob? Let's hope our luck holds!,saniel,,,
 APPLYFOB2_QUEST_ACCEPT,Very ready.,,,,
-APPLYFOB2_RILEY,^= ∫}}^44= ∫} *M* *=^.‿.^=* ∫{ *E* (==^^ /.^) *O* ﾉ☆(ᐟ\^4@4 *W*  *=^.‿.^=∫*,riley,talk_glitched,,
+APPLYFOB2_RILEY,^= ∫}}^44= ∫} <b>M</b> <b>=^.‿.^=</b> ∫{ <b>E</b> (==^^ /.^) <b>O</b> ﾉ☆(ᐟ\^4@4 <b>W</b>  <b>=^.‿.^=∫</b>,riley,talk_glitched,,
 APPLYFOB3_ABORT,No prob. Hope you come back soon – we're so close!,,,,
 APPLYFOB3_APPLY,So suspenseful! Let's see if this third fob works.,,,,
 APPLYFOB3_END,Weird. Everything's activated but the box is still closed. Let's see if Saniel has any ideas.,,,,
@@ -64,35 +64,35 @@ APPLYFOB3_OPEN_CLUBHOUSE,Alright. So let's go to the clubhouse. You can go ahead
 APPLYFOB3_OPEN_CLUBHOUSE_HINT1,The button on the right opens the clubhouse. ,,,,
 APPLYFOB3_QUESTION,"Okay, friend, are you with me? Ready to try fob #3?",faber,,,
 APPLYFOB3_QUEST_ACCEPT,TOTALLY. ,,,,
-APPLYFOB3_RILEY,( ᐟ\^13 *M* @13 ∫=^^= ∫} *E*  */\‿/\*  *O* 13 *.‿.3* @ *W* 13  ∫*.‿.3}=^^= ∫* },riley,talk_glitched,,
+APPLYFOB3_RILEY,( ᐟ\^13 <b>M</b> @13 ∫=^^= ∫} <b>E</b>  <b>/\‿/\</b>  <b>O</b> 13 <b>.‿.3</b> @ <b>W</b> 13  ∫<b>.‿.3}=^^= ∫</b> },riley,talk_glitched,,
 ARTEXPRESS2_QUEST_DESCRIPTION,"Create a new wearable, based on your work in Part 1!",,,,
 ARTEXPRESS2_QUEST_NAME,Express Yourself - Part 2,,,,
 ARTEXPRESS2_QUEST_SUBTITLE,What you'll do,,,,
 ARTEXPRESS2_WELCOME,"If you liked the previous part, you're sure to like this one - take your self-expression to the next level!",estelle,,,
 BONUSROUND_ABORT,"Okay but trust me, it's gonna be cool. Come back when you have more time!",riley,,,
-BONUSROUND_LAUNCH,"A.maze.ing! Sorry, couldn't resist */\‿/\*  Okay, so launch the *Sidetrack* app.",,,,
-BONUSROUND_LAUNCH_HINT1,Click the *Sidetrack* icon. ,,,,
+BONUSROUND_LAUNCH,"A.maze.ing! Sorry, couldn't resist <b>/\‿/\</b>  Okay, so launch the <b>Sidetrack</b> app.",,,,
+BONUSROUND_LAUNCH_HINT1,Click the <b>Sidetrack</b> icon. ,,,,
 BONUSROUND_LEVELS1,"Yes, yes, it was beyond scary at times in here. But it was also cool to have to strategize like that! 
 
 So I'm kind of... glad to be back? Don't judge me ;)  I enjoy a good challenge! Guessing you do too?
 
-Also I wouldn't have met that AI thing. */ᐠ｡ꞈ｡ᐟ\* And I noticed a key I want to investigate.
+Also I wouldn't have met that AI thing. <b>/ᐠ｡ꞈ｡ᐟ\</b> And I noticed a key I want to investigate.
 
 If we get this key, we'll be able to hack the maze and make our own levels. Let's check it out!",,,,
 BONUSROUND_LEVELS10,"This is it! We've arrived at the END!
 
-A glorious blank canvas! Nothing here except what we decide to `add`.
+A glorious blank canvas! Nothing here except what we decide to <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">add</span></tt>.
 
 Let's make our own level. Go to the Level panel and write your own code, and beat it to finish!",,hurray,,
 BONUSROUND_LEVELS10_B,Awesome! Stick with me here and I'll teach everything I know about making your own level.,,,,
-BONUSROUND_LEVELS10_B_HINT1,"`rileyPosition = 2;` and `goalPosition = 2;` say which Y coordinate, meaning which ROW, me and the goal start on. 
+BONUSROUND_LEVELS10_B_HINT1,"<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">rileyPosition = 2;</span></tt> and <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">goalPosition = 2;</span></tt> say which Y coordinate, meaning which ROW, me and the goal start on. 
 
 You can change both numbers. 0 to 4!",,,,
-BONUSROUND_LEVELS10_B_HINT2,"Below that type `add (wall, 2, 4);`. Or whatever you want to add: `wall`, `pit`, `robotA`, `robotB`.",,,,
+BONUSROUND_LEVELS10_B_HINT2,"Below that type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">add (wall, 2, 4);</span></tt>. Or whatever you want to add: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">wall</span></tt>, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">pit</span></tt>, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">robotA</span></tt>, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">robotB</span></tt>.",,,,
 BONUSROUND_LEVELS10_B_HINT3,"Remember that the two numbers are x for column and y for row. 
 
-`add (wall, 2, 4);` means add a *Wall*at x = 2 and y = 4. I usually just try different numbers or use graph paper.",,,,
-BONUSROUND_LEVELS10_B_HINT4,"Add a bunch of stuff, then flip the app around and test it out! Edit the *Instructions* too! 
+<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">add (wall, 2, 4);</span></tt> means add a <b>Wall</b>at x = 2 and y = 4. I usually just try different numbers or use graph paper.",,,,
+BONUSROUND_LEVELS10_B_HINT4,"Add a bunch of stuff, then flip the app around and test it out! Edit the <b>Instructions</b> too! 
 
 See if your friend can beat your level!",,,,
 BONUSROUND_LEVELS10_B_HINT5,"When I have a level I really like, I will sometimes copy and paste the level code into a text document so I can never lose it. 
@@ -100,67 +100,67 @@ BONUSROUND_LEVELS10_B_HINT5,"When I have a level I really like, I will sometimes
 Check out the little Gedit icon in the bottom left.",,,,
 BONUSROUND_LEVELS1_B,"Uh oh, first we have more levels to beat! And these are extra tricky! 
 
-What is this, some kind of robot dance party!? And for this one, we can't even edit *Instructions*!",,,,
-BONUSROUND_LEVELS1_B_HINT1,"Okay, we can't edit *Instructions*, but we _can_ still edit Units! And we can reorder the *Instructions*.",,,,
+What is this, some kind of robot dance party!? And for this one, we can't even edit <b>Instructions</b>!",,,,
+BONUSROUND_LEVELS1_B_HINT1,"Okay, we can't edit <b>Instructions</b>, but we <i>can</i> still edit Units! And we can reorder the <b>Instructions</b>.",,,,
 BONUSROUND_LEVELS1_B_HINT2,"Sometimes it's good to try out different solutions and see how far you can get. 
 
 Then you go back in, figure out what's wrong, tweak some things, then try again. It's all part of it!",,,,
 BONUSROUND_LEVELS2,Sweet! You nailed it! We should just be a few levels from finding that key! Fingers crossed. ,,hurray,,
-BONUSROUND_LEVELS2_B,"Now we have to beat _this_ level, and the *Units* panel is locked!",,,,
-BONUSROUND_LEVELS2_B_HINT1,I'm worried about all those *Robots* in column 7. There's got to be a way to get rid of some of them.,,,,
-BONUSROUND_LEVELS2_B_HINT2,We can still edit *Instructions*. We don't have to use the ones they gave us. Let's just try a different order first.,,,,
-BONUSROUND_LEVELS3,"Nice, this level has no restrictions! We can edit *Units* and *Instructions* all we want.",,,,
-BONUSROUND_LEVELS3_HINT1,"Wanna hear a real cool trick? When I get to column 4, all of the *Robots* will be back to where they started. 
+BONUSROUND_LEVELS2_B,"Now we have to beat <i>this</i> level, and the <b>Units</b> panel is locked!",,,,
+BONUSROUND_LEVELS2_B_HINT1,I'm worried about all those <b>Robots</b> in column 7. There's got to be a way to get rid of some of them.,,,,
+BONUSROUND_LEVELS2_B_HINT2,We can still edit <b>Instructions</b>. We don't have to use the ones they gave us. Let's just try a different order first.,,,,
+BONUSROUND_LEVELS3,"Nice, this level has no restrictions! We can edit <b>Units</b> and <b>Instructions</b> all we want.",,,,
+BONUSROUND_LEVELS3_HINT1,"Wanna hear a real cool trick? When I get to column 4, all of the <b>Robots</b> will be back to where they started. 
 
-Knowing that makes it easier to predict where the *Robots* in those last 3 columns will show up.",,,,
-BONUSROUND_LEVELS4,"Whoa, this level is _out of control_. And we can't edit *Instructions*! Challenging! We'll need to reorder them.",,,,
-BONUSROUND_LEVELS4_HINT1,"We can't edit *Instructions*, so probably all we can do is rearrange the ones we've got.",,,,
-BONUSROUND_LEVELS4_HINT2,"I think the last *Instruction*, in position 7, has to be a `jump`, since there's a *Pit* right near the Exit.",,,,
-BONUSROUND_LEVELS4_HINT3,"The first Instruction, in column 0, doesn't have to be an `up`. Something else could work there too.",,,,
-BONUSROUND_LEVELS4_HINT4,"If we `push` a *Wall* with a *Pit* to its right, the *Wall* will fall into the *Pit*. Love that! Let's make sure we use that.",,,,
-BONUSROUND_LEVELS4_HINT5,Just because we _can_ edit *Units* doesn't necessarily mean we _have_ to.,,,,
-BONUSROUND_LEVELS5,"This level doesn't look too hard! But we can only reorder *Instructions*, not edit them.",,,,
-BONUSROUND_LEVELS5_HINT1,"Hmm, `push` is a powerful *Instruction*, but it can't solve everything. Pushing a *Wall* isn't always the best option!",,,,
-BONUSROUND_LEVELS5_HINT2,"`push` moves me forward. I can use it instead of a `forward` *Instruction*, even when I have nothing to `push` out of my way.",,,,
-BONUSROUND_LEVELS5_HINT3,"I think we can tell what the final *Instruction* needs to be: `jump`. 
+Knowing that makes it easier to predict where the <b>Robots</b> in those last 3 columns will show up.",,,,
+BONUSROUND_LEVELS4,"Whoa, this level is <i>out of control</i>. And we can't edit <b>Instructions</b>! Challenging! We'll need to reorder them.",,,,
+BONUSROUND_LEVELS4_HINT1,"We can't edit <b>Instructions</b>, so probably all we can do is rearrange the ones we've got.",,,,
+BONUSROUND_LEVELS4_HINT2,"I think the last <b>Instruction</b>, in position 7, has to be a <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt>, since there's a <b>Pit</b> right near the Exit.",,,,
+BONUSROUND_LEVELS4_HINT3,"The first Instruction, in column 0, doesn't have to be an <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">up</span></tt>. Something else could work there too.",,,,
+BONUSROUND_LEVELS4_HINT4,"If we <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> a <b>Wall</b> with a <b>Pit</b> to its right, the <b>Wall</b> will fall into the <b>Pit</b>. Love that! Let's make sure we use that.",,,,
+BONUSROUND_LEVELS4_HINT5,Just because we <i>can</i> edit <b>Units</b> doesn't necessarily mean we <i>have</i> to.,,,,
+BONUSROUND_LEVELS5,"This level doesn't look too hard! But we can only reorder <b>Instructions</b>, not edit them.",,,,
+BONUSROUND_LEVELS5_HINT1,"Hmm, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> is a powerful <b>Instruction</b>, but it can't solve everything. Pushing a <b>Wall</b> isn't always the best option!",,,,
+BONUSROUND_LEVELS5_HINT2,"<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> moves me forward. I can use it instead of a <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">forward</span></tt> <b>Instruction</b>, even when I have nothing to <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> out of my way.",,,,
+BONUSROUND_LEVELS5_HINT3,"I think we can tell what the final <b>Instruction</b> needs to be: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt>. 
 
-And to line up my `jump`, I somehow need to be right where that *Wall* is in column 6.",,,,
+And to line up my <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt>, I somehow need to be right where that <b>Wall</b> is in column 6.",,,,
 BONUSROUND_LEVELS6,"You're really excellent at this. And persistent! Thanks to your help, we're almost there! I can sense the key ;) ",,hurray,,
-BONUSROUND_LEVELS6_B,"Look at this weird level we have to beat. All the *Instructions* are missing! And the Units panel isn't even available, nice. ",,,,
-BONUSROUND_LEVELS6_B_HINT1,We have to type all the *Instructions* in from scratch!,,,,
+BONUSROUND_LEVELS6_B,"Look at this weird level we have to beat. All the <b>Instructions</b> are missing! And the Units panel isn't even available, nice. ",,,,
+BONUSROUND_LEVELS6_B_HINT1,We have to type all the <b>Instructions</b> in from scratch!,,,,
 BONUSROUND_LEVELS6_B_HINT2,"Let's just try a solution, see how far we get, then tweak our solution based on what we observe, and then try again!",,,,
-BONUSROUND_LEVELS6_B_HINT3,"It's useful to remember that you can type *Instructions* in any order, then flip back over rearrange them.",,,,
+BONUSROUND_LEVELS6_B_HINT3,"It's useful to remember that you can type <b>Instructions</b> in any order, then flip back over rearrange them.",,,,
 BONUSROUND_LEVELS6_B_HINT4,"I bet there's more than one way through this level. But pushing that middle block in column 2 seems like one approach. 
 
 We may have to push it over and over.",,,,
-BONUSROUND_LEVELS7,"Oh cool, in this level we can use Unit editing AND *Instruction*  editing! It should be a breeze.
+BONUSROUND_LEVELS7,"Oh cool, in this level we can use Unit editing AND <b>Instruction</b>  editing! It should be a breeze.
 
-Wait, what? Are you seeing what I'm seeing? There's no way through a double thick column of *Walls*, is there? 
+Wait, what? Are you seeing what I'm seeing? There's no way through a double thick column of <b>Walls</b>, is there? 
 
-Not even `push` can solve THAT. What are we going to do?",,,,
+Not even <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> can solve THAT. What are we going to do?",,,,
 BONUSROUND_LEVELS7_B,Oh! Here it is! Guess what? I just found the Level Editing key! Just what we've been searching for! We did it!,,hurray,,
 BONUSROUND_LEVELS7_FLIP,"Flip the app around, then use the key to unlock the Level Editing panel!",,,,
 BONUSROUND_LEVELS7_LEVELCODE1,"Amazing! Exactly what I wanted! This is the code that creates this level!
 
-See `add (pit, 1, 2);`? That's what creates the *Pit* right near the beginning. This code says: add a `pit` at coordinate (1,2).
+See <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">add (pit, 1, 2);</span></tt>? That's what creates the <b>Pit</b> right near the beginning. This code says: add a <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">pit</span></tt> at coordinate (1,2).
 
 Coordinate (1,2) means x = 1, y = 2. X is the column, so that's why the pit appears in column 1.
 
 Y = 2 is for the row. The top row is y = 0, and the bottom row is y = 4. We hackers like to start counting from 0 instead of 1.",,,,
-BONUSROUND_LEVELS7_LEVELCODE2,"If we want to move that *Pit* out of our way, we can give it a new coordinate.
+BONUSROUND_LEVELS7_LEVELCODE2,"If we want to move that <b>Pit</b> out of our way, we can give it a new coordinate.
 
-Try changing the coordinate to something like x = 1, y = 4 by editing the code to say `add (pit, 1, 4);`",,,,
-BONUSROUND_LEVELS7_LEVELCODE3,"But we really need to do is fix the problem of two columns of *Walls* in a row! 
+Try changing the coordinate to something like x = 1, y = 4 by editing the code to say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">add (pit, 1, 4);</span></tt>",,,,
+BONUSROUND_LEVELS7_LEVELCODE3,"But we really need to do is fix the problem of two columns of <b>Walls</b> in a row! 
 
 You know what's easiest? We can just delete some of them! Muah ha ha!",,,,
-BONUSROUND_LEVELS7_LEVELCODE3_HINT1,"See all the lines that say `add (wall, x, y);` and x is either 3 or 4? Those make all the *Walls* in columns 3 and 4. ",,,,
+BONUSROUND_LEVELS7_LEVELCODE3_HINT1,"See all the lines that say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">add (wall, x, y);</span></tt> and x is either 3 or 4? Those make all the <b>Walls</b> in columns 3 and 4. ",,,,
 BONUSROUND_LEVELS7_LEVELCODE3_HINT2,Try deleting some of those lines to make it possible to finish the level. Then flip back to see how you did.,,,,
-BONUSROUND_LEVELS7_LEVELCODE3_HINT3,"Depending on how you edit the level, you MAY also need to edit *Instructions* so you can beat it.",,,,
+BONUSROUND_LEVELS7_LEVELCODE3_HINT3,"Depending on how you edit the level, you MAY also need to edit <b>Instructions</b> so you can beat it.",,,,
 BONUSROUND_LEVELS8,I LOVE editing the level! Remember how hard this robot dance party was? Now we can beat it EASY.,,,,
-BONUSROUND_LEVELS8_HINT1,"Go the Level hacking panel and edit the code! Heck, you can just delete EVERY `add()` function if you want!",,,,
-BONUSROUND_LEVELS8_HINT2,Don't delete `rileyPosition = 2;` and `goalPosition = 2;` though. You can always Reset the panel if you mess up.,,,,
+BONUSROUND_LEVELS8_HINT1,"Go the Level hacking panel and edit the code! Heck, you can just delete EVERY <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">add()</span></tt> function if you want!",,,,
+BONUSROUND_LEVELS8_HINT2,"Don't delete <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">rileyPosition = 2;</span></tt> and <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">goalPosition = 2;</span></tt> though. You can always Reset the panel if you mess up.",,,,
 BONUSROUND_LEVELS9,This out of control level got even MORE crowded. Madness! But edit the Level code and we'll finish it in no time.,,,,
-BONUSROUND_QUESTION,Sidetrack was _actually_ pretty fun. Want to go back there with me?,riley,,,
+BONUSROUND_QUESTION,Sidetrack was <i>actually</i> pretty fun. Want to go back there with me?,riley,,,
 BONUSROUND_QUEST_ACCEPT,Sure!,riley,,,
 BONUSROUND_SUCCESS,"Good luck beating your own level! Keep editing it to make it more interesting. 
 
@@ -190,7 +190,7 @@ BREAKSOMETHING_FLIP,"Ok, remember the Flip button? Go ahead and press it.",,,,qu
 BREAKSOMETHING_FLIP_HINT1,See the button on the left? Press it to hack the System.,,,,quests/pink-panther-start
 BREAKSOMETHING_GIVEKEY,The other day I found this key and I think it fits here! I'm going to give it to you.,,,,quests/pink-panther-start
 BREAKSOMETHING_GIVERESET,All's not lost yet. There's still a fix for this. I'm enabling the Reset button. Press it and it brings back the original settings.,saniel,,,quests/saniel-theme-start
-BREAKSOMETHING_GIVERESET_HINT1,"Press the *reset all* button on the left, under the System icon.",saniel,,,quests/saniel-theme-start
+BREAKSOMETHING_GIVERESET_HINT1,"Press the <b>reset all</b> button on the left, under the System icon.",saniel,,,quests/saniel-theme-start
 BREAKSOMETHING_LAUNCH,Ok. So you just need to launch the System app now and we're golden. ,,,,quests/hi-hat-start
 BREAKSOMETHING_LAUNCH_HINT1,Launch the System app from the desktop.,,,,quests/hi-hat-start
 BREAKSOMETHING_MAKEITLARGE,Try maxing out the cursor size to make it huge! ,,,,quests/pink-panther-start
@@ -241,16 +241,16 @@ CHORE_QUIZ3_CHOICE1,Wedge of cheese.,,,,
 CHORE_QUIZ3_CHOICE2,Pizza.,,,,
 CHORE_QUIZ3_CORRECT,I'm afraid you're right. ,,hurray,,
 CHORE_QUIZ3_INCORRECT,That's an idea... (⌤),,,,
-CHORE_QUIZ3_QUESTION,"3) The System App lets you change your cursor into a unicorn, poop, and a _____.",,,,
+CHORE_QUIZ3_QUESTION,"3) The System App lets you change your cursor into a unicorn, poop, and a <i>_</i>__.",,,,
 CHORE_WRAPUP,Nice work! That's it for now. Just a little glimpse of the wonders of the System! I must be going now. ,,,,
 FIRSTCONTACT_FLIPBACK,Nice job!,daemon,,,
-FIRSTCONTACT_FLIPBACK_HINT1,"Awesome! The door's unlocked, let's *flip* back to the front side to open it.",daemon,,,
-FIRSTCONTACT_GOAL,Nice! You *flipped* the door - that lets you see what's going inside it. Let's *hack* it open!,daemon,,,
+FIRSTCONTACT_FLIPBACK_HINT1,"Awesome! The door's unlocked, let's <b>flip</b> back to the front side to open it.",daemon,,,
+FIRSTCONTACT_GOAL,Nice! You <b>flipped</b> the door - that lets you see what's going inside it. Let's <b>hack</b> it open!,daemon,,,
 FIRSTCONTACT_GOAL_HINT1,Try moving the sliders!,daemon,,,
-FIRSTCONTACT_GOAL_HINT2,Keep going! Maybe there's something you have to *match* to something else.,daemon,,,
+FIRSTCONTACT_GOAL_HINT2,Keep going! Maybe there's something you have to <b>match</b> to something else.,daemon,,,
 FIRSTCONTACT_QUEST_NAME,,,,,
 FIRSTCONTACT_WELCOME,"Hey - if you're lost and want to get out of here, just close this whole window. Otherwise, explore around!",daemon,,quests/ada-intro,
-FIRSTCONTACT_WELCOME_HINT1,Check out that *pulsing button* on the *left*!,daemon,,,
+FIRSTCONTACT_WELCOME_HINT1,Check out that <b>pulsing button</b> on the <b>left</b>!,daemon,,,
 FIZZICS1_ABORT,Check ya later! Come find me in the Clubhouse if you want to play again soon! ,,,,
 FIZZICS1_ALREADYBEAT,Hold on! You already beat Level 8? Brilliant. See you at the Clubhouse.,,,,
 FIZZICS1_BACKTOLEVEL8,"No, wait, go back to Level 8. You'll need to get through that one before going further. ",,,,
@@ -359,9 +359,9 @@ Okay, so just let me make a few adjustments over here to get everything moving a
 Ready?",saniel,,,
 FIZZICSKEY_LEVELS1_C,"Okay! So that didn't work. We need get the orange ball to touch the goal, 
 
-See how there's no *Fling* tool and no *Drag* tool? All you have is the *Add* tool. 
+See how there's no <b>Fling</b> tool and no <b>Drag</b> tool? All you have is the <b>Add</b> tool. 
 
-And you can only *Add* boulders! That's how ancient it is!",saniel,,,
+And you can only <b>Add</b> boulders! That's how ancient it is!",saniel,,,
 FIZZICSKEY_LEVELS1_FAIL,"Hmmm... guess that configuration wasn't quite right. 
 
 Nothing to do but try it again with a modified solution.",saniel,,,
@@ -371,13 +371,13 @@ Don't get TOO excited, though. We have a ways to go, still.",saniel,hurray,,
 FIZZICSKEY_LEVELS1_GO,Okay here we go!,saniel,,,
 FIZZICSKEY_LEVELS1_Q1,"Great, I'll take the level out of suspended animation. 
 
-Just a couple more questions. What should the *Friction* on the orange ball be?",saniel,,,
+Just a couple more questions. What should the <b>Friction</b> on the orange ball be?",saniel,,,
 FIZZICSKEY_LEVELS1_Q1_A1,Low.,saniel,,,
 FIZZICSKEY_LEVELS1_Q1_A2,None!,saniel,,,
 FIZZICSKEY_LEVELS1_Q2,And how bouncy should the orange ball be?,saniel,,,
 FIZZICSKEY_LEVELS1_Q2_A1,Only a little.,saniel,,,
 FIZZICSKEY_LEVELS1_Q2_A2,MAXIMUM BOUNCY!,saniel,,,
-FIZZICSKEY_LEVELS1_READY,"Use the *Add* tool to *Add* boulders until you think the level is in a good configuration. 
+FIZZICSKEY_LEVELS1_READY,"Use the <b>Add</b> tool to <b>Add</b> boulders until you think the level is in a good configuration. 
 
 Tell me when you're ready.",saniel,,,
 FIZZICSKEY_LEVELS1_READY_ACCEPT,I'm ready!,saniel,,,
@@ -397,39 +397,39 @@ FIZZICSKEY_LEVELS2_Q1_A2,No,saniel,,,
 FIZZICSKEY_LEVELS2_Q2,Should the orange ball have any friction?,saniel,,,
 FIZZICSKEY_LEVELS2_Q2_A1,A little,saniel,,,
 FIZZICSKEY_LEVELS2_Q2_A2,None,saniel,,,
-FIZZICSKEY_LEVELS2_READY,"Use the *Add* tool to *Add* boulders until you think the level is in a good configuration. 
+FIZZICSKEY_LEVELS2_READY,"Use the <b>Add</b> tool to <b>Add</b> boulders until you think the level is in a good configuration. 
 
 Tell me when you're ready.",saniel,,,
 FIZZICSKEY_LEVELS2_READY_ACCEPT,I'm ready!,saniel,,,
-FIZZICSKEY_LEVELS3,"On this level, the orange ball can either have *positive* or *negative* *Gravity*. 
+FIZZICSKEY_LEVELS3,"On this level, the orange ball can either have <b>positive</b> or <b>negative</b> <b>Gravity</b>. 
 
-With negative *Gravity* intstead of dropping downwards, the ball floats upwards. 
+With negative <b>Gravity</b> intstead of dropping downwards, the ball floats upwards. 
 
 Also note the two goals are overlapping. As soon as the level starts, they will fly away from each other!
 
-Also, you'll see that the diamonds tend to clump together. That's because of their *Attraction* setting!",saniel,,,
+Also, you'll see that the diamonds tend to clump together. That's because of their <b>Attraction</b> setting!",saniel,,,
 FIZZICSKEY_LEVELS3_FAIL,"Blast. Well it's rare to get something right without trying a few times. 
 
 So-called failure can be a great teacher! Let's attempt it again.",saniel,,,
 FIZZICSKEY_LEVELS3_FINISH,Aha! A worthy solution!,saniel,,,
 FIZZICSKEY_LEVELS3_GO,Let's try it out!,saniel,,,
-FIZZICSKEY_LEVELS3_Q1,Should the orange ball have positive or negative *Gravity*?,saniel,,,
+FIZZICSKEY_LEVELS3_Q1,Should the orange ball have positive or negative <b>Gravity</b>?,saniel,,,
 FIZZICSKEY_LEVELS3_Q1_A1,Positive,saniel,,,
 FIZZICSKEY_LEVELS3_Q1_A2,Negative,saniel,,,
 FIZZICSKEY_LEVELS3_Q2,Also if you'd like I can make diamonds be repelled by boulders. That might be interesting.,saniel,,,
 FIZZICSKEY_LEVELS3_Q2_A1,Yes,saniel,,,
 FIZZICSKEY_LEVELS3_Q2_A2,No,saniel,,,
-FIZZICSKEY_LEVELS3_READY,Use the *Add* tool to add boulders until you think the level is in a good configuration. Tell me when you're ready.,saniel,,,
+FIZZICSKEY_LEVELS3_READY,Use the <b>Add</b> tool to add boulders until you think the level is in a good configuration. Tell me when you're ready.,saniel,,,
 FIZZICSKEY_LEVELS3_READY_ACCEPT,I'm ready!,saniel,,,
 FIZZICSKEY_LEVELS4,"This is another level in which the goal is mobile. That boulder is about to send it flying! 
 
 Here's a nice thing though. All the diamonds are attracted to the orange ball! Very handy!
 
-Let's see... I can increase the *Gravity* settings for the goal and the diamonds, if you'd like.",saniel,,,
+Let's see... I can increase the <b>Gravity</b> settings for the goal and the diamonds, if you'd like.",saniel,,,
 FIZZICSKEY_LEVELS4_FAIL,"What a bother. But no worries, let's try again.",saniel,,,
 FIZZICSKEY_LEVELS4_FINISH,You never fail to impress! Just two more levels to go!,saniel,hurray,,
 FIZZICSKEY_LEVELS4_GO,Let's see how that worked!,saniel,,,
-FIZZICSKEY_LEVELS4_Q1,Do you want the goal object to have any *Gravity*?,saniel,,,
+FIZZICSKEY_LEVELS4_Q1,Do you want the goal object to have any <b>Gravity</b>?,saniel,,,
 FIZZICSKEY_LEVELS4_Q1_A1,Yes,saniel,,,
 FIZZICSKEY_LEVELS4_Q1_A2,No,saniel,,,
 FIZZICSKEY_LEVELS4_Q2,How about the diamonds. Do you want them to have gravity?,saniel,,,
@@ -438,7 +438,7 @@ FIZZICSKEY_LEVELS4_Q2_A2,No,saniel,,,
 FIZZICSKEY_LEVELS4_Q3,"Okay, hmm. These diamonds are bouncy. Do you want them to have friction?",saniel,,,
 FIZZICSKEY_LEVELS4_Q3_A1,Yes,saniel,,,
 FIZZICSKEY_LEVELS4_Q3_A2,No,saniel,,,
-FIZZICSKEY_LEVELS4_READY,"Use the *Add* tool to add boulders until you think the level is in a good configuration. 
+FIZZICSKEY_LEVELS4_READY,"Use the <b>Add</b> tool to add boulders until you think the level is in a good configuration. 
 
 Tell me when you're ready.",saniel,,,
 FIZZICSKEY_LEVELS4_READY_ACCEPT,I'm ready!,saniel,,,
@@ -446,36 +446,36 @@ FIZZICSKEY_LEVELS5,"This time the orange ball is all set to launch like a catapu
 
 That should be fun. Watch out, though, it's VERY bouncy!
 
-I can give the goal *Gravity* if you'd like. Hmmm look at this! I can also make the diamonds HUGE!",saniel,,,
+I can give the goal <b>Gravity</b> if you'd like. Hmmm look at this! I can also make the diamonds HUGE!",saniel,,,
 FIZZICSKEY_LEVELS5_FAIL,Alas! Well it was an excellent attempt. Let's get back in and try again.,saniel,talk_anger,,
 FIZZICSKEY_LEVELS5_FINISH,"Nailed it! Excellent, we're ready for the final level! We'll recover that key soon enough!",saniel,,,
 FIZZICSKEY_LEVELS5_GO,Here we go!,saniel,,,
-FIZZICSKEY_LEVELS5_Q1,Do you want the goal to have *Gravity*?,saniel,,,
+FIZZICSKEY_LEVELS5_Q1,Do you want the goal to have <b>Gravity</b>?,saniel,,,
 FIZZICSKEY_LEVELS5_Q1_A1,Yes,saniel,,,
 FIZZICSKEY_LEVELS5_Q1_A2,No,saniel,,,
 FIZZICSKEY_LEVELS5_Q2,Should the diamonds be HUGE?,saniel,,,
 FIZZICSKEY_LEVELS5_Q2_A1,Yes,saniel,,,
 FIZZICSKEY_LEVELS5_Q2_A2,No,saniel,,,
-FIZZICSKEY_LEVELS5_READY,"Use the *Add* tool to *Add* boulders until you think the level is in a good configuration. 
+FIZZICSKEY_LEVELS5_READY,"Use the <b>Add</b> tool to <b>Add</b> boulders until you think the level is in a good configuration. 
 
 Tell me when you're ready.",saniel,,,
 FIZZICSKEY_LEVELS5_READY_ACCEPT,I'm ready!,saniel,,,
 FIZZICSKEY_LEVELS6,"The key is here! We just need to beat the level! This one is peculiar however.
 
-The goal has normal gravity. But the orange ball has NEGATIVE *Gravity*. 
+The goal has normal gravity. But the orange ball has NEGATIVE <b>Gravity</b>. 
 
-I can increase its negative *Gravity* to cause it to fall upwards with greater force.
+I can increase its negative <b>Gravity</b> to cause it to fall upwards with greater force.
 
 If you'd like, I can also cause boulders to repel the orange ball.",saniel,,,
 FIZZICSKEY_LEVELS6_FAIL,"This level seems quite the challenge. Don't fret, however. Let's just try again.",saniel,,,
 FIZZICSKEY_LEVELS6_GO,Let's hope this works!,saniel,,,
-FIZZICSKEY_LEVELS6_Q1,How much negative *Gravity* should the orange ball have?,saniel,,,
+FIZZICSKEY_LEVELS6_Q1,How much negative <b>Gravity</b> should the orange ball have?,saniel,,,
 FIZZICSKEY_LEVELS6_Q1_A1,Some,saniel,,,
 FIZZICSKEY_LEVELS6_Q1_A2,Lots!,saniel,,,
 FIZZICSKEY_LEVELS6_Q2,Should the orange ball be repelled by boulders?,saniel,,,
 FIZZICSKEY_LEVELS6_Q2_A1,Yes,saniel,,,
 FIZZICSKEY_LEVELS6_Q2_A2,No,saniel,,,
-FIZZICSKEY_LEVELS6_READY,"Use the *Add* tool to add boulders until you think the level is in a good configuration. 
+FIZZICSKEY_LEVELS6_READY,"Use the <b>Add</b> tool to add boulders until you think the level is in a good configuration. 
 
 Tell me when you're ready.",saniel,,,
 FIZZICSKEY_LEVELS6_READY_ACCEPT,I'm ready!,saniel,,,
@@ -488,18 +488,18 @@ FIZZICSPUZZLE1_ABORT,No worries. HMU later if you want to play some more Fizzics
 FIZZICSPUZZLE1_END,"Let's keep looking for that third fob! According to Saniel, it's somewhere in these Fizzics levels!",,,,
 FIZZICSPUZZLE1_GOAL,"Okay, now, your challenge here is to collect 50 points.  Each diamond is worth 2 points.
 
-But pay attention because every time you use the *Fling* tool you lose one point! 
+But pay attention because every time you use the <b>Fling</b> tool you lose one point! 
 
 To add more diamonds, we need to go to the code panel.",,,,
-FIZZICSPUZZLE1_GOAL_HINT1,Flip to hack and click the checkbox near the *Add* tool.,,,,
-FIZZICSPUZZLE1_GOAL_HINT2,Then flip back to the front and click the *+* button to add more diamonds. ,,,,
+FIZZICSPUZZLE1_GOAL_HINT1,Flip to hack and click the checkbox near the <b>Add</b> tool.,,,,
+FIZZICSPUZZLE1_GOAL_HINT2,Then flip back to the front and click the <b>+</b> button to add more diamonds. ,,,,
 FIZZICSPUZZLE1_LAUNCH,Launch Fizzics,,,,
 FIZZICSPUZZLE1_QUESTION,"Hey, good job! Two fobs down, one to go! Ready to solve a Fizzics puzzle? ",faber,,,
 FIZZICSPUZZLE1_QUEST_ACCEPT,Definitely. Let's go. ,,,,
 FIZZICSPUZZLE1_SUCCESS,"Great, awesome work.  Let's go to the next level for the next challenge. Meet me back in the Clubhouse!",,,,
 FIZZICSPUZZLE2_ABORT,Finished for now? Check back later when you're ready to work out some more puzzles.,,,,
 FIZZICSPUZZLE2_END,"Alright, let's go see if this fob works. Meet me back at the Clubhouse!",,,,
-FIZZICSPUZZLE2_GOAL,"The challenge is that you've got to get all the diamonds, _but_ you can only use the *Fling* tool once.",,,,
+FIZZICSPUZZLE2_GOAL,"The challenge is that you've got to get all the diamonds, <i>but</i> you can only use the <b>Fling</b> tool once.",,,,
 FIZZICSPUZZLE2_GOAL_HINT1,How can you get all the diamonds really close to each other?,,,,
 FIZZICSPUZZLE2_GOAL_HINT2,You can make them closer together by using the Attractions sliders.,,,,
 FIZZICSPUZZLE2_LAUNCH,True. True. Go go ahead and launch Fizzics,,,,
@@ -564,31 +564,31 @@ INVESTIGATION_UNLOCK,"Okay, wow, gorgeous. This looks very promising. And we'll 
 INVESTIGATION_UNLOCK_HINT1,Click on the Windows Area tab. Then click on the glowing lock panel to unlock it.,,,,
 LEVIHACKDEX_ABORT,"Okay, come back when you're ready! Riley still needs our help to get through the maze, so come back soon!",ada,,,
 LEVIHACKDEX_BACKGROUND,"Hey, check out that sketch at the bottom right. I was wondering if that might be useful. ",ada,,,
-LEVIHACKDEX_DECRYPT,"So, here we are. See that number labeled *Cipher*, in the *Effects panel*? Try changing that and see what happens.",estelle,,,
-LEVIHACKDEX_DECRYPT2,"Aha! Look at the letters in the files. They've changed. They've also changed in *Cipher Output*, as well. Interesting!
+LEVIHACKDEX_DECRYPT,"So, here we are. See that number labeled <b>Cipher</b>, in the <b>Effects panel</b>? Try changing that and see what happens.",estelle,,,
+LEVIHACKDEX_DECRYPT2,"Aha! Look at the letters in the files. They've changed. They've also changed in <b>Cipher Output</b>, as well. Interesting!
 
 This confirms my theory. This is encoded with a rotational cipher, where the letters are shifted over in the alphabet.
 
-For example, if you take the word *CAT* and shift all the letters over one, you get *DBU*. ",estelle,,,
+For example, if you take the word <b>CAT</b> and shift all the letters over one, you get <b>DBU</b>. ",estelle,,,
 LEVIHACKDEX_DECRYPT2_ADA,"Maybe the page holds some clues? What can we still see clearly? Just for fun, try counting the cat tails! ",ada,,,
 LEVIHACKDEX_DECRYPT3,"This looks like it might be a long, difficult process. Any tips, Estelle?",ada,,,
 LEVIHACKDEX_DECRYPT3_HINT1,"Ciphers like this one only change letters, not where letters appear in words. I think I see some patterns in the data.",estelle,,,
-LEVIHACKDEX_DECRYPT3_HINT2,"Think about it. *OCZ* appears many times. 
+LEVIHACKDEX_DECRYPT3_HINT2,"Think about it. <b>OCZ</b> appears many times. 
 
-So, if we compare *OCZ* to a common 3-letter word like *THE*, that will actually tell us alot!",estelle,,,
-LEVIHACKDEX_DECRYPT3_HINT3,"Enter *OCZ* into *Cipher Input* and try different numbers until you get *THE* in *Cipher Output*. 
+So, if we compare <b>OCZ</b> to a common 3-letter word like <b>THE</b>, that will actually tell us alot!",estelle,,,
+LEVIHACKDEX_DECRYPT3_HINT3,"Enter <b>OCZ</b> into <b>Cipher Input</b> and try different numbers until you get <b>THE</b> in <b>Cipher Output</b>. 
 
 Solving the cipher for OCZ will help you solve the whole cipher!",estelle,,,
 LEVIHACKDEX_DECRYPT_HINT1,Try any number. Even the wrong guess will give us more information about what we're working with. ,estelle,,,
 LEVIHACKDEX_DECRYPT_HINT2,"Once you try a number, Flip back to see what effect it has on the text.",estelle,,,
 LEVIHACKDEX_DECRYPT_SUCCESS,Excellent! That did the trick! Now we can read all these files. ,estelle,,,
 LEVIHACKDEX_GIVEKEY,Try this key and see if it gets us where we need to go. Click the Flip button and see if it's locked!,estelle,,,
-LEVIHACKDEX_LAUNCH,The files should be there on the desktop. Launch the *Leviathan* app.,ada,,,
-LEVIHACKDEX_OPENINTRO,"Whew, so glad to see –– wait, all the text is encrypted! I *finally* get my research back and now I can't read it!
+LEVIHACKDEX_LAUNCH,The files should be there on the desktop. Launch the <b>Leviathan</b> app.,ada,,,
+LEVIHACKDEX_OPENINTRO,"Whew, so glad to see –– wait, all the text is encrypted! I <b>finally</b> get my research back and now I can't read it!
 
-I've been gathering materials on the mysterious historical hacker known as *Leviathan* for quite some time. 
+I've been gathering materials on the mysterious historical hacker known as <b>Leviathan</b> for quite some time. 
 
-*Document 1103* covers Leviathan's takedown of an especially wily AI. But to read it, we need to decrypt it!",ada,,,
+<b>Document 1103</b> covers Leviathan's takedown of an especially wily AI. But to read it, we need to decrypt it!",ada,,,
 LEVIHACKDEX_OPENINTRO1,Maybe Estelle can help us with this! She's a total genius with ciphers.,faber,,,
 LEVIHACKDEX_OPENINTRO2,Did I hear that someone is having trouble with a cipher?,estelle,,,quests/teaching
 LEVIHACKDEX_OPENINTRO3,"Estelle! That was fast even for you, thanks for responding so quickly. 
@@ -596,14 +596,14 @@ LEVIHACKDEX_OPENINTRO3,"Estelle! That was fast even for you, thanks for respondi
 We'd like your eyes on this puzzle - Something tells me you'll be able to help.",faber,,,
 LEVIHACKDEX_OPENINTRO4,"Let's see. Mmm hmm. I think I can move this along, I've done a bit of this in my day.",estelle,,,
 LEVIHACKDEX_PREFLIP,Let's find out what the trouble is. We need to get in there and adjust some settings in the hacking panel. ,estelle,,,
-LEVIHACKDEX_PUSHINSTRUCTION,"Ah, yes. What we’re looking at is a *Sidetrack Instruction* called `push`.
+LEVIHACKDEX_PUSHINSTRUCTION,"Ah, yes. What we’re looking at is a <b>Sidetrack Instruction</b> called <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt>.
 
 Now that's a signature Leviathan move – removing an obstacle.",estelle,,,
 LEVIHACKDEX_PUSHINSTRUCTION2,"Tiiiiight! I knew you'd be able to help us with this, Estelle! Thank you!",faber,,,
 LEVIHACKDEX_PUSHINSTRUCTION3,"Amazing. Thank you, Estelle. What does this new instruction do?",ada,,,
-LEVIHACKDEX_PUSHINSTRUCTION4,"It does just what it says. You can use it to move a *Wall* that's blocking you. 
+LEVIHACKDEX_PUSHINSTRUCTION4,"It does just what it says. You can use it to move a <b>Wall</b> that's blocking you. 
 
-Riley can use it in *Sidetrack* to push *Walls* out of her way. It’s going to be essential in getting her past obstacles.",estelle,,,
+Riley can use it in <b>Sidetrack</b> to push <b>Walls</b> out of her way. It’s going to be essential in getting her past obstacles.",estelle,,,
 LEVIHACKDEX_PUSHINSTRUCTION5,"Well, this is getting very interesting! Why was there a note about Saniel's AI trap in Leviathan's code sketchbooks?",ada,,,
 LEVIHACKDEX_PUSHINSTRUCTION6,"Ada, I think that's something you're going to have to ask Saniel about! ",estelle,,,
 LEVIHACKDEX_QUESTION,"Hey there, would you like to join me in looking at my research files?",ada,,,
@@ -614,72 +614,72 @@ Come find me in the Clubhouse when you're ready!",ada,,,
 LEVIHACKDEX_UNLOCK,"Ah, beautiful. ",estelle,,,
 LIGHTSPEEDENEMYA1_ABORT,Let me know whenever you're ready then.,,,,
 LIGHTSPEEDENEMYA1_ABOUTTOPLAY,Awesome. Now go ahead and play the level to check on your changes. ,,,,
-LIGHTSPEEDENEMYA1_CHANGEENEMY,Click on the Spawn tab. See that `spawnEnemy()` function? Right now it returns 'asteroid'. We want to return `'spinner'` for this level.        ,,,,
-LIGHTSPEEDENEMYA1_CHANGEENEMY_HINT1,Change `asteroid` to `spinner` in the spawn function.,,,,
+LIGHTSPEEDENEMYA1_CHANGEENEMY,"Click on the Spawn tab. See that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy()</span></tt> function? Right now it returns 'asteroid'. We want to return <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">'spinner'</span></tt> for this level.        ",,,,
+LIGHTSPEEDENEMYA1_CHANGEENEMY_HINT1,"Change <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">asteroid</span></tt> to <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spinner</span></tt> in the spawn function.",,,,
 LIGHTSPEEDENEMYA1_CHANGEENEMY_HINT2,Flip back to the app and start playing the level.,,,,
 LIGHTSPEEDENEMYA1_FINISHLEVEL,Beautiful work! You're really getting how it works. Now go ahead and beat the level.,,hurray,,
 LIGHTSPEEDENEMYA1_LAUNCH,Start by launching Lightspeed.,,,,
 LIGHTSPEEDENEMYA1_NEWLEVEL,"OK, I just created Level 5. But it's just like the other levels, so I'm counting on you to spark it up. 
 
-Let's use the new enemy *spinner*. Go to the coding panel.",,,,
+Let's use the new enemy <b>spinner</b>. Go to the coding panel.",,,,
 LIGHTSPEEDENEMYA1_NEWLEVEL_HINT1,Press the flip to hack button on the left.,,,,
 LIGHTSPEEDENEMYA1_NOENEMIES,Hmm. Now there are no enemies at all. Go back and check your code.,,,,
-LIGHTSPEEDENEMYA1_NOSPINNERS,"There are some enemies, but no *spinners*. Let's go back and check the code.",,,,
-LIGHTSPEEDENEMYA1_PLAYTEST,Let's see if the *spinners* are there!,,,,
+LIGHTSPEEDENEMYA1_NOSPINNERS,"There are some enemies, but no <b>spinners</b>. Let's go back and check the code.",,,,
+LIGHTSPEEDENEMYA1_PLAYTEST,Let's see if the <b>spinners</b> are there!,,,,
 LIGHTSPEEDENEMYA1_QUESTION,Want to create a level in Lightspeed that uses a new enemy?,ada,,,
 LIGHTSPEEDENEMYA1_QUEST_ACCEPT,Yes!,,,,
 LIGHTSPEEDENEMYA1_SUCCESS,Brilliant. Thanks for your help with this! Drop by later. We can do some more exploring.,,,,
 LIGHTSPEEDENEMYA2_ABORT,No prob. Check back later and we can do some more coding!,,,,
 LIGHTSPEEDENEMYA2_ABOUTTOPLAY,Let's play the level and see if your changes are showing up.,,,,
-LIGHTSPEEDENEMYA2_ADD_ENEMY_CODE,Select the Spawn tab and make sure the `spawnEnemy` function creates a *spinner* enemy!,,,,
-LIGHTSPEEDENEMYA2_ADD_ENEMY_CODE_HINT1,Make sure to return a `spinner` enemy in the `spawnEnemy` function!,,,,
-LIGHTSPEEDENEMYA2_ADD_ENEMY_CODE_HINT2,Change the `spawnEnemy` function so it produces *spinner* enemies: `return spinner;`,,,,
+LIGHTSPEEDENEMYA2_ADD_ENEMY_CODE,"Select the Spawn tab and make sure the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy</span></tt> function creates a <b>spinner</b> enemy!",,,,
+LIGHTSPEEDENEMYA2_ADD_ENEMY_CODE_HINT1,"Make sure to return a <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spinner</span></tt> enemy in the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy</span></tt> function!",,,,
+LIGHTSPEEDENEMYA2_ADD_ENEMY_CODE_HINT2,"Change the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy</span></tt> function so it produces <b>spinner</b> enemies: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return spinner;</span></tt>",,,,
 LIGHTSPEEDENEMYA2_ASK_PLAY,Try playing now to see if it's working as expected!,,,,
 LIGHTSPEEDENEMYA2_CODE,"Select the Spinner tab and you'll see the code that updates its position.
 
-The function `updateSpinner()` takes care of moving it. The `y` coordinate changes its vertical position on the screen.
+The function <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">updateSpinner()</span></tt> takes care of moving it. The <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">y</span></tt> coordinate changes its vertical position on the screen.
 
-Right now we just add 0 to y, so it never changes. Make `y` smaller every tick.",,,,
-LIGHTSPEEDENEMYA2_CODE_HINT1,"For example, every time you see `updateSpinner()`, try subtracting 10 from the `y` coordinate ",,,,
-LIGHTSPEEDENEMYA2_CODE_HINT2,`enemy.position.y = enemy.position.y - 10;`,,,,
+Right now we just add 0 to y, so it never changes. Make <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">y</span></tt> smaller every tick.",,,,
+LIGHTSPEEDENEMYA2_CODE_HINT1,"For example, every time you see <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">updateSpinner()</span></tt>, try subtracting 10 from the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">y</span></tt> coordinate ",,,,
+LIGHTSPEEDENEMYA2_CODE_HINT2,"<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y = enemy.position.y - 10;</span></tt>",,,,
 LIGHTSPEEDENEMYA2_CODE_HINT3,Then run the level again and see how your changes affected things.,,,,
 LIGHTSPEEDENEMYA2_EXPLANATION,"Last time you added a new enemy, but it's no different than the asteroid. We can make it much more interesting.
 
 Go to the hack panel and let's look at the code for that enemy.",,,,
 LIGHTSPEEDENEMYA2_FINISHLEVEL,"Fantastic work all around! The level's a lot more exciting now, right? Go ahead and beat the level now.",,hurray,,
-LIGHTSPEEDENEMYA2_GOINGUP,"Almost. You got them to move, but they're going up instead of down. Make `y` smaller instead of larger.",,,,
+LIGHTSPEEDENEMYA2_GOINGUP,"Almost. You got them to move, but they're going up instead of down. Make <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">y</span></tt> smaller instead of larger.",,,,
 LIGHTSPEEDENEMYA2_LAUNCH,Launch Lightspeed as usual.,,,,
-LIGHTSPEEDENEMYA2_NOENEMIES,Where did the enemies go? Go back to the Spawn tab and make sure to create some *spinner* enemies.,,,,
+LIGHTSPEEDENEMYA2_NOENEMIES,Where did the enemies go? Go back to the Spawn tab and make sure to create some <b>spinner</b> enemies.,,,,
 LIGHTSPEEDENEMYA2_NOTMOVING,"No, that's not quite right. The enemies aren't moving up and down yet. Let's go back and try that again.",,,,
-LIGHTSPEEDENEMYA2_PLAYING,"Okay, so let's see if those *spinners* can move vertically now.  ",,,,
+LIGHTSPEEDENEMYA2_PLAYING,"Okay, so let's see if those <b>spinners</b> can move vertically now.  ",,,,
 LIGHTSPEEDENEMYA2_QUESTION,The new enemy in Lightspeed isn't working quite right. Can you help me out with it?,ada,,,
 LIGHTSPEEDENEMYA2_QUEST_ACCEPT,I'd love to,,,,
-LIGHTSPEEDENEMYA2_SUCCESS,Perfect. Come back later and we can try some other cool ways to change the *spinner*,,hurray,,
+LIGHTSPEEDENEMYA2_SUCCESS,Perfect. Come back later and we can try some other cool ways to change the <b>spinner</b>,,hurray,,
 LIGHTSPEEDENEMYA3_ABORT,Check back if you want to explore the coding panel some more!,,,,
 LIGHTSPEEDENEMYA3_ABOUTTOPLAY,Go ahead and play the level to test your code.,,,,
-LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE,Select the Spawn tab and make sure the `spawnEnemy` function creates a *spinner* enemy!,,,,
-LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE_HINT1,Make sure to return a `spinner` enemy in the `spawnEnemy` function!,,,,
-LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE_HINT2,Change the `spawnEnemy` function so it produces *spinner* enemies: `return spinner;`,,,,
-LIGHTSPEEDENEMYA3_CODE,"Select the Spinner tab and look for the `updateSpinner()` function.
+LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE,"Select the Spawn tab and make sure the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy</span></tt> function creates a <b>spinner</b> enemy!",,,,
+LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE_HINT1,"Make sure to return a <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spinner</span></tt> enemy in the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy</span></tt> function!",,,,
+LIGHTSPEEDENEMYA3_ADD_ENEMY_CODE_HINT2,"Change the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy</span></tt> function so it produces <b>spinner</b> enemies: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return spinner;</span></tt>",,,,
+LIGHTSPEEDENEMYA3_CODE,"Select the Spinner tab and look for the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">updateSpinner()</span></tt> function.
 
-Let's stop making `y` smaller when it becomes less than 0 (the bottom of the screen). Oh look, there's an `if` statement already.
+Let's stop making <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">y</span></tt> smaller when it becomes less than 0 (the bottom of the screen). Oh look, there's an <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if</span></tt> statement already.
 
-Someone made it so `y` only gets smaller if the enemy's y position is less than 1000. That's not quite right. We call that a bug.
+Someone made it so <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">y</span></tt> only gets smaller if the enemy's y position is less than 1000. That's not quite right. We call that a bug.
 
-We don't want them going off the bottom of the screen, so let's only make `y` smaller when it is greater than 0.",,,,
-LIGHTSPEEDENEMYA3_CODE_HINT1,Now it's checking if `y` is less than 1000. Change it to more than 0.,,,,
-LIGHTSPEEDENEMYA3_CODE_HINT2,"Less than 100 is `< 1000`, so what would more than 0 would be?",,,,
-LIGHTSPEEDENEMYA3_CODE_HINT3,That's right: `> 0`,,,,
-LIGHTSPEEDENEMYA3_CODE_HINT4,So it should be `if (enemy.position.y > 0)` etc.,,,,
+We don't want them going off the bottom of the screen, so let's only make <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">y</span></tt> smaller when it is greater than 0.",,,,
+LIGHTSPEEDENEMYA3_CODE_HINT1,"Now it's checking if <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">y</span></tt> is less than 1000. Change it to more than 0.",,,,
+LIGHTSPEEDENEMYA3_CODE_HINT2,"Less than 100 is <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">&lt; 1000</span></tt>, so what would more than 0 would be?",,,,
+LIGHTSPEEDENEMYA3_CODE_HINT3,"That's right: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">&gt; 0</span></tt>",,,,
+LIGHTSPEEDENEMYA3_CODE_HINT4,"So it should be <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (enemy.position.y &gt; 0)</span></tt> etc.",,,,
 LIGHTSPEEDENEMYA3_CODE_HINT5,Don't forget to play the level to check your results.,,,,
 LIGHTSPEEDENEMYA3_END,"Here, take it. You can have it. You did a great job. See you around.",,,,
-LIGHTSPEEDENEMYA3_EXPLANATION,"Now that *spinner* enemy moves in a diagonal and goes off screen. Let's make sure it stays on screen.
+LIGHTSPEEDENEMYA3_EXPLANATION,"Now that <b>spinner</b> enemy moves in a diagonal and goes off screen. Let's make sure it stays on screen.
 
 Let's go to the coding panel again.",,,,
 LIGHTSPEEDENEMYA3_FINISHLEVEL,Excellent solution! Now they're not disappearing off the screen! Now go ahead and finish the level. ,,hurray,,
 LIGHTSPEEDENEMYA3_GOINGDOWN,Hmm. they're still going below the screen. Go back and make sure you don't update the y position if they go below 0.,,,,
 LIGHTSPEEDENEMYA3_LAUNCH,You know the drill: Launch Lightspeed.,,,,
-LIGHTSPEEDENEMYA3_NOENEMIES,Where did the enemies go? Go back to the Spawn tab and make sure to create some *spinner* enemies.,,,,
+LIGHTSPEEDENEMYA3_NOENEMIES,Where did the enemies go? Go back to the Spawn tab and make sure to create some <b>spinner</b> enemies.,,,,
 LIGHTSPEEDENEMYA3_NOTMOVING,Something went wrong and now the enemies aren't moving. Go back to the coding panel and let's fix it.,,,,
 LIGHTSPEEDENEMYA3_NOTREACHINGBOTTOM,The enemies aren't quite reaching the bottom of the screen. Check your code again.,,,,
 LIGHTSPEEDENEMYA3_PLAYING,Let's see how you did with that.,,,,
@@ -688,28 +688,28 @@ LIGHTSPEEDENEMYA3_QUEST_ACCEPT,"Okay, great.",,,,
 LIGHTSPEEDENEMYA3_SUCCESS,"That's it. Beautiful work. 
 
 By the way, you said earlier you were looking for a 
-*ratchet wheel*. I knew I had one from an old project, and I found it for you!",,,,
+<b>ratchet wheel</b>. I knew I had one from an old project, and I found it for you!",,,,
 LIGHTSPEEDENEMYB1_ABORT,"Okay, just check back later if you want to try some more coding. ",,,,
 LIGHTSPEEDENEMYB1_ABOUTTOPLAY,"Now, go ahead and play the level. ",,,,
-LIGHTSPEEDENEMYB1_CODE1,Here we are. Start by spawning `squid` in the `spawnEnemy()` function. Then play the level to test it.,,,,
-LIGHTSPEEDENEMYB1_CODE1_HINT1,Go to the Spawn tab and look for the `spawnEnemy()` function.,,,,
-LIGHTSPEEDENEMYB1_CODE1_HINT2,You need to have a `return squid;` there.,,,,
+LIGHTSPEEDENEMYB1_CODE1,"Here we are. Start by spawning <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">squid</span></tt> in the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy()</span></tt> function. Then play the level to test it.",,,,
+LIGHTSPEEDENEMYB1_CODE1_HINT1,"Go to the Spawn tab and look for the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy()</span></tt> function.",,,,
+LIGHTSPEEDENEMYB1_CODE1_HINT2,"You need to have a <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return squid;</span></tt> there.",,,,
 LIGHTSPEEDENEMYB1_CODE1_HINT3,And play the level to check when you're ready.,,,,
-LIGHTSPEEDENEMYB1_CODE2,"Click on the Squid tab and look for the `updateSquid()` function. We want them to move up and down randomly.
+LIGHTSPEEDENEMYB1_CODE2,"Click on the Squid tab and look for the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">updateSquid()</span></tt> function. We want them to move up and down randomly.
 
-We can use the `random(a,b)` function that returns a number at random between a and b.
+We can use the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">random(a,b)</span></tt> function that returns a number at random between a and b.
 
-What could we do instead of always adding or subtracting a number to its `y` coordinate?",,,,
+What could we do instead of always adding or subtracting a number to its <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">y</span></tt> coordinate?",,,,
 LIGHTSPEEDENEMYB1_CODE2_HINT1,Use the random function to give you a number between -20 and 20 for example.,,,,
-LIGHTSPEEDENEMYB1_CODE2_HINT2,"That would be `random(-20,20)`.",,,,
-LIGHTSPEEDENEMYB1_CODE2_HINT3,And add that to the current enemy `y` coordinate.,,,,
-LIGHTSPEEDENEMYB1_CODE2_HINT4,"Like `enemy.position.y = enemy.position.y + random(-20,20);`.",,,,
-LIGHTSPEEDENEMYB1_EXPLANATION,We'll add a new enemy to Level 6: the *squid*. Press the Flip button to go to the coding panel.,,,,
+LIGHTSPEEDENEMYB1_CODE2_HINT2,"That would be <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">random(-20,20)</span></tt>.",,,,
+LIGHTSPEEDENEMYB1_CODE2_HINT3,"And add that to the current enemy <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">y</span></tt> coordinate.",,,,
+LIGHTSPEEDENEMYB1_CODE2_HINT4,"Like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y = enemy.position.y + random(-20,20);</span></tt>.",,,,
+LIGHTSPEEDENEMYB1_EXPLANATION,We'll add a new enemy to Level 6: the <b>squid</b>. Press the Flip button to go to the coding panel.,,,,
 LIGHTSPEEDENEMYB1_EXPLANATION_HINT1,Go to the coding panel. Press Flip.,,,,
 LIGHTSPEEDENEMYB1_FINISHLEVEL,"Excellent! This is exactly what we were going for. So now, finish the level.",,,,
 LIGHTSPEEDENEMYB1_LAUNCH,Start by launching Lightspeed.,,,,
 LIGHTSPEEDENEMYB1_NOENEMY,Hmm That didn't quite work. We don't have any of that enemy in the level. Go back and try to fix it.,,,,
-LIGHTSPEEDENEMYB1_NOTMOVING,"You got some *squids* all right, but they just go forward – maybe we can give them some better *squid* moves.
+LIGHTSPEEDENEMYB1_NOTMOVING,"You got some <b>squids</b> all right, but they just go forward – maybe we can give them some better <b>squid</b> moves.
 
 Let's write some code and see if we can get them to move up and down.",,,,
 LIGHTSPEEDENEMYB1_NOTMOVING_HINT1,Press the Flip button.,,,,
@@ -717,40 +717,40 @@ LIGHTSPEEDENEMYB1_OFFSCREEN,The enemies are going offscreen. Go back and use the
 LIGHTSPEEDENEMYB1_PLAYTEST,Let's see if that worked.,,,,
 LIGHTSPEEDENEMYB1_QUESTION,Perhaps you're ready to code a whole new enemy on your own?,saniel,,,
 LIGHTSPEEDENEMYB1_QUEST_ACCEPT,That sounds intriguing!,,,,
-LIGHTSPEEDENEMYB1_SUCCESS,"Great! You can also choose different numbers in the `random()` function to get different results.
+LIGHTSPEEDENEMYB1_SUCCESS,"Great! You can also choose different numbers in the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">random()</span></tt> function to get different results.
 
 Go back and try later if you want to. But for now this is a great start. You just coded your first enemy from scratch!",,,,
 LIGHTSPEEDENEMYB2_ABORT,Okay. Just check back later when you're ready to do some more work on Lightspeed!,,,,
 LIGHTSPEEDENEMYB2_ABOUTTOPLAY,So here we are. Let's test the level!,,,,
-LIGHTSPEEDENEMYB2_CODE,"Click on the Spawn tab and look for the `spawnEnemy()` function as usual.
+LIGHTSPEEDENEMYB2_CODE,"Click on the Spawn tab and look for the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy()</span></tt> function as usual.
 
-Whenever it's time to spawn an enemy make sure to return two kinds of enemies: *asteroid*, *spinner*, or *squid*.",,,,
-LIGHTSPEEDENEMYB2_CODE_HINT1,How do you pick one random number? That's right: the `random()` function.,,,,
-LIGHTSPEEDENEMYB2_CODE_HINT2,"And how do use it to pick one of two things? We could do `random(1,2)`.",,,,
-LIGHTSPEEDENEMYB2_CODE_HINT3,And all of that in an `if` statement to pick one enemy or the other.,,,,
+Whenever it's time to spawn an enemy make sure to return two kinds of enemies: <b>asteroid</b>, <b>spinner</b>, or <b>squid</b>.",,,,
+LIGHTSPEEDENEMYB2_CODE_HINT1,"How do you pick one random number? That's right: the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">random()</span></tt> function.",,,,
+LIGHTSPEEDENEMYB2_CODE_HINT2,"And how do use it to pick one of two things? We could do <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">random(1,2)</span></tt>.",,,,
+LIGHTSPEEDENEMYB2_CODE_HINT3,"And all of that in an <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if</span></tt> statement to pick one enemy or the other.",,,,
 LIGHTSPEEDENEMYB2_CODE_HINT4,"So when it's time to spawn: 
-`if (random(1,2) === 1) { return asteroid; }
-return 'squid';`",,,,
-LIGHTSPEEDENEMYB2_CODE_HINT5,All of that after `if (ticksSinceSpawn > 40) {...}` of course.,,,,
+<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (random(1,2) === 1) { return asteroid; }
+return 'squid';</span></tt>",,,,
+LIGHTSPEEDENEMYB2_CODE_HINT5,"All of that after <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (ticksSinceSpawn &gt; 40) {...}</span></tt> of course.",,,,
 LIGHTSPEEDENEMYB2_CODE_HINT6,Make sure you go back and test your code in the game!,,,,
 LIGHTSPEEDENEMYB2_END,"I think you'll find this quite useful in your studies. It's amazing how many things call for hush rivets. 
 
 You're always making things so I figured you could use some! ",,,,
-LIGHTSPEEDENEMYB2_EXPLAIN,I'd like you to add the enemies for Level 7. But this time we should have *two* different kinds of enemies at once.,,,,
+LIGHTSPEEDENEMYB2_EXPLAIN,I'd like you to add the enemies for Level 7. But this time we should have <b>two</b> different kinds of enemies at once.,,,,
 LIGHTSPEEDENEMYB2_EXPLAIN_HINT1,You should go to the code view as usual.,,,,
 LIGHTSPEEDENEMYB2_FINISHLEVEL,Smart solution there! Now beat the level. ,,,,
 LIGHTSPEEDENEMYB2_LAUNCH,Launch Lightspeed.,,,,
 LIGHTSPEEDENEMYB2_NOENEMIES,Hmmm. No enemies at all! Are you sure you spawned some? Go back and check.,,,,
-LIGHTSPEEDENEMYB2_PLAYING,Let's see if we get *two* types of enemies.,,,,
+LIGHTSPEEDENEMYB2_PLAYING,Let's see if we get <b>two</b> types of enemies.,,,,
 LIGHTSPEEDENEMYB2_QUESTION,Ready for your next coding assignment?,saniel,,,
 LIGHTSPEEDENEMYB2_QUEST_ACCEPT,Of course!,,,,
-LIGHTSPEEDENEMYB2_SOMENEMIES,We're missing some enemy types. Go back and make sure to spawn at least *two* types.,,,,
+LIGHTSPEEDENEMYB2_SOMENEMIES,We're missing some enemy types. Go back and make sure to spawn at least <b>two</b> types.,,,,
 LIGHTSPEEDENEMYB2_SUCCESS,"Well done. I imagine you might be able to use
-some *hush rivets*.",,,,
+some <b>hush rivets</b>.",,,,
 LIGHTSPEEDENEMYC1_ABORT,Oh! Come find me if you want to explore some more!,,,,
 LIGHTSPEEDENEMYC1_ABOUTTOPLAY,Go ahead and play the level.,,,,
-LIGHTSPEEDENEMYC1_CODE,Select the Spawn tab. Let's spawn a *beam* enemy in the `spawnEnemy()` function.,,,,
-LIGHTSPEEDENEMYC1_CODE_HINT1,Just like we did before: `return beam;` in that function.,,,,
+LIGHTSPEEDENEMYC1_CODE,"Select the Spawn tab. Let's spawn a <b>beam</b> enemy in the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy()</span></tt> function.",,,,
+LIGHTSPEEDENEMYC1_CODE_HINT1,"Just like we did before: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return beam;</span></tt> in that function.",,,,
 LIGHTSPEEDENEMYC1_CODE_HINT2,And go test it in the level.,,,,
 LIGHTSPEEDENEMYC1_EXPLAIN,"OK, first let's spawn the enemy I started creating in Level 8. I call it the Beam. Let's go to the code.",,,,
 LIGHTSPEEDENEMYC1_EXPLAIN_HINT1,Press the Flip button.,,,,
@@ -763,19 +763,19 @@ LIGHTSPEEDENEMYC1_QUEST_ACCEPT,Sounds awesome,,,,
 LIGHTSPEEDENEMYC1_SUCCESS,Well done! That's one super-hard enemy. LOL. We should fix it. Come get me whenever you want to try that.,,,,
 LIGHTSPEEDENEMYC2_ABORT,Check ya later!,,,,
 LIGHTSPEEDENEMYC2_ABOUTTOPLAY,Let's play now.,,,,
-LIGHTSPEEDENEMYC2_ADD_ENEMY_CODE,Select the Spawn tab and make sure the `spawnEnemy` function creates a *Beam* enemy!,,,,
-LIGHTSPEEDENEMYC2_ADD_ENEMY_CODE_HINT1,Make sure to return a `beam` enemy in the `spawnEnemy` function!,,,,
-LIGHTSPEEDENEMYC2_ADD_ENEMY_CODE_HINT2,Change the `spawnEnemy` function so it produces *Beam* enemies: `return beam;`,,,,
-LIGHTSPEEDENEMYC2_CODE,"Go to the Beam tab. Look at the `updateBeam()` function. This is different from the other enemies we've seen.
+LIGHTSPEEDENEMYC2_ADD_ENEMY_CODE,"Select the Spawn tab and make sure the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy</span></tt> function creates a <b>Beam</b> enemy!",,,,
+LIGHTSPEEDENEMYC2_ADD_ENEMY_CODE_HINT1,"Make sure to return a <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">beam</span></tt> enemy in the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy</span></tt> function!",,,,
+LIGHTSPEEDENEMYC2_ADD_ENEMY_CODE_HINT2,"Change the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy</span></tt> function so it produces <b>Beam</b> enemies: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return beam;</span></tt>",,,,
+LIGHTSPEEDENEMYC2_CODE,"Go to the Beam tab. Look at the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">updateBeam()</span></tt> function. This is different from the other enemies we've seen.
 
-See those `if` statements? It's checking if `playerShip.position.y` is higher and moving up, or lower and moving down.
+See those <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if</span></tt> statements? It's checking if <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">playerShip.position.y</span></tt> is higher and moving up, or lower and moving down.
 
 So it's tracking the player! Change the code so the enemy still moves some but it's easier to beat the level.",,,,
 LIGHTSPEEDENEMYC2_CODE_HINT1,What if we reverse the effect?,,,,
 LIGHTSPEEDENEMYC2_CODE_HINT2,"So when the player is higher than the enemy, the enemy moves down and the other way around.",,,,
 LIGHTSPEEDENEMYC2_CODE_HINT3,"So instead of subtracting 5, add 5. Also flip the other statement.",,,,
-LIGHTSPEEDENEMYC2_CODE_HINT4,So `if (playerShip.position.y < enemy.position.y) enemy.position.y = enemy.position.y + 5;`,,,,
-LIGHTSPEEDENEMYC2_EXPLAIN,"All right. So right now the *beam* moves towards the player relentlessly. It's impossible to beat.
+LIGHTSPEEDENEMYC2_CODE_HINT4,"So <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (playerShip.position.y &lt; enemy.position.y) enemy.position.y = enemy.position.y + 5;</span></tt>",,,,
+LIGHTSPEEDENEMYC2_EXPLAIN,"All right. So right now the <b>beam</b> moves towards the player relentlessly. It's impossible to beat.
 
 Let's see if you can fix it so you can beat this level. Go to the coding panel.",,,,
 LIGHTSPEEDENEMYC2_FAILED,"If that's too difficult, go back to the code and fix the enemy to make it move away from you.",,,,
@@ -790,15 +790,15 @@ LIGHTSPEEDENEMYC2_QUEST_ACCEPT,Yes!,,,,
 LIGHTSPEEDENEMYC2_SUCCESS,That's what I'm talking about! Great job!,,,,
 LIGHTSPEEDFINAL_ABORT,"Go if you must, but I do hope you'll check back later.  ",,,,
 LIGHTSPEEDFINAL_ABOUTTOPLAY,Ready. Let's play!,,,,
-LIGHTSPEEDFINAL_ABOUTTOPLAY_HINT1,Click the trusty *Restart* button.,,,,
+LIGHTSPEEDFINAL_ABOUTTOPLAY_HINT1,Click the trusty <b>Restart</b> button.,,,,
 LIGHTSPEEDFINAL_CODE,"All right, now we need to give it everything. Let's spawn every enemy and Power-up in this level.
 
-Click on the Spawn tab and look at the `spawnEnemy()` function.
+Click on the Spawn tab and look at the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy()</span></tt> function.
 
-Let's change it so it randomly spawns any of the 4 enemies: `asteroid`, `spinner`, `squid` or `beam`. I'm ready to give you hints.",,,,
-LIGHTSPEEDFINAL_CODE_HINT1,See where we return `asteroid`? Instead we'll return by using the `pickOne()` function.,,,,
-LIGHTSPEEDFINAL_CODE_HINT2,"Inside the `pickOne()` we will list the 4 enemies, `asteroid, spinner, squid, beam`.",,,,
-LIGHTSPEEDFINAL_CODE_HINT3,"So the whole thing should say `return pickOne(asteroid, spinner, squid, beam);`",,,,
+Let's change it so it randomly spawns any of the 4 enemies: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">asteroid</span></tt>, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spinner</span></tt>, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">squid</span></tt> or <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">beam</span></tt>. I'm ready to give you hints.",,,,
+LIGHTSPEEDFINAL_CODE_HINT1,"See where we return <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">asteroid</span></tt>? Instead we'll return by using the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">pickOne()</span></tt> function.",,,,
+LIGHTSPEEDFINAL_CODE_HINT2,"Inside the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">pickOne()</span></tt> we will list the 4 enemies, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">asteroid, spinner, squid, beam</span></tt>.",,,,
+LIGHTSPEEDFINAL_CODE_HINT3,"So the whole thing should say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return pickOne(asteroid, spinner, squid, beam);</span></tt>",,,,
 LIGHTSPEEDFINAL_END,This is auspicious indeed! I'm going to head to the Clubhouse and see how this work! See you there. ,,,,
 LIGHTSPEEDFINAL_EXPLAIN,"Here we are. You'll have to create and beat the final level with every monster and every upgrade.
 
@@ -808,16 +808,16 @@ LIGHTSPEEDFINAL_LAUNCH,We need to beat the final level in Lightspeed. Launch it 
 LIGHTSPEEDFINAL_NOTFOUR,I don't see all 4 enemies. Let's go back and check.,,,,
 LIGHTSPEEDFINAL_PLAYTEST,You should get all 4 enemies in this level.,,,,
 LIGHTSPEEDFINAL_PLAY_AGAIN,Let's try this level again.,,,,
-LIGHTSPEEDFINAL_PLAY_AGAIN_HINT1,Click ye olde *Restart. button* ,,,,
+LIGHTSPEEDFINAL_PLAY_AGAIN_HINT1,Click ye olde <b>Restart. button</b> ,,,,
 LIGHTSPEEDFINAL_QUESTION,We're almost there! One more level! Ready to find the second access fob?,,,,
 LIGHTSPEEDFINAL_QUEST_ACCEPT,Yes!,,,,
 LIGHTSPEEDFINAL_SUCCESS,"Well done! I knew you could get us here! And, just as we'd hoped, here's the fob. ",,,,
 LIGHTSPEEDFIX1_ABORT,Stop by again sometime soon!,,,,
 LIGHTSPEEDFIX1_ABOUTTOPLAY,"OK, let's try it now.",,,,
-LIGHTSPEEDFIX1_CODE,"Click on the Spawn tab. See the function called `spawnEnemy()`? That's where we create the asteroids.
+LIGHTSPEEDFIX1_CODE,"Click on the Spawn tab. See the function called <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy()</span></tt>? That's where we create the asteroids.
 
 There you can change the scale to something smaller so the level becomes playable again.",,,,
-LIGHTSPEEDFIX1_CODE_HINT1,See that `scale: 150`? Change that number to something smaller like 50.,,,,
+LIGHTSPEEDFIX1_CODE_HINT1,"See that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">scale: 150</span></tt>? Change that number to something smaller like 50.",,,,
 LIGHTSPEEDFIX1_CODE_HINT2,Make sure to play Level 3 and beat it to see if your solution works correctly.,,,,
 LIGHTSPEEDFIX1_EXPLANATION,Play Level 3 and be on the lookout for anything unusual.,,,,
 LIGHTSPEEDFIX1_EXPLANATION2,"Someone made those asteroids way too big! You'll need to get in there and adjust that. 
@@ -834,18 +834,18 @@ LIGHTSPEEDFIX1_QUEST_ACCEPT,Definitely.,,,,
 LIGHTSPEEDFIX1_SUCCESS,Excellent. That'll do it. We've got a few more things to fix. Come find me when you're ready for more coding!,,,,
 LIGHTSPEEDFIX2_ABORT,Done so soon? Come back to the Clubhouse whenever you want to try again.,,,,
 LIGHTSPEEDFIX2_ABOUTTOPLAY,Go ahead and test your code by playing Level 4.,,,,
-LIGHTSPEEDFIX2_CODE,"Click on the Spawn tab again. The `spawnEnemy()` function is returning null! No wonder there are no asteroids.
+LIGHTSPEEDFIX2_CODE,"Click on the Spawn tab again. The <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy()</span></tt> function is returning null! No wonder there are no asteroids.
 
-Try changing it to `return asteroid;` and running Level 4. What do you think will happen?",,,,
+Try changing it to <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return asteroid;</span></tt> and running Level 4. What do you think will happen?",,,,
 LIGHTSPEEDFIX2_CODE2,"An asteroid every second is more like what we're going for. There are thirty ticks per second. 
 
-We have a variable called `ticksSinceSpawn`, which goes up once every tick. Let's spawn it every 30 ticks.
+We have a variable called <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ticksSinceSpawn</span></tt>, which goes up once every tick. Let's spawn it every 30 ticks.
 
-See that line that says `if (ticksSinceSpawn > 0)`? That executes the line below whenever `ticksSinceSpawn` is greater than zero.
+See that line that says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (ticksSinceSpawn &gt; 0)</span></tt>? That executes the line below whenever <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ticksSinceSpawn</span></tt> is greater than zero.
 
 Let's change that 0 to 30 and we'll get one asteroid about every second.",,,,
-LIGHTSPEEDFIX2_CODE2_HINT1,The condition would be `ticksSinceSpawn > 30`,,,,
-LIGHTSPEEDFIX2_CODE2_HINT2,The code should be `if (ticksSinceSpawn > 30) { return asteroid; }`,,,,
+LIGHTSPEEDFIX2_CODE2_HINT1,"The condition would be <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ticksSinceSpawn &gt; 30</span></tt>",,,,
+LIGHTSPEEDFIX2_CODE2_HINT2,"The code should be <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (ticksSinceSpawn &gt; 30) { return asteroid; }</span></tt>",,,,
 LIGHTSPEEDFIX2_CODE2_HINT3,Go back to the game when you're ready and test it out.,,,,
 LIGHTSPEEDFIX2_CODE_HINT1,Don't forget the semicolon at the end.,,,,
 LIGHTSPEEDFIX2_CODE_HINT2,"When it looks good, press the Flip button again and try your level.",,,,
@@ -861,7 +861,7 @@ LIGHTSPEEDFIX2_QUEST_ACCEPT,"Okay, let's get on it!",,,,
 LIGHTSPEEDFIX2_SUCCESS,Smart work there! Clearly you're ready for something more challenging. Stop by the Clubhouse for more.,,,,
 LIGHTSPEEDFIX2_TOOMANY,"Leaping Antelopes! That's a LOT of asteroids. So many in fact that you blew up the limit.
 
-It turns out the `spawnEnemy()` function gets called every tick (about 30 times per second!).
+It turns out the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnEnemy()</span></tt> function gets called every tick (about 30 times per second!).
 
 So you're creating 30 asteroids per second! Let's go back and fix it.",,,,
 LIGHTSPEEDINTRO_ABORT,"No prob, we'll try again later. ",,,,
@@ -886,103 +886,103 @@ LIGHTSPEEDINTRO_SUCCESS,"Quick work! Now we'll need your help with the other lev
 
 I'm going to give you the Lightspeed Controls Key. This will open up new coding options for you!",,hurray,,
 LIGHTSPEEDKEY_ABORT,No problem. Come back when you're ready.,,,,
-LIGHTSPEEDKEY_LAUNCH,First let's launch *Lightspeed*.,,,,
-LIGHTSPEEDKEY_LAUNCH_HINT1,Click on the *Lightspeed* icon on the desktop.        ,,,,
+LIGHTSPEEDKEY_LAUNCH,First let's launch <b>Lightspeed</b>.,,,,
+LIGHTSPEEDKEY_LAUNCH_HINT1,Click on the <b>Lightspeed</b> icon on the desktop.        ,,,,
 LIGHTSPEEDKEY_LEVELS1,"A good strategy is just to try out each level first so you can see the nature of the challenge it poses.
 
-Then when you flip to the *Toolbox*, I'll be standing by to help. Maybe we can improve this Squid situation!",,,,
-LIGHTSPEEDKEY_LEVELS1_HINT1,Play this level and see what approach it requires. Then click the *Flip* button and get in there!,,,,
+Then when you flip to the <b>Toolbox</b>, I'll be standing by to help. Maybe we can improve this Squid situation!",,,,
+LIGHTSPEEDKEY_LEVELS1_HINT1,Play this level and see what approach it requires. Then click the <b>Flip</b> button and get in there!,,,,
 LIGHTSPEEDKEY_LEVELS2,"Good work! One level down, two to go! See what's up with this level. Then flip to hack.",,hurray,,
 LIGHTSPEEDKEY_LEVELS2_HINT1,"Wow, the astronauts are tiny and they zoom super fast! Maybe a Power-Up can attract them?",,,,
 LIGHTSPEEDKEY_LEVELS3,Last level! Almost there! The key waits for you when you win this level!,,hurray,,
 LIGHTSPEEDKEY_LEVELS3_HINT1,That's a whole lot of enemies! Maybe we can change how they Spawn.,,,,
 LIGHTSPEEDKEY_LEVELSINTRO,"The next three levels are OLD ones, so the challenges are weird! But the key we need is at the end.
 
-Aaaand, some of the *Topics* aren't available! When you do see a *Topic*, jump on your chance to hack the level! ",,,,
-LIGHTSPEEDKEY_PANEL_ASTEROID,The code in these *Topics* changes the behaviors of an enemy type. This *Topic* works for Asteroids.,,,,
-LIGHTSPEEDKEY_PANEL_ASTEROID_HINT1,"Do you see where it says `enemy.position.y`? That tells the Asteroid where to be on the screen.
+Aaaand, some of the <b>Topics</b> aren't available! When you do see a <b>Topic</b>, jump on your chance to hack the level! ",,,,
+LIGHTSPEEDKEY_PANEL_ASTEROID,The code in these <b>Topics</b> changes the behaviors of an enemy type. This <b>Topic</b> works for Asteroids.,,,,
+LIGHTSPEEDKEY_PANEL_ASTEROID_HINT1,"Do you see where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y</span></tt>? That tells the Asteroid where to be on the screen.
 
-If `enemy.position.y` is 0, that's the bottom of the screen. Higher numbers are towards the top.
+If <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y</span></tt> is 0, that's the bottom of the screen. Higher numbers are towards the top.
 
 This code gets called every instant to tell the Asteroid what new screen position it should have.",,,,
-LIGHTSPEEDKEY_PANEL_BEAM,The code in these *Topics*  changes the behaviors of an enemy type. This *Topic* works for Beams.,,,,
-LIGHTSPEEDKEY_PANEL_BEAM_HINT1,"Do you see where it says `enemy.position.y`? That tells the Beam where to be on the screen.
+LIGHTSPEEDKEY_PANEL_BEAM,The code in these <b>Topics</b>  changes the behaviors of an enemy type. This <b>Topic</b> works for Beams.,,,,
+LIGHTSPEEDKEY_PANEL_BEAM_HINT1,"Do you see where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y</span></tt>? That tells the Beam where to be on the screen.
 
-If `enemy.position.y` is 0, that means it's at the bottom of the screen. Higher numbers are towards the top.
+If <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y</span></tt> is 0, that means it's at the bottom of the screen. Higher numbers are towards the top.
 
 This code gets called every instant to tell the Beam what new screen position it should have.",,,,
-LIGHTSPEEDKEY_PANEL_GAME,"You change the size of your ship and the astronauts in this *Topic*!
+LIGHTSPEEDKEY_PANEL_GAME,"You change the size of your ship and the astronauts in this <b>Topic</b>!
 
 You can also change the speed and appearance of your ship.
 
-This is a really handy *Topic*, because it has some other powerful parameters too.",,,,
-LIGHTSPEEDKEY_PANEL_LOCKED,This *Topic* isn't available on this level!  How can you solve it with another *Topic*?,,,,
-LIGHTSPEEDKEY_PANEL_POWERUPS,"The code in this *Topic* changes what special powers you get when you collide with a Power-Up.
+This is a really handy <b>Topic</b>, because it has some other powerful parameters too.",,,,
+LIGHTSPEEDKEY_PANEL_LOCKED,This <b>Topic</b> isn't available on this level!  How can you solve it with another <b>Topic</b>?,,,,
+LIGHTSPEEDKEY_PANEL_POWERUPS,"The code in this <b>Topic</b> changes what special powers you get when you collide with a Power-Up.
 
 Power-Ups make it easier to pick up astronauts, or they can blow up enemies. Useful stuff like that!",,,,
-LIGHTSPEEDKEY_PANEL_POWERUPS_HINT1,"Look for `if` statements, which check to see if something is either true or false.
+LIGHTSPEEDKEY_PANEL_POWERUPS_HINT1,"Look for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if</span></tt> statements, which check to see if something is either true or false.
 
-For example `if (powerUpType === blowup)` tests to see if `powerUpType` equals blowup. It can be true or false.
+For example <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (powerUpType === blowup)</span></tt> tests to see if <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">powerUpType</span></tt> equals blowup. It can be true or false.
 
-`(powerUpType === blowup)` is called a condition. The code after it only happens if the condition is true.
+<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">(powerUpType === blowup)</span></tt> is called a condition. The code after it only happens if the condition is true.
 
-For example, `if (powerUpType === blowup) blowUpEnemies();` means if the condition is true, then `blowUpEnemies();`",,,,
-LIGHTSPEEDKEY_PANEL_POWERUPS_HINT2,"One thing you could do is change which effect happens for each possible value of `powerUpType`.
+For example, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (powerUpType === blowup) blowUpEnemies();</span></tt> means if the condition is true, then <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">blowUpEnemies();</span></tt>",,,,
+LIGHTSPEEDKEY_PANEL_POWERUPS_HINT2,"One thing you could do is change which effect happens for each possible value of <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">powerUpType</span></tt>.
 
-`ship.attractTimer = 5;` is the code which makes the ship attract astronauts from further away.
+<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.attractTimer = 5;</span></tt> is the code which makes the ship attract astronauts from further away.
 
 You could replace the code that's called after each condition with that code.
 
-As just ONE example, you could delete `ship.shrinkTimer = 5;` and replace it with `ship.attractTimer = 5;`.",,,,
-LIGHTSPEEDKEY_PANEL_POWERUPS_HINT3,"You can shortcut conditions entirely by replacing them with `if (true)` or `if (false)`.
+As just ONE example, you could delete <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.shrinkTimer = 5;</span></tt> and replace it with <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.attractTimer = 5;</span></tt>.",,,,
+LIGHTSPEEDKEY_PANEL_POWERUPS_HINT3,"You can shortcut conditions entirely by replacing them with <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (true)</span></tt> or <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (false)</span></tt>.
 
 If you only want ONE kind of effect to happen, no matter which Power-up you hit, that's a way to do it.
 
-You could replace every condition with `(true)` or `(false)`, depending on what you want to accomplish.
+You could replace every condition with <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">(true)</span></tt> or <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">(false)</span></tt>, depending on what you want to accomplish.
 
-Don't be afraid if you mess things up. You can just hit the *reset all* button!",,,,
-LIGHTSPEEDKEY_PANEL_SPAWN,"This is the Spawn *Topic*, and it controls when enemies and Power-Ups appear. It's really powerful!
+Don't be afraid if you mess things up. You can just hit the <b>reset all</b> button!",,,,
+LIGHTSPEEDKEY_PANEL_SPAWN,"This is the Spawn <b>Topic</b>, and it controls when enemies and Power-Ups appear. It's really powerful!
 
 Let's see, what kind of changes can you make here? ",,,,
-LIGHTSPEEDKEY_PANEL_SPAWN_HINT1,"See where it says `return` and then an enemy type like `asteroid`? That's the type of enemy that gets spawned.
+LIGHTSPEEDKEY_PANEL_SPAWN_HINT1,"See where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return</span></tt> and then an enemy type like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">asteroid</span></tt>? That's the type of enemy that gets spawned.
 
-So you could change the word after `return` to change which enemy type appears.",,,,
-LIGHTSPEEDKEY_PANEL_SPAWN_HINT2,"Or sometimes, you'll see an `if` statement, which checks to see if something's true or not.
+So you could change the word after <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return</span></tt> to change which enemy type appears.",,,,
+LIGHTSPEEDKEY_PANEL_SPAWN_HINT2,"Or sometimes, you'll see an <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if</span></tt> statement, which checks to see if something's true or not.
 
-For example `if (r === 2) return spinner;` tests to see if r equals 2, and if it does, that's true, so it `return`s spinner. 
+For example <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (r === 2) return spinner;</span></tt> tests to see if r equals 2, and if it does, that's true, so it <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return</span></tt>s spinner. 
 
-The part that says `(r === 2)` is called the _condition_. You could change it, like `if (r ===` some other number maybe.
+The part that says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">(r === 2)</span></tt> is called the <i>condition</i>. You could change it, like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (r ===</span></tt> some other number maybe.
 
-Or you can just change it to say `if (true)` or `if (false)` which will automatically pass or fail the condition test.",,,,
-LIGHTSPEEDKEY_PANEL_SPINNER,The code in these *Topics*  changes the behaviors of an enemy type. This *Topic* works for Spinners.,,,,
-LIGHTSPEEDKEY_PANEL_SPINNER_HINT1,"Do you see where it says `enemy.position.y`? That tells the Spinner where to be on the screen.
+Or you can just change it to say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (true)</span></tt> or <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (false)</span></tt> which will automatically pass or fail the condition test.",,,,
+LIGHTSPEEDKEY_PANEL_SPINNER,The code in these <b>Topics</b>  changes the behaviors of an enemy type. This <b>Topic</b> works for Spinners.,,,,
+LIGHTSPEEDKEY_PANEL_SPINNER_HINT1,"Do you see where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y</span></tt>? That tells the Spinner where to be on the screen.
 
-If `enemy.position.y` is 0, that's the bottom of the screen. Higher numbers are towards the top.
+If <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y</span></tt> is 0, that's the bottom of the screen. Higher numbers are towards the top.
 
 This code gets called every instant to tell the Spinner what new screen position it should have.",,,,
-LIGHTSPEEDKEY_PANEL_SQUID,"The code in these *Topics* creates behaviors for an enemy type. This *Topic* works for Squids.
+LIGHTSPEEDKEY_PANEL_SQUID,"The code in these <b>Topics</b> creates behaviors for an enemy type. This <b>Topic</b> works for Squids.
 
 If you're having problems with Squid enemies, maybe you can fix it here.",,,,
-LIGHTSPEEDKEY_PANEL_SQUID_HINT1,"Do you see where it says `enemy.position.y`? That tells the Squid where to be on the screen.
+LIGHTSPEEDKEY_PANEL_SQUID_HINT1,"Do you see where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y</span></tt>? That tells the Squid where to be on the screen.
 
-If `enemy.position.y` is 0, that's the bottom of the screen. Higher numbers are towards the top.",,,,
+If <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y</span></tt> is 0, that's the bottom of the screen. Higher numbers are towards the top.",,,,
 LIGHTSPEEDKEY_PANEL_SQUID_HINT2,"This code gets called every instant to tell the Squid what new screen position it should have.
 
-If it says `enemy.position.y = enemy.position.y + 0;` that means set the new position to the current position.
+If it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y = enemy.position.y + 0;</span></tt> that means set the new position to the current position.
 
-It actually says `+ 0` but when you add zero to something the number doesn't change.
+It actually says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">+ 0</span></tt> but when you add zero to something the number doesn't change.
 
 And with no change, the Squid's position stays the same as it was.",,,,
 LIGHTSPEEDKEY_PANEL_SQUID_HINT3,"So you can tell every Squid where to be on the screen every instant! What can you do with that?
 
-They would move upwards with `enemy.position.y = enemy.position.y + 5;` or a higher number than 5.
+They would move upwards with <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y = enemy.position.y + 5;</span></tt> or a higher number than 5.
 
-Or you could just set their position to a fixed number with NO changes like `enemy.position.y = 500;`",,,,
+Or you could just set their position to a fixed number with NO changes like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">enemy.position.y = 500;</span></tt>",,,,
 LIGHTSPEEDKEY_QUESTION,Ready to go get that key from Lightspeed?,faber,,,
 LIGHTSPEEDKEY_QUEST_ACCEPT,Can't wait. Let's go!,,,,
 LIGHTSPEEDKEY_SUCCESS,"Such skillful work getting through those levels! 
 
-And excellent work getting that key! We can use that back in *Sidetrack*!",,hurray,,
+And excellent work getting that key! We can use that back in <b>Sidetrack</b>!",,hurray,,
 LIGHTSPEEDTWEAK_ABORT,See you next time!,,,,
 LIGHTSPEEDTWEAK_ABOUTTOPLAY,All right. Play the level and let's see how it goes.,,,,
 LIGHTSPEEDTWEAK_END,See you at the Clubhouse.,,,,
@@ -992,7 +992,7 @@ LIGHTSPEEDTWEAK_FLIPTOHACK,"Oopff! Nearly impossible, right? But you can make it
 Press the Flip button on the left.",,,,
 LIGHTSPEEDTWEAK_HACK,"Okay, so now that you have access to this panel, what settings can you change to make the level easier?",,,,
 LIGHTSPEEDTWEAK_HACK_HINT1,"If things are too fast, what can you change to fix that?",,,,
-LIGHTSPEEDTWEAK_HACK_HINT2,How about slowing down the player's ship by lowering its `speed`?,,,,
+LIGHTSPEEDTWEAK_HACK_HINT2,"How about slowing down the player's ship by lowering its <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">speed</span></tt>?",,,,
 LIGHTSPEEDTWEAK_HACK_HINT3,Don't forget you actually still need to beat the level. Press the Flip button and play through the level.,,,,
 LIGHTSPEEDTWEAK_LAUNCH,Excellent. Start by launching Lightspeed.,,hurray,,quests/quest2-ada-hi2
 LIGHTSPEEDTWEAK_PLAYTEST,"Let's hope this works. If not, go back and change the speed to something lower.",,,,
@@ -1007,20 +1007,20 @@ LMMSQUEST_INFO_1,Click the links for these tutorials to open them in your browse
 LMMSQUEST_INFO_2,The best way to use these videos is to resize your windows so you can can see both LMMS and the video.,estelle,,,
 LMMSQUEST_INFO_3,"That way, you can watch the video and follow along at the same time.",estelle,,,
 LMMSQUEST_INFO_4,"Here's a link to a full playlist of tutorials on how to get started:
-https://youtu.be/TrMTlpeSw8Y",estelle,,,
+<u><span insert_hyphens=""false"" foreground=""#3584E4"">https://youtu.be/TrMTlpeSw8Y</span></u>",estelle,,,
 LMMSQUEST_INFO_5,"Here's a single tutorial that should be great for beginners: 
-https://youtu.be/MP7VxyhCkrA ",estelle,,,
-LMMSQUEST_INFO_6,"If you want to read the documentation, the wiki is located at https://lmms.io/wiki/index.php",estelle,,,
+<u><span insert_hyphens=""false"" foreground=""#3584E4"">https://youtu.be/MP7VxyhCkrA</span></u> ",estelle,,,
+LMMSQUEST_INFO_6,"If you want to read the documentation, the wiki is located at <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://lmms.io/wiki/index.php</span></u>",estelle,,,
 LMMSQUEST_LAUNCH,"LMMS is a program that lets you create music on your Hack system.
 
 With a little practice, you can easily sample, remix, make mash-ups, and share them with friends.
 
 We've got some useful tutorials linked in here for you, give them a try!",estelle,,,
-LMMSQUEST_NOTINSTALLED,"Uh-oh! Looks like `LMMS` isn't installed!
+LMMSQUEST_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">LMMS</span></tt> isn't installed!
 
 You need to download it from the App Center if you'd like to learn how to use it.
 
-Click the icon named `App Center` on the Desktop, then search for `LMMS`, and install it. ",daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">LMMS</span></tt>, and install it. ",daemon,,,
 LMMSQUEST_QUEST_DESCRIPTION,"Try out some tutorials for LMMS, a fully-featured, open-source music creation program.",,,,
 LMMSQUEST_QUEST_NAME,Creating Music - Not quite autotune...,,,,
 LMMSQUEST_QUEST_SUBTITLE,What you'll do,,,,
@@ -1065,7 +1065,7 @@ MAKERINTRO_FLING,Hey! No cheating! You're not allowed to use the Fling tool. Res
 MAKERINTRO_FLING_HINT1,Press the reset button on top. The one with the arrow.,,,,
 MAKERINTRO_GIVEITEM,"Hmmm, let me see. Let me immerse it in this clarifying solution. 
 
-Whoa! This stuff really works! Hold up! Riley, I think this is a *Perception Deflector* for a Stealth Device! 
+Whoa! This stuff really works! Hold up! Riley, I think this is a <b>Perception Deflector</b> for a Stealth Device! 
 
 I can't believe you found this! This is so major. Totally cool to actually hold this in my hands!
 ",,,,
@@ -1093,7 +1093,7 @@ MAKERINTRO_WHATISIT,"Hey Faber, since we're here, do you have any clue what this
 MAKERPUSHUNTIL_QUEST_DESCRIPTION,Creatively break objects so that you can make them stronger!,,,,
 MAKERPUSHUNTIL_QUEST_NAME,Push Until it Breaks,,,,
 MAKERPUSHUNTIL_QUEST_SUBTITLE,What you'll do,,,,
-MAKERPUSHUNTIL_WELCOME,Breaking things is fun. Everyone knows *that*. But what if you could break things to make them stronger?,faber,,,
+MAKERPUSHUNTIL_WELCOME,Breaking things is fun. Everyone knows <b>that</b>. But what if you could break things to make them stronger?,faber,,,
 MAKERQUEST_ABORT,No worries! You can always try later.,,,,
 MAKERQUEST_END,Let me know if I can give you a hand with any interesting projects.,,,,
 MAKERQUEST_EXPLANATION,Today's puzzle is to make it so all 10 of these green balls are touching the red spiky ball at the same time.,,,,
@@ -1107,32 +1107,32 @@ MAKERQUEST_QUESTION,Would you like to attempt another one of my brain-tickling p
 MAKERQUEST_QUEST_ACCEPT,Always up for them,,,,
 MAKERQUEST_SUCCESS,"That's it! Good job!
 
-By the way, I realized I already had some *cloaking glaze*. Here you go!",,hurray,,
+By the way, I realized I already had some <b>cloaking glaze</b>. Here you go!",,hurray,,
 MAKERTECHDRAW_QUEST_DESCRIPTION,"Learn how draw objects in a way that describes them for building, like a blueprint.",,,,
 MAKERTECHDRAW_QUEST_NAME,Technical Drawing,,,,
 MAKERTECHDRAW_QUEST_SUBTITLE,What you'll do,,,,
-MAKERTECHDRAW_WELCOME,"Oh man, I *love* this part of a project. I've got framed blueprints up on my walls from really cool stuff I've designed.",faber,,,
+MAKERTECHDRAW_WELCOME,"Oh man, I <b>love</b> this part of a project. I've got framed blueprints up on my walls from really cool stuff I've designed.",faber,,,
 MAZEPT1_ABORT,Come find me later and we can keep working on this! ,ada,,,
-MAZEPT1_AUTO1,"*Robots!* & *Pits!* & *Walls,* oh my! Saniel, my friend, I've got this. I'll be bouncing this maze in no time ;)",riley,hurray,,
+MAZEPT1_AUTO1,"<b>Robots!</b> & <b>Pits!</b> & <b>Walls,</b> oh my! Saniel, my friend, I've got this. I'll be bouncing this maze in no time ;)",riley,hurray,,
 MAZEPT1_AUTO1_ADA,Sounds like it! Riley? Your manual controls just totally disappeared. Something must be messing with them!,ada,,,
 MAZEPT1_AUTO1_FABER,Hold up. Listen. Was that more meowing? Did one of Saniel's cats follow Riley into the trap?,faber,,,
 MAZEPT1_AUTO1_FELIX,mjau ^ = ^ mjav //\\ ngiyaw /\ ^  miav,felixnet,,quests/glitch-meow,
 MAZEPT1_AUTO1_RILEY,How am I ever going to get out of this maze if I can't move?,riley,,,
 MAZEPT1_AUTO1_SANIEL,See that PLAY button? Try pushing that.,saniel,,,
-MAZEPT1_AUTO1_SANIEL_HINT1,Press the PLAY button to activate the *Instructions*.,saniel,,,
-MAZEPT1_AUTO1_SANIEL_REACTION,This is most irregular! But look! I see that the maze has given you a set of *Instructions* already.,saniel,,,
-MAZEPT1_AUTO2,"After you have the *Instructions* lined up, you press PLAY and that moves you through the maze.",saniel,,,
+MAZEPT1_AUTO1_SANIEL_HINT1,Press the PLAY button to activate the <b>Instructions</b>.,saniel,,,
+MAZEPT1_AUTO1_SANIEL_REACTION,This is most irregular! But look! I see that the maze has given you a set of <b>Instructions</b> already.,saniel,,,
+MAZEPT1_AUTO2,"After you have the <b>Instructions</b> lined up, you press PLAY and that moves you through the maze.",saniel,,,
 MAZEPT1_AUTO2_INTRO,"You can still move, but now you have to plan all your moves in advance.
 
 It's a new kind of challenge – you just have to give yourself time to think it through. ",saniel,,,
-MAZEPT1_AUTO3,This set of *Instructions* won't cut it! Study the obstacles and put the *Instructions* in a new order.,saniel,,,
-MAZEPT1_AUTO3_FAILURE,Good try! Let's review the order of the *Instructions* and try again. Do you see a different order to try?,saniel,,,
-MAZEPT1_AUTO3_HINT1,You’ll need to drag and drop those *Instructions* to put them in a new order.,saniel,,,
-MAZEPT1_AUTO3_HINT2,Press PLAY to execute the *Instructions* and get through the level.,saniel,,,
-MAZEPT1_AUTO3_HINT3,"And keep in mind, once you press PLAY you can no longer change the *Instructions!*",saniel,,,
+MAZEPT1_AUTO3,This set of <b>Instructions</b> won't cut it! Study the obstacles and put the <b>Instructions</b> in a new order.,saniel,,,
+MAZEPT1_AUTO3_FAILURE,Good try! Let's review the order of the <b>Instructions</b> and try again. Do you see a different order to try?,saniel,,,
+MAZEPT1_AUTO3_HINT1,You’ll need to drag and drop those <b>Instructions</b> to put them in a new order.,saniel,,,
+MAZEPT1_AUTO3_HINT2,Press PLAY to execute the <b>Instructions</b> and get through the level.,saniel,,,
+MAZEPT1_AUTO3_HINT3,"And keep in mind, once you press PLAY you can no longer change the <b>Instructions!</b>",saniel,,,
 MAZEPT1_AUTO3_SUCCESS,Excellent! Riley sailed right through! Thanks to your strategic thinking! ,saniel,hurray,,
 MAZEPT1_AUTO4_BACKSTORY,I feel awful that Riley's stuck in there! I'm afraid it's all my own fault. I should know how to get her through this!,saniel,,,
-MAZEPT1_AUTO4_BACKSTORY10,"I've seen that work before, Saniel!  I know you'll dream up a solution. Meanwhile, let's get back to *Sidetrack*!",faber,,,
+MAZEPT1_AUTO4_BACKSTORY10,"I've seen that work before, Saniel!  I know you'll dream up a solution. Meanwhile, let's get back to <b>Sidetrack</b>!",faber,,,
 MAZEPT1_AUTO4_BACKSTORY2,"Saniel, we're all trying to figure this thing out. Don't be so hard on yourself.
 
 How could you know this ancient thing would suddenly light up and swallow Riley? 
@@ -1144,47 +1144,47 @@ MAZEPT1_AUTO4_BACKSTORY5,"Hold on, Saniel, are you saying you built this trap? B
 MAZEPT1_AUTO4_BACKSTORY6,"Yes. that’s exactly what I’m saying. This disaster is on me. I built this trap to confine and shut down rogue AIs!
 
 It works by diverting and exhausting the AI, hence the name.",saniel,,,quests/san-backstory
-MAZEPT1_AUTO4_BACKSTORY7,"By _Sidetrack_ing them. Nice! I'm getting the picture. Saniel, when did you say you made this trap? ",ada,,,quests/san-backstory
+MAZEPT1_AUTO4_BACKSTORY7,"By <i>Sidetrack</i>ing them. Nice! I'm getting the picture. Saniel, when did you say you made this trap? ",ada,,,quests/san-backstory
 MAZEPT1_AUTO4_BACKSTORY8,"Ancient history, Ada. Right now, I'm just trying to get Riley out of there and back to her studies!
 
 I'm reviewing the logs to see when this became active again. Something's in there wreaking havoc on the levels!",saniel,,,quests/san-backstory
-MAZEPT1_AUTO4_BACKSTORY9,"So many times I told Riley, _Don't go poking around in the Windows area_. Now we're really in a fix.
+MAZEPT1_AUTO4_BACKSTORY9,"So many times I told Riley, <i>Don't go poking around in the Windows area</i>. Now we're really in a fix.
 
-I won't let her down! I'm going to solve this the surest way I know: I'm going to go take _a catnap_.",saniel,,,quests/san-backstory
-MAZEPT1_AUTO5,What’s _that_ *Instruction*? The one at position 3. Something's clearly _wrong_ with it!,riley,,,
+I won't let her down! I'm going to solve this the surest way I know: I'm going to go take <i>a catnap</i>.",saniel,,,quests/san-backstory
+MAZEPT1_AUTO5,What’s <i>that</i> <b>Instruction</b>? The one at position 3. Something's clearly <i>wrong</i> with it!,riley,,,
 MAZEPT1_AUTO5_ADA,Try pressing PLAY just to see if you can get through anyway.,ada,,,
 MAZEPT1_AUTO5_ADA_HINT1,Let's just give it a try so we can see what it does. Press PLAY.,ada,,,
 MAZEPT1_AUTO5_FAILURE_ADA,"Okay, I'm always up for trying things, but that def didn't work. ",riley,,,
 MAZEPT1_AUTO5_FAILURE_ADA2,"Right. There must be an error in the code.  To be sure we’ll need to get in there to see the code.
 
-For that, we’ll need the *Instructions* panel key. Oh boy, here we go. Saniel probably has it. ",ada,,,
-MAZEPT1_DIED_RESTART,Ooopff. Let's try to avoid these *Walls*!,riley,,,
+For that, we’ll need the <b>Instructions</b> panel key. Oh boy, here we go. Saniel probably has it. ",ada,,,
+MAZEPT1_DIED_RESTART,Ooopff. Let's try to avoid these <b>Walls</b>!,riley,,,
 MAZEPT1_DRAMA_ADA1,"Hey Faber, wasn't that so intense when Saniel told us about making the trap! ",ada,,,
 MAZEPT1_DRAMA_ADA2,Totally! But don't you think it's strange that he's just telling us this now? Riley's been in this trap for so long!,ada,,,
 MAZEPT1_DRAMA_ADA3,"Exactly. I have a hypothesis I've been investigating. The more I uncover, the more I think I'm onto something.  ",ada,,,
 MAZEPT1_DRAMA_FABER1,"Yeah, Saniel has always been a bit mysterious. Can't you totally picture him stopping rogue AIs in their tracks?",faber,,,
 MAZEPT1_DRAMA_FABER2,"Yeah, why couldn't he just, like, open it? That's totally not like Dr. Rowe. He always has a solution. ",faber,,,
-MAZEPT1_DRAMA_RILEY,"Um, hello? Guys? Can you maybe discuss hypothetical matters later? I'm _actually_ in this maze right now. ",riley,,,
-MAZEPT1_EXIT,"I'm learning tons in here, but I do hope to get back to my _actual_ classes one day. 
+MAZEPT1_DRAMA_RILEY,"Um, hello? Guys? Can you maybe discuss hypothetical matters later? I'm <i>actually</i> in this maze right now. ",riley,,,
+MAZEPT1_EXIT,"I'm learning tons in here, but I do hope to get back to my <i>actual</i> classes one day. 
 
 Hope all this counts for some extra credit in my ""Foundations of Machine Learning"" class, LOL.",riley,,,
-MAZEPT1_LAUNCH_ADA,Go ahead and Launch *Sidetrack*.,ada,,,quests/horse-tale
-MAZEPT1_LAUNCH_ADA_HINT1,Click the *Sidetrack* icon on the desktop.,,,,quests/horse-tale
-MAZEPT1_MANUAL1,"Use the FORWARD, UP, and DOWN *Instructions* to move me through these obstacles.",riley,,,
+MAZEPT1_LAUNCH_ADA,Go ahead and Launch <b>Sidetrack</b>.,ada,,,quests/horse-tale
+MAZEPT1_LAUNCH_ADA_HINT1,Click the <b>Sidetrack</b> icon on the desktop.,,,,quests/horse-tale
+MAZEPT1_MANUAL1,"Use the FORWARD, UP, and DOWN <b>Instructions</b> to move me through these obstacles.",riley,,,
 MAZEPT1_MANUAL1_HINT1,"I always run one space to the right, but I can also move UP or DOWN at the same time.",riley,,,
-MAZEPT1_MANUAL1_HINT2,Watch out for those *Walls*!,riley,,,
-MAZEPT1_MANUAL1_INTRO,"See that *Exit*? That's my dream, to get to that *Exit*. And you can help me get there!",riley,,,
+MAZEPT1_MANUAL1_HINT2,Watch out for those <b>Walls</b>!,riley,,,
+MAZEPT1_MANUAL1_INTRO,"See that <b>Exit</b>? That's my dream, to get to that <b>Exit</b>. And you can help me get there!",riley,,,
 MAZEPT1_MANUAL2,"Hey, that's not fair! Another level? I thought I just had to get the exit! But okay, let's do this. ",riley,,,
 MAZEPT1_MANUAL3,This maze should have only ONE level!,saniel,talk_anger,,
-MAZEPT1_MANUAL4,"*Pits*? This is preposterous!  Riley will have to use her JUMP *Instruction* to cross the *Pits*!
+MAZEPT1_MANUAL4,"<b>Pits</b>? This is preposterous!  Riley will have to use her JUMP <b>Instruction</b> to cross the <b>Pits</b>!
 
-There's a trick to the JUMP though! JUMP only works if the *Pit* is _directly_ in front of you. ",saniel,talk_anger,,
+There's a trick to the JUMP though! JUMP only works if the <b>Pit</b> is <i>directly</i> in front of you. ",saniel,talk_anger,,
 MAZEPT1_MANUAL5,"Well at least I like jumping! But I have to remember, you can only use a JUMP to go forward! ",riley,,,
-MAZEPT1_MOREROBOTS,"Another *Robot*! This type only moves UP, just like the first one only moves DOWN. They glow in the direction they move!",riley,,,
+MAZEPT1_MOREROBOTS,"Another <b>Robot</b>! This type only moves UP, just like the first one only moves DOWN. They glow in the direction they move!",riley,,,
 MAZEPT1_ONEFORWARD,"Ugh, here I am again! At least this time, I have two JUMP *Instructions.",riley,,,
 MAZEPT1_ONEFORWARD_ADA,"Yes, but now you only have one FORWARD Instruction! Where should it go?",faber,,,
-MAZEPT1_ONEFORWARD_ADA_HINT1,"There's one place in this level that you _must_ move forward, not up or down. Use FORWARD there!",faber,,,
-MAZEPT1_ONEJUMP,"Oh, hey Faber, you know, just chillin' in here! Any hope I might see the *Exit* soon?
+MAZEPT1_ONEFORWARD_ADA_HINT1,"There's one place in this level that you <i>must</i> move forward, not up or down. Use FORWARD there!",faber,,,
+MAZEPT1_ONEJUMP,"Oh, hey Faber, you know, just chillin' in here! Any hope I might see the <b>Exit</b> soon?
 
 At least this next level looks familiar. Should be a snap. ",riley,,,
 MAZEPT1_ONEJUMP_ADA,But look closely. You only have one JUMP. Think strategically!,faber,,,
@@ -1198,75 +1198,75 @@ But, srsly, YOU GUYS!!! So glad to see you! That last part was pretty rough!
 Suddenly I'm just here in this maze 24/7. My life rn? Running. Looking for me? Catch me here, running! 
 
 Forward, and up, Forward, and down. On the diagonal, I mean, actually it's not totally uncool. You'll see. ",riley,,,
-MAZEPT1_ROBOTS1,"What are these? *Robot* insects? Insects, really? LOL. `Hi!` `My.` `Name.` `Is.` `Riley.` `What's.` `Your.` `Name.`",riley,,,
+MAZEPT1_ROBOTS1,"What are these? <b>Robot</b> insects? Insects, really? LOL. <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Hi!</span></tt> <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">My.</span></tt> <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Name.</span></tt> <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Is.</span></tt> <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Riley.</span></tt> <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">What's.</span></tt> <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Your.</span></tt> <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Name.</span></tt>",riley,,,
 MAZEPT1_ROBOTS2,"Okay, Riley, very funny. Be careful. Study how they move. Keep in mind that when you move, they're moving too. ",saniel,,,
 MAZEPT1_ROBOTS3,Watch their movement carefully to plan your next move. Think about the space they open when they move.,saniel,,,
-MAZEPT1_ROBOTS3_HINT1,"These *Robots* only move DOWN, never left or right. Try to use their own rules to get past them. ",saniel,,,
+MAZEPT1_ROBOTS3_HINT1,"These <b>Robots</b> only move DOWN, never left or right. Try to use their own rules to get past them. ",saniel,,,
 MAZEPT1_ROBOTS3_HINT2,"And when they walk off the bottom, they reappear at the top! So keep your eye out for that!",saniel,,,
-MAZEPT1_SLIDING,"Oh, truly awesome. So many DOWN *Instructions* and I need to move FORWARD! 
+MAZEPT1_SLIDING,"Oh, truly awesome. So many DOWN <b>Instructions</b> and I need to move FORWARD! 
 
 Hmmm, I wonder what happens when I use DOWN when I'm already at the bottom.
 
 Hope I don't fall off. Maybe I'll sort of slide along the bottom edge? Only one way to find out!",riley,,,
-MAZEPT1_SUCCESS,"I just checked in with Saniel. He was indeed half asleep. But he says we can find that key inside *Lightspeed*. 
+MAZEPT1_SUCCESS,"I just checked in with Saniel. He was indeed half asleep. But he says we can find that key inside <b>Lightspeed</b>. 
 
 He stashed it there long ago ""to keep it safe,"" LOL. Saniel never forgets anything! 
 
 Meet me at the clubhouse, and we’ll go find it together.",faber,hurray,,
-MAZEPT1_WASTEJUMPS,"Think about it, you don't have to have a *Pit* in front of you to use a JUMP. 
+MAZEPT1_WASTEJUMPS,"Think about it, you don't have to have a <b>Pit</b> in front of you to use a JUMP. 
 
 Maybe you could use a JUMP to go forward? You never know when that will come in handy!",ada,,,
 MAZEPT2_ABORT,Come back whenever you're feeling up for it!,ada,,,
 MAZEPT2_FIXANDREORDER,"More spelling errors! Whoever wrote these instructions must have been under pressure to get it done quickly!
 
-It's important to remember that once I fix the errors, I'll still need to get the order of the *Instructions* right.",riley,,,
-MAZEPT2_FIXANDREORDER_FIXED,"Well. I fixed the errors in the code, but I still need to be on my toes here about getting the order of the *Instructions* right.  
+It's important to remember that once I fix the errors, I'll still need to get the order of the <b>Instructions</b> right.",riley,,,
+MAZEPT2_FIXANDREORDER_FIXED,"Well. I fixed the errors in the code, but I still need to be on my toes here about getting the order of the <b>Instructions</b> right.  
 
 All of these details matter if I'm going to get to the exit! It's amazing how if I just pause I can see the way through. Deep! ",riley,,,
-MAZEPT2_FLIP,This key is going to come in so handy! Let's use it to see what's in the *Toolbox*!,,,,
-MAZEPT2_FLIP_HINT1,Press the *Flip* button so we can see the *Sidetrack Toolbox*.,,,,
+MAZEPT2_FLIP,This key is going to come in so handy! Let's use it to see what's in the <b>Toolbox</b>!,,,,
+MAZEPT2_FLIP_HINT1,Press the <b>Flip</b> button so we can see the <b>Sidetrack Toolbox</b>.,,,,
 MAZEPT2_IMPASSABLE,"^ = ^ prhhzzhhhrrr  //\\ 
 Prhzzhhhhzzhhhhrrrrrrrrr //\\  
 myaaaaaoo ^ = ^ ",felixnet,,,quests/cat-loop
-MAZEPT2_IMPASSABLE_FABER,"Whoa, wait a minute! How's Riley gonna get past a solid column of *Walls* like that?",faber,,,
-MAZEPT2_IMPASSABLE_RILEY,A solid *Wall*! Let's see how we can get past this one! Would love to get out some day soon!,riley,,,
-MAZEPT2_INSTRUCTIONS,"Ah. Now we can access the *Instructions* panel. It's the same as the icons on the front, just written in code.
+MAZEPT2_IMPASSABLE_FABER,"Whoa, wait a minute! How's Riley gonna get past a solid column of <b>Walls</b> like that?",faber,,,
+MAZEPT2_IMPASSABLE_RILEY,A solid <b>Wall</b>! Let's see how we can get past this one! Would love to get out some day soon!,riley,,,
+MAZEPT2_INSTRUCTIONS,"Ah. Now we can access the <b>Instructions</b> panel. It's the same as the icons on the front, just written in code.
 
-See that? Someone spelled `jump` wrong, no wonder that *Instruction* doesn't work. The language has to be super exact. 
+See that? Someone spelled <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> wrong, no wonder that <b>Instruction</b> doesn't work. The language has to be super exact. 
 
 Pay attention to each letter and correct the spelling in the code. Then try running the level again!",,,,
-MAZEPT2_INSTRUCTIONS_HINT1,"See in the code where it says `riley.jumpp();`?
+MAZEPT2_INSTRUCTIONS_HINT1,"See in the code where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jumpp();</span></tt>?
 
-See how jump has two p's? There's only one *p* in jump!",,,,
-MAZEPT2_INSTRUCTIONS_HINT2,Change it to say `riley.jump();` Then flip back over and press PLAY.,,,,
-MAZEPT2_LAUNCH,You and Faber found the key? That's going to really help us! Launch *Sidetrack*.,,,,
-MAZEPT2_LAUNCH_HINT1,Go to the desktop and click on the *Sidetrack* icon.,,,,
+See how jump has two p's? There's only one <b>p</b> in jump!",,,,
+MAZEPT2_INSTRUCTIONS_HINT2,"Change it to say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump();</span></tt> Then flip back over and press PLAY.",,,,
+MAZEPT2_LAUNCH,You and Faber found the key? That's going to really help us! Launch <b>Sidetrack</b>.,,,,
+MAZEPT2_LAUNCH_HINT1,Go to the desktop and click on the <b>Sidetrack</b> icon.,,,,
 MAZEPT2_LEVELS2,"Awesome! That was scary, but thanks to you, I got through.",riley,,,
 MAZEPT2_LEVELS2_B,"Looks like this level has another error, though! Two of them! We need to fix both of them.",riley,,,
-MAZEPT2_LEVELS2_B_HINT1,Look at the *Instructions* code by flipping the app to the back.,riley,,,
-MAZEPT2_LEVELS2_B_HINT2,Then look for *Instructions* that are spelled wrong or that don't match the other *Instructions*.,riley,,,
-MAZEPT2_LEVELS2_B_HINT3,See where it says `riley.fooorward();`? Forward has way too many o's! Change it to `riley.forward();`,riley,,,
+MAZEPT2_LEVELS2_B_HINT1,Look at the <b>Instructions</b> code by flipping the app to the back.,riley,,,
+MAZEPT2_LEVELS2_B_HINT2,Then look for <b>Instructions</b> that are spelled wrong or that don't match the other <b>Instructions</b>.,riley,,,
+MAZEPT2_LEVELS2_B_HINT3,"See where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.fooorward();</span></tt>? Forward has way too many o's! Change it to <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.forward();</span></tt>",riley,,,
 MAZEPT2_LEVELS2_B_HINT4,"Oh, wait, there's another one. Do you see it? Code is case sensitive so that's always something to check.
 
-It should be `riley.jump();` not `riley.Jump();`  See that? lower case j: `jump` not `Jump`    *=^.‿.^=*",riley,,,
-MAZEPT2_LEVELS3,"Hmm, look carefully. There’s no way this set of *Instructions* could _ever_ finish this level.
+It should be <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump();</span></tt> not <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.Jump();</span></tt>  See that? lower case j: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> not <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Jump</span></tt>    <b>=^.‿.^=</b>",riley,,,
+MAZEPT2_LEVELS3,"Hmm, look carefully. There’s no way this set of <b>Instructions</b> could <i>ever</i> finish this level.
 
-But good news, click the *Flip*button, and you can type any *Instructions* you want!
+But good news, click the <b>Flip</b>button, and you can type any <b>Instructions</b> you want!
 
 This gives you more choice. You don’t have to just rearrange the ones you’re given anymore.",faber,,,
-MAZEPT2_LEVELS3_HINT1,Flip to hack so you can edit the code for the *Instructions.*,faber,,,
-MAZEPT2_LEVELS3_HINT2,"Because this level has a *Pit*, you'll need to add at least one `jump` Instruction. ",faber,,,
-MAZEPT2_LEVELS3_HINT3,Delete one of the *Instructions* and replace it with `riley.jump();` See how that works?,faber,,,
-MAZEPT2_LEVELS3_HINT4,"Make sure when you're done that there are 8 *Instructions* total. No more, no less!",faber,,,
+MAZEPT2_LEVELS3_HINT1,Flip to hack so you can edit the code for the <b>Instructions.</b>,faber,,,
+MAZEPT2_LEVELS3_HINT2,"Because this level has a <b>Pit</b>, you'll need to add at least one <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> Instruction. ",faber,,,
+MAZEPT2_LEVELS3_HINT3,"Delete one of the <b>Instructions</b> and replace it with <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump();</span></tt> See how that works?",faber,,,
+MAZEPT2_LEVELS3_HINT4,"Make sure when you're done that there are 8 <b>Instructions</b> total. No more, no less!",faber,,,
 MAZEPT2_LEVELS5,"Hold on, Riley, Remember how my research files were missing a while ago? I think I see them!
 
-Yes, that's totally the files I've been looking for. They're over near the *Exit*! How did they get in here? 
+Yes, that's totally the files I've been looking for. They're over near the <b>Exit</b>! How did they get in here? 
 
 You said you saw strange activity in the System area, remember, Riley? I wonder how it's all connected! ",ada,,,
 MAZEPT2_LEVELS5_RILEY,"Whoa, yes, I def remember that. That's why I went back into the System. I was trying to help you find your files. 
 
 And well, here we are! How did the files...never mind, I'll just go snap them up right now! ",riley,,,
-MAZEPT2_QUESTION,Let's get back into *Sidetrack* and work with Riley so she can get out!,ada,,,
+MAZEPT2_QUESTION,Let's get back into <b>Sidetrack</b> and work with Riley so she can get out!,ada,,,
 MAZEPT2_QUEST_ACCEPT,"Okay, let's go!",,,,
 MAZEPT2_RESEARCH1,"Okay, I'm transmitting the files to you now. You should see them soon.
 
@@ -1274,18 +1274,18 @@ Hope they make it through okay. So many strange things going on in here!",riley,
 MAZEPT2_RESEARCH2,"Okay, whew! I'm receiving them now. Wow, thanks Riley! You're the best! I really can use these files right now! 
 
 So weird though. I wonder how they got in there? ",ada,,,
-MAZEPT2_SUCCESS,"I have an idea to get past that wall. We can try out an obscure *Instruction* I recall from my missing research. 
+MAZEPT2_SUCCESS,"I have an idea to get past that wall. We can try out an obscure <b>Instruction</b> I recall from my missing research. 
 
 Come meet me in the Clubhouse and we'll go track it down together.",ada,,,
-MAZEPT3_ABORT,Come back when you're ready to see the powerful new *Instruction*  Saniel has for Riley! ,ada,,,
+MAZEPT3_ABORT,Come back when you're ready to see the powerful new <b>Instruction</b>  Saniel has for Riley! ,ada,,,
 MAZEPT3_DRAMA,Sssshhhhhhh! I hear something. Do you hear that?,riley,,,
-MAZEPT3_DRAMA_ADA,"Whatever it is, maybe that's what’s making this maze harder! This level is really, um, _next level_!",ada,,,
+MAZEPT3_DRAMA_ADA,"Whatever it is, maybe that's what’s making this maze harder! This level is really, um, <i>next level</i>!",ada,,,
 MAZEPT3_DRAMA_FABER,"There it is again! Riley, can you hear that? Is something in there with you?",faber,,,
-MAZEPT3_DRAMA_FELIX,^__MEOW__^ ,felixnet,,,quests/glitch-meow
+MAZEPT3_DRAMA_FELIX,^<i>_MEOW</i>_^ ,felixnet,,,quests/glitch-meow
 MAZEPT3_DRAMA_RILEY,"Yes! I saw something – I wouldn't quite say it's a cat – it went by so fast. I'm so not worried about it. 
 
-Hello? I've dodged *Robot* beetles, sailed over *Pits* and moved *Walls*! Pretty sure I can handle this _house_cat.",riley,,,
-MAZEPT3_FELIXINTRO,^__MEOW__^ ,felixnet,,,
+Hello? I've dodged <b>Robot</b> beetles, sailed over <b>Pits</b> and moved <b>Walls</b>! Pretty sure I can handle this <i>house</i>cat.",riley,,,
+MAZEPT3_FELIXINTRO,^<i>_MEOW</i>_^ ,felixnet,,,
 MAZEPT3_FELIXINTRO1,"Ah!  There it is again!
 
 What if this is the AI Saniel was telling us about? Maybe it's still in there! 
@@ -1299,52 +1299,52 @@ Maybe whatever's been in there has been causing all these aberrations! ",faber,,
 MAZEPT3_FELIXINTRO4,"Well, we can't figure it out right now. We've got to get  Riley through this next level. 
 
 Which of course, the AI has once again made super difficult!",ada,,,
-MAZEPT3_FELIXINTRO_FAILURE,"I don't see any way that _any_ set of *Instructions* could ever solve this level!
+MAZEPT3_FELIXINTRO_FAILURE,"I don't see any way that <i>any</i> set of <b>Instructions</b> could ever solve this level!
 
 That AI has made it basically impossible, at least with the tools we have. ",faber,,,
-MAZEPT3_LAUNCH,"OK, launch *Sidetrack*!",,,,
-MAZEPT3_QUESTION,Ready to dive back into *Sidetrack* to help Riley free herself from the maze?,ada,,,
+MAZEPT3_LAUNCH,"OK, launch <b>Sidetrack</b>!",,,,
+MAZEPT3_QUESTION,Ready to dive back into <b>Sidetrack</b> to help Riley free herself from the maze?,ada,,,
 MAZEPT3_QUEST_ACCEPT,"Okay, let's get started!",ada,,,
-MAZEPT3_RILEYPUSH,"Check out this `push` *Instruction* Estelle told me about! So cool. 
+MAZEPT3_RILEYPUSH,"Check out this <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> <b>Instruction</b> Estelle told me about! So cool. 
 
-The *Wall* just moves right out of the way! That's what I'm talking about! ",riley,,,
-MAZEPT3_RILEYPUSH2,"Type in `riley.push();` That's the cool new *Instruction*  that Estelle found in Ada's research about Leviathan.
+The <b>Wall</b> just moves right out of the way! That's what I'm talking about! ",riley,,,
+MAZEPT3_RILEYPUSH2,"Type in <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.push();</span></tt> That's the cool new <b>Instruction</b>  that Estelle found in Ada's research about Leviathan.
 
-You might as well replace that `riley.jump;` at position 2, right? We won't need a  `jump` *Instruction* in this level.",riley,,,
-MAZEPT3_RILEYPUSH2_HINT1,"When I’m lined up with a *Wall*, `push` is exactly the *Instruction* I need. 
+You might as well replace that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump;</span></tt> at position 2, right? We won't need a  <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> <b>Instruction</b> in this level.",riley,,,
+MAZEPT3_RILEYPUSH2_HINT1,"When I’m lined up with a <b>Wall</b>, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> is exactly the <b>Instruction</b> I need. 
 
-Suddenly I'm so strong I can move *Walls*! LOL Let’s give it a try! ",riley,,,
-MAZEPT3_RILEYPUSH2_HINT2,"When you add a `push` *Instruction*, you'll see it on the front of the app.  
+Suddenly I'm so strong I can move <b>Walls</b>! LOL Let’s give it a try! ",riley,,,
+MAZEPT3_RILEYPUSH2_HINT2,"When you add a <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> <b>Instruction</b>, you'll see it on the front of the app.  
 
-That means you can drag and drop the *Instruction* into a different position. ",riley,,,
-MAZEPT3_RILEYPUSH3_B,"Look at all these `jump`s! Not useful at all! _Obvi_ you can't jump over a *Wall* or a *Robot!*
+That means you can drag and drop the <b>Instruction</b> into a different position. ",riley,,,
+MAZEPT3_RILEYPUSH3_B,"Look at all these <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt>s! Not useful at all! <i>Obvi</i> you can't jump over a <b>Wall</b> or a <b>Robot!</b>
 
-`jump` only works for *Pits*. However, keep in mind that you _can_ `push` *Walls* and *Robots*! 
+<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> only works for <b>Pits</b>. However, keep in mind that you <i>can</i> <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> <b>Walls</b> and <b>Robots</b>! 
 
-Whoever put all these `jumps` here must not have had access to the `push` *Instruction*. ",riley,,,
-MAZEPT3_RILEYPUSH3_B_HINT1,"If I change all the `jump` *Instructions* to `push` in the Hack panel, I think this sequence of *Instructions* will work!",riley,,,
-MAZEPT3_RILEYPUSH3_C,"If the space to the right of what you're pushing is blocked, `push` won't work!",estelle,,,
-MAZEPT3_RILEYPUSH3_C_HINT1,Rewrite the *Instructions* in the Hack panel until you've got the *Instructions* you need.,estelle,,,
-MAZEPT3_RILEYPUSH3_C_PUSHINTRO,"One more thing – for `push` to work, you need to have space next to the obstacle you're pushing. 
+Whoever put all these <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jumps</span></tt> here must not have had access to the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> <b>Instruction</b>. ",riley,,,
+MAZEPT3_RILEYPUSH3_B_HINT1,"If I change all the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> <b>Instructions</b> to <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> in the Hack panel, I think this sequence of <b>Instructions</b> will work!",riley,,,
+MAZEPT3_RILEYPUSH3_C,"If the space to the right of what you're pushing is blocked, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> won't work!",estelle,,,
+MAZEPT3_RILEYPUSH3_C_HINT1,Rewrite the <b>Instructions</b> in the Hack panel until you've got the <b>Instructions</b> you need.,estelle,,,
+MAZEPT3_RILEYPUSH3_C_PUSHINTRO,"One more thing – for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> to work, you need to have space next to the obstacle you're pushing. 
 
-In other words, whatever you `push` needs a space to move to! It makes sense, right?
+In other words, whatever you <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> needs a space to move to! It makes sense, right?
 
-To get through this level, only use `push` for *one* column of *Walls* at a time.",estelle,,,
+To get through this level, only use <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> for <b>one</b> column of <b>Walls</b> at a time.",estelle,,,
 MAZEPT3_RILEYPUSH4,Brilliant work! This trap Saniel made is quite challenging!,ada,,,
-MAZEPT3_RILEYPUSH5,"That `push` *Instruction*  def did the trick! Estelle basically snaps her fingers and *Walls* move! 
+MAZEPT3_RILEYPUSH5,"That <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> <b>Instruction</b>  def did the trick! Estelle basically snaps her fingers and <b>Walls</b> move! 
 
-And it's interesting that the sketch for a Sidetrack *Instruction* was in Leviathan's notebooks. ",faber,,,
+And it's interesting that the sketch for a Sidetrack <b>Instruction</b> was in Leviathan's notebooks. ",faber,,,
 MAZEPT3_RILEYPUSH6,"Yes, it certainly is an odd coincidence! Are you thinking what I'm thinking? Maybe it's not so random? 
 
 I mean, think about it. First Saniel tells us he built the trap.
 
-And then we find this secret `push` *Instruction* for the trap in Leviathan's code sketchbook. ",ada,,,
+And then we find this secret <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> <b>Instruction</b> for the trap in Leviathan's code sketchbook. ",ada,,,
 MAZEPT3_RILEYPUSH7,Oh snap! Maybe Saniel and Leviathan worked together! ,faber,,,
 MAZEPT3_RILEYPUSH8,"Or let's take that one step further, Faber. Maybe Saniel is Levia –",ada,,,
 MAZEPT3_RILEYPUSH9,"Mind. Blown. Saniel is Leviathan? Leviathan is Saniel? Whaaat. What if that's true?  
 
 Okay, whoa, back to Riley! Who knows what challenges she still faces in there! Riley, we're with you all the way!",faber,,,
-MAZEPT3_RILEYPUSH_HINT1,Click the *Flip* button.,riley,,,
+MAZEPT3_RILEYPUSH_HINT1,Click the <b>Flip</b> button.,riley,,,
 MAZEPT3_SUCCESS,"Whew, so where are we? Must say I really needed that nap! Everything is much clearer now!  
 
 Just in time, too! This level is indeed unbeatable, but I have a new strategy to hack it!
@@ -1365,16 +1365,16 @@ I see it all too clearly now. This whole thing — It's all connected — this w
 
 All this chaos around the Conservatory was all part of the AI's scheme to escape!",saniel,,,quests/ep4end4
 MAZEPT4_END4,"Whatever it is, it must be pretty smart if it outsmarted all of us!",riley,,,quests/ep4end4
-MAZEPT4_FLIP,"That key you and Saniel recovered from *Fizzics* will unlock Unit editing. 
+MAZEPT4_FLIP,"That key you and Saniel recovered from <b>Fizzics</b> will unlock Unit editing. 
 
 That's how Riley will get past this level.",,,,
-MAZEPT4_FLIP_HINT1,Press the *Flip* button on *Sidetrack* so we can see *Sidetrack's Toolbox*.,,,,
-MAZEPT4_LAUNCH,Let's launch *Sidetrack*.,ada,,,
-MAZEPT4_LAUNCH_HINT1,Click the *Sidetrack* icon. ,ada,,,
-MAZEPT4_LEVELS2,"I remember this level. It used to be so hard! But now I can edit *Instructions*. 
+MAZEPT4_FLIP_HINT1,Press the <b>Flip</b> button on <b>Sidetrack</b> so we can see <b>Sidetrack's Toolbox</b>.,,,,
+MAZEPT4_LAUNCH,Let's launch <b>Sidetrack</b>.,ada,,,
+MAZEPT4_LAUNCH_HINT1,Click the <b>Sidetrack</b> icon. ,ada,,,
+MAZEPT4_LEVELS2,"I remember this level. It used to be so hard! But now I can edit <b>Instructions</b>. 
 
-And I have `push`, and I can even edit *Units* to change both *Robot* types. This should be a breeze!",riley,,,
-MAZEPT4_LEVELS3,"Don't forget when you edit *Units*, you can change the direction of BOTH robot types.  
+And I have <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt>, and I can even edit <b>Units</b> to change both <b>Robot</b> types. This should be a breeze!",riley,,,
+MAZEPT4_LEVELS3,"Don't forget when you edit <b>Units</b>, you can change the direction of BOTH robot types.  
 
 That's sometimes necessary.",saniel,,,
 MAZEPT4_LEVELS3_ADA,"Saniel, Faber and I have a few questions for you.",ada,,,
@@ -1386,32 +1386,32 @@ It brushed past me in that last level. I'm not seeing it now, but I know it's ar
 MAZEPT4_LEVELS4_SANIEL,"Okay, let's be very careful in this level. The AI is probably tracking you closely, Riley.  
 
 It's imperative that we keep this AI contained! ",saniel,,,quests/ep4end1
-MAZEPT4_LEVELS5,"Huge bummer! All the *Instructions* in this level are missing! 
+MAZEPT4_LEVELS5,"Huge bummer! All the <b>Instructions</b> in this level are missing! 
 
-You'll need to type the *Instructions* yourself from scratch.",faber,,,quests/ep4end1
-MAZEPT4_LEVELS5_RILEY,"That AI-whatever */\‿/\* 
-is right behind *∫∫* me. 
+You'll need to type the <b>Instructions</b> yourself from scratch.",faber,,,quests/ep4end1
+MAZEPT4_LEVELS5_RILEY,"That AI-whatever <b>/\‿/\</b> 
+is right behind <b>∫∫</b> me. 
 
-I think it's following me*/ᐠ｡｡ᐟ\*!",riley,,,quests/ep4end1
+I think it's following me<b>/ᐠ｡｡ᐟ\</b>!",riley,,,quests/ep4end1
 MAZEPT4_LEVELS5_SANIEL,"Okay, Riley. We're tracking you super closely now. This is the level that's going to finally lead to the outside! 
 
-When you reach that *Exit*, you're going to need to jump clear! Don't look back now, Riley!",saniel,,,quests/ep4end1
+When you reach that <b>Exit</b>, you're going to need to jump clear! Don't look back now, Riley!",saniel,,,quests/ep4end1
 MAZEPT4_QUESTION,"Ready to get back in to the Sidetrack app and help Riley escape, once and for all?",ada,,,
 MAZEPT4_QUEST_ACCEPT,Let's do it!,ada,,,
 MAZEPT4_SUCCESS,"I understand your admiration, to a degree, Riley, It learns incredibly fast. That's exactly what it does.  
 
-And I do believe it played us, Riley. But we're _onto_ it now. 
+And I do believe it played us, Riley. But we're <i>onto</i> it now. 
 
 The whole Conservatory is going to need to be on high alert with an AI on the loose! 
 
 I'm counting on you, Riley, to keep your sharp eye out for any unusual activity. ",saniel,,,quests/ep4end5
-MAZEPT4_UNITS,"Look at that. With this panel, we can edit ""Units"" which in this case means *Robots*!
+MAZEPT4_UNITS,"Look at that. With this panel, we can edit ""Units"" which in this case means <b>Robots</b>!
 
-We can change which way the *Robots* face!",,,,
-MAZEPT4_UNITS_HINT1,"The difficulty in this level is that the *Robots* are always in the way. 
+We can change which way the <b>Robots</b> face!",,,,
+MAZEPT4_UNITS_HINT1,"The difficulty in this level is that the <b>Robots</b> are always in the way. 
 
 But if you flip which direction they face from DOWN to UP, Riley will be able to get past them!",,,,
-MAZEPT4_UNITS_HINT2,"Set *Robot* Type A to UP. You might also need to change *Instructions* while you're hacking. 
+MAZEPT4_UNITS_HINT2,"Set <b>Robot</b> Type A to UP. You might also need to change <b>Instructions</b> while you're hacking. 
 
 Then flip back around and press Play.",,,,
 OLD_FIRSTCONTACT_FLIPBACK,Nice hack!,,,,
@@ -1421,49 +1421,49 @@ OLD_FIRSTCONTACT_GOAL_HINT1,Match it by moving the sliders and the doors will un
 OLD_FIRSTCONTACT_GOAL_HINT2,Keep trying! Move the sliders until the gold wave fits into the groove. ,,,,
 OLD_FIRSTCONTACT_WELCOME,How do you open a locked gate with no key?,ada  ,,quests/ada-intro,
 OLD_FIRSTCONTACT_WELCOME_HINT1,What's that button on the left?,,,,
-OSADVENTURE_1,"Once again, the humble Terminal. Now, you already know that the text on the left is called the *prompt*, which tells you where you are in the filesystem. Let's type a quick `ls` to get our bearings.",saniel,,,
-OSADVENTURE_10,"Right - `nano README`, or whatever you want to call it. This file, when read, will welcome your user to the adventure you are about to create. Did you ever read one of those stories where you can choose your own path, and you had to flip back and forth between pages? I still love re-reading the old sci-fi ones, sometimes.",saniel,,,
+OSADVENTURE_1,"Once again, the humble Terminal. Now, you already know that the text on the left is called the <b>prompt</b>, which tells you where you are in the filesystem. Let's type a quick <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ls</span></tt> to get our bearings.",saniel,,,
+OSADVENTURE_10,"Right - <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">nano README</span></tt>, or whatever you want to call it. This file, when read, will welcome your user to the adventure you are about to create. Did you ever read one of those stories where you can choose your own path, and you had to flip back and forth between pages? I still love re-reading the old sci-fi ones, sometimes.",saniel,,,
 OSADVENTURE_11,"Well, that's the type of thing we're going to create, today. For now we can just type ""Welcome to my adventure!"" You can spend as much time as you like coming up with a more detailed introduction later.",saniel,,,
-OSADVENTURE_12,"Remember to save the file before you try to exit (`Ctrl+O`). Hit `Enter` when you see the file name pop up at the bottom, and then you can safely close the file (`Ctrl+X`).",saniel,,,
-OSADVENTURE_13,Let's make sure that worked - type `cat README` to see what the file says.,saniel,,,
-OSADVENTURE_14,Excellent. Now let's make another file called *castle* - type `nano castle`,saniel,,,
+OSADVENTURE_12,"Remember to save the file before you try to exit (<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Ctrl+O</span></tt>). Hit <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Enter</span></tt> when you see the file name pop up at the bottom, and then you can safely close the file (<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Ctrl+X</span></tt>).",saniel,,,
+OSADVENTURE_13,"Let's make sure that worked - type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">cat README</span></tt> to see what the file says.",saniel,,,
+OSADVENTURE_14,"Excellent. Now let's make another file called <b>castle</b> - type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">nano castle</span></tt>",saniel,,,
 OSADVENTURE_15,"Let's make this file say ""Welcome to the castle! The drawbridge lowers as you approach, and you walk hesitantly inside.""",saniel,,,
-OSADVENTURE_16,Make sure to save (`Ctrl+O`) and exit (`Ctrl+X`) when you're done.,saniel,,,
-OSADVENTURE_17,Now type `ls` - you should see both *README* and *castle* in your *Adventure* directory.,saniel,,,
-OSADVENTURE_18,"Oh, wait. Fiddlesticks. I actually meant to create a a *directory* named *castle*, not a file. How could the player ""go inside"" the castle if it was a file?",saniel,,,
+OSADVENTURE_16,"Make sure to save (<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Ctrl+O</span></tt>) and exit (<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Ctrl+X</span></tt>) when you're done.",saniel,,,
+OSADVENTURE_17,"Now type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ls</span></tt> - you should see both <b>README</b> and <b>castle</b> in your <b>Adventure</b> directory.",saniel,,,
+OSADVENTURE_18,"Oh, wait. Fiddlesticks. I actually meant to create a a <b>directory</b> named <b>castle</b>, not a file. How could the player ""go inside"" the castle if it was a file?",saniel,,,
 OSADVENTURE_19,My mistake - now we'll need to delete this file and create a directory instead.,saniel,,,
 OSADVENTURE_2,"There's your home directory, well done. You've done solid work learning to navigate the existing filesystem, but did you know you can also create your own filesystem?",saniel,,,
-OSADVENTURE_20,"Now, I'm sure you have deleted files using a graphical interface before - just press *Delete* and the file goes into the ""trash bin"". Well, this system is different. There's no safety net in the Terminal, if you delete something - *ZAP.* Nevertheless, I think it's time that you were given this power. Everyone needs to shoulder this responsibility eventually.",saniel,,,
-OSADVENTURE_21,"The command is `rm`. Used carelessly, this command has been known to trash entire filesystems, so always think very hard before you type it. In our case, here, we know exactly what we want to get rid of, so please type `rm castle`. ",saniel,,,
-OSADVENTURE_22,"Good work, I knew I could trust you with this power. You might have guessed that `rm` stands for *remove*, and if you type `ls` into the command line, you will see that the file has indeed been removed!",saniel,,,
-OSADVENTURE_23,"That file has been cast into the depths of the hard drive, never to return. The space it occupied has been marked as 'free', and any program might overwrite it at any second. Using `rm` on individual files is quite safe, as long as you are very sure of what's in those files. It's when you start trying to delete multiple files that people get into terrible, terrible situations.",saniel,,,
-OSADVENTURE_24,"Ahem, that's enough of my dire warnings,  I think. Back to our adventure! We were going to make a directory called *castle*...",saniel,,,
-OSADVENTURE_25,"So, let's `mkdir castle` and then `cd castle` so we can continue.",saniel,,,
-OSADVENTURE_26,"Now that we're inside *castle*, we can make another *README* file (or whatever you'd like to call it) that welcomes the user to the castle - so, `nano README`",saniel,,,
+OSADVENTURE_20,"Now, I'm sure you have deleted files using a graphical interface before - just press <b>Delete</b> and the file goes into the ""trash bin"". Well, this system is different. There's no safety net in the Terminal, if you delete something - <b>ZAP.</b> Nevertheless, I think it's time that you were given this power. Everyone needs to shoulder this responsibility eventually.",saniel,,,
+OSADVENTURE_21,"The command is <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">rm</span></tt>. Used carelessly, this command has been known to trash entire filesystems, so always think very hard before you type it. In our case, here, we know exactly what we want to get rid of, so please type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">rm castle</span></tt>. ",saniel,,,
+OSADVENTURE_22,"Good work, I knew I could trust you with this power. You might have guessed that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">rm</span></tt> stands for <b>remove</b>, and if you type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ls</span></tt> into the command line, you will see that the file has indeed been removed!",saniel,,,
+OSADVENTURE_23,"That file has been cast into the depths of the hard drive, never to return. The space it occupied has been marked as 'free', and any program might overwrite it at any second. Using <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">rm</span></tt> on individual files is quite safe, as long as you are very sure of what's in those files. It's when you start trying to delete multiple files that people get into terrible, terrible situations.",saniel,,,
+OSADVENTURE_24,"Ahem, that's enough of my dire warnings,  I think. Back to our adventure! We were going to make a directory called <b>castle</b>...",saniel,,,
+OSADVENTURE_25,"So, let's <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">mkdir castle</span></tt> and then <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">cd castle</span></tt> so we can continue.",saniel,,,
+OSADVENTURE_26,"Now that we're inside <b>castle</b>, we can make another <b>README</b> file (or whatever you'd like to call it) that welcomes the user to the castle - so, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">nano README</span></tt>",saniel,,,
 OSADVENTURE_27,"Back to what we typed before in that deleted file - ""Welcome to the castle! The drawbridge lowers as you approach, and you walk hesitantly inside. There are two doors in front of you.""",saniel,,,
 OSADVENTURE_28,"This is where things get interesting. We can present the user with two different 'doors' (in this case, directories) which lead to different places. Any ideas on how to do that?",saniel,,,
-OSADVENTURE_29,You might have guessed that we'll do it through 2 more directories - Type `mkdir Door1` and then `mkdir Door2`,saniel,,,
-OSADVENTURE_3,"The filesystem is just a collection of files and folders. Now that you know how to use `nano` to create files, the last piece you're missing is how to create folders, which are also often called *directories*.",saniel,,,
-OSADVENTURE_30,"Now when the user types `ls` they will see two new directories, and they will have to choose which to go into. Let's `cd Door1` and make something interesting behind it.",saniel,,,
-OSADVENTURE_31,This is where you get to drive the adventure - what do you think is behind Door 1? Use `nano` to create a *README* file that describes what's in this room.,saniel,,,
-OSADVENTURE_32,"Excellent! Now we want to go back up to the *castle* directory and go into *Door2*. You have been taught how to go back up a directory, correct? Let's have a quick referesher, just in case.",saniel,,,
-OSADVENTURE_33,"You can't type `cd castle`, because *castle* is not inside *Door1*, so you'll need to use the universal command `cd ..` - Note the space between *cd* and *..*  This command will always take you to the ""parent"" directory of the one you're in. For *Door1*, that would be *castle*.",saniel,,,
-OSADVENTURE_34,There you go! We're back in the castle - you can check the prompt and use `ls` just to make sure. Now let's `cd Door2` so we can build out more of our adventure.,saniel,,,
+OSADVENTURE_29,"You might have guessed that we'll do it through 2 more directories - Type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">mkdir Door1</span></tt> and then <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">mkdir Door2</span></tt>",saniel,,,
+OSADVENTURE_3,"The filesystem is just a collection of files and folders. Now that you know how to use <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">nano</span></tt> to create files, the last piece you're missing is how to create folders, which are also often called <b>directories</b>.",saniel,,,
+OSADVENTURE_30,"Now when the user types <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ls</span></tt> they will see two new directories, and they will have to choose which to go into. Let's <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">cd Door1</span></tt> and make something interesting behind it.",saniel,,,
+OSADVENTURE_31,"This is where you get to drive the adventure - what do you think is behind Door 1? Use <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">nano</span></tt> to create a <b>README</b> file that describes what's in this room.",saniel,,,
+OSADVENTURE_32,"Excellent! Now we want to go back up to the <b>castle</b> directory and go into <b>Door2</b>. You have been taught how to go back up a directory, correct? Let's have a quick referesher, just in case.",saniel,,,
+OSADVENTURE_33,"You can't type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">cd castle</span></tt>, because <b>castle</b> is not inside <b>Door1</b>, so you'll need to use the universal command <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">cd ..</span></tt> - Note the space between <b>cd</b> and <b>..</b>  This command will always take you to the ""parent"" directory of the one you're in. For <b>Door1</b>, that would be <b>castle</b>.",saniel,,,
+OSADVENTURE_34,"There you go! We're back in the castle - you can check the prompt and use <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ls</span></tt> just to make sure. Now let's <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">cd Door2</span></tt> so we can build out more of our adventure.",saniel,,,
 OSADVENTURE_35,"Behind Door 2, begin by creating a README file that explains what the user sees. This time, let's have the adventure continue - maybe the user can either turn ""Right"" or ""Left""?",saniel,,,
 OSADVENTURE_36,"After you create the README file, create the new directories (using mkdir) that the user will navigate into next.",saniel,,,
 OSADVENTURE_37,"From here on, the adventure is yours to create! Is your castle magical? Haunted? An elaborate hologram? A complete virtual reality? The only limit is your imagination.",saniel,,,
 OSADVENTURE_38,I've got a few tips to help you along:,saniel,,,
 OSADVENTURE_39,"1) Remember that you can use ""cd .."" to travel back up one directory.",saniel,,,
-OSADVENTURE_4,"I mention that last part again, because the command is called `mkdir` - *M*a*k*e *Dir*ectory. I confess I'm surprised the original system designers bothered to make it more than 2 letters long - it feels positively luxurious!",saniel,,,
-OSADVENTURE_40,"2) If you make a mistake, you can use ""rm."" If you need to remove a directory, you will need type `rm -r DirectoryName`, using the actual name of the directory. Be careful, though. Once it's `rm`ed, that's the end of it.",saniel,,,
+OSADVENTURE_4,"I mention that last part again, because the command is called <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">mkdir</span></tt> - <b>M</b>a<b>k</b>e <b>Dir</b>ectory. I confess I'm surprised the original system designers bothered to make it more than 2 letters long - it feels positively luxurious!",saniel,,,
+OSADVENTURE_40,"2) If you make a mistake, you can use ""rm."" If you need to remove a directory, you will need type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">rm -r DirectoryName</span></tt>, using the actual name of the directory. Be careful, though. Once it's <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">rm</span></tt>ed, that's the end of it.",saniel,,,
 OSADVENTURE_41,"3) It might be helpful to plan out your filesystem by drawing a map. Write ""Adventure"" at the top of your page, and then draw a line down to the word ""castle"". From there, you can draw two lines branching down - one to ""Door1"" and the other to ""Door2"", etc.",saniel,,,
 OSADVENTURE_42,"You're quite a talented student, and I'm looking forward to playing your adventure. I'm sure your friends are as well!",saniel,,,
-OSADVENTURE_5,"Now, let's give that a try - We're going on an adventure today, so let's make a directory called *Adventure* - type `mkdir Adventure`",saniel,,,
-OSADVENTURE_6,"Well done! If you type `ls` again, you can see that there is a new entry called Adventure. To confirm that it is indeed a directory, see if we can `cd` into it. Do you remember how?",saniel,,,
-OSADVENTURE_7,That's right - it's `cd Adventure`. Let's go inside. ,saniel,,,
-OSADVENTURE_8,"Now, if you look at the prompt, you will see that we are indeed inside `Adventure.` If you're like me, you might have already typed `ls` out of habit to see what's inside this directory. ",saniel,,,
-OSADVENTURE_9,"There's nothing inside, of course, since we just created it. Let's put something inside, though, a text file named *README*. Do you remember how to create a text file?",saniel,,,
-OSADVENTURE_GREET,"Greetings, *{{user_name}}*. So you're back for more, are you? Excellent - I see real potential in you, and I've got just the thing.",saniel,,,
+OSADVENTURE_5,"Now, let's give that a try - We're going on an adventure today, so let's make a directory called <b>Adventure</b> - type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">mkdir Adventure</span></tt>",saniel,,,
+OSADVENTURE_6,"Well done! If you type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ls</span></tt> again, you can see that there is a new entry called Adventure. To confirm that it is indeed a directory, see if we can <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">cd</span></tt> into it. Do you remember how?",saniel,,,
+OSADVENTURE_7,"That's right - it's <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">cd Adventure</span></tt>. Let's go inside. ",saniel,,,
+OSADVENTURE_8,"Now, if you look at the prompt, you will see that we are indeed inside <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Adventure.</span></tt> If you're like me, you might have already typed <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ls</span></tt> out of habit to see what's inside this directory. ",saniel,,,
+OSADVENTURE_9,"There's nothing inside, of course, since we just created it. Let's put something inside, though, a text file named <b>README</b>. Do you remember how to create a text file?",saniel,,,
+OSADVENTURE_GREET,"Greetings, <b>{{user_name}}</b>. So you're back for more, are you? Excellent - I see real potential in you, and I've got just the thing.",saniel,,,
 OSADVENTURE_LAUNCH,Let's launch the Terminal.,saniel,,,
 OSADVENTURE_QUEST_DESCRIPTION,"Saniel teaches you how to create your own file system, Choose-Your-Own-Adventure style!",,,,
 OSADVENTURE_QUEST_NAME,Building Your Own Adventure!,,,,
@@ -1496,13 +1496,13 @@ OSINTRO_WRAPUP,"He's a bit fierce at first, but his heart's definitely in the ri
 Well, time for me to bounce! My research is calling me ;) ",ada,,,quests/saniel-theme-start
 POWERUPA1_ABORT,Check back later and we can keep exploring. ,,,,
 POWERUPA1_ABOUTTOPLAY,Start playing the level.,,,,
-POWERUPA1_ABOUTTOPLAY_HINT1,Press *Restart.* ,,,,
-POWERUPA1_CODE,"Click on the Spawn tab. See that `spawnPowerup()` function? That's what creates Power-ups.
+POWERUPA1_ABOUTTOPLAY_HINT1,Press <b>Restart.</b> ,,,,
+POWERUPA1_CODE,"Click on the Spawn tab. See that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnPowerup()</span></tt> function? That's what creates Power-ups.
 
-It creates the type of Power-up you return. For example, `return null;` means _no_ Power-up. 
+It creates the type of Power-up you return. For example, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return null;</span></tt> means <i>no</i> Power-up. 
 
-So now, let's replace `return null;` with `return invulnerable;` and try the level.",,,,
-POWERUPA1_CODE_HINT1,Change `return null;` to `return invulnerable;` Then try the level.,,,,
+So now, let's replace <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return null;</span></tt> with <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return invulnerable;</span></tt> and try the level.",,,,
+POWERUPA1_CODE_HINT1,"Change <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return null;</span></tt> to <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return invulnerable;</span></tt> Then try the level.",,,,
 POWERUPA1_EXPLAIN,"Okay, let's make some Power-ups! Power-ups are capsules that give your ship special powers.
 
 Very handy indeed! Let's go to the coding panel and see what these special powers can do! ",,,,
@@ -1518,21 +1518,21 @@ POWERUPA1_NOPOWERUPS,How strange. Looks like we have ZERO Power-ups. Something's
 POWERUPA1_OTHER_POWERUP,"Intriguing! You spawned a Power-up, but it's a different kind. Have a look at your settings again.",,,,
 POWERUPA1_PLAYTEST,"Let's see if the Power-ups show up. When they first show up, they won't have any powers yet.",,,,
 POWERUPA1_PLAY_AGAIN,Let's try that level again.,,,,
-POWERUPA1_PLAY_AGAIN_HINT1,Press *Restart*.,,,,
+POWERUPA1_PLAY_AGAIN_HINT1,Press <b>Restart</b>.,,,,
 POWERUPA1_QUESTION,Ready to retrieve the next encoded fob from Lightspeed?,saniel,,,
 POWERUPA1_QUEST_ACCEPT,"Yes, let's get to work!",,,,
 POWERUPA1_SUCCESS,Great. Your Lightspeed coding skills are still quite sharp.,,hurray,,
 POWERUPA2_ABORT,No prob. Hope you'll check back later. ,,,,
 POWERUPA2_ABOUTTOPLAY,Go ahead and play the level now.,,,,
-POWERUPA2_ABOUTTOPLAY_HINT1,Press the *Restart* button.,,,,
-POWERUPA2_CODE,"Click on the Power-Up tab, at the bottom. See that `activatePowerup()` function? 
+POWERUPA2_ABOUTTOPLAY_HINT1,Press the <b>Restart</b> button.,,,,
+POWERUPA2_CODE,"Click on the Power-Up tab, at the bottom. See that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">activatePowerup()</span></tt> function? 
 
 Right now it's empty, so it does nothing. Let's make the ship invulnerable there.
 
-There's a variable called `ship.invulnerableTimer`. Set it to 5 seconds. This is a bit tricky. 
+There's a variable called <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.invulnerableTimer</span></tt>. Set it to 5 seconds. This is a bit tricky. 
 
 It's totally okay to ask for a hint if you're not sure how to do this! ",,,,
-POWERUPA2_CODE_HINT1,"Beneath `if (powerUpType === invulnerable) {`, type in `ship.invulnerableTimer = 5;`",,,,
+POWERUPA2_CODE_HINT1,"Beneath <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (powerUpType === invulnerable) {</span></tt>, type in <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.invulnerableTimer = 5;</span></tt>",,,,
 POWERUPA2_CODE_HINT2,Now start the level as usual.,,,,
 POWERUPA2_EXPLAIN,"Now that we've spawned a Power-up, let's see what special powers they can give us!
 
@@ -1545,27 +1545,27 @@ POWERUPA2_LAUNCH,Let's go to Lightspeed again.,,,,
 POWERUPA2_LAUNCH_HINT1,You know the drill: Desktop. Lightspeed icon. Click.,,,,
 POWERUPA2_NOT_ACTIVATED,Hmm. Odd. You picked up the Power-up but didn't get any special powers. Go back to check.,,,,
 POWERUPA2_NOT_PICKED,Nothing picked. Are the Power-ups actually being spawned? Go back to check.,,,,
-POWERUPA2_OTHER_PICKED,"I see. You spawned a Power-up, but not the kind you wanted. Spawn the `'invulnerable'` Power-up.",,,,
+POWERUPA2_OTHER_PICKED,"I see. You spawned a Power-up, but not the kind you wanted. Spawn the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">'invulnerable'</span></tt> Power-up.",,,,
 POWERUPA2_PICKEDUP,"That's it. You're invulnerable now! That means if your ship crashes into something, it will survive!",,hurray,,
 POWERUPA2_PLAYTEST,Let's see if that worked. Try picking up a Power-up when you see it.,,,,
 POWERUPA2_PLAY_AGAIN,Uh oh. The ship crashed while we were waiting for a Power-up to be spawned!,,,,
 POWERUPA2_PLAY_AGAIN_HINT1,Let's give it another try. Coding is all about trying something and seeing how it plays out! ,,,,
-POWERUPA2_PLAY_AGAIN_HINT2,Press the *Restart* button.,,,,
+POWERUPA2_PLAY_AGAIN_HINT2,Press the <b>Restart</b> button.,,,,
 POWERUPA2_QUESTION,"Okay, so let's keep working on some more Power-ups. Are you with me?",saniel,,,
 POWERUPA2_QUEST_ACCEPT,Totally!,,,,
 POWERUPA2_SUCCESS,Excellent! Those Power-ups definitely open up new possibilities! ,,,,
 POWERUPB1_ABORT,No problem. Let's resume work later. ,,,,
 POWERUPB1_ABOUTTOPLAY,Go ahead and play the level.,,,,
-POWERUPB1_ABOUTTOPLAY_HINT1,Press the *Restart* button.,,,,
-POWERUPB1_CODE,"Click the Spawn tab. Remember that `spawnPowerup()` function? 
+POWERUPB1_ABOUTTOPLAY_HINT1,Press the <b>Restart</b> button.,,,,
+POWERUPB1_CODE,"Click the Spawn tab. Remember that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">spawnPowerup()</span></tt> function? 
 
-Last time we changed it to say `return invulnerable;` 
+Last time we changed it to say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return invulnerable;</span></tt> 
 
-This time we'll use `pickOne()` to create a Power-up randomly. 
+This time we'll use <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">pickOne()</span></tt> to create a Power-up randomly. 
 
-So if you want to return either one or the other, you would say `pickOne(invulnerable, blowup)`.",,,,
-POWERUPB1_CODE_HINT1,"Instead of returning `invulnerable`, return `pickOne(invulnerable, blowup)` ",,,,
-POWERUPB1_CODE_HINT2,"Change `return invulnerable;` to say `return pickOne(invulnerable, blowup);`.",,,,
+So if you want to return either one or the other, you would say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">pickOne(invulnerable, blowup)</span></tt>.",,,,
+POWERUPB1_CODE_HINT1,"Instead of returning <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">invulnerable</span></tt>, return <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">pickOne(invulnerable, blowup)</span></tt> ",,,,
+POWERUPB1_CODE_HINT2,"Change <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return invulnerable;</span></tt> to say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">return pickOne(invulnerable, blowup);</span></tt>.",,,,
 POWERUPB1_EXPLAIN,"Let's add a second Power-up. Let's create BOTH types of Power-ups at random.
 
 Let's go in the coding panel and I'll show you how this works. ",,,,
@@ -1573,10 +1573,10 @@ POWERUPB1_EXPLAIN_HINT1,Click the Flip button.,,,,
 POWERUPB1_FINISHLEVEL,That's it! We now have both types. Go ahead and finish the level.,,,,
 POWERUPB1_LAUNCH,Excellent. Let's go back to Lightspeed.,,,,
 POWERUPB1_NOPOWERUPS,Hmm. Now we have no Power-ups at all. Something went wrong. Let's fix it.,,,,
-POWERUPB1_ONETYPEONLY,"We have _some_ Power-ups, but it's only one type. Are both types being spawned?",,,,
+POWERUPB1_ONETYPEONLY,"We have <i>some</i> Power-ups, but it's only one type. Are both types being spawned?",,,,
 POWERUPB1_PLAYTEST,Here's where we find out if we get both types of Power-ups.,,,,
 POWERUPB1_PLAY_AGAIN,How about if we try that again.,,,,
-POWERUPB1_PLAY_AGAIN_HINT1,Click *Restart*.,,,,
+POWERUPB1_PLAY_AGAIN_HINT1,Click <b>Restart</b>.,,,,
 POWERUPB1_QUESTION,Ready to try out another Power-up?,saniel,,,
 POWERUPB1_QUEST_ACCEPT,Sounds fun!,,,,
 POWERUPB1_SUCCESS,"Splendid. So we have two Power-ups now, but the second one doesn't yet have its powers. 
@@ -1584,17 +1584,17 @@ POWERUPB1_SUCCESS,"Splendid. So we have two Power-ups now, but the second one do
 What power would you like to add? ",,hurray,,
 POWERUPB2_ABORT,"No problem, we can try it again later. ",,,,
 POWERUPB2_ABOUTTOPLAY,Play the level to test it.,,,,
-POWERUPB2_ABOUTTOPLAY_HINT1,Click that handy *Restart* button.,,,,
-POWERUPB2_CODE,"See the `activatePowerup()` function in the Power-ups tab? The `invulnerable` Power-up makes us invulnerable. 
+POWERUPB2_ABOUTTOPLAY_HINT1,Click that handy <b>Restart</b> button.,,,,
+POWERUPB2_CODE,"See the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">activatePowerup()</span></tt> function in the Power-ups tab? The <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">invulnerable</span></tt> Power-up makes us invulnerable. 
 
-Now we want to add a setting for Power-up `blowup`. So if we pick up one of these, we blow up everything.
+Now we want to add a setting for Power-up <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">blowup</span></tt>. So if we pick up one of these, we blow up everything.
 
-See how there's an `if (powerUpType === invulnerable)` check already? You will add a similar one for Power-up `blowup`.
+See how there's an <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (powerUpType === invulnerable)</span></tt> check already? You will add a similar one for Power-up <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">blowup</span></tt>.
 
-Then instead of setting `ship.invulnerableTimer = 5;` you will use `blowUpEnemies();`.",,,,
-POWERUPB2_CODE_HINT1,"Just before the final `}` on the last line, type in `if (powerUpType === blowup)`",,,,
-POWERUPB2_CODE_HINT2,And then `blowUpEnemies();`. And that should do it. Test it out.,,,,
-POWERUPB2_EXPLAIN,"We're going to add code so a Power-up of type `blowup` blows up every enemy on the screen.
+Then instead of setting <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.invulnerableTimer = 5;</span></tt> you will use <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">blowUpEnemies();</span></tt>.",,,,
+POWERUPB2_CODE_HINT1,"Just before the final <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">}</span></tt> on the last line, type in <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (powerUpType === blowup)</span></tt>",,,,
+POWERUPB2_CODE_HINT2,"And then <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">blowUpEnemies();</span></tt>. And that should do it. Test it out.",,,,
+POWERUPB2_EXPLAIN,"We're going to add code so a Power-up of type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">blowup</span></tt> blows up every enemy on the screen.
 
 This is very similar to the other one. Click the Flip button.",,,,
 POWERUPB2_FINISHLEVEL,Major fireworks! Go ahead and finish the level now with the help of the Power-ups!,,,,
@@ -1603,27 +1603,27 @@ POWERUPB2_NOT_ACTIVATED,"Hmm, these Power-ups don't seem to have any powers! Go 
 POWERUPB2_NOT_PICKED,You couldn't pick any Power-up? Are you aure they are being spawned? Maybe check on that. ,,,,
 POWERUPB2_ONE_PICKED,"One picked, can you pick the other kind?.",,,,
 POWERUPB2_ONLYONE,All Power-ups seem to be doing the same thing.,,,,
-POWERUPB2_ONLYONE_HINT1,Go back and make sure we have the two `if` statements.,,,,
+POWERUPB2_ONLYONE_HINT1,"Go back and make sure we have the two <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if</span></tt> statements.",,,,
 POWERUPB2_OTHER_PICKED,Did you mean to pick the other type? You can go pick that one now. ,,,,
 POWERUPB2_PLAYTEST,Let's see what happens when you pick up both kinds of Power-ups.,,,,
 POWERUPB2_PLAY_AGAIN,"Let's give it another go, shall we?",,,,
-POWERUPB2_PLAY_AGAIN_HINT1,Press *Restart.*,,,,
+POWERUPB2_PLAY_AGAIN_HINT1,Press <b>Restart.</b>,,,,
 POWERUPB2_QUESTION,Now for our next Power-up. Hope you like fireworks!,saniel,,,
 POWERUPB2_QUEST_ACCEPT,Of course!,,,,
 POWERUPB2_SUCCESS,"Excellent. Okay, only one more Power-up before we can get our next fob to open the box. ",,,,
 POWERUPC1_ABORT,Hope you'll come back soon. We need your help!,,,,
 POWERUPC1_ABOUTTOPLAY,Let's play the level now.,,,,
-POWERUPC1_ABOUTTOPLAY_HINT1,Press the *Restart* button.,,,,
-POWERUPC1_CODE,"This level is already spawning Power-ups of type `upgrade`. So let's change its special power. 
+POWERUPC1_ABOUTTOPLAY_HINT1,Press the <b>Restart</b> button.,,,,
+POWERUPC1_CODE,"This level is already spawning Power-ups of type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">upgrade</span></tt>. So let's change its special power. 
 
-Click on the Power-up tab and look for the `activatePowerup()` function.
+Click on the Power-up tab and look for the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">activatePowerup()</span></tt> function.
 
-We need to add a new `if` statement for type `upgrade`. Let's try shrinking the ship! 
+We need to add a new <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if</span></tt> statement for type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">upgrade</span></tt>. Let's try shrinking the ship! 
 
-It's on a timer, like invulnerability, so we'll use `ship.shrinkTimer = 5;`",,,,
-POWERUPC1_CODE_HINT1,"Just before the final `}` on the last line, type in `if (powerUpType === upgrade)`",,,,
-POWERUPC1_CODE_HINT2,And then `ship.shrinkTimer = 5;`. Then flip back around to see if that worked.,,,,
-POWERUPC1_EXPLAIN,Now we're going to create Power-up `upgrade`. Go to the coding panel.,,,,
+It's on a timer, like invulnerability, so we'll use <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.shrinkTimer = 5;</span></tt>",,,,
+POWERUPC1_CODE_HINT1,"Just before the final <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">}</span></tt> on the last line, type in <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (powerUpType === upgrade)</span></tt>",,,,
+POWERUPC1_CODE_HINT2,"And then <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.shrinkTimer = 5;</span></tt>. Then flip back around to see if that worked.",,,,
+POWERUPC1_EXPLAIN,"Now we're going to create Power-up <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">upgrade</span></tt>. Go to the coding panel.",,,,
 POWERUPC1_FINISHLEVEL,There you go. It should make finishing the level much easier.,,,,
 POWERUPC1_LAUNCH,Start by launching Lightspeed.,,,,
 POWERUPC1_NOSHRINK,The ship is not shrinking for some reason. Let's check the code.,,,,
@@ -1631,54 +1631,54 @@ POWERUPC1_NOT_PICKED,You couldn't pick any Power-up? Odd. Are they actually bein
 POWERUPC1_OTHER_PICKED,Looks like you picked a Power-up of a different type.,,,,
 POWERUPC1_PLAYTEST,Those Power-ups should shrink our ship now.,,,,
 POWERUPC1_PLAY_AGAIN,Let's give this level another try!,,,,
-POWERUPC1_PLAY_AGAIN_HINT1,Click *Restart.* ,,,,
+POWERUPC1_PLAY_AGAIN_HINT1,Click <b>Restart.</b> ,,,,
 POWERUPC1_QUESTION,One more Power-up to go. Ready?,saniel,,,
 POWERUPC1_QUEST_ACCEPT,Always!,,,,
 POWERUPC1_SUCCESS,Perfect. A few more tweaks on this Power-up and we'll be almost ready.,,hurray,,
 POWERUPC2_ABORT,No prob. We can complete this later. ,,,,
 POWERUPC2_ABOUTTOPLAY,Play the level now.,,,,
-POWERUPC2_ABOUTTOPLAY_HINT1,Press *Restart.* ,,,,
-POWERUPC2_CODE,"Alright, start by clicking the Power-up tab and looking for the `activatePowerup()` function.
+POWERUPC2_ABOUTTOPLAY_HINT1,Press <b>Restart.</b> ,,,,
+POWERUPC2_CODE,"Alright, start by clicking the Power-up tab and looking for the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">activatePowerup()</span></tt> function.
 
-See where we left off with the `if (powerUpType === upgrade)`? We now want to pick a bonus at random.
+See where we left off with the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (powerUpType === upgrade)</span></tt>? We now want to pick a bonus at random.
 
-Either we'll shrink the ship as before, or we'll increase the astronaut attraction with `ship.attractTimer = 5;`
+Either we'll shrink the ship as before, or we'll increase the astronaut attraction with <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.attractTimer = 5;</span></tt>
 
-We'll make a random number between 1 and 2, like this: `var r = random(1, 2);`. Then check it with `if`. Ready for hints?",,,,
-POWERUPC2_CODE_HINT1,"After `if (powerUpType === upgrade)` type in a `{`. Then on the next line type `var r=random(1,2);`",,,,
-POWERUPC2_CODE_HINT2,"On the next line after that type: `if (r === 1) ship.shrinkTimer = 5;` If you already see part of that, maybe you only need to type in the `if (r === 1)` part.",,,,
-POWERUPC2_CODE_HINT3,And on the next line type `if (r === 2) ship.attractTimer = 5;`   And on the next line just `}`,,,,
+We'll make a random number between 1 and 2, like this: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">var r = random(1, 2);</span></tt>. Then check it with <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if</span></tt>. Ready for hints?",,,,
+POWERUPC2_CODE_HINT1,"After <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (powerUpType === upgrade)</span></tt> type in a <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">{</span></tt>. Then on the next line type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">var r=random(1,2);</span></tt>",,,,
+POWERUPC2_CODE_HINT2,"On the next line after that type: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (r === 1) ship.shrinkTimer = 5;</span></tt> If you already see part of that, maybe you only need to type in the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (r === 1)</span></tt> part.",,,,
+POWERUPC2_CODE_HINT3,"And on the next line type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (r === 2) ship.attractTimer = 5;</span></tt>   And on the next line just <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">}</span></tt>",,,,
 POWERUPC2_EXPLAIN,"We're going to make it so Power-up `upgrade' doesn't always shrink the ship: It gives a random bonus!
 
 Let's go to the code panel and I'll explain it there.",,,,
 POWERUPC2_FINISHLEVEL,"Yes, that's it. Finish the level now.",,,,
 POWERUPC2_LAUNCH,Launch Lightspeed now.,,,,
-POWERUPC2_NOT_PICKED,"Alright, start by clicking the Power-up tab and looking for the `activatePowerup()` function.
+POWERUPC2_NOT_PICKED,"Alright, start by clicking the Power-up tab and looking for the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">activatePowerup()</span></tt> function.
 
-See where we left off with the `if (powerUpType === upgrade)`? We now want to pick a bonus at random.
+See where we left off with the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (powerUpType === upgrade)</span></tt>? We now want to pick a bonus at random.
 
-Either we'll shrink the ship as before, or we'll increase the astronaut attraction with `ship.attractTimer = 5;`
+Either we'll shrink the ship as before, or we'll increase the astronaut attraction with <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.attractTimer = 5;</span></tt>
 
-We'll make a random number between 1 and 2, like this: `var r = random(1, 2);`. Then check it with `if`. Ready for hints?",,,,
+We'll make a random number between 1 and 2, like this: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">var r = random(1, 2);</span></tt>. Then check it with <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if</span></tt>. Ready for hints?",,,,
 POWERUPC2_NO_UPGRADE,That Power-up didn't give any upgrade to the ship. Go back and see if an upgrade is specified.,,,,
 POWERUPC2_ONLYONE,"Hmmm. You're picking up Power-ups, but there's only one effect. Let's go back to the code to fix that.",,,,
 POWERUPC2_OTHER_PICKED,Did you mean to pick a Power-up of a different type?,,,,
 POWERUPC2_PLAYTEST,And let's see if we get both effects with those Power-ups.,,,,
 POWERUPC2_PLAY_AGAIN,Let's play the level again.,,,,
-POWERUPC2_PLAY_AGAIN_HINT1,Press *Restart.* ,,,,
+POWERUPC2_PLAY_AGAIN_HINT1,Press <b>Restart.</b> ,,,,
 POWERUPC2_QUESTION,Let's do some more work on that Power-up.,saniel,,,
 POWERUPC2_QUEST_ACCEPT,I'm ready,,,,
 POWERUPC2_SUCCESS,Perfect. One more tweak to this Power-up and then we'll be ready to get the fob.,,hurray,,
 POWERUPC3_ABORT,Check back whenever you're ready!,,,,
 POWERUPC3_ABOUTTOPLAY,Go ahead and try the level as usual.,,,,
-POWERUPC3_ABOUTTOPLAY_HINT1,Press *Restart.*,,,,
-POWERUPC3_CODE,"Go to the `activatePowerup()` function on the Power-Up tab. We will give one of 3 upgrades, so the random number should be between 1 and 3.
+POWERUPC3_ABOUTTOPLAY_HINT1,Press <b>Restart.</b>,,,,
+POWERUPC3_CODE,"Go to the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">activatePowerup()</span></tt> function on the Power-Up tab. We will give one of 3 upgrades, so the random number should be between 1 and 3.
 
-Then we'll use `ship.engineTimer = 5;` to make the new third upgrade work!  I'm ready to give you hints.",,,,
-POWERUPC3_CODE_HINT1,"Change `var r = random(1,2);` to `var r = random(1,3);`",,,,
-POWERUPC3_CODE_HINT2,"Then below `ship.attractTimer = 5;`, add a new line that says `if (r === 3)`",,,,
-POWERUPC3_CODE_HINT3,Then after that add `ship.engineTimer = 5;`,,,,
-POWERUPC3_CODE_HINT4,So the whole thing will say `if (r === 3) ship.engineTimer = 5;`  Then flip back around to test!,,,,
+Then we'll use <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.engineTimer = 5;</span></tt> to make the new third upgrade work!  I'm ready to give you hints.",,,,
+POWERUPC3_CODE_HINT1,"Change <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">var r = random(1,2);</span></tt> to <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">var r = random(1,3);</span></tt>",,,,
+POWERUPC3_CODE_HINT2,"Then below <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.attractTimer = 5;</span></tt>, add a new line that says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (r === 3)</span></tt>",,,,
+POWERUPC3_CODE_HINT3,"Then after that add <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ship.engineTimer = 5;</span></tt>",,,,
+POWERUPC3_CODE_HINT4,"So the whole thing will say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">if (r === 3) ship.engineTimer = 5;</span></tt>  Then flip back around to test!",,,,
 POWERUPC3_EXPLAIN,"For the final touch, let's add another possible random upgrade to the ship. Go to the code.",,,,
 POWERUPC3_FINISHLEVEL,Perfect. Now you just need to breeze to the end of the level.,,,,
 POWERUPC3_LAUNCH,Let's go to Lightspeed again.,,,,
@@ -1688,7 +1688,7 @@ POWERUPC3_NO_UPGRADE,That Power-up didn't give any upgrade to the ship. Go back 
 POWERUPC3_OTHER_PICKED,Did you mean to pick a Power-up of a different type?,,,,
 POWERUPC3_PLAYTEST,You should be able to get all 3 types of upgrades as you play the level...,,,,
 POWERUPC3_PLAY_AGAIN,Let's try that level again!,,,,
-POWERUPC3_PLAY_AGAIN_HINT1,Press *Restart.*,,,,
+POWERUPC3_PLAY_AGAIN_HINT1,Press <b>Restart.</b>,,,,
 POWERUPC3_QUESTION,One more tweak to the Power-up.,,,,
 POWERUPC3_QUEST_ACCEPT,Sure,,,,
 POWERUPC3_SUCCESS,Excellent! You have completed all Power-ups. Now we're ready for the final challenge to get the fob.,,hurray,,
@@ -1708,16 +1708,16 @@ Let's play them now, and for Riley's sake, let's hope luck is with us! Launch Fi
 RILEYSLEVELS_LEVEL11,Here we are at level 11! We need to pass this one to get to Riley's secret levels. ,,,,
 RILEYSLEVELS_LEVEL11_HINT1,"Remember: To beat a level, you need to fling all the orange balls into the target.",,,,
 RILEYSLEVELS_LEVEL11_HINT2,The balls with the stars are the goals. Maybe you should add one of those!,,,,
-RILEYSLEVELS_LEVEL11_HINT3,Click the Flip button and click on the *Add* tool to enable it.,,,,
+RILEYSLEVELS_LEVEL11_HINT3,Click the Flip button and click on the <b>Add</b> tool to enable it.,,,,
 RILEYSLEVELS_LEVEL12,"Great. You made it into Riley's secret levels! Now, see if you can beat them all.",,,,
-RILEYSLEVELS_NOMOVING,"Smart strategy, but it won't work. Riley programmed it so you can only win with the *Fling* tool.",,,,
+RILEYSLEVELS_NOMOVING,"Smart strategy, but it won't work. Riley programmed it so you can only win with the <b>Fling</b> tool.",,,,
 RILEYSLEVELS_QUESTION,Hey there! I'm heading up the search for fob #1. It's hidden in Fizzics. Want to join me?,ada,,,
 RILEYSLEVELS_QUESTION_ACCEPT,Of course!,,,,
-RILEYSLEVELS_START_LEVEL13,"Wait, what? Riley deactivated the *Fling* tool? How can you solve this problem without it?",,,,
+RILEYSLEVELS_START_LEVEL13,"Wait, what? Riley deactivated the <b>Fling</b> tool? How can you solve this problem without it?",,,,
 RILEYSLEVELS_START_LEVEL13_HINT1,"You know by now, flip the app and find another way to make the goal touch the orange ball!",,,,
 RILEYSLEVELS_START_LEVEL14,"So, the sitch is you can fling in this level, but now the goal is blocked.",,,,
-RILEYSLEVELS_START_LEVEL15,"No *Fling* tool again, how can you solve this?",,,,
-RILEYSLEVELS_START_LEVEL16,"Great. Now you have the *Fling* tool, but there's something up with the Attractions sliders. ",,,,
+RILEYSLEVELS_START_LEVEL15,"No <b>Fling</b> tool again, how can you solve this?",,,,
+RILEYSLEVELS_START_LEVEL16,"Great. Now you have the <b>Fling</b> tool, but there's something up with the Attractions sliders. ",,,,
 RILEYSLEVELS_SUCCESS,"You did it! That was really clever work! 
 
 Oh, brilliant! I think we lucked upon one of those fobs we're looking for! Meet me at the Clubhouse!",,hurray,,
@@ -1733,12 +1733,12 @@ ROSTER_QUESTION,"Okay, we have another important part of the tour. I'm going to 
 ROSTER_QUEST_ACCEPT,I'm in,,,,
 ROSTER_SUCCESS,"You found it. Excellent. Quite fascinating, isn't he?",,,,
 RPIWEBCARD_BYE,"Cool, huh? If you figure this out well enough, you'll never have to buy a card again! See ya! ",riley,,,
-RPIWEBCARD_LINK,"I was thinking that, and started poking around the web - and I found this! Send your browser over to https://projects.raspberrypi.org/en/projects/happy-birthday/7 if it doesn't load automatically.",riley,,,
+RPIWEBCARD_LINK,"I was thinking that, and started poking around the web - and I found this! Send your browser over to <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://projects.raspberrypi.org/en/projects/happy-birthday/7</span></u> if it doesn't load automatically.",riley,,,
 RPIWEBCARD_QUEST_DESCRIPTION,"Use your knowledge of HTML and CSS to create a greeting card, using a tool called Trinket.",,,,
 RPIWEBCARD_QUEST_NAME,A Card for All Seasons,,,,
 RPIWEBCARD_QUEST_SUBTITLE,What you'll do,,,,
 RPIWEBCARD_QUIT,See you later!,,,,
-RPIWEBCARD_WELCOME,"*{{user_name}}*, what's happening? You know how you have to go buy cards for people for birthdays, holidays, and things like that? Wouldn't it be more fun if you could just make your own? ",riley,,,
+RPIWEBCARD_WELCOME,"<b>{{user_name}}</b>, what's happening? You know how you have to go buy cards for people for birthdays, holidays, and things like that? Wouldn't it be more fun if you could just make your own? ",riley,,,
 SETUP_ABORT,"OK, hope you'll be back later!",,,,
 SETUP_END,Our job is to get to each of those levels and retrieve the coded fobs and open those panels!,ada,,,
 SETUP_EXPLAIN,"Oh, hey! Super glad to to see you. We def need your excellent skillllzzzz on this. 
@@ -1764,64 +1764,64 @@ Pretty sure I can make one for you. For experimentation only!
 Riley, my friend, promise me, you're not going to get in any trouble with it, are you?",,,,quests/quest2-faber-werks
 STEALTHDEVICE_EXPLANATION2,"OK, cool. Just making sure. I'll have to get my hands on a few necessary components.
 
-I'm going to need you to get me some *hush rivets* and a *ratchet wheel* the size of a penny. 
+I'm going to need you to get me some <b>hush rivets</b> and a <b>ratchet wheel</b> the size of a penny. 
 
-Oh, right, and a small quantity of *cloaking glaze*. Think you can find those things?",,,,quests/quest2-faber-werks
+Oh, right, and a small quantity of <b>cloaking glaze</b>. Think you can find those things?",,,,quests/quest2-faber-werks
 STEALTHDEVICE_QUESTION,"Oh, hello there. You're back! Can I help you with something?",faber,,,quests/quest2-faber-conga-build
 STEALTHDEVICE_QUEST_ACCEPT,"As a matter of fact, you can!",,,,quests/quest2-faber-conga-build
 STEALTHDEVICE_RILEYQUESTION,"So, Faber, about that stealth device you mentioned. Just as an experiment, how about if we make one?
 
-Not that we'd ever use it _for real_ or anything!",riley,,,quests/quest2-faber-conga-build
+Not that we'd ever use it <i>for real</i> or anything!",riley,,,quests/quest2-faber-conga-build
 STEALTHDEVICE_RILEYTROUBLE,Trouble? Faber. We will treat it with the utmost care.,riley,,,quests/quest2-faber-werks
 T2DRAGON_BYE,Have fun!,saniel,,,
 T2DRAGON_GREET1,Here's another one of the games in the Terminal 2 Network - Dragon's Apprentice.,saniel,,,
 T2DRAGON_GREET2,"This reminds me of games from when I was younger. Look up Nethack, sometime, if you like.",saniel,,,
-T2DRAGON_NOTINSTALLED,"Uh-oh! I'm detecting that `Dragon's Apprentice` isn't installed!
+T2DRAGON_NOTINSTALLED,"Uh-oh! I'm detecting that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Dragon's Apprentice</span></tt> isn't installed!
 
 You need to download it from the App Center if you want to play.
 
-Click the icon named `App Center` on the Desktop, then search for the program you want to install.",daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
 T2DRAGON_QUEST_DESCRIPTION,Learn magic and save the realm in this 3rd-person action RPG.,,,,
 T2DRAGON_QUEST_NAME,Terminal 2 - Dragon's Apprentice,,,,
 T2DRAGON_QUEST_SUBTITLE,What you'll do,,,,
 T2MISSILE_GREET1,"You know, people have been trying to fling things out of airplanes at targets for over 100 years, now...",saniel,,,
 T2MISSILE_GREET2,"... But for the longest time, it was mostly up to chance and luck if you hit. Care to improve those statistics?",saniel,,,
-T2MISSILE_NOTINSTALLED,"Uh-oh! I'm detecting that `Missile Math` isn't installed!
+T2MISSILE_NOTINSTALLED,"Uh-oh! I'm detecting that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Missile Math</span></tt> isn't installed!
 
 You need to download it from the App Center if you want to play.
 
-Click the icon named `App Center` on the Desktop, then search for the program you want to install.",daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
 T2MISSILE_QUEST_DESCRIPTION,Pilot your plane to victory with the power of mathematics!,,,,
 T2MISSILE_QUEST_NAME,Terminal 2 - Missile Math,,,,
 T2MISSILE_QUEST_SUBTITLE,What you'll do,,,,
 T2WEBFABLEMAKER_GREET1,"So, you know about fables, right? A lot like fairy tales, but with a specific lesson at the end.",riley,,,
 T2WEBFABLEMAKER_GREET2,"In this game you can hack the HTML behind the scenes to change the stories! Cool, huh?",riley,,,
-T2WEBFABLEMAKER_NOTINSTALLED,"Uh-oh! I'm detecting that `Fablemaker` isn't installed!
+T2WEBFABLEMAKER_NOTINSTALLED,"Uh-oh! I'm detecting that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Fablemaker</span></tt> isn't installed!
 
 You need to download it from the App Center if you want to play.
 
-Click the icon named `App Center` on the Desktop, then search for the program you want to install.",daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
 T2WEBFABLEMAKER_QUEST_DESCRIPTION,Create your own mashups of classic fables using the power of HTML!,,,,
 T2WEBFABLEMAKER_QUEST_NAME,Terminal 2 - Fablemaker,,,,
 T2WEBFABLEMAKER_QUEST_SUBTITLE,What you'll do,,,,
 T2WHITEHOUSE_GREET1,"This one's about color, and exploration. Give it a shot! It's part of the Terminal 2 Network, and you can launch it through the Desktop, as well.",ada,,,
 T2WHITEHOUSE_GREET2,It's always interesting when people mash up art and games - see what you think.,ada,,,
-T2WHITEHOUSE_NOTINSTALLED,"Uh-oh! I'm detecting that `White House` isn't installed!
+T2WHITEHOUSE_NOTINSTALLED,"Uh-oh! I'm detecting that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">White House</span></tt> isn't installed!
 
 You need to download it from the App Center if you want to play.
 
-Click the icon named `App Center` on the Desktop, then search for the program you want to install.",daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
 T2WHITEHOUSE_QUEST_DESCRIPTION,"Paint the town red (or green, or blue...) as you learn about Web color in this low-key first-person adventure.",,,,
 T2WHITEHOUSE_QUEST_NAME,Terminal 2 - White House,,,,
 T2WHITEHOUSE_QUEST_SUBTITLE,What you'll do,,,,
-TRAPINTRO_QUESTION,"{{{fx /\ /\#  _transcoding_ 
-((∞) =∞=   _complete_ 
+TRAPINTRO_QUESTION,"{{{fx /\ /\#  <i>transcoding</i> 
+((∞) =∞=   <i>complete</i> 
 ?=))∞)))§    PLEASE 
 =}{,,,}{,,,}     CONFIRM  §§§",riley,talk_glitched,,quests/transcoding-loop
 TRAPINTRO_QUESTION_ACCEPT,"{,,,}{,,,} CONFIRMED! /\ /\        ",riley,talk_glitched,,
 TRAPINTRO_SUCCESS,"TRANSFER TO DESKTOP: 100% SUCCESSFUL
 
-*SIDETRACK* ENGAGED",riley,talk_glitched,quests/transfer-complete,
+<b>SIDETRACK</b> ENGAGED",riley,talk_glitched,quests/transfer-complete,
 WELCOME_SUCCESS,"Perfect! Anytime you'd like to check in with me or any of my friends, just click here! ",,,,
 WELCOME_WELCOME,Welcome to the Conservatory! So glad you're here. You can find me and my friends anytime in the Clubhouse. ,ada  ,,quests/ada-intro,
 WELCOME_WELCOME_HINT1,Think of the button on the right as a doorbell for the Conservatory Clubhouse. Try it now ;),,,,

@@ -2,11 +2,11 @@ KRITAQUEST_QUEST_NAME,Digital Painting - Monet in Mirrorshades,,,,
 KRITAQUEST_FWD,❯,,,,
 KRITAQUEST_BAK,❮,,,,
 KRITAQUEST_QUIT,See you later!,,,,
-KRITAQUEST_NOTINSTALLED,"Uh-oh! Looks like `Krita` isn't installed!
+KRITAQUEST_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt> isn't installed!
 
 You need to download it from the App Center if you'd like to learn how to use it.
 
-Click the icon named `App Center` on the Desktop, then search for `Krita`, and install it. ",daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt>, and install it. ",daemon,,,
 KRITAQUEST_LAUNCH,"Krita's an art program for people of any skill level - it's got all the tools for amazing visuals.
 
 We've got some useful tutorials linked in here for you, give them a try!
@@ -16,11 +16,11 @@ KRITAQUEST_INFO_1,Click the links for these tutorials to open them in your brows
 KRITAQUEST_INFO_2,The best way to use these videos is to resize your windows so you can can see both Krita and the video.,estelle,,,
 KRITAQUEST_INFO_3,"That way, you can watch the video and follow along at the same time.",estelle,,,
 KRITAQUEST_INFO_4,"This is a good beginner tutorial to start with -
-https://www.youtube.com/watch?v=TB6ig9dM4Uw",estelle,,,
+<u><span insert_hyphens=""false"" foreground=""#3584E4"">https://www.youtube.com/watch?v=TB6ig9dM4Uw</span></u>",estelle,,,
 KRITAQUEST_INFO_5,"This one's about sketching in Krita - 
-https://www.youtube.com/watch?v=4nEA7-wtQxo",estelle,,,
+<u><span insert_hyphens=""false"" foreground=""#3584E4"">https://www.youtube.com/watch?v=4nEA7-wtQxo</span></u>",estelle,,,
 KRITAQUEST_INFO_6,"Here's a tutorial specifically about pixel art, for retro games - 
-https://www.youtube.com/watch?v=OmnpKQITm3I",estelle,,,
+<u><span insert_hyphens=""false"" foreground=""#3584E4"">https://www.youtube.com/watch?v=OmnpKQITm3I</span></u>",estelle,,,
 KRITAQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
 KRITAQUEST_QUEST_SUBTITLE,What you'll do,,,,
 KRITAQUEST_QUEST_DESCRIPTION,"Try out some tutorials for Krita, a powerful, free digital painting program.",,,,

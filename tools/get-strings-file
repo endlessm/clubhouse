@@ -10,6 +10,7 @@ import re
 import requests
 import subprocess
 import sys
+from _markupparser import SimpleMarkupParser
 
 QUESTS_PATH = os.path.join('eosclubhouse', 'quests')
 CHARACTERS_PATH = os.path.join('data', 'characters')
@@ -104,6 +105,7 @@ def _cleanup_and_validate(quest, rows):
     for r in rows:
         # Data cleanup:
         r[Columns.MESSAGE_ID] = r[Columns.MESSAGE_ID].upper()
+        r[Columns.TEXT] = SimpleMarkupParser.parse(r[Columns.TEXT])
         r[Columns.SPEAKER] = r[Columns.SPEAKER].lower()
         r[Columns.ANIMATION] = r[Columns.ANIMATION].lower()
         r[Columns.SFX] = r[Columns.SFX].lower()

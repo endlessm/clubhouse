@@ -1,5 +1,5 @@
 T2FROGSQUASH_QUEST_NAME,Terminal 2 - FrogSquash,,,,
-T2FROGSQUASH_FIRSTRUN1,"Good day. I’m Dr. Saniel Rowe, Academy Archivist, and you must be *{{user_name}}*, our new remote student.
+T2FROGSQUASH_FIRSTRUN1,"Good day. I’m Dr. Saniel Rowe, Academy Archivist, and you must be <b>{{user_name}}</b>, our new remote student.
 
 It’s always a good day when I get to meet a new student - it means there's another person starting the journey to master their world.",saniel,,,
 T2FROGSQUASH_FIRSTRUN2,"Speaking of mastery, I'd like your help to test some new security protocols.
@@ -7,12 +7,12 @@ T2FROGSQUASH_FIRSTRUN2,"Speaking of mastery, I'd like your help to test some new
 We'll connect to a sub-network of The Academy's that's far outside my reach.",saniel,,,
 T2FROGSQUASH_FIRSTRUN3,Go enjoy yourself - and return to the Clubhouse if you'd like to do something else.,saniel,,,
 T2FROGSQUASH_GREET1,"This game is part of a network of activities outside the main Academy, and you can run all of them from your Desktop, if you like.",saniel,,,
-T2FROGSQUASH_GREET2,"Frog Squash - Isn't the goal to *avoid* being squashed? You'll find out, I suppose.",saniel,,,
+T2FROGSQUASH_GREET2,"Frog Squash - Isn't the goal to <b>avoid</b> being squashed? You'll find out, I suppose.",saniel,,,
 T2FROGSQUASH_BYE,Excellent. You're on your way!,saniel,hurray,,
-T2FROGSQUASH_NOTINSTALLED,"Uh-oh! I'm detecting that `Frog Squash` isn't installed!
+T2FROGSQUASH_NOTINSTALLED,"Uh-oh! I'm detecting that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Frog Squash</span></tt> isn't installed!
 
 You need to download it from the App Center if you want to play.
 
-Click the icon named `App Center` on the Desktop, then search for the program you want to install.",daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
 T2FROGSQUASH_QUEST_SUBTITLE,What you'll do,,,,
 T2FROGSQUASH_QUEST_DESCRIPTION,"Program your frog to avoid danger and grab coins, or just play it yourself!",,,,

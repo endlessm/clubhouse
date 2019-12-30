@@ -2,12 +2,12 @@ BLENDMONSTER1_QUEST_NAME,A 3D Monster Smoothie!,,,,
 BLENDMONSTER1_QUEST_SUBTITLE,What you'll do,,,,
 BLENDMONSTER1_QUEST_DESCRIPTION,"In part 1 of this quest, start your journey towards making a full Blender scene with a spooky monster!",,,,
 BLENDMONSTER1_QUIT,See you later!,,,,
-BLENDMONSTER1_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
+BLENDMONSTER1_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Blender</span></tt> isn't installed!
 
 You need to download it from the App Center if you'd like to learn how to use it.
 
-Click the icon named `App Center` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDMONSTER1_INFO_1,"Hey, *{{user_name}}*, welcome (or welcome back) to Blender! Don't forget that a USB mouse with 2 buttons and a scroll wheel is *very* helpful for using Blender. I *strongly* recommend it.",estelle,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Blender</span></tt>, and install it. ",daemon,,,
+BLENDMONSTER1_INFO_1,"Hey, <b>{{user_name}}</b>, welcome (or welcome back) to Blender! Don't forget that a USB mouse with 2 buttons and a scroll wheel is <b>very</b> helpful for using Blender. I <b>strongly</b> recommend it.",estelle,,,
 BLENDMONSTER1_INFO_2,The easiest way to follow along with these tutorials is to adjust your windows so that you can see both Blender and the video.,estelle,,,
-BLENDMONSTER1_INFO_3,Here's the video - https://www.youtube.com/watch?v=7MRonzqYJgw,estelle,,,
+BLENDMONSTER1_INFO_3,"Here's the video - <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://www.youtube.com/watch?v=7MRonzqYJgw</span></u>",estelle,,,
 BLENDMONSTER1_INFO_4,"Have fun! Remember, you can always restart this activity if you need to see the tips or link.",estelle,,,

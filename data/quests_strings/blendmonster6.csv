@@ -2,12 +2,12 @@ BLENDMONSTER6_QUEST_NAME,Monster Smoothie - The Finishing Touches,,,,
 BLENDMONSTER6_QUEST_SUBTITLE,What you'll do,,,,
 BLENDMONSTER6_QUEST_DESCRIPTION,"Finally, in part 6, you'll put the finishing touches on your scene and render out a spooky final images.",,,,
 BLENDMONSTER6_QUIT,See you later!,,,,
-BLENDMONSTER6_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
+BLENDMONSTER6_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Blender</span></tt> isn't installed!
 
 You need to download it from the App Center if you'd like to learn how to use it.
 
-Click the icon named `App Center` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDMONSTER6_INFO_1,"Welcome back, *{{user_name}}*! I'd recommend doing the previous parts of this quest if you haven't already. If you have, or you're forging ahead, plug in your mouse and get ready for rendering!",estelle,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Blender</span></tt>, and install it. ",daemon,,,
+BLENDMONSTER6_INFO_1,"Welcome back, <b>{{user_name}}</b>! I'd recommend doing the previous parts of this quest if you haven't already. If you have, or you're forging ahead, plug in your mouse and get ready for rendering!",estelle,,,
 BLENDMONSTER6_INFO_2,The easiest way to follow along with these tutorials is to adjust your windows so that you can see both Blender and the video.,estelle,,,
-BLENDMONSTER6_INFO_3,Here's the link - https://www.youtube.com/watch?v=g8683RF1COo,estelle,,,
+BLENDMONSTER6_INFO_3,"Here's the link - <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://www.youtube.com/watch?v=g8683RF1COo</span></u>",estelle,,,
 BLENDMONSTER6_INFO_4,"Have fun! Remember, you can always restart this activity if you need to see the tips or link.",estelle,,,
