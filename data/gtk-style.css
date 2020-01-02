@@ -457,6 +457,27 @@ CharacterView #mission-list {
 CharacterView scrollbar {
   margin: 0.5em 0 0.5em 0.5em; }
 
+CharacterView box#empty-state box > label {
+  color: white;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); }
+  CharacterView box#empty-state box > label.title {
+    font-size: 4.5em;
+    font-weight: bold; }
+  CharacterView box#empty-state box > label.description {
+    font-size: 2.1em;
+    font-weight: 300; }
+
+CharacterView box#empty-state box > button.clear-search {
+  font-size: 1.4em;
+  font-weight: bold;
+  background: linear-gradient(to bottom right, #37dcb1, #2d9b98);
+  color: white;
+  border-radius: 3em;
+  border: 3px solid white;
+  padding: 3px 1em;
+  margin-top: 2.5em;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); }
+
 @keyframes zoom_in {
   from {
     background-size: 100%; }
