@@ -5,10 +5,10 @@ You can also launch this game through the Desktop.",saniel,,,
 T2TANK_GREET2,"Did you know that in the early 1900s, 'tank' was originally meant to be a code-name?
 
 It was used to fool the enemy into thinking that these new 'tanks' were just for hauling water or gasoline. Clever.",saniel,,,
-T2TANK_NOTINSTALLED,"Uh-oh! I'm detecting that `Tank Warriors` isn't installed!
+T2TANK_NOTINSTALLED,"Uh-oh! I'm detecting that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Tank Warriors</span></tt> isn't installed!
 
 You need to download it from the App Center if you want to play.
 
-Click the icon named `App Center` on the Desktop, then search for the program you want to install.",daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
 T2TANK_QUEST_SUBTITLE,What you'll do,,,,
 T2TANK_QUEST_DESCRIPTION,"Design, program, or pilot a tiny tank to victory!",,,,

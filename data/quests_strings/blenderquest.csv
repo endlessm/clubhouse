@@ -2,19 +2,19 @@ BLENDERQUEST_QUEST_NAME,3D Modeling - Make it Blend!,,,,
 BLENDERQUEST_FWD,❯,,,,
 BLENDERQUEST_BAK,❮,,,,
 BLENDERQUEST_QUIT,See you later!,,,,
-BLENDERQUEST_NOTINSTALLED,"Uh-oh! Looks like `Blender` isn't installed!
+BLENDERQUEST_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Blender</span></tt> isn't installed!
 
 You need to download it from the App Center if you'd like to learn how to use it.
 
-Click the icon named `App Center` on the Desktop, then search for `Blender`, and install it. ",daemon,,,
-BLENDERQUEST_WARN1,"So, you're interested in 3D Modeling, *{{user_name}}*?
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Blender</span></tt>, and install it. ",daemon,,,
+BLENDERQUEST_WARN1,"So, you're interested in 3D Modeling, <b>{{user_name}}</b>?
 
 Your Hack system has access to Blender, a super-powerful 3D modeling program, through the App Center.
 
 We've combed the web and found good guides to help you get started - and there are many more coming!",estelle,,,
 BLENDERQUEST_WARN2,"One important thing before you start - Blender is a complicated program with a lot of commands.
 
-We *strongly* suggest you plug in a USB mouse with at *least* 3 buttons so that you can use everything properly.
+We <b>strongly</b> suggest you plug in a USB mouse with at <b>least</b> 3 buttons so that you can use everything properly.
 
 You might also want a USB keyboard that has a 10-key number pad, so you can move the camera more easily.",estelle,,,
 BLENDERQUEST_START_ASK,I know that's a lot to take in - do you still want to continue?,estelle,,,
@@ -24,11 +24,11 @@ BLENDERQUEST_LAUNCH,I'll launch Blender - but you can also find it on the Deskto
 BLENDERQUEST_INFO_1,Here are some resources for Blender - You can click the links to watch them in your web browser.,estelle,,,
 BLENDERQUEST_INFO_2,The best way to use these videos is to resize your windows so you can can see both Blender and the video.,estelle,,,
 BLENDERQUEST_INFO_3,"That way, you can watch the video and follow along at the same time.",estelle,,,
-BLENDERQUEST_INFO_4,The Complete Beginner's Guide to Blender: https://youtu.be/wNQYhbvTJi8,estelle,,,
+BLENDERQUEST_INFO_4,"The Complete Beginner's Guide to Blender: <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://youtu.be/wNQYhbvTJi8</span></u>",estelle,,,
 BLENDERQUEST_INFO_5,"Something a little more advanced:
-https://youtu.be/6mT4XFJYq-4",estelle,,,
+<u><span insert_hyphens=""false"" foreground=""#3584E4"">https://youtu.be/6mT4XFJYq-4</span></u>",estelle,,,
 BLENDERQUEST_INFO_6,"You can also use Blender Guru's beginner tutorial:
-https://youtu.be/TPrnSACiTJ4",estelle,,,
+<u><span insert_hyphens=""false"" foreground=""#3584E4"">https://youtu.be/TPrnSACiTJ4</span></u>",estelle,,,
 BLENDERQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
 BLENDERQUEST_QUEST_SUBTITLE,What you'll do,,,,
 BLENDERQUEST_QUEST_DESCRIPTION,"Learn the basics of 3D Modeling with Blender, the free, open-source 3D modelling program!",,,,

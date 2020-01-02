@@ -31,11 +31,11 @@ NOQUEST_NOTINSTALLED,"Uh-oh! It looks like this App isn't installed!
 
 You need to download it from the App Center if you want to play.
 
-Click the icon named `App Center` on the Desktop, then search for the program you want to install.",daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
 NOQUEST_SUBTITLE,What could this be?,,,,
 NOQUEST_DESCRIPTION,It's a secret to everyone.,,,,
-NOQUEST_GIVE_BADGE,You've unlocked a new badge: *{{achievement.name}}*,,,,
+NOQUEST_GIVE_BADGE,You've unlocked a new badge: <b>{{achievement.name}}</b>,,,,
 NOQUEST_PROJLIB_NOTINSTALLED,"Uh-oh! It looks like the Project Library App isn't installed!
 You need to download it from the App Center if you want to check out this quest.
 
-Click the icon named `App Center` on the Desktop, then search for ""Project Library"".",daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for ""Project Library"".",daemon,,,

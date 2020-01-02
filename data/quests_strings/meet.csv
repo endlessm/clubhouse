@@ -3,30 +3,30 @@ MEET_WELCOME1,"Welcome to the world of Hack! We're all here to teach you the sec
 MEET_WELCOME2,My name's Ada - I've been around the Academy for a while. I'll be your guide.,ada,,,
 MEET_WELCOME3_GOTHINT,That was actually me at the entrance puzzle - I didn't want to distract you by introducing myself.,ada,,,
 MEET_WELCOME3_NOHINT,Great job on the entrance puzzle! Not many students solve that without help.,ada,hurray,,
-MEET_GOBACK,"First, use the *Clubhouse* button at the *top* of the screen to go back to the main Clubhouse area.",,,,
-MEET_EXPLAIN_MAIN1,*The Clubhouse* is a virtual place that anyone at The Academy can use to hang out and chat.,ada,,,
+MEET_GOBACK,"First, use the <b>Clubhouse</b> button at the <b>top</b> of the screen to go back to the main Clubhouse area.",,,,
+MEET_EXPLAIN_MAIN1,<b>The Clubhouse</b> is a virtual place that anyone at The Academy can use to hang out and chat.,ada,,,
 MEET_EXPLAIN_MAIN2,We'll always be here to talk to you - that's the advantage of a virtual space!,ada,,,
 MEET_EXPLAIN_HACK1,"You're in Hack Mode right now, and that lets you flip programs to hack them, and sometimes do even more!
 
 When you're in Hack Mode, your desktop and cursor will be different, to make sure you know what's going on.",ada,,,
-MEET_EXPLAIN_HACK2,That *big switch on the right* controls Hack Mode.,ada,,,
+MEET_EXPLAIN_HACK2,That <b>big switch on the right</b> controls Hack Mode.,ada,,,
 MEET_EXPLAIN_HACK3,"If you switch it OFF, you’ll go back to the regular desktop. This will shut down the Clubhouse and all your hacking tools. Give it a try!",ada,,,
 MEET_EXPLAIN_HACK4,"You can turn Hack Mode off if someone else needs to use the computer, or you need to do your homework.",ada,,,
-MEET_EXPLAIN_PATHWAYS1,"*Up top*, you'll see the Pathways button - Pathways organize all the activities we have into categories, like Web, Games, and more.",ada,,,
+MEET_EXPLAIN_PATHWAYS1,"<b>Up top</b>, you'll see the Pathways button - Pathways organize all the activities we have into categories, like Web, Games, and more.",ada,,,
 MEET_EXPLAIN_PATHWAYS2,"If you know exactly what you want to learn or do, go here, and you can jump right in to whatever you like!
 
 If you're not sure, that's what all of us are here for - to help guide you.",,,,
-MEET_EXPLAIN_PROFILE1,Do you see that picture with your name on it in the *upper left*? That's your *Profile*.,ada,,,
+MEET_EXPLAIN_PROFILE1,Do you see that picture with your name on it in the <b>upper left</b>? That's your <b>Profile</b>.,ada,,,
 MEET_EXPLAIN_PROFILE2,We want you to be able to decide who you are in the world of Hack - and that includes your name. ,ada,,,
-MEET_EXPLAIN_PROFILE3,"If you'd like us to call you something other than *{{user_name}}*, you can change that.",ada,,,
+MEET_EXPLAIN_PROFILE3,"If you'd like us to call you something other than <b>{{user_name}}</b>, you can change that.",ada,,,
 MEET_CHANGE_NAME_ASK,Would you like to learn how to do that right now?,ada,,,
 MEET_CHANGE_NAME_YES,Sure!,,,,
 MEET_CHANGE_NAME_NO,Not now...,,,,
-MEET_CHANGE_NAME1,"If you look in the *far bottom right* corner of the whole screen, you'll see a little picture.
+MEET_CHANGE_NAME1,"If you look in the <b>far bottom right</b> corner of the whole screen, you'll see a little picture.
 
-Click that, and it'll pop up a menu. From that menu, click *Settings*",ada,,,
-MEET_CHANGE_NAME2,"Once you've clicked that, you'll be in the *Settings* app.",ada,,,
-MEET_CHANGE_NAME3,"Go to the *Details* category (you might need to scroll down), and then the *Users* category.",ada,,,
+Click that, and it'll pop up a menu. From that menu, click <b>Settings</b>",ada,,,
+MEET_CHANGE_NAME2,"Once you've clicked that, you'll be in the <b>Settings</b> app.",ada,,,
+MEET_CHANGE_NAME3,"Go to the <b>Details</b> category (you might need to scroll down), and then the <b>Users</b> category.",ada,,,
 MEET_CHANGE_NAME4,All done? Let's move on.,ada,,,
 MEET_END1,"Now that you know your way around, a little, you're free to do whatever you like. Explore the Clubhouse!",ada,,,
 MEET_END2,"I think Saniel had an activity or two for you to try, if you're feeling up to it - He's the one with the glasses and big beard, you can't miss him.",ada,,,
