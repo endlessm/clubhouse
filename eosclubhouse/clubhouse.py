@@ -954,6 +954,7 @@ class CharacterView(Gtk.Grid):
 
     _categories_flow_box = Gtk.Template.Child()
     _quests_flow_box = Gtk.Template.Child()
+    _empty_state_box = Gtk.Template.Child()
 
     _cards_stack = Gtk.Template.Child()
 
@@ -977,7 +978,9 @@ class CharacterView(Gtk.Grid):
         self._quests_handlers = []
         self._abort_running_quest_on_category_view = True
 
+        self._quests_flow_box_children_visible = False
         self._quests_flow_box.set_filter_func(self._quests_flow_box_filter_func)
+
         self._status_selector.props.list_store = self._build_status_model()
         self._level_selector.props.list_store = self._build_difficulty_model()
 
@@ -996,8 +999,8 @@ class CharacterView(Gtk.Grid):
 
         self.connect('notify::quest-set', self._quest_set_notify_cb)
         self.connect('notify::category', self._category_notify_cb)
-        self.connect('notify::level', self._level_notify_cb)
-        self.connect('notify::status', self._status_notify_cb)
+        self._notify_level_id = self.connect('notify::level', self._level_notify_cb)
+        self._notify_status_id = self.connect('notify::status', self._status_notify_cb)
 
         self.message_box.show_all()
 
@@ -1007,14 +1010,27 @@ class CharacterView(Gtk.Grid):
     def show_quests(self):
         self._cards_stack.set_visible_child(self._quests_flow_box)
 
+    def show_empty_state(self):
+        self._cards_stack.set_visible_child(self._empty_state_box)
+
     def _quests_flow_box_filter_func(self, card):
         q = card.get_quest()
-        return (self.props.quest_set == card.get_quest_set() and
-                (self.props.category is None or self.props.category in q.get_categories()) and
-                (self.props.level is None or self.props.level == q.get_difficulty()) and
-                (self.props.status is None or
-                    self.props.status == 'complete' and q.get_complete() or
-                    self.props.status == 'incomplete' and not q.get_complete()))
+        visible = (self.props.quest_set == card.get_quest_set() and
+                   (self.props.category is None or self.props.category in q.get_categories()) and
+                   (self.props.level is None or self.props.level == q.get_difficulty()) and
+                   (self.props.status is None or
+                       self.props.status == 'complete' and q.get_complete() or
+                       self.props.status == 'incomplete' and not q.get_complete()))
+        self._quests_flow_box_children_visible = self._quests_flow_box_children_visible or visible
+        return visible
+
+    def _apply_quests_filter(self):
+        self._quests_flow_box_children_visible = False
+        self._quests_flow_box.invalidate_filter()
+        if not self._quests_flow_box_children_visible:
+            self.show_empty_state()
+        else:
+            self.show_quests()
 
     def _clear_categories_flow_box(self):
         for child in self._categories_flow_box.get_children():
@@ -1170,10 +1186,6 @@ class CharacterView(Gtk.Grid):
         else:
             self.props.status = item.id
 
-    def _unselect_selectors(self):
-        self._level_selector.props.selected_item = None
-        self._status_selector.props.selected_item = None
-
     def _setup_category_view(self):
         if self._abort_running_quest_on_category_view:
             running_quest = self._app.quest_runner.running_quest
@@ -1190,6 +1202,15 @@ class CharacterView(Gtk.Grid):
 
         self.populate_categories(self.props.quest_set)
         self.show_categories()
+
+    def _unselect_selectors(self):
+        # Prevent showing the 'empty-state' when setting to None.
+        GObject.signal_handler_block(self, self._notify_level_id)
+        GObject.signal_handler_block(self, self._notify_status_id)
+        self._level_selector.props.selected_item = None
+        self._status_selector.props.selected_item = None
+        GObject.signal_handler_unblock(self, self._notify_level_id)
+        GObject.signal_handler_unblock(self, self._notify_status_id)
 
     def _setup_quest_view(self):
         self._character_button.back_label = '{} Pathway'.format(self._character.pathway_title)
@@ -1222,11 +1243,17 @@ class CharacterView(Gtk.Grid):
         else:
             self._setup_quest_view()
 
+    @Gtk.Template.Callback()
+    def _clear_search_button_clicked_cb(self, _button):
+        self._level_selector.selected_item = None
+        self._status_selector.selected_item = None
+        self.show_quests()
+
     def _level_notify_cb(self, *args):
-        self._quests_flow_box.invalidate_filter()
+        self._apply_quests_filter()
 
     def _status_notify_cb(self, *_args):
-        self._quests_flow_box.invalidate_filter()
+        self._apply_quests_filter()
 
     def set_page_state(self, state):
         self.props.category = state.get('category')
