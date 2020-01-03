@@ -193,7 +193,10 @@ ClubhouseWindow
         @include header_bar_circle_button_base($inactive_color_variants, $hover_color_variants)
 
       button.homebutton
-        @include simple_gradient_bg($headebar_button_variants, $color_index: 2)
+        $inactive_color_variants: #22597F, #181866
+        $hover_color_variants: #22597F, #2F9F9A
+
+        @include header_bar_circle_button_base($inactive_color_variants, $hover_color_variants)
 
       .breadcrumb > button,
       .breadcrumb > button > label
