@@ -14,6 +14,28 @@ $headebar_button_variants: #37DCB1, #2D9B98, #22597F, #181866
   &:checked
     background: simple_gradient_bg($color_variants, $color_index, 0.05)
 
+@mixin circle_button_base
+  $border: 3px
+  $shadow_color: #000000
+  $border_color: #FFFFFF
+
+  color: #FFFFFF
+  min-height: 1em
+  min-width: 1em
+  padding: 0.5em
+  border-radius: 50%
+  box-shadow: 0 0 $border 0 $shadow_color
+
+  &:hover
+    box-shadow: 0 0 $border 0 $shadow_color, inset 0 0 0 $border $border_color
+
+@mixin header_bar_circle_button_base($inactive_color_variants, $hover_color_variants)
+  @include circle_button_base
+
+  background: simple_gradient_bg($inactive_color_variants, $index: 1, $alpha: 0.2)
+  &:hover
+    background: simple_gradient_bg($hover_color_variants, $index: 1, $alpha: 0)
+
 // Globals
 $images: 'resource:///com/hack_computer/Clubhouse/images/'
 
@@ -162,18 +184,13 @@ ClubhouseWindow
         label
           margin: 0 1em
 
-      button.circular
-        color: white
-        border-radius: 3em
-        box-shadow: 1px 1px 3px black
-        padding: 3px /* this is the border offset for checked state and needs to be in pixels to avoid rounding errors */
-        min-height: 1.4em
-        min-width: 1.4em
-
       button.closebutton
+        $inactive_color_variants: #22597F, #181866
+        $hover_color_variants: #F94273, #FB3142
+
         margin-left: 1em
         margin-right: 1em
-        @include simple_gradient_bg($headebar_button_variants, $color_index: 3)
+        @include header_bar_circle_button_base($inactive_color_variants, $hover_color_variants)
 
       button.homebutton
         @include simple_gradient_bg($headebar_button_variants, $color_index: 2)

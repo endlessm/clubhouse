@@ -223,7 +223,7 @@
           <object class="GtkImage">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="icon_name">window-close-symbolic</property>
+            <property name="icon_name">list-remove-symbolic</property>
             <property name="icon_size">3</property>
           </object>
         </child>
