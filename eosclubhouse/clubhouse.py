@@ -50,7 +50,8 @@ from eosclubhouse.utils import ClubhouseState, Performance, \
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 
-from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, gtk_widget_add_custom_css_provider
+from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, PopoverList, \
+    gtk_widget_add_custom_css_provider
 
 from urllib.parse import urlparse
 
@@ -1938,6 +1939,26 @@ class AchievementsView(Gtk.Box):
     hover = property(_get_hover)
 
 
+class PathwaysPopover(PopoverList):
+    def __init__(self):
+        super().__init__(has_image=True, disable_selected_row=False)
+        self._app = Gio.Application.get_default()
+        self.props.list_store = self._build_list_store()
+        self.get_style_context().add_class('pathways')
+
+    def _build_list_store(self):
+        list_store = Gtk.ListStore(str, str, str, str)
+        for quest_set in libquest.Registry.get_quest_sets():
+            id_ = quest_set.get_name().lower().strip()
+            list_store.append(
+                [id_, quest_set.get_name(), quest_set.get_icon_name(), quest_set.get_character()])
+        return list_store
+
+    def _popover_list_box_row_activated_cb(self, _list_box, row):
+        super()._popover_list_box_row_activated_cb(_list_box, row)
+        self._app.activate_action('show-character', GLib.Variant('s', self.data[row.id][2]))
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/clubhouse-window.ui')
 class ClubhouseWindow(Gtk.ApplicationWindow):
 
@@ -1981,6 +2002,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._on_screen_changed(None, None)
 
         self.clubhouse = ClubhouseView()
+        self._clubhouse_button.props.popover = PathwaysPopover()
 
         self.news = NewsView()
         self.news.connect('notify::news-count', self._on_news_count_notify)

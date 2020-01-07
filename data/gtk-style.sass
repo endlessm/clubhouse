@@ -69,21 +69,6 @@ scrollbar
     background-color: darken(white, 10%)
 
 // Menu popovers
-popover.menu
-  background-color: transparentize(white, 0.1)
-
-  > stack > box > button
-    font-size: 1.4em
-    padding: 1ex 1em
-
-    &:hover
-      background: linear-gradient(to bottom right, transparentize(#2D9B98, 0.7), transparentize(#22597F, 0.7))
-
-    > box > image
-      -gtk-icon-shadow: none
-      margin-right: 1ex
-      color: #4387c5
-
 popover#PopoverList
   background-color: transparentize(#FFFFFF, 0.15)
   color: #161B19
@@ -98,6 +83,10 @@ popover#PopoverList
       min-height: 1.2em
       padding: 1ex 1em
       border-radius: 0px
+
+      box > image
+        color: #3F97D4
+        margin-right: 1em
 
       &:hover
         background-color: transparentize(#C8D8DB, 0.15)
@@ -1132,3 +1121,6 @@ popover#PopoverList
 
   &.status > list > PopoverListRow
     min-width: 7em
+
+  &.pathways > list > PopoverListRow
+    min-width: 13em
