@@ -1329,8 +1329,9 @@ class NewsItem(Gtk.Box):
                                       yalign=0,
                                       width_request=240)
         self._text_label.connect('activate-link', self._on_text_label_activate_link)
+        # Workaround to prevent slowness when scrolling the news feed.
+        self._text_label.connect_after('size-allocate', lambda *_: self._text_label.queue_resize())
         self._text_box.add(self._text_label)
-        self._text_box.connect_after('size-allocate', lambda *_: self._text_label.queue_resize())
 
         self._text_label.props.label = data.text
         self._date_label.props.label = self._get_human_date(data.date)
