@@ -2595,6 +2595,8 @@ class ClubhouseApplication(Gtk.Application):
         self._session_mode = None
         self._cards_path = None
 
+        self.add_main_option('version', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             'Print version information and exit', None)
         self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'List existing quest sets and quests', None)
         self.add_main_option('list-episodes', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
@@ -2718,6 +2720,14 @@ class ClubhouseApplication(Gtk.Application):
 
         if options.contains('quit'):
             self.activate_action('quit', None)
+            return 0
+
+        if options.contains('version'):
+            print(
+                config.PROJECT_NAME,
+                config.PROJECT_VERSION,
+                config.GIT_REVISION,
+            )
             return 0
 
         return -1

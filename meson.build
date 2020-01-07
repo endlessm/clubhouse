@@ -1,9 +1,16 @@
+# Versioning: We use major.minor.micro version convention with minor odds numbers
+# for development releases and even numbers for production/stable releases.
+#
+# Version bump: pre and post release.
+
 project('eos-clubhouse',
         ['c'],
-        version: '0.1',
+        version: '1.3.0',
         license: 'GPLv2',
         meson_version: '>= 0.50.0',
 )
+
+git_revision = run_command('git', 'rev-parse', '--short', 'HEAD').stdout().strip()
 
 cc = meson.get_compiler('c')
 gnome = import('gnome')
