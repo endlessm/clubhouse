@@ -733,7 +733,7 @@ class ActivityCard(Gtk.FlowBoxChild):
 
     _title = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
-    _complete_image = Gtk.Template.Child()
+    _corner_image = Gtk.Template.Child()
 
     _play_button = Gtk.Template.Child()
 
@@ -872,7 +872,17 @@ class ActivityCard(Gtk.FlowBoxChild):
         self.get_style_context().add_class(self._quest.get_difficulty().name)
 
     def _update_card_state(self):
-        self._complete_image.props.visible = self._quest.complete
+        if self._quest.complete:
+            self.get_style_context().remove_class('new')
+            self._corner_image.props.resource = \
+                '/com/hack_computer/Clubhouse/images/activity-card-corner.svg'
+        elif self._quest.props.is_new:
+            self.get_style_context().add_class('new')
+            self._corner_image.props.resource = \
+                '/com/hack_computer/Clubhouse/images/activity-card-corner-new.svg'
+        else:
+            self.get_style_context().remove_class('new')
+            self._corner_image.props.resource = None
 
         if self._app.quest_runner.running_quest == self._quest:
             self._play_button.set_label('running...')
