@@ -984,6 +984,9 @@ class CharacterView(Gtk.Grid):
         self._status_selector.props.list_store = self._build_status_model()
         self._level_selector.props.list_store = self._build_difficulty_model()
 
+        self._status_selector.popover.get_style_context().add_class('status')
+        self._level_selector.popover.get_style_context().add_class('level')
+
         self._level_selector.connect('notify::selected-item',
                                      self._level_selector_selected_item_notify_cb)
         self._status_selector.connect('notify::selected-item',

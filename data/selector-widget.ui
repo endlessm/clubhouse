@@ -58,7 +58,7 @@
       </packing>
     </child>
   </template>
-  <object class="GtkPopover" id="_popover">
+  <object class="GtkPopover" id="popover">
     <property name="can_focus">False</property>
     <property name="relative_to">_title_button</property>
     <property name="position">bottom</property>

@@ -303,12 +303,10 @@ class SelectorWidget(Gtk.Box):
 
     __gtype_name__ = 'SelectorWidget'
 
-    # _stack = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _close_button = Gtk.Template.Child()
-    # _selected_item_label = Gtk.Template.Child()
 
-    _popover = Gtk.Template.Child()
+    popover = Gtk.Template.Child()
     _popover_list_box = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
@@ -337,14 +335,17 @@ class SelectorWidget(Gtk.Box):
         else:
             self._setup_unselected_state()
 
+        for row in self._popover_list_box.get_children():
+            row.props.sensitive = row.item != self.props.selected_item
+
     def _create_widget_func(self, item, _user_data):
         row = SelectorWidgetPopoverRow(item)
         return row
 
     @Gtk.Template.Callback()
     def _title_button_clicked_cb(self, _button):
-        self._popover.popup()
-        self._popover.show_all()
+        self.popover.popup()
+        self.popover.show_all()
 
     @Gtk.Template.Callback()
     def _close_button_clicked_cb(self, _button):
@@ -353,7 +354,7 @@ class SelectorWidget(Gtk.Box):
     @Gtk.Template.Callback()
     def _popover_list_box_row_activated_cb(self, list_box, row):
         self.props.selected_item = row.item
-        self._popover.popdown()
+        self.popover.popdown()
 
     def _set_list_store(self, list_store):
         self._popover_list_box.bind_model(list_store, self._create_widget_func, None)
