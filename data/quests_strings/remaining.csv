@@ -1756,6 +1756,19 @@ SETUP_EXPLAIN4,"The challenge we face is that the box is locked down tight with 
 The codes are embedded on 3 small tags, or ""fobs,"" hidden deep in Fizzics and Lightspeed.",saniel,,,
 SETUP_QUESTION,Glad to see you! We've got a bit of a situation here. We have to rescue Riley! Can you help us?,saniel,,,
 SETUP_QUESTION_ACCEPT,Definitely! ,,,,
+SIDETRACK2_FLIP,You can use this to unlock the Hacking panel. I am sure you noticed the button at the left side of the screen.,riley,,,
+SIDETRACK2_FLIP_HINT,"Click it to look behind the scenes, take a tour under the hood of this game.",riley,,,
+SIDETRACK2_GIVE_KEY,"Alright, {{user_name}}, I will need again your help during the presentation.
+And since you did such a great job I have an artefact for you.",riley,,,
+SIDETRACK2_INTRO1,"Back from the break, I kept on thinking about the problem we debugged last.",ada,,,
+SIDETRACK2_INTRO2,Is everyone back? Where is Saniel?,estelle,,,
+SIDETRACK2_INTRO3,I guess he took one of his power naps :),faber,,,
+SIDETRACK2_INTRO4,I am here. Indeed just returned from my source of energy.,saniel,,,
+SIDETRACK2_LAUNCH,You completed Sidetrack #1. Nice job! I have the next adventure ready for you. Launch <b>Sidetrack</b>,riley,,,
+SIDETRACK2_LAUNCH_HINT,Go to the desktop and click on the <b>Sidetrack</b> icon.,riley,,,
+SIDETRACK2_QUEST_DESCRIPTION,"Explore a new game with Riley, full of robots and pits!",,,,
+SIDETRACK2_QUEST_NAME,Sidetrack - Robots and Pits,,,,
+SIDETRACK2_QUEST_SUBTITLE,What you'll do,,,,
 STEALTHDEVICE_END,"Sure. We're on it. Thanks, Faber!",riley,,,quests/quest2-faber-werks
 STEALTHDEVICE_EXPLANATION,"Oh, yeah, the stealth device. Hmmm. These are very tricky, but I have studied them quite extensively. 
 
