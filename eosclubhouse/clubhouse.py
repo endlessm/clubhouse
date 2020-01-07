@@ -733,7 +733,7 @@ class ActivityCard(Gtk.FlowBoxChild):
 
     _title = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
-    _complete_image = Gtk.Template.Child()
+    _corner_image = Gtk.Template.Child()
 
     _play_button = Gtk.Template.Child()
 
@@ -872,7 +872,17 @@ class ActivityCard(Gtk.FlowBoxChild):
         self.get_style_context().add_class(self._quest.get_difficulty().name)
 
     def _update_card_state(self):
-        self._complete_image.props.visible = self._quest.complete
+        if self._quest.complete:
+            self.get_style_context().remove_class('new')
+            self._corner_image.props.resource = \
+                '/com/hack_computer/Clubhouse/images/activity-card-corner.svg'
+        elif self._quest.props.is_new:
+            self.get_style_context().add_class('new')
+            self._corner_image.props.resource = \
+                '/com/hack_computer/Clubhouse/images/activity-card-corner-new.svg'
+        else:
+            self.get_style_context().remove_class('new')
+            self._corner_image.props.resource = None
 
         if self._app.quest_runner.running_quest == self._quest:
             self._play_button.set_label('running...')
@@ -2595,6 +2605,8 @@ class ClubhouseApplication(Gtk.Application):
         self._session_mode = None
         self._cards_path = None
 
+        self.add_main_option('version', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             'Print version information and exit', None)
         self.add_main_option('list-quests', ord('q'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'List existing quest sets and quests', None)
         self.add_main_option('list-episodes', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
@@ -2718,6 +2730,14 @@ class ClubhouseApplication(Gtk.Application):
 
         if options.contains('quit'):
             self.activate_action('quit', None)
+            return 0
+
+        if options.contains('version'):
+            print(
+                config.PROJECT_NAME,
+                config.PROJECT_VERSION,
+                config.GIT_REVISION,
+            )
             return 0
 
         return -1

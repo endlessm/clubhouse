@@ -5,6 +5,9 @@ install_subdir(
 )
 
 conf = configuration_data()
+conf.set_quoted('project_name', meson.project_name())
+conf.set_quoted('project_version', meson.project_version())
+conf.set_quoted('git_revision', git_revision)
 conf.set_quoted('characters_dir', characters_dir)
 conf.set_quoted('quests_strings_dir', quests_strings_dir)
 conf.set_quoted('quests_items_csv', quests_items_csv)
@@ -29,3 +32,4 @@ configure_file(
     install_dir: install_dir,
     configuration: conf
 )
+

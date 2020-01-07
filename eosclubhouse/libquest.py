@@ -28,14 +28,18 @@ import subprocess
 import sys
 
 from collections import OrderedDict
+from datetime import date
 from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import App, Desktop, GameStateService, Sound, UserAccount
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
-    Performance, QuestStringCatalog, convert_variant_arg
+    Performance, QuestStringCatalog, convert_variant_arg, Version
 from gi.repository import EosMetrics, Gio, GObject, GLib
 
+
+# Parse Clubhouse version ignoring micro
+clubhouse_version = Version(config.PROJECT_VERSION, ignore_micro=True)
 
 # Set up the asyncio loop implementation
 glibcoro.install()
@@ -657,6 +661,8 @@ class _Quest(GObject.GObject):
     _DEFAULT_CHARACTER = 'ada'
     _DEFAULT_MOOD = 'talk'
 
+    since = None
+
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
 
     stopping = GObject.Property(type=bool, default=False)
@@ -681,6 +687,8 @@ class _Quest(GObject.GObject):
             'QUEST_CONTENT_TAGS': None,
             'QUEST_CONTENT_TAGS_TITLE': 'Objectives',
         }
+
+        self._load_since()
 
         # We declare these variables here, instead of looking them up in the registry when
         # we need them because this way we ensure we get the values when the quest was loaded,
@@ -720,6 +728,9 @@ class _Quest(GObject.GObject):
         self.reset_hints_given_once()
 
         self.clubhouse_state = ClubhouseState()
+
+        self._is_new = False
+        self._update_is_new()
 
         self.setup()
 
@@ -801,6 +812,11 @@ class _Quest(GObject.GObject):
         self.reset_hints_given_once()
 
         self._run_context = _QuestRunContext(self._cancellable)
+
+        # Save last launch date
+        self.conf['last_launch_date'] = date.today().isoformat()
+        self._update_is_new()
+
         self.emit('quest-started')
         self._start_record_metrics()
 
@@ -1187,6 +1203,11 @@ class _Quest(GObject.GObject):
     def _get_quest_conf_prefix():
         return 'quest.'
 
+    @classmethod
+    def _load_since(class_):
+        for tag_info in class_.get_tag_info_by_prefix('since'):
+            class_.since = Version(tag_info[0], ignore_micro=True)
+
     def load_conf(self):
         key = self._get_conf_key()
         self.conf = self.gss.get(key, value_if_missing={})
@@ -1230,6 +1251,22 @@ class _Quest(GObject.GObject):
         if is_complete and self.conf['complete'] != is_complete:
             self._give_achievement_points(record_points=True)
         self.conf['complete'] = is_complete
+
+    def _update_is_new(self):
+        is_new = False
+
+        # A new quest is a quest that was introduced in the latest major version
+        # of the clubhouse and has not been played by the user.
+        # So a quest is new if it has a "since" version and its equal or bigger
+        # than the current clubhouse version. (we include bigger versions
+        # because of development versions)
+
+        if self.since is not None and self.since >= clubhouse_version:
+            is_new = self.conf.get('last_launch_date') is None
+
+        if self._is_new != is_new:
+            self._is_new = is_new
+            self.notify('is_new')
 
     def _get_highlighted(self):
         return self._highlighted
@@ -1365,6 +1402,11 @@ class _Quest(GObject.GObject):
     highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False,
                                    flags=GObject.ParamFlags.READWRITE |
                                    GObject.ParamFlags.EXPLICIT_NOTIFY)
+
+    @GObject.Property(type=bool, default=False)
+    def is_new(self):
+        """Whether this quest is a new release or not"""
+        return self._is_new
 
 
 class Quest(_Quest):

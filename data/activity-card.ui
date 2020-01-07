@@ -32,11 +32,11 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkImage" id="_complete_image">
+                      <object class="GtkImage" id="_corner_image">
+                        <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">end</property>
                         <property name="valign">start</property>
-                        <property name="resource">/com/hack_computer/Clubhouse/images/activity-card-corner.svg</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>

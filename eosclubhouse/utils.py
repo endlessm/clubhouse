@@ -419,3 +419,9 @@ def inside_triangle(p, a, b, c):
     pab_area = triangle_area(p, a, b)
 
     return abc_area - (pbc_area + pac_area + pab_area) == 0
+
+
+class Version(list):
+    def __init__(self, version_string, ignore_micro=False):
+        n = 2 if ignore_micro else 3
+        list.__init__(self, [int(s) for s in version_string.split('.')[:n]])
