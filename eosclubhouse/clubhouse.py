@@ -50,8 +50,7 @@ from eosclubhouse.utils import ClubhouseState, Performance, \
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 
-from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, SelectorWidgetPopoverItem, \
-    gtk_widget_add_custom_css_provider
+from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, gtk_widget_add_custom_css_provider
 
 from urllib.parse import urlparse
 
@@ -987,10 +986,10 @@ class CharacterView(Gtk.Grid):
         self._status_selector.popover.get_style_context().add_class('status')
         self._level_selector.popover.get_style_context().add_class('level')
 
-        self._level_selector.connect('notify::selected-item',
-                                     self._level_selector_selected_item_notify_cb)
-        self._status_selector.connect('notify::selected-item',
-                                      self._status_selector_selected_item_notify_cb)
+        self._level_selector.connect('notify::selected-item-id',
+                                     self._level_selector_selected_item_id_notify_cb)
+        self._status_selector.connect('notify::selected-item-id',
+                                      self._status_selector_selected_item_id_notify_cb)
 
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::nav-attract-state',
@@ -1163,31 +1162,28 @@ class CharacterView(Gtk.Grid):
         self._app_window.character.activities_sw.props.sensitive = not state.characters_disabled
 
     def _build_difficulty_model(self):
-        store = Gio.ListStore()
+        store = Gtk.ListStore(str, str)
         for difficulty in libquest.Quest.Difficulty:
-            item = SelectorWidgetPopoverItem(difficulty.name, difficulty.name.capitalize())
-            store.append(item)
+            store.append([difficulty.name, difficulty.name.capitalize()])
         return store
 
     def _build_status_model(self):
-        store = Gio.ListStore()
-        store.append(SelectorWidgetPopoverItem('complete', 'Complete'))
-        store.append(SelectorWidgetPopoverItem('incomplete', 'Incomplete'))
+        store = Gtk.ListStore(str, str)
+        store.append(['complete', 'Complete'])
+        store.append(['incomplete', 'Incomplete'])
         return store
 
-    def _level_selector_selected_item_notify_cb(self, selector, _pspec):
-        item = selector.props.selected_item
-        if item is None:
+    def _level_selector_selected_item_id_notify_cb(self, selector, _pspec):
+        if selector.props.selected_item_id is None:
             self.props.level = None
         else:
-            self.props.level = libquest.Quest.Difficulty[item.id]
+            self.props.level = libquest.Quest.Difficulty[selector.props.selected_item_id]
 
-    def _status_selector_selected_item_notify_cb(self, selector, _pspec):
-        item = selector.props.selected_item
-        if item is None:
+    def _status_selector_selected_item_id_notify_cb(self, selector, _pspec):
+        if selector.props.selected_item_id is None:
             self.props.status = None
         else:
-            self.props.status = item.id
+            self.props.status = selector.props.selected_item_id
 
     def _setup_category_view(self):
         if self._abort_running_quest_on_category_view:
@@ -1210,8 +1206,8 @@ class CharacterView(Gtk.Grid):
         # Prevent showing the 'empty-state' when setting to None.
         GObject.signal_handler_block(self, self._notify_level_id)
         GObject.signal_handler_block(self, self._notify_status_id)
-        self._level_selector.props.selected_item = None
-        self._status_selector.props.selected_item = None
+        self._level_selector.props.selected_item_id = None
+        self._status_selector.props.selected_item_id = None
         GObject.signal_handler_unblock(self, self._notify_level_id)
         GObject.signal_handler_unblock(self, self._notify_status_id)
 
@@ -1248,8 +1244,8 @@ class CharacterView(Gtk.Grid):
 
     @Gtk.Template.Callback()
     def _clear_search_button_clicked_cb(self, _button):
-        self._level_selector.selected_item = None
-        self._status_selector.selected_item = None
+        self._level_selector.selected_item_id = None
+        self._status_selector.selected_item_id = None
         self.show_quests()
 
     def _level_notify_cb(self, *args):

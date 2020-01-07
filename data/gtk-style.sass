@@ -84,6 +84,40 @@ popover.menu
       margin-right: 1ex
       color: #4387c5
 
+popover#PopoverList
+  background-color: transparentize(#FFFFFF, 0.15)
+  color: #161B19
+  font-family: "Metropolis"
+  font-size: 1em
+  padding: 0
+  border-width: 3px
+  border-color: #FFFFFF
+
+  > list
+    > PopoverListRow
+      min-height: 1.2em
+      padding: 1ex 1em
+      border-radius: 0px
+
+      &:hover
+        background-color: transparentize(#C8D8DB, 0.15)
+        font-weight: bold
+        font-family: "Metropolis regular"
+
+      &:disabled
+        background-color: unset
+
+        > label
+          color: #C8D8DB
+          font-style: italic
+          font-family: "Metropolis medium"
+
+      &:first-child
+        border-radius: 5px 5px 0px 0px
+
+      &:last-child
+        border-radius: 0px 0px 5px 5px
+
 // Window
 @keyframes background_zoom_in
     from
@@ -1091,42 +1125,10 @@ SelectorWidget
       > image
         color: #36d9af
 
-popover.selector-widget
-  background-color: transparentize(#FFFFFF, 0.15)
-  color: #161B19
-  font-family: "Metropolis"
-  font-size: 1em
-  padding: 0
-  border-width: 3px
-  border-color: #FFFFFF
-
-  > list
-    > row
-      min-height: 1.2em
-      padding: 1ex 1em
-      border-radius: 0px
-
-      &:hover
-        background-color: transparentize(#C8D8DB, 0.15)
-        font-weight: bold
-        font-family: "Metropolis regular"
-
-      &:disabled
-        background-color: unset
-
-        > label
-          color: #C8D8DB
-          font-style: italic
-          font-family: "Metropolis medium"
-
-      &:first-child
-        border-radius: 5px 5px 0px 0px
-
-      &:last-child
-        border-radius: 0px 0px 5px 5px
-
-  &.level > list > row
+// Prevent bold text expanding its container.
+popover#PopoverList
+  &.level > list > PopoverListRow
     min-width: 6em
 
-  &.status > list > row
+  &.status > list > PopoverListRow
     min-width: 7em
