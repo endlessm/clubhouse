@@ -141,6 +141,7 @@ class Registry(GObject.GObject):
         if not issubclass(quest_set, QuestSet):
             raise TypeError('{} is not a of type {}'.format(quest_set, QuestSet))
         class_._quest_sets_to_register.append(quest_set)
+        class_._quest_sets_to_register.sort(key=lambda qs: qs.get_pathway_order())
 
     @classmethod
     def get_quest_sets(class_):
@@ -1412,7 +1413,7 @@ class Quest(_Quest):
     '''
 
     __pathway_order__ = 0
-    '''Order of this quest in pathways.
+    '''Order of this quest in pathways popover menu.
 
     Quests in the same pathway will be sorted by this number. A smaller number will make the
     quest appear closer to the beginning of the list.
@@ -2226,6 +2227,14 @@ class QuestSet(GObject.GObject):
     __character_id__ = None
     __empty_message__ = 'Nothing to see here!'
 
+    __pathway_order__ = 0
+    '''Order of this quest in pathways.
+
+    QuestSets will be ordered with this number. A smaller number will make the
+    quest appear closer to the beginning of the list.
+
+    '''
+
     visible = GObject.Property(type=bool, default=True)
 
     def __init__(self):
@@ -2303,6 +2312,10 @@ class QuestSet(GObject.GObject):
     @classmethod
     def get_character(class_):
         return class_.__character_id__
+
+    @classmethod
+    def get_pathway_order(class_):
+        return class_.__pathway_order__
 
     def get_next_quest(self):
         for quest in self.get_quests():

@@ -3,6 +3,7 @@ from eosclubhouse.libquest import QuestSet, Registry
 
 class OSPathWay(QuestSet):
 
+    __pathway_order__ = 4
     __pathway_name__ = 'Operating System'
     __character_id__ = 'saniel'
 
