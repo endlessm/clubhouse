@@ -1219,6 +1219,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
     def _on_lights_changed_cb(self, state, _param):
         if state.lights_on != self._hack_switch.get_active():
             self.set_switch_active(state.lights_on)
+        self._update_switch_css()
 
     def _on_hack_switch_highlighted_changed_cb(self, state, _param):
         ctx = self._hack_switch.get_style_context()
