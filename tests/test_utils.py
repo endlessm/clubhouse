@@ -92,4 +92,3 @@ class TestVersion(unittest.TestCase):
         self.assertTrue(Version('1.2.0') != Version('1.2.1'))
         self.assertTrue(Version('1.2.0') != Version('1.1.0'))
         self.assertTrue(Version('1.2.0') != Version('2.2.0'))
-
