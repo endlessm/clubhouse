@@ -389,12 +389,15 @@ class SelectorWidget(Gtk.Box):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._list_store = None
+        self._selected_item_id = None
         self.popover = PopoverList(relative_to=self)
 
         self.bind_property('list-store', self.popover, 'list-store', GObject.BindingFlags.DEFAULT)
         self.popover.bind_property('selected-item-id', self, 'selected-item-id',
                                    GObject.BindingFlags.BIDIRECTIONAL)
-        self.connect('notify::selected-item-id', self._notify_selected_item_id_cb)
+
+    def _selected_item_id_to_css_class(self, selected_item_id=None):
+        return selected_item_id.lower().replace(' ', '')
 
     def _setup_unselected_state(self):
         self._title_label.props.label = self.props.default_label
@@ -402,20 +405,19 @@ class SelectorWidget(Gtk.Box):
         self._close_button.props.visible = False
         ctx = self.get_style_context()
         ctx.remove_class('selected')
+        if self._selected_item_id is not None:
+            ctx.remove_class(self._selected_item_id_to_css_class(self._selected_item_id))
 
-    def _setup_selected_state(self):
+    def _setup_selected_state(self, new_selected_item_id):
         self._title_label.props.label = self.popover.selected_row.title
         self._title_label.props.halign = Gtk.Align.START
         self._close_button.props.visible = True
         ctx = self.get_style_context()
         ctx.add_class('selected')
-
-    def _notify_selected_item_id_cb(self, *_args):
-        if self.props.selected_item_id is not None:
-            self._setup_selected_state()
-        else:
-            self._setup_unselected_state()
-        self.popover.popdown()
+        if self._selected_item_id is not None:
+            ctx.remove_class(self._selected_item_id_to_css_class(self._selected_item_id))
+        if new_selected_item_id is not None:
+            ctx.add_class(self._selected_item_id_to_css_class(new_selected_item_id))
 
     @Gtk.Template.Callback()
     def _title_button_clicked_cb(self, _button):
@@ -433,8 +435,19 @@ class SelectorWidget(Gtk.Box):
     def _get_default_label(self):
         return self._default_label
 
+    def _set_selected_item_id(self, value):
+        if value is not None:
+            self._setup_selected_state(value)
+        else:
+            self._setup_unselected_state()
+        self.popover.popdown()
+        self._selected_item_id = value
+
+    def _get_selected_item_id(self):
+        return self._selected_item_id
+
     default_label = GObject.Property(_get_default_label, _set_default_label, type=str)
-    selected_item_id = GObject.Property(type=str)
+    selected_item_id = GObject.Property(_get_selected_item_id, _set_selected_item_id, type=str)
     list_store = GObject.Property(type=object)
 
 

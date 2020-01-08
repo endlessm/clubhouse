@@ -1128,3 +1128,23 @@ popover#PopoverList
 
   &.pathways > list > PopoverListRow
     min-width: 13em
+
+
+SelectorWidget.selected
+  &.easy
+    $default_left_bg_color: #32DDA2
+    $default_right_bg_color: #D2E51E
+
+    background: linear-gradient(to right, $default_left_bg_color, $default_right_bg_color)
+
+  &.normal
+    $default_left_bg_color: #32DDA2
+    $default_right_bg_color: #02E51E
+
+    background: linear-gradient(to right, $default_left_bg_color, $default_right_bg_color)
+
+  &.hard
+    $default_left_bg_color: #FA2374
+    $default_right_bg_color: #FE0309
+
+    background: linear-gradient(to right, $default_left_bg_color, $default_right_bg_color)
