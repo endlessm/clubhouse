@@ -1094,25 +1094,29 @@ ScalableImage
 
 
 SelectorWidget
-  $default_left_bg_color: #133e60
-  $default_right_bg_color: #1c0053
+  $default_left_bg_color: #22597F
+  $default_right_bg_color: #181866
+  $border: 3px
+  $shadow_color: #000000
+  $border_color: #FFFFFF
 
   background: linear-gradient(to right, $default_left_bg_color, $default_right_bg_color)
   border-radius: 3em
   color: white
   padding: 3px 1em
+  box-shadow: 0 0 $border 0 $shadow_color
 
   &.selected
-    border: 3px solid white
+    box-shadow: 0 0 $border 0 $shadow_color, inset 0 0 0 $border $border_color
 
   > button
     &.title
       > label
-        color: white
+        color: #FFFFFF
 
     &.close
       > image
-        color: #36d9af
+        color: #FFFFFF
 
 // Prevent bold text expanding its container.
 popover#PopoverList
