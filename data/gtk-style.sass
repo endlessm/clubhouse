@@ -1,11 +1,11 @@
 // Helper functions and mixins
 $headebar_button_variants: #37DCB1, #2D9B98, #22597F, #181866
 
-@function simple_gradient_bg($color_variants, $index, $alpha)
+@function simple_gradient_bg($color_variants, $index, $alpha, $gradient_direction: to bottom right)
   $color_a: transparentize(nth($color_variants, $index), $alpha)
   $color_b: transparentize(nth($color_variants, $index % length($color_variants) + 1), $alpha)
   @debug $color_b
-  @return linear-gradient(to bottom right, $color_a, $color_b)
+  @return linear-gradient($gradient_direction, $color_a, $color_b)
 
 @mixin simple_gradient_bg($color_variants, $color_index)
   background: simple_gradient_bg($color_variants, $color_index, 0.2)
@@ -35,6 +35,24 @@ $headebar_button_variants: #37DCB1, #2D9B98, #22597F, #181866
   background: simple_gradient_bg($inactive_color_variants, $index: 1, $alpha: 0.2)
   &:hover
     background: simple_gradient_bg($hover_color_variants, $index: 1, $alpha: 0)
+
+@mixin rounded_corner_button_base
+  $text_color: #FFFFFF
+  $font_size: 1em
+  $padding: 0.5em
+
+  font-size: 1em
+  font-family: "Metropolis"
+  font-weight: bold
+  padding: $padding calc(#{$padding} * 2)
+  min-width: 4em
+  border-radius: calc(#{$font_size} + #{$padding})
+  color: $text_color
+  text-shadow: none
+  -gtk-icon-shadow: none
+
+  > label
+    color: $text_color
 
 // Globals
 $images: 'resource:///com/hack_computer/Clubhouse/images/'
@@ -106,6 +124,56 @@ popover#PopoverList
 
       &:last-child
         border-radius: 0px 0px 5px 5px
+
+// BreadcrumbButton
+BreadcrumbButton
+  $main_button_color_variants: #3ED7B1 #2F9F9A
+  $bg_color_variants: #2F9F9A #3D6888
+  $action_icon_color: nth($main_button_color_variants, 2)
+  $gradient_direction: to right
+  $text_color: #FFFFFF
+  $padding: 0.5em
+  $border: 3px
+  $shadow_color: #000000
+  $border_color: #FFFFFF
+
+  border-radius: 3em
+  box-shadow: 1px 1px 3px black
+  background: simple_gradient_bg($bg_color_variants, 1, 0, $gradient_direction)
+  transition: background-image 200ms linear
+  box-shadow: 0 0 $border 0 $shadow_color
+
+  image
+    color: $action_icon_color
+
+  button
+    color: $text_color
+
+    &.main
+      @include rounded_corner_button_base
+      background: simple_gradient_bg($main_button_color_variants, 1, 0, $gradient_direction)
+      box-shadow: 0 0 $border 0 $shadow_color, inset 0 0 0 $border $border_color
+
+      image
+        color: #FFFFFF
+        margin-right: 0.5em;
+
+    &.popdown
+      padding-left: $padding
+      padding-right: $padding
+
+      label
+        padding-right: $padding
+
+  button.back
+    color: white
+    padding-left: $padding
+    text-shadow: none
+    -gtk-icon-shadow: none
+
+  box.back-box > image
+    padding-left: $padding
+    padding-right: $padding
 
 // Window
 @keyframes background_zoom_in
@@ -220,46 +288,6 @@ ClubhouseWindow
         $hover_color_variants: #22597F, #2F9F9A
 
         @include header_bar_circle_button_base($inactive_color_variants, $hover_color_variants)
-
-      .breadcrumb > button,
-      .breadcrumb > button > label
-        color: white
-        text-shadow: none
-        border: 0
-        margin: 0
-        border-radius: 3em
-        -gtk-icon-shadow: none
-
-      .breadcrumb
-        border: 0
-        margin: 0
-        border-radius: 3em
-        box-shadow: 1px 1px 3px black
-        background: simple_gradient_bg($headebar_button_variants, 2, 0.5)
-        transition: background-image 200ms linear
-
-      .breadcrumb > .main
-        background: simple_gradient_bg($headebar_button_variants, 1, 0)
-        border: 3px solid white
-        padding: 3px 1em
-
-      .breadcrumb > .popdown
-        padding-left: 1em
-        padding-right: 0.5em
-
-      .breadcrumb > .inactive
-        background: simple_gradient_bg($headebar_button_variants, 1, 0)
-        border-radius: 3em
-        padding: 3px 0px
-
-      .breadcrumb, .breadcrumb > .popdown image
-        color: transparentize(white, 0.7)
-
-      .breadcrumb .back
-        color: white
-        padding-left: 0.5em
-        text-shadow: none
-        -gtk-icon-shadow: none
 
       .selector-box
         SelectorWidget
