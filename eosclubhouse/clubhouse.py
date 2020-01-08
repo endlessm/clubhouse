@@ -1117,15 +1117,22 @@ class CharacterView(Gtk.Grid):
             self._remove_activity_card(quest_set, quest)
 
     def _new_categories_popover(self, quest_set):
-        category_menu = Gio.Menu()
+        def _notify_selected_item_id_cb(popover, *_args):
+            if popover.props.selected_item_id is None:
+                return
+            state = utils.convert_variant_arg({'category': popover.props.selected_item_id})
+            self._app.activate_action('set-page-state',
+                                      GLib.Variant('(sv)', ('CHARACTER', state)))
+
+        popover = PopoverList(disable_selected_row=False)
+        list_store = Gtk.ListStore(str, str)
         for category in quest_set.get_categories():
-            state = utils.convert_variant_arg({'category': category.id})
-            menu_item = Gio.MenuItem()
-            menu_item.set_label(category.title)
-            menu_item.set_action_and_target_value('app.set-page-state',
-                                                  GLib.Variant('(sv)', ('CHARACTER', state)))
-            category_menu.append_item(menu_item)
-        return Gtk.Popover.new_from_model(None, category_menu)
+            list_store.append([category.id, category.title])
+
+        popover.props.list_store = list_store
+        popover.connect('notify::selected-item-id', _notify_selected_item_id_cb)
+
+        return popover
 
     def _on_row_size_allocate(self, row, _rect):
         self._scroll_to_first_non_completed_quest()
