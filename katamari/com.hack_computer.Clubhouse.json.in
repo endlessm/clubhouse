@@ -36,7 +36,6 @@
         "--own-name=com.hack_computer.HackSoundServer",
         "--own-name=com.hack_computer.HackToolbox",
         "--share=ipc",
-        "--share=network",
         "--socket=pulseaudio",
         "--socket=session-bus",
         "--socket=wayland",
