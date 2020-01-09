@@ -710,10 +710,10 @@ class _Quest(GObject.GObject):
         self.load_conf()
 
         self._highlighted = False
-        self._available = self.__available_after_completing_quests__ == []
+        self._available = self._get_availability()
         if self.__available_after_completing_quests__ != []:
-            self.gss.connect('changed', self.update_availability)
-            self.update_availability()
+            self.gss.connect('changed', lambda _gss: self._update_availability())
+            self._update_availability()
 
         self._cancellable = None
 
@@ -762,12 +762,12 @@ class _Quest(GObject.GObject):
     def get_episode_name(self):
         return self._episode_name
 
-    def update_availability(self, _gss=None):
-        if self.complete:
-            return
-        if all(self.is_named_quest_complete(q)
-               for q in self.__available_after_completing_quests__):
-            self.available = True
+    def _get_availability(self):
+        return all(self.is_named_quest_complete(q)
+                   for q in self.__available_after_completing_quests__)
+
+    def _update_availability(self):
+        self.available = self._get_availability()
 
     def get_default_qs_base_id(self):
         return str(self.__class__.__name__).upper()
