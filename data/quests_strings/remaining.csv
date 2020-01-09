@@ -1056,6 +1056,10 @@ MAKER3DMODELING_QUEST_DESCRIPTION,Learn to create real-world objects in 3d.,,,,
 MAKER3DMODELING_QUEST_NAME,3D Modeling - Physical Objects,,,,
 MAKER3DMODELING_QUEST_SUBTITLE,What you'll do,,,,
 MAKER3DMODELING_WELCOME,3D Modeling for art and 3D modeling for creating objects are 2 different things. Come on and try your hand at it!,estelle,,,
+MAKERHAPPINESS_QUEST_DESCRIPTION,,,,,
+MAKERHAPPINESS_QUEST_NAME,Make Your Own Happiness,,,,
+MAKERHAPPINESS_QUEST_SUBTITLE,What you'll do,,,,
+MAKERHAPPINESS_WELCOME,,faber,,,
 MAKERINTRO_ABORT,"Okay, see ya later!",,,,
 MAKERINTRO_EXPLANATION,Here's your challenge: Collect all the diamonds... without flinging the orange ball.,,,,quests/quest2-fabers-fizzics
 MAKERINTRO_EXPLANATION_HINT1,"You heard me. I'll be watching, so don't try flinging.",,,,quests/quest2-fabers-fizzics
@@ -1709,15 +1713,16 @@ SETUP_EXPLAIN4,"The challenge we face is that the box is locked down tight with 
 The codes are embedded on 3 small tags, or ""fobs,"" hidden deep in Fizzics and Lightspeed.",saniel,,,
 SETUP_QUESTION,Glad to see you! We've got a bit of a situation here. We have to rescue Riley! Can you help us?,saniel,,,
 SETUP_QUESTION_ACCEPT,Definitely! ,,,,
-SIDETRACK2_FLIP,We need to enter the Hacking panel. I am sure you noticed the button at the left side of the screen.,riley,,,
-SIDETRACK2_FLIP_HINT1,"Click it to look behind the scenes, take a tour under the hood of this game.",riley,,,
+SIDETRACK2_FLIP,I added a Hacking panel for my game. I am sure you noticed the button at the left side of the screen.,riley,,,
+SIDETRACK2_FLIP_HINT1,"Click the button to look behind the scenes, take a tour under the hood of this game.",riley,,,
 SIDETRACK2_FLIP_HINT2,Press the <b>Flip</b> button so we can see the <b>Sidetrack Toolbox</b>.,riley,,,
 SIDETRACK2_GIVE_KEY,"Sure Estelle, my pleassure. Let me give you guys the key, the concept should be clear. ",riley,,,
 SIDETRACK2_INTRO1,"Back from the break, I kept on thinking about the problem we debugged last.",ada,,,
 SIDETRACK2_INTRO2,Is everyone back? Where is Saniel?,estelle,,,
 SIDETRACK2_INTRO3,I guess he took one of his power naps :),faber,,,
-SIDETRACK2_INTRO4,I am here. Indeed just returned from my source of energy. Let's recap where we left off.,saniel,,,
-SIDETRACK2_INTRO5,So we weren't able to solve this level...,estelle,,,
+SIDETRACK2_INTRO4,I am here. Indeed I just returned from my inemuri as my friends in Japan would say. Let's recap where we left off.,saniel,,,
+SIDETRACK2_INTRO5,So we weren't able to solve this level because the instruction at <b>position 3</b> is wrong and hitting play does not forge ahead.,estelle,,,
+SIDETRACK2_INTRO6,"As I said, we’ll need to see the code to debug it.",saniel,,,
 SIDETRACK2_LAUNCH,You completed Sidetrack #1. Nice job! I have the next adventure ready for you. Launch <b>Sidetrack</b>.,riley,,,
 SIDETRACK2_LAUNCH_HINT1,Go to the desktop and click on the <b>Sidetrack</b> icon.,riley,,,
 SIDETRACK2_PLAY_HINT,Press play in order to verify if your changes are correct.,,,,
@@ -1730,14 +1735,14 @@ SIDETRACK2_TOOLBOX_INSTRUCTIONS,"Ah. Now we can access the <b>Instructions</b>. 
 See that? Someone spelled <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> wrong, no wonder that <b>Instruction</b> doesn't work. The language has to be super exact.
 
 Pay attention to each letter and correct the spelling in the code. Then try running the level again!",,,,
-SIDETRACK2_TOOLBOX_INSTRUCTIONS_HINT,"See in the code where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jumpp();</span></tt>?
+SIDETRACK2_TOOLBOX_INSTRUCTIONS_HINT1,"See in the code where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jumpp();</span></tt>?
 
 See how jump has two p's? There's only one <b>p</b> in jump!",,,,
 SIDETRACK2_TOOLBOX_INSTRUCTIONS_HINT2,"Change it to say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump();</span></tt> Then flip back over and press PLAY.",,,,
 SIDETRACK2_UNLOCK,"Ok, what is this? A lock?",faber,,,
 SIDETRACK2_UNLOCK2,"Yes, I have seen the concept of locked content in many games. So I wanted to do similarly. How to open a lock?",riley,,,
 SIDETRACK2_UNLOCK3,I am not a big fan if quizzes... I am interested in debugging the real issue. Can we go on?,estelle,,,
-SIDETRACK2_UNLOCK4,"<b>{{user_name}}</b>, do you see the lock lightning up and hear the sound playing? Means you have the key for the lock. Click on it and it will open.",riley,,,
+SIDETRACK2_UNLOCK4,"<b>{{user_name}}</b>, do you see the lock lightning up and hear the sound playing? Means you have the key for the lock. Click the lock and it will open.",riley,,,
 STEALTHDEVICE_END,"Sure. We're on it. Thanks, Faber!",riley,,,quests/quest2-faber-werks
 STEALTHDEVICE_EXPLANATION,"Oh, yeah, the stealth device. Hmmm. These are very tricky, but I have studied them quite extensively. 
 
