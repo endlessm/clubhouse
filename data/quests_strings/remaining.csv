@@ -1056,10 +1056,10 @@ MAKER3DMODELING_QUEST_DESCRIPTION,Learn to create real-world objects in 3d.,,,,
 MAKER3DMODELING_QUEST_NAME,3D Modeling - Physical Objects,,,,
 MAKER3DMODELING_QUEST_SUBTITLE,What you'll do,,,,
 MAKER3DMODELING_WELCOME,3D Modeling for art and 3D modeling for creating objects are 2 different things. Come on and try your hand at it!,estelle,,,
-MAKERHAPPINESS_QUEST_DESCRIPTION,,,,,
+MAKERHAPPINESS_QUEST_DESCRIPTION,Learn some strategies for making a positive impact on someone close to you.,,,,
 MAKERHAPPINESS_QUEST_NAME,Make Your Own Happiness,,,,
 MAKERHAPPINESS_QUEST_SUBTITLE,What you'll do,,,,
-MAKERHAPPINESS_WELCOME,,faber,,,
+MAKERHAPPINESS_WELCOME,"Doing things for yourself is good, but you get a totally different kind of charge off of doing something for someone else.",faber,,,
 MAKERINTRO_ABORT,"Okay, see ya later!",,,,
 MAKERINTRO_EXPLANATION,Here's your challenge: Collect all the diamonds... without flinging the orange ball.,,,,quests/quest2-fabers-fizzics
 MAKERINTRO_EXPLANATION_HINT1,"You heard me. I'll be watching, so don't try flinging.",,,,quests/quest2-fabers-fizzics
