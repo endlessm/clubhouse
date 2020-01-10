@@ -1407,7 +1407,13 @@ class NewsView(Gtk.Box):
         self._last_seen = None
 
         self._populate()
+        # The previous behaviour was intended to synchronize the user profile animation slider
+        # with the shrinking of the news feed. However, the result was too slow.
+        # This is a workarounnd that changes the old implementation, so we first wait the slider
+        # finishes to slide, and after that we shrink the news feed. No synchronization here.
         self._app_window._user_box.connect_after('size-allocate', self._user_box_size_allocate_cb)
+        self._app_window._achievements_view_revealer_revealer.connect(
+            'notify::child-revealed', self._achievements_view_revealer_revealer_child_revealed_cb)
 
     def _populate(self):
         self._populate_news()
@@ -1456,6 +1462,14 @@ class NewsView(Gtk.Box):
         return GLib.SOURCE_REMOVE
 
     def _user_box_size_allocate_cb(self, _user_box, allocation):
+        self._sync_left_spacing_box_size()
+        self._app_window._user_box.disconnect_by_func(self._user_box_size_allocate_cb)
+
+    def _achievements_view_revealer_revealer_child_revealed_cb(self, *_args):
+        self._sync_left_spacing_box_size()
+
+    def _sync_left_spacing_box_size(self):
+        allocation = self._app_window._user_box.get_allocation()
         if self._left_spacing_box.props.width_request != allocation.width:
             self._left_spacing_box.props.width_request = allocation.width
 
