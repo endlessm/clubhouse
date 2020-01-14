@@ -1725,6 +1725,20 @@ SIDETRACK2_INTRO5,So we weren't able to solve this level because the instruction
 SIDETRACK2_INTRO6,"As I said, we’ll need to see the code to debug it.",saniel,,,
 SIDETRACK2_LAUNCH,You completed Sidetrack #1. Nice job! I have the next adventure ready for you. Launch <b>Sidetrack</b>.,riley,,,
 SIDETRACK2_LAUNCH_HINT1,Go to the desktop and click on the <b>Sidetrack</b> icon.,riley,,,
+SIDETRACK2_LEVEL_24,Awesome! Success.,faber,,,
+SIDETRACK2_LEVEL_24_GUIDE,"Looks like this level has another error, though! Two of them! We need to fix both of them.",estelle,,,
+SIDETRACK2_LEVEL_24_GUIDE_HINT1,Look at the <b>Instructions</b> code by flipping the app to the back.,saniel,,,
+SIDETRACK2_LEVEL_24_GUIDE_HINT2,Then look for <b>Instructions</b> that are spelled wrong or that don't match the other <b>Instructions</b>.,saniel,,,
+SIDETRACK2_LEVEL_24_GUIDE_HINT3,"See where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.fooorward();</span></tt>? Forward has way too many o's! Change it to <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.forward();</span></tt>",saniel,,,
+SIDETRACK2_LEVEL_24_GUIDE_HINT4,"Oh, wait, there's another one. Do you see it? Code is case sensitive so that's always something to check.
+
+It should be <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump();</span></tt> not <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.Jump();</span></tt>  See that? lower case j: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> not <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Jump</span></tt>    <b>=^.‿.^=</b>",saniel,,,
+SIDETRACK2_LEVEL_25,"More spelling errors! I guess someone was under some pressure to get this done quickly!
+
+Not only that, but once I fix the errors, I'll still need to get the order of the <b>Instructions</b> right.",riley,,,
+SIDETRACK2_LEVEL_26,Missing research files.,,,,
+SIDETRACK2_LEVEL_27,Level 27,,,,
+SIDETRACK2_LEVEL_28,Jumping a wall?,,,,
 SIDETRACK2_PLAY_HINT,Press play in order to verify if your changes are correct.,,,,
 SIDETRACK2_QUEST_DESCRIPTION,Continue exploring Riley's game and look behind the scenes.,,,,
 SIDETRACK2_QUEST_NAME,Sidetrack #2 - Enter the code,,,,
