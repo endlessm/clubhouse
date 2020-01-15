@@ -2378,14 +2378,4 @@ class QuestSet(GObject.GObject):
 
         return string_info['txt']
 
-    def get_easier_quest(self, quest):
-        if quest.complete:
-            return None
-
-        for q in self.get_quests():
-            if not q.skippable and not q.complete and q.get_difficulty() < quest.get_difficulty():
-                return q
-
-        return None
-
     highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False)
