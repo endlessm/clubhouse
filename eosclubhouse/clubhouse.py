@@ -774,8 +774,7 @@ class ActivityCard(Gtk.FlowBoxChild):
 
     @Gtk.Template.Callback()
     def _on_play_button_clicked(self, button):
-        easier_quest = self._quest_set.get_easier_quest(self._quest)
-        self._app.quest_runner.try_running_quest(self._quest, easier_quest)
+        self._app.quest_runner.try_running_quest(self._quest)
 
     @Gtk.Template.Callback()
     def _on_button_press_event(self, widget, event):
@@ -2259,29 +2258,9 @@ class QuestRunner(GObject.GObject):
                          reject_stop)],
         })
 
-    def _ask_harder_quest(self, new_quest, easier_quest):
-
-        def reject_harder():
-            Sound.play('clubhouse/dialog/close')
-
-        self._shell_popup_message({
-            # @todo: This string should not be hardcoded:
-            'text': 'There is an easier quest, do you want to continue anyways?',
-            'system_notification': True,
-            'character_id': self.SYSTEM_CHARACTER_ID,
-            'character_mood': self.SYSTEM_CHARACTER_MOOD,
-            'sound_fx': new_quest.proposal_sound,
-            'choices': [(new_quest.get_label('QUEST_ACCEPT_HARDER'), self.run_quest, new_quest),
-                        (new_quest.get_label('QUEST_REJECT_HARDER'), reject_harder)],
-        })
-
-    def try_running_quest(self, new_quest, easier_quest=None):
+    def try_running_quest(self, new_quest):
         if self.running_quest is not None and not self.running_quest.stopping:
             self._ask_stop_quest(new_quest)
-            return
-
-        if easier_quest is not None:
-            self._ask_harder_quest(new_quest, easier_quest)
             return
 
         self.run_quest(new_quest)
