@@ -18,5 +18,7 @@ class ArtVerb(Quest):
 
     def step_instruct(self):
         self.wait_confirm('WELCOME', confirm_label="I'll try it!")
+        if self.is_cancelled():
+            return self.step_abort()
         self.app.open_article(self.ARTICLE_NAME)
         return self.step_complete_and_stop

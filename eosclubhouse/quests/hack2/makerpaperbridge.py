@@ -18,5 +18,7 @@ class MakerPaperBridge(Quest):
 
     def step_instruct(self):
         self.wait_confirm('WELCOME', confirm_label='OK!')
+        if self.is_cancelled():
+            return self.step_abort()
         self.app.open_article(self.ARTICLE_NAME)
         return self.step_complete_and_stop
