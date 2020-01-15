@@ -21,17 +21,76 @@ scrollbar {
   scrollbar slider:hover {
     background-color: #e6e6e6; }
 
-popover.menu {
-  background-color: rgba(255, 255, 255, 0.9); }
-  popover.menu > stack > box > button {
-    font-size: 1.4em;
-    padding: 1ex 1em; }
-    popover.menu > stack > box > button:hover {
-      background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.3), rgba(34, 89, 127, 0.3)); }
-    popover.menu > stack > box > button > box > image {
+popover#PopoverList {
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #161B19;
+  font-family: "Metropolis";
+  font-size: 1em;
+  padding: 0;
+  border-width: 3px;
+  border-color: #FFFFFF; }
+  popover#PopoverList > list > PopoverListRow {
+    min-height: 1.2em;
+    padding: 1ex 1em;
+    border-radius: 0px; }
+    popover#PopoverList > list > PopoverListRow box > image {
+      color: #3F97D4;
+      margin-right: 1em; }
+    popover#PopoverList > list > PopoverListRow:hover {
+      background-color: rgba(200, 216, 219, 0.85);
+      font-weight: bold;
+      font-family: "Metropolis regular"; }
+    popover#PopoverList > list > PopoverListRow:disabled {
+      background-color: unset; }
+      popover#PopoverList > list > PopoverListRow:disabled > label {
+        color: #C8D8DB;
+        font-style: italic;
+        font-family: "Metropolis medium"; }
+    popover#PopoverList > list > PopoverListRow:first-child {
+      border-radius: 5px 5px 0px 0px; }
+    popover#PopoverList > list > PopoverListRow:last-child {
+      border-radius: 0px 0px 5px 5px; }
+
+BreadcrumbButton {
+  border-radius: 3em;
+  box-shadow: 1px 1px 3px black;
+  background: linear-gradient(to right, #2f9f9a, #3d6888);
+  transition: background-image 200ms linear;
+  box-shadow: 0 0 3px 0 #000000; }
+  BreadcrumbButton image {
+    color: #2F9F9A; }
+  BreadcrumbButton button {
+    color: #FFFFFF; }
+    BreadcrumbButton button.main {
+      font-size: 1em;
+      font-family: "Metropolis";
+      font-weight: bold;
+      padding: 0.5em calc(0.5em * 2);
+      min-width: 4em;
+      border-radius: calc(1em + 0.5em);
+      color: #FFFFFF;
+      text-shadow: none;
       -gtk-icon-shadow: none;
-      margin-right: 1ex;
-      color: #4387c5; }
+      background: linear-gradient(to right, #3ed7b1, #2f9f9a);
+      box-shadow: 0 0 3px 0 #000000, inset 0 0 0 3px #FFFFFF; }
+      BreadcrumbButton button.main > label {
+        color: #FFFFFF; }
+      BreadcrumbButton button.main image {
+        color: #FFFFFF;
+        margin-right: 0.5em; }
+    BreadcrumbButton button.popdown {
+      padding-left: 0.5em;
+      padding-right: 0.5em; }
+      BreadcrumbButton button.popdown label {
+        padding-right: 0.5em; }
+  BreadcrumbButton button.back {
+    color: white;
+    padding-left: 0.5em;
+    text-shadow: none;
+    -gtk-icon-shadow: none; }
+  BreadcrumbButton box.back-box > image {
+    padding-left: 0.5em;
+    padding-right: 0.5em; }
 
 @keyframes background_zoom_in {
   from {
@@ -120,60 +179,32 @@ ClubhouseWindow {
           border: 3px solid white; }
         ClubhouseWindow headerbar .headerbar-buttonbox button.newsfeed label {
           margin: 0 1em; }
-      ClubhouseWindow headerbar .headerbar-buttonbox button.circular {
-        color: white;
-        border-radius: 3em;
-        box-shadow: 1px 1px 3px black;
-        padding: 3px;
-        min-height: 1.4em;
-        min-width: 1.4em; }
       ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton {
         margin-left: 1em;
         margin-right: 1em;
+        color: #FFFFFF;
+        min-height: 1em;
+        min-width: 1em;
+        padding: 0.5em;
+        border-radius: 50%;
+        box-shadow: 0 0 3px 0 #000000;
         background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.8), rgba(24, 24, 102, 0.8)); }
         ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton:hover {
-          background: linear-gradient(to bottom right, #22597f, #181866); }
-        ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton:checked {
-          background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.95), rgba(24, 24, 102, 0.95)); }
+          box-shadow: 0 0 3px 0 #000000, inset 0 0 0 3px #FFFFFF; }
+        ClubhouseWindow headerbar .headerbar-buttonbox button.closebutton:hover {
+          background: linear-gradient(to bottom right, #f94273, #fb3142); }
       ClubhouseWindow headerbar .headerbar-buttonbox button.homebutton {
-        background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.8), rgba(34, 89, 127, 0.8)); }
+        color: #FFFFFF;
+        min-height: 1em;
+        min-width: 1em;
+        padding: 0.5em;
+        border-radius: 50%;
+        box-shadow: 0 0 3px 0 #000000;
+        background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.8), rgba(24, 24, 102, 0.8)); }
         ClubhouseWindow headerbar .headerbar-buttonbox button.homebutton:hover {
-          background: linear-gradient(to bottom right, #2d9b98, #22597f); }
-        ClubhouseWindow headerbar .headerbar-buttonbox button.homebutton:checked {
-          background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.95), rgba(34, 89, 127, 0.95)); }
-      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > button,
-      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > button > label {
-        color: white;
-        text-shadow: none;
-        border: 0;
-        margin: 0;
-        border-radius: 3em;
-        -gtk-icon-shadow: none; }
-      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb {
-        border: 0;
-        margin: 0;
-        border-radius: 3em;
-        box-shadow: 1px 1px 3px black;
-        background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.5), rgba(34, 89, 127, 0.5));
-        transition: background-image 200ms linear; }
-      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > .main {
-        background: linear-gradient(to bottom right, #37dcb1, #2d9b98);
-        border: 3px solid white;
-        padding: 3px 1em; }
-      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > .popdown {
-        padding-left: 1em;
-        padding-right: 0.5em; }
-      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > .inactive {
-        background: linear-gradient(to bottom right, #37dcb1, #2d9b98);
-        border-radius: 3em;
-        padding: 3px 0px; }
-      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb, ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb > .popdown image {
-        color: rgba(255, 255, 255, 0.3); }
-      ClubhouseWindow headerbar .headerbar-buttonbox .breadcrumb .back {
-        color: white;
-        padding-left: 0.5em;
-        text-shadow: none;
-        -gtk-icon-shadow: none; }
+          box-shadow: 0 0 3px 0 #000000, inset 0 0 0 3px #FFFFFF; }
+        ClubhouseWindow headerbar .headerbar-buttonbox button.homebutton:hover {
+          background: linear-gradient(to bottom right, #22597f, #2f9f9a); }
       ClubhouseWindow headerbar .headerbar-buttonbox .selector-box SelectorWidget {
         margin-right: 1em; }
         ClubhouseWindow headerbar .headerbar-buttonbox .selector-box SelectorWidget.status {
@@ -750,22 +781,32 @@ ScalableImage {
   background-position: center; }
 
 SelectorWidget {
-  background: linear-gradient(to right, #133e60, #1c0053);
+  background: linear-gradient(to right, #22597F, #181866);
   border-radius: 3em;
   color: white;
-  padding: 3px 1em; }
+  padding: 3px 1em;
+  box-shadow: 0 0 3px 0 #000000; }
   SelectorWidget.selected {
-    border: 3px solid white; }
+    box-shadow: 0 0 3px 0 #000000, inset 0 0 0 3px #FFFFFF; }
   SelectorWidget > button.title > label {
-    color: white; }
+    color: #FFFFFF; }
   SelectorWidget > button.close > image {
-    color: #36d9af; }
+    color: #FFFFFF; }
 
-popover.selector-widget {
-  font-size: 1.4em;
-  background-color: rgba(255, 255, 255, 0.9); }
-  popover.selector-widget > list > row {
-    padding: 1ex 1em;
-    border-radius: 5px; }
-    popover.selector-widget > list > row:hover {
-      background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.3), rgba(34, 89, 127, 0.3)); }
+popover#PopoverList.level > list > PopoverListRow {
+  min-width: 6em; }
+
+popover#PopoverList.status > list > PopoverListRow {
+  min-width: 7em; }
+
+popover#PopoverList.pathways > list > PopoverListRow {
+  min-width: 13em; }
+
+SelectorWidget.selected.easy {
+  background: linear-gradient(to right, #32DDA2, #D2E51E); }
+
+SelectorWidget.selected.normal {
+  background: linear-gradient(to right, #32DDA2, #02E51E); }
+
+SelectorWidget.selected.hard {
+  background: linear-gradient(to right, #FA2374, #FE0309); }
