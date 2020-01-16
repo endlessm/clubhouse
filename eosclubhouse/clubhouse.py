@@ -940,6 +940,8 @@ class CharacterView(Gtk.Grid):
 
         self._quests_handlers = []
 
+        self._list.set_sort_func(self._sort_func)
+
         self._clubhouse_state = ClubhouseState()
         self._clubhouse_state.connect('notify::nav-attract-state',
                                       self._on_clubhouse_nav_attract_state_changed_cb)
@@ -949,6 +951,9 @@ class CharacterView(Gtk.Grid):
                                  self.update_character_image(idle=True))
 
         self.message_box.show_all()
+
+    def _sort_func(self, row1, row2):
+        return row1.get_quest().get_pathway_order() - row2.get_quest().get_pathway_order()
 
     def update_character_image(self, idle=False):
         if self._character is None:

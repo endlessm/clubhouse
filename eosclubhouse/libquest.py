@@ -1388,6 +1388,10 @@ class _Quest(GObject.GObject):
                 QuestStringCatalog().get_string(f'{self._qs_base_id}_{message_id}'))
 
     @classmethod
+    def get_pathway_order(class_):
+        return class_.__pathway_order__
+
+    @classmethod
     def is_narrative(class_):
         return class_.__is_narrative__
 
@@ -2288,7 +2292,7 @@ class QuestSet(GObject.GObject):
 
     def _sort_quests(self):
         def by_order(quest):
-            return quest.__pathway_order__
+            return quest.get_pathway_order()
 
         self._quest_objs.sort(key=by_order)
 
