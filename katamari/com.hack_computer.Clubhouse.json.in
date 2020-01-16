@@ -17,7 +17,6 @@
     "command": "eos-clubhouse",
 
     "finish-args": [
-        "--device=dri",
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--env=GNOTIFICATION_BACKEND=gtk",
         "--env=GSETTINGS_SCHEMA_DIR=/run/host/usr/share/glib-2.0/schemas/",
