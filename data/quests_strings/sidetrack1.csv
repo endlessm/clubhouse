@@ -18,7 +18,7 @@ SIDETRACK1_ASSIGNMENT_FABER,"Don't sell yourself short, Riley! It takes a lot of
 SIDETRACK1_ASSIGNMENT_STUDENT,"... I guess you need someone to hold them in place. Well, yeah. So, <b>{{user_name}}</b>, you ready to try out <b>Sidetrack</b>?",riley,,,
 SIDETRACK1_ASSIGNMENT_ESTELLE,"Oh, hello! Seems I just made it before everything started. I'm very interested to see what you've come up with, Riley.",estelle,,,
 SIDETRACK1_ASSIGNMENT_SANIEL,"Indeed, as are we all. Let's dim the lights, shall we? Riley, the room is yours.",saniel,,,
-SIDETRACK1_MANUAL1_INTRO,Wohoo! Here we are! See that <b>Exit</b> on the far side of the screen? That's our goal! Let's get there!,riley,,,
+SIDETRACK1_MANUAL1_INTRO,Woohoo! Here we are! See that <b>Exit</b> on the far side of the screen? That's our goal! Let's get there!,riley,,,
 SIDETRACK1_MANUAL1,"Use the FORWARD, UP, and DOWN <b>Instructions</b> to move through these obstacles.",riley,,,
 SIDETRACK1_MANUAL1_HINT1,"I always run one space to the right, but I can also move UP or DOWN at the same time.",riley,,,
 SIDETRACK1_MANUAL1_HINT2,Watch out for those <b>Walls</b>!,riley,,,

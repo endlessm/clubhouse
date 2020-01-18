@@ -9,7 +9,7 @@ OSONESHOTFOLLOW_4,"Now you can <tt><span insert_hyphens=""false"" foreground=""#
 OSONESHOTFOLLOW_5,"Like I said last time, this looks like a list of directories. Let's follow the trail!",riley,,,
 OSONESHOTFOLLOW_6,"I'll let you in on a cool trick you can use to travel through lots of directories at once. Normally, you'd just type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">cd first</span></tt>, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">cd second</span></tt>, and so on. But!",riley,,,
 OSONESHOTFOLLOW_7,"There's a faster way. You can type <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">cd all/those/directories/in/a/row</span></tt>. Give it a shot!",riley,,,
-OSONESHOTFOLLOW_8,Is... that a message in the directory names? Wierd! I wonder what it means?,riley,,,
+OSONESHOTFOLLOW_8,Is... that a message in the directory names? Weird! I wonder what it means?,riley,,,
 OSONESHOTFOLLOW_9,"Now that you're at the end, let's <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">ls</span></tt>",riley,,,
 OSONESHOTFOLLOW_10,"Is that a file named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">treasure</span></tt>? Haha! We found it!",riley,hurray,,
 OSONESHOTFOLLOW_11,"I feel like a pirate digging up buried treasure. Yarr, matey! Avast!",riley,hurray,,
