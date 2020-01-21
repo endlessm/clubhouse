@@ -1,0 +1,52 @@
+SIDETRACK2_QUEST_NAME,Sidetrack #2 - Enter the code,,,,
+SIDETRACK2_QUEST_SUBTITLE,What you'll do,,,,
+SIDETRACK2_QUEST_DESCRIPTION,Continue exploring Riley's game and look behind the scenes.,,,,
+SIDETRACK2_LAUNCH,You completed Sidetrack #1. Nice job! I have the next adventure ready for you. Launch <b>Sidetrack</b>.,riley,,,
+SIDETRACK2_LAUNCH_HINT1,Go to the desktop and click on the <b>Sidetrack</b> icon.,riley,,,
+SIDETRACK2_INTRO1,"Back from the break, I kept on thinking about the problem we debugged last.",ada,,,
+SIDETRACK2_INTRO2,Is everyone back? Where is Saniel?,estelle,,,
+SIDETRACK2_INTRO3,I guess he took one of his power naps :),faber,,,
+SIDETRACK2_INTRO4,I am here. Indeed I just returned from my inemuri as my friends in Japan would say. Let's recap where we left off.,saniel,,,
+SIDETRACK2_INTRO5,So we weren't able to solve this level because the instruction at <b>position 3</b> is wrong and hitting play does not forge ahead.,estelle,,,
+SIDETRACK2_INTRO6,"As I said, we’ll need to see the code to debug it.",saniel,,,
+SIDETRACK2_FLIP,I added a Hacking panel for my game. I am sure you noticed the button at the left side of the screen.,riley,,,
+SIDETRACK2_FLIP_HINT1,"Click the button to look behind the scenes, take a tour under the hood of this game.",riley,,,
+SIDETRACK2_FLIP_HINT2,Press the <b>Flip</b> button so we can see the <b>Sidetrack Toolbox</b>.,riley,,,
+SIDETRACK2_UNLOCK,"Ok, what is this? A lock?",faber,,,
+SIDETRACK2_UNLOCK_QUESTION,"Yes, I have seen the concept of locked content in many games. So I wanted to do similarly. How to open a lock?",riley,,,
+SIDETRACK2_UNLOCK_CHOICE1,A carrot.,,,,
+SIDETRACK2_UNLOCK_CHOICE2,A key.,,,,
+SIDETRACK2_UNLOCK_CORRECT,Quite acceptable.,riley,hurray,,
+SIDETRACK2_UNLOCK_PLAUSIBLE,"I would like to see that too. Between the two of us, I would have answered the same.",faber,,,
+SIDETRACK2_UNLOCK3,I am not a big fan if quizzes... I am interested in debugging the real issue. Can we go on?,estelle,,,
+SIDETRACK2_GIVE_KEY,"Sure Estelle, my pleasure. Let me give you guys the key, the concept should be clear. ",riley,,,
+SIDETRACK2_UNLOCK4,"<b>{{user_name}}</b>, do you see the lock lightning up and hear the sound playing? Means you have the key for the lock. Click the lock and it will open.",riley,,,
+SIDETRACK2_TOOLBOX_INSTRUCTIONS,"Ah. Now we can access the <b>Instructions</b>. It's the same as the icons on the front, just written in code.
+
+See that? Someone spelled <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> wrong, no wonder that <b>Instruction</b> doesn't work. The language has to be super exact.
+
+Pay attention to each letter and correct the spelling in the code. Then try running the level again!",,,,
+SIDETRACK2_TOOLBOX_INSTRUCTIONS_HINT1,"See in the code where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jumpp();</span></tt>?
+
+See how jump has two p's? There's only one <b>p</b> in jump!",,,,
+SIDETRACK2_TOOLBOX_INSTRUCTIONS_HINT2,"Change it to say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump();</span></tt> Then flip back over and press PLAY.",,,,
+SIDETRACK2_PLAY_HINT,Press play in order to verify if your changes are correct.,,,,
+SIDETRACK2_LEVEL_24,"Looks like this level has another error, though! Two of them! We need to fix both of them.",faber,,,
+SIDETRACK2_LEVEL_24_HINT1,Look at the <b>Instructions</b> code by flipping the app to the back.,,,,
+SIDETRACK2_LEVEL_24_TOOLBOX,Now use your spell checking powers.,estelle,,,
+SIDETRACK2_LEVEL_24_TOOLBOX_HINT1,Look for <b>Instructions</b> that are spelled wrong or that don't match the other <b>Instructions</b>.,saniel,,,
+SIDETRACK2_LEVEL_24_TOOLBOX_HINT2,"See where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.fooorward();</span></tt>? Forward has way too many o's! Change it to <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.forward();</span></tt>",saniel,,,
+SIDETRACK2_LEVEL_24_TOOLBOX_HINT3,"Oh, wait, there's another one. Do you see it? Code is case sensitive so that's always something to check.
+
+It should be <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump();</span></tt> not <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.Jump();</span></tt>  See that? lower case j: <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> not <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Jump</span></tt>    <b>=^.‿.^=</b>",saniel,,,
+SIDETRACK2_LEVEL_25,More spelling errors! I guess someone was under some pressure to get this done.,estelle,,,
+SIDETRACK2_LEVEL_26,I can not believe this was time pressure only. Getting every instruction wrong is an art in itself.,ada,,,
+SIDETRACK2_LEVEL_26_REORDER,Looks like you still need to get the order of the <b>Instructions</b> right.,ada,,,
+SIDETRACK2_LEVEL_27,Only two instructions wrong this time...,estelle,,,
+SIDETRACK2_LEVEL_28_FABER,Jumping a wall? I can't believe this works.,faber,,,
+SIDETRACK2_LEVEL_28_SANIEL,"Believing is not a scientific term, my friend. Let's stick to the facts.
+
+We need a new instruction to solve this puzzle.",saniel,,,
+SIDETRACK2_LEVEL_28_FABER_2,"Riley, I presume this is the next part of your game? Finding the instruction to pass that wall? We can tear it down, I guess... Let's invite Hulk!",faber,,,
+SIDETRACK2_LEVEL_28_RILEY,"Heh, Hulk would be an option. Let's use the power of code instead!",riley,,,
+SIDETRACK2_LEVEL_28_SANIEL_2,"You have it right Riley, let's be back after a cup of tea.",saniel,hurray,,
