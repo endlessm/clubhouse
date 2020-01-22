@@ -633,6 +633,7 @@ ActivityCard
     #play
       $normal_color: #181866
       $complete_color: #37DCB1
+      $running_color: #661818
 
       color: white
       text-shadow: none
@@ -645,6 +646,12 @@ ActivityCard
 
       &:hover
         background: lighten($normal_color, 20%)
+
+      &.running
+        background: $running_color
+
+      &.running:hover
+        background: darken($running_color, 10%)
 
       &.complete
         background: $complete_color
