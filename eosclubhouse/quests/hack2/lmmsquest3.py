@@ -18,6 +18,9 @@ class LMMSQuest3(Quest):
 
     def step_launch(self):
         self.wait_confirm('GREET')
+        if self.is_cancelled():
+            return self.step_abort()
+
         self.app.launch()
         return self.step_main_loop
 

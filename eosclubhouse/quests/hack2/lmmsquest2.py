@@ -18,6 +18,9 @@ class LMMSQuest2(Quest):
 
     def step_launch(self):
         self.wait_confirm('GREET')
+        if self.is_cancelled():
+            return self.step_abort()
+
         self.app.launch()
         self.open_url_in_browser('https://www.youtube.com/watch?v=ssinPlQxy9c')
         return self.step_main_loop
