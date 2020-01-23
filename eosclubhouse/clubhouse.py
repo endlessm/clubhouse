@@ -49,6 +49,7 @@ from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, gtk_widget_add_
 from urllib.parse import urlparse
 
 # Metrics event ids
+CLUBHOUSE_NEWS_QUEST_LINK_EVENT = 'ebffecb9-7b31-4c30-a9a0-f896aaaa5b4f'
 CLUBHOUSE_SET_PAGE_EVENT = '2c765b36-a4c9-40ee-b313-dc73c4fa1f0d'
 CLUBHOUSE_PATHWAY_ENTER_EVENT = '600c1cae-b391-4cb4-9930-ea284792fdfb'
 HACK_MODE_EVENT = '7587784b-c3ed-4d74-b0fa-1023033698c0'
@@ -1363,6 +1364,10 @@ class NewsItem(Gtk.Box):
         data = urlparse(uri)
         if data.scheme == 'quest':
             # quest://questname
+            recorder = EosMetrics.EventRecorder.get_default()
+            variant = GLib.Variant('(ss)', (self._character, data.netloc))
+            recorder.record_event(CLUBHOUSE_NEWS_QUEST_LINK_EVENT, variant)
+
             self.emit('run-quest', data.netloc)
             return True
 
