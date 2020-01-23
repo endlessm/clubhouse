@@ -1,0 +1,58 @@
+SIDETRACK2_QUEST_NAME,Sidetrack - Flip To Hack,,,,
+SIDETRACK2_QUEST_SUBTITLE,What you'll do,,,,
+SIDETRACK2_QUEST_DESCRIPTION,"Continue exploring Sidetrack with Riley, and get hacking behind the scenes!",,,,
+SIDETRACK2_LAUNCH,"Great work with the first part of Sidetrack, <b>{{user_name}}</b>! It's so cool to see someone playing a game I made, and having fun with it. Let's head back in to <b>Sidetrack</b>!",riley,,,
+SIDETRACK2_LAUNCH_HINT1,"Launch <b>Sidetrack</b> from the desktop.
+",riley,,,
+SIDETRACK2_INTRO1,"Hey again, everyone. Are we ready to start debugging the problem from last time?",ada,,,
+SIDETRACK2_INTRO2,"One minute, Ada - Is everyone here?",estelle,,,
+SIDETRACK2_INTRO3,"Where's Saniel? He's logged in, but I don't see any activity...
+",faber,,,
+SIDETRACK2_INTRO4,"What? Yes, yes, I am here. I was... <i>inemuri</i>, as the Japanese say. ""Sleeping while present,"" if you will. Estelle, can you summarize our progress so far, please?",saniel,,,
+SIDETRACK2_INTRO5,"Last time, we weren't able to progress past this level because the instruction in position <b>3</b> is corrupted. Also. because there's no <b>Jump</b>, we can't cross the pits, so it appears that we're stuck here...
+",estelle,,,
+SIDETRACK2_INTRO6,"Yes, it <b>appears</b> that we're stuck. But maybe we're not. Riley, is there a way for us to look into the code and debug this problem?
+",saniel,,,
+SIDETRACK2_FLIP,"You got it, Dr. Rowe! That's exactly what the next step is. Do you see that button on the <b>left side</b> of the screen?",riley,,,
+SIDETRACK2_FLIP_HINT1,"That's the <b>Flip to Hack</b> button! You can use it to go behind the scenes and take a tour ""under the hood"" of the game.",riley,,,
+SIDETRACK2_FLIP_HINT2,"Click the button to take us into <b>Sidetrack's Toolbox</b>!
+",riley,,,
+SIDETRACK2_UNLOCK,"Aw, what? A lock? Riley, what's up with this?",faber,,,
+SIDETRACK2_UNLOCK_QUESTION,"Well, I can't let just <b>anyone</b> mess around with my game, It's gotta be people I know are going to be responsible! So, <b>{{user_name}}</b> - How would <b>you</b> open a lock?",riley,,,
+SIDETRACK2_UNLOCK_CHOICE1,Use my lockpicks,,,,
+SIDETRACK2_UNLOCK_CHOICE2,Find a key,,,,
+SIDETRACK2_UNLOCK_CORRECT,"Yeah, that's usually how it's done.",riley,hurray,,
+SIDETRACK2_UNLOCK_PLAUSIBLE,"Heh. It's not what most people would choose, but between you and me, I usually ""pick"" this answer if I can :D",riley,hurray,,
+SIDETRACK2_UNLOCK3,"I'm interested to see what the <b>Toolbox</b> looks like, Riley. Do you have the key, or...?",estelle,,,
+SIDETRACK2_GIVE_KEY,"I do, right here. Here you go!",riley,,,
+SIDETRACK2_UNLOCK4,"Now, because you have the key, the lock should light up and make some sounds - that's telling you it's ready to be opened. Click on the lock to open it.
+",riley,,,
+SIDETRACK2_TOOLBOX_INSTRUCTIONS,"Cool! Now you have access to the <b>Instructions</b> - Exactly the same as those icons you were dragging around on the front side of Sidetrack, but here they're written as actual code!
+
+Check it out, one of the <b>instructions</b> is highlighted red, which means there's an error in the code. An error could be a lot of different things, but in this case it's pretty simple - If you're writing code, it has to be spelled and captialized <b>exactly</b> how the computer expects it to be. Anything else, it's an error!
+
+<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jumpp</span></tt> isn't a correct <b>instruction</b>, and I think you know why! It's pretty clearly misspelled, so fix that, and then flip back to the front of Sidetrack.
+",riley,,,
+SIDETRACK2_TOOLBOX_INSTRUCTIONS_HINT1,"Do you see the line in the code where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jumpp();</span></tt>?  There's only 1 <b>p</b> in <b>jump</b>!",saniel,,,
+SIDETRACK2_TOOLBOX_INSTRUCTIONS_HINT2,"Change that code to say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump()</span></tt>, then flip back to the front and press <b>Play</b>.",saniel,,,
+SIDETRACK2_PLAY_HINT,"OK, let's give it a shot!",riley,,,
+SIDETRACK2_LEVEL_24,"Yow, looks like this level has 2 errors! We'll need to fix both if you want to get through.",faber,,,
+SIDETRACK2_LEVEL_24_HINT1,Let's get to the <b>Instructions</b> again by <b>flipping</b> the app again!,riley,,,
+SIDETRACK2_LEVEL_24_TOOLBOX,I think I can see the problem here!,riley,,,
+SIDETRACK2_LEVEL_24_TOOLBOX_HINT1,"Look for <b>Instructions</b> that might be spelled wrong, or that don't make any sense.",estelle,,,
+SIDETRACK2_LEVEL_24_TOOLBOX_HINT2,"Do you see where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.fooorward();</span></tt>? I don't think that's correct...",estelle,,,
+SIDETRACK2_LEVEL_24_TOOLBOX_HINT3,"Oh, hey, I think I see another problem. Look at the capitalization in the code.
+
+Did you spot it? I think it should be <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump()</span></tt>, not <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.<b>J</b>ump()</span></tt> <b>=^.‿.^=</b>",faber,,,
+SIDETRACK2_LEVEL_25,"Riley, did you remember to test your code? We've hit quite a lot of errors, so far.",estelle,,,
+SIDETRACK2_LEVEL_26,"I'm not so sure this is a mistake. Every instruction in this set is wrong! Statistically, the probability of that occurring is quite low.",ada,,,
+SIDETRACK2_LEVEL_26_REORDER,"Looks like you fixed the spelling, but you'll still need to re-order the instructions in order to progress.
+",ada,,,
+SIDETRACK2_LEVEL_27,"It looks like this level has only two incorrrect instructions - that's an improvement.
+",ada,,,
+SIDETRACK2_LEVEL_28_FABER,"Uh, hmm. That's a big wall. Can we jump a wall? Does that work?",faber,,,
+SIDETRACK2_LEVEL_28_SANIEL,"You can experiment with that if you like, but judging from previous levels... probably not. I think we'll need a new tool to solve this puzzle.",saniel,,,
+SIDETRACK2_LEVEL_28_FABER_2,"OK, so we can't jump the wall or go around it. So, what, do we have to get super-strong and just <b>smash</b> this wall down?",faber,,,
+SIDETRACK2_LEVEL_28_RILEY,"Oh, man, you could be all <b>""Faber smash puny wall""</b> and the wall would go <b>""CRUNCH""</b>... except no, as cool as that is, I think my way is even cooler, because it uses code ^_^",riley,,,
+SIDETRACK2_LEVEL_28_SANIEL_2,"I'm looking forward to seeing the solution next time, Riley.  Let's take another break - we've earned it!
+",saniel,hurray,,

@@ -33,6 +33,9 @@ class Sidetrack1(Quest):
         self.ask_for_app_launch(message_id='LAUNCH_ADA')
 
         highest_achieved_level = self.app.get_js_property('highestAchievedLevel')
+
+        # @fixme: This is a workaround to https://phabricator.endlessm.com/T29180
+        # Sometimes Sidetrack app takes lot of time to start and get_js_property times out.
         if highest_achieved_level is None:
             logger.debug('Quest %s: Cannot get \'highestAchievedLevel\' for %s. Trying again...',
                          self.get_id(), self.app.dbus_name)
@@ -47,6 +50,9 @@ class Sidetrack1(Quest):
     @Quest.with_app_launched()
     def step_play_level(self, level_changed, level_succeed=None):
         current_level = self.app.get_js_property('currentLevel')
+
+        # @fixme: This is a workaround to https://phabricator.endlessm.com/T29180
+        # Sometimes Sidetrack app takes lot of time to start and get_js_property times out.
         if current_level is None:
             logger.debug('Quest %s: Cannot get \'current_level\' for %s. Trying again...',
                          self.get_id(), self.app.dbus_name)
