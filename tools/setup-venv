@@ -17,7 +17,7 @@ source_dir="$(git rev-parse --show-toplevel)"
 virtualenv_dir="${source_dir}/.python-virtual-env$FLATPAK_ID"
 
 runtime="org.gnome.Platform//3.32"
-flatpak_shell="flatpak run --user --filesystem=$source_dir --share=network --command=bash $runtime"
+flatpak_shell="flatpak run --filesystem=$source_dir --share=network --command=bash $runtime"
 
 # if this is being called while building flatpak, then we run the command directly, and do not
 # attempt to run another flatpak sandbox.
