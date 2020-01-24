@@ -94,7 +94,7 @@ class Sidetrack2(Quest):
         self.wait_confirm('GIVE_KEY')
         self.give_item('item.key.sidetrack.1')
 
-        self.wait_confirm('UNLOCK4')
+        self.show_message('UNLOCK4')
 
         while not self.is_panel_unlocked('lock.sidetrack.1') and not self.is_cancelled():
             self.connect_gss_changes().wait()
