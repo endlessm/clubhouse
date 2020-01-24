@@ -37,7 +37,7 @@ SIDETRACK2_TOOLBOX_INSTRUCTIONS_HINT1,"Do you see the line in the code where it 
 SIDETRACK2_TOOLBOX_INSTRUCTIONS_HINT2,"Change that code to say <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump()</span></tt>, then flip back to the front and press <b>Play</b>.",saniel,,,
 SIDETRACK2_PLAY_HINT,"OK, let's give it a shot!",riley,,,
 SIDETRACK2_LEVEL_24,"Yow, looks like this level has 2 errors! We'll need to fix both if you want to get through.",faber,,,
-SIDETRACK2_LEVEL_24_HINT1,Let's get to the <b>Instructions</b> again by <b>flipping</b> the app again!,riley,,,
+SIDETRACK2_LEVEL_24_HINT1,Let's get to the <b>Instructions</b> again by <b>flipping</b> the app!,riley,,,
 SIDETRACK2_LEVEL_24_TOOLBOX,I think I can see the problem here!,riley,,,
 SIDETRACK2_LEVEL_24_TOOLBOX_HINT1,"Look for <b>Instructions</b> that might be spelled wrong, or that don't make any sense.",estelle,,,
 SIDETRACK2_LEVEL_24_TOOLBOX_HINT2,"Do you see where it says <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.fooorward();</span></tt>? I don't think that's correct...",estelle,,,
@@ -46,6 +46,7 @@ SIDETRACK2_LEVEL_24_TOOLBOX_HINT3,"Oh, hey, I think I see another problem. Look 
 Did you spot it? I think it should be <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump()</span></tt>, not <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.<b>J</b>ump()</span></tt> <b>=^.‿.^=</b>",faber,,,
 SIDETRACK2_LEVEL_25,"Riley, did you remember to test your code? We've hit quite a lot of errors, so far.",estelle,,,
 SIDETRACK2_LEVEL_26,"I'm not so sure this is a mistake. Every instruction in this set is wrong! Statistically, the probability of that occurring is quite low.",ada,,,
+SIDETRACK2_LEVEL_26_HINT1,Let's get to the <b>Instructions</b> again by <b>flipping</b> the app!,riley,,,
 SIDETRACK2_LEVEL_26_REORDER,"Looks like you fixed the spelling, but you'll still need to re-order the instructions in order to progress.
 ",ada,,,
 SIDETRACK2_LEVEL_27,"It looks like this level has only two incorrrect instructions - that's an improvement.

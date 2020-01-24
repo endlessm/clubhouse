@@ -72,5 +72,5 @@ SIDETRACK1_AUTO5_ADA_HINT1,There's no way forward unless we at least try! Press 
 SIDETRACK1_AUTO5_FAILURE_SANIEL,"Well, at least we've proved that there's a problem.",saniel,,,
 SIDETRACK1_AUTO5_FAILURE_SANIEL2,"There's clearly an error, but we’ll need to see the code to debug it.",saniel,,,
 SIDETRACK1_AUTO5_FAILURE_ADA,"Yes, I see where this is going - I think we've reached a good point to take a break, I'm sure we could all use it.",ada,,,
-SIDETRACK1_SUCCESS,"Congrats, Riley - This is an awesome project you've pulled together. We'll meet back up here later to keep going, and debug that broken instruction.",faber,hurray,,
-SIDETRACK1_ABORT,"Come find me later, and we'll get back into it!",ada,,,
+SIDETRACK1_SUCCESS,"Congrats, Riley - This is an awesome project you've pulled together. We'll meet back up here later to keep going, and debug that broken instruction. See you in the next activity!",faber,hurray,,
+SIDETRACK1_ABORT,"Come find me later, and we'll get back into it!",riley,,,
