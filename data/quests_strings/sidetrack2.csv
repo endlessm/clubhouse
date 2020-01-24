@@ -54,5 +54,5 @@ SIDETRACK2_LEVEL_28_FABER,"Uh, hmm. That's a big wall. Can we jump a wall? Does 
 SIDETRACK2_LEVEL_28_SANIEL,"You can experiment with that if you like, but judging from previous levels... probably not. I think we'll need a new tool to solve this puzzle.",saniel,,,
 SIDETRACK2_LEVEL_28_FABER_2,"OK, so we can't jump the wall or go around it. So, what, do we have to get super-strong and just <b>smash</b> this wall down?",faber,,,
 SIDETRACK2_LEVEL_28_RILEY,"Oh, man, you could be all <b>""Faber smash puny wall""</b> and the wall would go <b>""CRUNCH""</b>... except no, as cool as that is, I think my way is even cooler, because it uses code ^_^",riley,,,
-SIDETRACK2_LEVEL_28_SANIEL_2,"I'm looking forward to seeing the solution next time, Riley.  Let's take another break - we've earned it!
-",saniel,hurray,,
+SIDETRACK2_LEVEL_28_SANIEL_2,"I'm looking forward to seeing the solution next time, Riley.  Let's take another break - we've earned it. I'll see you, <b>{{user_name}}</b>, in the next activity!",saniel,hurray,,
+SIDETRACK2_ABORT,"Come find me later, and we'll get back into it!",riley,,,
