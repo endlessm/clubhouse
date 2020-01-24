@@ -121,17 +121,14 @@ class Sidetrack2(Quest):
             self.wait_for_one([action])
             self.show_message('PLAY_HINT')
         elif current_level == 24:
-            message_id = self.show_hints_message('LEVEL_24')
+            self.show_hints_message('LEVEL_24')
             action = self.connect_app_js_props_changes(self._app, ['flipped'])
             self.wait_for_one([action])
             self.show_hints_message('LEVEL_24_TOOLBOX')
         elif current_level == 25:
             message_id = self._get_unconfirmed_message(['LEVEL_25'])
         elif current_level == 26:
-            message_id = self._get_unconfirmed_message(['LEVEL_26'])
-            action = self.connect_app_js_props_changes(self._app, ['flipped'])
-            self.wait_for_one([action])
-            self.show_hints_message('LEVEL_26_REORDER')
+            self.show_hints_message('LEVEL_26')
         elif current_level == 27:
             message_id = self._get_unconfirmed_message(['LEVEL_27'])
         elif current_level == 28:
