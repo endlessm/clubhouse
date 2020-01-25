@@ -8,26 +8,30 @@ Date,Character,ImageResource,ImageLink,Text
 2020-02-01,Endless,2-1.jpg,https://quickdraw.withgoogle.com,"Can you stump an AI? Draw a picture in 20 seconds and the AI will try to guess what it is. It won't always work, but the more you play with it, the more it will learn."
 2020-01-30,Endless,1-30.jpg,http://bit.ly/2ZnDu8K,"At the age of 8, Zara Khanna, built a chatbot called Octa to help kids find fun things to do when they travel. Now founder of her own company, she has big plans to change the travel industry. Check out her story by clicking on the picture."
 2020-01-29,Endless,1-28.jpg,,Hack Protip: Quickly search for an app on your Hack by pressing the Hack (Windows) button and typing what you're looking for.
-2020-01-28,Endless,hack-release.jpg,,"<b>Hack January Release</b>
+2020-01-28,Endless,hack-release.jpg,https://www.instagram.com/madetohack/,"<b>Hack January Release</b>
 Today, we proudly announce Hack's January Release! We hope you like it - let us know what you think on social media with #MadeToHack!
 
 The following content has been added:
 
-<b>Sidetrack 2 - Flip To Hack </b>Riley will continue her presentation of her games project. She will introduce FlipToHack to look behind the scenes of the maze game and to fix the non working instruction in level 23.
+<b>Sidetrack 2 - Flip To Hack </b>Riley continues presenting her game project, and introduces the ""Flip To Hack"" system that lets you delve into the code and change as the game runs! Debug that pesky broken instruction in Level 23, and push ahead into new territory!
 <a href='quest://Sidetrack2'>Play Now!</a>
 
-<b>Make your own Happiness</b> Doing things for yourself is good, but you get a totally different kind of charge off of doing something for someone else. Learn some strategies for making a positive impact on someone close to you.
+<b>Make your own Happiness</b> Sometimes, doing something to help someone else can make you feel just fantastic. In this new activity, learn some strategies for making a positive impact on someone close to you.
 <a href='quest://Makerhappiness'>Play Now!</a>
 
-<b>Building Your Own Adventure</b> Saniel teaches you how to create your own file system. Choose-Your-Own-Adventure style! Another engaging OS quest that makes use of the Terminal.
+<b>Building Your Own Adventure</b> Saniel's got a new activity for you - It's time to make a little adventure game, using nothing but the fileystem of your computer! The best part about it is that when you're done, you can pass it to a friend or parent, and they can play it too!
 <a href='quest://Osadventure'>Play Now!</a>
 
-<b>Whitehouse</b> A new game from Endless Studio.
-<a href='quest://T2Whitehouse'>Play Now!</a>
+<b>DOMinating the Web!</b> Riley and the Daemons have a new Web activity for you to try, and it's all about dominating the webpages you make and visit! Learn how to use the DOM tree to think about how webpages are constructed, and see how you can use that layout to cleverly select and change specfic parts of the webpage, like in the Inspector.
+<a href='quest://domquest'>Play Now!</a>
 
+<b>LMMS - Learning to make music, beats, and sounds</b> In this all-new suite of activities, we're introducing LMMS - a fully-featured, free, open-source digital audio workbench! It's used by both professionals and hobbyists, and it's your gateway into creating music and sounds with Hack! After you've mastered the basics, Estelle even walks you through making some retro sound effects that you might use in a game someday...
+<a href='quest://lmmsquest1'>LMMS 1 (Intro) - Play Now!</a>
+<a href='quest://lmmsquest2'>LMMS 2 (Making Beats) - Play Now!</a>
+<a href='quest://lmmsquest3'>LMMS 3 (Sound Effects) - Play Now!</a>
 
-
-"
+<b>Whitehouse</b> A new game from Endless Studios. Change the world around you using CSS and Web colors, and explore a white-washed town.
+<a href='quest://T2Whitehouse'>Play Now!</a>"
 2020-01-25,Endless,1-25.jpg,https://onlinesequencer.net/#1072323,Make sweet music with a few simple clicks and share it with your friends using this online sequencer. You can also listen to music created by the community. Click on the image to listen to one of our favorite creations.
 2020-01-23,Endless,1-23.jpg,https://tcrn.ch/2YHreiQ,"When he was 12-year-old, Thomas Suarez built a whack-a-mole mobile app called ""Bustin Jeiber"". Now he's 20 years old and an augmented reality software and electronics engineer. Click on the picture to check out his story."
 2020-01-21,Endless,1-21.jpg,,"Hack protip: Maximize your desktop space and snap your browser window like a pro. Press and hold the Hack (Windows) button and press the left or right arrow to snap to the side, up for full-screen, and down for a smaller window."
@@ -142,7 +146,7 @@ We can't wait to see what you'll do next! "
 2019-12-24,Ada,,,"@Saniel Now there’s a true Christmas gift – a joke from Saniel Rowe. Happy Holidays, everyone!"
 2019-12-23,Endless,lego2.jpg,https://www.leocad.org/,Are you a Lego maniac? Create your own Lego design and built it in real life with this design application. Tag #MadeToHack on your designs and we'll like our favs. 
 2019-12-22,Endless,kedar.jpg,http://bit.ly/2Yr0O49,"At the age of 7, Kedar Narayan is solving real-world problems with code. Check out his Ted talk as he explains how he invented Storibot, a code-based board game for the blind."
-2019-12-19,Endless,hack-release.jpg,,"<b>Hack December Release</b>
+2019-12-19,Endless,hack-release.jpg,https://www.instagram.com/madetohack/,"<b>Hack December Release</b>
 Today, we proudly announce Hack's December Release! We hope you like it - let us know what you think on social media with #MadeToHack!
 
 The following content has been added:
