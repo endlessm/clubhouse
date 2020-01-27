@@ -5,7 +5,7 @@
 
 project('eos-clubhouse',
         ['c'],
-        version: '1.3.0',
+        version: '1.5.0',
         license: 'GPLv2',
         meson_version: '>= 0.50.0',
 )
