@@ -8,7 +8,7 @@ Date,Character,ImageResource,ImageLink,Text
 2020-02-01,Endless,2-1.jpg,https://quickdraw.withgoogle.com,"Can you stump an AI? Draw a picture in 20 seconds and the AI will try to guess what it is. It won't always work, but the more you play with it, the more it will learn."
 2020-01-30,Endless,1-30.jpg,http://bit.ly/2ZnDu8K,"At the age of 8, Zara Khanna, built a chatbot called Octa to help kids find fun things to do when they travel. Now founder of her own company, she has big plans to change the travel industry. Check out her story by clicking on the picture."
 2020-01-29,Endless,1-28.jpg,,Hack Protip: Quickly search for an app on your Hack by pressing the Hack (Windows) button and typing what you're looking for.
-2020-01-28,Endless,hack-release.jpg,https://www.instagram.com/madetohack/,"<b>Hack January Release</b>
+2020-01-28,Endless,hack-release.jpg,,"<b>Hack January Release</b>
 Today, we proudly announce Hack's January Release! We hope you like it - let us know what you think on social media with #MadeToHack!
 
 The following content has been added:
@@ -17,18 +17,18 @@ The following content has been added:
 <a href='quest://Sidetrack2'>Play Now!</a>
 
 <b>Make your own Happiness</b> Sometimes, doing something to help someone else can make you feel just fantastic. In this new activity, learn some strategies for making a positive impact on someone close to you.
-<a href='quest://Makerhappiness'>Play Now!</a>
+<a href='quest://MakerHappiness'>Play Now!</a>
 
 <b>Building Your Own Adventure</b> Saniel's got a new activity for you - It's time to make a little adventure game, using nothing but the fileystem of your computer! The best part about it is that when you're done, you can pass it to a friend or parent, and they can play it too!
-<a href='quest://Osadventure'>Play Now!</a>
+<a href='quest://OSAdventure'>Play Now!</a>
 
-<b>DOMinating the Web!</b> Riley and the Daemons have a new Web activity for you to try, and it's all about dominating the webpages you make and visit! Learn how to use the DOM tree to think about how webpages are constructed, and see how you can use that layout to cleverly select and change specfic parts of the webpage, like in the Inspector.
-<a href='quest://domquest'>Play Now!</a>
+<b>DOMinating the Web!</b> Riley and the Daemons have a new Web activity for you to try, and it's all about dominating the webpages you make and visit! Learn how to use the DOM tree to think about how webpages are constructed, and see how you can use that layout to cleverly select and change specific parts of the webpage, like in the Inspector.
+<a href='quest://DomQuest'>Play Now!</a>
 
 <b>LMMS - Learning to make music, beats, and sounds</b> In this all-new suite of activities, we're introducing LMMS - a fully-featured, free, open-source digital audio workbench! It's used by both professionals and hobbyists, and it's your gateway into creating music and sounds with Hack! After you've mastered the basics, Estelle even walks you through making some retro sound effects that you might use in a game someday...
-<a href='quest://lmmsquest1'>LMMS 1 (Intro) - Play Now!</a>
-<a href='quest://lmmsquest2'>LMMS 2 (Making Beats) - Play Now!</a>
-<a href='quest://lmmsquest3'>LMMS 3 (Sound Effects) - Play Now!</a>
+<a href='quest://LMMSQuest1'>LMMS 1 (Intro) - Play Now!</a>
+<a href='quest://LMMSQuest2'>LMMS 2 (Making Beats) - Play Now!</a>
+<a href='quest://LMMSQuest3'>LMMS 3 (Sound Effects) - Play Now!</a>
 
 <b>Whitehouse</b> A new game from Endless Studios. Change the world around you using CSS and Web colors, and explore a white-washed town.
 <a href='quest://T2Whitehouse'>Play Now!</a>"
