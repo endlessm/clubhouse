@@ -32,7 +32,8 @@ from datetime import date
 from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
-from eosclubhouse.system import App, Desktop, GameStateService, Sound, UserAccount
+from eosclubhouse.system import App, Desktop, GameStateService, Sound, ToolBoxCodeView, \
+    UserAccount
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
     Performance, QuestStringCatalog, convert_variant_arg, Version
 from gi.repository import EosMetrics, Gio, GObject, GLib
@@ -2197,6 +2198,43 @@ class Quest(_Quest):
             new_nav = ClubhouseState.Page[nav_name]
 
         state.nav_attract_state = new_nav
+
+    # ** Toolbox **
+
+    def wait_for_codeview_errors(self, topic, app=None, errors=False, timeout=None):
+        '''Wait until the toolbox `codeview` number of errors is equal to `errors`.
+
+        :param topic: The topic name of the codeview, for example 'instructions'.
+        :param app: The application. If not passed, it will use :attr:`app`.
+        :param errors: True to wait for errors, False to wait for no errors.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :rtype: AsyncAction
+
+        '''
+        assert self._run_context is not None
+
+        if app is None:
+            app = self.app
+
+        async_action = self._run_context.new_async_action()
+        if async_action.is_cancelled():
+            return async_action
+
+        toolbox = ToolBoxCodeView(app.dbus_name, topic)
+        if toolbox.errors == errors:
+            async_action.state = AsyncAction.State.DONE
+            return async_action
+
+        def _on_errors_change(toolbox, _pspec):
+            if toolbox.errors == errors and not async_action.is_resolved():
+                async_action.resolve()
+
+        handler_id = toolbox.connect('notify::errors', _on_errors_change)
+        self._run_context.wait_for_action(async_action, timeout)
+        toolbox.disconnect(handler_id)
+
+        return async_action
 
     # ** MISC **
 
