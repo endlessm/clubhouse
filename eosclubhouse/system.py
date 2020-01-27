@@ -924,6 +924,55 @@ class ToolBoxTopic(GObject.GObject):
                                                       Gio.DBusCallFlags.NONE, -1, None)
 
 
+class ToolBoxCodeView(GObject.GObject):
+
+    _INTERFACE_NAME = 'com.hack_computer.HackToolbox.CodeView'
+    _PATH_TEMPLATE = '/com/hack_computer/HackToolbox/window/{}/codeview/{}'
+    _proxy = None
+    _properties_proxy = None
+
+    @classmethod
+    def _build_dbus_path(klass, app_name, topic_name):
+        return klass._PATH_TEMPLATE.format(app_name.replace('.', '_'),
+                                           topic_name)
+
+    def _get_proxy(self):
+        if self._proxy is None:
+            self._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                         0,
+                                                         None,
+                                                         'com.hack_computer.HackToolbox',
+                                                         self._dbus_path,
+                                                         self._INTERFACE_NAME,
+                                                         None)
+
+        return self._proxy
+
+    def __init__(self, app_name, topic_name):
+        super().__init__()
+        self._dbus_path = self._build_dbus_path(app_name, topic_name)
+        self._errors_change_handler = self._connect_errors_change()
+
+    def __del__(self):
+        self._get_proxy().disconnect(self._errors_change_handler)
+
+    @GObject.Property(type=bool, default=False)
+    def errors(self):
+        try:
+            prop = self._get_proxy().get_cached_property('errors')
+            if prop is not None:
+                return prop.unpack()
+        except GLib.Error as e:
+            logger.error(e)
+        return False
+
+    def _connect_errors_change(self):
+        def _props_changed_cb(_proxy, _changed_properties, _invalidated, *args):
+            self.notify('errors')
+
+        return self._get_proxy().connect('g-properties-changed', _props_changed_cb)
+
+
 class UserAccount(GObject.GObject):
 
     _INTERFACE_NAME = 'org.freedesktop.Accounts'
