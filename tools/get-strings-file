@@ -167,10 +167,8 @@ def _write_csv_file(filename, rows):
 def write_quests(quests, rows, use_alternative_path=False):
     success = True
     csv_path = CSV_PATH if not use_alternative_path else CSV_ALTERNATIVE_PATH
-    remaining_rows = None
     if quests is None:
         quests = get_quest_codes()
-        remaining_rows = {r[0]: r for r in rows}
 
     os.makedirs(csv_path, exist_ok=True)
     for quest in quests:
@@ -179,21 +177,10 @@ def write_quests(quests, rows, use_alternative_path=False):
             print('Quest "{}" has no rows to import.'.format(quest))
             continue
 
-        if remaining_rows is not None:
-            for r in quest_rows:
-                del remaining_rows[r[0]]
         filename = os.path.join(csv_path, quest + '.csv')
         is_valid = _cleanup_and_validate(quest, quest_rows)
         success = success and is_valid
         _write_csv_file(filename, quest_rows)
-
-    if remaining_rows is not None:
-        remaining_rows = list(remaining_rows.values())
-        remaining_rows.sort()
-        filename = os.path.join(csv_path, 'remaining.csv')
-        is_valid = _cleanup_and_validate(None, remaining_rows)
-        success = success and is_valid
-        _write_csv_file(filename, remaining_rows)
 
     return success
 
