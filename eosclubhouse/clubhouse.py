@@ -2249,7 +2249,7 @@ class QuestRunner(GObject.GObject):
         quest.disconnect_by_func(self._quest_dismiss_message_cb)
         quest.disconnect_by_func(self._quest_item_given_cb)
 
-    def _ask_stop_quest(self, new_quest):
+    def _ask_start_new_quest(self, new_quest):
 
         def reject_stop():
             Sound.play('clubhouse/dialog/close')
@@ -2268,9 +2268,31 @@ class QuestRunner(GObject.GObject):
                          reject_stop)],
         })
 
+    def ask_stop_quest(self):
+
+        def reject_stop():
+            Sound.play('clubhouse/dialog/close')
+            self._continue_quest(self._current_quest)
+
+        def accept_stop():
+            self.stop_quest()
+
+        self._shell_popup_message({
+            # @todo: This string should not be hardcoded:
+            'text': 'You are already in a quest, do you want to quit?',
+            'system_notification': True,
+            'character_id': self.SYSTEM_CHARACTER_ID,
+            'character_mood': self.SYSTEM_CHARACTER_MOOD,
+            'sound_fx': self.running_quest.proposal_sound,
+            'choices': [(self.running_quest.get_label('QUEST_ACCEPT_STOP'),
+                         accept_stop),
+                        (self.running_quest.get_label('QUEST_REJECT_STOP'),
+                         reject_stop)],
+        })
+
     def try_running_quest(self, new_quest):
         if self.running_quest is not None and not self.running_quest.stopping:
-            self._ask_stop_quest(new_quest)
+            self._ask_start_new_quest(new_quest)
             return
 
         self.run_quest(new_quest)
@@ -2860,7 +2882,7 @@ class ClubhouseApplication(Gtk.Application):
 
     def _quest_view_close_action_cb(self, _action, _action_id):
         logger.debug('Shell quest view closed')
-        self._stop_quest()
+        self.quest_runner.ask_stop_quest()
 
     def _run_quest_action_cb(self, action, arg_variant):
         quest_name, _obsolete = arg_variant.unpack()
