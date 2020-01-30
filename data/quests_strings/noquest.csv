@@ -39,3 +39,4 @@ NOQUEST_PROJLIB_NOTINSTALLED,"Uh-oh! It looks like the Project Library App isn't
 You need to download it from the App Center if you want to check out this quest.
 
 Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">More Apps</span></tt> on the Desktop, then search for ""Project Library"".",daemon,,,
+NOQUEST_DEFAULT_ABORT,"OK, quitting the activity. See you again soon!",daemon,,,
