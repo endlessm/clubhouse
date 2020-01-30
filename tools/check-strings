@@ -7,7 +7,7 @@
 #
 
 quest_string_files=(data/quests_strings/*)
-ignored_files=(data/quests_strings/remaining.csv)
+ignored_files=()
 check_files="${quest_string_files[@]/$ignored_files}"
 
 ./tools/get-strings-file
