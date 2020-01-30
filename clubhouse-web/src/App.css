@@ -1,0 +1,212 @@
+.App {
+  background: black url('/data/assets/clubhouse_bg-blur.jpg');
+  background-size: cover;
+  width: 100%;
+  height: 100vmin;
+}
+
+.Clubhouse {
+  background: transparent url('/data/assets/clubhouse_bg.jpg');
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-position: 50% 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.animation {
+  animation-name: character;
+  animation-duration: 1.3s;
+  animation-timing-function: steps(8, end);
+  animation-iteration-count: infinite;
+}
+
+.Character.ada {
+  background: transparent url('/data/characters/ada/fullbody/idle.png') no-repeat;
+  background-position: left;
+  background-repeat:no-repeat;
+  background-size: cover;
+
+  animation-duration: 1.3s;
+  animation-delay: 2s;
+  animation-timing-function: steps(8);
+  animation-iteration-count: infinite;
+}
+
+.Character:hover {
+  cursor: pointer;
+}
+
+.Character {
+  position: relative;
+}
+
+.Character .tooltip {
+  opacity: 0;
+  transition: all 0.5s;
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  color: white;
+  font-weight: bold;
+  background-color: #181866;
+  border-radius: 50px;
+  padding: 5px 10px;
+}
+
+.Character:hover .tooltip {
+  opacity: 70%;
+}
+
+@keyframes character {
+  from {
+    background-position: left;
+  }
+  to {
+    background-position: right;
+  }
+}
+
+.Pathway > .Character {
+  animation-timing-function: steps(5);
+  background: transparent url('/data/characters/ada/moods/closeup-talk.svg') no-repeat;
+  animation-duration: 0.8s;
+
+  width: 500px;
+  height: 800px;
+  bottom: -10%;
+  left: 0;
+  position: fixed;
+}
+
+.quests {
+  margin-left: 30%;
+  padding-top: 150px;
+  min-height: 400px;
+}
+
+.QuestCard {
+  width: 250px;
+  height: 350px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.QuestCard .background {
+  width: 100%;
+  height: 250px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  transition: all ease 0.3s;
+}
+
+.QuestCard:hover {
+  cursor: pointer;
+}
+
+.QuestCard:hover .background {
+  background-size: 120% auto !important;
+}
+
+.QuestCard .background.htmlintro2 {
+  background: transparent url('/data/quests_files/cards/htmlintro2.jpg') no-repeat;
+  background-size: 100% auto;
+}
+
+.QuestCard .info .easy {
+  width: 33%;
+  height: 10px;
+  background-color: #00E718;
+}
+
+.QuestCard .info p {
+  padding: 10px;
+  margin: 0px;
+}
+
+.Quest iframe {
+  border: none;
+  position: fixed;
+  left: 0;
+  top: 100px;
+}
+
+.Tome {
+  width: 400px;
+  padding: 10px;
+  height: 100vh;
+  overflow-y: scroll;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+.Tome .message {
+  border-radius: 10px;
+  background-color: white;
+  padding: 20px;
+  padding-right: 120px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  margin-bottom: 30px;
+}
+
+.Tome .message.riley {
+  background: white url('/data/characters/riley/moods/talk.png');
+  background-repeat: no-repeat;
+  background-position: 230px top;
+  min-height: 100px;
+}
+
+.Menu {
+  position: fixed;
+  top: 10px;
+  left: 20%;
+  list-style-type: none;
+}
+
+.Menu li {
+  display: inline;
+  margin-right: 20px;
+  color: white;
+  border: 3px solid white;
+  border-radius: 50px;
+  padding: 5px 20px;
+  font-weight: bold;
+  font-size: x-large;
+  background-color: #181866;
+  transition: all 0.5s;
+}
+
+.Menu li:hover {
+  cursor: pointer;
+  background-color: #22597F;
+}
+
+.App iframe {
+  border: none;
+  position: fixed;
+  left: 0;
+  top: 100px;
+}
+
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
