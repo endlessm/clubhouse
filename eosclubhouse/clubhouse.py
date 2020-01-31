@@ -769,17 +769,14 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._quest = quest
         self._alternative_path = os.path.join(get_alternative_quests_dir(), 'cards')
 
-        self._setup_background()
-
         # Populate info.
         self._populate_info()
 
         self._quest.connect('quest-started', lambda q: self._update_card_state())
         self._quest.connect('quest-finished', lambda q: self._update_card_state())
         self._quest.connect('notify::complete', lambda w, ps: self._update_card_state())
-        self._quest.connect('notify::available', lambda w, ps: self._update_availability())
-        self._update_card_state()
-        self._update_availability()
+        self._quest.connect('notify::available', lambda w, ps: self._sync_availability())
+        self._sync_availability()
 
     @Gtk.Template.Callback()
     def _on_enter_notify_event(self, widget, event):
@@ -791,6 +788,8 @@ class ActivityCard(Gtk.FlowBoxChild):
 
     @Gtk.Template.Callback()
     def _on_state_flags_changed(self, widget, flags):
+        if not self._quest.available:
+            return
         self._update_card_state()
 
     @Gtk.Template.Callback()
@@ -848,11 +847,14 @@ class ActivityCard(Gtk.FlowBoxChild):
         info = CharacterInfo[character]
         pathway = info['pathway']
 
-        img = '{}/{}.jpg'.format(self._alternative_path, quest_id)
+        basename = quest_id if self._quest.available else '{}-unavailable'.format(quest_id)
+        img = '{}/{}.jpg'.format(self._alternative_path, basename)
         if not os.path.exists(img):
-            img = '/app/share/eos-clubhouse/quests_files/cards/{}.jpg'.format(quest_id)
+            img = os.path.join(config.QUESTS_FILES_DIR, 'cards', '{}.jpg'.format(basename))
             if not os.path.exists(img):
-                img = '/app/share/eos-clubhouse/quests_files/pathway-card-{}.svg'.format(pathway)
+                sufix = quest_id if self._quest.available else '{}-unavailable'.format(pathway)
+                filename = 'pathway-card-{}.svg'.format(sufix)
+                img = os.path.join(config.QUESTS_FILES_DIR, filename)
 
         css = "box {{ background-image: url('{}') }}".format(img).encode()
         self._css_provider.load_from_data(css)
@@ -925,7 +927,7 @@ class ActivityCard(Gtk.FlowBoxChild):
         else:
             self._play_button.get_style_context().remove_class('running')
             expand = self.is_selected()
-            self.props.sensitive = True
+            self.props.sensitive = self._quest.available
             if self._quest.complete:
                 self._play_button.set_label('play again')
                 self._play_button.get_style_context().add_class('complete')
@@ -941,11 +943,14 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._revealer.set_reveal_child(expand)
         self._difficulty_box.set_visible(not expand)
 
-    def _update_availability(self):
+    def _sync_availability(self):
+        self.props.sensitive = self._quest.available
         if self._quest.available:
           self.get_style_context().add_class('available')
         else:
           self.get_style_context().add_class('unavailable')
+        self._setup_background()
+        self._update_card_state()
 
     def get_quest(self):
         return self._quest
