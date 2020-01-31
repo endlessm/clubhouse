@@ -1,3 +1,7 @@
+// Global functions
+@function identity($value)
+  @return $value
+
 // Globals
 $images: 'resource:///com/hack_computer/Clubhouse/images/'
 
@@ -587,19 +591,21 @@ CharacterView
     to
       background-size: 100%
 
-// ActivityCard
-ActivityCard
-  $easy_color_a: #37DCB1
-  $easy_color_b: #00E718
-  $normal_color_a: #EFBE2D
-  $normal_color_b: #FF6B00
-  $hard_color_a: #F92781
-  $hard_color_b: #FF0000
+@mixin ActivityCardBase($available: true)
+  $colorize: if($available, get-function('identity'), get-function('grayscale'))
+  $color_func: if($available, identity, 'grayscale')
+
+  $easy_color_a: call($colorize, #37DCB1)
+  $easy_color_b: call($colorize, #00E718)
+  $normal_color_a: call($colorize, #EFBE2D)
+  $normal_color_b: call($colorize, #FF6B00)
+  $hard_color_a: call($colorize, #F92781)
+  $hard_color_b: call($colorize, #FF0000)
 
   border-radius: 1em
   min-height: 20em
   margin: 0.5em
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5)
+  box-shadow: 2px 2px 2px rgba(call($colorize, rgb(0, 0, 0)), 0.5)
 
   #topbox
     background-size: cover
@@ -608,12 +614,12 @@ ActivityCard
 
     image
       border-top-right-radius: 1em
-      background: linear-gradient(to top right, transparent 50%, white 51%)
+      background: linear-gradient(to top right, transparent 50%, call($colorize, white) 51%)
 
   &.new
     #topbox
       image
-        background: linear-gradient(to top right, transparent 50%, #f92781 51%)
+        background: linear-gradient(to top right, transparent 50%, call($colorize, #f92781) 51%)
 
   #topbox,
   #topbox > box
@@ -621,19 +627,19 @@ ActivityCard
     transition: background-image 150ms ease
 
   #bottombox
-    background: white
+    background: call($colorize, white)
     padding: 0.8em
     border-radius: 0 0 1em 1em
 
     image
       border-radius: 50%
       padding: 0.4em
-      color: white
+      color: call($colorize, white)
 
     #play
-      $normal_color: #181866
-      $complete_color: #37DCB1
-      $running_color: #661818
+      $normal_color: call($colorize, #181866)
+      $complete_color: call($colorize, #37DCB1)
+      $running_color: call($colorize, #661818)
 
       color: white
       text-shadow: none
@@ -661,7 +667,7 @@ ActivityCard
 
       &:disabled,
       &:disabled.complete
-        background: lightgray
+        background: call($colorize, lightgray)
 
     #tagsview
       margin-left: 1em
@@ -671,7 +677,7 @@ ActivityCard
         border-radius: 0.8em
         padding: 0.3em 0.8em
         margin-bottom: 0.3em
-        background: lightgray
+        background: call($colorize, lightgray)
 
   #title
     min-height: 3em
@@ -684,7 +690,7 @@ ActivityCard
   stackswitcher
     button
       padding: 0
-      color: gray
+      color: call($colorize, gray)
       font-weight: bold
       min-width: unset
       background: unset
@@ -696,7 +702,7 @@ ActivityCard
       padding-left: 1ex
 
   box.difficulty
-    background: white
+    background: call($colorize, white)
     transition: min-height 250ms ease
     min-height: 0.8em
 
@@ -749,7 +755,9 @@ ActivityCard
     &:hover,
     &.expanded
       #topbox > box
-        background: linear-gradient(47.32deg, $easy_color_a, rgba(4,231,34,0.45) 43.02%, rgba(2,231,30,0))
+        $expanded_color_a: rgba(call($colorize, rgb(4, 231, 34)), 0.45)
+        $expanded_color_b: call($colorize, rgb(2, 231, 30))
+        background: linear-gradient(47.32deg, $easy_color_a, $expanded_color_a 43.02%, $expanded_color_b)
 
     separator.difficulty,
     box.difficulty > separator:first-child
@@ -762,7 +770,10 @@ ActivityCard
     &:hover,
     &.expanded
       #topbox > box
-        background: linear-gradient(49.74deg, $normal_color_a, rgba(255,107,0,0.49) 53.66%, rgba(255,107,0,0))
+        $expanded_color: call($colorize, rgb(255, 107, 0))
+        $expanded_color_a: rgba($expanded_color, 0.49)
+        $expanded_color_b: $expanded_color
+        background: linear-gradient(49.74deg, $normal_color_a, $expanded_color_a 53.66%, $expanded_color_b)
 
     separator.difficulty
       background: linear-gradient(to right, $normal_color_a, $normal_color_b)
@@ -781,7 +792,10 @@ ActivityCard
     &:hover,
     &.expanded
       #topbox > box
-        background: linear-gradient(46.17deg, rgba(249,39,129,0.9), rgba(252,68,74,0.5) 44.52%, rgba(252,68,74,0))
+        $expanded_color_a: rgba(call($colorize, rgb(249, 39, 129)), 0.9)
+        $expanded_color_b: rgba(call($colorize, rgb(252, 68, 74)), 0.5)
+        $expanded_color_c: call($colorize, rgb(252, 68, 74))
+        background: linear-gradient(46.17deg, $expanded_color_a, $expanded_color_b 44.52%, $expanded_color_c)
 
     separator.difficulty
       background: linear-gradient(to right, $hard_color_a, $hard_color_b)
@@ -795,6 +809,14 @@ ActivityCard
         background: linear-gradient(to right, $mix_color_a, $mix_color_b)
       separator:last-child
         background: linear-gradient(to right, $mix_color_b, $hard_color_b)
+
+
+// ActivityCard
+ActivityCard.unavailable
+  @include ActivityCardBase(false)
+
+ActivityCard.available
+  @include ActivityCardBase(true)
 
 
 // News Page
