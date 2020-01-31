@@ -943,12 +943,25 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._revealer.set_reveal_child(expand)
         self._difficulty_box.set_visible(not expand)
 
+    def _update_tooltip_text(self):
+        def _quest_to_markup(quest):
+            name = libquest.Registry.get_quest_by_name(quest).get_name()
+            return '<b>{}</b>'.format(name)
+
+        if self._quest.available:
+            self.props.tooltip_text = None
+        else:
+            quest_list = ', '.join(_quest_to_markup(q) for q in self._quest.get_dependency_quests())
+            self.set_tooltip_markup('Need to complete %s first' % quest_list)
+
     def _sync_availability(self):
         self.props.sensitive = self._quest.available
         if self._quest.available:
-          self.get_style_context().add_class('available')
+            self.get_style_context().add_class('available')
         else:
-          self.get_style_context().add_class('unavailable')
+            self.get_style_context().add_class('unavailable')
+
+        self._update_tooltip_text()
         self._setup_background()
         self._update_card_state()
 
