@@ -49,8 +49,32 @@ class Tome  extends React.Component {
     newItems.push(newMsg);
     this.setState({items: newItems, lastMessage: lastMsg});
 
-    // if (lastMsg < this.messages.length)
-    //     setTimeout(() => { this.addItem(); }, 2000);
+    if (lastMsg < this.messages.length)
+         setTimeout(() => { this.addItem(); }, 2000);
+  }
+
+  openWindow() {
+    try {
+      const remote = window.require('electron').remote;
+      const { BrowserWindow } = remote;
+      let win = new BrowserWindow({
+        backgroundColor: 'white',
+        width: 480,
+        height: 800,
+        alwaysOnTop: true,
+        frame: false,
+        transparent: true,
+        autoHideMenuBar: true,
+        skipTaskbar: true,
+        maximizable: false,
+        minimizable: false,
+        resizable: false,
+        closable: false,
+      });
+      win.loadURL(window.location + '#quest=htmlintro2');
+    } catch(e) {
+      return;
+    }
   }
 
   render() {
@@ -61,7 +85,7 @@ class Tome  extends React.Component {
     ));
 
     return (
-      <div className="Tome" onClick={() => this.addItem()}>
+      <div className="Tome" onClick={() => this.openWindow()}>
         <CSSTransitionGroup
           transitionName="example"
           transitionEnterTimeout={500}
@@ -82,9 +106,11 @@ class Quest extends React.Component {
 
     return (
       <div className="Quest">
+        { !this.props.small &&
         <iframe src={this.props.quest.url} style={iframeStyles} title="iframe">
           <p>Your browser does not support iframes.</p>
         </iframe>
+        }
         <Tome quest={this.props.quest} />
       </div>
     );

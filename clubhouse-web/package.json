@@ -2,7 +2,9 @@
   "name": "clubhouse-web",
   "version": "0.1.0",
   "private": true,
+  "main": "main.js",
   "dependencies": {
+    "electron": "^7.1.11",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -11,11 +13,20 @@
     "react-scripts": "3.3.0",
     "react-transition-group": "1.x"
   },
+  "devDependencies": {
+    "electron-packager": "^14.2.0",
+    "electron-installer-flatpak": "^0.8.0"
+  },
+  "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+
+    "app-start": "electron .",
+    "app-build": "electron-packager . app --platform linux --arch x64 --out dist/ --overwrite",
+    "app-flatpak64": "electron-installer-flatpak --src dist/app-linux-x64/ --dest dist/installers/ --arch x64"
   },
   "eslintConfig": {
     "extends": "react-app"

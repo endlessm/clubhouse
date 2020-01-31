@@ -10,6 +10,16 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { view: 'clubhouse', pathway: null, quest: null };
+
+    if (window.location.hash) {
+      const q = {
+        name: 'HTML - Using Colors',
+        dificulty: 'easy',
+        id: 'htmlintro2',
+        url: 'https://codepen.io/madetohack/pen/BaaKggj?editors=1000#code-area',
+      };
+      this.state = { view: 'quest', quest: q, small: true, };
+    }
   }
 
   pathway(p) {
@@ -38,17 +48,19 @@ class App extends React.Component {
       <div className="App">
         { this.state.view === 'clubhouse' && <Clubhouse app={this} /> }
         { this.state.view === 'pathway' && <Pathway app={this} pathway={this.state.pathway} /> }
-        { this.state.view === 'quest' && <Quest app={this} quest={this.state.quest} /> }
+        { this.state.view === 'quest' && <Quest app={this} quest={this.state.quest} small={!!this.state.small} /> }
         { this.state.view === 'news' &&
             <iframe src="https://www.hack-computer.com/blog" style={iframeStyles} title="news">
               <p>Your browser does not support iframes.</p>
             </iframe>
         }
 
-        <ul className="Menu">
-           { this.state.view !== 'clubhouse' && <li onClick={() => this.clubhouse()}>Clubhouse</li> }
-           { this.state.view === 'clubhouse' && <li onClick={() => this.showHackNews()}>Hack News</li> }
-        </ul>
+        { !this.state.small &&
+          <ul className="Menu">
+             { this.state.view !== 'clubhouse' && <li onClick={() => this.clubhouse()}>Clubhouse</li> }
+             { this.state.view === 'clubhouse' && <li onClick={() => this.showHackNews()}>Hack News</li> }
+          </ul>
+        }
       </div>
     );
   }
