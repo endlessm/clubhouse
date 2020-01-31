@@ -778,7 +778,9 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._quest.connect('quest-started', lambda q: self._update_card_state())
         self._quest.connect('quest-finished', lambda q: self._update_cancelling())
         self._quest.connect('notify::complete', lambda w, ps: self._update_card_state())
+        self._quest.connect('notify::available', lambda w, ps: self._update_availability())
         self._update_card_state()
+        self._update_availability()
 
     @Gtk.Template.Callback()
     def _on_enter_notify_event(self, widget, event):
@@ -947,6 +949,12 @@ class ActivityCard(Gtk.FlowBoxChild):
 
         self._revealer.set_reveal_child(expand)
         self._difficulty_box.set_visible(not expand)
+
+    def _update_availability(self):
+        if self._quest.available:
+            self.get_style_context().add_class('available')
+        else:
+            self.get_style_context().remove_class('available')
 
     def get_quest(self):
         return self._quest
