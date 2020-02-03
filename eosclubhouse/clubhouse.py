@@ -874,7 +874,11 @@ class ActivityCard(Gtk.FlowBoxChild):
             self._stack.add_titled(textview, 'tags', title)
 
         # Set difficulty class
-        self.get_style_context().add_class(self._quest.get_difficulty().name)
+        ctx = self.get_style_context()
+        ctx.add_class(self._quest.get_difficulty().name)
+
+        if self._quest.is_narrative():
+            ctx.add_class('narrative')
 
     def _update_card_state(self):
         if self._quest.complete:

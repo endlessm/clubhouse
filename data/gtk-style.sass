@@ -737,6 +737,11 @@ ActivityCard
       background-size: 110%
       animation: unset
 
+  &:hover.narrative
+    #topbox > box > overlay > box
+      background: url($images + 'narrative-icon.svg') center / contain no-repeat
+      transition: background-image 400ms ease
+
   &.EASY
     stackswitcher > button:checked
       color: $easy_color_a
