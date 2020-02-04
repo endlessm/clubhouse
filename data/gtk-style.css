@@ -521,6 +521,9 @@ ActivityCard {
     transition: background-size 150ms ease;
     background-size: 110%;
     animation: unset; }
+  ActivityCard:hover.narrative #topbox > box > overlay > box {
+    background: url("resource:///com/hack_computer/Clubhouse/images/narrative-icon.svg") center/contain no-repeat;
+    transition: background-image 400ms ease; }
   ActivityCard.EASY stackswitcher > button:checked {
     color: #37DCB1; }
   ActivityCard.EASY:hover #topbox > box, ActivityCard.EASY.expanded #topbox > box {

@@ -35,6 +35,7 @@
     <file>hack-switch/OFF-hover.png</file>
     <file>hack-switch/OFF-static.png</file>
     <file>hack-switch/OFF-attract.png</file>
+    <file>narrative-icon.svg</file>
   </gresource>
   <gresource prefix="/com/hack_computer/Clubhouse/icons">
     <file preprocess="xml-stripblanks">clubhouse-prev-symbolic.svg</file>
