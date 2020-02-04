@@ -1,0 +1,46 @@
+SIDETRACK3_QUEST_NAME,Sidetrack - The Wall,,,,
+SIDETRACK3_QUEST_SUBTITLE,What you'll do,,,,
+SIDETRACK3_QUEST_DESCRIPTION,A new instruction opens new possibilities to solve the riddles.,,,,
+SIDETRACK3_LAUNCH,Great work with the second part of Sidetrack! Let's head back into <b>Sidetrack</b> and get across that wall!,riley,,,
+SIDETRACK3_LAUNCH_HINT1,"Launch <b>Sidetrack</b> from the desktop.
+",riley,,,
+SIDETRACK3_INTRO1,So Riley you wanted to show us how to <b>CRUNCH</b> the wall with code.,saniel,,,
+SIDETRACK3_INTRO2,"Not crunching, more like pushing out of the way. But yes, let's use code. <b>{{user_name}}</b> can you please flip the app once more?",riley,,,
+SIDETRACK3_INTRO2_HINT1,Click the <b>Flip</b> button.,riley,,,
+SIDETRACK3_PUSH,"Type in <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.push();</span></tt> That's the cool new <b>Instruction</b>.
+
+You might as well replace that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">riley.jump;</span></tt> at position 2, right? A <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> <b>Instruction</b>  won't help us in this level.",,,,
+SIDETRACK3_PUSH_HINT1,"When my avatar is lined up with a <b>Wall</b> and about to crash into a wall, PUSH is just what is needed.
+
+Suddenly I'm so strong I can actually move <b>Walls</b>! Let’s give it a try!",,,,
+SIDETRACK3_PUSH_HINT2,"When you add a <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> Instruction, you'll see it on the front of the app.
+
+That means you can drag and drop the <b>Instruction</b>  into a different position.",,,,
+SIDETRACK3_LEVEL_29,"Look at all these <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt>s! Not useful at all! <i>Obvi</i> you can't jump over a <b>Wall</b> or a <b>Robot!</b>
+
+<tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> only works for <b>Pits</b>. However, you <i>can</i> <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> <b>Walls</b> and <b>Robots</b>! 
+
+Whoever put all these <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jumps</span></tt> here must not have had access to the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> <b>Instruction</b>.",,,,
+SIDETRACK3_LEVEL_29__HINT1,"If you change all the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">jump</span></tt> <b>Instructions</b> to <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> in the Hack panel, I think these <b>Instructions</b> will work!",riley,,,
+SIDETRACK3_LEVEL_30_INTRO,"One more thing – for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> to work, you need to have space next to the obstacle you're pushing.
+
+In other words, whatever you <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> needs a space to move to! It makes sense, right?
+
+To get through this level, only use <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> for <b>one</b> column of <b>Walls</b> at a time.",riley,,,
+SIDETRACK3_LEVEL_30,"If the space to the right of what you're pushing is blocked, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">push</span></tt> won't work!",riley,,,
+SIDETRACK3_LEVEL_30_HINT1,Rewrite the <b>Instructions</b> in the Hack panel until you've got the <b>Instructions</b> you need.,riley,,,
+SIDETRACK3_LEVEL_31_ADA,This level looks familiar.,ada,,,
+SIDETRACK3_LEVEL_31_FABER,But now you can push your enemies :),faber,,,
+SIDETRACK3_LEVEL_31_ESTELLE,Let's step aside for a moment and give some room for <b>{{user_name}}</b> to explore himself. Enough of the talking.,estelle,,,
+SIDETRACK3_LEVEL_34_FABER,Congrats <b>{{user_name}}</b>! You are doing great. Can you use the push instruction to do the moonwalk at the end?,faber,,,
+SIDETRACK3_LEVEL_34_ESTELLE,"I don't have to get that Faber, do I? Is that another one of your 80s references?",estelle,,,
+SIDETRACK3_LEVEL_34_FABER_2,"Sort of, if you use several push instructions in a row it looks like Riley is break dancing :)",,,,
+SIDETRACK3_LEVEL_35,Hint: If you push the enemy away you can not solve the puzzle.,,,,
+SIDETRACK3_LEVEL_36_ADA,This one looks like a great challenge!,ada,,,
+SIDETRACK3_LEVEL_36_SANIEL,"I admire your enthusiasm Ada, but...",saniel,,,
+SIDETRACK3_LEVEL_36_ADA_2,"Hold on to that Saniel, I want to solve the riddle by myself.",ada,,,
+SIDETRACK3_UNBEATABLE_FABER,I don't see any way that <i>ANY</i> set of <b>Instructions</b> could ever solve this level!,faber,,,
+SIDETRACK3_UNBEATABLE_SANIEL,That is what I was trying to say. Riley?,saniel,,,
+SIDETRACK3_UNBEATABLE_RILEY,Indded. Not beatable with what you have right now. Time for another break. Anyone for tea and scones?,,,,
+SIDETRACK3_ABORT,"Press a bell and a moment later
+Up you go in an elevator",riley,,,
