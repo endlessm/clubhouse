@@ -775,7 +775,8 @@ class ActivityCard(Gtk.FlowBoxChild):
 
     @Gtk.Template.Callback()
     def _on_play_button_clicked(self, button):
-        if self._app.quest_runner.running_quest == self._quest:
+        running_quest = self._app.quest_runner.running_quest
+        if running_quest == self._quest and self._quest.is_narrative():
             # cancel the quest
             self._app.quest_runner.stop_quest()
             return
@@ -894,8 +895,12 @@ class ActivityCard(Gtk.FlowBoxChild):
             self._corner_image.props.resource = None
 
         if self._app.quest_runner.running_quest == self._quest:
-            self._play_button.set_label('cancel')
             self._play_button.get_style_context().add_class('running')
+            if self._quest.is_narrative():
+                self._play_button.set_label('cancel')
+            else:
+                self._play_button.set_label('running...')
+                self.props.sensitive = False
             expand = True
         else:
             self._play_button.get_style_context().remove_class('running')
