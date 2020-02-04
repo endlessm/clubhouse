@@ -2,6 +2,11 @@ NEWCURSOR_QUEST_NAME,"It's not Voodoo - Creating your own mouse cursor!
 ",,,,
 NEWCURSOR_QUEST_SUBTITLE,What you'll do,,,,
 NEWCURSOR_QUEST_DESCRIPTION,Create your very own mouse pointer (cursor) that you can use across the entire operating system!,,,,
+NEWCURSOR_NOTINSTALLED,"Uh-oh! It looks like <b>Glimpse</b> isn't installed!
+
+You need to download it from the App Center if you want to play this activity.
+
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">More Apps</span></tt> on the Desktop, search for <b>Glimpse</b> and install it, then restart this activity.",daemon,,,
 NEWCURSOR_GREET1,"Greetings, <b>{{user_name}}</b>. I thought I'd show you a fun way to customize the operating system, today.",saniel,,,
 NEWCURSOR_GREET2,"Have you played with the System App at all yet? If not, you could to try the ""Touring the System"" activity before this one, if you want.",saniel,,,
 NEWCURSOR_GREET3,"At any rate, in the System App, you could switch your mouse cursor between various different objects - Cheese, a Unicorn, et cetera. You probably had your own idea of what would be a fun cursor, though.",saniel,,,
