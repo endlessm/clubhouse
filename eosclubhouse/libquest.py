@@ -1636,7 +1636,8 @@ class Quest(_Quest):
         abort_info = self._get_message_info('{}_ABORT'.format(self._qs_base_id))
         if abort_info:
             self.show_message('ABORT')
-        else:
+        # Narrative quests doesn't show the default abort message
+        elif not self.is_narrative():
             self.show_message('NOQUEST_DEFAULT_ABORT')
 
         self.pause(5)
