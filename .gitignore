@@ -2,11 +2,14 @@
 /.flatpak-builder
 /com.hack_computer.Clubhouse.json
 /katamari/tools/__pycache__/
+/eosclubhouse/__pycache__/
+/tools/__pycache__/
 
 # Ignore files used for building custom flatpak bundles:
 /repo
 /build
 /*.flatpak-bundle
+/*.flatpak
 
 # Ignore virtualenv directory:
 /.python-virtual-env
@@ -18,3 +21,6 @@
 /katamari/*config.ini
 /katamari/com.hack_computer.Clubhouse.json
 /katamari/com.hack_computer.Clippy.Extension.json
+
+# Ignore VSCode preference files
+*.vscode
