@@ -2238,7 +2238,7 @@ class Quest(_Quest):
 
     # ** MISC **
 
-    def deploy_file(self, file_name, directory_path, override=False):
+    def deploy_file(self, file_path, directory_path, override=False):
         '''Deploy a file inside the player home directory.
 
         The files should be commited in GIT in the folder specified below:
@@ -2269,7 +2269,8 @@ class Quest(_Quest):
                              directory_path)
                 return
 
-        source = os.path.join(config.QUESTS_FILES_DIR, file_name)
+        source = os.path.join(config.QUESTS_FILES_DIR, file_path)
+        file_name = os.path.basename(file_path)
         destination = os.path.join(dest_dir, file_name)
 
         if not os.path.exists(source):
