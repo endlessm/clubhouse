@@ -125,6 +125,24 @@ CharacterInfo = {
         'username': 'Endless',
         'pathway': None,
         'pathway_title': None
+    },
+    'daemon': {
+        'position': None,
+        'username': 'cron',
+        'pathway': None,
+        'pathway_title': None
+    },
+    'daemon2': {
+        'position': None,
+        'username': 'peacock',
+        'pathway': None,
+        'pathway_title': None
+    },
+    'daemon3': {
+        'position': None,
+        'username': 'starman',
+        'pathway': None,
+        'pathway_title': None
     }
 }
 
