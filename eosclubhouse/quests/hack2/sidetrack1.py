@@ -41,8 +41,6 @@ class Sidetrack1(Quest):
                          self.get_id(), self.app.dbus_name)
             return self.step_begin
 
-        if highest_achieved_level > 1:
-            self.app.set_js_property('highestAchievedLevel', ('u', 1))
         self.app.set_js_property('availableLevels', ('u', self.MAX_LEVEL))
         self._reset_confirmed_messages()
         return self.step_play_level, False
