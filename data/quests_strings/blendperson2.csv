@@ -1,0 +1,8 @@
+BLENDPERSON2_QUEST_NAME,Unboxing! - Animating a Low-Poly Person,,,,
+BLENDPERSON2_QUEST_SUBTITLE,What you'll do,,,,
+BLENDPERSON2_QUEST_DESCRIPTION,"In part 2 of this activity, you'll learn to animate your low-poly person to whatever moves you want!",,,,
+BLENDPERSON2_QUIT,See you later!,,,,
+BLENDPERSON2_GREET,"Hey, <b>{{user_name}}</b>, welcome (or welcome back) to Blender! Don't forget that a USB mouse with 2 buttons and a scroll wheel is <b>very</b> helpful for using Blender. I <b>strongly</b> recommend it.",estelle,,,
+BLENDPERSON2_1,The easiest way to follow along with these tutorials is to adjust your windows so that you can see both Blender and the video.,estelle,,,
+BLENDPERSON2_2,"I'll start up Blender and launch the video, but if you close the window, here's a link back to it - <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://www.youtube.com/watch?v=srpOeu9UUBU</span></u>",estelle,,,
+BLENDPERSON2_3,"Have fun! Remember, you can always restart this activity if you need to see the tips or link.",estelle,,,
