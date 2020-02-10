@@ -3,7 +3,8 @@ from eosclubhouse.libquest import Quest
 
 class BootQuest(Quest):
 
-    __tags__ = ['pathway:web', 'difficulty:medium', 'since:1.5']
+    __app_id__ = 'com.sublimetext.three'
+    __tags__ = ['pathway:web', 'difficulty:medium', 'since:1.6']
     __pathway_order__ = 605
 
     def setup(self):
@@ -12,6 +13,9 @@ class BootQuest(Quest):
         self._codepen_url_seen = False
 
     def step_begin(self):
+        if not self.app.is_installed():
+            self.wait_confirm('NOTINSTALLED', confirm_label='Got it!')
+            return self.step_abort
         return self.step_main_loop
 
     def step_main_loop(self, message_index=0):
