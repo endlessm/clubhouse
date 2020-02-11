@@ -6,7 +6,7 @@ class MakerCloud(Quest):
     __app_id__ = 'com.hack_computer.ProjectLibrary'
     ARTICLE_NAME = 'Clouds in a Jar'
 
-    __tags__ = ['pathway:maker', 'difficulty:easy', 'since:1.5']
+    __tags__ = ['pathway:maker', 'difficulty:easy', 'since:1.6']
     __pathway_order__ = 255
 
     def step_begin(self):
