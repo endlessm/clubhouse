@@ -1,5 +1,4 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse import logger
 
 
 class Sidetrack2(Quest):
@@ -27,23 +26,7 @@ class Sidetrack2(Quest):
         self.ask_for_app_launch(message_id='LAUNCH')
 
         highest_level = self._app.get_js_property('highestAchievedLevel')
-
-        # @fixme: This is a workaround to https://phabricator.endlessm.com/T29180
-        # Sometimes Sidetrack app takes lot of time to start and get_js_property times out.
-        if highest_level is None:
-            logger.debug('Quest %s: Cannot get \'highestAchievedLevel\' for %s. Trying again...',
-                         self.get_id(), self.app.dbus_name)
-            return self.step_begin
-
-        # This is a workaround to wait until the sidetrack app reads the
-        # information from the game state service. In the future we should add
-        # a signal or a property to the toyapps and move this wait to a new
-        # method in Quest
         current_level = int(self._app.get_js_property('currentLevel'))
-        while current_level == 0:
-            logger.debug(f'Current level is 0, waiting for sidetrack to load data')
-            self.pause(1)
-            current_level = self._app.get_js_property('currentLevel')
 
         if highest_level < 23 or highest_level > 28:
             self._app.set_js_property('highestAchievedLevel', ('u', 23))
