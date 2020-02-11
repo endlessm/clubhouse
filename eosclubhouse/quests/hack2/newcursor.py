@@ -4,7 +4,7 @@ from eosclubhouse.libquest import Quest, App
 class NewCursor(Quest):
 
     __app_id__ = 'org.glimpse_editor.Glimpse'
-    __tags__ = ['pathway:operating system', 'difficulty:hard', 'since:1.5']
+    __tags__ = ['pathway:operating system', 'difficulty:hard', 'since:1.6']
     __pathway_order__ = 420
 
     def setup(self):

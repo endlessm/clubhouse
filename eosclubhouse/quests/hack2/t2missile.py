@@ -4,7 +4,7 @@ from eosclubhouse.libquest import Quest
 class T2Missile(Quest):
 
     __app_id__ = 'com.endlessnetwork.missilemath'
-    __tags__ = ['pathway:games', 'difficulty:normal', 'since:1.5']
+    __tags__ = ['pathway:games', 'difficulty:normal', 'since:1.6']
     __pathway_order__ = 131
 
     def step_begin(self):

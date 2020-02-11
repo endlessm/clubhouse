@@ -3,7 +3,7 @@ from eosclubhouse.libquest import Quest
 
 class P5JSSound1(Quest):
 
-    __tags__ = ['pathway:art', 'difficulty:medum', 'since:1.5']
+    __tags__ = ['pathway:art', 'difficulty:medum', 'since:1.6']
     __pathway_order__ = 620
 
     def setup(self):
