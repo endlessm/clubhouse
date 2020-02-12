@@ -16,27 +16,42 @@ source_dir="$(git rev-parse --show-toplevel)"
 # building locally) since it needs to be properly set up from within the sandbox.
 virtualenv_dir="${source_dir}/.python-virtual-env$FLATPAK_ID"
 
+# Associative array of tools and the packages they come from.
+declare -A virtualenv_tools
+virtualenv_tools=(
+    [flake8]=flake8
+    [pysassc]=libsass
+    [sphinx-build]=sphinx-autoapi
+)
+
 function run_in_python_venv {
     PATH="$virtualenv_dir/bin:$PATH" "$@"
 }
 
 function setup_venv {
-    if [ ! -f $virtualenv_dir/bin/flake8 ]; then
+    local tool
+    local pkg
+
+    if [ ! -f "$virtualenv_dir"/bin/activate ]; then
         echo "Setting up virtual env $virtualenv_dir"
         python3 -mvenv "$virtualenv_dir"
         echo "Upgrading pip"
-	run_in_python_venv pip install --upgrade pip
-        echo "Installing flake8"
-	run_in_python_venv pip install flake8
-        echo "Installing libsass"
-	run_in_python_venv pip install libsass
-        echo "Installing sphinx-autoapi"
-	run_in_python_venv pip install sphinx-autoapi
+        run_in_python_venv pip install --upgrade pip
     fi
+
+    for tool in "${!virtualenv_tools[@]}"; do
+        pkg="${virtualenv_tools[$tool]}"
+        if [ ! -f "$virtualenv_dir/bin/$tool" ]; then
+            echo "Installing $pkg"
+            run_in_python_venv pip install "$pkg"
+        fi
+    done
 }
 
 function upgrade_venv {
-    if [ ! -f "$virtualenv_dir"/bin/flake8 ]; then
+    local pkg
+
+    if [ ! -f "$virtualenv_dir"/bin/activate ]; then
         echo "No virtual env found in $virtualenv_dir" >&2
         return 1
     fi
@@ -44,12 +59,10 @@ function upgrade_venv {
     echo "Upgrading virtual env $virtualenv_dir"
     echo "Upgrading pip"
     run_in_python_venv pip install --upgrade pip
-    echo "Upgrading flake8"
-    run_in_python_venv pip install flake8 --upgrade
-    echo "Upgrading libsass"
-    run_in_python_venv pip install libsass --upgrade
-    echo "Upgrading sphinx-autoapi"
-    run_in_python_venv pip install sphinx-autoapi --upgrade
+    for pkg in "${virtualenv_tools[@]}"; do
+        echo "Upgrading $pkg"
+        run_in_python_venv pip install --upgrade "$pkg"
+    done
 }
 
 # Setup the venv if executed
