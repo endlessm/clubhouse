@@ -768,6 +768,7 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._button_press_time = 0
         self._quest = quest
         self._alternative_path = os.path.join(get_alternative_quests_dir(), 'cards')
+        self._cancelling_quest = False
 
         self._setup_background()
 
@@ -775,7 +776,7 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._populate_info()
 
         self._quest.connect('quest-started', lambda q: self._update_card_state())
-        self._quest.connect('quest-finished', lambda q: self._update_card_state())
+        self._quest.connect('quest-finished', lambda q: self._update_cancelling())
         self._quest.connect('notify::complete', lambda w, ps: self._update_card_state())
         self._update_card_state()
 
@@ -796,7 +797,9 @@ class ActivityCard(Gtk.FlowBoxChild):
         running_quest = self._app.quest_runner.running_quest
         if running_quest == self._quest and self._quest.is_narrative():
             # cancel the quest
-            self._app.quest_runner.stop_quest()
+            self._cancelling_quest = True
+            self._update_card_state()
+            self._app._stop_quest()
             return
 
         self._app.quest_runner.try_running_quest(self._quest)
@@ -899,7 +902,17 @@ class ActivityCard(Gtk.FlowBoxChild):
         if self._quest.is_narrative():
             ctx.add_class('narrative')
 
+    def _update_cancelling(self):
+        self._cancelling_quest = False
+        self._play_button.props.sensitive = True
+        self._update_card_state()
+
     def _update_card_state(self):
+        if self._cancelling_quest:
+            self._play_button.set_label('cancelling...')
+            self._play_button.props.sensitive = False
+            return
+
         if self._quest.complete:
             self.get_style_context().remove_class('new')
             self._corner_image.props.resource = \
