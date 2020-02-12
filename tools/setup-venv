@@ -32,31 +32,29 @@ function setup_venv {
 	run_in_python_venv pip install libsass
         echo "Installing sphinx-autoapi"
 	run_in_python_venv pip install sphinx-autoapi
-        return 0
     fi
-
-    return 1
 }
 
 function upgrade_venv {
-    if [ -f $virtualenv_dir/bin/flake8 ]; then
-        echo "Upgrading pip"
-	run_in_python_venv pip install --upgrade pip
-        echo "Upgrading flake8"
-	run_in_python_venv pip install flake8 --upgrade
-        echo "Upgrading libsass"
-	run_in_python_venv pip install libsass --upgrade
-        echo "Upgrading sphinx-autoapi"
-	run_in_python_venv pip install sphinx-autoapi --upgrade
-        return 0
+    if [ ! -f "$virtualenv_dir"/bin/flake8 ]; then
+        echo "No virtual env found in $virtualenv_dir" >&2
+        return 1
     fi
 
-    return 1
+    echo "Upgrading virtual env $virtualenv_dir"
+    echo "Upgrading pip"
+    run_in_python_venv pip install --upgrade pip
+    echo "Upgrading flake8"
+    run_in_python_venv pip install flake8 --upgrade
+    echo "Upgrading libsass"
+    run_in_python_venv pip install libsass --upgrade
+    echo "Upgrading sphinx-autoapi"
+    run_in_python_venv pip install sphinx-autoapi --upgrade
 }
 
-# Only upgrade
+# Setup the venv if executed
 if [ "$0" = "$BASH_SOURCE" ]; then
-    setup_venv || upgrade_venv
+    setup_venv
 fi
 
 # end: install or upgrade Python packages in a Python virtualenv

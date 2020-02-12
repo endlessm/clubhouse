@@ -1,0 +1,13 @@
+#!/bin/bash -e
+#
+# Setup Python VirtualEnv.
+#
+# Copyright (c) 2020 Endless Mobile Inc.
+#
+# Author: Dan Nicholson <nicholson@endlessm.com>
+#
+
+# upgrade Python packages in a Python virtualenv
+
+source tools/setup-venv
+upgrade_venv
