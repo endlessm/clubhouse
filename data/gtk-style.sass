@@ -647,17 +647,17 @@ ActivityCard
       &:hover
         background: lighten($normal_color, 20%)
 
-      &.running
-        background: $running_color
-
-      &.running:hover
-        background: darken($running_color, 10%)
-
       &.complete
         background: $complete_color
 
       &.complete:hover
         background: darken($complete_color, 10%)
+
+      &.running
+        background: $running_color
+
+      &.running:hover
+        background: darken($running_color, 10%)
 
       &:disabled,
       &:disabled.complete
