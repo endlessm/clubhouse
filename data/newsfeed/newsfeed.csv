@@ -1,11 +1,27 @@
-Date ,Character ,ImageResource ,ImageLink ,"Text Isabel Sieh started coding when she was 11 years old using online courses. After discovering her passion for programming, Sieh started her company called ""Girls Will Code"". Sieh believes that it is easier to learn when you’re part of a community, so she started the company aimed at helping young girls who are also interested in coding. They also encourage schools to implement coding as an after school activity. Awesome!"
-2020-03-03,Endless,3-3.jpg,http://bit.ly/hackhideout,Do you love pop art? Download the Hack pop art wallpaper for your desktop today.
-2020-02-29,Endless,2-29.jpg,http://bit.ly/2OIDDiC,"Teachable Machine is a web tool that makes it fast and easy to create machine learning models for your projects, no coding required. Train a computer to recognize your images, sounds, & poses, then export your model for your sites, apps, and more."
+Date ,Character ,ImageResource ,ImageLink ,Text 
+2020-02-14,Endless,3-14.png,http://bit.ly/2tUdw1i,Song Maker is a simple way for anyone to make and share a song. Give it a try and make some music with your browser.
+2020-03-12,Endless,3-12.jpg,,"For his seventh birthday, Ashwat Prasanna’s parents gave him a MacBook. Three years and one Apple boot camp later, his free measurement-converter app, Quickvert, has been downloaded more than 1,000 times on the App Store. Way to go!"
+2020-03-10,Endless,3-10.jpg,,Hack protip: Are you tired of typing the same commands in terminal or can't remember what you executed before? Press the up and down arrow keys to cycle through the history of commands.
+2020-03-07,Endless,3-7.png,http://bit.ly/2SDJTcG,"People love singing with Freddie Mercury, but can you sing like Freddie too? We made an AI-powered singing challenge to find out. This experiment uses new, on-device machine learning models developed by Google Research to see how close your timbre, pitch, and melody are to Freddie’s. Your audio doesn’t get uploaded to servers to be analyzed, so your vocals stay private."
+2020-03-05,Endless,3-5.png,http://bit.ly/2Si6xbA,"Isabel Sieh started coding when she was 11 years old using online courses. After discovering her passion for programming, Sieh started her company called ""Girls Will Code"". Sieh believes that it is easier to learn when you’re part of a community, so she started the company aimed at helping young girls who are also interested in coding. They also encourage schools to implement coding as an after school activity. Awesome!"
+2020-03-03,Endless,3-3.png,http://bit.ly/hackhideout,Do you love pop art? Download the Hack pop art wallpaper for your desktop today.
+2020-02-29,Endless,2-29.png,http://bit.ly/2OIDDiC,"Teachable Machine is a web tool that makes it fast and easy to create machine learning models for your projects, no coding required. Train a computer to recognize your images, sounds, &amp; poses, then export your model for your sites, apps, and more."
 2020-02-27,Endless,2-27.jpg,https://cbsn.ws/39shygv,"In the span of 9 years, Reuben Paul became Accomplished Hacker, App Developer, Cyber Security and the CEO of Prudent Games. He has been a guest speaker in many Cyber Security conferences to raise awareness about growing cyber threats. Check out his story by clicking the image."
-2020-02-25,Endless,,,Hack protip: Can't remember the command you executed a long time ago in terminal? Hit CTRL + R to trigger the search feature and start typing.
-2020-02-22,Endless,2-22.jpg,http://bit.ly/2Hb37RJ,"Improve your typing skills while competing in fast-paced races with up to 5 typers from around the world. Compete against your friends, earn new cars, track your scores, and so much more... all for free!"
+2020-02-26,Endless,2-25.png,,Hack protip: Can't remember the command you executed a long time ago in terminal? Hit CTRL + R to trigger the search feature and start typing.
+2020-02-25,Endless,hack-release.jpg,,"<b>Hack February Release</b>
+Today, we proudly announce Hack's February Release! We hope you like it - let us know what you think on social media with #MadeToHack!
+
+The following content has been added:
+
+<b>Sidetrack 3 - The Wall </b>... This quest will become available in the <b>games pathway</b> when Sidetrack 2 is completed.
+
+
+
+
+"
+2020-02-22,Endless,2-22.png,http://bit.ly/2Hb37RJ,"Improve your typing skills while competing in fast-paced races with up to 5 typers from around the world. Compete against your friends, earn new cars, track your scores, and so much more... all for free!"
 2020-02-20,Endless,2-20.jpg,http://bit.ly/382111T,"At the age of 12, Bianca hacked the voting reporting system at DEFCON 26. She a coder, maker, and the founder of Girls Who Hack. Check out her story by clicking the image."
-2020-02-18,Endless,2-18.jpg,http://bit.ly/hackhideout,"Here at Hack, we love cats. Show your love by downloading our exclusive cat background."
+2020-02-18,Endless,2-18.png,http://bit.ly/hackhideout,"Here at Hack, we love cats. Show your love by downloading our exclusive cat background."
 2020-02-16,Endless,2-16.jpg,https://experiments.withgoogle.com/ai/ai-duet/view/,"Play a duet with the computer through your browser. Just play some notes, and the computer will respond to your melody. You don’t even have to know how to play piano—it’s fun to just press some keys and listen to what comes back. You can click the keyboard, use your computer keys, or even plug in a MIDI keyboard. It's just one example of how machine learning can inspire people to be creative in new ways."
 2020-02-13,Endless,2-13.jpg,http://ow.ly/nRmn50vVfo6,"Tanmay Bakshi was curious about programming at an early age since his father worked as a Programmer. At the age of 7, Bakshi setup a YouTube channel where he posted tutorials on coding and web development. By the age of eight, he taught himself how to develop iOS apps and published his first app at the age of nine. Now he's partnering with IBM Watson on deep learning. We can't wait to see what he'll do next!"
 2020-02-08,Endless,2-8.jpg,https://semiconductor.withgoogle.com,"Conduct your own virtual orchestra in the browser by moving your arms. You can move your arms to change the tempo, volume, and instrumentation of a piece of music. It uses PoseNet, a machine learning library that works in the browser, to map out your movements through your webcam. An algorithm plays along to the score as you conduct, using hundreds of tiny audio files from live recorded instruments."
