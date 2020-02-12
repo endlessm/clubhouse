@@ -1641,7 +1641,9 @@ class Quest(_Quest):
         elif not self.is_narrative():
             self.show_message('NOQUEST_DEFAULT_ABORT')
 
-        self.pause(5)
+        if not self.is_narrative():
+            self.pause(5)
+
         self.stop()
 
     # ** Obtaining and displaying messages **
