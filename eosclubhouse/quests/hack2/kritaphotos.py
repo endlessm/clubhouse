@@ -3,7 +3,7 @@ from eosclubhouse.libquest import Quest
 
 class KritaPhotos(Quest):
 
-    __app_id__ = 'org.kde.Krita'
+    __app_id__ = 'org.kde.krita'
     __tags__ = ['pathway:art', 'difficulty:easy', 'since:1.6']
     __pathway_order__ = 631
 
