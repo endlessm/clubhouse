@@ -55,7 +55,7 @@ source tools/setup-venv
 
 setup_venv
 
-run_in_python_venv pysassc $sass_file $css_file $@ || ret=$?
+pysassc $sass_file $css_file $@ || ret=$?
 
 if [ ! -z "$ret" ] && [ $ret -ne 0 ]; then
     message="There was an error compiling the CSS. Please fix the SASS file."

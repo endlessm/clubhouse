@@ -15,7 +15,7 @@ source tools/setup-venv
 
 setup_venv
 
-run_in_python_venv flake8 --config=flake8.cfg $@ || ret=$?
+flake8 --config=flake8.cfg $@ || ret=$?
 
 popd
 

@@ -24,8 +24,9 @@ virtualenv_tools=(
     [sphinx-build]=sphinx-autoapi
 )
 
-function run_in_python_venv {
-    PATH="$virtualenv_dir/bin:$PATH" "$@"
+function activate_venv {
+    echo "Activating virtual env $virtualenv_dir"
+    source "$virtualenv_dir"/bin/activate
 }
 
 function setup_venv {
@@ -35,15 +36,18 @@ function setup_venv {
     if [ ! -f "$virtualenv_dir"/bin/activate ]; then
         echo "Setting up virtual env $virtualenv_dir"
         python3 -mvenv "$virtualenv_dir"
+        activate_venv
         echo "Upgrading pip"
-        run_in_python_venv pip install --upgrade pip
+        pip install --upgrade pip
+    else
+        activate_venv
     fi
 
     for tool in "${!virtualenv_tools[@]}"; do
         pkg="${virtualenv_tools[$tool]}"
         if [ ! -f "$virtualenv_dir/bin/$tool" ]; then
             echo "Installing $pkg"
-            run_in_python_venv pip install "$pkg"
+            pip install "$pkg"
         fi
     done
 }
@@ -56,12 +60,13 @@ function upgrade_venv {
         return 1
     fi
 
+    activate_venv
     echo "Upgrading virtual env $virtualenv_dir"
     echo "Upgrading pip"
-    run_in_python_venv pip install --upgrade pip
+    pip install --upgrade pip
     for pkg in "${virtualenv_tools[@]}"; do
         echo "Upgrading $pkg"
-        run_in_python_venv pip install --upgrade "$pkg"
+        pip install --upgrade "$pkg"
     done
 }
 
