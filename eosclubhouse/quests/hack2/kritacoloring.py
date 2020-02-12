@@ -22,7 +22,7 @@ class KritaColoring(Quest):
         self.wait_confirm('3')
         if self.is_cancelled():
             return self.step_abort()
-        self.deploy_file('KritaSources/calm-and-happy.svg',
+        self.deploy_file('KritaSources/calm-and-happy.png',
                          '~/Pictures/KritaSources/', override=True)
         self.app.launch()
         return self.step_main_loop
