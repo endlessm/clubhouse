@@ -1,6 +1,6 @@
 #!/bin/bash -e
 #
-# Setup Python VirtualEnv.
+# Setup Python VirtualEnv if needed.
 #
 # Copyright (c) 2019 Endless Mobile Inc.
 #
@@ -30,8 +30,28 @@ function activate_venv {
 }
 
 function setup_venv {
+    local venv_needed
     local tool
     local pkg
+
+    # Check if a venv is needed at all. On eos3.7 python3-venv is not
+    # installed so a virtualenv can't be installed with the host's
+    # python. However, pip is installed so a developer can install the
+    # necessary packages without the virtualenv.
+    venv_needed=false
+    for tool in "${!virtualenv_tools[@]}"; do
+        if ! type -p "$tool" &>/dev/null; then
+            echo "$tool not found (virtual env needed for" \
+                "package ${virtualenv_tools[$tool]})"
+            venv_needed=true
+            break
+        fi
+    done
+
+    if ! "$venv_needed"; then
+        echo "All tools found, virtual env not needed"
+        return 0
+    fi
 
     if [ ! -f "$virtualenv_dir"/bin/activate ]; then
         echo "Setting up virtual env $virtualenv_dir"
