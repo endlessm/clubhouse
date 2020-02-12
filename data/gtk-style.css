@@ -458,14 +458,14 @@ ActivityCard {
         padding: 0.4em 1em 0.6em 1em; }
       ActivityCard #bottombox #play:hover {
         background: #2b2bb9; }
-      ActivityCard #bottombox #play.running {
-        background: #661818; }
-      ActivityCard #bottombox #play.running:hover {
-        background: #3d0e0e; }
       ActivityCard #bottombox #play.complete {
         background: #37DCB1; }
       ActivityCard #bottombox #play.complete:hover {
         background: #21bf96; }
+      ActivityCard #bottombox #play.running {
+        background: #661818; }
+      ActivityCard #bottombox #play.running:hover {
+        background: #3d0e0e; }
       ActivityCard #bottombox #play:disabled, ActivityCard #bottombox #play:disabled.complete {
         background: lightgray; }
     ActivityCard #bottombox #tagsview {
