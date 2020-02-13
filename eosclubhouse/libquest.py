@@ -712,7 +712,7 @@ class _Quest(GObject.GObject):
 
         self._highlighted = False
         self._available = self._get_availability()
-        if self.__available_after_completing_quests__ != []:
+        if self.get_dependency_quests() != []:
             self.gss.connect('changed', lambda _gss: self._update_availability())
             self._update_availability()
 
@@ -763,9 +763,12 @@ class _Quest(GObject.GObject):
     def get_episode_name(self):
         return self._episode_name
 
+    def get_dependency_quests(self):
+        return self.__available_after_completing_quests__
+
     def _get_availability(self):
         return all(self.is_named_quest_complete(q)
-                   for q in self.__available_after_completing_quests__)
+                   for q in self.get_dependency_quests())
 
     def _update_availability(self):
         self.available = self._get_availability()

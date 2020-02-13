@@ -31,6 +31,7 @@ import subprocess
 import sys
 import time
 import datetime
+from PIL import Image
 
 from collections import OrderedDict
 from gi.repository import EosMetrics, Gdk, Gio, GLib, Gtk, GObject, \
@@ -770,15 +771,14 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._alternative_path = os.path.join(get_alternative_quests_dir(), 'cards')
         self._cancelling_quest = False
 
-        self._setup_background()
-
         # Populate info.
         self._populate_info()
 
         self._quest.connect('quest-started', lambda q: self._update_card_state())
         self._quest.connect('quest-finished', lambda q: self._update_cancelling())
         self._quest.connect('notify::complete', lambda w, ps: self._update_card_state())
-        self._update_card_state()
+        self._quest.connect('notify::available', lambda w, ps: self._sync_availability())
+        self._sync_availability()
 
     @Gtk.Template.Callback()
     def _on_enter_notify_event(self, widget, event):
@@ -790,6 +790,8 @@ class ActivityCard(Gtk.FlowBoxChild):
 
     @Gtk.Template.Callback()
     def _on_state_flags_changed(self, widget, flags):
+        if not self._quest.available:
+            return
         self._update_card_state()
 
     @Gtk.Template.Callback()
@@ -849,11 +851,24 @@ class ActivityCard(Gtk.FlowBoxChild):
         info = CharacterInfo[character]
         pathway = info['pathway']
 
-        img = '{}/{}.jpg'.format(self._alternative_path, quest_id)
+        basename = quest_id
+        img = '{}/{}.jpg'.format(self._alternative_path, basename)
         if not os.path.exists(img):
-            img = '/app/share/eos-clubhouse/quests_files/cards/{}.jpg'.format(quest_id)
+            img = os.path.join(config.QUESTS_FILES_DIR, 'cards', '{}.jpg'.format(basename))
             if not os.path.exists(img):
-                img = '/app/share/eos-clubhouse/quests_files/pathway-card-{}.svg'.format(pathway)
+                sufix = quest_id if self._quest.available else '{}-unavailable'.format(pathway)
+                filename = 'pathway-card-{}.svg'.format(sufix)
+                img = os.path.join(config.QUESTS_FILES_DIR, filename)
+            # if it's not available we look for the greyscale image in the
+            # cache and if it doesn't exists we create on the fly
+            elif not self._quest.available:
+                original = img
+                img, ext = os.path.splitext(os.path.basename(img))
+                img = os.path.join(GLib.get_user_cache_dir(), f'{img}-unavailable{ext}')
+                if not os.path.exists(img):
+                    # Greyscale image on the fly
+                    grey = Image.open(original).convert('LA').convert('RGB')
+                    grey.save(img)
 
         css = "box {{ background-image: url('{}') }}".format(img).encode()
         self._css_provider.load_from_data(css)
@@ -932,7 +947,7 @@ class ActivityCard(Gtk.FlowBoxChild):
         else:
             self._play_button.get_style_context().remove_class('running')
             expand = self.is_selected()
-            self.props.sensitive = True
+            self.props.sensitive = self._quest.available
             if self._quest.complete:
                 self._play_button.set_label('play again')
                 self._play_button.get_style_context().add_class('complete')
@@ -947,6 +962,28 @@ class ActivityCard(Gtk.FlowBoxChild):
 
         self._revealer.set_reveal_child(expand)
         self._difficulty_box.set_visible(not expand)
+
+    def _update_tooltip_text(self):
+        def _quest_to_markup(quest):
+            name = libquest.Registry.get_quest_by_name(quest).get_name()
+            return '<b>{}</b>'.format(name)
+
+        if self._quest.available:
+            self.props.tooltip_text = None
+        else:
+            quest_list = ', '.join(_quest_to_markup(q) for q in self._quest.get_dependency_quests())
+            self.set_tooltip_markup('Need to complete %s first' % quest_list)
+
+    def _sync_availability(self):
+        self.props.sensitive = self._quest.available
+        if self._quest.available:
+            self.get_style_context().add_class('available')
+        else:
+            self.get_style_context().remove_class('available')
+
+        self._update_tooltip_text()
+        self._setup_background()
+        self._update_card_state()
 
     def get_quest(self):
         return self._quest
@@ -980,8 +1017,6 @@ class CharacterView(Gtk.Grid):
         self._animator = Animator(self.character_image)
         self._character = None
         self._quest_set = None
-
-        self._quests_handlers = []
 
         self._list.set_sort_func(self._sort_func)
 
@@ -1042,40 +1077,19 @@ class CharacterView(Gtk.Grid):
     def _clear_list(self):
         for child in self._list.get_children():
             self._list.remove(child)
-        for quest, handler_id in self._quests_handlers:
-            quest.disconnect(handler_id)
-        self._quests_handlers = []
 
         # Set scrollbar back to the beginning
         self.activities_sw.props.vadjustment.props.value = 0
-        self._quest_set = None
 
     def _populate_list(self, quest_set):
         for quest in quest_set.get_quests():
             if quest.skippable:
                 continue
-            handler_id = quest.connect('notify::available',
-                                       self._on_quest_available_changed_cb, quest_set)
-            self._quests_handlers.append((quest, handler_id))
-            if not quest.available:
-                continue
-            self._add_activity_card(quest_set, quest)
+            card = ActivityCard(quest_set, quest)
+            self._list.add(card)
+            card.show()
 
-    def _add_activity_card(self, quest_set, quest):
-        card = ActivityCard(quest_set, quest)
-        self._list.add(card)
-        card.show()
-
-    def _remove_activity_card(self, quest_set, quest):
-        for child in self._list.get_children():
-            if child.get_quest() == quest and child.get_quest_set() == quest_set:
-                self._list.remove(child)
-
-    def _on_quest_available_changed_cb(self, quest, _value, quest_set):
-        if quest.available:
-            self._add_activity_card(quest_set, quest)
-        else:
-            self._remove_activity_card(quest_set, quest)
+        # @todo: Scroll the first non completed quest.
 
     def _on_row_size_allocate(self, row, _rect):
         self._scroll_to_first_non_completed_quest()
