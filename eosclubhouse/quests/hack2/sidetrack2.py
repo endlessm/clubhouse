@@ -107,7 +107,7 @@ class Sidetrack2(Quest):
 
         while not self.is_panel_unlocked('lock.sidetrack.1') and not self.is_cancelled():
             self.connect_gss_changes().wait()
-        self.pause(4)
+        self.pause(12)
 
         return self.step_play_level, False
 
@@ -116,15 +116,28 @@ class Sidetrack2(Quest):
         current_level = int(self._app.get_js_property('currentLevel'))
         message_id = None
         if current_level == 23:
-            self.show_hints_message('TOOLBOX_INSTRUCTIONS')
+            self.show_hints_message('LEVEL_23_TOOLBOX')
+            self.wait_for_codeview_errors('instructions')
+            self.app.pulse_flip_to_hack_button(True)
+            self.show_message('LEVEL_23_FLIP_HINT')
             action = self.connect_app_js_props_changes(self._app, ['flipped'])
             self.wait_for_one([action])
-            self.show_message('PLAY_HINT')
+            self.app.pulse_flip_to_hack_button(False)
+            self.show_message('LEVEL_23_PLAY_HINT')
         elif current_level == 24:
             self.show_hints_message('LEVEL_24')
+            self.app.pulse_flip_to_hack_button(True)
             action = self.connect_app_js_props_changes(self._app, ['flipped'])
             self.wait_for_one([action])
+            self.app.pulse_flip_to_hack_button(False)
             self.show_hints_message('LEVEL_24_TOOLBOX')
+            self.wait_for_codeview_errors('instructions')
+            self.app.pulse_flip_to_hack_button(True)
+            self.show_message('LEVEL_24_FLIP_HINT')
+            action = self.connect_app_js_props_changes(self._app, ['flipped'])
+            self.wait_for_one([action])
+            self.app.pulse_flip_to_hack_button(False)
+            self.show_message('LEVEL_24_PLAY_HINT')
         elif current_level == 25:
             message_id = self._get_unconfirmed_message(['LEVEL_25'])
         elif current_level == 26:
