@@ -280,6 +280,23 @@
             ]
         },
         {
+            "name": "python-pillow",
+            "buildsystem": "simple",
+            "ensure-writable": [
+                "easy-install.pth"
+            ],
+            "build-commands": [
+                "pip3 install --no-index --find-links=\"file://$${PWD}\" --prefix=$${FLATPAK_DEST} pillow"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/39/47/f28067b187dd664d205f75b07dcc6e0e95703e134008a14814827eebcaab/Pillow-7.0.0.tar.gz",
+                    "sha256": "4d9ed9a64095e031435af120d3c910148067087541131e82b3e8db302f4c8946"
+                }
+            ]
+        },
+        {
             "name": "clubhouse",
             "buildsystem": "meson",
             "build-options": {

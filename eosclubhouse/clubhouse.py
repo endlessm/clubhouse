@@ -31,6 +31,7 @@ import subprocess
 import sys
 import time
 import datetime
+from PIL import Image
 
 from collections import OrderedDict
 from gi.repository import EosMetrics, Gdk, Gio, GLib, Gtk, GObject, \
@@ -850,7 +851,7 @@ class ActivityCard(Gtk.FlowBoxChild):
         info = CharacterInfo[character]
         pathway = info['pathway']
 
-        basename = quest_id if self._quest.available else '{}-unavailable'.format(quest_id)
+        basename = quest_id
         img = '{}/{}.jpg'.format(self._alternative_path, basename)
         if not os.path.exists(img):
             img = os.path.join(config.QUESTS_FILES_DIR, 'cards', '{}.jpg'.format(basename))
@@ -858,6 +859,16 @@ class ActivityCard(Gtk.FlowBoxChild):
                 sufix = quest_id if self._quest.available else '{}-unavailable'.format(pathway)
                 filename = 'pathway-card-{}.svg'.format(sufix)
                 img = os.path.join(config.QUESTS_FILES_DIR, filename)
+            # if it's not available we look for the greyscale image in the
+            # cache and if it doesn't exists we create on the fly
+            elif not self._quest.available:
+                original = img
+                img, ext = os.path.splitext(os.path.basename(img))
+                img = os.path.join(GLib.get_user_cache_dir(), f'{img}-unavailable{ext}')
+                if not os.path.exists(img):
+                    # Greyscale image on the fly
+                    grey = Image.open(original).convert('LA').convert('RGB')
+                    grey.save(img)
 
         css = "box {{ background-image: url('{}') }}".format(img).encode()
         self._css_provider.load_from_data(css)
