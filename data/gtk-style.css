@@ -1,6 +1,14 @@
 * {
   outline: none; }
 
+tooltip {
+  background-color: rgba(42, 35, 104, 0.9);
+  color: white;
+  border-radius: 40ex;
+  padding: 2ex 4ex;
+  font-size: 1.4em;
+  border: 0; }
+
 button {
   border: 0;
   padding: 0;
