@@ -32,10 +32,15 @@ KRITACOLORING_28,You can draw stuff on different ones and stack them together to
 KRITACOLORING_29,"Right now, there's only one Layer, called Layer 1. We're going to make a new one.",daemon2,,,
 KRITACOLORING_30,"Click the plus symbol inside a square, at the bottom of the <b>Layers</b> section.",daemon2,,,
 KRITACOLORING_31,"Now, the new Layer is on top of the old one, like we laid down a transparent sheet on top of our picture. But we want to make a background, not cover up our meditating friend.",daemon2,,,
-KRITACOLORING_32,"Drag Layer 2 to the other side of Layer 1. You may want to rename it as 'Layer 0' or 'Background.' If so, right-click on the layer and select Rename.",daemon2,,,
+KRITACOLORING_32,"Drag Layer 2 to the other side of Layer 1. You may want to rename it as 'Layer 0' or 'Background.' If so, double-click on the layer name and type in the new one.",daemon2,,,
 KRITACOLORING_33,"Before we try to draw on this new layer, we need to have it selected - click on it so that it turns blue. Now we could use the brush tool or the Fill Tool, but it'll go faster with Fill.",daemon2,,,
 KRITACOLORING_34,"Choose a lovely, calming shade of...whatever, make sure you're using the Fill Tool, and click anywhere that's empty. You might need to click again between the arm and knee.",daemon2,,,
 KRITACOLORING_35,"Doesn't it look lovely? You can do all kinds of stuff with layers. You could make clouds and grass here, add some polka dots, or anything else! The best part is not having to worry about drawing over your main character by accident.",daemon2,,,
 KRITACOLORING_36,"We'll learn more about what you can add next time, and how to ""photoshop"" decorations onto your photos.",daemon2,,,
 KRITACOLORING_37,"In the meantime, you can try customizing an image of your favorite cartoon character. Just download an image from the internet, open it in Krita and use the Fill Tool. See what they look like with dyed green hair, or hot pink clothes.",daemon2,,,
 KRITACOLORING_38,See you soon!,daemon2,,,
+KRITACOLORING_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt> isn't installed!
+
+You need to download it from the App Center if you'd like to learn how to use it.
+
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt>, and install it. ",daemon2,,,
