@@ -30,3 +30,8 @@ KRITAPHOTOS_26,"Now, let's say you wanted a brush from five minutes ago, but you
 KRITAPHOTOS_27,"This will give you a list of your most recent brushes and you can click to select the one you want. When you're done, just click on the 'Brush Presets' tab again to look for new ones.",daemon2,,,
 KRITAPHOTOS_28,"If you're feeling inspired, you might want to decorate more. Try using photos of friends and family! Create the photos you want to see in the world!",daemon2,,,
 KRITAPHOTOS_29,"Have fun, and see you next time!",daemon2,,,
+KRITAPHOTOS_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt> isn't installed!
+
+You need to download it from the App Center if you'd like to learn how to use it.
+
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt>, and install it. ",daemon2,,,
