@@ -1,6 +1,6 @@
 P5JSSOUND1_QUEST_NAME,P5JS - Painting with Sound - Part 1,,,,
 P5JSSOUND1_QUEST_SUBTITLE,What you'll do,,,,
-P5JSSOUND1_QUEST_DESCRIPTION,Let's start building a way to visualize music in the first part of this activity series! (Part 1),,,,
+P5JSSOUND1_QUEST_DESCRIPTION,Let's start building a way to visualize music in the first part of this activity series!,,,,
 P5JSSOUND1_1,"Have you ever wanted to make your own music visualizer? If so, now is your chance with p5.js.",daemon,,,
 P5JSSOUND1_2,"<b>p5.js</b> has a live online editor we can use - If it doesn't open automatically, use this link: <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://editor.p5js.org/</span></u>",daemon,,,
 P5JSSOUND1_3,"Every p5.js sketch has 2 main parts, <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">setup()</span></tt> and <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">draw()</span></tt>. <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">setup()</span></tt> runs once, at the beginning, and <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">draw()</span></tt> runs over and over until the program is stopped.",daemon,,,

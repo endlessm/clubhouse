@@ -1,6 +1,6 @@
 P5JSSOUND3_QUEST_NAME,P5JS - Painting with Sound - Part 3,,,,
 P5JSSOUND3_QUEST_SUBTITLE,What you'll do,,,,
-P5JSSOUND3_QUEST_DESCRIPTION,"In the last part of this set of quests, you'll put together all the elements you've used so far to get things <b>really</b> crazy!",,,,
+P5JSSOUND3_QUEST_DESCRIPTION,"In the last part of this set of quests, you'll put together all the elements you've used so far to get things crazy!",,,,
 P5JSSOUND3_1,"Welcome back, <b>{{user_name}}</b>! Are you ready to put on a real light show? I know I am!",daemon,,,
 P5JSSOUND3_2,"First things first - let's get back to the p5.js code editor. You can load your previous sketch (if you saved it at <u><span insert_hyphens=""false"" foreground=""#3584E4"">http://editor.p5js.org),</span></u> or get back to where we left off with this one: <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://editor.p5js.org/madetohack/sketches/HNfYgEbV</span></u>",daemon,,,
 P5JSSOUND3_3,"Last time, we created something pretty cool, but it had 2 problems. First, it only used circles. Second, the circles got ‘stuck’ on a color sometimes. Let’s fix both of those problems and make a more impressive sound painter!",daemon,,,
