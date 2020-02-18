@@ -1,6 +1,11 @@
 KRITACOLORING_QUEST_NAME,Krita - Just My Color,,,,
 KRITACOLORING_QUEST_SUBTITLE,What you'll do,,,,
 KRITACOLORING_QUEST_DESCRIPTION,"Start with a simple picture, then change its color and add a background. Quick and easy!",,,,
+KRITACOLORING_QUEST_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt> isn't installed!
+
+You need to download it from the App Center if you'd like to learn how to use it.
+
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt>, and install it. ",,,,
 KRITACOLORING_1,"Hi there, <b>{{user_name}}</b>! You've probably done lots of drawing and coloring on paper, but have you ever done it on a computer?",daemon2,,,
 KRITACOLORING_2,"Once, professionals had to pay for expensive software to make anything that looked good. Now we have free software like Krita, so everyone can make beautiful works of art!",daemon2,,,
 KRITACOLORING_3,"I'll open Krita up for you - but you can find it on the desktop, in the future.",daemon2,,,

@@ -1,6 +1,11 @@
 KRITAPHOTOS_QUEST_NAME,Krita - Fun With Photos,,,,
 KRITAPHOTOS_QUEST_SUBTITLE,What you'll do,,,,
 KRITAPHOTOS_QUEST_DESCRIPTION,"Start with a photo, end with a work of art! You'll learn to change the look of a photograph and add all kinds of decorations.",,,,
+KRITAPHOTOS_QUEST_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt> isn't installed!
+
+You need to download it from the App Center if you'd like to learn how to use it.
+
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt>, and install it. ",,,,
 KRITAPHOTOS_1,"Hey there, <b>{{user_name}}</b>! Good to see you again. ",daemon2,,,
 KRITAPHOTOS_2,"Let's get going! I'll open Krita for you, and then you'll need to open up a file called <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Photos.kra</span></tt>. Like last time, look in the center of your screen and click <b>Open File</b>.",daemon2,,,
 KRITAPHOTOS_3,"A box should open with a file browser in it. Using that file browser, go to your <b>home</b> directory (it's got your username on it, on the left side of the file browser), then navigate into your <b>Pictures</b> folder, then into <b>KritaSources</b>. Once you're there, open up <b>Photos.kra</b>",daemon2,,,
