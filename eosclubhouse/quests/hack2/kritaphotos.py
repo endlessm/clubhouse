@@ -12,7 +12,7 @@ class KritaPhotos(Quest):
 
     def step_begin(self):
         if not self.app.is_installed():
-            self.wait_confirm('NOQUEST_NOTINSTALLED', confirm_label='Got it!')
+            self.wait_confirm('NOTINSTALLED', confirm_label='Got it!')
             return self.step_abort
         return self.step_launch
 
