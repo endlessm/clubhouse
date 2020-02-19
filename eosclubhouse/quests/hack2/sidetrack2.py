@@ -107,7 +107,7 @@ class Sidetrack2(Quest):
 
         while not self.is_panel_unlocked('lock.sidetrack.1') and not self.is_cancelled():
             self.connect_gss_changes().wait()
-        self.pause(12)
+        self.pause(6)
 
         return self.step_play_level, False
 
