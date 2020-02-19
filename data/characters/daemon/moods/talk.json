@@ -1,6 +1,6 @@
 {
   "width": 175,
-  "height": 160,
+  "height": 175,
   "default-delay": 200,
   "delays": [200, 200],
   "frames": [0, 1]
