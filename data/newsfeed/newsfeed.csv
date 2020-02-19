@@ -1,4 +1,10 @@
 Date ,Character ,ImageResource ,ImageLink ,Text 
+2020-03-28,Endless,3-28.png,http://bit.ly/2FMju6D,"You have landed on an alien planet and must refuel your ship to continue on your journey. Program your trusty feline sidekick F3lix to help you on this adventure to collect resources and battle alien monsters. Work together to explore this newly discovered world, get through the obstacles and challenges, and find a way out."
+2020-03-26,Endless,3-26.png,http://bit.ly/38IFYlG,"Meet Karthick Arun, the youngest Amazon Cloud expert at nine years old. With the help of his father, he studied every day and passed the 90-minute test in less than half an hour. Great job!"
+2020-03-24,Endless,3-24.png,,"Where do you #HACK? At school, by the pool, or your favorite restaurant? We want to see it! Post a picture of you using Hack at your favorite place and tag us (#MadeToHack) in it."
+2020-03-21,Endless,3-21.png,http://bit.ly/2FMju6D,"Can you control the chaos? Hack your way into the cyberpunk world of Ovum City. Debug broken code, solve puzzles, and upgrade your hardware as you explore this open world. Don't get caught by the drones! It's up to you how Ovum City evolves."
+2020-03-19,Endless,3-19.png,http://bit.ly/37FXeH8,"Meaidaibahun Majaw used her coding skills to build over 40 apps by the age of 9. One of her apps allow kids to report bullying to the school authorities, parents, teachers, and other guardians. Way to Hack for good!"
+2020-03-17,Endless,3-17.png,,Hackers unite! Put on your hacker sunglasses and download the Hack Maxtrix wallpaper from the Hideout today. 
 2020-03-14,Endless,3-14.png,http://bit.ly/2tUdw1i,Song Maker is a simple way for anyone to make and share a song. Give it a try and make some music with your browser.
 2020-03-12,Endless,3-12.jpg,,"For his seventh birthday, Ashwat Prasanna’s parents gave him a MacBook. Three years and one Apple boot camp later, his free measurement-converter app, Quickvert, has been downloaded more than 1,000 times on the App Store. Way to go!"
 2020-03-10,Endless,3-10.jpg,,Hack protip: Are you tired of typing the same commands in terminal or can't remember what you executed before? Press the up and down arrow keys to cycle through the history of commands.
@@ -12,13 +18,60 @@ Date ,Character ,ImageResource ,ImageLink ,Text
 Today, we proudly announce Hack's February Release! We hope you like it - let us know what you think on social media with #MadeToHack!
 
 The following content has been added:
+<b>Sidetrack #2 - Detect changes in code editor </b> We have added additional code to detect if the user has solved errors in the code editor, and added it into the second part of the Sidetrack 
+quest. We've also made some small changes to improve the guidance for FlipToHack, as well.
 
-<b>Sidetrack 3 - The Wall </b>... This quest will become available in the <b>games pathway</b> when Sidetrack 2 is completed.
+<b>Sidetrack #3 - The Wall </b> A new instruction opens up new possibilities to solve Sidetrack's puzzles! This quest will become available in the <b>games pathway</b> when Sidetrack 2 is completed.
 
+<b>Terminal 2 - Missile Math</b> A new game from Endless Studios. Dodge the missiles and shoot down the enemy planes, using the power of mathematics, in this fast-paced flight shooter!
+<a href='quest://T2Missile'>Play Now!</a>
 
+<b>P5JS - Painting with Sound</b> Over the course of this 3-part series, you'll learn to build a program that lets you visualize any sound that your computer's microphone can pick up! <a href='quest://P5JSSound1'>Play Now!</a>
 
+<b>P5JS - Animated GIF Collage</b> In this 3-part series, you'll learn how to load images from the web into a p5.js sketch, play/pause them on demand, and fill your screen with a sea of animation! 
+<a href='quest://P5JSGif1'>Play Now!</a>
 
-"
+<b>Blender - Modeling and  Animating a Low-Poly Person</b> Another great Blender quest series! In part 1 of this activity, you'll create a 3d model of a realistically-sized low-poly person, for use any 
+any later projects you want to make. In part 2 of this activity, you'll learn to rig and animate your low-poly person to do whatever cool moves you like! In part 3 of this activity, you'll get the sources for part 1 and 2, to compare against your own efforts. <a href='quest://BlendPerson1'>Play Now!</a>
+
+<b>Krita - Fun With Photos</b> Start with a photo, end with a work of art! You'll learn to change the look of a photograph and add all kinds of decorations. <a href='quest://KritaPhotos'>Play Now!</a>
+
+<b>Krita - Just My Color</b> Start with a simple picture, then change its color and add a background. Quick and easy! <a href='quest://KritaColoring'>Play Now!</a>
+
+<b>Web - Bootstrapping your way to faster websites</b> Learn to use Bootstrap, one of the fastest and most popular web libraries out there! <a href='quest://BootQuest'>Play 
+Now!</a>
+
+<b>Maker - Clouds in a Jar</b> You probably see clouds a lot - but do you know how they work? Let's capture your very own water cycle in a jar! <a href='quest://MakerCloud'>Play 
+Now!</a>
+
+<b>OperatingSystem - New Cursor</b> Create your very own mouse pointer (cursor) that you can use across the entire operating system! <a href='quest://NewCursor'>Play 
+Now!</a>
+
+<b>Other Improvements and Changes</b>
+
+<b>Visual representation of chained quests</b>
+
+We have recently introduced the concept of chained quests - such as the Sidetrack quest series. For example, in order to play Sidetrack #2,  you must first complete Sidetrack #1, and so on.
+
+Previously, unavailable quests were hidden - Sidetrack #2 was not visible when Sidetrack #1 was incomplete. We have changed this, and now display all available quests. However, locked quests are grayed out and can not be flipped. Hovering over the grayed-out card will show a tooltip explaining the requirements to unlock that quest.
+
+We hope this will more accurately represent the available content. We're always refining the Hack UI, though, and we welcome your suggestions and feedback. Let us know in the forum or  at #madetohack on social media!
+
+<b>Visual representation of narrative quests</b>
+
+It might be a surprise to some of our users that we have two major types of quests available in the Clubhouse - First are the activities that help your learn and create, but there's also a second type, narrative quests. Narrative quests drive the story of the world of Hack and its characters, and tell how you, the player, fit in!
+
+Our users and playtesters have given us the feedback that it's difficult to tell the difference, and that's important - when you want an activity, we don't want to force you to sit through a story! 
+
+Hovering over the cards for narrative quests will now display a ""book"" icon, to help identify them.
+
+<b>Canceling of quests</b>
+
+Quests can be canceled by clicking the 'x' icon of the dialogue. For narrative quests, that button wasn't available, so there was no correct way to cancel them, which wasn't ideal. With this change, the play button for all running quests will turn into a cancel button, allowing you to cancel any quest.
+
+<b>New instructors/mentors</b>
+
+We are very happy to have grown the guild of Hack mentors! We've added 2 new instructor avatars, cousins of your friend the Daemon, from other systems! Look for them in current and upcoming quests... especially in this month's Krita quests!"
 2020-02-22,Endless,2-22.png,http://bit.ly/2Hb37RJ,"Improve your typing skills while competing in fast-paced races with up to 5 typers from around the world. Compete against your friends, earn new cars, track your scores, and so much more... all for free!"
 2020-02-20,Endless,2-20.jpg,http://bit.ly/382111T,"At the age of 12, Bianca hacked the voting reporting system at DEFCON 26. She a coder, maker, and the founder of Girls Who Hack. Check out her story by clicking the image."
 2020-02-18,Endless,2-18.png,http://bit.ly/hackhideout,"Here at Hack, we love cats. Show your love by downloading our exclusive cat background."
