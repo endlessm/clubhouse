@@ -1,7 +1,6 @@
 BLENDPERSON3_QUEST_NAME,Opening the Box - Low-Poly Sources,,,,
 BLENDPERSON3_QUEST_SUBTITLE,What you'll do,,,,
 BLENDPERSON3_QUEST_DESCRIPTION,"In part 3 of this activity, you'll get the sources for part 1 and 2, to compare against your own efforts.",,,,
-BLENDPERSON3_QUIT,See you later!,,,,
 BLENDPERSON3_1,"Hey, <b>{{user_name}}</b>, welcome (or welcome back) to Blender!",estelle,,,
 BLENDPERSON3_2,"I've sent all the source files for the Low Poly Person into your <b>home</b> directory, under <b>/BlenderSources/LowPolyPerson</b>. You can open them up in Blender and see exactly how close you got!",estelle,,,
 BLENDPERSON3_3,I hope you had fun modeling and animating this low-poly person - And we'll see you next time!,estelle,,,
