@@ -15,7 +15,8 @@ class DomQuest(Quest):
         return self.step_launch
 
     def step_launch(self):
-        self.open_url_in_browser('https://codepen.io/Hack-Computer/pen/WNbpOjV')
+        self.open_url_in_browser(
+            'https://codepen.io/Hack-Computer/pen/WNbpOjV')
         return self.step_main_loop
 
     def step_main_loop(self, message_index=0):
@@ -25,7 +26,7 @@ class DomQuest(Quest):
             self.wait_confirm(message_id, confirm_label="Awesome!")
             return self.step_complete_and_stop
 
-        if message_id == self._info_messages[4]:
+        if message_id == self._info_messages[3]:
             self.open_url_in_browser('http://unsplash.com')
 
         if message_id == self._info_messages[11]:
