@@ -68,17 +68,17 @@ class Sidetrack3(Quest):
                 self.show_hints_message('LEVEL_30')
         elif current_level == 31:
             self.dismiss_message()
-            for msg_id in ['LEVEL_31_ADA', 'LEVEL_31_FABER', 'LEVEL_31_ESTELLE']:
-                self.wait_confirm(msg_id)
+            message_id = self._get_unconfirmed_message(['LEVEL_31_ADA',
+                                                        'LEVEL_31_FABER',
+                                                        'LEVEL_31_ESTELLE'])
         elif current_level == 34:
             self.dismiss_message()
-            for msg_id in ['LEVEL_34_FABER', 'LEVEL_34_ESTELLE', 'LEVEL_34_FABER_2']:
-                self.wait_confirm(msg_id)
+            message_id = self._get_unconfirmed_message(['LEVEL_34_FABER',
+                                                        'LEVEL_34_ESTELLE',
+                                                        'LEVEL_34_FABER_2'])
         elif current_level == 35:
-            action = self.connect_app_js_props_changes(self._app, ['success'])
-            self.wait_for_one([action])
-            if not self._app.get_js_property('success'):
-                self.wait_confirm('LEVEL_35')
+            self.dismiss_message()
+            message_id = self._get_unconfirmed_message(['LEVEL_35'])
         elif current_level == 36:
             return self.step_lastlevel
         else:
