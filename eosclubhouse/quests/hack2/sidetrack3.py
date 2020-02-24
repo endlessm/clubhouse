@@ -72,7 +72,7 @@ class Sidetrack3(Quest):
                 self.wait_confirm(msg_id)
         elif current_level == 34:
             self.dismiss_message()
-            for msg_id in ['LEVEL_34_FABER', 'LEVEL_34_ESTELLE', 'LEVEL_31_FABER_2']:
+            for msg_id in ['LEVEL_34_FABER', 'LEVEL_34_ESTELLE', 'LEVEL_34_FABER_2']:
                 self.wait_confirm(msg_id)
         elif current_level == 35:
             action = self.connect_app_js_props_changes(self._app, ['success'])
