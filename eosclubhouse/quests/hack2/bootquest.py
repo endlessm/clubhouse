@@ -3,7 +3,7 @@ from eosclubhouse.libquest import Quest
 
 class BootQuest(Quest):
 
-    __tags__ = ['pathway:web', 'difficulty:medium', 'since:1.5']
+    __tags__ = ['pathway:web', 'difficulty:medium', 'since:1.6']
     __pathway_order__ = 605
 
     def setup(self):
