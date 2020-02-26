@@ -749,6 +749,13 @@ class _Quest(GObject.GObject):
         else:
             message_info['parsed_text'] = message_info['txt']
 
+        # @todo: Remove this when updating to a runtime using Pango >= 1.44, because
+        # insert_hyphens is not supported in the current version of our runtime.
+        if self.is_narrative():
+            parsed_text = message_info['parsed_text']
+            message_info['parsed_text'] = parsed_text.replace('insert_hyphens="true"', '')
+            message_info['parsed_text'] = parsed_text.replace('insert_hyphens="false"', '')
+
         return message_info
 
     def _setup_labels(self):
