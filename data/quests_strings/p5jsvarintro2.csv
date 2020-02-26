@@ -1,0 +1,24 @@
+P5JSVARINTRO2_QUEST_NAME,P5JS - Variables and random()!,,,,
+P5JSVARINTRO2_QUEST_SUBTITLE,What you'll do,,,,
+P5JSVARINTRO2_QUEST_DESCRIPTION,"In part 2 of this activity, you'll use variables with random() to generate random colors!",,,,
+P5JSVARINTRO2_1,"Welcome back, <b>{{user_name}}</b>! I'm super excited to show you how to create random colors using variables!",daemon3,,,
+P5JSVARINTRO2_2,"Let's get back to the p5.js code editor. You can load your previous sketch (if you saved it at <u><span insert_hyphens=""false"" foreground=""#3584E4"">http://editor.p5js.org),</span></u> or click this link to get back to where we left off: <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://editor.p5js.org/madetohack/sketches/UBl3dKLO</span></u>",daemon3,,,
+P5JSVARINTRO2_3,"From the previous sketch, you should see a square that follows your mouse and two set variables, x and y, at the top of the code. For this new sketch we can go ahead and delete those variables at the top. ",daemon3,,,
+P5JSVARINTRO2_4,"We are doing this because the new variables that we are going to create will be inside function draw(). By creating them there, we are making local variables. Which means, that those variables only exist inside that one function. 
+",daemon3,,,
+P5JSVARINTRO2_5,"P5.js uses a few different methods for color input. Here's a link that shows all the different ways, <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://p5js.org/reference/</span></u>#/p5/color. But for our current sketch we will stick to one method, the r, g, b scale. 
+What this does, is it creates a color by combining red, green, or blue. One example of this is if you mix red and blue, you'll get purple. ",daemon3,,,
+P5JSVARINTRO2_6,"Let's go ahead and start creating our first <b>variable</b> for the r, g, b input. You can do this by creating a new line background(220); and type 'r = random(0, 100);'. 
+Now, let me explain how random() works and why we gave this <b>variable</b> two numbers. ",daemon3,,,
+P5JSVARINTRO2_7,Now you'll see the square is all blue. Great job! But what if we wanted the stroke to be a different color from the fill?,daemon3,,,
+P5JSVARINTRO2_8,"Now we need to create two more <b>variables for green and blue. Create a new line under r = random(0, 100); and type 'g = random(100, 200);'. For this *variable</b> we are telling it to randomly select a number between 100 and 200. 
+",daemon3,,,
+P5JSVARINTRO2_9,"For the final <b>variable</b> create a new line under g = random(100, 200); and type b = random(200, 255);'. ",daemon3,,,
+P5JSVARINTRO2_10,Great job so far! We're almost done with our creation! We've created all our new <b>variables</b> and now we're ready to use them. ,daemon3,,,
+P5JSVARINTRO2_11,"
+Go to the line that has fill(x);, and delete x and type in 'r, g, b'. Your fill(); should now look like this, fill(r, g, b);. We should also make the outline of our square match the inside. We can do this by replacing the y in stroke(y), with r, g, b also to create stroke(r, g, b);",daemon3,,,
+P5JSVARINTRO2_12,"There we go, now everything is done go ahead and play your sketch. It should have a square that follows your mouse and flashes different colors!",daemon3,,,
+P5JSVARINTRO2_13,You can play with the ranges and create a bunch of different colors! Just remember the colors have of 0-255. ,daemon3,,,
+P5JSVARINTRO2_14,Once you're done experimenting with colors go ahead and save your sketch or copy and past it to a new location to save it. ,daemon3,,,
+P5JSVARINTRO2_15,"
+For our next activity we'll take this sketch to the next level and learn how to make it interactive - you'll be able to have it react to when your mouse is clicked. I can't wait to see you next time! ",daemon3,,,
