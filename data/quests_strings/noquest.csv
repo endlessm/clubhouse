@@ -44,4 +44,9 @@ NOQUEST_BLENDER_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false
 You need to download it from the App Center if you'd like to learn how to use it.
 
 Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Blender</span></tt>, and install it. ",daemon,,,
+NOQUEST_GLIMPSE_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Glimpse</span></tt> isn't installed!
+
+You need to download it from the App Center if you'd like to learn how to use it.
+
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Glimpse</span></tt>, and install it. ",daemon2,,,
 NOQUEST_DEFAULT_ABORT,Quitting this activity - See you again soon!,daemon,,,
