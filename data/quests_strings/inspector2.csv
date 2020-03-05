@@ -24,4 +24,4 @@ INSPECTOR2_19,"OK, now you can close the Inspector. Let's test your hacked link,
 INSPECTOR2_20,"See, Felix? I told you that <b>{{user_name}}</b> knew what you liked!",ada,,,
 INSPECTOR2_21,"<i>Brbrbrbr...</i>
 <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">&lt;Felix puffs himself up and purrs quietly.&gt;</span></tt>",felixnet,,,
-INSPECTOR2_22,"Well, looks like you scored 10/10 in Felix's book, <b>{{user<i>name}}</b>. I'd say that's a _purrrfect</i> score. <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">::&gt;^_^&lt;::</span></tt> See you later!",ada,,,
+INSPECTOR2_22,"Well, looks like you scored 10/10 in Felix's book! I'd say that's a <i>purrrfect</i> score. <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">::&gt;^_^&lt;::</span></tt> See you later!",ada,,,
