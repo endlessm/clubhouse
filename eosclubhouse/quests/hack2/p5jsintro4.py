@@ -14,7 +14,6 @@ class P5JSIntro4(Quest):
         return self.step_launch
 
     def step_launch(self):
-        self.open_url_in_browser('https://editor.p5js.org/')
         return self.step_main_loop
 
     def step_main_loop(self, message_index=0):
