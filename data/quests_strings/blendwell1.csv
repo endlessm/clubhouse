@@ -1,0 +1,8 @@
+BLENDWELL1_QUEST_NAME,"""Well"" it Blend?",,,,
+BLENDWELL1_QUEST_SUBTITLE,What you'll do,,,,
+BLENDWELL1_QUEST_DESCRIPTION,"In part 1 of this quest, you'll learn to model a low-poly well, just the kind of piece your 3D art portfolio can use!",,,,
+BLENDWELL1_QUIT,See you later!,,,,
+BLENDWELL1_1,"Hey, <b>{{user_name}}</b>, welcome (or welcome back) to Blender! Don't forget that a USB mouse with 2 buttons and a scroll wheel is <b>very</b> helpful for using Blender. I <b>strongly</b> recommend it.",estelle,,,
+BLENDWELL1_2,The easiest way to follow along with these tutorials is to adjust your windows so that you can see both Blender and the video.,estelle,,,
+BLENDWELL1_3,"Here's the video - <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://www.youtube.com/watch?v=OlnkGCdtGEw</span></u>",estelle,,,
+BLENDWELL1_4,"Have fun! Remember, you can always restart this activity if you need to see the tips or link.",estelle,,,

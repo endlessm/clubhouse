@@ -1,0 +1,7 @@
+BLENDWELL4_QUEST_NAME,"""Well"" it Blend - Part 4 - Sources",,,,
+BLENDWELL4_QUEST_SUBTITLE,What you'll do,,,,
+BLENDWELL4_QUEST_DESCRIPTION,"In part 4 of this activity, you'll get the sources, so you can compare them against your own efforts!",,,,
+BLENDWELL4_QUIT,See you later!,,,,
+BLENDWELL4_1,"Hey, <b>{{user_name}}</b>! I hope you had fun making your low-poly well in the previous 3 sections of the activity.",estelle,,,
+BLENDWELL4_2,"I've sent all the source files for this activity to your <b>home</b> directory, under <b>/BlenderSources/LowPolyWell</b>. You can open them up in Blender and see exactly how close you got!",estelle,,,
+BLENDWELL4_3,"Your 3d modeling portfolio keeps growing all the time, and I can't wait to give you even more new activities. See you next time!",estelle,,,
