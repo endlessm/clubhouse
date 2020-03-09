@@ -1,7 +1,6 @@
-BLENDWELL3_QUEST_NAME,"""Well"" it Blend - Part 3 - Textures and lighting",,,,
+BLENDWELL3_QUEST_NAME,"""Well"" it Blend - Textures and lighting",,,,
 BLENDWELL3_QUEST_SUBTITLE,What you'll do,,,,
 BLENDWELL3_QUEST_DESCRIPTION,"In part 3 of this quest, you'll learn to texture and light the low-poly well to make it really pop!",,,,
-BLENDWELL3_QUIT,See you later!,,,,
 BLENDWELL3_1,"Hey, <b>{{user_name}}</b>, welcome back to Blender! I hope you're ready to start texturing your well! Don't forget that a USB mouse with 2 buttons and a scroll wheel is <b>very</b> helpful for using Blender. I <b>strongly</b> recommend it.",estelle,,,
 BLENDWELL3_2,The easiest way to follow along with these tutorials is to adjust your windows so that you can see both Blender and the video.,estelle,,,
 BLENDWELL3_3,"Here's the video - <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://www.youtube.com/watch?v=m7m3QkwRcGE</span></u>",estelle,,,

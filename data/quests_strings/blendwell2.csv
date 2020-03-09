@@ -1,7 +1,6 @@
-BLENDWELL2_QUEST_NAME,"""Well"" it Blend - Part 2 - The Roof",,,,
+BLENDWELL2_QUEST_NAME,"""Well"" it Blend - The Roof",,,,
 BLENDWELL2_QUEST_SUBTITLE,What you'll do,,,,
 BLENDWELL2_QUEST_DESCRIPTION,"In part 2 of this quest, you'll complete the roof, and pave the way for part 3.",,,,
-BLENDWELL2_QUIT,See you later!,,,,
 BLENDWELL2_1,"Hey, <b>{{user_name}}</b>, welcome back to Blender! Let's get the roof on that well! Don't forget that a USB mouse with 2 buttons and a scroll wheel is <b>very</b> helpful for using Blender. I <b>strongly</b> recommend it.",estelle,,,
 BLENDWELL2_2,The easiest way to follow along with these tutorials is to adjust your windows so that you can see both Blender and the video.,estelle,,,
 BLENDWELL2_3,"Here's the video - <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://www.youtube.com/watch?v=bWHhx4uos84</span></u>",estelle,,,

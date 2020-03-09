@@ -6,7 +6,7 @@ BOOTQUEST_NOTINSTALLED,"""Uh-oh! Looks like <tt><span insert_hyphens=""false"" f
 
 You need to download it from the App Center because we'll be using it for this activity.
 
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sublime Text</span></tt>, and install it. """,,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sublime Text</span></tt>, and install it.",,,,
 BOOTQUEST_1,"Hiya, <b>{{user_name}}</b>! You've been doing some great website work so far - but I'm sure you've wondered if there was a <b>really</b> fast way to build a website.",daemon,,,
 BOOTQUEST_2,"Well, there is! There's lots of code out there in these big collections called <b>libraries</b>- grab one of those, and you've got a ton of basic (and sometimes advanced!) functions and pieces already figured out for you. ",daemon,,,
 BOOTQUEST_3,"We've already hooked up all the Bootstrap bits for you - it's going to do all the heavy lifting so you can concentrate on designing the website. Let's take a look at the toolbox you'll use. If your browser doesn’t open, click on the following link: <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://getbootstrap.com/docs/4.4/components/</span></u>",daemon,,,
@@ -36,7 +36,7 @@ BOOTQUEST2_NOTINSTALLED,"""Uh-oh! Looks like <tt><span insert_hyphens=""false"" 
 
 You need to download it from the App Center because we'll be using it for this activity.
 
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sublime Text</span></tt>, and install it. """,daemon,,,
+Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sublime Text</span></tt>, and install it.",daemon,,,
 BOOTQUEST2_1,"Hiya, <b>{{user_name}}</b>! Let's keep the learning juices flowing and level-up your web development skills. In this activity, we will learn how to link files for Bootstrap to work.",daemon,,,
 BOOTQUEST2_2,"We're going to pick up where we left off from the first Bootstrap quest so that we can focus on the most important parts. If you haven't gone through the first Bootstrap quest, we highly recommend that you work through that activity first.",daemon,,,
 BOOTQUEST2_3,"Great! Let's get started. We've added the files you're going to use in your Documents folder - let's take a look at them. The lower-left corner of the screen with the icons is called the <b>taskbar</b>. Click the yellow folder to launch the file explorer. Click the Documents link on the left panel of the window and open the <b>myproject</b> folder. The folder should contain the index.html file and three folders: <b>css</b>, <b>images</b>, and <b>js</b>. ",daemon,,,
