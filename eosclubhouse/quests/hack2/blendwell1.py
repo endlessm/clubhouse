@@ -5,7 +5,7 @@ class BlendWell1(Quest):
 
     __app_id__ = 'org.blender.Blender'
     __tags__ = ['pathway:art', 'difficulty:medium', 'since:1.8']
-    __pathway_order__ = 640
+    __pathway_order__ = 645
 
     def setup(self):
         self._info_messages = self.get_loop_messages('BLENDWELL1')
