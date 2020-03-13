@@ -32,7 +32,7 @@ Chris Pattle created the Simpsons characters all in HTML and CSS. You can learn 
 2020-03-24,Endless,hack-release.jpg,,"<b>Hack March Release</b>
 Today, we proudly announce Hack's March Release! We hope you like it - let us know what you think on social media with #MadeToHack!
 
-The following content has been added:
+In this release, we're (officially) introducing Glimpse, after a sneak peek in last month's create-a-cursor quest. Glimpse is a fully-featured, free, open-source photo editor, much like Photoshop! We've also got some more Blender tutorials, on how to make and texture a low-poly Well, and some new activities that explore the internals of <b>p5.js!</b>
 
 <b>P5JS - Painting with Sound</b> Over the course of this 3-part series, you'll learn to build a program that lets you visualize any sound that your computer's microphone can pick up! <a href='quest://P5JSSound1'>Play Now!</a>
 
