@@ -34,9 +34,34 @@ Today, we proudly announce Hack's March Release! We hope you like it - let us kn
 
 In this release, we're (officially) introducing Glimpse, after a sneak peek in last month's create-a-cursor quest. Glimpse is a fully-featured, free, open-source photo editor, much like Photoshop! We've also got some more Blender tutorials, on how to make and texture a low-poly Well, and some new activities that explore the internals of <b>p5.js!</b>
 
-<b>P5JS - Painting with Sound</b> Over the course of this 3-part series, you'll learn to build a program that lets you visualize any sound that your computer's microphone can pick up! <a href='quest://P5JSSound1'>Play Now!</a>
+<b>Edit a Photo - Making it Look Right</b> Learn to remove blemishes, adjust light exposure and color saturation, and crop a picture. <a href='quest://GlimpsePhoto1'>Play Now!</a>
 
-<b>Web - Bootstrapping your way to faster websites</b> Learn to use Bootstrap, one of the fastest and most popular web libraries out there! <a href='quest://BootQuest'>Play Now!</a>
+<b>Edit a Photo - Changing The Look</b> Learn to use a bunch of tools in Glimpse that can massively change how a photo looks! <a href='quest://GlimpsePhoto2'>Play Now!</a>
+
+<b>Edit a Photo - Adding something new!</b>Learn to use the Smart Scissors Tool to ""cut"" an object from one picture and ""paste"" it into another! <a href='quest://GlimpsePhoto3'>Play Now!</a>
+
+
+<b>""Well"" it Blend?</b>In part 1 of this quest, you'll learn to model a low-poly well, just the kind of piece your 3D art portfolio can use! <a href='quest://BlendWell1'>Play Now!</a>
+
+<b>""Well"" it Blend - The Roof</b>In part 2 of this quest, you'll complete the roof, and pave the way for part 3. <a href='quest://BlendWell2'>Play Now!</a>
+
+<b>""Well"" it Blend - Textures and lighting</b>In part 3 of this quest, you'll learn to texture and light the low-poly well to make it really pop! <a href='quest://BlendWell3'>Play Now!</a>
+
+<b>""Well"" it Blend - Sources</b>In part 4 of this activity, you'll get the sources, so you can compare them against your own efforts! <a href='quest://BlendWell4'>Play Now!</a>
+
+
+<b>P5JS - Exploring Colors with Variables!</b>In the first part of this activity, you'll learn how to use variables to make P5JS even easier! <a href='quest://P5JSVarIntro1'>Play Now!</a>
+
+<b>P5JS - Variables and random()!</b>In part 2 of this activity, you'll use variables with random() to generate random colors! <a href='quest://P5JSVarIntro2'>Play Now!</a>
+
+<b>P5JS - Changing colors with your mouse!</b>In part 3 of this activity, it's time to tie it all together and control the randomness with your mouse. <a href='quest://P5JSVarIntro3'>Play Now!</a>
+
+
+This month, we're going forward at full speed - Learn more about Bootstrap, and learn how to set up a multi-page website!
+
+<b>Bootstrap Like a Web Developer</b> Level up your Bootstrap game by learning how to link files for your project. <a href='quest://BootQuest2'>Play Now!</a>
+
+<b>Link it Up</b> Upgrade your single page website to a multiple page website <a href='quest://MultiplePages'>Play Now!</a>
 "
 2020-03-23,Endless,3-24.jpg,,"Where do you #HACK? At school, by the pool, or your favorite restaurant? We want to see it! Post a picture of you using Hack at your favorite place and tag us (#MadeToHack) in it."
 2020-03-21,Endless,3-21.jpg,http://bit.ly/2FMju6D,"Can you control the chaos? Hack your way into the cyberpunk world of Ovum City. Debug broken code, solve puzzles, and upgrade your hardware as you explore this open world. Don't get caught by the drones! It's up to you how Ovum City evolves."
