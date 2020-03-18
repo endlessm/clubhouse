@@ -7,7 +7,7 @@ P5JSINTRO4_3,Let me show you the <b>p5.js</b> version of the Academy Archives - 
 P5JSINTRO4_4,"If you look up at the menus at the top, you'll see a menu called <b>Help</b>.",riley,,,
 P5JSINTRO4_5,"Click on it, and you'll see an option called <b>Reference</b>. That's where we want to go.",riley,,,
 P5JSINTRO4_6,"I know the Reference can be overwhelming at first - there's a <b>huge</b> amount of information here. Let's look up something we already know about - the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">background()</span></tt> command.",riley,,,
-P5JSINTRO4_7,"If you can't find it, use <b>Ctrl+F</b> to search on the page. That's how I usually find what I'm looking for on reference pages. Once you find it, click the link to take us in.",riley,,,
+P5JSINTRO4_7,"If you can't find it, use <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Ctrl+F</span></tt> to search on the page. That's how I usually find what I'm looking for on reference pages. Once you find it, click the link to take us in.",riley,,,
 P5JSINTRO4_8,"OK, now we're on the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">background()</span></tt> reference page. At the top, you'll see lots of different examples of how to use this bit of code.",riley,,,
 P5JSINTRO4_9,"The first example just has a number in the parentheses - that's what we started off with in the very first quest, remember? I always wondered what it meant...",riley,,,
 P5JSINTRO4_10,"Oh, I see - it's a <b>grayscale</b> number, a value between 0 and 255 that tells you how dark or light the gray should be.",riley,,,
