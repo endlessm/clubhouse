@@ -32,7 +32,7 @@ Chris Pattle created the Simpsons characters all in HTML and CSS. You can learn 
 2020-03-24,Endless,hack-release.jpg,,"<b>Hack March Release</b>
 Today, we proudly announce Hack's March Release! We hope you like it - let us know what you think on social media with #MadeToHack!
 
-In this release, we're (officially) introducing Glimpse, after a sneak peek in last month's create-a-cursor quest. Glimpse is a fully-featured, free, open-source photo editor, much like Photoshop! We've also got some more Blender tutorials, on how to make and texture a low-poly Well, and some new activities that explore the internals of <b>p5.js!</b>
+In this release, we're (officially) introducing Glimpse, after a sneak peek in last month's create-a-cursor quest. Glimpse is a fully-featured, free, open-source photo editor, much like Photoshop! <b>Note:</b> A recent version of Glimpse has been released that was not able to start. This issue has been fixed. If you encounter this issue, please update using the available application update mechanisms. We've also got some more Blender tutorials, on how to make and texture a low-poly Well, and some new activities that explore the internals of <b>p5.js!</b>
 
 <b>Edit a Photo - Making it Look Right</b> Learn to remove blemishes, adjust light exposure and color saturation, and crop a picture. <a href='quest://GlimpsePhoto1'>Play Now!</a>
 
