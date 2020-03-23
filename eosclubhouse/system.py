@@ -144,7 +144,7 @@ class Desktop:
     @classmethod
     def get_hack_proxy(klass):
         # Fallback to get_shell_proxy for EOS <= 3.7
-        if (klass.get_shell_version < '3.36'):
+        if (klass.get_shell_version() < '3.36'):
             return klass.get_shell_proxy()
 
         if klass._hack_proxy is None:
@@ -443,7 +443,7 @@ class Desktop:
     @classmethod
     def get_hack_mode(klass):
         # Compatible with EOS <= 3.7
-        if (klass.get_shell_version < '3.36'):
+        if (klass.get_shell_version() < '3.36'):
             shell_settings = klass.get_shell_settings()
             if not shell_settings:
                 return False
@@ -476,7 +476,7 @@ class Desktop:
             App(name).enable_clippy(enabled, old_clippy=True)
 
         # Compatible with EOS <= 3.7
-        if (klass.get_shell_version < '3.36'):
+        if (klass.get_shell_version() < '3.36'):
             return klass.set_hack_mode_shell(enabled, avoid_signal)
 
         klass._BLOCK_HACK_PROPS = avoid_signal
@@ -489,7 +489,7 @@ class Desktop:
     @classmethod
     def set_hack_icon_pulse(klass, enabled):
         # Compatible with EOS <= 3.7
-        if (klass.get_shell_version < '3.36'):
+        if (klass.get_shell_version() < '3.36'):
             shell_settings = klass.get_shell_settings()
             if not shell_settings:
                 return
