@@ -45,6 +45,8 @@
         "--talk-name=com.endlessm.Libanimation",
         "--talk-name=org.freedesktop.Flatpak",
         "--talk-name=org.gtk.Notifications",
+        "--talk-name=org.gnome.Shell",
+        "--talk-name=com.hack_computer.hack",
         "--require-version=1.5.0"
     ],
 

@@ -1902,8 +1902,16 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                                       self._on_lights_changed_cb)
 
         self.sync_with_hack_mode()
-        Desktop.shell_settings_connect('changed::{}'.format(Desktop.SETTINGS_HACK_MODE_KEY),
-                                       self._hack_mode_changed_cb)
+
+        # Compatible with EOS <= 3.7
+        if (Desktop.get_shell_version() < '3.36'):
+            Desktop.shell_settings_connect(
+                'changed::{}'.format(Desktop.SHELL_SETTINGS_HACK_MODE_KEY),
+                self._hack_mode_changed_cb)
+        # Compatible with EOS >= 3.8 with hack extension
+        else:
+            Desktop.hack_property_connect(
+                Desktop.SETTINGS_HACK_MODE_KEY, self._hack_mode_changed_cb)
 
         self._css_provider = gtk_widget_add_custom_css_provider(self, for_screen=True)
 
@@ -1927,7 +1935,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._clubhouse_state.lights_on = hack_mode_enabled
 
-    def _hack_mode_changed_cb(self, _settings, _key):
+    def _hack_mode_changed_cb(self, _value, _key=None):
         self.sync_with_hack_mode()
 
     def _on_user_button_highlighted_changed_cb(self, state, _param):
