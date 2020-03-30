@@ -71,6 +71,7 @@ class Desktop:
     _app_launcher_proxy = None
     _shell_app_store_proxy = None
     _shell_proxy = None
+    _shell_property_proxy = None
     _shell_settings = None
     _shell_schema = None
     _hack_proxy = None
@@ -136,10 +137,33 @@ class Desktop:
         return klass._shell_proxy
 
     @classmethod
+    def _get_shell_properties_proxy(klass):
+        if klass._shell_property_proxy is None:
+            klass._shell_property_proxy = Gio.DBusProxy.new_for_bus_sync(
+                Gio.BusType.SESSION,
+                0,
+                None,
+                'org.gnome.Shell',
+                '/org/gnome/Shell',
+                'org.freedesktop.DBus.Properties',
+                None,
+            )
+
+        return klass._shell_property_proxy
+
+    @classmethod
+    def get_shell_property(klass, prop_name):
+        variant = GLib.Variant('(ss)', ('org.gnome.Shell', prop_name))
+        value = klass._get_shell_properties_proxy().call_sync('Get', variant,
+                                                              Gio.DBusCallFlags.NONE, -1, None)
+        if value is None:
+            logger.warning(f"Failed to get '{prop_name}' property from  org.gnome.Shell")
+            return None
+        return value.unpack()[0]
+
+    @classmethod
     def get_shell_version(klass):
-        shell_proxy = klass.get_shell_proxy()
-        prop = shell_proxy.get_cached_property('ShellVersion')
-        return prop.unpack()
+        return klass.get_shell_property('ShellVersion')
 
     @classmethod
     def get_hack_proxy(klass):
