@@ -6,7 +6,7 @@ class ArtExpress1(Quest):
     __app_id__ = 'com.hack_computer.ProjectLibrary'
     ARTICLE_NAME = "Express Yourself (Part 1 of 2)"
 
-    __tags__ = ['pathway:art', 'difficulty:easy', 'skillset:LaunchQuests']
+    __tags__ = ['pathway:maker', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 405
 
     def step_begin(self):

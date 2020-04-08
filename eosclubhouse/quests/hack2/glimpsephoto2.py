@@ -4,7 +4,7 @@ from eosclubhouse.libquest import Quest
 class GlimpsePhoto2(Quest):
 
     __app_id__ = 'org.glimpse_editor.Glimpse'
-    __tags__ = ['pathway:art', 'difficulty:easy', 'since:1.8']
+    __tags__ = ['pathway:maker', 'difficulty:easy', 'since:1.8']
     __pathway_order__ = 641
 
     def setup(self):

@@ -4,7 +4,7 @@ from eosclubhouse.libquest import Quest
 class BlendPerson2(Quest):
 
     __app_id__ = 'org.blender.Blender'
-    __tags__ = ['pathway:art', 'difficulty:medium', 'since:1.6']
+    __tags__ = ['pathway:maker', 'difficulty:medium', 'since:1.6']
     __pathway_order__ = 636
 
     def setup(self):

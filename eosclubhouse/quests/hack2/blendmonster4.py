@@ -4,7 +4,7 @@ from eosclubhouse.libquest import Quest
 class BlendMonster4(Quest):
 
     __app_id__ = 'org.blender.Blender'
-    __tags__ = ['pathway:art', 'difficulty:hard']
+    __tags__ = ['pathway:maker', 'difficulty:hard']
     __pathway_order__ = 603
 
     def setup(self):

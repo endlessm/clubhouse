@@ -3,7 +3,7 @@ from eosclubhouse.libquest import Quest
 
 class BlendMonster7(Quest):
 
-    __tags__ = ['pathway:art', 'difficulty:hard']
+    __tags__ = ['pathway:maker', 'difficulty:hard']
     __pathway_order__ = 606
 
     def setup(self):

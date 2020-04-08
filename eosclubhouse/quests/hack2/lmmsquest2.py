@@ -4,7 +4,7 @@ from eosclubhouse.libquest import Quest
 class LMMSQuest2(Quest):
 
     __app_id__ = 'io.lmms.LMMS'
-    __tags__ = ['pathway:art', 'difficulty:medium', 'since:1.4']
+    __tags__ = ['pathway:maker', 'difficulty:medium', 'since:1.4']
     __pathway_order__ = 616
 
     def setup(self):

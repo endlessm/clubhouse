@@ -6,7 +6,7 @@ class ArtVerb(Quest):
     __app_id__ = 'com.hack_computer.ProjectLibrary'
     ARTICLE_NAME = 'Verb In A Hat'
 
-    __tags__ = ['pathway:art', 'difficulty:easy', 'skillset:LaunchQuests']
+    __tags__ = ['pathway:maker', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 415
 
     def step_begin(self):

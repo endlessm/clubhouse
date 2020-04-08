@@ -6,7 +6,7 @@ class ArtDipped(Quest):
     __app_id__ = 'com.hack_computer.ProjectLibrary'
     ARTICLE_NAME = 'Dipped'
 
-    __tags__ = ['pathway:art', 'difficulty:easy', 'skillset:LaunchQuests']
+    __tags__ = ['pathway:maker', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 420
 
     def step_begin(self):

@@ -3,7 +3,7 @@ from eosclubhouse.libquest import Quest
 
 class BlendPerson3(Quest):
 
-    __tags__ = ['pathway:art', 'difficulty:medium', 'since:1.6']
+    __tags__ = ['pathway:maker', 'difficulty:medium', 'since:1.6']
     __pathway_order__ = 637
 
     def setup(self):

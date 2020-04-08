@@ -89,7 +89,7 @@ CharacterInfo = {
         'position': (610, 144),
         'username': 'lightspeedgal',
         'pathway': 'art',
-        'pathway_title': 'Art'
+        'pathway_title': 'Creative Coding'
     },
     'ada': {
         'position': (204, 182),
@@ -101,19 +101,19 @@ CharacterInfo = {
         'position': (892, 570),
         'username': 'srowe1822',
         'pathway': 'operatingsystem',
-        'pathway_title': 'Operating Systems'
+        'pathway_title': 'Operating System'
     },
     'faber': {
         'position': (518, 511),
         'username': 'fabersapiens',
         'pathway': 'maker',
-        'pathway_title': 'Maker'
+        'pathway_title': 'Art and Maker'
     },
     'riley': {
         'position': (298, 551),
         'username': '_getriled',
         'pathway': 'web',
-        'pathway_title': 'Web'
+        'pathway_title': 'Web Code'
     },
     'felix': {
         'position': None,

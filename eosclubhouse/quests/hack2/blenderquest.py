@@ -4,7 +4,7 @@ from eosclubhouse.libquest import Quest
 class BlenderQuest(Quest):
 
     __app_id__ = 'org.blender.Blender'
-    __tags__ = ['pathway:art', 'difficulty:hard', 'skillset:LaunchQuests']
+    __tags__ = ['pathway:maker', 'difficulty:hard', 'skillset:LaunchQuests']
     __pathway_order__ = 100
 
     def setup(self):

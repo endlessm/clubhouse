@@ -4,7 +4,7 @@ from eosclubhouse.libquest import Quest
 class BlendWell1(Quest):
 
     __app_id__ = 'org.blender.Blender'
-    __tags__ = ['pathway:art', 'difficulty:medium', 'since:1.8']
+    __tags__ = ['pathway:maker', 'difficulty:medium', 'since:1.8']
     __pathway_order__ = 645
 
     def setup(self):

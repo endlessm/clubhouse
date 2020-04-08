@@ -4,7 +4,7 @@ from eosclubhouse.libquest import Quest
 class KritaColoring(Quest):
 
     __app_id__ = 'org.kde.krita'
-    __tags__ = ['pathway:art', 'difficulty:easy', 'since:1.6']
+    __tags__ = ['pathway:maker', 'difficulty:easy', 'since:1.6']
     __pathway_order__ = 630
 
     def setup(self):

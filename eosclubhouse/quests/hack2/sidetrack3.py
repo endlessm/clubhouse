@@ -7,7 +7,7 @@ class Sidetrack3(Quest):
     __app_id__ = 'com.hack_computer.Sidetrack'
 
     __available_after_completing_quests__ = ['Sidetrack2']
-    __tags__ = ['pathway:games', 'difficulty:medium', 'skillset:LaunchQuests', 'since:1.6']
+    __tags__ = ['pathway:games', 'difficulty:medium', 'since:1.6']
     __pathway_order__ = 102
 
     def setup(self):

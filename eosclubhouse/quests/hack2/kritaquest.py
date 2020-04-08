@@ -4,7 +4,7 @@ from eosclubhouse.libquest import Quest
 class KritaQuest(Quest):
 
     __app_id__ = 'org.kde.krita'
-    __tags__ = ['pathway:art', 'difficulty:medium', 'skillset:LaunchQuests']
+    __tags__ = ['pathway:maker', 'difficulty:medium', 'skillset:LaunchQuests']
     __pathway_order__ = 200
 
     def setup(self):

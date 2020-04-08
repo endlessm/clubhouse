@@ -6,7 +6,7 @@ class Sidetrack1(Quest):
 
     __app_id__ = 'com.hack_computer.Sidetrack'
 
-    __tags__ = ['pathway:games', 'difficulty:easy', 'skillset:LaunchQuests']
+    __tags__ = ['pathway:games', 'difficulty:easy']
     __pathway_order__ = 100
 
     MIN_LEVEL = 1
