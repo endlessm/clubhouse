@@ -41,7 +41,7 @@ class Sidetrack2(Quest):
         # method in Quest
         current_level = int(self._app.get_js_property('currentLevel'))
         while current_level == 0:
-            logger.debug(f'Current level is 0, waiting for sidetrack to load data')
+            logger.debug('Current level is 0, waiting for sidetrack to load data')
             self.pause(1)
             current_level = self._app.get_js_property('currentLevel')
 
