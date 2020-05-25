@@ -6,12 +6,14 @@ Chris Pattle created the Simpsons characters all in HTML and CSS. You can learn 
 2020-05-25,Endless,hack-release.jpg,https://try.hack-computer.com/,"Hey, Hackers!
 
 We know you haven't heard from us in a while - but that's because we've been working on a new surprise!
+
 Today, we're proud to present <b>Hack Web</b>!
 
 Hack Web is the test-drive for Hack that you've all been waiting for. Now, it's easier than ever to show your friends, family and teachers what Hack is all about!
 As an added bonus, Hack Web contains a sneak preview of our new, redesigned p5.js activity!
 
-<a href=""https://try.hack-computer.com"">Come and Hack with us</a>
+Come and Hack with us at <a href=""https://try.hack-computer.com"">try.hack-computer.com</a>.
+
 Although we <b>don't</b> support mobile right now, most laptops should work fine. We also require a ""modern"" browser, but if you have any current version of Chrome, Firefox, or Safari, you should be fine.
 
 If you need any help, or have any feedback, please let us know on the <a href=""https://community.endlessos.com/t/hack-web-release/13058"">Endless Community Forums!</a>"
