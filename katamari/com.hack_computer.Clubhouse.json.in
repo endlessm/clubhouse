@@ -11,7 +11,7 @@
     "branch": "${BRANCH}",
 
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.32",
+    "runtime-version": "3.36",
     "sdk": "org.gnome.Sdk",
 
     "command": "eos-clubhouse",
@@ -74,47 +74,16 @@
             ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://gitlab.com/soundtouch/soundtouch/-/archive/2.1.0/soundtouch-2.1.0.tar.bz2",
-                    "sha256": "3fb740c7ac4b304342fbf11a91d14fa3e296269b9fec6266609c4620477d0ad6"
+                    "type": "git",
+                    "url": "https://gitlab.com/soundtouch/soundtouch.git",
+                    "tag": "2.1.2"
                 }
             ]
         },
         {
             "name": "gstreamer-plugin-soundtouch",
-            "config-opts": [
-                "--disable-aom",
-                "--disable-nls",
-                "--disable-introspection",
-                "--disable-gtk-doc",
-                "--enable-soundtouch",
-                "--with-plugins=none",
-                "--disable-shm",
-                "--disable-ipcpipeline",
-                "--disable-vcd",
-                "--disable-bz2",
-                "--disable-curl",
-                "--disable-dash",
-                "--disable-decklink",
-                "--disable-wayland",
-                "--disable-webp",
-                "--disable-fbdev",
-                "--disable-fdk-aac",
-                "--disable-kms",
-                "--disable-lcms2",
-                "--disable-dtls",
-                "--disable-ttml",
-                "--disable-openal",
-                "--disable-opus",
-                "--disable-rsvg",
-                "--disable-gl",
-                "--disable-vulkan",
-                "--disable-smoothstreaming",
-                "--disable-sndfile",
-                "--disable-dvb",
-                "--disable-vdpau",
-                "--disable-hls"
-            ],
+            "buildsystem": "meson",
+            "config-opts": [],
             "cleanup": [
                 "/include",
                 "/lib/libgst*-1.0.*",
@@ -124,8 +93,8 @@
             "sources": [
                  {
                      "type": "archive",
-                     "url": "http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.3.tar.xz",
-                     "sha256": "b2224e5d9c1b85ad51233f6135524bb9e16a9172d395edc79c73b89094659fd5"
+                     "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz",
+                     "sha256": "f1cb7aa2389569a5343661aae473f0a940a90b872001824bc47fa8072a041e74"
                  }
             ]
         },
@@ -212,6 +181,24 @@
             }
           ]
         },
+        /** The debian lato font is broken, so we add our own version **/
+        {
+          "name": "Lato-font",
+          "buildsystem": "simple",
+          "build-commands": [
+            "install -D -m644 *.ttf -t /app/share/fonts"
+          ],
+          "post-install": [
+            "fc-cache -f /app/share/fonts/"
+          ],
+          "sources": [
+            {
+              "type": "archive",
+              "url": "http://www.latofonts.com/download/Lato2OFL.zip",
+              "sha256": "42b54e96c07e299d967fc3227c7bd63a20d6cfb1dc8fd6dae83628091e20a5b8"
+            }
+          ]
+        },
         {
           "name": "Hack-font",
           "buildsystem": "simple",
@@ -226,20 +213,6 @@
               "type": "archive",
               "url": "https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.tar.xz",
               "sha256": "d9ed5d0a07525c7e7bd587b4364e4bc41021dd668658d09864453d9bb374a78d"
-            }
-          ]
-        },
-        {
-          "name": "gtksourceview",
-          "config-opts": [
-            "--disable-vala",
-            "--disable-gtk-doc"
-          ],
-          "sources": [
-            {
-              "type": "archive",
-              "url": "http://ftp.gnome.org/pub/GNOME/sources/gtksourceview/3.24/gtksourceview-3.24.8.tar.xz",
-              "sha256": "1e9bb8ff190db705deb916dd23ff681f0e8803aec407bf0fd64c7e615ac436fe"
             }
           ]
         },

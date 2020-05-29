@@ -3,7 +3,7 @@
   "branch": "${BRANCH}",
   "runtime": "com.hack_computer.Clubhouse",
   "runtime-version": "${BRANCH}",
-  "sdk": "org.gnome.Sdk//3.32",
+  "sdk": "org.gnome.Sdk//3.36",
   "appstream-compose": false,
   "separate-locales": false,
   "build-extension": true,
