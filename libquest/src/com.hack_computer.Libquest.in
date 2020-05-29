@@ -1,0 +1,8 @@
+#!@GJS@
+imports.package.init({
+    name: 'com.hack_computer.Libquest',
+    version: '@PACKAGE_VERSION@',
+    prefix: '@prefix@',
+    libdir: '@libdir@',
+});
+imports.package.run(imports.main);

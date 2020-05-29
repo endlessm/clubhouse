@@ -1,0 +1,2 @@
+option('jasmine_junit_reports_dir', type: 'string',
+    description: 'Where to put test reports')

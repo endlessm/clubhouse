@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/com/hack_computer/Libquest/js">
+    <file>app.js</file>
+    <file>ink.js</file>
+    <file>main.js</file>
+    <file>quest.js</file>
+    <file>questBus.js</file>
+  </gresource>
+</gresources>

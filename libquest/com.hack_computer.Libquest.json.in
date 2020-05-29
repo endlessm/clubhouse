@@ -1,0 +1,38 @@
+{
+  "app-id": "com.hack_computer.Libquest",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "3.36",
+  "branch": "@BRANCH@",
+  "sdk": "org.gnome.Sdk",
+  "command": "com.hack_computer.Libquest",
+  "finish-args": [
+    "--share=ipc",
+    "--socket=x11",
+    "--socket=wayland",
+    "--socket=session-bus",
+    "--talk-name=org.gnome.Shell",
+    "--talk-name=com.hack_computer.hack",
+    "--talk-name=com.endlessm.Libanimation",
+    "--own-name=com.hack_computer.Libquest",
+    "--filesystem=xdg-run/dconf",
+    "--filesystem=~/.config/dconf:ro",
+    "--nofilesystem=~/.local/lib/python3.5",
+    "--talk-name=ca.desrt.dconf",
+    "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+    "--filesystem=host",
+    "--filesystem=/var/lib/flatpak/exports/share/applications:ro",
+    "--filesystem=/var/lib/flatpak/exports/share/icons:ro",
+    "--env=GSETTINGS_SCHEMA_DIR=/run/host/usr/share/glib-2.0/schemas/",
+    "--system-talk-name=com.endlessm.Metrics"
+  ],
+  "modules": [
+    {
+      "name": "libquest",
+      "buildsystem": "meson",
+      "run-tests": "@RUN_TESTS@",
+      "sources": [
+        {"type": "dir", "path": "."}
+      ]
+    }
+  ]
+}
