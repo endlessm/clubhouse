@@ -28,6 +28,7 @@ MODULES = [
     'hack-components',
     'hack-toy-apps',
     'hack-game-state-service',
+    'libquest',
     'clubhouse',
 ]
 

@@ -1147,6 +1147,100 @@ class UserAccount(GObject.GObject):
         self._proxy.SetRealName(name)
 
 
+class LibquestQuest(GObject.GObject):
+
+    _INTERFACE_NAME = 'com.hack_computer.Libquest.Quest'
+    _proxy = None
+    _properties_proxy = None
+
+    def _get_proxy(self):
+        if self._proxy is None:
+            self._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                         0,
+                                                         None,
+                                                         'com.hack_computer.Libquest',
+                                                         self._dbus_path,
+                                                         self._INTERFACE_NAME,
+                                                         None)
+
+        return self._proxy
+
+    def _get_properties_proxy(self):
+        if self._properties_proxy is None:
+            self._properties_proxy = Gio.DBusProxy.new_for_bus_sync(
+                Gio.BusType.SESSION,
+                0,
+                None,
+                'com.hack_computer.Libquest',
+                self._dbus_path,
+                'org.freedesktop.DBus.Properties',
+                None,
+            )
+
+        return self._properties_proxy
+
+    def __init__(self, quest_id, dbus_path):
+        super().__init__()
+        self._quest_id = quest_id
+        self._dbus_path = dbus_path
+
+    def continueStory(self):
+        return self._get_proxy().ContinueStory()
+
+    def choose(self, choice_index):
+        return self._get_proxy().Choose('(u)', choice_index)
+
+    @property
+    def hasEnded(self):
+        variant = GLib.Variant('(ss)', (self._INTERFACE_NAME, 'hasEnded'))
+        value = self._get_properties_proxy().call_sync('Get', variant,
+                                                       Gio.DBusCallFlags.NONE, -1, None)
+        if value is None:
+            logger.warning("Failed to get 'hasEnded' property")
+            return None
+        return value.unpack()[0]
+
+    def restart(self):
+        return self._get_proxy().Restart()
+
+    @property
+    def globalTags(self):
+        variant = GLib.Variant('(ss)', (self._INTERFACE_NAME, 'globalTags'))
+        value = self._get_properties_proxy().call_sync('Get', variant,
+                                                       Gio.DBusCallFlags.NONE, -1, None)
+        if value is None:
+            logger.warning("Failed to get 'globalTags' property")
+            return None
+        return value.unpack()[0]
+
+    # FIXME UpdateStoryVariable
+    # FIXME GetStoryVariable
+
+
+# FIXME move above LibquestQuest
+class Libquest(GObject.GObject):
+
+    _proxy = None
+
+    @classmethod
+    def _get_proxy(klass):
+        if klass._proxy is None:
+            klass._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                          0,
+                                                          None,
+                                                          'com.hack_computer.Libquest',
+                                                          '/com/hack_computer/Libquest',
+                                                          'com.hack_computer.Libquest',
+                                                          None)
+
+        return klass._proxy
+
+    @classmethod
+    def load_quest(klass, quest_id):
+        dbus_path = klass._get_proxy().LoadQuest('(s)', quest_id)
+        return LibquestQuest(quest_id, dbus_path)
+
+
 # Allow to import the HackSoundServer from the system while using a more friendly name
 Sound = HackSoundServer
 SoundItem = HackSoundItem
