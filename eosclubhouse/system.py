@@ -30,6 +30,7 @@ from eosclubhouse import logger
 from eosclubhouse.config import DATA_DIR
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer, HackSoundItem
+from eosclubhouse.tour import TourServer
 from eosclubhouse.utils import convert_variant_arg, get_flatpak_sandbox
 from gi.repository import GLib, GObject, Gio
 
@@ -1151,3 +1152,4 @@ class UserAccount(GObject.GObject):
 # Allow to import the HackSoundServer from the system while using a more friendly name
 Sound = HackSoundServer
 SoundItem = HackSoundItem
+Tour = TourServer
