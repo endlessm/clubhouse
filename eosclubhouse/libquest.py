@@ -32,7 +32,7 @@ from datetime import date
 from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
-from eosclubhouse.system import App, Desktop, GameStateService, Sound, ToolBoxCodeView, \
+from eosclubhouse.system import App, Desktop, GameStateService, Libquest, Sound, ToolBoxCodeView, \
     UserAccount
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
     Performance, QuestStringCatalog, convert_variant_arg, Version
@@ -346,7 +346,7 @@ class Registry(GObject.GObject):
     @classmethod
     def _get_episode_quests_classes(class_):
         current_episode = class_.get_loaded_episode_name()
-        for subclass in Quest.__subclasses__():
+        for subclass in Quest.__subclasses__() + InkQuest.__subclasses__():
             # Avoid matching subclasses with the same name but in different episodes
             episode = subclass.__module__.split('.', 1)[0]
             if episode != current_episode:
@@ -2435,3 +2435,68 @@ class QuestSet(GObject.GObject):
         return string_info['txt']
 
     highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False)
+
+
+class InkQuest(Quest):
+    __ink_quest_id__ = ''
+    '''ID of the Ink quest to load, by filename convention.'''
+
+    def __init__(self):
+        self._ink_quest = None
+        super().__init__()
+
+    def setup(self):
+        self._ink_quest = Libquest.load_quest(self.__ink_quest_id__)
+        logger.debug('GLOBAL TAGS?: %s', self._ink_quest.globalTags)
+
+    def _show_message(self, options):
+        message_id = 'INK'
+
+        possible_answers = []
+        if options.get('choices'):
+            possible_answers = [(text, callback, *args)
+                                for text, callback, *args
+                                in options['choices']]
+
+        sfx_sound = self._OPEN_DIALOG_SOUND
+        bg_sound = options.get('bg_sound')
+        message_type = self.MessageType.POPUP
+        self.emit('message', {
+            'id': message_id,
+            'text': options['parsed_text'],
+            'choices': possible_answers,
+            'character_id': options.get('character_id') or self.get_main_character(),
+            'character_mood': options.get('mood') or self._DEFAULT_MOOD,
+            'sound_fx': sfx_sound,
+            'sound_bg': bg_sound,
+            'type': message_type,
+        })
+
+    def step_begin(self):
+        self._ink_quest.restart()
+        return self.step_continue
+
+    def step_continue(self, choice_index=None):
+        if self._ink_quest.hasEnded:
+            logger.debug('ENDED WITH CHOICE')
+            self.step_complete_and_stop()
+
+        if choice_index is not None:
+            self._ink_quest.choose(choice_index)
+
+        dialogue, choices = self._ink_quest.continueStory()
+
+        def convert_choice(c):
+            return (c['text'], self.step_continue, c['index'])
+
+        for d in dialogue:
+            self._show_message({
+                'parsed_text': d['text'],
+                'character_id': d['character'],
+                'choices': map(convert_choice, choices),
+            })
+            if not choices:
+                self.pause(5)
+                if self._ink_quest.hasEnded:
+                    logger.debug('ENDED NO CHOICE')
+                    self.step_complete_and_stop()
