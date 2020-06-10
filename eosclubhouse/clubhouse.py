@@ -21,6 +21,7 @@
 import gi
 gi.require_version('EosMetrics', '0')
 gi.require_version("Gdk", "3.0")
+gi.require_version('GdkPixbuf', '2.0')
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
 import functools
@@ -31,11 +32,10 @@ import subprocess
 import sys
 import time
 import datetime
-from PIL import Image
 
 from collections import OrderedDict
-from gi.repository import EosMetrics, Gdk, Gio, GLib, Gtk, GObject, \
-    Json, Pango
+from gi.repository import EosMetrics, Gdk, GdkPixbuf, Gio, GLib, Gtk, \
+    GObject, Json, Pango
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import Desktop, GameStateService, OldGameStateService, \
@@ -867,8 +867,10 @@ class ActivityCard(Gtk.FlowBoxChild):
                 img = os.path.join(GLib.get_user_cache_dir(), f'{img}-unavailable{ext}')
                 if not os.path.exists(img):
                     # Greyscale image on the fly
-                    grey = Image.open(original).convert('LA').convert('RGB')
-                    grey.save(img)
+                    pixbuf = GdkPixbuf.Pixbuf.new_from_file(original)
+                    pixbuf2 = pixbuf.copy()
+                    pixbuf.saturate_and_pixelate(pixbuf2, 0, False)
+                    pixbuf2.savev(img, 'jpeg', [None], [None])
 
         css = "box {{ background-image: url('{}') }}".format(img).encode()
         self._css_provider.load_from_data(css)
