@@ -32,8 +32,8 @@ from datetime import date
 from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
-from eosclubhouse.system import App, Desktop, GameStateService, Libquest, Sound, ToolBoxCodeView, \
-    UserAccount
+from eosclubhouse.system import App, Desktop, GameStateService, Libquest, Sound, \
+    ToolBoxCodeView, TourServer, UserAccount
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
     Performance, QuestStringCatalog, convert_variant_arg, Version
 from gi.repository import EosMetrics, Gio, GObject, GLib
@@ -2490,8 +2490,10 @@ class InkQuest(Quest):
             return (c['text'], self.step_continue, c['index'])
 
         for d in dialogue:
+            parsed_text = self.parse_text(d['text'])
+
             self._show_message({
-                'parsed_text': d['text'],
+                'parsed_text': parsed_text,
                 'character_id': d['character'],
                 'choices': map(convert_choice, choices),
             })
@@ -2500,3 +2502,18 @@ class InkQuest(Quest):
                 if self._ink_quest.hasEnded:
                     logger.debug('ENDED NO CHOICE')
                     self.step_complete_and_stop()
+
+    def parse_text(self, text):
+        return self.parse_highlight(text)
+
+    def parse_highlight(self, text):
+        parsed_text = text
+
+        # look for "[hl searchEntry] BLABLA"
+        match = re.match('.*\[hl (?P<selector>[^\]]+)\] (?P<text>.*)', text)
+        logger.debug(f'highlight match: {text} -> {match}')
+        if match:
+            hl, parsed_text = match.groups()
+            TourServer.highlight_widget(hl)
+
+        return parsed_text
