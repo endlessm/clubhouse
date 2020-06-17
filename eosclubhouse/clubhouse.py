@@ -312,6 +312,111 @@ class MessageButton(Gtk.Button):
         caller_cb(*user_data)
 
 
+class InAppNotify(Gtk.Window):
+    __gtype_name__ = 'InAppNotify'
+    # TODO:
+    #  * Test achievements
+    #  * Slide in / Slide out
+    #  * Reuse the same notification if exists
+
+    WIDTH = 600
+    HEIGHT = 100
+    MARGIN = 10
+    POSITION = 'TOP'
+
+    __gsignals__ = {
+        'closed': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
+
+    @classmethod
+    def move_to_top(klass):
+        klass.POSITION = 'TOP'
+
+    @classmethod
+    def move_to_bottom(klass):
+        klass.POSITION = 'BOTTOM'
+
+    def _init_style(self):
+        css_file = Gio.File.new_for_uri('resource:///com/hack_computer/Clubhouse/gtk-style.css')
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_file(css_file)
+        style_context = Gtk.StyleContext()
+        style_context.add_provider_for_screen(Gdk.Screen.get_default(),
+                                              css_provider,
+                                              Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
+    def __init__(self, message_info):
+        super().__init__(title='Clubhouse notification')
+        self._init_style()
+        self._message_info = message_info
+
+        self.set_decorated(False)
+        self.set_visual(self.get_screen().get_rgba_visual())
+        self.set_size_request(self.WIDTH, self.HEIGHT)
+        self.set_skip_taskbar_hint(True)
+        self.set_skip_pager_hint(True)
+        self.set_keep_above(True)
+        self.get_style_context().add_class('inAppNotify')
+        self.add_tick_callback(AnimationSystem.step)
+
+        self._build_ui()
+        self._place()
+
+    def _build_ui(self):
+
+        self._box = Gtk.Box()
+        self._box.get_style_context().add_class('notify')
+
+        self._msg = Message()
+        self._msg.display_character(True)
+        self._msg.update(self._message_info)
+        self._msg._message_close.connect('clicked', self._close_message)
+        self._msg._message_close.show()
+        self._msg._move_button.connect('clicked', self._toggle_position)
+        self._msg._move_button.show()
+        self._msg._move_button_stack.show()
+        self._box.pack_start(self._msg, True, True, 0)
+
+        self.add(self._box)
+
+    def _close_message(self, _button):
+        self.emit('closed')
+        self.destroy()
+
+    def _toggle_position(self, _button):
+        if InAppNotify.POSITION == 'TOP':
+            InAppNotify.move_to_bottom()
+        else:
+            InAppNotify.move_to_top()
+        self._place()
+
+    def _place(self):
+        x, y = 0, 0
+        display = self.get_screen().get_display()
+        primary_monitor = display.get_primary_monitor()
+        workarea = primary_monitor.get_workarea()
+        x = workarea.x + workarea.width - self.WIDTH - self.MARGIN
+
+        if InAppNotify.POSITION == 'TOP':
+            self._msg._move_button_stack.props.visible_child_name = 'icon-down'
+            y = workarea.y + self.MARGIN
+        else:
+            self._msg._move_button_stack.props.visible_child_name = 'icon-up'
+            y = workarea.y + workarea.height - self.HEIGHT - self.MARGIN
+
+        self.move(x, y)
+
+    def set_priority(self, priority):
+        if priority == Gio.NotificationPriority.URGENT:
+            self._message_close.hide()
+
+    def add_button(self, label, button_target):
+        # TODO: Implement this
+        pass
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
 class Message(Gtk.Overlay):
     __gtype_name__ = 'Message'
@@ -319,6 +424,9 @@ class Message(Gtk.Overlay):
     _label = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
     _button_box = Gtk.Template.Child()
+    _message_close = Gtk.Template.Child()
+    _move_button = Gtk.Template.Child()
+    _move_button_stack = Gtk.Template.Child()
 
     OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
 
@@ -2490,6 +2598,9 @@ class QuestRunner(GObject.GObject):
                                                                          _run_quest_after_timeout)
 
     def _shell_close_popup_message(self):
+        if self._current_quest_notification is not None:
+            notification, _actions, _sound = self._current_quest_notification
+            notification.destroy()
         self._app.close_quest_msg_notification()
 
     def _shell_popup_message(self, message_info):
@@ -2507,10 +2618,12 @@ class QuestRunner(GObject.GObject):
             real_popup_message()
 
     def _shell_popup_message_real(self, message_info):
-        notification = Gio.Notification()
-        text = message_info.get('text', '')
-        notification.set_body(text)
-        notification.set_title('')
+        if self._current_quest_notification is not None:
+            notification, _actions, _sound = self._current_quest_notification
+            notification.destroy()
+
+        notification = InAppNotify(message_info)
+        notification.connect('closed', lambda _n: self.stop_quest())
 
         sfx_sound = message_info.get('sound_fx')
         if sfx_sound:
@@ -2526,7 +2639,6 @@ class QuestRunner(GObject.GObject):
             character = Character.get_or_create(message_info['character_id'])
             character.mood = message_info['character_mood']
 
-            notification.set_icon(character.get_mood_icon())
             Sound.play('clubhouse/{}/mood/{}'.format(character.id,
                                                      character.mood))
 
@@ -2540,7 +2652,7 @@ class QuestRunner(GObject.GObject):
             button_target = "app.quest-user-answer('{}')".format(key)
             notification.add_button(label, button_target)
 
-        self._app.send_quest_msg_notification(notification)
+        notification.show_all()
 
         if not message_info.get('system_notification', False):
             self._current_quest_notification = (notification, self._actions, sfx_sound)
@@ -2559,7 +2671,7 @@ class QuestRunner(GObject.GObject):
         if sound:
             Sound.play(sound)
 
-        self._app.send_quest_msg_notification(notification)
+        notification.show_all()
 
     def _shell_popup_item(self, item_id, text):
         item = utils.QuestItemDB().get_item(item_id)
