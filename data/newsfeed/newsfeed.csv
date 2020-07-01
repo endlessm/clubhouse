@@ -1,4 +1,17 @@
-Date ,Character ,ImageResource ,ImageLink ,Text 
+Date ,Character ,ImageResource ,,Text 
+2020-07-02,Endless,hack-release.jpg,https://try.hack-computer.com/,"Greetings, Hackers and fans. Today, we've got another exciting update for Hack Lab!
+
+<b>Badges</b>
+Hack Lab now has badges! Complete the activities, and show off your accomplishments to your friends and family!
+
+<b>Translations</b>
+If you *hablas español* you're in luck - We're rolling out our first translation of Hack Lab! We know how important it is to be able to learn in your own language, so if you want to see Hack Lab in your langauge, we'd love to hear from you!
+
+<b>Privacy and/b>
+As part of following European Union laws about data collection and privacy, we're updating our privacy policies at Endless. We wouldn't mention this if we only cared about complying with the law - instead, this is an opportunity to show you, our users, that it's important for you to know what data we want to collect and why. We added Google Analytics to Hack Lab to track where in the world you all connect from, what langauges you use, and how you're using the site. We want to track what activities you enjoy the most, and where you might be hitting bugs or rough spots. We don't tie this to specific users, though - it's all anonymous. You'll see a little banner asking you about cookies and analytics the next time you go to an Endless website. Please enable cookies if you can!
+
+Happy hacking - we hope to see you on <a href=""https://try.hack-computer.com"">try.hack-computer.com</a>, or in the <a href=""https://community.endlessos.com/t/hack-web-release/13058"">Endless Community Forums!</a>
+"
 2020-05-30,Endless,5-30.jpg,http://bit.ly/facesofpwr,Learn about the 45 American Presidents in this Google Chrome Experiment built by SVG and Javascript.
 2020-05-28,Endless,5-28.jpg,https://bit.ly/3cS51Fq,"Have you ever broken something and got into trouble? It was the same for Param Jaggi, but he went on to be a CEO at the age of 19 invented the ""CO2ube"" that reduce carbon emissions on a motor vehicle by 50%! Who says breaking things can't be a positive experience?"
 2020-05-26,Endless,5-26.jpg,http://bit.ly/simpsonscss,"This is coding too:
