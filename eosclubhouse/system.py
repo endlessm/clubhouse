@@ -26,6 +26,7 @@ import subprocess
 import time
 
 from eosclubhouse import config, logger
+from eosclubhouse.config import LAUNCH_SCRIPT_PATH
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer, HackSoundItem
 from eosclubhouse.software import GnomeSoftware
@@ -244,6 +245,23 @@ class Desktop:
         try:
             klass.get_app_launcher_proxy().Launch('(su)', name, int(time.time()))
         except GLib.Error as e:
+            logger.error(e)
+            # Fallback, try to use custom launch script if the app launcher is
+            # not working
+            return klass.launch_app_py(name)
+        return True
+
+    @classmethod
+    def launch_app_py(klass, name):
+        app_name = f'{name}.desktop'
+        sandbox = get_flatpak_sandbox()
+        # Remove /app
+        launch_script = '/'.join(LAUNCH_SCRIPT_PATH.split('/')[2:])
+        script_path = f'{sandbox}/{launch_script}'
+        try:
+            subprocess.run(['/usr/bin/flatpak-spawn', '--host',
+                            script_path, app_name], check=True)
+        except Exception as e:
             logger.error(e)
             return False
         return True
