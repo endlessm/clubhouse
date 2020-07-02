@@ -19,9 +19,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-import configparser
 import json
-import os
 import subprocess
 import time
 
@@ -720,57 +718,6 @@ class App:
         app = HackableAppsManager.get_hackable_app(self._app_dbus_name)
         if app:
             app.pulse_flip_to_hack_button = enable
-
-    def enable_clippy(self, enable=True, old_clippy=False):
-        sandbox = get_flatpak_sandbox()
-        clippy_sandbox = sandbox.replace('app', 'runtime').replace('Clubhouse', 'Clippy.Extension')
-
-        # If old_clippy is True we'll use the com.endlessm.Clippy.Extension//stable
-        # instead of the new one and we'll provide DBUS access to the old sound
-        # server too
-        hack_sound_server_id = 'com.hack_computer.HackSoundServer'
-        if old_clippy:
-            hack_sound_server_id = 'com.endlessm.HackSoundServer'
-            # replace the flatpak branch to stable
-            clippy_sandbox = clippy_sandbox.replace('com.hack_computer', 'com.endlessm')\
-                                           .replace('eos3', 'stable')\
-                                           .replace('custom', 'stable')\
-                                           .replace('master', 'stable')
-            sandbox = clippy_sandbox
-
-        filesystems = f'{sandbox}:ro;~/.icons;'
-        clippy = f'{clippy_sandbox}/lib/libclippy-module.so'
-
-        filename = f'~/.local/share/flatpak/overrides/{self.dbus_name}'
-        filename = os.path.expanduser(filename)
-        dirname = os.path.dirname(filename)
-        if not os.path.exists(dirname):
-            os.mkdir(dirname)
-
-        config = configparser.ConfigParser()
-        config.optionxform = lambda opt: opt
-        if os.path.exists(filename):
-            config.read(filename)
-
-        options = {
-            ('Context', 'filesystems'): filesystems,
-            ('Session Bus Policy', hack_sound_server_id): 'talk',
-            ('Environment', 'GTK3_MODULES'): clippy,
-        }
-
-        if enable:
-            for key, value in options.items():
-                section, option = key
-                if not config.has_section(section):
-                    config.add_section(section)
-                config.set(section, option, value)
-        else:
-            for section, option in options:
-                if config.has_option(section, option):
-                    config.remove_option(section, option)
-
-        with open(filename, 'w') as f:
-            config.write(f)
 
 
 class GameStateService(GObject.GObject):
