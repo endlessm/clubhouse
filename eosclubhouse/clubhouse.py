@@ -346,6 +346,16 @@ class InAppNotify(Gtk.Window):
         return notification
 
     @classmethod
+    def from_item(klass, item, text):
+        notification = klass()
+        notification._msg.set_item(item)
+        if text:
+            notification._msg.set_text(text)
+        notification.set_priority(Gio.NotificationPriority.URGENT)
+        notification._msg._move_button.hide()
+        return notification
+
+    @classmethod
     def from_message(klass, message_info):
         notification = klass()
         notification._msg.update(message_info)
@@ -615,6 +625,16 @@ class Message(Gtk.Overlay):
         template = utils.MessageTemplate(template_text)
         text = template.substitute({'achievement.name': achievement.name})
         icon_path = os.path.join(config.ACHIEVEMENTS_DIR, 'badges', '{}.svg'.format(achievement.id))
+
+        self.set_text(text)
+        self._character_image.set_from_file(icon_path)
+
+    def set_item(self, item):
+        self.reset()
+
+        icon_name, _icon_used_name, item_name = item[:3]
+        text = f'You got a new item! {item_name}'
+        icon_path = utils.QuestItemDB.get_icon_path(icon_name)
 
         self.set_text(text)
         self._character_image.set_from_file(icon_path)
@@ -2711,26 +2731,15 @@ class QuestRunner(GObject.GObject):
             logger.debug('Failed to get item %s from DB', item_id)
             return
 
-        icon_name, _icon_used_name, item_name = item[:3]
+        def ok_callback():
+            self._app.activate_action('item-notification', GLib.Variant('(b)', (False, )))
+            notification.destroy()
 
-        notification = Gio.Notification()
-        if text is None:
-            text = 'You got a new item! {}'.format(item_name)
-
-        notification.set_body(text)
-        notification.set_title('')
-
-        icon_file = Gio.File.new_for_path(utils.QuestItemDB.get_icon_path(icon_name))
-        icon_bytes = icon_file.load_bytes(None)
-        icon = Gio.BytesIcon.new(icon_bytes[0])
-
-        notification.set_icon(icon)
-
-        notification.add_button('OK', 'app.item-notification(false)')
+        notification = InAppNotify.from_item(item, text)
+        notification.add_button('OK', ok_callback)
+        notification.show()
 
         Sound.play('quests/key-given')
-
-        self._app.send_quest_item_notification(notification)
 
     def _reset_quest_actions(self):
         # We need to maintain the order of the quest actions, so we use an OrderedDict here.
