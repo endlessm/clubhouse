@@ -32,6 +32,7 @@ import subprocess
 import sys
 import time
 import datetime
+import copy
 
 from collections import OrderedDict
 from gi.repository import EosMetrics, Gdk, GdkPixbuf, Gio, GLib, Gtk, \
@@ -358,7 +359,23 @@ class InAppNotify(Gtk.Window):
     @classmethod
     def from_message(klass, message_info):
         notification = klass()
-        notification._msg.update(message_info)
+        notification._messages = message_info.get('text', '').split('\n\n')
+        notification._original = message_info
+        choices = message_info['choices']
+
+        notification._original['choices'] = [
+            [l, notification._wrap_callback(cb), *data] for (l, cb, *data) in choices
+        ]
+
+        message_copy = copy.copy(notification._original)
+        message_copy['text'] = notification._messages.pop(0)
+
+        if notification._messages:
+            message_copy['choices'] = []
+        notification._msg.update(message_copy)
+        if notification._messages:
+            notification.add_button('❯', notification._next)
+
         return notification
 
     @classmethod
@@ -381,6 +398,7 @@ class InAppNotify(Gtk.Window):
         self.connect('destroy', self._on_destroy)
         self.connect_after('size-allocate', lambda *_: self._place())
         self._init_style()
+        self._messages = []
 
         self.set_decorated(False)
         self.set_visual(self.get_screen().get_rgba_visual())
@@ -448,12 +466,35 @@ class InAppNotify(Gtk.Window):
 
         self.move(x, y)
 
+    def _wrap_callback(self, callback):
+        '''
+        Wrap the callback to close the notification on click on action
+        '''
+        def wrap(*args, **kwargs):
+            callback(*args, **kwargs)
+            self.destroy()
+
+        return wrap
+
+    def _next(self):
+        if not self._messages:
+            return
+
+        message_copy = copy.copy(self._original)
+        message_copy['text'] = self._messages.pop(0)
+
+        if self._messages:
+            message_copy['choices'] = []
+        self._msg.update(message_copy)
+        if self._messages:
+            self.add_button('❯', self._next)
+
     def set_priority(self, priority):
         if priority == Gio.NotificationPriority.URGENT:
             self._msg._message_close.hide()
 
-    def add_button(self, label, callback):
-        self._msg.add_button(label, callback)
+    def add_button(self, label, callback, *user_data):
+        self._msg.add_button(label, callback, *user_data)
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
