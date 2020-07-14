@@ -50,6 +50,7 @@
         "--talk-name=org.gnome.Shell",
         "--talk-name=com.hack_computer.hack",
         "--talk-name=com.endlessm.onboarding",
+        "--talk-name=org.gnome.Software",
         "--require-version=1.5.0"
     ],
 
