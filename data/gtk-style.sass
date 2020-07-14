@@ -627,8 +627,15 @@ CharacterView
 
   &.new
     #topbox
-      image
+      .rigth-corner
         background: linear-gradient(to top right, transparent 50%, call($colorize, #f92781) 51%)
+
+  &.need-download
+    #topbox
+      .left-corner
+        border-top-left-radius: 1em
+        border-top-right-radius: 0
+        background: linear-gradient(to top left, transparent 50%, call($colorize, white) 51%)
 
   #topbox,
   #topbox > box

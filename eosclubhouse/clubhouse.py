@@ -30,6 +30,7 @@ import os
 import re
 import subprocess
 import sys
+import threading
 import time
 import datetime
 
@@ -754,6 +755,7 @@ class ActivityCard(Gtk.FlowBoxChild):
     _title = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
     _corner_image = Gtk.Template.Child()
+    _left_corner_image = Gtk.Template.Child()
 
     _play_button = Gtk.Template.Child()
 
@@ -924,11 +926,28 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._play_button.props.sensitive = True
         self._update_card_state()
 
+    def _update_app_state(self, installed=True):
+        if not installed:
+            self.get_style_context().add_class('need-download')
+            self._left_corner_image.props.resource = \
+                '/com/hack_computer/Clubhouse/images/need-download-card-corner.svg'
+
+        return GLib.SOURCE_REMOVE
+
     def _update_card_state(self):
         if self._cancelling_quest:
             self._play_button.set_label('cancelling...')
             self._play_button.props.sensitive = False
             return
+
+        if self._quest.app:
+            def _check_install():
+                installed = self._quest.app.is_installed()
+                GLib.idle_add(self._update_app_state, installed)
+            threading.Thread(target=_check_install).start()
+        else:
+            self.get_style_context().remove_class('need-download')
+            self._left_corner_image.props.resource = None
 
         if self._quest.complete:
             self.get_style_context().remove_class('new')
