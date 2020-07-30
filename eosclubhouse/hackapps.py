@@ -1,4 +1,8 @@
-# Copyright (C) 2018-2019 Endless Mobile, Inc.
+#
+# Copyright © 2020 Endless OS Foundation LLC.
+#
+# This file is part of clubhouse
+# (see https://github.com/endlessm/clubhouse).
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
