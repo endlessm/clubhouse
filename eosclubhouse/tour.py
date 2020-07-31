@@ -122,16 +122,16 @@ class TourServer(metaclass=tour_meta):
             method, variant, Gio.DBusCallFlags.NONE, klass._CALL_TIMEOUT, None, _on_done)
 
     @classmethod
-    def highlight_rect(klass, x, y, width, height, text='', next_button=False, callback=None):
-        klass._call_method('HighlightRect', x, y, width, height, text, next_button, callback=callback)
+    def highlight_rect(klass, x, y, width, height, text='', callback=None):
+        klass._call_method('HighlightRect', x, y, width, height, text, callback=callback)
 
     @classmethod
-    def highlight_circle(klass, x, y, radius, text='', next_button=False, callback=None):
-        klass._call_method('HighlightCircle', x, y, radius, text, next_button, callback=callback)
+    def highlight_circle(klass, x, y, radius, text='', callback=None):
+        klass._call_method('HighlightCircle', x, y, radius, text, callback=callback)
 
     @classmethod
-    def highlight_widget(klass, name, text='', next_button=False, callback=None):
-        klass._call_method('HighlightWidget', name, text, next_button, callback=callback)
+    def highlight_widget(klass, name, text='', callback=None):
+        klass._call_method('HighlightWidget', name, text, callback=callback)
 
     @classmethod
     def show_overview(klass, show, callback=None):
