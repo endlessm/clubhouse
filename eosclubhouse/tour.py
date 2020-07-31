@@ -111,7 +111,7 @@ class TourServer(metaclass=tour_meta):
         def _on_done(proxy, result):
             ret = None
             try:
-                ret = proxy.call_finish(result).unpack()
+                ret = proxy.call_finish(result).unpack()[0]
             except GLib.Error as e:
                 _logger.error('Error calling HighlightRect on tour: %s', e.message)
 
@@ -132,6 +132,10 @@ class TourServer(metaclass=tour_meta):
     @classmethod
     def highlight_widget(klass, name, text='', callback=None):
         klass._call_method('HighlightWidget', name, text, callback=callback)
+
+    @classmethod
+    def highlight_fuzzy(klass, position='center', size='20%', shape='rect', text='', callback=None):
+        klass._call_method('HighlightFuzzy', position, size, shape, text, callback=callback)
 
     @classmethod
     def show_overview(klass, show, callback=None):
