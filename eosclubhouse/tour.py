@@ -24,7 +24,25 @@ from eosclubhouse.utils import convert_variant_arg
 _logger = logging.getLogger(__name__)
 
 
-class TourServer(GObject.GObject):
+class tour_meta(type):
+    @property
+    def propagateEvents(cls):
+        return cls.get_prop('PropagateEvents')
+
+    @propagateEvents.setter
+    def propagateEvents(cls, value):
+        cls.set_prop('PropagateEvents', value)
+
+    @property
+    def skippable(cls):
+        return cls.get_prop('Skippable')
+
+    @skippable.setter
+    def skippable(cls, value):
+        cls.set_prop('Skippable', value)
+
+
+class TourServer(metaclass=tour_meta):
 
     _proxy = None
     _properties_proxy = None
@@ -122,8 +140,3 @@ class TourServer(GObject.GObject):
     @classmethod
     def clean(klass, callback=None):
         klass._call_method('Clean', callback=callback)
-
-    # TODO: implement these properties getter and setter
-    # <property name="Skippable" type="b" access="readwrite"/>
-    # <property name="Skip" type="b" access="read"/>
-    # <property name="PropagateEvents" type="b" access="readwrite"/>
