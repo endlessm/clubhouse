@@ -315,14 +315,13 @@ class MessageButton(Gtk.Button):
 
 class InAppNotify(Gtk.Window):
     __gtype_name__ = 'InAppNotify'
-    # TODO:
-    #  * Slide in / Slide out
 
     WIDTH = 600
     HEIGHT = 100
     MARGIN = 10
     POSITION = 'TOP'
     NOTIFICATIONS = []
+    MESSAGE_NOTIFY = None
 
     __gsignals__ = {
         'closed': (
@@ -357,15 +356,19 @@ class InAppNotify(Gtk.Window):
         return notification
 
     @classmethod
-    def from_message(klass, message_info):
+    def init_message(klass):
         notification = klass()
+        notification.hide()
+        notification.set_role('clubhouse-msg-notify')
+        klass.MESSAGE_NOTIFY = notification
+        return notification
+
+    @classmethod
+    def from_message(klass, message_info):
+        # Use the same notification window for all the messages
+        notification = klass.MESSAGE_NOTIFY or klass()
         notification._messages = message_info.get('text', '').split('\n\n')
         notification._original = message_info
-        choices = message_info['choices']
-
-        notification._original['choices'] = [
-            [l, notification._wrap_callback(cb), *data] for (l, cb, *data) in choices
-        ]
 
         message_copy = copy.copy(notification._original)
         message_copy['text'] = notification._messages.pop(0)
@@ -396,7 +399,7 @@ class InAppNotify(Gtk.Window):
         super().__init__(title='Clubhouse notification')
         InAppNotify.NOTIFICATIONS.append(self)
         self.connect('destroy', self._on_destroy)
-        self.connect_after('size-allocate', lambda *_: self._place())
+        self._allocate_handler = self.connect_after('size-allocate', lambda *_: self._place())
         self._init_style()
         self._messages = []
 
@@ -406,16 +409,32 @@ class InAppNotify(Gtk.Window):
         self.set_skip_taskbar_hint(True)
         self.set_skip_pager_hint(True)
         self.set_keep_above(True)
+        self.set_accept_focus(False)
         self.get_style_context().add_class('inAppNotify')
         self.add_tick_callback(AnimationSystem.step)
         self.set_role('clubhouse-notification')
         self._build_ui()
+
+    def _hide(self):
+        # Never destroy message notify, just hide it
+        if self == self.MESSAGE_NOTIFY:
+            self._revealer.set_reveal_child(False)
+            self.hide()
+        else:
+            self.destroy()
 
     def _on_destroy(self, _win):
         InAppNotify.NOTIFICATIONS.remove(self)
         InAppNotify.place_all()
 
     def _build_ui(self):
+
+        direction = Gtk.RevealerTransitionType.SLIDE_LEFT
+        alignment = Gtk.Align.END
+        self._revealer = Gtk.Revealer(transition_type=direction,
+                                      transition_duration=800,
+                                      halign=alignment,
+                                      visible=True)
 
         self._box = Gtk.Box()
         self._box.get_style_context().add_class('notify')
@@ -429,19 +448,64 @@ class InAppNotify(Gtk.Window):
         self._msg._move_button_stack.show()
         self._box.pack_start(self._msg, True, True, 0)
 
-        self.add(self._box)
+        self._revealer.add(self._box)
+        self.add(self._revealer)
         self.show_all()
 
     def _close_message(self, _button):
         self.emit('closed')
-        self.destroy()
+        self._hide()
+
+    def _animate(self, direction):
+        GObject.signal_handler_block(self, self._allocate_handler)
+
+        display = self.get_screen().get_display()
+        primary_monitor = display.get_primary_monitor()
+        workarea = primary_monitor.get_workarea()
+        x, y = self.get_position()
+        height = self.get_allocation().height or self.HEIGHT
+
+        final_y = workarea.y + self.MARGIN
+        if direction == 'BOTTOM':
+            final_y = workarea.y + workarea.height - height - self.MARGIN
+
+        duration = 0.5
+        updates_per_second = 20
+        ydiff = final_y - y
+        t = 0
+        n_updates = updates_per_second * duration
+
+        # Ease out cubic https://easings.net/#easeOutCubic
+        def ease(n):
+            return 1 - pow(1 - n, 3)
+
+        def tick():
+            nonlocal t
+            current_x, current_y = self.get_position()
+
+            t += 1
+            # t -> [0..1]
+            normal_t = t / n_updates
+            factor = ease(normal_t)
+
+            self.move(current_x, y + ydiff * factor)
+
+            if normal_t < 1:
+                return GLib.SOURCE_CONTINUE
+
+            GObject.signal_handler_unblock(self, self._allocate_handler)
+            self._place()
+            return GLib.SOURCE_REMOVE
+
+        GLib.timeout_add(1000 / updates_per_second, tick)
 
     def _toggle_position(self, _button):
         if InAppNotify.POSITION == 'TOP':
             InAppNotify.move_to_bottom()
         else:
             InAppNotify.move_to_top()
-        InAppNotify.place_all()
+
+        self._animate(InAppNotify.POSITION)
 
     def _place(self):
         x, y = 0, 0
@@ -466,16 +530,6 @@ class InAppNotify(Gtk.Window):
 
         self.move(x, y)
 
-    def _wrap_callback(self, callback):
-        '''
-        Wrap the callback to close the notification on click on action
-        '''
-        def wrap(*args, **kwargs):
-            callback(*args, **kwargs)
-            self.destroy()
-
-        return wrap
-
     def _next(self):
         if not self._messages:
             return
@@ -495,6 +549,10 @@ class InAppNotify(Gtk.Window):
 
     def add_button(self, label, callback, *user_data):
         self._msg.add_button(label, callback, *user_data)
+
+    def slide_in(self):
+        self.show()
+        self._revealer.set_reveal_child(True)
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
@@ -1934,7 +1992,7 @@ class AchievementsView(Gtk.Box):
         notification.add_button('OK', ok_callback)
         notification.add_button('Show me', show_callback)
 
-        notification.show()
+        notification.slide_in()
 
     def _add_achievement(self, achievement):
         try:
@@ -2716,10 +2774,6 @@ class QuestRunner(GObject.GObject):
             real_popup_message()
 
     def _shell_popup_message_real(self, message_info):
-        if self._current_quest_notification is not None:
-            notification, _actions, _sound = self._current_quest_notification
-            notification.destroy()
-
         notification = InAppNotify.from_message(message_info)
         notification.connect('closed', lambda _n: self.stop_quest())
 
@@ -2745,7 +2799,7 @@ class QuestRunner(GObject.GObject):
         for answer in message_info.get('choices', []):
             self._add_quest_action(answer)
 
-        notification.show()
+        notification.slide_in()
 
         if not message_info.get('system_notification', False):
             self._current_quest_notification = (notification, self._actions, sfx_sound)
@@ -2764,7 +2818,7 @@ class QuestRunner(GObject.GObject):
         if sound:
             Sound.play(sound)
 
-        notification.show()
+        notification.slide_in()
 
     def _shell_popup_item(self, item_id, text):
         item = utils.QuestItemDB().get_item(item_id)
@@ -2778,7 +2832,7 @@ class QuestRunner(GObject.GObject):
 
         notification = InAppNotify.from_item(item, text)
         notification.add_button('OK', ok_callback)
-        notification.show()
+        notification.slide_in()
 
         Sound.play('quests/key-given')
 
@@ -2890,6 +2944,8 @@ class ClubhouseApplication(Gtk.Application):
                              'Turn on debug in newsfeed, displaying all items.', None)
         self.add_main_option('quit', ord('x'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Fully close the application', None)
+
+        InAppNotify.init_message()
 
     @property
     def quest_runner(self):
