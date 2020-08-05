@@ -73,6 +73,10 @@ ClubhouseIface = ('<node>'
                   '<arg type="s" direction="in" name="uri"/>'
                   '<arg type="v" direction="out" name="metadata"/>'
                   '</method>'
+                  '<method name="notificationEvent">'
+                  '<arg type="u" direction="in" name="x"/>'
+                  '<arg type="u" direction="in" name="y"/>'
+                  '</method>'
                   '<method name="migrationQuest">'
                   '</method>'
                   '<property name="Visible" type="b" access="read"/>'
@@ -554,6 +558,32 @@ class InAppNotify(Gtk.Window):
     def slide_in(self):
         self.show()
         self._revealer.set_reveal_child(True)
+
+    def _check_click(self, button, global_x, global_y):
+        x, y = self.translate_coordinates(button, global_x, global_y)
+
+        if x < 0 or y < 0:
+            return False
+
+        alloc = button.get_allocation()
+        if x <= alloc.width and y <= alloc.height:
+            button.clicked()
+            return True
+
+        return False
+
+    def clicked(self, x, y):
+        # Look for buttons
+        for button in self._msg._button_box:
+            if self._check_click(button, x, y):
+                return
+
+        # Look for close
+        if self._check_click(self._msg._message_close, x, y):
+            return
+
+        # Look for move!
+        self._check_click(self._msg._move_button, x, y)
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
@@ -3315,6 +3345,11 @@ class ClubhouseApplication(Gtk.Application):
             return None
 
         return GLib.Variant('(v)', (metadata_variant,))
+
+    # D-Bus implementation
+    def notificationEvent(self, x, y):
+        if InAppNotify.MESSAGE_NOTIFY:
+            InAppNotify.MESSAGE_NOTIFY.clicked(x, y)
 
     # D-Bus implementation
     def migrationQuest(self):

@@ -1974,6 +1974,9 @@ class Quest(_Quest):
         if message_id is not None:
             self.show_hints_message(message_id)
 
+        # wait one second to show the notification, then we can show the app in the destkop
+        self.pause(1)
+
         if give_app_icon:
             self.give_app_icon(app.dbus_name)
 
