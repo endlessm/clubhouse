@@ -410,6 +410,7 @@ class InAppNotify(Gtk.Window):
         self.set_skip_pager_hint(True)
         self.set_keep_above(True)
         self.set_accept_focus(False)
+        self.set_resizable(False)
         self.get_style_context().add_class('inAppNotify')
         self.add_tick_callback(AnimationSystem.step)
         self.set_role('clubhouse-notification')
@@ -2756,7 +2757,7 @@ class QuestRunner(GObject.GObject):
     def _shell_close_popup_message(self):
         if self._current_quest_notification is not None:
             notification, _actions, _sound = self._current_quest_notification
-            notification.destroy()
+            notification._hide()
         self._app.close_quest_msg_notification()
 
     def _shell_popup_message(self, message_info):
