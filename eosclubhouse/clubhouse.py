@@ -383,6 +383,8 @@ class InAppNotify(Gtk.Window):
         if notification._messages:
             notification.add_button('❯', notification._next)
 
+        notification.set_priority(Gio.NotificationPriority.NORMAL)
+
         return notification
 
     @classmethod
@@ -551,6 +553,8 @@ class InAppNotify(Gtk.Window):
     def set_priority(self, priority):
         if priority == Gio.NotificationPriority.URGENT:
             self._msg._message_close.hide()
+        else:
+            self._msg._message_close.show()
 
     def add_button(self, label, callback, *user_data):
         self._msg.add_button(label, callback, *user_data)
