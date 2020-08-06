@@ -37,6 +37,7 @@ class Desktop:
     _HACK_DBUS = 'com.hack_computer.hack'
     _HACK_OBJECT_PATH = '/com/hack_computer/hack'
     _BLOCK_HACK_PROPS = False
+    _HACK_EXTENSION = 'eos-hack@endlessm.com'
 
     SETTINGS_HACK_MODE_KEY = 'HackModeEnabled'
     SETTINGS_HACK_ICON_PULSE = 'HackIconPulse'
@@ -44,6 +45,7 @@ class Desktop:
     _dbus_proxy = None
     _app_launcher_proxy = None
     _shell_app_store_proxy = None
+    _shell_extensions_proxy = None
     _shell_proxy = None
     _shell_property_proxy = None
     _shell_settings = None
@@ -96,6 +98,20 @@ class Desktop:
                                                None)
 
         return klass._shell_app_store_proxy
+
+    @classmethod
+    def get_extensions_proxy(klass):
+        if klass._shell_extensions_proxy is None:
+            klass._shell_extensions_proxy = \
+                Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                               0,
+                                               None,
+                                               'org.gnome.Shell',
+                                               '/org/gnome/Shell',
+                                               'org.gnome.Shell.Extensions',
+                                               None)
+
+        return klass._shell_extensions_proxy
 
     @classmethod
     def get_shell_proxy(klass):
@@ -170,6 +186,70 @@ class Desktop:
             )
 
         return klass._hack_property_proxy
+
+    @classmethod
+    def is_hack_extension_installed(klass, isEnabled=False):
+        info = klass.get_hack_extension_info()
+
+        if 'state' not in info:
+            return False
+
+        # These are  the possible states of an extension
+        #     ENABLED: 1
+        #     DISABLED: 2
+        #     ERROR: 3
+        #     OUT_OF_DATE: 4
+        #     DOWNLOADING: 5
+        #     INITIALIZED: 6
+
+        if isEnabled:
+            return info['state'] == 1
+
+        return True
+
+    @classmethod
+    def get_hack_extension_info(klass):
+        extensions_proxy = klass.get_extensions_proxy()
+        variant = GLib.Variant('(s)', [klass._HACK_EXTENSION])
+        info = extensions_proxy.call_sync('GetExtensionInfo', variant,
+                                          Gio.DBusCallFlags.NONE, -1, None)
+
+        if not info:
+            return {}
+
+        return info.unpack()[0]
+
+    @classmethod
+    def install_hack_extension(klass, callback=None):
+        '''Install the hack extension on the user space'''
+
+        def _on_installed_callback(proxy, result):
+            try:
+                proxy.call_finish(result)
+            except GLib.Error as e:
+                logger.error('Error installing eos-hack extension: %s', e.message)
+                if callback:
+                    callback(False)
+                return
+
+            klass.enable_hack_extension()
+            if callback:
+                callback(True)
+
+        extensions_proxy = klass.get_extensions_proxy()
+        variant = GLib.Variant('(s)', [klass._HACK_EXTENSION])
+        extensions_proxy.call('InstallRemoteExtension',
+                              variant,
+                              Gio.DBusCallFlags.NONE,
+                              -1,
+                              None,
+                              _on_installed_callback)
+
+    @classmethod
+    def enable_hack_extension(klass):
+        proxy = klass.get_extensions_proxy()
+        variant = GLib.Variant('(s)', [klass._HACK_EXTENSION])
+        proxy.call_sync('EnableExtension', variant, Gio.DBusCallFlags.NONE, -1, None)
 
     @classmethod
     def get_hack_property(klass, prop_name):

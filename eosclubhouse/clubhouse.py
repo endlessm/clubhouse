@@ -2984,6 +2984,16 @@ class ClubhouseApplication(Gtk.Application):
         # This will set the hack mode for old EOS < 3.9
         Desktop.set_legacy_hack_mode(True)
 
+        if not Desktop.is_hack_extension_installed(isEnabled=True):
+            Desktop.install_hack_extension(callback=self._on_extension_installed)
+
+    def _on_extension_installed(self, success=False):
+        if not success:
+            logger.error('Cannot install or enable Hack shell extension')
+            return
+
+        logger.info('Hack shell extension installed and enabled')
+
     @property
     def quest_runner(self):
         return self._quest_runner
