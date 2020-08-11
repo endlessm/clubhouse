@@ -1,4 +1,8 @@
-# Copyright (C) 2018 Endless Mobile, Inc.
+#
+# Copyright © 2020 Endless OS Foundation LLC.
+#
+# This file is part of clubhouse
+# (see https://github.com/endlessm/clubhouse).
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,9 +17,6 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# Authors:
-#       Joaquim Rocha <jrocha@endlessm.com>
 #
 
 import configparser
