@@ -34,7 +34,7 @@ from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import App, Desktop, GameStateService, Sound, ToolBoxCodeView, \
-    UserAccount
+    UserAccount, Tour
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
     Performance, QuestStringCatalog, convert_variant_arg, Version
 from gi.repository import EosMetrics, Gio, GObject, GLib
@@ -2090,6 +2090,102 @@ class Quest(_Quest):
 
         Desktop.disconnect_app_in_foreground_change(in_foreground_handler_id)
         app.disconnect_running_change(running_handler_id)
+
+        return async_action
+
+    # ** Highlighting **
+
+    def wait_for_highlight_rect(self, x, y, width, height, text='', timeout=None):
+        '''Highlight a rectangle on the desktop and wait for user interaction.
+
+        :param x: The x coordinate of the rectangle.
+        :param y: The x coordinate of the rectangle.
+        :param width: The width of the rectangle.
+        :param height: The height of the rectangle.
+        :param text: Optional text to show near the highlighted region.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :rtype: AsyncAction
+        '''
+
+        return self.wait_for_highlight(x, y, width, height, text,
+                                       function='HighlightRect', timeout=timeout)
+
+    def wait_for_highlight_circle(self, x, y, radius, text='', timeout=None):
+        '''Highlight a circle on the desktop and wait for user interaction.
+
+        :param x: The x coordinate of the circle.
+        :param y: The x coordinate of the circle.
+        :param radius: The height of the circle.
+        :param text: Optional text to show near the highlighted region.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :rtype: AsyncAction
+        '''
+
+        return self.wait_for_highlight(x, y, radius, text,
+                                       function='HighlightCircle', timeout=timeout)
+
+    def wait_for_highlight_widget(self, name, text='', timeout=None):
+        '''Highlight a widget on the desktop and wait for user interaction.
+
+        :param name: The widget name or the style class name.
+        :param text: Optional text to show near the highlighted region.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :rtype: AsyncAction
+        '''
+
+        return self.wait_for_highlight(name, text,
+                                       function='HighlightWidget', timeout=timeout)
+
+    def wait_for_highlight_fuzzy(self, position='center', size='20%',
+                                 shape='rect', text='', timeout=None):
+        '''Highlight a region with a fuzzy description and wait for user interaction.
+
+        :param position: The highlight position.
+        :param size: The highlight size.
+        :param shape: The highlight shape, rect or circle.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :rtype: AsyncAction
+
+        These are the supported rules:
+
+          position: "y-axis x-axis|y-axis|x-axis"
+          size: "width height|width AR|width"
+          shape: "rect|circle"
+
+        where:
+
+          y-axis: "top|center|bottom|N%|Npx"
+          x-axis: "left|center|right|N%|Npx"
+          width: "N%|Npx"
+          height: "N%|Npx"
+          AR: N:N
+          N: \\d+
+        '''
+
+        return self.wait_for_highlight(position, size, shape, text,
+                                       function='HighlightFuzzy', timeout=timeout)
+
+    def wait_for_highlight(self, *args, function='HighlightRect', timeout=None):
+        '''Highlight a region on the desktop and wait for user interaction.
+
+        :param function: The TourServer function to use.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :rtype: AsyncAction
+        '''
+
+        assert self._run_context is not None
+        async_action = self._run_context.new_async_action()
+
+        def _on_finished(ret):
+            async_action.resolve(not ret)
+
+        Tour._call_method(function, *args, callback=_on_finished)
+        self._run_context.wait_for_action(async_action, timeout)
 
         return async_action
 
