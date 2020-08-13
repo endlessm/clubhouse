@@ -247,37 +247,40 @@ MessageButton {
 
 Message {
   font-family: "Metropolis Medium, Sans-Serif"; }
-  Message > #message-box {
+  Message > #out-message-box {
     margin: 1em 1em 1em 2em;
     background-color: rgba(255, 255, 255, 0.96);
     border-radius: 0.75em;
     border: 1px solid #8A6A45;
     box-shadow: 0 2px 1ex 1ex rgba(0, 0, 0, 0.2);
     transition: margin-bottom 400ms ease; }
-    Message > #message-box > label {
-      transition: margin-bottom 400ms ease;
-      margin: 1em; }
+  Message > #out-message-box #message-box > label {
+    transition: margin-bottom 400ms ease;
+    margin: 1em;
+    color: #2e3436; }
+    Message > #out-message-box #message-box > label:backdrop {
+      color: #2e3436; }
   Message > #button-box {
     transition: all 600ms ease;
     min-height: 3em;
     margin-bottom: 2em;
     opacity: 0; }
-  Message.has-buttons > #message-box {
+  Message.has-buttons > #out-message-box {
     margin-bottom: 2em; }
-    Message.has-buttons > #message-box > label {
-      margin-bottom: 1.5em; }
+  Message.has-buttons > #out-message-box #message-box > label {
+    margin-bottom: 1.5em; }
   Message.has-buttons > #button-box {
     margin-bottom: 0;
     opacity: 1; }
-  Message.has-character > #message-box {
+  Message.has-character > #out-message-box {
     margin-left: 3em; }
-    Message.has-character > #message-box > label {
+    Message.has-character > #out-message-box > #message-box > label {
       margin-right: 0; }
-    Message.has-character > #message-box > image {
+    Message.has-character > #out-message-box > #message-box > image {
       margin-top: -1.8em;
       margin-right: -0.8em;
       margin-bottom: -33px; }
-      Message.has-character > #message-box > image.felixnet {
+      Message.has-character > #out-message-box > #message-box > image.felixnet {
         margin-right: -3.2em; }
   Message.has-character > #button-box {
     margin-left: 1em; }
@@ -474,7 +477,7 @@ ActivityCard {
         background: #3f3f3f; }
       ActivityCard #bottombox #play.running:hover {
         background: #262626; }
-      ActivityCard #bottombox #play:disabled, ActivityCard #bottombox #play.complete:disabled {
+      ActivityCard #bottombox #play:disabled, ActivityCard #bottombox #play:disabled.complete {
         background: lightgray; }
     ActivityCard #bottombox #tagsview {
       margin-left: 1em; }
@@ -526,7 +529,7 @@ ActivityCard {
     transition: background-size 150ms ease;
     background-size: 110%;
     animation: unset; }
-  ActivityCard.narrative:hover #topbox > box > overlay > box {
+  ActivityCard:hover.narrative #topbox > box > overlay > box {
     background: url("resource:///com/hack_computer/Clubhouse/images/narrative-icon.svg") center/contain no-repeat;
     transition: background-image 400ms ease; }
   ActivityCard.EASY stackswitcher > button:checked {
@@ -602,7 +605,7 @@ ActivityCard {
           background: #661818; }
         ActivityCard.available #bottombox #play.running:hover {
           background: #3d0e0e; }
-        ActivityCard.available #bottombox #play:disabled, ActivityCard.available #bottombox #play.complete:disabled {
+        ActivityCard.available #bottombox #play:disabled, ActivityCard.available #bottombox #play:disabled.complete {
           background: lightgray; }
       ActivityCard.available #bottombox #tagsview {
         margin-left: 1em; }
@@ -654,7 +657,7 @@ ActivityCard {
       transition: background-size 150ms ease;
       background-size: 110%;
       animation: unset; }
-    ActivityCard.available.narrative:hover #topbox > box > overlay > box {
+    ActivityCard.available:hover.narrative #topbox > box > overlay > box {
       background: url("resource:///com/hack_computer/Clubhouse/images/narrative-icon.svg") center/contain no-repeat;
       transition: background-image 400ms ease; }
     ActivityCard.available.EASY stackswitcher > button:checked {
@@ -778,7 +781,7 @@ ClubhouseViewMainLayer #hack-switch-button {
     background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-static.png"); }
     ClubhouseViewMainLayer #hack-switch-button:checked:hover {
       background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-hover.png"); }
-    ClubhouseViewMainLayer #hack-switch-button.highlighted:checked {
+    ClubhouseViewMainLayer #hack-switch-button:checked.highlighted {
       background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-attract.png");
       animation: on_attract_pulsate 500ms ease-in-out alternate infinite; }
 
@@ -794,3 +797,16 @@ ScalableImage {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center; }
+
+.inAppNotify {
+  background-color: unset;
+  font-size: 16px; }
+
+.inAppNotify .close-button {
+  padding: 12px; }
+
+.inAppNotify .close-button:hover {
+  color: black; }
+
+.inAppNotify .close-button image {
+  -gtk-icon-shadow: none; }

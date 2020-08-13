@@ -33,6 +33,7 @@ import subprocess
 import sys
 import time
 import datetime
+import copy
 
 from collections import OrderedDict
 from gi.repository import EosMetrics, Gdk, GdkPixbuf, Gio, GLib, Gtk, \
@@ -72,6 +73,10 @@ ClubhouseIface = ('<node>'
                   '<method name="getAnimationMetadata">'
                   '<arg type="s" direction="in" name="uri"/>'
                   '<arg type="v" direction="out" name="metadata"/>'
+                  '</method>'
+                  '<method name="notificationEvent">'
+                  '<arg type="u" direction="in" name="x"/>'
+                  '<arg type="u" direction="in" name="y"/>'
                   '</method>'
                   '<method name="migrationQuest">'
                   '</method>'
@@ -313,6 +318,272 @@ class MessageButton(Gtk.Button):
         caller_cb(*user_data)
 
 
+class InAppNotify(Gtk.Window):
+    __gtype_name__ = 'InAppNotify'
+
+    MARGIN = 10
+    POSITION = 'TOP'
+    NOTIFICATIONS = []
+    MESSAGE_NOTIFY = None
+
+    __gsignals__ = {
+        'closed': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
+
+    @classmethod
+    def move_to_top(klass):
+        klass.POSITION = 'TOP'
+
+    @classmethod
+    def move_to_bottom(klass):
+        klass.POSITION = 'BOTTOM'
+
+    @classmethod
+    def from_achievement(klass, achievement):
+        notification = klass()
+        notification.set_achievement(achievement)
+        return notification
+
+    @classmethod
+    def from_item(klass, item, text):
+        notification = klass()
+        notification.set_item(item, text)
+        return notification
+
+    @classmethod
+    def init_message(klass):
+        notification = klass()
+        notification.hide()
+        notification.set_role('clubhouse-msg-notify')
+        klass.MESSAGE_NOTIFY = notification
+        return notification
+
+    @classmethod
+    def from_message(klass, message_info):
+        # Use the same notification window for all the messages
+        notification = klass.MESSAGE_NOTIFY or klass()
+        notification.set_message(message_info)
+        return notification
+
+    @classmethod
+    def place_all(klass):
+        for notify in klass.NOTIFICATIONS:
+            notify._place()
+
+    def set_message(self, message_info):
+        self._messages = message_info.get('text', '').split('\n\n')
+        self._original = message_info
+
+        message_copy = copy.copy(self._original)
+        message_copy['text'] = self._messages.pop(0)
+
+        if self._messages:
+            message_copy['choices'] = []
+        self._msg.update(message_copy)
+        if self._messages:
+            self.add_button('❯', self._next)
+
+        self.set_priority(Gio.NotificationPriority.NORMAL)
+
+    def set_item(self, item, text):
+        self._msg.set_item(item)
+        if text:
+            self._msg.set_text(text)
+        self.set_priority(Gio.NotificationPriority.URGENT)
+        self._msg.move_button.hide()
+
+    def set_achievement(self, achievement):
+        self._msg.set_achievement(achievement)
+        self.set_priority(Gio.NotificationPriority.URGENT)
+        self._msg.move_button.hide()
+
+    def __init__(self):
+        super().__init__(title='Clubhouse notification')
+        InAppNotify.NOTIFICATIONS.append(self)
+        self.connect('destroy', self._on_destroy)
+        self._messages = []
+
+        self.set_decorated(False)
+        self.set_visual(self.get_screen().get_rgba_visual())
+        self.set_skip_taskbar_hint(True)
+        self.set_skip_pager_hint(True)
+        self.set_keep_above(True)
+        self.set_accept_focus(False)
+        self.set_resizable(False)
+        self.get_style_context().add_class('inAppNotify')
+        self.add_tick_callback(AnimationSystem.step)
+        self.set_role('clubhouse-notification')
+        self._build_ui()
+
+    def _hide(self):
+        # Never destroy message notify, just hide it
+        if self == self.MESSAGE_NOTIFY:
+            self._revealer.set_reveal_child(False)
+            self.hide()
+        else:
+            self.destroy()
+
+    def _on_destroy(self, _win):
+        InAppNotify.NOTIFICATIONS.remove(self)
+        InAppNotify.place_all()
+
+    def _build_ui(self):
+
+        direction = Gtk.RevealerTransitionType.SLIDE_LEFT
+        alignment = Gtk.Align.END
+        self._revealer = Gtk.Revealer(transition_type=direction,
+                                      transition_duration=800,
+                                      halign=alignment,
+                                      visible=True)
+
+        self._box = Gtk.Box()
+        self._box.get_style_context().add_class('notify')
+
+        self._msg = Message()
+        self._msg.display_character(True)
+        self._msg.message_close.connect('clicked', self._close_message)
+        self._msg.message_close.show()
+        self._msg.move_button.connect('clicked', self._toggle_position)
+        self._msg.move_button.show()
+        self._box.pack_start(self._msg, True, True, 0)
+
+        self._revealer.add(self._box)
+        self.add(self._revealer)
+        self.show_all()
+
+    def _close_message(self, _button):
+        self.emit('closed')
+        self._hide()
+
+    def _animate(self, direction):
+        display = self.get_screen().get_display()
+        primary_monitor = display.get_primary_monitor()
+        workarea = primary_monitor.get_workarea()
+        x, y = self.get_position()
+        height = self.get_allocation().height
+
+        final_y = workarea.y + self.MARGIN
+        if direction == 'BOTTOM':
+            final_y = workarea.y + workarea.height - height - self.MARGIN
+
+        duration = 0.5
+        updates_per_second = 20
+        ydiff = final_y - y
+        t = 0
+        n_updates = updates_per_second * duration
+
+        # Ease out cubic https://easings.net/#easeOutCubic
+        def ease(n):
+            return 1 - pow(1 - n, 3)
+
+        def tick():
+            nonlocal t
+            current_x, current_y = self.get_position()
+
+            t += 1
+            # t -> [0..1]
+            normal_t = t / n_updates
+            factor = ease(normal_t)
+
+            self.move(current_x, y + ydiff * factor)
+
+            if normal_t < 1:
+                return GLib.SOURCE_CONTINUE
+
+            self._place()
+            return GLib.SOURCE_REMOVE
+
+        GLib.timeout_add(1000 / updates_per_second, tick)
+
+    def _toggle_position(self, _button):
+        if InAppNotify.POSITION == 'TOP':
+            InAppNotify.move_to_bottom()
+        else:
+            InAppNotify.move_to_top()
+
+        self._animate(InAppNotify.POSITION)
+
+    def _place(self):
+        x, y = 0, 0
+        display = self.get_screen().get_display()
+        primary_monitor = display.get_primary_monitor()
+        workarea = primary_monitor.get_workarea()
+        height = self.get_allocation().height
+        width = self.get_allocation().width
+        x = workarea.x + workarea.width - width - self.MARGIN
+
+        offset = 0
+        for i in InAppNotify.NOTIFICATIONS:
+            if i == self:
+                break
+            offset += i.get_allocation().height + self.MARGIN
+
+        if InAppNotify.POSITION == 'TOP':
+            self._msg.set_move_button_direction('down')
+            y = workarea.y + self.MARGIN + offset
+        else:
+            self._msg.set_move_button_direction('up')
+            y = workarea.y + workarea.height - height - self.MARGIN - offset
+
+        self.move(x, y)
+
+    def _next(self):
+        if not self._messages:
+            return
+
+        message_copy = copy.copy(self._original)
+        message_copy['text'] = self._messages.pop(0)
+
+        if self._messages:
+            message_copy['choices'] = []
+        self._msg.update(message_copy)
+        if self._messages:
+            self.add_button('❯', self._next)
+
+    def set_priority(self, priority):
+        if priority == Gio.NotificationPriority.URGENT:
+            self._msg.message_close.hide()
+        else:
+            self._msg.message_close.show()
+
+    def add_button(self, label, callback, *user_data):
+        self._msg.add_button(label, callback, *user_data)
+
+    def slide_in(self):
+        self.show()
+        if not self._revealer.get_reveal_child():
+            self._place()
+            self._revealer.set_reveal_child(True)
+
+    def _check_click(self, button, global_x, global_y):
+        x, y = self.translate_coordinates(button, global_x, global_y)
+
+        if x < 0 or y < 0:
+            return False
+
+        alloc = button.get_allocation()
+        if x <= alloc.width and y <= alloc.height:
+            button.clicked()
+            return True
+
+        return False
+
+    def clicked(self, x, y):
+        # Look for buttons
+        for button in self._msg.button_box:
+            if self._check_click(button, x, y):
+                return
+
+        # Look for close
+        if self._check_click(self._msg.message_close, x, y):
+            return
+
+        # Look for move!
+        self._check_click(self._msg.move_button, x, y)
+
+
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
 class Message(Gtk.Overlay):
     __gtype_name__ = 'Message'
@@ -320,12 +591,30 @@ class Message(Gtk.Overlay):
     _label = Gtk.Template.Child()
     _character_image = Gtk.Template.Child()
     _button_box = Gtk.Template.Child()
+    _message_close = Gtk.Template.Child()
+    _move_button = Gtk.Template.Child()
+    _move_button_stack = Gtk.Template.Child()
 
     OPEN_DIALOG_SOUND = 'clubhouse/dialog/open'
 
     # Define maximum message width with and without character image
     MAX_WIDTH = 40
     MAX_WIDTH_WITH_CHARACTER = 25
+
+    @property
+    def move_button(self):
+        return self._move_button
+
+    @property
+    def message_close(self):
+        return self._message_close
+
+    @property
+    def button_box(self):
+        return self._button_box
+
+    def set_move_button_direction(self, direction='down'):
+        self._move_button_stack.props.visible_child_name = f'icon-{direction}'
 
     def __init__(self, scale=1):
         super().__init__()
@@ -469,6 +758,29 @@ class Message(Gtk.Overlay):
         if not sfx_sound:
             sfx_sound = self.OPEN_DIALOG_SOUND
         Sound.play(sfx_sound)
+
+    def set_achievement(self, achievement):
+        self.reset()
+        template_text = utils.QuestStringCatalog.get_string('NOQUEST_GIVE_BADGE')
+        if template_text is None:
+            template_text = 'Got new badge *{{achievement.name}}*'
+
+        template = utils.MessageTemplate(template_text)
+        text = template.substitute({'achievement.name': achievement.name})
+        icon_path = os.path.join(config.ACHIEVEMENTS_DIR, 'badges', '{}.svg'.format(achievement.id))
+
+        self.set_text(text)
+        self._character_image.set_from_file(icon_path)
+
+    def set_item(self, item):
+        self.reset()
+
+        icon_name, _icon_used_name, item_name = item[:3]
+        text = f'You got a new item! {item_name}'
+        icon_path = utils.QuestItemDB.get_icon_path(icon_name)
+
+        self.set_text(text)
+        self._character_image.set_from_file(icon_path)
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/quest-set-info-tip.ui')
@@ -1709,27 +2021,22 @@ class AchievementsView(Gtk.Box):
         self._add_achievement(achievement)
 
     def _shell_popup_achievement_badge(self, achievement):
-        notification = Gio.Notification()
+        notification = InAppNotify.from_achievement(achievement)
 
-        template_text = utils.QuestStringCatalog.get_string('NOQUEST_GIVE_BADGE')
-        if template_text is None:
-            template_text = 'Got new badge *{{achievement.name}}*'
+        def ok_callback():
+            self._app.activate_action('badge-notification',
+                                      GLib.Variant('(sb)', (achievement.id, False)))
+            notification.destroy()
 
-        template = utils.MessageTemplate(template_text)
-        text = template.substitute({'achievement.name': achievement.name})
-        notification.set_body(text)
-        notification.set_title('')
+        def show_callback():
+            self._app.activate_action('badge-notification',
+                                      GLib.Variant('(sb)', (achievement.id, True)))
+            notification.destroy()
 
-        icon_path = os.path.join(config.ACHIEVEMENTS_DIR, 'badges', '{}.svg'.format(achievement.id))
-        icon_file = Gio.File.new_for_path(icon_path)
-        icon_bytes = icon_file.load_bytes(None)
-        icon = Gio.BytesIcon.new(icon_bytes[0])
+        notification.add_button('OK', ok_callback)
+        notification.add_button('Show me', show_callback)
 
-        notification.add_button('OK', f"app.badge-notification(('{achievement.id}', false))")
-        notification.add_button('Show me', f"app.badge-notification(('{achievement.id}', true))")
-
-        notification.set_icon(icon)
-        Gio.Application.get_default().send_quest_item_notification(notification)
+        notification.slide_in()
 
     def _add_achievement(self, achievement):
         try:
@@ -2491,6 +2798,9 @@ class QuestRunner(GObject.GObject):
                                                                          _run_quest_after_timeout)
 
     def _shell_close_popup_message(self):
+        if self._current_quest_notification is not None:
+            notification, _actions, _sound = self._current_quest_notification
+            notification._hide()
         self._app.close_quest_msg_notification()
 
     def _shell_popup_message(self, message_info):
@@ -2508,10 +2818,8 @@ class QuestRunner(GObject.GObject):
             real_popup_message()
 
     def _shell_popup_message_real(self, message_info):
-        notification = Gio.Notification()
-        text = message_info.get('text', '')
-        notification.set_body(text)
-        notification.set_title('')
+        notification = InAppNotify.from_message(message_info)
+        notification.connect('closed', lambda _n: self.stop_quest())
 
         sfx_sound = message_info.get('sound_fx')
         if sfx_sound:
@@ -2527,7 +2835,6 @@ class QuestRunner(GObject.GObject):
             character = Character.get_or_create(message_info['character_id'])
             character.mood = message_info['character_mood']
 
-            notification.set_icon(character.get_mood_icon())
             Sound.play('clubhouse/{}/mood/{}'.format(character.id,
                                                      character.mood))
 
@@ -2536,12 +2843,7 @@ class QuestRunner(GObject.GObject):
         for answer in message_info.get('choices', []):
             self._add_quest_action(answer)
 
-        for key, action in self._actions.items():
-            label = action[0]
-            button_target = "app.quest-user-answer('{}')".format(key)
-            notification.add_button(label, button_target)
-
-        self._app.send_quest_msg_notification(notification)
+        notification.slide_in()
 
         if not message_info.get('system_notification', False):
             self._current_quest_notification = (notification, self._actions, sfx_sound)
@@ -2560,7 +2862,7 @@ class QuestRunner(GObject.GObject):
         if sound:
             Sound.play(sound)
 
-        self._app.send_quest_msg_notification(notification)
+        notification.slide_in()
 
     def _shell_popup_item(self, item_id, text):
         item = utils.QuestItemDB().get_item(item_id)
@@ -2568,26 +2870,15 @@ class QuestRunner(GObject.GObject):
             logger.debug('Failed to get item %s from DB', item_id)
             return
 
-        icon_name, _icon_used_name, item_name = item[:3]
+        def ok_callback():
+            self._app.activate_action('item-notification', GLib.Variant('(b)', (False, )))
+            notification.destroy()
 
-        notification = Gio.Notification()
-        if text is None:
-            text = 'You got a new item! {}'.format(item_name)
-
-        notification.set_body(text)
-        notification.set_title('')
-
-        icon_file = Gio.File.new_for_path(utils.QuestItemDB.get_icon_path(icon_name))
-        icon_bytes = icon_file.load_bytes(None)
-        icon = Gio.BytesIcon.new(icon_bytes[0])
-
-        notification.set_icon(icon)
-
-        notification.add_button('OK', 'app.item-notification(false)')
+        notification = InAppNotify.from_item(item, text)
+        notification.add_button('OK', ok_callback)
+        notification.slide_in()
 
         Sound.play('quests/key-given')
-
-        self._app.send_quest_item_notification(notification)
 
     def _reset_quest_actions(self):
         # We need to maintain the order of the quest actions, so we use an OrderedDict here.
@@ -2697,6 +2988,9 @@ class ClubhouseApplication(Gtk.Application):
                              'Turn on debug in newsfeed, displaying all items.', None)
         self.add_main_option('quit', ord('x'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Fully close the application', None)
+
+        self._init_style()
+        InAppNotify.init_message()
 
     @property
     def quest_runner(self):
@@ -2876,7 +3170,6 @@ class ClubhouseApplication(Gtk.Application):
         if self._window:
             return
 
-        self._init_style()
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._visibility_notify_cb)
 
@@ -3065,6 +3358,11 @@ class ClubhouseApplication(Gtk.Application):
             return None
 
         return GLib.Variant('(v)', (metadata_variant,))
+
+    # D-Bus implementation
+    def notificationEvent(self, x, y):
+        if InAppNotify.MESSAGE_NOTIFY:
+            InAppNotify.MESSAGE_NOTIFY.clicked(x, y)
 
     # D-Bus implementation
     def migrationQuest(self):

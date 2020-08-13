@@ -345,10 +345,11 @@ MessageButton
 Message
   $bg_color: rgba(255, 255, 255, .96)
   $border_color: #8A6A45
+  $fg_color: #2e3436
 
   font-family: "Metropolis Medium, Sans-Serif"
 
-  > #message-box
+  > #out-message-box
     margin: 1em 1em 1em 2em
     background-color: $bg_color
     border-radius: 0.75em
@@ -356,9 +357,14 @@ Message
     box-shadow: 0 2px 1ex 1ex transparentize(black,0.8)
     transition: margin-bottom 400ms ease
 
+
+  > #out-message-box #message-box
     > label
       transition: margin-bottom 400ms ease
       margin: 1em
+      color: $fg_color
+      &:backdrop
+        color: $fg_color
 
   > #button-box
     transition: all 600ms ease
@@ -367,10 +373,10 @@ Message
     opacity: 0
 
   &.has-buttons
-    > #message-box
+    > #out-message-box
       margin-bottom: 2em
 
-      > label
+    > #out-message-box #message-box > label
         margin-bottom: 1.5em
 
     > #button-box
@@ -378,13 +384,13 @@ Message
       opacity: 1
 
   &.has-character
-    > #message-box
+    > #out-message-box
       margin-left: 3em
 
-      > label
+      > #message-box > label
         margin-right: 0
 
-      > image
+      > #message-box > image
         // Let the character overlap label and parent box margins
         margin-top: -1.8em
 
@@ -968,3 +974,16 @@ ScalableImage
   background-size: 100% 100%
   background-repeat: no-repeat
   background-position: center
+
+.inAppNotify
+  background-color: unset
+  font-size: 16px
+
+.inAppNotify .close-button
+  padding: 12px
+
+.inAppNotify .close-button:hover
+  color: black
+
+.inAppNotify .close-button image
+  -gtk-icon-shadow: none
