@@ -411,7 +411,6 @@ class InAppNotify(Gtk.Window):
 
         self.set_decorated(False)
         self.set_visual(self.get_screen().get_rgba_visual())
-        self.set_size_request(self.WIDTH, self.HEIGHT)
         self.set_skip_taskbar_hint(True)
         self.set_skip_pager_hint(True)
         self.set_keep_above(True)
@@ -519,8 +518,9 @@ class InAppNotify(Gtk.Window):
         display = self.get_screen().get_display()
         primary_monitor = display.get_primary_monitor()
         workarea = primary_monitor.get_workarea()
-        x = workarea.x + workarea.width - self.WIDTH - self.MARGIN
         height = self.get_allocation().height or self.HEIGHT
+        width = self.get_allocation().width or self.WIDTH
+        x = workarea.x + workarea.width - width - self.MARGIN
 
         offset = 0
         for i in InAppNotify.NOTIFICATIONS:
