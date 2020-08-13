@@ -398,20 +398,10 @@ class InAppNotify(Gtk.Window):
         self.set_priority(Gio.NotificationPriority.URGENT)
         self._msg.move_button.hide()
 
-    def _init_style(self):
-        css_file = Gio.File.new_for_uri('resource:///com/hack_computer/Clubhouse/gtk-style.css')
-        css_provider = Gtk.CssProvider()
-        css_provider.load_from_file(css_file)
-        style_context = Gtk.StyleContext()
-        style_context.add_provider_for_screen(Gdk.Screen.get_default(),
-                                              css_provider,
-                                              Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-
     def __init__(self):
         super().__init__(title='Clubhouse notification')
         InAppNotify.NOTIFICATIONS.append(self)
         self.connect('destroy', self._on_destroy)
-        self._init_style()
         self._messages = []
 
         self.set_decorated(False)
@@ -2998,6 +2988,7 @@ class ClubhouseApplication(Gtk.Application):
         self.add_main_option('quit', ord('x'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Fully close the application', None)
 
+        self._init_style()
         InAppNotify.init_message()
 
     @property
@@ -3178,7 +3169,6 @@ class ClubhouseApplication(Gtk.Application):
         if self._window:
             return
 
-        self._init_style()
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._visibility_notify_cb)
 
