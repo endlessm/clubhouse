@@ -342,19 +342,13 @@ class InAppNotify(Gtk.Window):
     @classmethod
     def from_achievement(klass, achievement):
         notification = klass()
-        notification._msg.set_achievement(achievement)
-        notification.set_priority(Gio.NotificationPriority.URGENT)
-        notification._msg._move_button.hide()
+        notification.set_achievement(achievement)
         return notification
 
     @classmethod
     def from_item(klass, item, text):
         notification = klass()
-        notification._msg.set_item(item)
-        if text:
-            notification._msg.set_text(text)
-        notification.set_priority(Gio.NotificationPriority.URGENT)
-        notification._msg._move_button.hide()
+        notification.set_item(item, text)
         return notification
 
     @classmethod
@@ -369,26 +363,40 @@ class InAppNotify(Gtk.Window):
     def from_message(klass, message_info):
         # Use the same notification window for all the messages
         notification = klass.MESSAGE_NOTIFY or klass()
-        notification._messages = message_info.get('text', '').split('\n\n')
-        notification._original = message_info
-
-        message_copy = copy.copy(notification._original)
-        message_copy['text'] = notification._messages.pop(0)
-
-        if notification._messages:
-            message_copy['choices'] = []
-        notification._msg.update(message_copy)
-        if notification._messages:
-            notification.add_button('❯', notification._next)
-
-        notification.set_priority(Gio.NotificationPriority.NORMAL)
-
+        notification.set_message(message_info)
         return notification
 
     @classmethod
     def place_all(klass):
         for notify in klass.NOTIFICATIONS:
             notify._place()
+
+    def set_message(self, message_info):
+        self._messages = message_info.get('text', '').split('\n\n')
+        self._original = message_info
+
+        message_copy = copy.copy(self._original)
+        message_copy['text'] = self._messages.pop(0)
+
+        if self._messages:
+            message_copy['choices'] = []
+        self._msg.update(message_copy)
+        if self._messages:
+            self.add_button('❯', self._next)
+
+        self.set_priority(Gio.NotificationPriority.NORMAL)
+
+    def set_item(self, item, text):
+        self._msg.set_item(item)
+        if text:
+            self._msg.set_text(text)
+        self.set_priority(Gio.NotificationPriority.URGENT)
+        self._msg.move_button.hide()
+
+    def set_achievement(self, achievement):
+        self._msg.set_achievement(achievement)
+        self.set_priority(Gio.NotificationPriority.URGENT)
+        self._msg.move_button.hide()
 
     def _init_style(self):
         css_file = Gio.File.new_for_uri('resource:///com/hack_computer/Clubhouse/gtk-style.css')
@@ -444,11 +452,10 @@ class InAppNotify(Gtk.Window):
 
         self._msg = Message()
         self._msg.display_character(True)
-        self._msg._message_close.connect('clicked', self._close_message)
-        self._msg._message_close.show()
-        self._msg._move_button.connect('clicked', self._toggle_position)
-        self._msg._move_button.show()
-        self._msg._move_button_stack.show()
+        self._msg.message_close.connect('clicked', self._close_message)
+        self._msg.message_close.show()
+        self._msg.move_button.connect('clicked', self._toggle_position)
+        self._msg.move_button.show()
         self._box.pack_start(self._msg, True, True, 0)
 
         self._revealer.add(self._box)
@@ -523,10 +530,10 @@ class InAppNotify(Gtk.Window):
             offset += i.get_allocation().height + self.MARGIN
 
         if InAppNotify.POSITION == 'TOP':
-            self._msg._move_button_stack.props.visible_child_name = 'icon-down'
+            self._msg.set_move_button_direction('down')
             y = workarea.y + self.MARGIN + offset
         else:
-            self._msg._move_button_stack.props.visible_child_name = 'icon-up'
+            self._msg.set_move_button_direction('up')
             y = workarea.y + workarea.height - height - self.MARGIN - offset
 
         self.move(x, y)
@@ -546,9 +553,9 @@ class InAppNotify(Gtk.Window):
 
     def set_priority(self, priority):
         if priority == Gio.NotificationPriority.URGENT:
-            self._msg._message_close.hide()
+            self._msg.message_close.hide()
         else:
-            self._msg._message_close.show()
+            self._msg.message_close.show()
 
     def add_button(self, label, callback, *user_data):
         self._msg.add_button(label, callback, *user_data)
@@ -574,16 +581,16 @@ class InAppNotify(Gtk.Window):
 
     def clicked(self, x, y):
         # Look for buttons
-        for button in self._msg._button_box:
+        for button in self._msg.button_box:
             if self._check_click(button, x, y):
                 return
 
         # Look for close
-        if self._check_click(self._msg._message_close, x, y):
+        if self._check_click(self._msg.message_close, x, y):
             return
 
         # Look for move!
-        self._check_click(self._msg._move_button, x, y)
+        self._check_click(self._msg.move_button, x, y)
 
 
 @Gtk.Template.from_resource('/com/hack_computer/Clubhouse/message.ui')
@@ -602,6 +609,21 @@ class Message(Gtk.Overlay):
     # Define maximum message width with and without character image
     MAX_WIDTH = 40
     MAX_WIDTH_WITH_CHARACTER = 25
+
+    @property
+    def move_button(self):
+        return self._move_button
+
+    @property
+    def message_close(self):
+        return self._message_close
+
+    @property
+    def button_box(self):
+        return self._button_box
+
+    def set_move_button_direction(self, direction='down'):
+        self._move_button_stack.props.visible_child_name = f'icon-{direction}'
 
     def __init__(self, scale=1):
         super().__init__()
