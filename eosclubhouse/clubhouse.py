@@ -320,8 +320,6 @@ class MessageButton(Gtk.Button):
 class InAppNotify(Gtk.Window):
     __gtype_name__ = 'InAppNotify'
 
-    WIDTH = 600
-    HEIGHT = 100
     MARGIN = 10
     POSITION = 'TOP'
     NOTIFICATIONS = []
@@ -466,7 +464,7 @@ class InAppNotify(Gtk.Window):
         primary_monitor = display.get_primary_monitor()
         workarea = primary_monitor.get_workarea()
         x, y = self.get_position()
-        height = self.get_allocation().height or self.HEIGHT
+        height = self.get_allocation().height
 
         final_y = workarea.y + self.MARGIN
         if direction == 'BOTTOM':
@@ -514,8 +512,8 @@ class InAppNotify(Gtk.Window):
         display = self.get_screen().get_display()
         primary_monitor = display.get_primary_monitor()
         workarea = primary_monitor.get_workarea()
-        height = self.get_allocation().height or self.HEIGHT
-        width = self.get_allocation().width or self.WIDTH
+        height = self.get_allocation().height
+        width = self.get_allocation().width
         x = workarea.x + workarea.width - width - self.MARGIN
 
         offset = 0
