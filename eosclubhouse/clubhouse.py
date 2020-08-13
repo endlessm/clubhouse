@@ -405,7 +405,6 @@ class InAppNotify(Gtk.Window):
         super().__init__(title='Clubhouse notification')
         InAppNotify.NOTIFICATIONS.append(self)
         self.connect('destroy', self._on_destroy)
-        self._allocate_handler = self.connect_after('size-allocate', lambda *_: self._place())
         self._init_style()
         self._messages = []
 
@@ -463,8 +462,6 @@ class InAppNotify(Gtk.Window):
         self._hide()
 
     def _animate(self, direction):
-        GObject.signal_handler_block(self, self._allocate_handler)
-
         display = self.get_screen().get_display()
         primary_monitor = display.get_primary_monitor()
         workarea = primary_monitor.get_workarea()
@@ -499,7 +496,6 @@ class InAppNotify(Gtk.Window):
             if normal_t < 1:
                 return GLib.SOURCE_CONTINUE
 
-            GObject.signal_handler_unblock(self, self._allocate_handler)
             self._place()
             return GLib.SOURCE_REMOVE
 
@@ -561,7 +557,9 @@ class InAppNotify(Gtk.Window):
 
     def slide_in(self):
         self.show()
-        self._revealer.set_reveal_child(True)
+        if not self._revealer.get_reveal_child():
+            self._place()
+            self._revealer.set_reveal_child(True)
 
     def _check_click(self, button, global_x, global_y):
         x, y = self.translate_coordinates(button, global_x, global_y)
