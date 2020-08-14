@@ -47,6 +47,7 @@
         "--talk-name=org.gtk.Notifications",
         "--talk-name=org.gnome.Shell",
         "--talk-name=com.hack_computer.hack",
+        "--talk-name=com.endlessm.tour",
         "--require-version=1.5.0"
     ],
 
