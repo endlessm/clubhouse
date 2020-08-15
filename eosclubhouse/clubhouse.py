@@ -92,69 +92,72 @@ ClubhouseIface = ('<node>'
 resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
 Gio.Resource._register(resource)
 
-
-def CharacterInfo():
-    return {
-        'estelle': {
-            'position': (610, 144),
-            'username': 'lightspeedgal',
-            'pathway': 'art',
-            'pathway_title': _('Art')
-        },
-        'ada': {
-            'position': (204, 182),
-            'username': 'countesslovelace',
-            'pathway': 'games',
-            'pathway_title': _('Games')
-        },
-        'saniel': {
-            'position': (892, 570),
-            'username': 'srowe1822',
-            'pathway': 'operatingsystem',
-            'pathway_title': _('Operating Systems')
-        },
-        'faber': {
-            'position': (518, 511),
-            'username': 'fabersapiens',
-            'pathway': 'maker',
-            'pathway_title': _('Maker')
-        },
-        'riley': {
-            'position': (298, 551),
-            'username': '_getriled',
-            'pathway': 'web',
-            'pathway_title': _('Web')
-        },
-        'felix': {
-            'position': None,
-            'username': 'UNDEFINED_USER',
-            'pathway': None,
-            'pathway_title': None
-        },
-        'endless': {
-            'position': None,
-            'username': 'Endless',
-            'pathway': None,
-            'pathway_title': None
-        },
-        'daemon': {
-            'position': None,
-            'username': 'cron',
-            'pathway': None,
-            'pathway_title': None
-        },
-        'daemon2': {
-            'position': None,
-            'username': 'peacock',
-            'pathway': None,
-            'pathway_title': None
-        },
-        'daemon3': {
-            'position': None,
-            'username': 'starman',
-            'pathway': None,
-            'pathway_title': None
-        }
+CharacterInfo = {
+    'estelle': {
+        'position': (610, 144),
+        'username': 'lightspeedgal',
+        'pathway': 'art',
+        'pathway_title': 'Art'
+    },
+    'ada': {
+        'position': (204, 182),
+        'username': 'countesslovelace',
+        'pathway': 'games',
+        'pathway_title': 'Games'
+    },
+    'saniel': {
+        'position': (892, 570),
+        'username': 'srowe1822',
+        'pathway': 'operatingsystem',
+        'pathway_title': 'Operating Systems'
+    },
+    'faber': {
+        'position': (518, 511),
+        'username': 'fabersapiens',
+        'pathway': 'maker',
+        'pathway_title': 'Maker'
+    },
+    'riley': {
+        'position': (298, 551),
+        'username': '_getriled',
+        'pathway': 'web',
+        'pathway_title': 'Web'
+    },
+    'felix': {
+        'position': None,
+        'username': 'UNDEFINED_USER',
+        'pathway': None,
+        'pathway_title': None
+    },
+    'endless': {
+        'position': None,
+        'username': 'Endless',
+        'pathway': None,
+        'pathway_title': None
+    },
+    'daemon': {
+        'position': None,
+        'username': 'cron',
+        'pathway': None,
+        'pathway_title': None
+    },
+    'daemon2': {
+        'position': None,
+        'username': 'peacock',
+        'pathway': None,
+        'pathway_title': None
+    },
+    'daemon3': {
+        'position': None,
+        'username': 'starman',
+        'pathway': None,
+        'pathway_title': None
+    },
+    'dood': {
+        'position': None,
+        'username': 'teh_dood_666',
+        'pathway': None,
+        'pathway_title': None
     }
 
 
