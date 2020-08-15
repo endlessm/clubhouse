@@ -152,6 +152,12 @@ CharacterInfo = {
         'username': 'starman',
         'pathway': None,
         'pathway_title': None
+    },
+    'dood': {
+        'position': None,
+        'username': 'teh_dood_666',
+        'pathway': None,
+        'pathway_title': None
     }
 }
 
