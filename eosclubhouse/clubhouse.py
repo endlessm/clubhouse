@@ -373,6 +373,7 @@ class InAppNotify(Gtk.Window):
             notify._place()
 
     def set_message(self, message_info):
+        self._needs_place = True
         self._messages = message_info.get('text', '').split('\n\n')
         self._original = message_info
 
@@ -403,6 +404,8 @@ class InAppNotify(Gtk.Window):
         super().__init__(title='Clubhouse notification')
         InAppNotify.NOTIFICATIONS.append(self)
         self.connect('destroy', self._on_destroy)
+        self.connect_after('size-allocate', lambda *_: self._allocate())
+        self._needs_place = False
         self._messages = []
 
         self.set_decorated(False)
@@ -528,6 +531,11 @@ class InAppNotify(Gtk.Window):
             y = workarea.y + workarea.height - height - self.MARGIN - offset
 
         self.move(x, y)
+
+    def _allocate(self):
+        if self._needs_place:
+            self._place()
+            self._needs_place = False
 
     def _next(self):
         if not self._messages:
