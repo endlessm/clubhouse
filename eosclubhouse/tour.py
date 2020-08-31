@@ -46,8 +46,8 @@ class TourServer(metaclass=tour_meta):
 
     _proxy = None
     _properties_proxy = None
-    _DBUS_PATH = '/com/endlessm/tour'
-    _DBUS_ID = 'com.endlessm.tour'
+    _DBUS_PATH = '/com/endlessm/onboarding'
+    _DBUS_ID = 'com.endlessm.onboarding'
     _CALL_TIMEOUT = 20_000
 
     @classmethod
