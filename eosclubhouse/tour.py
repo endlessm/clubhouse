@@ -41,6 +41,14 @@ class tour_meta(type):
     def skippable(cls, value):
         cls.set_prop('Skippable', value)
 
+    @property
+    def cloneWindowRole(cls):
+        return cls.get_prop('CloneWindowRole')
+
+    @cloneWindowRole.setter
+    def cloneWindowRole(cls, value):
+        cls.set_prop('CloneWindowRole', value)
+
 
 class TourServer(metaclass=tour_meta):
 

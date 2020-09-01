@@ -2184,7 +2184,9 @@ class Quest(_Quest):
         def _on_finished(ret):
             async_action.resolve(not ret)
 
+        Tour.cloneWindowRole = 'clubhouse-msg-notify'
         Tour._call_method(function, *args, callback=_on_finished)
+        Tour.cloneWindowRole = ''
         self._run_context.wait_for_action(async_action, timeout)
 
         return async_action
