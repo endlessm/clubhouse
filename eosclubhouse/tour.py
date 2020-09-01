@@ -134,6 +134,10 @@ class TourServer(metaclass=tour_meta):
         klass._call_method('HighlightWidget', name, text, callback=callback)
 
     @classmethod
+    def highlight_icon(klass, app_id, text='', callback=None):
+        klass._call_method('HighlightDesktopIcon', app_id, text, callback=callback)
+
+    @classmethod
     def highlight_fuzzy(klass, position='center', size='20%', shape='rect', text='', callback=None):
         klass._call_method('HighlightFuzzy', position, size, shape, text, callback=callback)
 

@@ -2139,6 +2139,19 @@ class Quest(_Quest):
         return self.wait_for_highlight(name, text,
                                        function='HighlightWidget', timeout=timeout)
 
+    def wait_for_highlight_icon(self, app_id, text='', timeout=None):
+        '''Highlight a desktop icon and wait for user interaction.
+
+        :param app_id: The app id.
+        :param text: Optional text to show near the highlighted region.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :rtype: AsyncAction
+        '''
+
+        return self.wait_for_highlight(app_id, text,
+                                       function='HighlightDesktopIcon', timeout=timeout)
+
     def wait_for_highlight_fuzzy(self, position='center', size='20%',
                                  shape='rect', text='', timeout=None):
         '''Highlight a region with a fuzzy description and wait for user interaction.
