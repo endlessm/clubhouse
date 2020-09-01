@@ -8,3 +8,5 @@ Exec=eos-clubhouse
 Terminal=false
 StartupNotify=true
 X-Endless-HackShader=true
+Keywords=hack;learn;code;programming;game;
+Keywords[es]=hack;aprender;código;programación;juego;
