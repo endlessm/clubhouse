@@ -35,8 +35,9 @@ from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.system import App, Desktop, GameStateService, Sound, ToolBoxCodeView, \
     UserAccount, Tour
-from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
-    Performance, QuestStringCatalog, convert_variant_arg, Version
+from eosclubhouse.utils import (get_alternative_quests_dir, get_flatpak_sandbox,
+                                ClubhouseState, MessageTemplate, Performance,
+                                QuestStringCatalog, convert_variant_arg, Version)
 from gi.repository import EosMetrics, Gio, GObject, GLib
 
 
@@ -2408,6 +2409,35 @@ class Quest(_Quest):
 
         os.makedirs(dest_dir, exist_ok=True)
         shutil.copyfile(source, destination)
+
+    def onboarding_image(self, file_path, size='50% 16:9'):
+        '''Show a image with the onboarding extension.
+
+        The files should be commited in GIT in the folder specified below:
+
+        :param str file_path: Name of a file that should be already commited in GIT, inside the
+            'data/quests_files/' folder.
+
+        :param str size: The final image size description. The format is the
+            same as the size parameter of the :meth:wait_for_highlight_fuzzy()
+            method.
+        '''
+
+        # convert flatpak path to host absolute path
+        quest_files_dir = config.QUESTS_FILES_DIR.replace('/app/', '')
+        source = os.path.join(get_flatpak_sandbox(), quest_files_dir, file_path)
+
+        if not os.path.exists(source):
+            logger.error(
+                'Error showing image file on onboarding, source doesn\'t exist: %s', source)
+            return
+
+        Tour.show_image(source, size)
+
+    def onboarding_clean(self):
+        ''' Removes all onboarding extension highlights and images '''
+
+        Tour.clean()
 
     def open_url_in_browser(self, url):
         """Open the given URL in an external browser.

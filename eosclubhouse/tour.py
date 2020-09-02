@@ -146,5 +146,22 @@ class TourServer(metaclass=tour_meta):
         klass._call_method('ShowOverview', show, callback=callback)
 
     @classmethod
+    def show_image(klass, image_path, size='70% 16:9', callback=None):
+        '''
+        The image_path should be a full path, not relative to the flatpak
+        sandbox.
+
+        It's possible to send sanboxed images calculating the absolute path
+        using the get_flatpak_sandbox function:
+
+        >>> from eosclubhouse.system import Tour
+        >>> from eosclubhouse.utils import get_flatpak_sandbox
+        >>> img = '{}/share/backgrounds/Desktop-BGs-Nov-release.jpg'.format(get_flatpak_sandbox())
+        >>> Tour.show_image(img, '50% 16:9')
+        '''
+
+        klass._call_method('ShowImage', image_path, size, '', callback=callback)
+
+    @classmethod
     def clean(klass, callback=None):
         klass._call_method('Clean', callback=callback)
