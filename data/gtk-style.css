@@ -445,12 +445,8 @@ ActivityCard {
     ActivityCard #topbox image {
       border-top-right-radius: 1em;
       background: linear-gradient(to top right, transparent 50%, white 51%); }
-  ActivityCard.new #topbox .rigth-corner {
+  ActivityCard.new #topbox image {
     background: linear-gradient(to top right, transparent 50%, #909090 51%); }
-  ActivityCard.need-download #topbox .left-corner {
-    border-top-left-radius: 1em;
-    border-top-right-radius: 0;
-    background: linear-gradient(to top left, transparent 50%, white 51%); }
   ActivityCard #topbox,
   ActivityCard #topbox > box {
     border-radius: 1em 1em 0 0;
@@ -481,7 +477,7 @@ ActivityCard {
         background: #3f3f3f; }
       ActivityCard #bottombox #play.running:hover {
         background: #262626; }
-      ActivityCard #bottombox #play:disabled, ActivityCard #bottombox #play:disabled.complete {
+      ActivityCard #bottombox #play:disabled, ActivityCard #bottombox #play.complete:disabled {
         background: lightgray; }
     ActivityCard #bottombox #tagsview {
       margin-left: 1em; }
@@ -533,7 +529,7 @@ ActivityCard {
     transition: background-size 150ms ease;
     background-size: 110%;
     animation: unset; }
-  ActivityCard:hover.narrative #topbox > box > overlay > box {
+  ActivityCard.narrative:hover #topbox > box > overlay > box {
     background: url("resource:///com/hack_computer/Clubhouse/images/narrative-icon.svg") center/contain no-repeat;
     transition: background-image 400ms ease; }
   ActivityCard.EASY stackswitcher > button:checked {
@@ -577,12 +573,8 @@ ActivityCard {
       ActivityCard.available #topbox image {
         border-top-right-radius: 1em;
         background: linear-gradient(to top right, transparent 50%, white 51%); }
-    ActivityCard.available.new #topbox .rigth-corner {
+    ActivityCard.available.new #topbox image {
       background: linear-gradient(to top right, transparent 50%, #f92781 51%); }
-    ActivityCard.available.need-download #topbox .left-corner {
-      border-top-left-radius: 1em;
-      border-top-right-radius: 0;
-      background: linear-gradient(to top left, transparent 50%, white 51%); }
     ActivityCard.available #topbox,
     ActivityCard.available #topbox > box {
       border-radius: 1em 1em 0 0;
@@ -613,7 +605,7 @@ ActivityCard {
           background: #661818; }
         ActivityCard.available #bottombox #play.running:hover {
           background: #3d0e0e; }
-        ActivityCard.available #bottombox #play:disabled, ActivityCard.available #bottombox #play:disabled.complete {
+        ActivityCard.available #bottombox #play:disabled, ActivityCard.available #bottombox #play.complete:disabled {
           background: lightgray; }
       ActivityCard.available #bottombox #tagsview {
         margin-left: 1em; }
@@ -665,7 +657,7 @@ ActivityCard {
       transition: background-size 150ms ease;
       background-size: 110%;
       animation: unset; }
-    ActivityCard.available:hover.narrative #topbox > box > overlay > box {
+    ActivityCard.available.narrative:hover #topbox > box > overlay > box {
       background: url("resource:///com/hack_computer/Clubhouse/images/narrative-icon.svg") center/contain no-repeat;
       transition: background-image 400ms ease; }
     ActivityCard.available.EASY stackswitcher > button:checked {
@@ -789,7 +781,7 @@ ClubhouseViewMainLayer #hack-switch-button {
     background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-static.png"); }
     ClubhouseViewMainLayer #hack-switch-button:checked:hover {
       background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-hover.png"); }
-    ClubhouseViewMainLayer #hack-switch-button:checked.highlighted {
+    ClubhouseViewMainLayer #hack-switch-button.highlighted:checked {
       background-image: url("resource:///com/hack_computer/Clubhouse/images/hack-switch/ON-attract.png");
       animation: on_attract_pulsate 500ms ease-in-out alternate infinite; }
 

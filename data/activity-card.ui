@@ -54,20 +54,6 @@
                             <property name="can_focus">False</property>
                             <property name="halign">end</property>
                             <property name="valign">start</property>
-                            <style>
-                              <class name="right-corner"/>
-                            </style>
-                          </object>
-                        </child>
-                        <child type="overlay">
-                          <object class="GtkImage" id="_left_corner_image">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="halign">start</property>
-                            <property name="valign">start</property>
-                            <style>
-                              <class name="left-corner"/>
-                            </style>
                           </object>
                         </child>
                       </object>
