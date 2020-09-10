@@ -1012,6 +1012,45 @@ class UserAccount(GObject.GObject):
         self._proxy.SetRealName(name)
 
 
+class Hostname(GObject.GObject):
+
+    _INTERFACE_NAME = 'org.freedesktop.hostname1'
+    _INTERFACE_PATH = '/org/freedesktop/hostname1'
+
+    __gsignals__ = {
+        'changed': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        ),
+    }
+
+    _proxy = None
+    _props = None
+
+    @classmethod
+    def proxy(klass):
+        if klass._proxy is None:
+            system_bus = Gio.bus_get_sync(Gio.BusType.SYSTEM, None)
+            klass._proxy = Gio.DBusProxy.new_sync(system_bus, 0, None,
+                                                  klass._INTERFACE_NAME,
+                                                  klass._INTERFACE_PATH,
+                                                  klass._INTERFACE_NAME,
+                                                  None)
+        return klass._proxy
+
+    @classmethod
+    def get_chassis(klass):
+        prop = klass.proxy().get_cached_property('Chassis')
+        return prop.unpack()
+
+    @classmethod
+    def is_laptop(klass):
+        return klass.get_chassis() == 'laptop'
+
+    @classmethod
+    def is_desktop(klass):
+        return not klass.is_laptop()
+
+
 # Allow to import the HackSoundServer from the system while using a more friendly name
 Sound = HackSoundServer
 SoundItem = HackSoundItem
