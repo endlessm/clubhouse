@@ -41,6 +41,7 @@
         "--socket=x11",
         "--system-talk-name=org.freedesktop.Accounts",
         "--system-talk-name=org.freedesktop.NetworkManager",
+        "--system-talk-name=org.freedesktop.hostname1",
         "--system-talk-name=com.endlessm.Metrics",
         "--talk-name=ca.desrt.dconf",
         "--talk-name=com.endlessm.Libanimation",
