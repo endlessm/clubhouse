@@ -22,12 +22,10 @@
 import configparser
 import json
 import os
-import shutil
 import subprocess
 import time
 
 from eosclubhouse import logger
-from eosclubhouse.config import DATA_DIR
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer, HackSoundItem
 from eosclubhouse.tour import TourServer
@@ -40,34 +38,7 @@ class Desktop:
     _HACK_OBJECT_PATH = '/com/hack_computer/hack'
     _BLOCK_HACK_PROPS = False
 
-    SETTINGS_HACK_MODE_KEY = 'HackModeEnabled'
     SETTINGS_HACK_ICON_PULSE = 'HackIconPulse'
-    HACK_BACKGROUND = 'file://{}/share/backgrounds/Desktop-BGs-Nov-release.jpg'\
-        .format(get_flatpak_sandbox())
-
-    HACK_CURSOR = 'cursor-hack'
-    HACK_CURSOR_SIZE = 32
-
-    # Apps ids to override flatpak GTK3_MODULES with libclippy
-    CLIPPY_APPS = [
-        'com.endlessm.dinosaurs.en',
-        'com.endlessm.encyclopedia.en',
-        'com.hack_computer.Fizzics',
-        'com.hack_computer.Hackdex_chapter_one',
-        'com.hack_computer.Hackdex_chapter_two',
-        'com.hack_computer.LightSpeed',
-        'com.hack_computer.OperatingSystemApp',
-        'com.hack_computer.Sidetrack',
-    ]
-
-    OLD_CLIPPY_APPS = [
-        'com.endlessm.Fizzics',
-        'com.endlessm.Hackdex_chapter_one',
-        'com.endlessm.Hackdex_chapter_two',
-        'com.endlessm.LightSpeed',
-        'com.endlessm.OperatingSystemApp',
-        'com.endlessm.Sidetrack',
-    ]
 
     _dbus_proxy = None
     _app_launcher_proxy = None
@@ -403,114 +374,6 @@ class Desktop:
         if klass._shell_schema is None:
             logger.warning('Schema \'%s\' not found.', klass.SHELL_SETTINGS_SCHEMA_ID)
         return klass._shell_schema
-
-    @classmethod
-    def set_hack_background(klass, enabled):
-        ''' This changes the background to the Hack one
-
-        When enabling the background will be always set to the HACK_BACKGROUND.
-
-        When disabling the background will be reset to the previous one stored
-        or if the user changes the background we keep the user custom.
-        '''
-
-        desktop = Gio.Settings('org.gnome.desktop.background')
-        clubhouse = Gio.Settings('com.hack_computer.clubhouse')
-
-        old_picture_uri = desktop.get_string('picture-uri')
-        # Enabling and the background is not the hack background yet
-        if enabled and old_picture_uri != klass.HACK_BACKGROUND:
-            desktop.set_string('picture-uri', klass.HACK_BACKGROUND)
-            clubhouse.set_string('hack-mode-disabled-picture-uri', old_picture_uri)
-        # Disabling hack and the background has not been changed
-        elif not enabled and old_picture_uri == klass.HACK_BACKGROUND:
-            new_picture_uri = clubhouse.get_string('hack-mode-disabled-picture-uri')
-            if new_picture_uri:
-                desktop.set_string('picture-uri', new_picture_uri)
-            else:
-                desktop.reset('picture-uri')
-
-    @classmethod
-    def ensure_hack_cursor_is_present(klass):
-        src = f'{DATA_DIR}/cursors'
-        basedir = f'~/.icons/{klass.HACK_CURSOR}'
-        basedir = os.path.expanduser(basedir)
-        dirname = f'{basedir}/cursors'
-        theme = os.path.join(dirname, 'index.theme')
-
-        if os.path.exists(basedir):
-            shutil.rmtree(basedir)
-
-        os.makedirs(basedir, exist_ok=True)
-        shutil.copytree(src, dirname, symlinks=True)
-        config = configparser.ConfigParser()
-        config.optionxform = lambda opt: opt
-        config.add_section('Icon Theme')
-        config.set('Icon Theme', 'Inherits', 'Adwaita')
-
-        with open(theme, 'w') as f:
-            config.write(f)
-
-    @classmethod
-    def set_hack_cursor(klass, enabled):
-        ''' This changes the cursor to the Hack one '''
-
-        klass.ensure_hack_cursor_is_present()
-
-        interface = Gio.Settings('org.gnome.desktop.interface')
-
-        if enabled:
-            interface.set_string('cursor-theme', klass.HACK_CURSOR)
-            interface.set_int('cursor-size', klass.HACK_CURSOR_SIZE)
-        else:
-            interface.reset('cursor-theme')
-            interface.reset('cursor-size')
-
-    @classmethod
-    def get_hack_mode(klass):
-        # Compatible with EOS <= 3.7
-        if (klass.get_shell_version() < '3.36'):
-            shell_settings = klass.get_shell_settings()
-            if not shell_settings:
-                return False
-            return klass.get_shell_settings().get_boolean(klass.SHELL_SETTINGS_HACK_MODE_KEY)
-
-        return klass.get_hack_property(klass.SETTINGS_HACK_MODE_KEY)
-
-    @classmethod
-    def set_hack_mode_shell(klass, enabled, avoid_signal=False):
-        shell_settings = klass.get_shell_settings()
-        if not shell_settings:
-            return
-
-        signal_name = f'changed::{klass.SHELL_SETTINGS_HACK_MODE_KEY}'
-        if avoid_signal:
-            klass._block_setting_signals(signal_name)
-        response = shell_settings.set_boolean(klass.SHELL_SETTINGS_HACK_MODE_KEY, enabled)
-        if avoid_signal:
-            klass._block_setting_signals(signal_name, block=False)
-
-        return response
-
-    @classmethod
-    def set_hack_mode(klass, enabled, avoid_signal=False):
-        # Override clippy apps
-        for name in klass.CLIPPY_APPS:
-            App(name).enable_clippy(enabled)
-
-        for name in klass.OLD_CLIPPY_APPS:
-            App(name).enable_clippy(enabled, old_clippy=True)
-
-        # Compatible with EOS <= 3.7
-        if (klass.get_shell_version() < '3.36'):
-            return klass.set_hack_mode_shell(enabled, avoid_signal)
-
-        klass._BLOCK_HACK_PROPS = avoid_signal
-        response = klass.set_hack_property(klass.SETTINGS_HACK_MODE_KEY, enabled)
-        if avoid_signal:
-            klass._BLOCK_HACK_PROPS = False
-
-        return response
 
     @classmethod
     def set_hack_icon_pulse(klass, enabled):

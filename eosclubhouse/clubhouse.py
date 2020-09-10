@@ -40,7 +40,7 @@ from gi.repository import EosMetrics, Gdk, GdkPixbuf, Gio, GLib, Gtk, \
     GObject, Json, Pango
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.achievements import AchievementsDB
-from eosclubhouse.system import Desktop, GameStateService, OldGameStateService, \
+from eosclubhouse.system import GameStateService, OldGameStateService, \
     Sound, SoundItem, UserAccount
 from eosclubhouse.utils import ClubhouseState, Performance, \
     get_alternative_quests_dir
@@ -55,7 +55,6 @@ from urllib.parse import urlparse
 CLUBHOUSE_NEWS_QUEST_LINK_EVENT = 'ebffecb9-7b31-4c30-a9a0-f896aaaa5b4f'
 CLUBHOUSE_SET_PAGE_EVENT = '2c765b36-a4c9-40ee-b313-dc73c4fa1f0d'
 CLUBHOUSE_PATHWAY_ENTER_EVENT = '600c1cae-b391-4cb4-9930-ea284792fdfb'
-HACK_MODE_EVENT = '7587784b-c3ed-4d74-b0fa-1023033698c0'
 
 
 CLUBHOUSE_NAME = 'com.hack_computer.Clubhouse'
@@ -1556,7 +1555,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
 
         self.add_tick_callback(AnimationSystem.step)
 
-        self._hack_switch.set_active(Desktop.get_hack_mode())
+        self._hack_switch.set_active(True)
         self._hack_switch_handler_id = self._hack_switch.connect(
             'toggled', self._on_hack_switch_toggled)
 
@@ -1600,13 +1599,6 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
                           self._app.quest_runner.running_quest.get_id() in mock_quests)
         if mock_hack_mode:
             self._app_window._clubhouse_state.lights_on = button.get_active()
-        else:
-            Desktop.set_hack_mode(button.get_active())
-
-            # Recording Hack switch event
-            recorder = EosMetrics.EventRecorder.get_default()
-            hack_mode = GLib.Variant('b', button.get_active())
-            recorder.record_event(HACK_MODE_EVENT, hack_mode)
 
         self._update_switch_css()
 
@@ -1784,8 +1776,6 @@ class NewsView(Gtk.Box):
     _news = Gtk.Template.Child()
     _news_box = Gtk.Template.Child()
     _left_spacing_box = Gtk.Template.Child()
-    _hack_mode_popover = Gtk.Template.Child()
-    _hack_mode_popover_image = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
@@ -1814,15 +1804,9 @@ class NewsView(Gtk.Box):
         return r
 
     def _on_news_item_run_quest(self, item, name):
-        if Desktop.get_hack_mode():
-            quest = libquest.Registry.get_quest_by_name(name)
-            if quest is not None:
-                self._app.quest_runner.try_running_quest(quest)
-        else:
-            self._hack_mode_popover_image.set_from_file(item.get_character_path())
-            self._hack_mode_popover.set_relative_to(self)
-            self._hack_mode_popover.set_pointing_to(self.get_pointer_rect())
-            self._hack_mode_popover.popup()
+        quest = libquest.Registry.get_quest_by_name(name)
+        if quest is not None:
+            self._app.quest_runner.try_running_quest(quest)
 
     def _populate_news(self):
         for data in self._news_db.get_list():
@@ -2219,18 +2203,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._clubhouse_state.connect('notify::lights-on',
                                       self._on_lights_changed_cb)
 
-        self.sync_with_hack_mode()
-
-        # Compatible with EOS <= 3.7
-        if (Desktop.get_shell_version() < '3.36'):
-            Desktop.shell_settings_connect(
-                'changed::{}'.format(Desktop.SHELL_SETTINGS_HACK_MODE_KEY),
-                self._hack_mode_changed_cb)
-        # Compatible with EOS >= 3.8 with hack extension
-        else:
-            Desktop.hack_property_connect(
-                Desktop.SETTINGS_HACK_MODE_KEY, self._hack_mode_changed_cb)
-
         self._css_provider = gtk_widget_add_custom_css_provider(self, for_screen=True)
 
         self._app.quest_runner.connect('notify::running-quest', self._running_quest_notify_cb)
@@ -2246,16 +2218,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         if not achievements_view.hover:
             self.hide_achievements_view()
 
-    def sync_with_hack_mode(self):
-        hack_mode_enabled = Desktop.get_hack_mode()
-        if not hack_mode_enabled:
-            self._app.quest_runner.stop_quest()
-
-        self._clubhouse_state.lights_on = hack_mode_enabled
-
-    def _hack_mode_changed_cb(self, _value, _key=None):
-        self.sync_with_hack_mode()
-
     def _on_user_button_highlighted_changed_cb(self, state, _param):
         context = self._user_button.get_style_context()
         if state.user_button_highlighted:
@@ -2265,8 +2227,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def _on_lights_changed_cb(self, state, _param):
         lights_on = self._clubhouse_state.lights_on
-        Desktop.set_hack_background(lights_on)
-        Desktop.set_hack_cursor(lights_on)
         self._pathways_menu_button.props.sensitive = lights_on
 
         ctx = self.get_style_context()
@@ -2487,8 +2447,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         revealer = self._achievements_view_revealer_revealer
         if not revealer.props.reveal_child:
-            revealer.props.reveal_child = \
-                Desktop.get_hack_mode() and not revealer.props.reveal_child
+            revealer.props.reveal_child = True
         else:
             self.hide_achievements_view()
 
@@ -2522,13 +2481,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._clubhouse_state.window_is_visible = self.props.visible
 
     def play_ambient_sound(self):
-        hack_mode_enabled = Desktop.get_hack_mode()
-
-        if not self._play_ambient_sound and hack_mode_enabled:
+        if not self._play_ambient_sound:
             self._play_ambient_sound = True
-
-        if not self._play_ambient_sound or not hack_mode_enabled:
-            return
 
         self._ambient_sound_item.play()
         # The sound will be stopped after certain time.
@@ -3266,7 +3220,7 @@ class ClubhouseApplication(Gtk.Application):
 
         running_quest = self._get_running_quest_name()
 
-        if not running_quest and Desktop.get_hack_mode():
+        if not running_quest:
             qs = libquest.Registry.get_questset_for_character(character_id)
             self._window.character.show_mission_list(qs)
             self._window.set_page('CHARACTER')
@@ -3398,8 +3352,6 @@ class ClubhouseApplication(Gtk.Application):
         for key in keys:
             gss.set_async(key, {'locked': False})
 
-        # This write the local flatpak override for old and new hack apps
-        Desktop.set_hack_mode(True)
         # Launch the clubhouse window and the migration quest!
         # This quest can make the hack icon bounce
         self.quest_runner.run_quest_by_name(MIGRATION_QUEST)
