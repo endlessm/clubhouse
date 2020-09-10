@@ -30,6 +30,11 @@ class HTMLIntro3(Quest):
         self._info_messages = self.get_loop_messages('HTMLINTRO3', start=4)
 
     def step_begin(self):
+
+        if not self.has_connection():
+            self.wait_confirm('NOQUEST_NOCONNECTION')
+            return self.step_abort
+
         self.wait_confirm('1')
         self.wait_confirm('2')
         self.wait_confirm('3')
