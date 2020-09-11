@@ -40,6 +40,7 @@ from gi.repository import EosMetrics, Gdk, GdkPixbuf, Gio, GLib, Gtk, \
     GObject, Json, Pango
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.achievements import AchievementsDB
+from eosclubhouse.network import NetworkManager
 from eosclubhouse.system import GameStateService, OldGameStateService, \
     Sound, SoundItem, UserAccount
 from eosclubhouse.utils import ClubhouseState, Performance, \
@@ -1074,6 +1075,7 @@ class ActivityCard(Gtk.FlowBoxChild):
     _title = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
     _corner_image = Gtk.Template.Child()
+    _network = Gtk.Template.Child()
 
     _play_button = Gtk.Template.Child()
 
@@ -1098,7 +1100,14 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._quest.connect('quest-finished', lambda q: self._update_cancelling())
         self._quest.connect('notify::complete', lambda w, ps: self._update_card_state())
         self._quest.connect('notify::available', lambda w, ps: self._sync_availability())
+        self.connect('destroy', self._on_destroy)
         self._sync_availability()
+
+        self._connectivity_handler = NetworkManager.connect_connection_change(
+            self._sync_availability)
+
+    def _on_destroy(self, _card):
+        NetworkManager.disconnect_connection_change(self._connectivity_handler)
 
     @Gtk.Template.Callback()
     def _on_enter_notify_event(self, widget, event):
@@ -1249,6 +1258,11 @@ class ActivityCard(Gtk.FlowBoxChild):
             self._play_button.set_label('cancelling...')
             self._play_button.props.sensitive = False
             return
+
+        self._network.hide()
+        if self._quest.requires_network():
+            if not self._quest.has_connection():
+                self._network.show()
 
         if self._quest.complete:
             self.get_style_context().remove_class('new')

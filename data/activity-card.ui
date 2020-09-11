@@ -36,12 +36,27 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>
-                          <object class="GtkBox">
+                          <object class="GtkBox" id="_tags_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="orientation">vertical</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="valign">end</property>
                             <child>
-                              <placeholder/>
+                              <object class="GtkImage" id="_network">
+                              <property name="tooltip_text" translatable="yes">This quest requires internet connection</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="icon_name">network-wireless-disabled-symbolic</property>
+                                <property name="icon_size">5</property>
+                                <style>
+                                  <class name="network-icon"/>
+                                </style>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                           </object>
                           <packing>
