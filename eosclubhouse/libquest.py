@@ -833,7 +833,11 @@ class _Quest(GObject.GObject):
         self.emit('quest-started')
         self._start_record_metrics()
 
-        self._run_context.run(self.step_begin)
+        if self.requires_network() and not self.has_connection():
+            self._run_context.run(self.step_no_connection)
+        else:
+            self._run_context.run(self.step_begin)
+
         self._run_context = None
 
         self.run_finished()
@@ -1167,6 +1171,15 @@ class _Quest(GObject.GObject):
         return class_.__tags__
 
     @classmethod
+    def get_requires(class_, flag='require'):
+        requires = [tag[len(flag) + 1:] for tag in class_.get_tags() if tag.startswith(flag)]
+        return requires
+
+    @classmethod
+    def requires_network(class_):
+        return 'network' in class_.get_requires()
+
+    @classmethod
     def get_auto_offer_info(class_):
         return class_.__auto_offer_info__
 
@@ -1455,6 +1468,8 @@ class Quest(_Quest):
     - 'difficulty:SOME_DIFFICULTY' -- Define the difficulty of this quest. Can be 'easy',
       'normal' or 'hard'.
 
+    - 'require:network' -- Define if the quest requires a internet connection to be played.
+
     '''
 
     __pathway_order__ = 0
@@ -1620,6 +1635,18 @@ class Quest(_Quest):
 
         '''
         raise NotImplementedError
+
+    def step_no_connection(self):
+        '''Step method that is executed when there's no internet connection.
+
+        This method is launched instead of step_begin when there is no
+        interent connection and the quest has the tag 'require:network'
+
+        By default shows a message and then abort.
+        '''
+
+        self.wait_confirm('NOQUEST_NOCONNECTION')
+        return self.step_abort
 
     def step_complete_and_stop(self, available=True):
         '''Step method that completes and stop the quest.
