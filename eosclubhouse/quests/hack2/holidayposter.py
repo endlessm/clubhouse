@@ -30,6 +30,11 @@ class HolidayPoster(Quest):
         self._info_messages = self.get_loop_messages('HOLIDAYPOSTER')
 
     def step_begin(self):
+
+        if not self.has_connection():
+            self.wait_confirm('NOQUEST_NOCONNECTION')
+            return self.step_abort
+
         return self.step_launch
 
     def step_launch(self):

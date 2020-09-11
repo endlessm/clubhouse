@@ -33,6 +33,7 @@ from datetime import date
 from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
+from eosclubhouse.network import NetworkManager
 from eosclubhouse.system import App, Desktop, GameStateService, Sound, ToolBoxCodeView, \
     UserAccount, Tour
 from eosclubhouse.utils import get_alternative_quests_dir, ClubhouseState, MessageTemplate, \
@@ -2201,6 +2202,11 @@ class Quest(_Quest):
         self._run_context.wait_for_action(async_action, timeout)
 
         return async_action
+
+    # ** Network detection **
+
+    def has_connection(self):
+        return NetworkManager.is_connected()
 
     # ** Control flow **
 
