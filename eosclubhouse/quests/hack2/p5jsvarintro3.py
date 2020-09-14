@@ -23,18 +23,13 @@ from eosclubhouse.libquest import Quest
 
 class P5JSVarIntro3(Quest):
 
-    __tags__ = ['pathway:art', 'difficulty:easy', 'since:1.8']
+    __tags__ = ['pathway:art', 'difficulty:easy', 'since:1.8', 'require:network']
     __pathway_order__ = 557
 
     def setup(self):
         self._info_messages = self.get_loop_messages('P5JSVARINTRO3', start=2)
 
     def step_begin(self):
-
-        if not self.has_connection():
-            self.wait_confirm('NOQUEST_NOCONNECTION')
-            return self.step_abort
-
         self.wait_confirm('1')
         return self.step_launch
 

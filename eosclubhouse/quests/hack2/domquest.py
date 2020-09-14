@@ -23,18 +23,13 @@ from eosclubhouse.libquest import Quest
 
 class DomQuest(Quest):
 
-    __tags__ = ['pathway:web', 'difficulty:medium', 'since:1.4']
+    __tags__ = ['pathway:web', 'difficulty:medium', 'since:1.4', 'require:network']
     __pathway_order__ = 600
 
     def setup(self):
         self._info_messages = self.get_loop_messages('DOMQUEST', start=3)
 
     def step_begin(self):
-
-        if not self.has_connection():
-            self.wait_confirm('NOQUEST_NOCONNECTION')
-            return self.step_abort
-
         self.wait_confirm('1')
         self.wait_confirm('2')
         return self.step_launch

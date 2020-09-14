@@ -23,7 +23,7 @@ from eosclubhouse.libquest import Quest
 
 class BootQuest(Quest):
 
-    __tags__ = ['pathway:web', 'difficulty:medium', 'since:1.6']
+    __tags__ = ['pathway:web', 'difficulty:medium', 'since:1.6', 'require:network']
     __pathway_order__ = 605
 
     def setup(self):
@@ -32,11 +32,6 @@ class BootQuest(Quest):
         self._codepen_url_seen = False
 
     def step_begin(self):
-
-        if not self.has_connection():
-            self.wait_confirm('NOQUEST_NOCONNECTION')
-            return self.step_abort
-
         return self.step_main_loop
 
     def step_main_loop(self, message_index=0):

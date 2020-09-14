@@ -24,18 +24,13 @@ from eosclubhouse.libquest import Quest
 class KritaQuest(Quest):
 
     __app_id__ = 'org.kde.krita'
-    __tags__ = ['pathway:art', 'difficulty:medium', 'skillset:LaunchQuests']
+    __tags__ = ['pathway:art', 'difficulty:medium', 'skillset:LaunchQuests', 'require:network']
     __pathway_order__ = 200
 
     def setup(self):
         self._info_messages = self.get_loop_messages('INFO')
 
     def step_begin(self):
-
-        if not self.has_connection():
-            self.wait_confirm('NOQUEST_NOCONNECTION')
-            return self.step_abort
-
         if not self.app.is_installed():
             self.wait_confirm('NOTINSTALLED', confirm_label='Got it!')
             return self.step_abort

@@ -69,3 +69,18 @@ class NetworkManager:
     @classmethod
     def is_limited(klass):
         return klass.get_prop('Connectivity') == 3
+
+    @classmethod
+    def connect_connection_change(klass, callback):
+        proxy = klass._get_proxy()
+
+        def _props_changed_cb(_proxy, changed_properties, _invalidated, *args):
+            changed_properties_dict = changed_properties.unpack()
+            if 'Connectivity' in changed_properties_dict:
+                callback()
+
+        return proxy.connect('g-properties-changed', _props_changed_cb)
+
+    @classmethod
+    def disconnect_connection_change(klass, handler):
+        klass._get_proxy().disconnect(handler)

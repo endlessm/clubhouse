@@ -23,18 +23,13 @@ from eosclubhouse.libquest import Quest
 
 class Inspector2(Quest):
 
-    __tags__ = ['pathway:web', 'difficulty:medium']
+    __tags__ = ['pathway:web', 'difficulty:medium', 'require:network']
     __pathway_order__ = 582
 
     def setup(self):
         self._info_messages = self.get_loop_messages('INSPECTOR2', start=2)
 
     def step_begin(self):
-
-        if not self.has_connection():
-            self.wait_confirm('NOQUEST_NOCONNECTION')
-            return self.step_abort
-
         self.wait_confirm('1')
         return self.step_launch
 

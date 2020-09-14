@@ -23,18 +23,13 @@ from eosclubhouse.libquest import Quest
 
 class HTMLIntro5(Quest):
 
-    __tags__ = ['pathway:web', 'difficulty:easy', 'skillset:LaunchQuests']
+    __tags__ = ['pathway:web', 'difficulty:easy', 'skillset:LaunchQuests', 'require:network']
     __pathway_order__ = 505
 
     def setup(self):
         self._info_messages = self.get_loop_messages('HTMLINTRO5', start=3)
 
     def step_begin(self):
-
-        if not self.has_connection():
-            self.wait_confirm('NOQUEST_NOCONNECTION')
-            return self.step_abort
-
         self.wait_confirm('1')
         self.wait_confirm('2')
         return self.step_launch
