@@ -40,33 +40,6 @@ class Meet(Quest):
         self.highlight_nav('')
         self.wait_confirm('EXPLAIN_MAIN1')
         self.wait_confirm('EXPLAIN_MAIN2')
-        return self.step_hackmode
-
-    def step_hackmode(self):
-        # If the user played with the hack switch before the
-        # explanation, we reset to normal:
-        if not self._clubhouse_state.lights_on:
-            self._clubhouse_state.lights_on = True
-        for msgid in ['EXPLAIN_HACK1', 'EXPLAIN_HACK2']:
-            self.wait_confirm(msgid)
-        self._clubhouse_state.hack_switch_highlighted = True
-        skip_action = self.show_confirm_message('EXPLAIN_HACK3',
-                                                confirm_label="I'd prefer not to, but thanks.")
-        user_action = self.connect_clubhouse_changes(['lights-on'])
-        self.wait_for_one([skip_action, user_action])
-        self._clubhouse_state.hack_switch_highlighted = False
-        if skip_action.is_done():
-            # Automatically turn the lights off because the player
-            # wants to skip using the switcher:
-            self._clubhouse_state.lights_on = False
-        skip_action = self.show_confirm_message('EXPLAIN_HACK4', confirm_label='OK, I see.')
-        user_action = self.connect_clubhouse_changes(['lights-on'])
-        self.wait_for_one([skip_action, user_action])
-        if skip_action.is_done():
-            # Automatically turn the lights on because the player
-            # wants to skip using the switcher:
-            self._clubhouse_state.lights_on = True
-        self._clubhouse_state.hack_switch_highlighted = False
         return self.step_pathways
 
     def step_pathways(self):

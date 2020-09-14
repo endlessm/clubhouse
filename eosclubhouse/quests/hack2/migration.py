@@ -54,38 +54,10 @@ class Migration(Quest):
         self.complete = True
         for msgid in ['OLDSTUFF4', 'OLDSTUFF5']:
             self.wait_confirm(msgid)
-        return self.step_explain_new_stuff
-
-    def step_explain_new_stuff(self):
-        # explain hack mode
-        for msgid in ['NEWSTUFF', 'HACKMODE1', 'HACKMODE2']:
-            self.wait_confirm(msgid)
-        # If the user played with the hack switch before the
-        # explanation, we reset to normal:
-        if not self._clubhouse_state.lights_on:
-            self._clubhouse_state.lights_on = True
-        self._clubhouse_state.hack_switch_highlighted = True
-        skip_action = self.show_confirm_message('HACKMODE3',
-                                                confirm_label="I'd prefer not to, but thanks.")
-        user_action = self.connect_clubhouse_changes(['lights-on'])
-        self.wait_for_one([skip_action, user_action])
-        self._clubhouse_state.hack_switch_highlighted = False
-        if skip_action.is_done():
-            # Automatically turn the lights off because the player
-            # wants to skip using the switcher:
-            self._clubhouse_state.lights_on = False
-        skip_action = self.show_confirm_message('HACKMODE4', confirm_label='OK, I see.')
-        user_action = self.connect_clubhouse_changes(['lights-on'])
-        self.wait_for_one([skip_action, user_action])
-        if skip_action.is_done():
-            # Automatically turn the lights on because the player
-            # wants to skip using the switcher:
-            self._clubhouse_state.lights_on = True
-        self._clubhouse_state.hack_switch_highlighted = False
-        self.wait_confirm('HACKMODE5')
         return self.step_explain_activities
 
     def step_explain_activities(self):
+        self.wait_confirm('NEWSTUFF')
         # explain activities and how to play them
         for msgid in ['ACTIVITIES1', 'ACTIVITIES2', 'ACTIVITIES3']:
             self.wait_confirm(msgid)
