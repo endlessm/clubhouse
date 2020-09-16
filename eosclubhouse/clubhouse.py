@@ -2377,6 +2377,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._hack_news_count.hide()
 
     def set_page(self, page_name):
+        # Update the connectivity cache status
+        NetworkManager.refresh()
+
         current_page = self._stack.get_visible_child_name()
         new_page = page_name.upper()
 

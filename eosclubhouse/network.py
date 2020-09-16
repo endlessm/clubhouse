@@ -84,3 +84,12 @@ class NetworkManager:
     @classmethod
     def disconnect_connection_change(klass, handler):
         klass._get_proxy().disconnect(handler)
+
+    @classmethod
+    def refresh(klass):
+        proxy = klass._get_proxy()
+        def on_done(proxy, result, user_data):
+            # Do nothing here, this is done to make the call async so the
+            # property gets updated on the proxy cached properties.
+            pass
+        proxy.CheckConnectivity(result_handler=on_done)
