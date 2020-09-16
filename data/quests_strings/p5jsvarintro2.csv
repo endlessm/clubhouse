@@ -2,7 +2,7 @@ P5JSVARINTRO2_QUEST_NAME,P5JS - Variables and random()!,,,,
 P5JSVARINTRO2_QUEST_SUBTITLE,What you'll do,,,,
 P5JSVARINTRO2_QUEST_DESCRIPTION,"In part 2 of this activity, you'll use variables with random() to generate random colors!",,,,
 P5JSVARINTRO2_1,"Welcome back, <b>{{user_name}}</b>! I'm super excited to show you how to create random colors using variables!",daemon3,,,
-P5JSVARINTRO2_2,"Let's start up the online editor for <b>p5.js</b> - If it doesn't open automatically, click this link: <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://editor.p5js.org/</span></u>",daemon3,,,
+P5JSVARINTRO2_2,"Let's start up the online editor for <b>p5.js</b> - If it doesn't open automatically, click this link: <u><span insert_hyphens=""false"" foreground=""#3584E4""><a href=""https://editor.p5js.org/"">https://editor.p5js.org/</a></span></u>",daemon3,,,
 P5JSVARINTRO2_3,"Now let's get this sketch started by creating our <b>variables</b> for our random colors!
 ",daemon3,,,
 P5JSVARINTRO2_4,"For this sketch we will create our <b>variables</b> inside the curly braces ( <b>{}</b> ) for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">draw()</span></tt>. When you put <b>variables</b> inside the curly braces ( <b>{}</b> ) of a piece of code, they only work in there, nowhere else. So, for example, if you made some <b>variables</b> in <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">setup()</span></tt>, you couldn't use them in <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">draw()</span></tt>.
