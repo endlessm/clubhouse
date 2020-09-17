@@ -5,7 +5,7 @@ HTMLINTRO1_1,"Hi, <b>{{user_name}}</b>! I know you've used the internet before -
 HTMLINTRO1_2,"I was wondering that, one day, and I decided to go find out. There was a ton to learn, but now that I've done the legwork, I can pass it on to you.",riley,,,
 HTMLINTRO1_3,"OK, first, let's get you looking at the guts of a web page.",riley,,,
 HTMLINTRO1_4,"The page should open for you, but if it doesn't, try running your web browser.",riley,,,
-HTMLINTRO1_5,"You can also try clicking this link: <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://codepen.io/madetohack/pen/BaaNeXj?editors=1000</span></u>",riley,,,
+HTMLINTRO1_5,"You can also try clicking this link: <u><span insert_hyphens=""false"" foreground=""#3584E4""><a href=""https://codepen.io/madetohack/pen/BaaNeXj?editors=1000"">https://codepen.io/madetohack/pen/BaaNeXj?editors=1000</a></span></u>",riley,,,
 HTMLINTRO1_6,"Here we are! One half of your browser shows you the code that makes up this webpage, and the other half shows what you'd see if you found this page on the internet.",riley,,,
 HTMLINTRO1_7,"We're going to be looking at a lot of different parts of this page, so if this dialogue box is hiding some parts of the window, you can move your mouse to the very <b>top</b> of the box, and a little <b>arrow</b> should show up.",riley,,,
 HTMLINTRO1_8,"If you click that arrow, the dialogue box will move to the bottom of the screen. Cool, huh? Now, back to the code!",riley,,,

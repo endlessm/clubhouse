@@ -3,7 +3,7 @@ P5JSGIF2_QUEST_SUBTITLE,"What you'll do
 ",,,,
 P5JSGIF2_QUEST_DESCRIPTION,"Now that you're loading images, let's get them moving and shaking!",,,,
 P5JSGIF2_1,"Hi <b>{{user_name}}</b>, welcome back!",daemon,,,
-P5JSGIF2_2,"First things first - let's get back to the p5.js code editor. You can load your previous sketch (if you saved it at <u><span insert_hyphens=""false"" foreground=""#3584E4"">http://editor.p5js.org),</span></u> or get back to where we left off: <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://editor.p5js.org/madetohack/sketches/pYObWwFD</span></u>",daemon,,,
+P5JSGIF2_2,"First things first - let's get back to the p5.js code editor. You can load your previous sketch (if you saved it at <u><span insert_hyphens=""false"" foreground=""#3584E4""><a href=""http://editor.p5js.org),"">http://editor.p5js.org),</a></span></u> or get back to where we left off: <u><span insert_hyphens=""false"" foreground=""#3584E4""><a href=""https://editor.p5js.org/madetohack/sketches/pYObWwFD"">https://editor.p5js.org/madetohack/sketches/pYObWwFD</a></span></u>",daemon,,,
 P5JSGIF2_3,"Last time, we learned how to display an animated gif from the internet, and after today, you'll be able to play and pause it!",daemon,,,
 P5JSGIF2_4,"If you look up at the top, in the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">preload()</span></tt> <b>function</b> that we wrote last time, we assigned names to your GIFs. We already use those names to load the GIFs, but we can also do things to GIFs while the code is running.",daemon,,,
 P5JSGIF2_5,"For example, we could play and pause the GIFs in response to something you do. Maybe… a mouse click? Let’s try that!",daemon,,,
