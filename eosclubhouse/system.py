@@ -38,6 +38,7 @@ class Desktop:
     _HACK_OBJECT_PATH = '/com/hack_computer/hack'
     _BLOCK_HACK_PROPS = False
 
+    SETTINGS_HACK_MODE_KEY = 'HackModeEnabled'
     SETTINGS_HACK_ICON_PULSE = 'HackIconPulse'
 
     _dbus_proxy = None
@@ -374,6 +375,36 @@ class Desktop:
         if klass._shell_schema is None:
             logger.warning('Schema \'%s\' not found.', klass.SHELL_SETTINGS_SCHEMA_ID)
         return klass._shell_schema
+
+    # Keep this method to enable hack-mode by default in old EOS < 3.9
+    @classmethod
+    def set_hack_mode_shell(klass, enabled, avoid_signal=False):
+        shell_settings = klass.get_shell_settings()
+        if not shell_settings:
+            return
+
+        signal_name = f'changed::{klass.SHELL_SETTINGS_HACK_MODE_KEY}'
+        if avoid_signal:
+            klass._block_setting_signals(signal_name)
+        response = shell_settings.set_boolean(klass.SHELL_SETTINGS_HACK_MODE_KEY, enabled)
+        if avoid_signal:
+            klass._block_setting_signals(signal_name, block=False)
+
+        return response
+
+    # Keep this method to enable hack-mode by default in old EOS < 3.9
+    @classmethod
+    def set_legacy_hack_mode(klass, enabled):
+        try:
+            # Compatible with EOS <= 3.7
+            if (klass.get_shell_version() < '3.36'):
+                klass.set_hack_mode_shell(enabled)
+            else:
+                klass.set_hack_property(klass.SETTINGS_HACK_MODE_KEY, enabled)
+        except GLib.Error as e:
+            logger.info('Can not enable the hack mode by default. Maybe the '
+                        'hack extension is not there or it is updated.')
+            logger.error(e)
 
     @classmethod
     def set_hack_icon_pulse(klass, enabled):

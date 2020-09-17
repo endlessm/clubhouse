@@ -41,6 +41,7 @@ from gi.repository import EosMetrics, Gdk, GdkPixbuf, Gio, GLib, Gtk, \
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.network import NetworkManager
+from eosclubhouse.system import Desktop
 from eosclubhouse.system import GameStateService, OldGameStateService, \
     Sound, SoundItem, UserAccount
 from eosclubhouse.utils import ClubhouseState, Performance, \
@@ -2970,6 +2971,9 @@ class ClubhouseApplication(Gtk.Application):
 
         self._init_style()
         InAppNotify.init_message()
+
+        # This will set the hack mode for old EOS < 3.9
+        Desktop.set_legacy_hack_mode(True)
 
     @property
     def quest_runner(self):
