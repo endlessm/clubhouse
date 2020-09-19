@@ -4,8 +4,6 @@ QUICKSTART_WELCOME2,"I'm going to run you through how this program, The Clubhous
 QUICKSTART_POSITIVE,👍,ada,,,
 QUICKSTART_NEGATIVE,👎,ada,,,
 QUICKSTART_HACKSWITCH1,This is the main area of the Clubhouse. You can always use the <b>left-most top button</b> to get back here.,ada,,,
-QUICKSTART_HACKSWITCH2,"That big switch on the <b>right</b> controls <b>Hack Mode</b>. Right now, it's <b>ON</b>, so you have access to everything in the Clubhouse. Try it out!",ada,,,
-QUICKSTART_HACKSWITCH3,"If the switch is off, the Clubhouse turns off, and you're essentially using a normal computer.",ada,,,
 QUICKSTART_ACTIVITIES,"To get your adventure started, talk to any one of us in the Clubhouse. We've all got different interests, so there's a lot of different things to do.",ada,,,
 QUICKSTART_PATHWAYS1,"The <b>middle top button</b> is the Pathways button. If you already know exactly what kind of activities you want to do, go there.",ada,,,
 QUICKSTART_PATHWAYS2,"If you prefer to explore, talk to everyone here in the Clubhouse - we've got lots of interesting activities to do.",ada,,,
