@@ -15,7 +15,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 # Authors:
-#       Daniel Garcia <daniel@endlessm.com>
+#       Daniel Garcia <danigm@endlessos.org>
 
 
 from eosclubhouse import logger
