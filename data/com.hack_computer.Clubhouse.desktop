@@ -1,12 +1,12 @@
 [Desktop Entry]
 Type=Application
-Name=Clubhouse
+Name=Hack
 GenericName=eos-clubhouse
-Comment=Clubhouse application
+Comment=Hack Clubhouse application
 Icon=com.hack_computer.Clubhouse
 Exec=eos-clubhouse
 Terminal=false
 StartupNotify=true
 X-Endless-HackShader=true
-Keywords=hack;learn;code;programming;game;
+Keywords=hack;learn;code;programming;game;clubhouse;
 Keywords[es]=hack;aprender;código;programación;juego;
