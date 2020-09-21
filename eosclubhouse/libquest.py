@@ -1871,6 +1871,45 @@ class Quest(_Quest):
         '''
         self._hints_given_once = set()
 
+    def wait_for_app_install(self, app=None, timeout=None):
+        '''Wait until `app` is installed.
+
+        :param app: The application. If not passed, it will use :attr:`app`.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :rtype: AsyncAction
+
+        '''
+        assert self._run_context is not None
+
+        if app is None:
+            app = self.app
+
+        async_action = self._run_context.new_async_action()
+        if async_action.is_cancelled():
+            return async_action
+
+        if app.is_installed():
+            async_action.state = AsyncAction.State.DONE
+            return async_action
+
+        def _poll_app_install():
+            if async_action.is_resolved() or async_action.is_cancelled():
+                return GLib.SOURCE_REMOVE
+
+            if app.is_installed():
+                async_action.resolve()
+                return GLib.SOURCE_REMOVE
+
+            return GLib.SOURCE_CONTINUE
+
+        # Polling the app install state
+        GLib.timeout_add_seconds(1, _poll_app_install)
+
+        app.request_install()
+        self._run_context.wait_for_action(async_action, timeout)
+        return async_action
+
     def show_confirm_message(self, message_id, **options):
         '''Show a message with a "Next" button
 

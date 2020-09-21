@@ -28,6 +28,7 @@ import time
 from eosclubhouse import logger
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer, HackSoundItem
+from eosclubhouse.software import GnomeSoftware
 from eosclubhouse.tour import TourServer
 from eosclubhouse.utils import convert_variant_arg, get_flatpak_sandbox
 from gi.repository import GLib, GObject, Gio
@@ -570,6 +571,11 @@ class App:
         result = subprocess.run(['/usr/bin/flatpak-spawn', '--host',
                                  'flatpak', 'info', '--show-ref', self.dbus_name])
         return result.returncode == 0
+
+    def request_install(self):
+        '''Open the gnome-software app with the selected aplication'''
+
+        GnomeSoftware.details(self.dbus_name)
 
     def get_object_property(self, obj, prop):
         return self.get_clippy_proxy().Get('(ss)', obj, prop)
