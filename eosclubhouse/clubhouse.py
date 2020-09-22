@@ -1612,8 +1612,12 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         mock_quests = ['Quickstart', 'Migration', 'Meet']
         mock_hack_mode = (self._app.quest_runner.running_quest is not None and
                           self._app.quest_runner.running_quest.get_id() in mock_quests)
-        if mock_hack_mode:
-            self._app_window._clubhouse_state.lights_on = button.get_active()
+
+        self._app_window._clubhouse_state.lights_on = button.get_active()
+        if not mock_hack_mode:
+            # Launch easter egg quest,
+            # TODO: Replace the quickstart quest with a new one
+            self._app.quest_runner.run_quest_by_name('hack2.Quickstart')
 
         self._update_switch_css()
 
