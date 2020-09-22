@@ -23,7 +23,7 @@ from eosclubhouse.libquest import Quest
 
 class GlimpsePhoto2(Quest):
 
-    __app_id__ = 'org.glimpse_editor.Glimpse'
+    __app_id__ = 'org.gimp.GIMP'
     __tags__ = ['pathway:art', 'difficulty:easy', 'since:1.8']
     __pathway_order__ = 641
 

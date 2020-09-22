@@ -23,7 +23,7 @@ from eosclubhouse.libquest import Quest, App
 
 class NewCursor(Quest):
 
-    __app_id__ = 'org.glimpse_editor.Glimpse'
+    __app_id__ = 'org.gimp.GIMP'
     __tags__ = ['pathway:operating system', 'difficulty:hard', 'since:1.6']
     __pathway_order__ = 420
 
