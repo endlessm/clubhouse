@@ -2270,6 +2270,69 @@ class Quest(_Quest):
 
         return async_action
 
+    def show_highlight_rect(self, x, y, width, height, text=''):
+        '''Highlight a rectangle on the desktop.
+
+        :param x: The x coordinate of the rectangle.
+        :param y: The x coordinate of the rectangle.
+        :param width: The width of the rectangle.
+        :param height: The height of the rectangle.
+        :param text: Optional text to show near the highlighted region.
+        '''
+
+        return self.show_highlight(x, y, width, height, text, function='HighlightRect')
+
+    def show_highlight_circle(self, x, y, radius, text=''):
+        '''Highlight a circle on the desktop.
+
+        :param x: The x coordinate of the circle.
+        :param y: The x coordinate of the circle.
+        :param radius: The height of the circle.
+        :param text: Optional text to show near the highlighted region.
+        '''
+
+        return self.show_highlight(x, y, radius, text, function='HighlightCircle')
+
+    def show_highlight_widget(self, name, text=''):
+        '''Highlight a widget on the desktop.
+
+        :param name: The widget name or the style class name.
+        :param text: Optional text to show near the highlighted region.
+        '''
+
+        return self.show_highlight(name, text, function='HighlightWidget')
+
+    def show_highlight_icon(self, app_id, text=''):
+        '''Highlight a desktop icon.
+
+        :param app_id: The app id.
+        :param text: Optional text to show near the highlighted region.
+        '''
+
+        return self.show_highlight(app_id, text, function='HighlightDesktopIcon')
+
+    def show_highlight_fuzzy(self, position='center', size='20%', shape='rect', text=''):
+        '''Highlight a region with a fuzzy description.
+
+        :param str size: The highlight size description. The format is the
+            same as the size parameter of the :meth:wait_for_highlight_fuzzy()
+            method.
+        :param str position: The highlight position description. The format is the
+            same as the position parameter of the :meth:wait_for_highlight_fuzzy()
+            method.
+        :param shape: The highlight shape, rect or circle.
+        '''
+
+        return self.show_highlight(position, size, shape, text, function='HighlightFuzzy')
+
+    def show_highlight(self, *args, function='HighlightRect'):
+        '''Highlight a region on the desktop.
+
+        :param function: The TourServer function to use.
+        '''
+
+        Tour._call_method(function, *args)
+
     # ** Network detection **
 
     def has_connection(self):
