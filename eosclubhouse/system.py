@@ -25,7 +25,7 @@ import os
 import subprocess
 import time
 
-from eosclubhouse import logger
+from eosclubhouse import config, logger
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer, HackSoundItem
 from eosclubhouse.software import GnomeSoftware
@@ -572,10 +572,13 @@ class App:
                                  'flatpak', 'info', '--show-ref', self.dbus_name])
         return result.returncode == 0
 
-    def request_install(self):
+    def request_install(self, confirm=True, repo=config.DEFAULT_INSTALL_REPO):
         '''Open the gnome-software app with the selected aplication'''
 
         GnomeSoftware.details(self.dbus_name)
+        if not confirm:
+            branch = 'eos3' if repo == 'eos-apps' else 'stable'
+            GnomeSoftware.install(self.dbus_name, branch=branch, repo=repo)
 
     def get_object_property(self, obj, prop):
         return self.get_clippy_proxy().Get('(ss)', obj, prop)

@@ -1871,11 +1871,18 @@ class Quest(_Quest):
         '''
         self._hints_given_once = set()
 
-    def wait_for_app_install(self, app=None, timeout=None):
+    def wait_for_app_install(self, app=None, confirm=True,
+                             repo=config.DEFAULT_INSTALL_REPO, timeout=None):
         '''Wait until `app` is installed.
 
         :param app: The application. If not passed, it will use :attr:`app`.
         :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :param confirm: If true, the app center will be shown but the
+            installation doesn't start automatically. In other case the
+            installation will start just after the call.
+        :param repo: When confirm = True, you can provide a repository to use
+            for the installation. By default it's flathub but it could be
+            eos-apps or other flatpak repository.
         :type timeout: int or None
         :rtype: AsyncAction
 
@@ -1906,7 +1913,7 @@ class Quest(_Quest):
         # Polling the app install state
         GLib.timeout_add_seconds(1, _poll_app_install)
 
-        app.request_install()
+        app.request_install(confirm=confirm, repo=repo)
         self._run_context.wait_for_action(async_action, timeout)
         return async_action
 
