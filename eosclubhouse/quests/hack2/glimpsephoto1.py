@@ -23,7 +23,7 @@ from eosclubhouse.libquest import Quest
 
 class GlimpsePhoto1(Quest):
 
-    __app_id__ = 'org.glimpse_editor.Glimpse'
+    __app_id__ = 'org.gimp.GIMP'
     __tags__ = ['pathway:art', 'difficulty:easy', 'since:1.8']
     __pathway_order__ = 640
 
@@ -40,7 +40,7 @@ class GlimpsePhoto1(Quest):
         if self.is_cancelled():
             return self.step_abort()
         self.deploy_file('GlimpsePhoto/lower-face.jpg',
-                         '~/Pictures/GlimpseSources/', override=True)
+                         '~/Pictures/PhotoSources/', override=True)
         self.app.launch()
         return self.step_main_loop
 
