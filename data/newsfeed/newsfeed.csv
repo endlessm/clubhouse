@@ -60,13 +60,13 @@ If you need any help, or have any feedback, please let us know on the <a href=""
 2020-03-24,Endless,hack-release.jpg,,"<b>Hack March Release</b>
 Today, we proudly announce Hack's March Release! We hope you like it - let us know what you think on social media with #MadeToHack!
 
-In this release, we're (officially) introducing Glimpse, after a sneak peek in last month's create-a-cursor quest. Glimpse is a fully-featured, free, open-source photo editor, much like Photoshop! <b>Note:</b> A recent version of Glimpse has been released that was not able to start. This issue has been fixed. If you encounter this issue, please update using the available application update mechanisms. We've also got some more Blender tutorials, on how to make and texture a low-poly Well, and some new activities that explore the internals of <b>p5.js!</b>
+In this release, we're (officially) introducing GIMP, after a sneak peek in last month's create-a-cursor quest. GIMP is a fully-featured, free, open-source photo editor, much like Photoshop! <b>Note:</b> A recent version of GIMP has been released that was not able to start. This issue has been fixed. If you encounter this issue, please update using the available application update mechanisms. We've also got some more Blender tutorials, on how to make and texture a low-poly Well, and some new activities that explore the internals of <b>p5.js!</b>
 
-<b>Edit a Photo - Making it Look Right</b> Learn to remove blemishes, adjust light exposure and color saturation, and crop a picture. <a href='quest://GlimpsePhoto1'>Play Now!</a>
+<b>Edit a Photo - Making it Look Right</b> Learn to remove blemishes, adjust light exposure and color saturation, and crop a picture. <a href='quest://GIMPPhoto1'>Play Now!</a>
 
-<b>Edit a Photo - Changing The Look</b> Learn to use a bunch of tools in Glimpse that can massively change how a photo looks! <a href='quest://GlimpsePhoto2'>Play Now!</a>
+<b>Edit a Photo - Changing The Look</b> Learn to use a bunch of tools in GIMP that can massively change how a photo looks! <a href='quest://GIMPPhoto2'>Play Now!</a>
 
-<b>Edit a Photo - Adding something new!</b>Learn to use the Smart Scissors Tool to ""cut"" an object from one picture and ""paste"" it into another! <a href='quest://GlimpsePhoto3'>Play Now!</a>
+<b>Edit a Photo - Adding something new!</b>Learn to use the Smart Scissors Tool to ""cut"" an object from one picture and ""paste"" it into another! <a href='quest://GIMPPhoto3'>Play Now!</a>
 
 
 <b>""Well"" it Blend?</b>In part 1 of this quest, you'll learn to model a low-poly well, just the kind of piece your 3D art portfolio can use! <a href='quest://BlendWell1'>Play Now!</a>
