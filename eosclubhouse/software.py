@@ -18,7 +18,7 @@
 #       Daniel Garcia <danigm@endlessos.org>
 
 
-from eosclubhouse import logger
+from eosclubhouse import config, logger
 from gi.repository import Gio, GLib
 
 
@@ -49,5 +49,19 @@ class GnomeSoftware:
 
         args = GLib.Variant('(ss)', (app_id, ''))
         variant = GLib.Variant('(sava{sv})', ['details', [args], None])
+        klass.get_proxy().call('Activate', variant,
+                               Gio.DBusCallFlags.NONE, -1, None, _on_done_callback)
+
+    @classmethod
+    def install(klass, app_id, branch='stable', repo=config.DEFAULT_INSTALL_REPO):
+        def _on_done_callback(proxy, result):
+            try:
+                proxy.call_finish(result)
+            except GLib.Error as e:
+                logger.error('Error installing app: %s', e.message)
+
+        unique_id = f'system/flatpak/{repo}/desktop/{app_id}/{branch}'
+        args = GLib.Variant('(su)', (unique_id, 1))
+        variant = GLib.Variant('(sava{sv})', ['install', [args], None])
         klass.get_proxy().call('Activate', variant,
                                Gio.DBusCallFlags.NONE, -1, None, _on_done_callback)

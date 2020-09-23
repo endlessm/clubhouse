@@ -15,4 +15,4 @@ NEWSFEED_CSV = @newsfeed_csv@
 DATA_DIR = @data_dir@
 RESET_SCRIPT_PATH = @reset_script_path@
 DEFAULT_EPISODE_NAME = 'hack2'
-
+DEFAULT_INSTALL_REPO = 'flathub'
