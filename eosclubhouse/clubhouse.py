@@ -433,6 +433,10 @@ class InAppNotify(Gtk.Window):
         InAppNotify.NOTIFICATIONS.remove(self)
         InAppNotify.place_all()
 
+    def _on_child_revealed(self, revealer, pspec):
+        if revealer.props.child_revealed:
+            self._place()
+
     def _build_ui(self):
 
         direction = Gtk.RevealerTransitionType.SLIDE_LEFT
@@ -441,6 +445,7 @@ class InAppNotify(Gtk.Window):
                                       transition_duration=800,
                                       halign=alignment,
                                       visible=True)
+        self._revealer.connect('notify::child-revealed', self._on_child_revealed)
 
         self._box = Gtk.Box()
         self._box.get_style_context().add_class('notify')
@@ -458,8 +463,8 @@ class InAppNotify(Gtk.Window):
         self.show_all()
 
     def _close_message(self, _button):
-        self.emit('closed')
         self._hide()
+        self.emit('closed')
 
     def _animate(self, direction):
         display = self.get_screen().get_display()
