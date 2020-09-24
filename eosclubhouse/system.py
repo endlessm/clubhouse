@@ -569,7 +569,8 @@ class App:
         Note: This only works for apps distributed as flatpaks.
         '''
         result = subprocess.run(['/usr/bin/flatpak-spawn', '--host',
-                                 'flatpak', 'info', '--show-ref', self.dbus_name])
+                                 'flatpak', 'info', '--show-ref', self.dbus_name],
+                                capture_output=True)
         return result.returncode == 0
 
     def request_install(self, confirm=True, repo=config.DEFAULT_INSTALL_REPO):
