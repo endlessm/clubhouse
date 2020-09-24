@@ -402,10 +402,9 @@ class Desktop:
                 klass.set_hack_mode_shell(enabled)
             else:
                 klass.set_hack_property(klass.SETTINGS_HACK_MODE_KEY, enabled)
-        except GLib.Error as e:
+        except GLib.Error:
             logger.info('Can not enable the hack mode by default. Maybe the '
                         'hack extension is not there or it is updated.')
-            logger.error(e)
 
     @classmethod
     def set_hack_icon_pulse(klass, enabled):
