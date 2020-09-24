@@ -402,10 +402,9 @@ class Desktop:
                 klass.set_hack_mode_shell(enabled)
             else:
                 klass.set_hack_property(klass.SETTINGS_HACK_MODE_KEY, enabled)
-        except GLib.Error as e:
+        except GLib.Error:
             logger.info('Can not enable the hack mode by default. Maybe the '
                         'hack extension is not there or it is updated.')
-            logger.error(e)
 
     @classmethod
     def set_hack_icon_pulse(klass, enabled):
@@ -569,7 +568,8 @@ class App:
         Note: This only works for apps distributed as flatpaks.
         '''
         result = subprocess.run(['/usr/bin/flatpak-spawn', '--host',
-                                 'flatpak', 'info', '--show-ref', self.dbus_name])
+                                 'flatpak', 'info', '--show-ref', self.dbus_name],
+                                capture_output=True)
         return result.returncode == 0
 
     def request_install(self, confirm=True, repo=config.DEFAULT_INSTALL_REPO):
