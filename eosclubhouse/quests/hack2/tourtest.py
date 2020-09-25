@@ -14,6 +14,8 @@ class TourTest(Quest):
     # TODO: Replace this with get/set_conf if possible
     comp_isfirst = False
     comp_islaptop = False
+    comp_screenx = 1920
+    comp_screeny = 1080
     os_previous = None
 
     # TODO: Make sure this function is uncommented when shipping!
@@ -26,7 +28,7 @@ class TourTest(Quest):
         return self.step_quiz
 
     def step_test(self):
-        self.wait_for_highlight_rect((self.comp_screenwidth-500), 0, 500, 250)
+        self.wait_for_highlight_rect((self.comp_screenx-500), 0, 500, 250)
         return self.step_abort
 
     def step_quiz(self):
@@ -128,7 +130,9 @@ class TourTest(Quest):
 
         # TODO: highlight app center
         if self.has_connection():
+            self.show_highlight_widget('App Center')
             self.wait_confirm('APPS_NET')
+            self.onboarding_clean()
         else:
             self.wait_confirm('APPS_NONET')
         self.show_highlight_icon('org.libreoffice.LibreOffice.writer')
@@ -139,17 +143,17 @@ class TourTest(Quest):
         self.wait_confirm('TYPE')
         self.onboarding_clean()
 
-        self.show_highlight_rect(1420, 0, 500, 250)
+        self.show_highlight_rect((self.comp_screenx-500), 0, 500, 250)
         self.wait_confirm('TYPE_MOVEBOX')
         self.onboarding_clean()
 
-        self.show_highlight_rect(0, 0, 400, 200)
+        self.show_highlight_rect((self.comp_screenx-400), 0, 400, 200)
         self.wait_confirm('FILE')
         self.onboarding_clean()
 
         self.wait_confirm('SAVEDIALOG')
 
-        self.show_highlight_rect(1720, 0, 200, 200)
+        self.show_highlight_rect((self.comp_screenx-200), 0, 200, 200)
         self.wait_confirm('CLOSE')
         self.onboarding_clean()
 
@@ -164,15 +168,19 @@ class TourTest(Quest):
 
     def step_files(self):
         self.wait_confirm('FILES')
-        self.show_highlight_widget('Files')
 
+        self.show_highlight_widget('Files')
         self.wait_confirm('OPENFILES')
+        self.onboarding_clean()
+
         self.wait_confirm('GOTODOCS')
         self.wait_confirm('THEREITIS')
         self.wait_confirm('FINDBYNAME1')
         self.wait_confirm('FINDBYNAME2')
 
-        self.show_highlight_widget('searchEntry')
+        self.show_highlight_widget('search-entry')
+        # backup in case this ^^ breaks again
+        # self.show_highlight_rect(int(self.comp_screenx/2-190), 50, 380, 50)
         self.wait_confirm('USESEARCH')
         self.onboarding_clean()
 
@@ -188,7 +196,7 @@ class TourTest(Quest):
         self.wait_confirm('SETTINGS1')
         self.wait_confirm('SETTINGS2')
 
-        self.show_highlight_rect(1520, 880, 400, 200)
+        self.show_highlight_rect((self.comp_screenx-400), (self.comp_screeny-200), 400, 200)
         self.wait_confirm('SETTINGS_TRAYICONS')
         self.onboarding_clean()
 
@@ -204,7 +212,7 @@ class TourTest(Quest):
             self.wait_confirm('SETTINGS_LAP_BATT')
         self.wait_confirm('SETTINGS_TRAY_INFO')
 
-        self.show_highlight_rect(1820, 980, 100, 100)
+        self.show_highlight_rect((self.comp_screenx-100), (self.comp_screeny-100), 100, 100)
         self.wait_confirm('SETTINGS8')
         self.onboarding_clean()
 
@@ -214,9 +222,11 @@ class TourTest(Quest):
         self.wait_confirm('SETTINGS12')
         self.wait_confirm('SETTINGS13')
         self.wait_confirm('SETTINGS14')
+
         if self.comp_islaptop:
             self.wait_confirm('SETTINGS_LAP_PWR')
         self.wait_confirm('SETTINGS15')
+
         return self.step_ending
 
     def step_ending(self):
