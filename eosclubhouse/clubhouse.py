@@ -3331,6 +3331,11 @@ class ClubhouseApplication(Gtk.Application):
     def _show_and_focus_window(self, timestamp=None):
         # We deliberately show + present the window here to ensure it gets focused
         # when showing it after it's been hidden.
+
+        if not self._window:
+            self.do_activate()
+            return
+
         self._window.show()
         self._window.present_with_time(timestamp if timestamp is not None else Gdk.CURRENT_TIME)
 
