@@ -466,10 +466,17 @@ class InAppNotify(Gtk.Window):
         self._hide()
         self.emit('closed')
 
-    def _animate(self, direction):
+    def _get_workarea(self):
         display = self.get_screen().get_display()
         primary_monitor = display.get_primary_monitor()
-        workarea = primary_monitor.get_workarea()
+
+        if not primary_monitor:
+            primary_monitor = display.get_monitor_at_window(self.get_window())
+
+        return primary_monitor.get_workarea()
+
+    def _animate(self, direction):
+        workarea = self._get_workarea()
         x, y = self.get_position()
         height = self.get_allocation().height
 
@@ -516,9 +523,7 @@ class InAppNotify(Gtk.Window):
 
     def _place(self):
         x, y = 0, 0
-        display = self.get_screen().get_display()
-        primary_monitor = display.get_primary_monitor()
-        workarea = primary_monitor.get_workarea()
+        workarea = self._get_workarea()
         height = self.get_allocation().height
         width = self.get_allocation().width
         x = workarea.x + workarea.width - width - self.MARGIN
