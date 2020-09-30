@@ -836,6 +836,8 @@ class _Quest(GObject.GObject):
 
         if self.requires_network() and not self.has_connection():
             self._run_context.run(self.step_no_connection)
+        elif self.app is not None and not self.app.is_installed():
+            self._run_context.run(self.step_app_not_installed)
         else:
             self._run_context.run(self.step_begin)
 
@@ -1458,6 +1460,9 @@ class Quest(_Quest):
 
     '''
 
+    __app_repository__ = config.DEFAULT_INSTALL_REPO
+    '''Repository of the application used by this quest, otherwise the default repo.'''
+
     __tags__ = []
     '''Generic tags for the quest.
 
@@ -1648,6 +1653,25 @@ class Quest(_Quest):
 
         self.wait_confirm('NOQUEST_NOCONNECTION')
         return self.step_abort
+
+    def step_app_not_installed(self):
+        '''Step method that is executed to check if the corresponding app is installed.
+
+        This method is launched before the actual quest is run. It will
+        guide the user through the installtion of the app through the
+        software backend.
+
+        By default shows a message and then abort.
+        '''
+        action = self.show_choices_message('NOQUEST_NOTINSTALLED',
+                                           ('NOQUEST_POSITIVE', None, True),
+                                           ('NOQUEST_NEGATIVE', None, False)).wait()
+        if action.future.result():
+            self.show_message('NOQUEST_DESCRIPTION')
+            self.wait_for_app_install(self.app, confirm=True, repo=self.__app_repository__)
+            return self.step_begin
+        else:
+            return self.step_abort
 
     def step_complete_and_stop(self, available=True):
         '''Step method that completes and stop the quest.
