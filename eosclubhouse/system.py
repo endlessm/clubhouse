@@ -37,7 +37,7 @@ class Desktop:
     _HACK_DBUS = 'com.hack_computer.hack'
     _HACK_OBJECT_PATH = '/com/hack_computer/hack'
     _BLOCK_HACK_PROPS = False
-    _HACK_EXTENSION = 'eos-hack@endlessm.com'
+    _HACK_EXTENSION = 'eos-hack@endlessos.org'
 
     SETTINGS_HACK_MODE_KEY = 'HackModeEnabled'
     SETTINGS_HACK_ICON_PULSE = 'HackIconPulse'
