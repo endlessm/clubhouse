@@ -1,8 +1,6 @@
 from eosclubhouse.libquest import Quest
 from eosclubhouse.system import Hostname
 
-# from eosclubhouse import logger
-
 
 class TourTest(Quest):
 
@@ -24,7 +22,8 @@ class TourTest(Quest):
         self.skippable = True
 
     def step_begin(self):
-        self.comp_islaptop = Hostname.is_laptop()
+        # self.comp_islaptop = Hostname.is_laptop()
+        self.comp_islaptop = True
         return self.step_quiz
 
     def step_test(self):
@@ -42,7 +41,7 @@ class TourTest(Quest):
         else:
             self.wait_confirm('QUIZ_NOTFIRST')
 
-        self.onboarding_image('temp_mac_win.png', size='60% 16:9')
+        self.onboarding_image('temp_mac_win.png', size='50% 16:9')
         action = self.show_choices_message('QUIZ_OS', ('QUIZ_OS_WIN', None, True),
                                            ('QUIZ_OS_MAC', None, False)).wait()
         self.onboarding_clean()
@@ -56,23 +55,28 @@ class TourTest(Quest):
 
     def step_teachkbm(self):
         # TODO: Need images for this section to reduce text
-        self.wait_confirm('KBM1')
         self.wait_confirm('MOUSE1')
         self.wait_confirm('MOUSE2')
 
         if self.comp_islaptop:
+            self.onboarding_image('temp_touchpads.png', size='50% 16:9')
             for msgid in ['MOUSE_LAP1', 'MOUSE_LAP2', 'MOUSE_LAP3']:
                 self.wait_confirm(msgid)
+            self.onboarding_clean()
         else:
+            self.onboarding_image('temp_mouse_full.png', size='50% 16:9')
             for msgid in ['MOUSE_DESK1', 'MOUSE_DESK2', 'MOUSE_DESK3']:
                 self.wait_confirm(msgid)
+            self.onboarding_clean()
 
         self.wait_confirm('KB1')
         self.wait_confirm('KB2')
         self.wait_confirm('KB3')
 
         if self.comp_islaptop:
+            self.onboarding_image('temp_function_and_fkeys.png', size='50% 16:9')
             self.wait_confirm('KB_LAP')
+            self.onboarding_clean()
         else:
             self.wait_confirm('KB_DESK')
 
@@ -106,7 +110,7 @@ class TourTest(Quest):
             self.show_highlight_widget('Files')
             self.wait_confirm('TRASH_WIN')
             self.onboarding_clean()
-            self.show_highlight_widget('stEntry')
+            self.show_highlight_widget('search-entry')
             self.wait_confirm('STARTMENU1')
             self.onboarding_clean()
             self.show_highlight_widget('App Center')
@@ -116,7 +120,7 @@ class TourTest(Quest):
             self.show_highlight_widget('Files')
             self.wait_confirm('TRASH_MAC')
             self.onboarding_clean()
-            self.show_highlight_widget('stBin')
+            self.show_highlight_widget('search-entry')
             self.wait_confirm('SPOTLIGHT1')
             self.onboarding_clean()
             self.show_highlight_widget('App Center')
@@ -128,7 +132,6 @@ class TourTest(Quest):
         self.wait_confirm('APPS1')
         self.wait_confirm('APPS2')
 
-        # TODO: highlight app center
         if self.has_connection():
             self.show_highlight_widget('App Center')
             self.wait_confirm('APPS_NET')
@@ -143,17 +146,17 @@ class TourTest(Quest):
         self.wait_confirm('TYPE')
         self.onboarding_clean()
 
-        self.show_highlight_rect((self.comp_screenx-500), 0, 500, 250)
+        # self.show_highlight_rect((self.comp_screenx-500), 0, 500, 250)
         self.wait_confirm('TYPE_MOVEBOX')
         self.onboarding_clean()
 
-        self.show_highlight_rect((self.comp_screenx-400), 0, 400, 200)
+        # self.show_highlight_rect((self.comp_screenx-400), 0, 400, 200)
         self.wait_confirm('FILE')
         self.onboarding_clean()
 
         self.wait_confirm('SAVEDIALOG')
 
-        self.show_highlight_rect((self.comp_screenx-200), 0, 200, 200)
+        # self.show_highlight_rect((self.comp_screenx-200), 0, 200, 200)
         self.wait_confirm('CLOSE')
         self.onboarding_clean()
 
@@ -196,11 +199,14 @@ class TourTest(Quest):
         self.wait_confirm('SETTINGS1')
         self.wait_confirm('SETTINGS2')
 
-        self.show_highlight_rect((self.comp_screenx-400), (self.comp_screeny-200), 400, 200)
+        # self.show_highlight_rect((self.comp_screenx-400), (self.comp_screeny-200), 400, 200)
+        self.show_highlight_widget('panel')
         self.wait_confirm('SETTINGS_TRAYICONS')
         self.onboarding_clean()
 
         self.wait_confirm('SETTINGS_MOVEWIN')
+
+        self.show_highlight_widget('panel-status-indicators-box user-mode-indicators-box')
         if self.has_connection():
             self.wait_confirm('SETTINGS_HASNET')
         else:
@@ -212,7 +218,8 @@ class TourTest(Quest):
             self.wait_confirm('SETTINGS_LAP_BATT')
         self.wait_confirm('SETTINGS_TRAY_INFO')
 
-        self.show_highlight_rect((self.comp_screenx-100), (self.comp_screeny-100), 100, 100)
+        # self.show_highlight_rect((self.comp_screenx-100), (self.comp_screeny-100), 100, 100)
+        self.show_highlight_widget('panelRight')
         self.wait_confirm('SETTINGS8')
         self.onboarding_clean()
 
@@ -230,7 +237,7 @@ class TourTest(Quest):
         return self.step_ending
 
     def step_ending(self):
-        for num in range(1, 10):
+        for num in range(1, 9):
             self.wait_confirm('ENDING' + str(num))
         super().step_complete_and_stop()
 
