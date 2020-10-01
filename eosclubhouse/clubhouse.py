@@ -62,6 +62,7 @@ CLUBHOUSE_PATHWAY_ENTER_EVENT = '600c1cae-b391-4cb4-9930-ea284792fdfb'
 CLUBHOUSE_NAME = 'com.hack_computer.Clubhouse'
 CLUBHOUSE_PATH = '/com/hack_computer/Clubhouse'
 CLUBHOUSE_IFACE = CLUBHOUSE_NAME
+USE_INAPP_NOTIFICATIONS = False
 
 ClubhouseIface = ('<node>'
                   '<interface name="com.hack_computer.Clubhouse">'
@@ -466,10 +467,17 @@ class InAppNotify(Gtk.Window):
         self._hide()
         self.emit('closed')
 
-    def _animate(self, direction):
+    def _get_workarea(self):
         display = self.get_screen().get_display()
         primary_monitor = display.get_primary_monitor()
-        workarea = primary_monitor.get_workarea()
+
+        if not primary_monitor:
+            primary_monitor = display.get_monitor_at_window(self.get_window())
+
+        return primary_monitor.get_workarea()
+
+    def _animate(self, direction):
+        workarea = self._get_workarea()
         x, y = self.get_position()
         height = self.get_allocation().height
 
@@ -516,9 +524,7 @@ class InAppNotify(Gtk.Window):
 
     def _place(self):
         x, y = 0, 0
-        display = self.get_screen().get_display()
-        primary_monitor = display.get_primary_monitor()
-        workarea = primary_monitor.get_workarea()
+        workarea = self._get_workarea()
         height = self.get_allocation().height
         width = self.get_allocation().width
         x = workarea.x + workarea.width - width - self.MARGIN
@@ -2033,10 +2039,36 @@ class AchievementsView(Gtk.Box):
             self._add_achievement(achievement)
 
     def _give_achievement(self, achievement):
-        self._shell_popup_achievement_badge(achievement)
+        if USE_INAPP_NOTIFICATIONS:
+            self._inapp_popup_achievement_badge(achievement)
+        else:
+            self._shell_popup_achievement_badge(achievement)
         self._add_achievement(achievement)
 
     def _shell_popup_achievement_badge(self, achievement):
+        notification = Gio.Notification()
+
+        template_text = utils.QuestStringCatalog.get_string('NOQUEST_GIVE_BADGE')
+        if template_text is None:
+            template_text = 'Got new badge *{{achievement.name}}*'
+
+        template = utils.MessageTemplate(template_text)
+        text = template.substitute({'achievement.name': achievement.name})
+        notification.set_body(text)
+        notification.set_title('')
+
+        icon_path = os.path.join(config.ACHIEVEMENTS_DIR, 'badges', '{}.svg'.format(achievement.id))
+        icon_file = Gio.File.new_for_path(icon_path)
+        icon_bytes = icon_file.load_bytes(None)
+        icon = Gio.BytesIcon.new(icon_bytes[0])
+
+        notification.add_button('OK', f"app.badge-notification(('{achievement.id}', false))")
+        notification.add_button('Show me', f"app.badge-notification(('{achievement.id}', true))")
+
+        notification.set_icon(icon)
+        Gio.Application.get_default().send_quest_item_notification(notification)
+
+    def _inapp_popup_achievement_badge(self, achievement):
         notification = InAppNotify.from_achievement(achievement)
 
         def ok_callback():
@@ -2698,7 +2730,10 @@ class QuestRunner(GObject.GObject):
         self._schedule_next_quest()
 
     def _quest_item_given_cb(self, quest, item_id, text):
-        self._shell_popup_item(item_id, text)
+        if USE_INAPP_NOTIFICATIONS:
+            self._inapp_popup_item(item_id, text)
+        else:
+            self._shell_popup_item(item_id, text)
 
     def _quest_message_cb(self, quest, message_info):
         logger.debug('Message %s: %s character_id=%s mood=%s choices=[%s]',
@@ -2787,13 +2822,20 @@ class QuestRunner(GObject.GObject):
                                                                          _run_quest_after_timeout)
 
     def _shell_close_popup_message(self):
+        if not USE_INAPP_NOTIFICATIONS:
+            self._app.close_quest_msg_notification()
+            return
+
         if self._current_quest_notification is not None:
             notification, _actions, _sound = self._current_quest_notification
             notification._hide()
         self._app.close_quest_msg_notification()
 
     def _shell_popup_message(self, message_info):
-        real_popup_message = functools.partial(self._shell_popup_message_real, message_info)
+        if USE_INAPP_NOTIFICATIONS:
+            real_popup_message = functools.partial(self._inapp_popup_message_real, message_info)
+        else:
+            real_popup_message = functools.partial(self._shell_popup_message_real, message_info)
 
         # If the user last interacted with a notification longer than a second ago, then we delay
         # the new notification a bit. The delaying is so that it is more noticeable to the user
@@ -2807,6 +2849,46 @@ class QuestRunner(GObject.GObject):
             real_popup_message()
 
     def _shell_popup_message_real(self, message_info):
+        notification = Gio.Notification()
+        text = message_info.get('text', '')
+        notification.set_body(text)
+        notification.set_title('')
+
+        sfx_sound = message_info.get('sound_fx')
+        if sfx_sound:
+            Sound.play(sfx_sound)
+        bg_sound = message_info.get('sound_bg')
+        if self._current_quest and bg_sound != self._current_quest.get_last_bg_sound_event_id():
+            self._current_quest.play_stop_bg_sound(bg_sound)
+
+        if self._current_quest and not self._current_quest.dismissible_messages():
+            notification.set_priority(Gio.NotificationPriority.URGENT)
+
+        if message_info.get('character_id'):
+            character = Character.get_or_create(message_info['character_id'])
+            character.mood = message_info['character_mood']
+            notification.set_icon(character.get_mood_icon())
+            Sound.play('clubhouse/{}/mood/{}'.format(character.id,
+                                                     character.mood))
+
+        self._reset_quest_actions()
+
+        for answer in message_info.get('choices', []):
+            self._add_quest_action(answer)
+
+        for key, action in self._actions.items():
+            label = action[0]
+            button_target = "app.quest-user-answer('{}')".format(key)
+            notification.add_button(label, button_target)
+        self._app.send_quest_msg_notification(notification)
+
+        if not message_info.get('system_notification', False):
+            self._current_quest_notification = (notification, self._actions, sfx_sound)
+
+        self._delayed_message_handler = 0
+        return GLib.SOURCE_REMOVE
+
+    def _inapp_popup_message_real(self, message_info):
         notification = InAppNotify.from_message(message_info)
         notification.connect('closed', lambda _n: self.stop_quest())
 
@@ -2851,9 +2933,35 @@ class QuestRunner(GObject.GObject):
         if sound:
             Sound.play(sound)
 
-        notification.slide_in()
+        if USE_INAPP_NOTIFICATIONS:
+            notification.slide_in()
+        else:
+            self._app.send_quest_msg_notification(notification)
 
     def _shell_popup_item(self, item_id, text):
+        item = utils.QuestItemDB().get_item(item_id)
+        if item is None:
+            logger.debug('Failed to get item %s from DB', item_id)
+            return
+
+        icon_name, _icon_used_name, item_name = item[:3]
+        notification = Gio.Notification()
+        if text is None:
+            text = 'You got a new item! {}'.format(item_name)
+
+        notification.set_body(text)
+        notification.set_title('')
+
+        icon_file = Gio.File.new_for_path(utils.QuestItemDB.get_icon_path(icon_name))
+        icon_bytes = icon_file.load_bytes(None)
+        icon = Gio.BytesIcon.new(icon_bytes[0])
+
+        notification.set_icon(icon)
+        notification.add_button('OK', 'app.item-notification(false)')
+        self._app.send_quest_item_notification(notification)
+        Sound.play('quests/key-given')
+
+    def _inapp_popup_item(self, item_id, text):
         item = utils.QuestItemDB().get_item(item_id)
         if item is None:
             logger.debug('Failed to get item %s from DB', item_id)
@@ -2866,7 +2974,6 @@ class QuestRunner(GObject.GObject):
         notification = InAppNotify.from_item(item, text)
         notification.add_button('OK', ok_callback)
         notification.slide_in()
-
         Sound.play('quests/key-given')
 
     def _reset_quest_actions(self):
