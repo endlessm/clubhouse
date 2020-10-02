@@ -38,8 +38,8 @@
 
 ## Add commit hash to modules repositories
 
-# add-commit = no
-# template-branch = '@BRANCH@'
+add-commit = yes
+template-branch = master
 
 [Modules]
 
@@ -76,14 +76,15 @@ clubhouse = .
 
 ## Skip steps when building the Clubhouse module:
 
-# run_lint = yes
-# run_tests = yes
+run_lint = no
+run_tests = yes
+build_args =
 
 [Advanced]
 
 ## Change the repository name:
 
-# repo = my-repo
+# repo = stable
 
 ## Force the flatpak branch name:
 

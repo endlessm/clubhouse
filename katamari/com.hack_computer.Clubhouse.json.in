@@ -262,9 +262,7 @@
             "name": "clubhouse",
             "buildsystem": "meson",
             "build-options": {
-              "build-args": [
-                  "--share=network"
-              ],
+              "build-args": ${CLUBHOUSE_BUILD_ARGS},
               "test-args": [
                   "--env=GSETTINGS_SCHEMA_DIR=/run/host/usr/share/glib-2.0/schemas/",
                   "--filesystem=host"
