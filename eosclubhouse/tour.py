@@ -142,8 +142,9 @@ class TourServer(metaclass=tour_meta):
         klass._call_method('HighlightFuzzy', position, size, shape, text, callback=callback)
 
     @classmethod
-    def show_overview(klass, show, callback=None):
-        klass._call_method('ShowOverview', show, callback=callback)
+    def show_overview(klass, show=True, callback=None):
+        method = 'show' if show else 'hide'
+        klass._call_method('Overview', method, callback=callback)
 
     @classmethod
     def show_image(klass, image_path, size='70% 16:9', callback=None):

@@ -2605,6 +2605,15 @@ class Quest(_Quest):
 
         Tour.clean()
 
+    def onboarding_overview(self, show=True):
+        ''' Show or hide the overview on the desktop
+
+        :param bool show: if True the overview will be shown, otherwise it'll
+            be hidden.
+        '''
+
+        Tour.show_overview(show)
+
     def open_url_in_browser(self, url):
         """Open the given URL in an external browser.
 
