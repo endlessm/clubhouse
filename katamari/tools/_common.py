@@ -35,7 +35,7 @@ import sys
 
 # Not all our modules are private, but since some are and we build all
 # of them, we use the private GitHub URL:
-GIT_URL_TEMPLATE = 'ssh://git@github.com/endlessm/{}.git'
+GIT_URL_TEMPLATE = 'https://github.com/endlessm/{}.git'
 
 DEFAULTS = {
     'Common': {
