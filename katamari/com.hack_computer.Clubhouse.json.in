@@ -80,7 +80,8 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.com/soundtouch/soundtouch.git",
-                    "tag": "2.1.2"
+                    "tag": "2.1.2",
+                    "commit": "9205fc971ed23cff407a67242bb9036a51113af4"
                 }
             ]
         },
@@ -163,7 +164,9 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://github.com/endlessm/eos-metrics.git"
+                    "url": "https://github.com/endlessm/eos-metrics.git",
+                    "tag": "Release_3.8.6",
+                    "commit": "6b78996c7aa86892227c2ab6cbb8c173f469e4ec"
                 }
             ]
         },
@@ -248,7 +251,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://github.com/endlessm/glibcoro.git"
+                    "url": "https://github.com/endlessm/glibcoro.git",
+                    "commit": "b7e5e73e5813fda0d6631fef594cf50972ec811b"
                 }
             ],
             "build-options": [
