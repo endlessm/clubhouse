@@ -1,36 +1,36 @@
 {
-  "app-id": "com.hack_computer.Clippy.Extension",
-  "branch": "${BRANCH}",
-  "runtime": "com.hack_computer.Clubhouse",
-  "runtime-version": "${BRANCH}",
-  "sdk": "org.gnome.Sdk//3.36",
-  "appstream-compose": false,
-  "separate-locales": false,
-  "build-extension": true,
-  "modules": [
-    {
-      "name": "clippy",
-      "buildsystem": "meson",
-      "config-opts": [
-        "-Dgtk-modules-path=/app/clippy/lib"
-      ],
-      "sources": [
-        ${CLIPPY_SOURCE}
-      ]
-    },
-    {
-      "name": "appdata",
-      "buildsystem": "simple",
-      "build-commands": [
-        "install -Dm644 --target-directory=$${FLATPAK_DEST}/share/appdata com.hack_computer.Clippy.Extension.appdata.xml",
-        "appstream-compose --basename=com.hack_computer.Clippy.Extension --prefix=$${FLATPAK_DEST} --origin=flatpak com.hack_computer.Clippy.Extension"
-      ],
-      "sources": [
+    "app-id": "com.hack_computer.Clippy.Extension",
+    "branch": "${BRANCH}",
+    "runtime": "com.hack_computer.Clubhouse",
+    "runtime-version": "${BRANCH}",
+    "sdk": "org.gnome.Sdk//3.36",
+    "appstream-compose": false,
+    "separate-locales": false,
+    "build-extension": true,
+    "modules": [
         {
-          "type": "file",
-          "path": "data/com.hack_computer.Clippy.Extension.appdata.xml"
+            "name": "clippy",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dgtk-modules-path=/app/clippy/lib"
+            ],
+            "sources": [
+                ${CLIPPY_SOURCE}
+            ]
+        },
+        {
+            "name": "appdata",
+            "buildsystem": "simple",
+            "build-commands": [
+                "install -Dm644 --target-directory=$${FLATPAK_DEST}/share/appdata com.hack_computer.Clippy.Extension.appdata.xml",
+                "appstream-compose --basename=com.hack_computer.Clippy.Extension --prefix=$${FLATPAK_DEST} --origin=flatpak com.hack_computer.Clippy.Extension"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "path": "data/com.hack_computer.Clippy.Extension.appdata.xml"
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }

@@ -33,9 +33,11 @@ import string
 import subprocess
 import sys
 
+import http.client
+
 # Not all our modules are private, but since some are and we build all
 # of them, we use the private GitHub URL:
-GIT_URL_TEMPLATE = 'ssh://git@github.com/endlessm/{}.git'
+GIT_URL_TEMPLATE = 'https://github.com/endlessm/{}.git'
 
 DEFAULTS = {
     'Common': {
@@ -43,6 +45,9 @@ DEFAULTS = {
         'bundle': False,
         'stable': False,
         'offline': False,
+        'add-commit': False,
+        'template-branch': '@BRANCH@',
+        'template-modules-branch': '@BRANCH@',
     },
     'Advanced': {
         'repo': 'repo',
@@ -138,18 +143,22 @@ class Config:
             'BRANCH': self.get_flatpak_branch(),
         }
 
-        default_git_branch = '@BRANCH@' if template else self.get_default_branch()
+        modules_branch = self.get('Common', 'template-modules-branch')
+        add_commit = self.get('Common', 'add-commit')
+        default_git_branch = modules_branch if template else self.get_default_branch()
 
         for module in modules:
             source_key = _get_source_key(module)
             if 'Modules' in self._config and module in self._config['Modules']:
                 module_value = self._config['Modules'][module]
-                value = _get_source(module, module_value, default_git_branch)
+                value = _get_source(module, module_value, default_git_branch, add_commit)
             else:
                 default_git_url = _get_default_git_url(module)
                 value = _get_git_source(default_git_url, default_git_branch)
+                if add_commit:
+                    value['commit'] = _get_git_commit(module, default_git_branch)
 
-            template_values[source_key] = json.dumps(value)
+            template_values[source_key] = _pretty_print_source(value)
 
             # Per-module options:
             if module in self._defs:
@@ -176,12 +185,29 @@ def _get_option_key(module, option):
     return module.upper().replace('-', '_') + '_' + option.upper()
 
 
+def _get_git_commit(module, branch):
+    api = f'/repos/endlessm/{module}/git/ref/heads/{branch}'
+
+    conn = http.client.HTTPSConnection("api.github.com")
+    conn.request("GET", api, headers={'User-Agent': 'python script'})
+    response = conn.getresponse()
+    return json.loads(response.read())['object']['sha']
+
+
 def _get_git_source(git_url, git_branch):
     return {
         'type': 'git',
         'url': git_url,
         'branch': git_branch,
     }
+
+
+def _pretty_print_source(value, indent=4, offset=16):
+    lines = json.dumps(value, indent=indent).split('\n')
+    # First line keeps the default offset
+    head = lines[:1]
+    tail = [(' ' * offset) + l for l in lines[1:]]
+    return '\n'.join(head + tail)
 
 
 def _get_dir_source(directory):
@@ -192,7 +218,7 @@ def _get_dir_source(directory):
     }
 
 
-def _get_source(module, module_value, default_git_branch):
+def _get_source(module, module_value, default_git_branch, add_commit=False):
     """Get source for module to embed it in the flatpak manifest.
 
     It guesses what module_value means. Examples:
@@ -241,7 +267,12 @@ def _get_source(module, module_value, default_git_branch):
     # At last we assume the format is a git branch for the default git
     # url.
     git_url = _get_default_git_url(module)
-    return _get_git_source(git_url, module_value)
+    source = _get_git_source(git_url, module_value)
+
+    if add_commit:
+        source['commit'] = _get_git_commit(module, default_git_branch)
+
+    return source
 
 
 def create_flatpak_manifest(config, modules, manifest, template=None):
@@ -249,7 +280,7 @@ def create_flatpak_manifest(config, modules, manifest, template=None):
 
     manifest_file = manifest
     if template:
-        template_values['BRANCH'] = '@BRANCH@'
+        template_values['BRANCH'] = config.get('Common', 'template-branch')
         manifest_file = template
 
     manifest_out = ''

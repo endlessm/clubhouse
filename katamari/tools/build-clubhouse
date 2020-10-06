@@ -42,6 +42,7 @@ DEFAULTS = {
     'clubhouse': {
         'run_lint': True,
         'run_tests': True,
+        'build_args': [ '--share=network' ],
     },
 }
 
