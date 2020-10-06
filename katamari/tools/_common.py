@@ -47,6 +47,7 @@ DEFAULTS = {
         'offline': False,
         'add-commit': False,
         'template-branch': '@BRANCH@',
+        'template-modules-branch': '@BRANCH@',
     },
     'Advanced': {
         'repo': 'repo',
@@ -142,9 +143,9 @@ class Config:
             'BRANCH': self.get_flatpak_branch(),
         }
 
-        template_branch = self.get('Common', 'template-branch')
+        modules_branch = self.get('Common', 'template-modules-branch')
         add_commit = self.get('Common', 'add-commit')
-        default_git_branch = template_branch if template else self.get_default_branch()
+        default_git_branch = modules_branch if template else self.get_default_branch()
 
         for module in modules:
             source_key = _get_source_key(module)
@@ -157,7 +158,7 @@ class Config:
                 if add_commit:
                     value['commit'] = _get_git_commit(module, default_git_branch)
 
-            template_values[source_key] = json.dumps(value)
+            template_values[source_key] = _pretty_print_source(value)
 
             # Per-module options:
             if module in self._defs:
@@ -199,6 +200,14 @@ def _get_git_source(git_url, git_branch):
         'url': git_url,
         'branch': git_branch,
     }
+
+
+def _pretty_print_source(value, indent=4, offset=16):
+    lines = json.dumps(value, indent=indent).split('\n')
+    # First line keeps the default offset
+    head = lines[:1]
+    tail = [(' ' * offset) + l for l in lines[1:]]
+    return '\n'.join(head + tail)
 
 
 def _get_dir_source(directory):

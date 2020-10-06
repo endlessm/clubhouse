@@ -30,7 +30,6 @@
         "--filesystem=~/.local/share/flatpak",
         "--nofilesystem=~/.local/lib/python3.5",
         "--own-name=com.endlessm.GameStateService",
-        "--own-name=com.hack_computer.Clubhouse",
         "--own-name=com.hack_computer.GameStateService",
         "--own-name=com.hack_computer.HackSoundServer",
         "--own-name=com.hack_computer.HackToolbox",
@@ -38,7 +37,7 @@
         "--socket=pulseaudio",
         "--socket=session-bus",
         "--socket=wayland",
-        "--socket=x11",
+        "--socket=fallback-x11",
         "--system-talk-name=org.freedesktop.Accounts",
         "--system-talk-name=org.freedesktop.NetworkManager",
         "--system-talk-name=org.freedesktop.hostname1",
@@ -46,27 +45,28 @@
         "--talk-name=ca.desrt.dconf",
         "--talk-name=com.endlessm.Libanimation",
         "--talk-name=org.freedesktop.Flatpak",
+        "--talk-name=org.freedesktop.DBus",
         "--talk-name=org.gtk.Notifications",
         "--talk-name=org.gnome.Shell",
         "--talk-name=com.hack_computer.hack",
         "--talk-name=org.endlessos.onboarding",
         "--talk-name=org.gnome.Software",
+        "--talk-name=com.endlessm.EknServices3.SearchProviderV3",
         "--require-version=1.5.0"
     ],
 
     "modules": [
         /** Clippy extension folder needed to make it work **/
         {
-          "name": "clippy-ext",
-          "buildsystem": "simple",
-          "build-commands": [
-            "mkdir /app/clippy"
-          ],
-          "sources": []
+            "name": "clippy-ext",
+            "buildsystem": "simple",
+            "build-commands": [
+                "mkdir /app/clippy"
+            ],
+            "sources": []
         },
 
         /** hack-sound-server **/
-
         {
             "name": "soundtouch",
             "cleanup": [
@@ -170,66 +170,46 @@
                 }
             ]
         },
-
-        {
-          "name": "Metropolis-font",
-          "buildsystem": "simple",
-          "build-commands": [
-            "install -D -m644 *.otf -t /app/share/fonts"
-          ],
-          "post-install": [
-            "fc-cache -f /app/share/fonts/"
-          ],
-          "sources": [
-            {
-              "type": "archive",
-              "url": "https://github.com/chrismsimpson/Metropolis/archive/r9.tar.gz",
-              "sha256": "283d1f51d96777c648dc1c0899b986fc99f14bfb709732428c14881c075c356b"
-            }
-          ]
-        },
         /** The debian lato font is broken, so we add our own version **/
         {
-          "name": "Lato-font",
-          "buildsystem": "simple",
-          "build-commands": [
-            "install -D -m644 *.ttf -t /app/share/fonts"
-          ],
-          "post-install": [
-            "fc-cache -f /app/share/fonts/"
-          ],
-          "sources": [
-            {
-              "type": "archive",
-              "url": "http://www.latofonts.com/download/Lato2OFL.zip",
-              "sha256": "42b54e96c07e299d967fc3227c7bd63a20d6cfb1dc8fd6dae83628091e20a5b8"
-            }
-          ]
+            "name": "fonts",
+            "buildsystem": "simple",
+            "build-commands": [
+                "install -D -m644 *.otf *.ttf -t /app/share/fonts"
+            ],
+            "post-install": [
+                "fc-cache -f /app/share/fonts/"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://www.latofonts.com/download/Lato2OFL.zip",
+                    "sha256": "42b54e96c07e299d967fc3227c7bd63a20d6cfb1dc8fd6dae83628091e20a5b8"
+                },
+                {
+                    "type": "archive",
+                    "url": "https://github.com/chrismsimpson/Metropolis/archive/r9.tar.gz",
+                    "sha256": "283d1f51d96777c648dc1c0899b986fc99f14bfb709732428c14881c075c356b"
+                },
+                {
+                    "type": "archive",
+                    "url": "https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.tar.xz",
+                    "sha256": "d9ed5d0a07525c7e7bd587b4364e4bc41021dd668658d09864453d9bb374a78d"
+                },
+                {
+                    "type": "archive",
+                    "url": "https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.tar.xz",
+                    "sha256": "d9ed5d0a07525c7e7bd587b4364e4bc41021dd668658d09864453d9bb374a78d"
+                }
+            ]
         },
         {
-          "name": "Hack-font",
-          "buildsystem": "simple",
-          "build-commands": [
-            "install -D -m644 *.ttf -t /app/share/fonts"
-          ],
-          "post-install": [
-            "fc-cache -f /app/share/fonts/"
-          ],
-          "sources": [
-            {
-              "type": "archive",
-              "url": "https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.tar.xz",
-              "sha256": "d9ed5d0a07525c7e7bd587b4364e4bc41021dd668658d09864453d9bb374a78d"
-            }
-          ]
-        },
-        {
-          "name": "hack-toolbox",
-          "buildsystem": "meson",
-          "run-tests": false,
-          "sources": [
-              ${HACK_TOOLBOX_APP_SOURCE}
-          ]
+            "name": "hack-toolbox",
+            "buildsystem": "meson",
+            "run-tests": false,
+            "sources": [
+                ${HACK_TOOLBOX_APP_SOURCE}
+            ]
         },
 
         /** game-state-service **/
@@ -255,9 +235,6 @@
                     "commit": "b7e5e73e5813fda0d6631fef594cf50972ec811b"
                 }
             ],
-            "build-options": [
-
-            ],
             "build-commands": [
                 "python3 ./setup.py install --prefix=/app"
             ]
@@ -266,11 +243,10 @@
             "name": "clubhouse",
             "buildsystem": "meson",
             "build-options": {
-              "build-args": ${CLUBHOUSE_BUILD_ARGS},
-              "test-args": [
-                  "--env=GSETTINGS_SCHEMA_DIR=/run/host/usr/share/glib-2.0/schemas/",
-                  "--filesystem=host"
-              ]
+                "build-args": ${CLUBHOUSE_BUILD_ARGS},
+                "test-args": [
+                    "--env=GSETTINGS_SCHEMA_DIR=/run/host/usr/share/glib-2.0/schemas/"
+                ]
             },
             "config-opts" : [
                 "-Dsession-bus-services-dir=/app/share/dbus-1/services",
@@ -285,4 +261,3 @@
         }
     ]
 }
-
