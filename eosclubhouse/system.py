@@ -524,6 +524,19 @@ class Desktop:
 
 
 class App:
+    '''A Desktop Application.
+
+    This is a bag of methods for interacting with a Desktop
+    Application. Some will work only if the application is:
+
+    - A GTK application.
+    - A Clippy enabled app.
+    - Distributed as flatpak.
+    - A Hack hackable-app.
+
+    A hackable-app is all of these: a GTK application, clippy enabled,
+    and distributed as flatpak.
+    '''
 
     APP_JS_PARAMS = 'view.JSContext.globalParameters'
 
@@ -616,6 +629,10 @@ class App:
         return self._gtk_launch_app_proxy
 
     def open_article(self, article_name):
+        '''Open an article by name.
+
+        Note: This only works for SOMA / SDK apps.
+        '''
         def _get_ekn_id(article_name):
             search_results = None
             try:
@@ -656,6 +673,10 @@ class App:
         return self._ekn_search_provider_proxy
 
     def is_running(self):
+        '''Check if the app is running.
+
+        Note: This only works for GTK applications.
+        '''
         return self.get_gtk_app_proxy().props.g_name_owner is not None
 
     def is_installed(self):
@@ -669,18 +690,26 @@ class App:
         return result.returncode == 0
 
     def request_install(self, confirm=True, repo=config.DEFAULT_INSTALL_REPO):
-        '''Open the gnome-software app with the selected aplication'''
+        '''Open the gnome-software app with the selected aplication
 
+        Note: This only works for apps distributed as flatpaks.
+        '''
         GnomeSoftware.details(self.dbus_name)
         if not confirm:
             branch = 'eos3' if repo == 'eos-apps' else 'stable'
             GnomeSoftware.install(self.dbus_name, branch=branch, repo=repo)
 
     def get_object_property(self, obj, prop):
+        '''Get a property in an object of the app.
+
+        Note: this works only for Hack hackable-apps.
+        '''
         return self.get_clippy_proxy().Get('(ss)', obj, prop)
 
     def set_object_property(self, obj, prop, value):
-        '''Sets a property in an object of the app.
+        '''Set a property in an object of the app.
+
+        Note: this works only for Hack hackable-apps.
 
         The value argument can be a GLib.Variant, or, for convenience, a string (will create
         a string type GLib.Variant), or a tuple expressing the type and value of the variant
@@ -711,6 +740,8 @@ class App:
         return self.get_clippy_proxy().Set('(ssv)', obj, prop, variant)
 
     def get_js_property(self, prop, default_value=None):
+        '''Shortcut for calling :meth:`get_object_property()` in Javascript globals.
+        '''
         value = default_value
 
         try:
@@ -721,6 +752,8 @@ class App:
         return value
 
     def set_js_property(self, prop, value):
+        '''Shortcut for calling :meth:`set_object_property()` in Javascript globals.
+        '''
         try:
             self.set_object_property(self.APP_JS_PARAMS, prop, value)
         except Exception as e:
@@ -730,11 +763,15 @@ class App:
         return True
 
     def connect_props_change(self, obj, props, property_changed_cb, *args):
+        '''Shortcut for calling :meth:`connect_object_props_change()` in Javascript globals.
+        '''
         obj = obj or self.APP_JS_PARAMS
         return [self.connect_object_props_change(obj, props,
                                                  property_changed_cb, *args)]
 
     def connect_object_props_change(self, obj, props, js_property_changed_cb, *args):
+        '''Connect to a property change in a Hack hackable-app.
+        '''
         # Check if the properties really changed, because in older versions of
         # Clippy, it was notifying always, instead of only if the value of the
         # property had changed.
@@ -764,9 +801,13 @@ class App:
         return proxy.connect('g-signal', _props_changed_cb, props, js_property_changed_cb, *args)
 
     def disconnect_object_props_change(self, handler_id):
+        '''Disconnect to a property change in a Hack hackable-app.
+        '''
         self.get_clippy_proxy().disconnect(handler_id)
 
     def connect_running_change(self, app_running_changed_cb, *args):
+        '''Connect to running change in a GTK application.
+        '''
         def _name_owner_changed(proxy, _pspec, app_running_changed_cb, *args):
             app_running_changed_cb(*args)
 
@@ -775,18 +816,33 @@ class App:
                              *args)
 
     def disconnect_running_change(self, handler_id):
+        '''Disconnect to running change in a GTK application.
+        '''
         self.get_gtk_app_proxy().disconnect(handler_id)
 
     def highlight_object(self, obj, timestamp=None):
+        '''Highlight an object inside a GTK application.
+
+        Note: The app should grant communication with Clippy for this
+        to work: flatpak run --env=GTK3_MODULES=libclippy-module.so
+
+        '''
         stamp = timestamp or int(time.time())
         self.get_clippy_proxy().Highlight('(su)', obj, stamp)
 
     def launch(self):
+        '''Launch the application.
+        '''
         if not Desktop.launch_app(self.dbus_name):
             return self.launch_gapp()
         return True
 
     def launch_gapp(self):
+        '''Launch the GTK application.
+
+        Note: this works only for GTK applications. See
+        :meth:`launch()` for a generic method.
+        '''
         try:
             self.get_gtk_launch_app_proxy().Activate('(a{sv})', [])
         except GLib.Error as e:
@@ -795,6 +851,10 @@ class App:
         return True
 
     def pulse_flip_to_hack_button(self, enable):
+        '''Pulse the Flip button.
+
+        Note: this works only for Hack hackable-apps.
+        '''
         app = HackableAppsManager.get_hackable_app(self._app_dbus_name)
         if app:
             app.pulse_flip_to_hack_button = enable
