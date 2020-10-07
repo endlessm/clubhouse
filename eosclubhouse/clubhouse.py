@@ -1571,6 +1571,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
 
     _hack_switch = Gtk.Template.Child()
     _hack_switch_panel = Gtk.Template.Child()
+    extension_button = Gtk.Template.Child()
 
     def __init__(self, clubhouse_view):
         super().__init__(visible=True)
@@ -3050,6 +3051,8 @@ class ClubhouseApplication(Gtk.Application):
     _INACTIVITY_TIMEOUT = 5 * 60 * 1000  # millisecs
 
     def __init__(self):
+        global USE_INAPP_NOTIFICATIONS
+
         super().__init__(application_id=CLUBHOUSE_NAME,
                          inactivity_timeout=self._INACTIVITY_TIMEOUT,
                          resource_base_path='/com/hack_computer/Clubhouse')
@@ -3088,18 +3091,42 @@ class ClubhouseApplication(Gtk.Application):
         self._init_style()
         InAppNotify.init_message()
 
+        installed = Desktop.is_hack_extension_installed(isEnabled=True)
+        USE_INAPP_NOTIFICATIONS = not installed
+        self._installing_extension = not installed
+
         # This will set the hack mode for old EOS < 3.9
         Desktop.set_legacy_hack_mode(True)
 
-        if not Desktop.is_hack_extension_installed(isEnabled=True):
-            Desktop.install_hack_extension(callback=self._on_extension_installed)
+    def _install_extension(self, action=None, arg_variant=None):
+        self._installing_extension = True
+        Desktop.install_hack_extension(callback=self._on_extension_installed)
 
-    def _on_extension_installed(self, success=False):
-        if not success:
-            logger.error('Cannot install or enable Hack shell extension')
+    def _show_extension_button(self, show=True):
+        if not self._window:
             return
 
-        logger.info('Hack shell extension installed and enabled')
+        layer = self._window.clubhouse.get_layer(ClubhouseView.MAIN_LAYER_NAME)
+        if show:
+            layer.extension_button.show()
+        else:
+            layer.extension_button.hide()
+
+    def _on_extension_installed(self, success=False):
+        global USE_INAPP_NOTIFICATIONS
+
+        installed = Desktop.is_hack_extension_installed(isEnabled=True)
+        if not success or not installed:
+            USE_INAPP_NOTIFICATIONS = True
+            self._show_extension_button()
+            logger.error('Cannot install or enable Hack shell extension')
+        else:
+            USE_INAPP_NOTIFICATIONS = False
+            self._show_extension_button(False)
+            logger.info('Hack shell extension installed and enabled')
+
+        self._installing_extension = False
+        self._run_episode_autorun_quest_if_needed()
 
     @property
     def quest_runner(self):
@@ -3131,6 +3158,9 @@ class ClubhouseApplication(Gtk.Application):
             self._show_and_focus_window()
 
     def _run_episode_autorun_quest_if_needed(self):
+        if self._installing_extension:
+            return False
+
         autorun_quest = libquest.Registry.get_autorun_quest()
         if autorun_quest is not None:
             # Run the quest in the app's main instance
@@ -3232,6 +3262,7 @@ class ClubhouseApplication(Gtk.Application):
                           ('close', self._close_action_cb, None),
                           ('run-quest', self._run_quest_action_cb, GLib.VariantType.new('(sb)')),
                           ('show-page', self._show_page_action_cb, GLib.VariantType.new('s')),
+                          ('install-extension', self._install_extension, None),
                           ('show-character', self._show_character_action_cb,
                            GLib.VariantType.new('s')),
                           ('stop-quest', self._stop_quest, None),
@@ -3380,6 +3411,11 @@ class ClubhouseApplication(Gtk.Application):
         if self._window.is_visible():
             # Manage the application's inactivity manually
             self.add_window(self._window)
+
+            enabled = Desktop.is_hack_extension_installed(isEnabled=True)
+            self._show_extension_button(not enabled)
+            if not enabled:
+                self._install_extension()
 
             self.send_suggest_open(False)
         else:

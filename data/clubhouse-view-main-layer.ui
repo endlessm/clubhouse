@@ -73,5 +73,28 @@
         <property name="y">329</property>
       </packing>
     </child>
+    <child>
+      <object class="GtkButton" id="extension_button">
+        <property name="visible">False</property>
+        <property name="can_focus">False</property>
+        <property name="receives_default">False</property>
+        <property name="action_name">app.install-extension</property>
+        <property name="tooltip_text" translatable="yes">Hack extension is not enabled. Click here to solve</property>
+        <style>
+          <class name="extension-button"/>
+        </style>
+        <child>
+          <object class="GtkImage">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="icon_name">dialog-warning-symbolic</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="x">12</property>
+        <property name="y">800</property>
+      </packing>
+    </child>
   </template>
 </interface>

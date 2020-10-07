@@ -636,7 +636,7 @@ CharacterView
         padding: 0.3em
         background-image: none
         border-radius: 2em
-        background-color: red
+        background-color: #E01B24
         color: white
 
   &.new
@@ -972,6 +972,17 @@ ClubhouseViewMainLayer
     background-size: cover
     background-image: url($images + 'banister.png')
     transition: background-image 200ms linear
+
+  .extension-button
+    color: white
+    text-shadow: none
+    border: 0
+    margin: 0
+    padding: 3px /* this is the border offset for checked state and needs to be in pixels to avoid rounding errors */
+    border-radius: 3em
+    box-shadow: 1px 1px 3px black
+    background-color: red
+    padding: 1em
 
 ClubhouseWindow.off
   ClubhouseViewMainLayer
