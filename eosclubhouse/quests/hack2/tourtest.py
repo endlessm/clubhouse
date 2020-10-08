@@ -7,7 +7,7 @@ class TourTest(Quest):
     __tags__ = ['pathway:operating system']
     # TODO: Make sure this line is uncommented when shipping!
     __auto_offer_info__ = {'confirm_before': False, 'start_after': 0}
-    __pathway_order__ = 1
+    __pathway_order__ = 2
 
     # TODO: Replace this with get/set_conf if possible
     comp_isfirst = False
@@ -22,8 +22,7 @@ class TourTest(Quest):
         self.skippable = True
 
     def step_begin(self):
-        # self.comp_islaptop = Hostname.is_laptop()
-        self.comp_islaptop = True
+        self.comp_islaptop = Hostname.is_laptop()
         return self.step_quiz
 
     def step_test(self):
