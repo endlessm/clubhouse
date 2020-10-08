@@ -206,7 +206,7 @@ def _pretty_print_source(value, indent=4, offset=16):
     lines = json.dumps(value, indent=indent).split('\n')
     # First line keeps the default offset
     head = lines[:1]
-    tail = [(' ' * offset) + l for l in lines[1:]]
+    tail = [(' ' * offset) + line for line in lines[1:]]
     return '\n'.join(head + tail)
 
 
