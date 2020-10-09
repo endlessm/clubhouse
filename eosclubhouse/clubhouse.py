@@ -62,7 +62,6 @@ CLUBHOUSE_PATHWAY_ENTER_EVENT = '600c1cae-b391-4cb4-9930-ea284792fdfb'
 CLUBHOUSE_NAME = 'com.hack_computer.Clubhouse'
 CLUBHOUSE_PATH = '/com/hack_computer/Clubhouse'
 CLUBHOUSE_IFACE = CLUBHOUSE_NAME
-USE_INAPP_NOTIFICATIONS = False
 
 ClubhouseIface = ('<node>'
                   '<interface name="com.hack_computer.Clubhouse">'
@@ -1601,6 +1600,10 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         self._app_window.connect('notify::scale', lambda app, p: self._update_scale())
         self._update_scale()
 
+        self._app.bind_property('extension_installed', self.extension_button, 'visible',
+                                GObject.BindingFlags.INVERT_BOOLEAN |
+                                GObject.BindingFlags.SYNC_CREATE)
+
     def _on_quest_set_highlighted_changed(self, quest_set, _param):
         if self._app_window.is_visible():
             return
@@ -2040,7 +2043,7 @@ class AchievementsView(Gtk.Box):
             self._add_achievement(achievement)
 
     def _give_achievement(self, achievement):
-        if USE_INAPP_NOTIFICATIONS:
+        if self._app.use_inapp_notifications:
             self._inapp_popup_achievement_badge(achievement)
         else:
             self._shell_popup_achievement_badge(achievement)
@@ -2731,7 +2734,7 @@ class QuestRunner(GObject.GObject):
         self._schedule_next_quest()
 
     def _quest_item_given_cb(self, quest, item_id, text):
-        if USE_INAPP_NOTIFICATIONS:
+        if self._app.use_inapp_notifications:
             self._inapp_popup_item(item_id, text)
         else:
             self._shell_popup_item(item_id, text)
@@ -2823,7 +2826,7 @@ class QuestRunner(GObject.GObject):
                                                                          _run_quest_after_timeout)
 
     def _shell_close_popup_message(self):
-        if not USE_INAPP_NOTIFICATIONS:
+        if not self._app.use_inapp_notifications:
             self._app.close_quest_msg_notification()
             return
 
@@ -2833,7 +2836,7 @@ class QuestRunner(GObject.GObject):
         self._app.close_quest_msg_notification()
 
     def _shell_popup_message(self, message_info):
-        if USE_INAPP_NOTIFICATIONS:
+        if self._app.use_inapp_notifications:
             real_popup_message = functools.partial(self._inapp_popup_message_real, message_info)
         else:
             real_popup_message = functools.partial(self._shell_popup_message_real, message_info)
@@ -2934,7 +2937,7 @@ class QuestRunner(GObject.GObject):
         if sound:
             Sound.play(sound)
 
-        if USE_INAPP_NOTIFICATIONS:
+        if self._app.use_inapp_notifications:
             notification.slide_in()
         else:
             self._app.send_quest_msg_notification(notification)
@@ -3051,12 +3054,11 @@ class ClubhouseApplication(Gtk.Application):
     _INACTIVITY_TIMEOUT = 5 * 60 * 1000  # millisecs
 
     def __init__(self):
-        global USE_INAPP_NOTIFICATIONS
-
         super().__init__(application_id=CLUBHOUSE_NAME,
                          inactivity_timeout=self._INACTIVITY_TIMEOUT,
                          resource_base_path='/com/hack_computer/Clubhouse')
 
+        self._use_inapp_notifications = False
         self._quest_runner_handler = None
         self._quest_runner = QuestRunner()
         self._window = None
@@ -3091,9 +3093,10 @@ class ClubhouseApplication(Gtk.Application):
         self._init_style()
         InAppNotify.init_message()
 
-        installed = Desktop.is_hack_extension_installed(isEnabled=True)
-        USE_INAPP_NOTIFICATIONS = not installed
-        self._installing_extension = not installed
+        self._installing_extension = not self.extension_installed
+        self.bind_property('extension_installed', self, 'use_inapp_notifications',
+                           GObject.BindingFlags.INVERT_BOOLEAN |
+                           GObject.BindingFlags.SYNC_CREATE)
 
         # This will set the hack mode for old EOS < 3.9
         Desktop.set_legacy_hack_mode(True)
@@ -3102,35 +3105,31 @@ class ClubhouseApplication(Gtk.Application):
         self._installing_extension = True
         Desktop.install_hack_extension(callback=self._on_extension_installed)
 
-    def _show_extension_button(self, show=True):
-        if not self._window:
-            return
-
-        layer = self._window.clubhouse.get_layer(ClubhouseView.MAIN_LAYER_NAME)
-        if show:
-            layer.extension_button.show()
-        else:
-            layer.extension_button.hide()
-
     def _on_extension_installed(self, success=False):
-        global USE_INAPP_NOTIFICATIONS
-
-        installed = Desktop.is_hack_extension_installed(isEnabled=True)
-        if not success or not installed:
-            USE_INAPP_NOTIFICATIONS = True
-            self._show_extension_button()
+        if not success or not self.extension_installed:
             logger.error('Cannot install or enable Hack shell extension')
         else:
-            USE_INAPP_NOTIFICATIONS = False
-            self._show_extension_button(False)
             logger.info('Hack shell extension installed and enabled')
 
+        self.notify('extension_installed')
         self._installing_extension = False
         self._run_episode_autorun_quest_if_needed()
 
     @property
     def quest_runner(self):
         return self._quest_runner
+
+    @GObject.Property(type=bool, default=False)
+    def use_inapp_notifications(self):
+        return self._use_inapp_notifications
+
+    @use_inapp_notifications.setter
+    def use_inapp_notifications(self, value):
+        self._use_inapp_notifications = value
+
+    @GObject.Property(type=bool, default=False)
+    def extension_installed(self):
+        return Desktop.is_hack_extension_installed(isEnabled=True)
 
     def _init_style(self):
         css_file = Gio.File.new_for_uri('resource:///com/hack_computer/Clubhouse/gtk-style.css')
@@ -3412,10 +3411,9 @@ class ClubhouseApplication(Gtk.Application):
             # Manage the application's inactivity manually
             self.add_window(self._window)
 
-            enabled = Desktop.is_hack_extension_installed(isEnabled=True)
-            self._show_extension_button(not enabled)
-            if not enabled:
+            if not self.extension_installed:
                 self._install_extension()
+            self.notify('extension_installed')
 
             self.send_suggest_open(False)
         else:
