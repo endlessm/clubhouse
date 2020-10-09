@@ -1570,6 +1570,8 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
 
     _hack_switch = Gtk.Template.Child()
     _hack_switch_panel = Gtk.Template.Child()
+    _extension_button_stack = Gtk.Template.Child()
+    _extension_button_spinner = Gtk.Template.Child()
     extension_button = Gtk.Template.Child()
 
     def __init__(self, clubhouse_view):
@@ -1603,6 +1605,21 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         self._app.bind_property('extension_installed', self.extension_button, 'visible',
                                 GObject.BindingFlags.INVERT_BOOLEAN |
                                 GObject.BindingFlags.SYNC_CREATE)
+        self._app.connect('notify::installing-extension', self._on_installing_extension)
+
+    def _on_installing_extension(self, app, pspec):
+        installing = self._app.installing_extension
+        page = 'loading' if installing else 'image'
+
+        self.extension_button.set_sensitive(not installing)
+        self._extension_button_stack.set_visible_child_name(page)
+
+        # spinner buttons inside stacks are visible, so to avoid high CPU usage
+        # we should stop when the page is not shown
+        if installing:
+            self._extension_button_spinner.start()
+        else:
+            self._extension_button_spinner.stop()
 
     def _on_quest_set_highlighted_changed(self, quest_set, _param):
         if self._app_window.is_visible():
@@ -3058,6 +3075,7 @@ class ClubhouseApplication(Gtk.Application):
                          inactivity_timeout=self._INACTIVITY_TIMEOUT,
                          resource_base_path='/com/hack_computer/Clubhouse')
 
+        self._installing_extension = False
         self._use_inapp_notifications = False
         self._quest_runner_handler = None
         self._quest_runner = QuestRunner()
@@ -3093,7 +3111,7 @@ class ClubhouseApplication(Gtk.Application):
         self._init_style()
         InAppNotify.init_message()
 
-        self._installing_extension = not self.extension_installed
+        self.installing_extension = not self.extension_installed
         self.bind_property('extension_installed', self, 'use_inapp_notifications',
                            GObject.BindingFlags.INVERT_BOOLEAN |
                            GObject.BindingFlags.SYNC_CREATE)
@@ -3102,7 +3120,7 @@ class ClubhouseApplication(Gtk.Application):
         Desktop.set_legacy_hack_mode(True)
 
     def _install_extension(self, action=None, arg_variant=None):
-        self._installing_extension = True
+        self.installing_extension = True
         Desktop.install_hack_extension(callback=self._on_extension_installed)
 
     def _on_extension_installed(self, success=False):
@@ -3112,7 +3130,7 @@ class ClubhouseApplication(Gtk.Application):
             logger.info('Hack shell extension installed and enabled')
 
         self.notify('extension_installed')
-        self._installing_extension = False
+        self.installing_extension = False
         self._run_episode_autorun_quest_if_needed()
 
     @property
@@ -3126,6 +3144,14 @@ class ClubhouseApplication(Gtk.Application):
     @use_inapp_notifications.setter
     def use_inapp_notifications(self, value):
         self._use_inapp_notifications = value
+
+    @GObject.Property(type=bool, default=False)
+    def installing_extension(self):
+        return self._installing_extension
+
+    @installing_extension.setter
+    def installing_extension(self, value):
+        self._installing_extension = value
 
     @GObject.Property(type=bool, default=False)
     def extension_installed(self):
@@ -3157,7 +3183,7 @@ class ClubhouseApplication(Gtk.Application):
             self._show_and_focus_window()
 
     def _run_episode_autorun_quest_if_needed(self):
-        if self._installing_extension:
+        if self.installing_extension:
             return False
 
         autorun_quest = libquest.Registry.get_autorun_quest()

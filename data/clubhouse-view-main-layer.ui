@@ -79,15 +79,36 @@
         <property name="can_focus">False</property>
         <property name="receives_default">False</property>
         <property name="action_name">app.install-extension</property>
-        <property name="tooltip_text" translatable="yes">Hack extension is not enabled. Click here to solve</property>
         <style>
           <class name="extension-button"/>
         </style>
         <child>
-          <object class="GtkImage">
+          <object class="GtkStack" id="_extension_button_stack">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="icon_name">dialog-warning-symbolic</property>
+            <property name="transition_type">crossfade</property>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">dialog-warning-symbolic</property>
+                <property name="tooltip_text" translatable="yes">Hack extension is not enabled. Click here to solve</property>
+              </object>
+              <packing>
+                <property name="name">image</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinner" id="_extension_button_spinner">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="active">True</property>
+                <property name="tooltip_text" translatable="yes">Installing hack extension…</property>
+              </object>
+              <packing>
+                <property name="name">loading</property>
+              </packing>
+            </child>
           </object>
         </child>
       </object>
