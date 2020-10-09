@@ -1,5 +1,6 @@
 from eosclubhouse.libquest import Quest
-from eosclubhouse.system import Hostname
+from eosclubhouse.system import Hostname, Desktop
+from time import sleep
 
 
 class OnboardTour(Quest):
@@ -29,8 +30,9 @@ class OnboardTour(Quest):
         self.wait_confirm('GREET1')
         self.wait_confirm('GREET2')
         self.wait_confirm('GREET3')
-        firstcomp_action = self.show_choices_message('Q_FIRSTCOMP', ('NOQUEST_POSITIVE', None, True), # noqa E501
-                         ('NOQUEST_NEGATIVE', None, False)).wait() # noqa E501
+        firstcomp_action = self.show_choices_message('Q_FIRSTCOMP',
+                                                     ('NOQUEST_POSITIVE', None, True),
+                                                     ('NOQUEST_NEGATIVE', None, False)).wait()
         self.comp_isfirst = firstcomp_action.future.result()
         if self.comp_isfirst:
             self.wait_confirm('ISFIRSTCOMP')
@@ -38,14 +40,16 @@ class OnboardTour(Quest):
         else:
             self.wait_confirm('NOTFIRSTCOMP')
 
-        askos_action = self.show_choices_message('Q_WHICHOS', ('A_WIN', None, True),
-                     ('A_MAC', None, False)).wait() # noqa E501
+        askos_action = self.show_choices_message('Q_PREVOS',
+                                                 ('A_PREVIOUS', None, True),
+                                                 ('A_FRESH', None, False)).wait()
         if not askos_action.future.result():
             self.wait_confirm('STARTFRESH')
         else:
             self.onboarding_image('temp_mac_win.png', size='50% 16:9')
-            chooseos_action = self.show_choices_message('Q_WHICHOS', ('A_WIN', None, True),
-                            ('A_MAC', None, False)).wait() # noqa E501
+            chooseos_action = self.show_choices_message('Q_WHICHOS',
+                                                        ('A_WIN', None, True),
+                                                        ('A_MAC', None, False)).wait()
             self.onboarding_clean()
             if chooseos_action.future.result():
                 self.os_previous = "win"
@@ -56,7 +60,6 @@ class OnboardTour(Quest):
         return self.step_desktop
 
     def step_teachkbm(self):
-        # TODO: Need images for this section to reduce text
         self.wait_confirm('KBM1')
         self.wait_confirm('MOUSE1')
         self.wait_confirm('MOUSE2')
@@ -72,6 +75,7 @@ class OnboardTour(Quest):
                 self.wait_confirm(msgid)
             self.onboarding_clean()
 
+        # TODO: keyboard/key images
         self.wait_confirm('KB1')
         self.wait_confirm('KB2')
         self.wait_confirm('KB3')
@@ -83,6 +87,7 @@ class OnboardTour(Quest):
             self.wait_confirm('KB_LAP2')
             self.onboarding_clean()
         else:
+            # TODO: numpad / numlock images
             self.wait_confirm('KB_DESK')
 
         self.wait_confirm('KBM_MOVEON')
@@ -136,41 +141,56 @@ class OnboardTour(Quest):
             self.show_highlight_widget('App Center')
             self.wait_confirm('APPS_HASNET')
             self.onboarding_clean()
-            askinstall_action = self.show_choices_message('APPS_Q_INSTALL', ('A_YES', None, True),
-                     ('A_NO', None, False)).wait() # noqa E501
-            if not askinstall_action.future.result():
+            askinstall_action = self.show_choices_message('APPS_Q_INSTALL',
+                                                          ('APPS_A_YES', None, True),
+                                                          ('APPS_A_NO', None, False)).wait()
+            if askinstall_action.future.result():
+                return self.step_apps_install
+            else:
                 self.wait_confirm('APPS_NOINSTALL')
                 return self.step_apps_writer
-            else:
-                return self.step_apps_install
 
     def step_apps_install(self):
+        # TODO: Wait for App Center opening on this dialog
         self.wait_confirm('APPS_INSTALL1')
+        # TODO: clippy highlight Search
         self.wait_confirm('APPS_INSTALL2')
+        # TODO: can clippy highlight the download button?
         self.wait_confirm('APPS_INSTALL3')
         self.wait_confirm('APPS_INSTALL4')
         self.wait_confirm('APPS_INSTALL5')
+        self.wait_confirm('APPS_INSTALL6')
+        return self.step_apps_writer
 
     def step_apps_writer(self):
         self.show_highlight_icon('org.libreoffice.LibreOffice.writer')
+        # TODO: wait for LibreOffice open here
         self.wait_confirm('OPENWRITER')
-        self.onboarding_clean()
 
+        # TODO: this works but needs to be Async
+        max_attempts = 100
+        wait_seconds = 0.3
+        for t in range(max_attempts):
+            if Desktop.app_is_running('org.libreoffice.LibreOfficeIpc0'):
+                break
+            sleep(wait_seconds)
+
+        self.onboarding_clean()
         self.show_highlight_fuzzy('center', '75%')
         self.wait_confirm('TYPE')
         self.onboarding_clean()
-
-        # self.show_highlight_rect((self.comp_screenx-500), 0, 500, 250)
+        #  TODO: can we use clippy highlight on the text box itself?
         self.wait_confirm('TYPE_MOVEBOX')
-        self.onboarding_clean()
 
+        # TODO: clippy highlight File -> Save
         # self.show_highlight_rect((self.comp_screenx-400), 0, 400, 200)
         self.wait_confirm('FILE')
         self.onboarding_clean()
 
+        # TODO: clippy highlight Save button in Save dialogue
         self.wait_confirm('SAVEDIALOG')
 
-        # self.show_highlight_rect((self.comp_screenx-200), 0, 200, 200)
+        # TODO: clippy highlight window close (X) button
         self.wait_confirm('CLOSE')
         self.onboarding_clean()
 
@@ -187,6 +207,7 @@ class OnboardTour(Quest):
         self.wait_confirm('FILES')
 
         self.show_highlight_widget('Files')
+        # TODO: wait for launch on Nautilus
         self.wait_confirm('OPENFILES')
         self.onboarding_clean()
 
@@ -195,8 +216,10 @@ class OnboardTour(Quest):
         return self.step_saveas
 
     def step_saveas(self):
+        # TODO: wait for LibreOffice open on this dialog
         self.wait_confirm('SAVEAS1')
         self.wait_confirm('SAVEAS2')
+        # TODO: clippy highlight File -> Save As..
         self.wait_confirm('SAVEAS3')
         self.wait_confirm('SAVEAS4')
         self.wait_confirm('SAVEAS5')
@@ -225,14 +248,14 @@ class OnboardTour(Quest):
         self.wait_confirm('SWITCHAPPS4')
         # TODO: break this out when/if we decide it's the right thing
         askmore_action = self.show_choices_message('Q_KNOWMORE',
-                                                   ('A_HACK', None, 1),
-                                                   ('A_HOW', None, 2)
-                                                   ('A_PROGRESS', None, 3)).wait()
-        if askmore_action.future.result() == 1:
+                                                   ('A_HACK', None, 'hack'),
+                                                   ('A_HOW', None, 'how'),
+                                                   ('A_PROGRESS', None, 'progress')).wait()
+        if askmore_action.future.result() == 'hack':
             self.wait_confirm('WHATSHACK')
-        if askmore_action.future.result() == 2:
+        if askmore_action.future.result() == 'how':
             self.wait_confirm('HOWDOI')
-        if askmore_action.future.result() == 3:
+        if askmore_action.future.result() == 'progress':
             self.wait_confirm('KEEPGOING')
         return self.step_settings
 
@@ -240,7 +263,6 @@ class OnboardTour(Quest):
         self.wait_confirm('SETTINGS1')
         self.wait_confirm('SETTINGS2')
 
-        # self.show_highlight_rect((self.comp_screenx-400), (self.comp_screeny-200), 400, 200)
         self.show_highlight_widget('panel')
         self.wait_confirm('SETTINGS_TRAYICONS')
         self.onboarding_clean()
@@ -259,21 +281,26 @@ class OnboardTour(Quest):
             self.wait_confirm('SETTINGS_LAP_BATT')
         self.wait_confirm('SETTINGS_TRAY_INFO')
 
-        # self.show_highlight_rect((self.comp_screenx-100), (self.comp_screeny-100), 100, 100)
         self.show_highlight_widget('panelRight')
         self.wait_confirm('SETTINGS8')
         self.onboarding_clean()
 
+        # TODO: It'd be cool if we could highlight the
+        # 'settings' button in the avatar menu here
         self.wait_confirm('SETTINGS9')
         self.wait_confirm('SETTINGS10')
+        # TODO: Can we highlight single/multiple entries
+        # in Settings using clippy?
         self.wait_confirm('SETTINGS11')
+        # TODO: clippy highlight WiFi
         self.wait_confirm('SETTINGS12')
+        # TODO: clippy highlight Background
         self.wait_confirm('SETTINGS13')
+        # TODO: clippy highlight Power
         self.wait_confirm('SETTINGS14')
 
         if self.comp_islaptop:
             self.wait_confirm('SETTINGS_LAP_PWR')
-        self.wait_confirm('SETTINGS15')
         return self.step_updates
 
     def step_updates(self):
@@ -281,7 +308,9 @@ class OnboardTour(Quest):
         self.wait_confirm('UPDATES2')
         self.wait_confirm('UPDATES3')
         self.wait_confirm('UPDATES4')
+        # TODO: clippy highlight Automatic Updates
         self.wait_confirm('UPDATES5')
+        self.wait_confirm('SETTINGS15')
         return self.step_ending
 
     def step_ending(self):
