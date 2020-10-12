@@ -2592,12 +2592,6 @@ class Quest(_Quest):
         # convert flatpak path to host absolute path
         quest_files_dir = config.QUESTS_FILES_DIR.replace('/app/', '')
         source = os.path.join(get_flatpak_sandbox(), quest_files_dir, file_path)
-
-        if not os.path.exists(source):
-            logger.error(
-                'Error showing image file on onboarding, source doesn\'t exist: %s', source)
-            return
-
         Tour.show_image(source, size)
 
     def onboarding_clean(self):
