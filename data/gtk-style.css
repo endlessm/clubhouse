@@ -450,7 +450,7 @@ ActivityCard {
         padding: 0.3em;
         background-image: none;
         border-radius: 2em;
-        background-color: red;
+        background-color: #E01B24;
         color: white; }
   ActivityCard.new #topbox image {
     background: linear-gradient(to top right, transparent 50%, #909090 51%); }
@@ -585,7 +585,7 @@ ActivityCard {
           padding: 0.3em;
           background-image: none;
           border-radius: 2em;
-          background-color: red;
+          background-color: #E01B24;
           color: white; }
     ActivityCard.available.new #topbox image {
       background: linear-gradient(to top right, transparent 50%, #f92781 51%); }
@@ -812,7 +812,7 @@ ClubhouseViewMainLayer .extension-button {
   padding: 3px;
   border-radius: 3em;
   box-shadow: 1px 1px 3px black;
-  background-color: #E01B24;
+  background-color: red;
   padding: 1em; }
 
 ClubhouseWindow.off ClubhouseViewMainLayer #banister {
