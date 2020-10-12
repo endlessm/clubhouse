@@ -804,6 +804,17 @@ ClubhouseViewMainLayer #banister {
   background-image: url("resource:///com/hack_computer/Clubhouse/images/banister.png");
   transition: background-image 200ms linear; }
 
+ClubhouseViewMainLayer .extension-button {
+  color: white;
+  text-shadow: none;
+  border: 0;
+  margin: 0;
+  padding: 3px;
+  border-radius: 3em;
+  box-shadow: 1px 1px 3px black;
+  background-color: #E01B24;
+  padding: 1em; }
+
 ClubhouseWindow.off ClubhouseViewMainLayer #banister {
   background-image: url("resource:///com/hack_computer/Clubhouse/images/banister-off.png"); }
 
