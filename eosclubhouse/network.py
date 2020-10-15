@@ -24,74 +24,26 @@ _logger = logging.getLogger(__name__)
 
 
 class NetworkManager:
-
-    _proxy = None
-    _properties_proxy = None
-    _DBUS_PATH = '/org/freedesktop/NetworkManager'
-    _DBUS_ID = 'org.freedesktop.NetworkManager'
-
-    @classmethod
-    def _get_proxy(klass):
-        if klass._proxy is None:
-            klass._proxy = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SYSTEM,
-                                                          0,
-                                                          None,
-                                                          klass._DBUS_ID,
-                                                          klass._DBUS_PATH,
-                                                          klass._DBUS_ID,
-                                                          None)
-
-        return klass._proxy
-
-    @classmethod
-    def _get_properties_proxy(klass):
-        if klass._properties_proxy is None:
-            klass._properties_proxy = Gio.DBusProxy.new_for_bus_sync(
-                Gio.BusType.SYSTEM,
-                0,
-                None,
-                klass._DBUS_ID,
-                klass._DBUS_PATH,
-                'org.freedesktop.DBus.Properties',
-                None,
-            )
-
-        return klass._properties_proxy
-
-    @classmethod
-    def get_prop(klass, key):
-        return klass._get_properties_proxy().Get('(ss)', klass._DBUS_ID, key)
-
     @classmethod
     def is_connected(klass):
-        return klass.get_prop('Connectivity') == 4
+        monitor = Gio.NetworkMonitor.get_default()
+        return monitor.get_connectivity() == Gio.NetworkConnectivity.FULL
 
     @classmethod
     def is_limited(klass):
-        return klass.get_prop('Connectivity') == 3
+        monitor = Gio.NetworkMonitor.get_default()
+        return monitor.get_connectivity() == Gio.NetworkConnectivity.LIMITED
 
     @classmethod
     def connect_connection_change(klass, callback):
-        proxy = klass._get_proxy()
+        monitor = Gio.NetworkMonitor.get_default()
 
-        def _props_changed_cb(_proxy, changed_properties, _invalidated, *args):
-            changed_properties_dict = changed_properties.unpack()
-            if 'Connectivity' in changed_properties_dict:
-                callback()
+        def _network_changed_cb(*args):
+            callback()
 
-        return proxy.connect('g-properties-changed', _props_changed_cb)
+        return monitor.connect('network-changed', _network_changed_cb)
 
     @classmethod
     def disconnect_connection_change(klass, handler):
-        klass._get_proxy().disconnect(handler)
-
-    @classmethod
-    def refresh(klass):
-        proxy = klass._get_proxy()
-
-        def on_done(proxy, result, user_data):
-            # Do nothing here, this is done to make the call async so the
-            # property gets updated on the proxy cached properties.
-            pass
-
-        proxy.CheckConnectivity(result_handler=on_done)
+        monitor = Gio.NetworkMonitor.get_default()
+        monitor.disconnect(handler)
