@@ -52,8 +52,8 @@ install_data(
 )
 
 install_data(
-    'com.hack_computer.Clubhouse.appdata.xml',
-    install_dir: join_paths(data_dir, 'appdata')
+    'com.hack_computer.Clubhouse.metainfo.xml',
+    install_dir: join_paths(data_dir, 'metainfo')
 )
 
 install_data(
