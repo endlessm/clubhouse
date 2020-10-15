@@ -24,7 +24,7 @@ import subprocess
 import time
 
 from eosclubhouse import config, logger
-from eosclubhouse.config import LAUNCH_SCRIPT_PATH
+from eosclubhouse.config import IS_INSTALLED_SCRIPT_PATH, LAUNCH_SCRIPT_PATH
 from eosclubhouse.hackapps import HackableAppsManager
 from eosclubhouse.soundserver import HackSoundServer, HackSoundItem
 from eosclubhouse.software import GnomeSoftware
@@ -681,13 +681,19 @@ class App:
 
     def is_installed(self):
         '''Check if the app is installed.
-
-        Note: This only works for apps distributed as flatpaks.
         '''
-        result = subprocess.run(['/usr/bin/flatpak-spawn', '--host',
-                                 'flatpak', 'info', '--show-ref', self.dbus_name],
-                                capture_output=True)
-        return result.returncode == 0
+
+        app_name = f'{self.dbus_name}.desktop'
+        sandbox = get_flatpak_sandbox()
+        # Remove /app
+        script = '/'.join(IS_INSTALLED_SCRIPT_PATH.split('/')[2:])
+        script_path = f'{sandbox}/{script}'
+        try:
+            subprocess.run(['/usr/bin/flatpak-spawn', '--host',
+                            script_path, app_name], check=True)
+        except Exception:
+            return False
+        return True
 
     def request_install(self, confirm=True, repo=config.DEFAULT_INSTALL_REPO):
         '''Open the gnome-software app with the selected aplication

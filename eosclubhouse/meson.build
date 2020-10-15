@@ -28,6 +28,10 @@ conf.set_quoted(
     'launch_script_path',
     join_paths(clubhouse_data_dir, 'tools', 'eos-hack-launch')
 )
+conf.set_quoted(
+    'is_installed_script_path',
+    join_paths(clubhouse_data_dir, 'tools', 'eos-hack-app-installed')
+)
 
 configure_file(
     input: 'config.py.in',
