@@ -179,8 +179,8 @@
                 },
                 {
                     "type": "archive",
-                    "url": "https://github.com/chrismsimpson/Metropolis/archive/r9.tar.gz",
-                    "sha256": "283d1f51d96777c648dc1c0899b986fc99f14bfb709732428c14881c075c356b"
+                    "url": "https://github.com/njugunagathere/Metropolis/archive/r8.tar.gz",
+                    "sha256": "d8a84ab35c1eb71dd0de55f922910db84ee22cf97a03f201b595fa898bc0ae5b"
                 },
                 {
                     "type": "archive",
