@@ -38,6 +38,7 @@ class Desktop:
     _HACK_OBJECT_PATH = '/com/hack_computer/hack'
     _BLOCK_HACK_PROPS = False
     _HACK_EXTENSION = 'eos-hack@endlessos.org'
+    _OLD_HACK_EXTENSION = 'eos-hack@endlessm.com'
 
     SETTINGS_HACK_MODE_KEY = 'HackModeEnabled'
     SETTINGS_HACK_ICON_PULSE = 'HackIconPulse'
@@ -189,7 +190,13 @@ class Desktop:
 
     @classmethod
     def is_hack_extension_installed(klass, isEnabled=False):
-        info = klass.get_hack_extension_info()
+        info = klass.get_extension_info(klass._OLD_HACK_EXTENSION)
+
+        if 'state' in info:
+            logger.info('Old hack extension installed, not checking new')
+            return True
+
+        info = klass.get_extension_info(klass._HACK_EXTENSION)
 
         if 'state' not in info:
             return False
@@ -208,9 +215,9 @@ class Desktop:
         return True
 
     @classmethod
-    def get_hack_extension_info(klass):
+    def get_extension_info(klass, extension):
         extensions_proxy = klass.get_extensions_proxy()
-        variant = GLib.Variant('(s)', [klass._HACK_EXTENSION])
+        variant = GLib.Variant('(s)', [extension])
         info = extensions_proxy.call_sync('GetExtensionInfo', variant,
                                           Gio.DBusCallFlags.NONE, -1, None)
 
