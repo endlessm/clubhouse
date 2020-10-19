@@ -43,7 +43,7 @@
         "--talk-name=org.endlessos.onboarding",
         "--talk-name=org.gnome.Software",
         "--talk-name=com.endlessm.EknServices3.SearchProviderV3",
-        "--require-version=1.5.0"
+        "--require-version=1.8.2"
     ],
 
     "modules": [
