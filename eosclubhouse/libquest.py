@@ -39,7 +39,8 @@ from eosclubhouse.system import App, Desktop, GameStateService, Sound, ToolBoxCo
 from eosclubhouse.utils import (get_alternative_quests_dir, get_flatpak_sandbox,
                                 ClubhouseState, MessageTemplate, Performance,
                                 QuestStringCatalog, convert_variant_arg, Version)
-from gi.repository import EosMetrics, Gdk, Gio, Gtk, GObject, GLib
+from eosclubhouse import metrics
+from gi.repository import Gdk, Gio, Gtk, GObject, GLib
 
 
 # Parse Clubhouse version ignoring micro
@@ -47,10 +48,6 @@ clubhouse_version = Version(config.PROJECT_VERSION, ignore_micro=True)
 
 # Set up the asyncio loop implementation
 glibcoro.install()
-
-
-QUEST_EVENT = '50aebb1b-7a93-4caf-8698-3a601a0fc0f6'
-PROGRESS_UPDATE_EVENT = '3a037364-9164-4b42-8c07-73bcc00902de'
 
 
 class Registry(GObject.GObject):
@@ -788,27 +785,25 @@ class _Quest(GObject.GObject):
 
     def _start_record_metrics(self):
         pathways = [i.get_name() for i in self.get_pathways()]
-        recorder = EosMetrics.EventRecorder.get_default()
-        key = GLib.Variant('s', self.get_name())
-        payload = GLib.Variant('(bsas)', (self.complete, self.get_id(), pathways))
-        recorder.record_start(QUEST_EVENT, key, payload)
+        key = self.get_name()
+        payload = (self.complete, self.get_id(), pathways)
+        metrics.record_start('QUEST', key, payload)
 
     def _stop_record_metrics(self):
         pathways = [i.get_name() for i in self.get_pathways()]
-        recorder = EosMetrics.EventRecorder.get_default()
-        key = GLib.Variant('s', self.get_name())
-        payload = GLib.Variant('(bsas)', (self.complete, self.get_id(), pathways))
-        recorder.record_stop(QUEST_EVENT, key, payload)
+        key = self.get_name()
+        payload = (self.complete, self.get_id(), pathways)
+        metrics.record_stop('QUEST', key, payload)
 
         # recording quest completeness and a single event because right now
         # azafea doesn't store the progress stop event
-        payload = convert_variant_arg({
+        payload = {
             "complete": self.complete,
             "quest": self.get_id(),
             "pathways": pathways,
             "progress": Registry.get_current_episode_progress() * 100,
-        })
-        recorder.record_event(PROGRESS_UPDATE_EVENT, payload)
+        }
+        metrics.record('PROGRESS_UPDATE', payload)
 
     def run(self, on_quest_finished):
         assert hasattr(self, 'step_begin'), ('Quests need to declare a "step_begin" method, in '

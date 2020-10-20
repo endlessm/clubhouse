@@ -235,6 +235,21 @@
             ]
         },
         {
+            "name": "persist-queue",
+            "buildsystem": "simple",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/peter-wangxu/persist-queue.git",
+                    "tag": "v0.5.0",
+                    "commit": "f27b0ca8b52454a79de8cf4e1f7abceed6307def"
+                }
+            ],
+            "build-commands": [
+                "python3 ./setup.py install --prefix=/app"
+            ]
+        },
+        {
             "name": "clubhouse",
             "buildsystem": "meson",
             "build-options": {
@@ -242,6 +257,8 @@
             },
             "config-opts" : [
                 "-Dsession-bus-services-dir=/app/share/dbus-1/services",
+                "-Dmatomo-host=${CLUBHOUSE_MATOMO_HOST}",
+                "-Dmatomo-site=${CLUBHOUSE_MATOMO_SITE}",
                 "-Drun-lint=${CLUBHOUSE_RUN_LINT}"
             ],
             "run-tests": ${CLUBHOUSE_RUN_TESTS},
