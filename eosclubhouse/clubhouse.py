@@ -3116,6 +3116,13 @@ class ClubhouseApplication(Gtk.Application):
         # This will set the hack mode for old EOS < 3.9
         Desktop.set_legacy_hack_mode(True)
 
+        # Listen to connection change to force update
+        NetworkManager.connect_connection_change(self._connection_change)
+
+    def _connection_change(self):
+        connection = NetworkManager.is_connected()
+        logger.info('Connection changed: %s', connection)
+
     def _install_extension(self, action=None, arg_variant=None):
         self.installing_extension = True
         Desktop.install_hack_extension(callback=self._on_extension_installed)
