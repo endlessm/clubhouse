@@ -1641,15 +1641,14 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
             ctx.add_class('off')
 
     def _on_hack_switch_toggled(self, button):
-        mock_quests = ['Quickstart', 'Migration', 'Meet']
+        mock_quests = ['Lightswitch', 'Migration', 'Meet']
         mock_hack_mode = (self._app.quest_runner.running_quest is not None and
                           self._app.quest_runner.running_quest.get_id() in mock_quests)
 
         self._app_window._clubhouse_state.lights_on = button.get_active()
         if not mock_hack_mode:
-            # Launch easter egg quest,
-            # TODO: Replace the quickstart quest with a new one
-            self._app.quest_runner.run_quest_by_name('hack2.Quickstart')
+            # Launch easter egg quest
+            self._app.quest_runner.run_quest_by_name('hack2.Lightswitch')
 
         self._update_switch_css()
 
