@@ -554,9 +554,10 @@ class App:
     _ekn_search_provider_proxy = None
     _knowledgesearch_proxy = None
 
-    def __init__(self, app_dbus_name, app_dbus_path=None):
+    def __init__(self, app_dbus_name, app_dbus_path=None, is_gtk=True):
         self._app_dbus_name = app_dbus_name
         self._app_dbus_path = app_dbus_path or ('/' + app_dbus_name.replace('.', '/'))
+        self._is_gtk = is_gtk
 
     @property
     def dbus_name(self):
@@ -681,10 +682,11 @@ class App:
 
     def is_running(self):
         '''Check if the app is running.
-
-        Note: This only works for GTK applications.
         '''
-        return self.get_gtk_app_proxy().props.g_name_owner is not None
+        if self._is_gtk:
+            return self.get_gtk_app_proxy().props.g_name_owner is not None
+        else:
+            return Desktop.app_is_running(self._app_dbus_name)
 
     def is_installed(self):
         '''Check if the app is installed.
@@ -819,8 +821,14 @@ class App:
         self.get_clippy_proxy().disconnect(handler_id)
 
     def connect_running_change(self, app_running_changed_cb, *args):
-        '''Connect to running change in a GTK application.
+        '''Connect to running change.
         '''
+        if self._is_gtk:
+            return self._connect_running_change_gtk(app_running_changed_cb, *args)
+        else:
+            return self._connect_running_change_generic(app_running_changed_cb, *args)
+
+    def _connect_running_change_gtk(self, app_running_changed_cb, *args):
         def _name_owner_changed(proxy, _pspec, app_running_changed_cb, *args):
             app_running_changed_cb(*args)
 
@@ -828,10 +836,24 @@ class App:
         return proxy.connect('notify::g-name-owner', _name_owner_changed, app_running_changed_cb,
                              *args)
 
+    def _connect_running_change_generic(self, app_running_changed_cb, *args):
+        def _check_running_changed(initial_running, app_running_changed_cb, *args):
+            if initial_running != Desktop.app_is_running(self._app_dbus_name):
+                app_running_changed_cb(*args)
+                return GLib.SOURCE_REMOVE
+            return GLib.SOURCE_CONTINUE
+
+        initial_running = Desktop.app_is_running(self._app_dbus_name)
+        return GLib.timeout_add_seconds(1, _check_running_changed,
+                                        initial_running, app_running_changed_cb, *args)
+
     def disconnect_running_change(self, handler_id):
         '''Disconnect to running change in a GTK application.
         '''
-        self.get_gtk_app_proxy().disconnect(handler_id)
+        if self._is_gtk:
+            self.get_gtk_app_proxy().disconnect(handler_id)
+        else:
+            GLib.source_remove(handler_id)
 
     def highlight_object(self, obj, timestamp=None):
         '''Highlight an object inside a GTK application.
