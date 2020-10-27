@@ -61,12 +61,6 @@ install_data(
     install_dir: 'share/icons/hicolor/scalable/apps'
 )
 
-install_subdir(
-    'backgrounds',
-    install_dir: join_paths(get_option('datadir'), 'backgrounds'),
-    strip_directory: true
-)
-
 install_data(
     'hack-data.ini',
     install_dir: join_paths(get_option('datadir'), 'hack-components')
