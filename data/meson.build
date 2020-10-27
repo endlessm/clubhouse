@@ -73,7 +73,6 @@ install_data(
 )
 
 characters_dir_name = 'characters'
-cursors_dir_name = 'cursors'
 items_dir_name = 'items'
 achievements_dir_name = 'achievements'
 episodes_dir_name = 'episodes'
@@ -82,7 +81,7 @@ quests_strings_dir_name = 'quests_strings'
 quests_files_dir_name = 'quests_files'
 tools_dir_name = 'tools'
 
-data_dir_paths = [characters_dir_name, cursors_dir_name, items_dir_name, achievements_dir_name, episodes_dir_name, newsfeed_dir_name, quests_strings_dir_name, quests_files_dir_name, tools_dir_name]
+data_dir_paths = [characters_dir_name, items_dir_name, achievements_dir_name, episodes_dir_name, newsfeed_dir_name, quests_strings_dir_name, quests_files_dir_name, tools_dir_name]
 
 foreach path : data_dir_paths
     install_subdir(path, install_dir: clubhouse_data_dir)
