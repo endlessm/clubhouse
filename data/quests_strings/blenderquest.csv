@@ -24,11 +24,11 @@ BLENDERQUEST_LAUNCH,I'll launch Blender - but you can also find it on the Deskto
 BLENDERQUEST_INFO_1,Here are some resources for Blender - You can click the links to watch them in your web browser.,estelle,,,
 BLENDERQUEST_INFO_2,The best way to use these videos is to resize your windows so you can can see both Blender and the video.,estelle,,,
 BLENDERQUEST_INFO_3,"That way, you can watch the video and follow along at the same time.",estelle,,,
-BLENDERQUEST_INFO_4,"The Complete Beginner's Guide to Blender: <u><span insert_hyphens=""false"" foreground=""#3584E4""><a href=""https://youtu.be/wNQYhbvTJi8"">https://youtu.be/wNQYhbvTJi8</a></span></u>",estelle,,,
+BLENDERQUEST_INFO_4,"The Complete Beginner's Guide to Blender: <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://youtu.be/wNQYhbvTJi8</span></u>",estelle,,,
 BLENDERQUEST_INFO_5,"Something a little more advanced:
-<u><span insert_hyphens=""false"" foreground=""#3584E4""><a href=""https://youtu.be/6mT4XFJYq-4"">https://youtu.be/6mT4XFJYq-4</a></span></u>",estelle,,,
+<u><span insert_hyphens=""false"" foreground=""#3584E4"">https://youtu.be/6mT4XFJYq-4</span></u>",estelle,,,
 BLENDERQUEST_INFO_6,"You can also use Blender Guru's beginner tutorial:
-<u><span insert_hyphens=""false"" foreground=""#3584E4""><a href=""https://youtu.be/TPrnSACiTJ4"">https://youtu.be/TPrnSACiTJ4</a></span></u>",estelle,,,
+<u><span insert_hyphens=""false"" foreground=""#3584E4"">https://youtu.be/TPrnSACiTJ4</span></u>",estelle,,,
 BLENDERQUEST_BYE,"Have fun! Remember, you can always restart this activity if you need to see the tips.",estelle,,,
 BLENDERQUEST_QUEST_SUBTITLE,What you'll do,,,,
 BLENDERQUEST_QUEST_DESCRIPTION,"Learn the basics of 3D Modeling with Blender, the free, open-source 3D modelling program!",,,,

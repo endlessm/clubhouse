@@ -30,8 +30,8 @@ class SimpleMarkupParser:
     >>> custom_tags = {
     ...     'inlinecode_start': '<tt><span size="small">',
     ...     'inlinecode_end': '</span></tt>',
-    ...     'url_start': '<u><span fg_color="blue"><a href="{}">',
-    ...     'url_end': '</a></span></u>',
+    ...     'url_start': '<u><span fg_color="blue">',
+    ...     'url_end': '</span></u>',
     ... }
 
     >>> parser = SimpleMarkupParser(custom_tags)
@@ -49,21 +49,18 @@ class SimpleMarkupParser:
     'Try setting <tt><span size="small">gravity = 0</span></tt> in the code.'
 
     >>> parser._do_parse('Checkout this site! https://www.w3.org/2000/svg')
-    'Checkout this site! <u><span fg_color="blue"><a href="https://www.w3.org/2000/svg">\
-https://www.w3.org/2000/svg</a></span></u>'
+    'Checkout this site! <u><span fg_color="blue">https://www.w3.org/2000/svg</span></u>'
 
     >>> parser._do_parse('Link with an underscore should not break: https://test.org/hello_world')
     'Link with an underscore should not break: \
-<u><span fg_color="blue"><a href="https://test.org/hello_world">\
-https://test.org/hello_world</a></span></u>'
+<u><span fg_color="blue">https://test.org/hello_world</span></u>'
 
     >>> parser._do_parse('Mixing `code and *bold*` allowed')
     'Mixing <tt><span size="small">code and <b>bold</b></span></tt> allowed'
 
     >>> parser._do_parse('URL in code `https://www.hack-computer.com/` allowed')
     'URL in code <tt><span size="small"><u><span fg_color="blue">\
-<a href="https://www.hack-computer.com/">\
-https://www.hack-computer.com/</a></span></u></span></tt> allowed'
+https://www.hack-computer.com/</span></u></span></tt> allowed'
     """
     DEFAULT_TAGS = {
         'bold_start': '<b>',
@@ -75,8 +72,8 @@ https://www.hack-computer.com/</a></span></u></span></tt> allowed'
         'inlinecode_start': ('<tt><span insert_hyphens="false" '
                              'foreground="#287A8C" background="#FFFFFF">'),
         'inlinecode_end': '</span></tt>',
-        'url_start': '<u><span insert_hyphens="false" foreground="#3584E4"><a href="{}">',
-        'url_end': '</a></span></u>',
+        'url_start': '<u><span insert_hyphens="false" foreground="#3584E4">',
+        'url_end': '</span></u>',
     }
     _convertions = None
     _instance = None
@@ -86,24 +83,20 @@ https://www.hack-computer.com/</a></span></u></span></tt> allowed'
         if isinstance(custom_tags, dict):
             tags.update(custom_tags)
 
-        def url_replacement(matchobj):
-            url_start = tags["url_start"].format(matchobj.group(0))
-            return f'{url_start}{matchobj.group(0)}{tags["url_end"]}'
-
         self._convertions = [
             [re.compile(r'<', re.S), r'&lt;'],
             [re.compile(r'>', re.S), r'&gt;'],
+            [re.compile(
+                # From http://www.noah.org/wiki/RegEx_Python#URL_regex_pattern
+                (r'(http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|'
+                 r'(?:%[0-9a-fA-F][0-9a-fA-F]))+)'), re.S),
+             f'{tags["url_start"]}\\1{tags["url_end"]}'],
             [re.compile(r'(?!<span[^>]*?>)(\*)(?=\S)(.+?)(?<=\S)\1(?![^<]*?</span>)', re.S),
              f'{tags["bold_start"]}\\2{tags["bold_end"]}'],
             [re.compile(r'(?!<span[^>]*?>)(_)(?=\S)(.+?)(?<=\S)\1(?![^<]*?</span>)', re.S),
              f'{tags["italics_start"]}\\2{tags["italics_end"]}'],
             [re.compile(r'(?!<span[^>]*?>)(~)(?=\S)(.+?)(?<=\S)\1(?![^<]*?</span>)', re.S),
              f'{tags["strikethrough_start"]}\\2{tags["strikethrough_end"]}'],
-            [re.compile(
-                # From http://www.noah.org/wiki/RegEx_Python#URL_regex_pattern
-                (r'(http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|'
-                 r'(?:%[0-9a-fA-F][0-9a-fA-F]))+)'), re.S),
-             url_replacement],
             [re.compile(r'(`)(?=\S)(.+?)(?<=\S)\1', re.S),
              f'{tags["inlinecode_start"]}\\2{tags["inlinecode_end"]}'],
         ]
