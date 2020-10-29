@@ -144,13 +144,11 @@ class Desktop:
 
     @classmethod
     def get_shell_property(klass, prop_name):
-        variant = GLib.Variant('(ss)', ('org.gnome.Shell', prop_name))
-        value = klass._get_shell_properties_proxy().call_sync('Get', variant,
-                                                              Gio.DBusCallFlags.NONE, -1, None)
-        if value is None:
+        try:
+            return klass._get_shell_properties_proxy().Get('(ss)', 'org.gnome.Shell', prop_name)
+        except GLib.Error:
             logger.warning(f"Failed to get '{prop_name}' property from  org.gnome.Shell")
             return None
-        return value.unpack()[0]
 
     @classmethod
     def get_shell_version(klass):
@@ -217,64 +215,51 @@ class Desktop:
     @classmethod
     def get_extension_info(klass, extension):
         extensions_proxy = klass.get_extensions_proxy()
-        variant = GLib.Variant('(s)', [extension])
-        info = extensions_proxy.call_sync('GetExtensionInfo', variant,
-                                          Gio.DBusCallFlags.NONE, -1, None)
-
-        if not info:
+        try:
+            info = extensions_proxy.GetExtensionInfo('(s)', extension)
+        except GLib.Error:
             return {}
-
-        return info.unpack()[0]
+        else:
+            return info
 
     @classmethod
     def install_hack_extension(klass, callback=None):
         '''Install the hack extension on the user space'''
 
-        def _on_installed_callback(proxy, result):
-            try:
-                proxy.call_finish(result)
-            except GLib.Error as e:
-                logger.error('Error installing eos-hack extension: %s', e.message)
-                if callback:
-                    callback(False)
-                return
-
+        def on_installed(proxy, result, callback):
             klass.enable_hack_extension()
             if callback:
                 callback(True)
 
+        def on_install_error(proxy, error, callback):
+            logger.error('Error installing eos-hack extension: %s', error.message)
+            if callback:
+                callback(False)
+
         extensions_proxy = klass.get_extensions_proxy()
-        variant = GLib.Variant('(s)', [klass._HACK_EXTENSION])
-        extensions_proxy.call('InstallRemoteExtension',
-                              variant,
-                              Gio.DBusCallFlags.NONE,
-                              -1,
-                              None,
-                              _on_installed_callback)
+        extensions_proxy.InstallRemoteExtension('(s)', klass._HACK_EXTENSION,
+                                                result_handler=on_installed,
+                                                error_handler=on_install_error,
+                                                user_data=callback)
 
     @classmethod
     def enable_hack_extension(klass):
         proxy = klass.get_extensions_proxy()
-        variant = GLib.Variant('(s)', [klass._HACK_EXTENSION])
-        proxy.call_sync('EnableExtension', variant, Gio.DBusCallFlags.NONE, -1, None)
+        proxy.EnableExtension('(s)', klass._HACK_EXTENSION)
 
     @classmethod
     def get_hack_property(klass, prop_name):
-        variant = GLib.Variant('(ss)', (klass._HACK_DBUS, prop_name))
-        value = klass._get_hack_properties_proxy().call_sync('Get', variant,
-                                                             Gio.DBusCallFlags.NONE, -1, None)
-        if value is None:
+        try:
+            return klass._get_hack_properties_proxy().Get('(ss)', klass._HACK_DBUS, prop_name)
+        except GLib.Error:
             logger.warning(f"Failed to get '{prop_name}' property"
                            " from  %s", klass._HACK_DBUS)
             return None
-        return value.unpack()[0]
 
     @classmethod
     def set_hack_property(klass, prop_name, value):
         value = convert_variant_arg(value)
-        variant = GLib.Variant('(ssv)', (klass._HACK_DBUS, prop_name, value))
-        return klass._get_hack_properties_proxy().call_sync('Set', variant,
-                                                            Gio.DBusCallFlags.NONE, -1, None)
+        return klass._get_hack_properties_proxy().Set('(ssv)', klass._HACK_DBUS, prop_name, value)
 
     @classmethod
     def get_shell_proxy_async(klass, callback, *callback_args):
@@ -938,14 +923,10 @@ class GameStateService(GObject.GObject):
     def set_async(self, key, variant):
         variant = convert_variant_arg(variant)
 
-        def _on_set_done_callback(proxy, result):
-            try:
-                proxy.call_finish(result)
-            except GLib.Error as e:
-                logger.error('Error calling set_async on GSS: %s', e.message)
+        def on_set_error(proxy, error, data=None):
+            logger.error('Error calling set_async on GSS: %s', error.message)
 
-        self._get_gss_proxy().call('Set', GLib.Variant('(sv)', (key, variant)),
-                                   Gio.DBusCallFlags.NONE, -1, None, _on_set_done_callback)
+        self._get_gss_proxy().Set('(sv)', key, variant, error_handler=on_set_error)
 
     def get(self, key, value_if_missing=None):
         try:
@@ -1077,20 +1058,15 @@ class ToolBoxTopic(GObject.GObject):
         self._get_proxy().disconnect(handler_id)
 
     def get_sensitive(self):
-        variant = GLib.Variant('(ss)', (self._INTERFACE_NAME, 'sensitive'))
-        sensitive = self._get_properties_proxy().call_sync('Get', variant,
-                                                           Gio.DBusCallFlags.NONE, -1, None)
-        if sensitive is None:
+        try:
+            return self._get_properties_proxy().Get('(ss)', self._INTERFACE_NAME, 'sensitive')
+        except GLib.Error:
             logger.warning("Failed to get 'sensitive' property"
                            " from toolbox topic %s", self._dbus_path)
 
-        return sensitive is not None and sensitive.unpack()[0]
-
     def set_sensitive(self, sensitive=True):
-        variant = GLib.Variant('(ssv)', (self._INTERFACE_NAME, 'sensitive',
-                                         GLib.Variant('b', sensitive)))
-        return self._get_properties_proxy().call_sync('Set', variant,
-                                                      Gio.DBusCallFlags.NONE, -1, None)
+        return self._get_properties_proxy().Set('(ssv)', self._INTERFACE_NAME, 'sensitive',
+                                                GLib.Variant('b', sensitive))
 
 
 class ToolBoxCodeView(GObject.GObject):
