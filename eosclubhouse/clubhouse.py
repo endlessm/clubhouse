@@ -1605,6 +1605,8 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         self._app.bind_property('extension_installed', self.extension_button, 'visible',
                                 GObject.BindingFlags.INVERT_BOOLEAN |
                                 GObject.BindingFlags.SYNC_CREATE)
+        self._app.bind_property('extension_installed', self._hack_switch, 'sensitive',
+                                GObject.BindingFlags.SYNC_CREATE)
         self._app.connect('notify::installing-extension', self._on_installing_extension)
 
     def _on_installing_extension(self, app, pspec):
@@ -2278,6 +2280,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                                       self._on_user_button_highlighted_changed_cb)
         self._clubhouse_state.connect('notify::lights-on',
                                       self._on_lights_changed_cb)
+        self._clubhouse_state.connect('notify::has-extension',
+                                      self._on_has_extension_changed_cb)
 
         self._css_provider = gtk_widget_add_custom_css_provider(self, for_screen=True)
 
@@ -2300,6 +2304,11 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             context.add_class('button-attract')
         else:
             context.remove_class('button-attract')
+
+    def _on_has_extension_changed_cb(self, state, _param):
+        has_extension = self._clubhouse_state.has_extension
+        state.characters_disabled = not has_extension
+        state.lights_on = has_extension
 
     def _on_lights_changed_cb(self, state, _param):
         lights_on = self._clubhouse_state.lights_on
@@ -3111,6 +3120,9 @@ class ClubhouseApplication(Gtk.Application):
         self.bind_property('extension_installed', self, 'use_inapp_notifications',
                            GObject.BindingFlags.INVERT_BOOLEAN |
                            GObject.BindingFlags.SYNC_CREATE)
+        clubhouse_state = ClubhouseState()
+        self.bind_property('extension_installed', clubhouse_state._impl, 'has_extension',
+                           GObject.BindingFlags.SYNC_CREATE)
 
         # This will set the hack mode for old EOS < 3.9
         Desktop.set_legacy_hack_mode(True)
@@ -3127,14 +3139,14 @@ class ClubhouseApplication(Gtk.Application):
         Desktop.install_hack_extension(callback=self._on_extension_installed)
 
     def _on_extension_installed(self, success=False):
+        self.notify('extension_installed')
+        self.installing_extension = False
+
         if not success or not self.extension_installed:
             logger.error('Cannot install or enable Hack shell extension')
         else:
             logger.info('Hack shell extension installed and enabled')
-
-        self.notify('extension_installed')
-        self.installing_extension = False
-        self._run_episode_autorun_quest_if_needed()
+            self._run_episode_autorun_quest_if_needed()
 
     @property
     def quest_runner(self):
@@ -3179,6 +3191,13 @@ class ClubhouseApplication(Gtk.Application):
                                                                    self._running_quest_notify_cb)
 
         self.quest_runner.update_episode_if_needed()
+
+        # If the extension is not installed, we don't run the autorun quests
+        if not self.extension_installed:
+            self._ensure_window()
+            self.show(Gdk.CURRENT_TIME)
+            self._show_and_focus_window()
+            return
 
         if not self._run_episode_autorun_quest_if_needed():
             self._ensure_window()
@@ -3340,6 +3359,11 @@ class ClubhouseApplication(Gtk.Application):
 
         self._window = ClubhouseWindow(self)
         self._window.connect('notify::visible', self._visibility_notify_cb)
+
+    def _disable_clubhouse(self):
+        if not self._window:
+            return
+        self._window.set_sensitive(False)
 
     def send_quest_msg_notification(self, notification):
         self.send_notification(self.QUEST_MSG_NOTIFICATION_ID, notification)
