@@ -1571,6 +1571,7 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
     _hack_switch = Gtk.Template.Child()
     _hack_switch_panel = Gtk.Template.Child()
     _extension_button_stack = Gtk.Template.Child()
+    _extension_button_label = Gtk.Template.Child()
     _extension_button_spinner = Gtk.Template.Child()
     extension_button = Gtk.Template.Child()
 
@@ -1620,8 +1621,10 @@ class ClubhouseViewMainLayer(Gtk.Fixed):
         # we should stop when the page is not shown
         if installing:
             self._extension_button_spinner.start()
+            self._extension_button_label.hide()
         else:
             self._extension_button_spinner.stop()
+            self._extension_button_label.show()
 
     def _on_quest_set_highlighted_changed(self, quest_set, _param):
         if self._app_window.is_visible():

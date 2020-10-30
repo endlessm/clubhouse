@@ -88,11 +88,38 @@
             <property name="can_focus">False</property>
             <property name="transition_type">crossfade</property>
             <child>
-              <object class="GtkImage">
+              <object class="GtkBox">
+                <property name="name">no-extension-box</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="icon_name">dialog-warning-symbolic</property>
-                <property name="tooltip_text" translatable="yes">Hack extension is not enabled. Click here to solve</property>
+                <property name="spacing">6</property>
+                <property name="orientation">horizontal</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">dialog-warning-symbolic</property>
+                    <property name="tooltip_text" translatable="yes">Hack extension is not enabled. Click here to solve</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="_extension_button_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="use-markup">True</property>
+                    <property name="label" translatable="yes">The Hack GNOME Shell Extension is not installed. &lt;b&gt;Install extension&lt;/b&gt;.</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="name">image</property>
