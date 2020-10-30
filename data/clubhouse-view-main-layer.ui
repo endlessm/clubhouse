@@ -111,7 +111,8 @@
                   <object class="GtkLabel" id="_extension_button_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Hack extension is not enabled. Click here to solve</property>
+                    <property name="use-markup">True</property>
+                    <property name="label" translatable="yes">The Hack GNOME Shell Extension is not installed. &lt;b&gt;Install extension&lt;/b&gt;.</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
