@@ -39,7 +39,7 @@ from eosclubhouse.system import App, Desktop, GameStateService, Sound, ToolBoxCo
 from eosclubhouse.utils import (get_alternative_quests_dir, get_flatpak_sandbox,
                                 ClubhouseState, MessageTemplate, Performance,
                                 QuestStringCatalog, convert_variant_arg, Version)
-from gi.repository import EosMetrics, Gio, GObject, GLib
+from gi.repository import EosMetrics, Gdk, Gio, Gtk, GObject, GLib
 
 
 # Parse Clubhouse version ignoring micro
@@ -2614,6 +2614,27 @@ class Quest(_Quest):
         :param str url: The URL to open.
         """
         return Gio.AppInfo.launch_default_for_uri_async(url)
+
+    def open_pdf(self, filename):
+        """Open the given file in an external app.
+
+        :param str filename: The pdf filename to open.
+
+        The file should exists in the quests_files/pdf folder.
+        """
+
+        path = os.path.join(config.QUESTS_FILES_DIR, 'pdf', filename)
+        gio_path = f'file://{path}.pdf'
+        app = Gio.Application.get_default()
+
+        if app:
+            win = app.get_active_window()
+            if win:
+                return Gtk.show_uri_on_window(win, gio_path, Gdk.CURRENT_TIME)
+
+        # If there's no window we launch directly without attaching to any
+        # window
+        return Gio.AppInfo.launch_default_for_uri_async(gio_path)
 
 
 class QuestSet(GObject.GObject):
