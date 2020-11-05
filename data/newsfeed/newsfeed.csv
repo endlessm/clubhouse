@@ -1,4 +1,22 @@
 Date ,Character ,ImageResource ,,Text 
+2020-11-09,Endless,hack-release.jpg,,"Greetings, Hackers and fans. Today, we've got another exciting update for Hack on the Desktop!
+
+<b>Hack mode</b>
+We heard you! Following up on feedback we received in several channels, we removed the concept of a Hack mode from our first class learning environment. In Hack mode, the user had the hacking affordances available, namely the <i>Flip to Hack</i> functionality to look behind an application, see what is happening behind the scenes, modify the application and run it in a sandbox environment. 
+
+To provide the user with a sense when those affordances were available, the desktop background wallpaper changed and the cursor switched to the Hack cursor. Those changes have been perceived as intrusive (“<i>it spoils the system and it changes your cursor style</i>”). We decided to reduce that barrier of adoption and removed changing the cursor and wallpaper. The hacking affordances are available by default and not tied to a specific mode, so you can still enjoy the Sidetrack quests and use the Hacking Toolbox on the flip side of the app to solve the riddles. The pinned desktop icon, which previously had an on/off state, is now reduced to a single-state icon.
+
+<b>Open sourcing</b>
+We are very happy to announce that Hack is now fully open source. All of the components have been released under an <a href=""https://en.wikipedia.org/wiki/Open-source_license"">open source license</a>. The are available on <a href=""https://github.com"">GitHub</a>.
+The  <a href=""https://github.com/endlessm/clubhouse/"">Clubhouse</a>, the place to start your Hack journeys and meet your heroes.
+The <a href=""https://github.com/endlessm/hack-toy-apps""> Hacking apps</a>, this includes the System app, Sidetrack and some other so called toy apps.
+The <a href=""https://github.com/endlessm/hack-sound-server"">Sound server </a>  to play back sounds in quests, the Clubhouse and Hack applications.
+The <a href=""https://github.com/endlessm/hack-toolbox-app"">Hacking toolbox</a> which provides tools to modify the apps.
+The<a href=""https://github.com/endlessm/hack-game-state-service"">Game State service</a> which keeps track of your progress in quests. 
+The GNOME Shell <a href=""https://github.com/endlessm/eos-hack-extension"">Hack extension</a> which adds functionality like FlipToHack to the GNOME Shell.
+<a href=""https://en.wikipedia.org/wiki/Office_Assistant"">Clippy</a>, a <a href=""https://github.com/endlessm/clippy"">library</a> to expose Gtk applications internals for scripting engines to implement interactive lessons in real time in the apps themself. 
+
+We hope you remain loyal to the Hack experience! Happy hacking - see you on <a href=""https://try.hack-computer.com"">Hack Lab</a>, or in the <a href=""https://community.endlessos.com/t/hack-web-release/13058"">Endless Community Forums!</a>"
 2020-07-02,Endless,hack-release.jpg,https://try.hack-computer.com/,"Greetings, Hackers and fans. Today, we've got another exciting update for Hack Lab!
 
 <b>Badges</b>
