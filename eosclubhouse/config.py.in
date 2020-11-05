@@ -18,3 +18,4 @@ LAUNCH_SCRIPT_PATH = @launch_script_path@
 IS_INSTALLED_SCRIPT_PATH = @is_installed_script_path@
 DEFAULT_EPISODE_NAME = 'hack2'
 DEFAULT_INSTALL_REPO = 'flathub'
+LOCALEDIR = @localedir@

@@ -35,6 +35,7 @@ import time
 import datetime
 import copy
 
+from gettext import gettext as _
 from collections import OrderedDict
 from gi.repository import EosMetrics, Gdk, GdkPixbuf, Gio, GLib, Gtk, \
     GObject, Json, Pango
@@ -91,68 +92,70 @@ ClubhouseIface = ('<node>'
 resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
 Gio.Resource._register(resource)
 
-CharacterInfo = {
-    'estelle': {
-        'position': (610, 144),
-        'username': 'lightspeedgal',
-        'pathway': 'art',
-        'pathway_title': 'Art'
-    },
-    'ada': {
-        'position': (204, 182),
-        'username': 'countesslovelace',
-        'pathway': 'games',
-        'pathway_title': 'Games'
-    },
-    'saniel': {
-        'position': (892, 570),
-        'username': 'srowe1822',
-        'pathway': 'operatingsystem',
-        'pathway_title': 'Operating Systems'
-    },
-    'faber': {
-        'position': (518, 511),
-        'username': 'fabersapiens',
-        'pathway': 'maker',
-        'pathway_title': 'Maker'
-    },
-    'riley': {
-        'position': (298, 551),
-        'username': '_getriled',
-        'pathway': 'web',
-        'pathway_title': 'Web'
-    },
-    'felix': {
-        'position': None,
-        'username': 'UNDEFINED_USER',
-        'pathway': None,
-        'pathway_title': None
-    },
-    'endless': {
-        'position': None,
-        'username': 'Endless',
-        'pathway': None,
-        'pathway_title': None
-    },
-    'daemon': {
-        'position': None,
-        'username': 'cron',
-        'pathway': None,
-        'pathway_title': None
-    },
-    'daemon2': {
-        'position': None,
-        'username': 'peacock',
-        'pathway': None,
-        'pathway_title': None
-    },
-    'daemon3': {
-        'position': None,
-        'username': 'starman',
-        'pathway': None,
-        'pathway_title': None
+
+def CharacterInfo():
+    return {
+        'estelle': {
+            'position': (610, 144),
+            'username': 'lightspeedgal',
+            'pathway': 'art',
+            'pathway_title': _('Art')
+        },
+        'ada': {
+            'position': (204, 182),
+            'username': 'countesslovelace',
+            'pathway': 'games',
+            'pathway_title': _('Games')
+        },
+        'saniel': {
+            'position': (892, 570),
+            'username': 'srowe1822',
+            'pathway': 'operatingsystem',
+            'pathway_title': _('Operating Systems')
+        },
+        'faber': {
+            'position': (518, 511),
+            'username': 'fabersapiens',
+            'pathway': 'maker',
+            'pathway_title': _('Maker')
+        },
+        'riley': {
+            'position': (298, 551),
+            'username': '_getriled',
+            'pathway': 'web',
+            'pathway_title': _('Web')
+        },
+        'felix': {
+            'position': None,
+            'username': 'UNDEFINED_USER',
+            'pathway': None,
+            'pathway_title': None
+        },
+        'endless': {
+            'position': None,
+            'username': 'Endless',
+            'pathway': None,
+            'pathway_title': None
+        },
+        'daemon': {
+            'position': None,
+            'username': 'cron',
+            'pathway': None,
+            'pathway_title': None
+        },
+        'daemon2': {
+            'position': None,
+            'username': 'peacock',
+            'pathway': None,
+            'pathway_title': None
+        },
+        'daemon3': {
+            'position': None,
+            'username': 'starman',
+            'pathway': None,
+            'pathway_title': None
+        }
     }
-}
 
 
 class Character(GObject.GObject):
@@ -177,8 +180,9 @@ class Character(GObject.GObject):
         body_path = os.path.join(self._id, 'fullbody')
         self._body_image = AnimationImage(body_path)
 
-        if id_ in CharacterInfo:
-            info = CharacterInfo[id_]
+        character_info = CharacterInfo()
+        if id_ in character_info:
+            info = character_info[id_]
             self._position = info['position']
             self.username = info['username']
             self.pathway = info['pathway']
@@ -1185,10 +1189,11 @@ class ActivityCard(Gtk.FlowBoxChild):
 
         quest_id = self._quest.get_id().lower()
         character = self._quest_set.get_character()
-        if character not in CharacterInfo:
+        character_info = CharacterInfo()
+        if character not in character_info:
             return
 
-        info = CharacterInfo[character]
+        info = character_info[character]
         pathway = info['pathway']
 
         basename = quest_id
