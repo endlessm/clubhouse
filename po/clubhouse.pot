@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: clubhouse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-05 13:25+0100\n"
+"POT-Creation-Date: 2020-11-06 08:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,14 +27,6 @@ msgstr ""
 
 #: data/achievements-view.ui:66
 msgid "Achievements"
-msgstr ""
-
-#: data/achievements-view.ui:131
-msgid "page0"
-msgstr ""
-
-#: data/achievements-view.ui:163
-msgid "page1"
 msgstr ""
 
 #: data/activity-card.ui:219
@@ -140,14 +132,6 @@ msgstr ""
 
 #: data/com.hack_computer.Clubhouse.metainfo.xml:51
 msgid "The Hack Team"
-msgstr ""
-
-#: data/message.ui:38
-msgid "icon-down"
-msgstr ""
-
-#: data/message.ui:50
-msgid "icon-up"
 msgstr ""
 
 #: data/news-view.ui:52
