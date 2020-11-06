@@ -99,7 +99,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="icon_name">dialog-warning-symbolic</property>
-                    <property name="tooltip_text" translatable="yes">Hack extension is not enabled. Click here to solve</property>
+                    <property name="tooltip_text" translatable="yes">Hack GNOME Shell Extension is not enabled. Click here to solve.</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -130,7 +130,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="active">True</property>
-                <property name="tooltip_text" translatable="yes">Installing hack extension…</property>
+                <property name="tooltip_text" translatable="yes">Installing the Hack GNOME shell Extension…</property>
               </object>
               <packing>
                 <property name="name">loading</property>

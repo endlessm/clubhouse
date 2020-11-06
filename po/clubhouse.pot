@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: clubhouse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-06 08:57+0100\n"
+"POT-Creation-Date: 2020-11-06 09:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgid "Workspace"
 msgstr ""
 
 #: data/clubhouse-view-main-layer.ui:102
-msgid "Hack extension is not enabled. Click here to solve"
+msgid "Hack GNOME Shell Extension is not enabled. Click here to solve."
 msgstr ""
 
 #: data/clubhouse-view-main-layer.ui:115
@@ -52,7 +52,7 @@ msgid ""
 msgstr ""
 
 #: data/clubhouse-view-main-layer.ui:133
-msgid "Installing hack extension…"
+msgid "Installing the Hack GNOME shell Extension…"
 msgstr ""
 
 #: data/clubhouse-window.ui:41 eosclubhouse/clubhouse.py:108
@@ -84,23 +84,22 @@ msgid "Hack News"
 msgstr ""
 
 #: data/com.hack_computer.Clubhouse.desktop:4
+#: data/com.hack_computer.Clubhouse.desktop:5
 #: data/com.hack_computer.Clubhouse.metainfo.xml:7
 msgid "Hack"
 msgstr ""
 
-#: data/com.hack_computer.Clubhouse.desktop:5
-msgid "eos-clubhouse"
-msgstr ""
-
 #: data/com.hack_computer.Clubhouse.desktop:6
-msgid "Hack Clubhouse application"
+msgid "The Clubhouse application for Hack"
 msgstr ""
 
-#: data/com.hack_computer.Clubhouse.desktop:7
+#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
+#: data/com.hack_computer.Clubhouse.desktop:8
 msgid "com.hack_computer.Clubhouse"
 msgstr ""
 
-#: data/com.hack_computer.Clubhouse.desktop:12
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/com.hack_computer.Clubhouse.desktop:14
 msgid "hack;learn;code;programming;game;clubhouse;"
 msgstr ""
 
@@ -132,18 +131,6 @@ msgstr ""
 
 #: data/com.hack_computer.Clubhouse.metainfo.xml:51
 msgid "The Hack Team"
-msgstr ""
-
-#: data/news-view.ui:52
-msgid "instagram.com/madetohack"
-msgstr ""
-
-#: data/news-view.ui:81
-msgid "twitter.com/madetohack"
-msgstr ""
-
-#: data/news-view.ui:110
-msgid "facebook.com/madetohack"
 msgstr ""
 
 #: data/quest-set-info-tip.ui:46
