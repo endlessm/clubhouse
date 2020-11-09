@@ -29,9 +29,17 @@ import os
 def _run_clubhouse():
     import signal
     import sys
+    import locale
+    import gettext
 
     from gi.repository import GLib
     from eosclubhouse.clubhouse import ClubhouseApplication
+    from eosclubhouse import config
+
+    locale.bindtextdomain('clubhouse', config.LOCALEDIR)
+    locale.textdomain('clubhouse')
+    gettext.bindtextdomain('clubhouse', config.LOCALEDIR)
+    gettext.textdomain('clubhouse')
 
     app = ClubhouseApplication()
 

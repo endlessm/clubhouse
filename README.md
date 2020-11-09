@@ -532,6 +532,19 @@ If you do not have the `dot` binary, do not worry. You can also visualize
 it in on-line in sites like [dreampuf](https://dreampuf.github.io) or
 [GraphvizFiddle](https://stamm-wilbrandt.de/GraphvizFiddle/).
 
+## Translations
+
+To add a new language for the clubhouse interface you should add it to the
+po/LINGUAS file.
+
+You can start a new translation just copying the po/clubhouse.pot file and
+start translating to the desired language.
+
+To update existing language translations:
+
+```
+ninja -C build/ clubhouse-update-po
+```
 
 ## Future Work ##
 

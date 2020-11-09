@@ -1,12 +1,14 @@
 [Desktop Entry]
 Type=Application
 Name=Hack
-GenericName=eos-clubhouse
-Comment=Hack Clubhouse application
+GenericName=Hack
+Comment=The Clubhouse application for Hack
+# Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 Icon=com.hack_computer.Clubhouse
 Exec=eos-clubhouse
 Terminal=false
 StartupNotify=true
 X-Endless-HackShader=true
+# Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 Keywords=hack;learn;code;programming;game;clubhouse;
 Keywords[es]=hack;aprender;código;programación;juego;

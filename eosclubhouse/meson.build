@@ -32,6 +32,10 @@ conf.set_quoted(
     'is_installed_script_path',
     join_paths(clubhouse_data_dir, 'tools', 'eos-hack-app-installed')
 )
+conf.set_quoted(
+    'localedir',
+    join_paths(get_option('prefix'), get_option('datadir'), 'locale')
+)
 
 configure_file(
     input: 'config.py.in',

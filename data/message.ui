@@ -35,7 +35,7 @@
                       </object>
                       <packing>
                         <property name="name">icon-down</property>
-                        <property name="title" translatable="yes">icon-down</property>
+                        <property name="title" translatable="no">icon-down</property>
                       </packing>
                     </child>
                     <child>
@@ -47,7 +47,7 @@
                       </object>
                       <packing>
                         <property name="name">icon-up</property>
-                        <property name="title" translatable="yes">icon-up</property>
+                        <property name="title" translatable="no">icon-up</property>
                         <property name="position">1</property>
                       </packing>
                     </child>

@@ -1,0 +1,146 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the clubhouse package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: clubhouse\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-06 09:49+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/achievement-summary-view.ui:33
+msgid "Achievement Badge Name"
+msgstr ""
+
+#: data/achievement-summary-view.ui:49
+msgid "Description"
+msgstr ""
+
+#: data/achievements-view.ui:66
+msgid "Achievements"
+msgstr ""
+
+#: data/activity-card.ui:219
+msgid "play"
+msgstr ""
+
+#: data/character-view.ui:81 data/clubhouse-window.ui:255
+#: data/clubhouse-window.ui:306
+msgid "Clubhouse"
+msgstr ""
+
+#: data/character-view.ui:124
+msgid "Workspace"
+msgstr ""
+
+#: data/clubhouse-view-main-layer.ui:102
+msgid "Hack GNOME Shell Extension is not enabled. Click here to solve."
+msgstr ""
+
+#: data/clubhouse-view-main-layer.ui:115
+msgid ""
+"The Hack GNOME Shell Extension is not installed. <b>Install extension</b>."
+msgstr ""
+
+#: data/clubhouse-view-main-layer.ui:133
+msgid "Installing the Hack GNOME shell Extension…"
+msgstr ""
+
+#: data/clubhouse-window.ui:41 eosclubhouse/clubhouse.py:108
+msgid "Games"
+msgstr ""
+
+#: data/clubhouse-window.ui:87 eosclubhouse/clubhouse.py:102
+msgid "Art"
+msgstr ""
+
+#: data/clubhouse-window.ui:133 eosclubhouse/clubhouse.py:126
+msgid "Web"
+msgstr ""
+
+#: data/clubhouse-window.ui:179 eosclubhouse/clubhouse.py:120
+msgid "Maker"
+msgstr ""
+
+#: data/clubhouse-window.ui:225
+msgid "Operating System"
+msgstr ""
+
+#: data/clubhouse-window.ui:342
+msgid "Pathways"
+msgstr ""
+
+#: data/clubhouse-window.ui:369
+msgid "Hack News"
+msgstr ""
+
+#: data/com.hack_computer.Clubhouse.desktop:4
+#: data/com.hack_computer.Clubhouse.desktop:5
+#: data/com.hack_computer.Clubhouse.metainfo.xml:7
+msgid "Hack"
+msgstr ""
+
+#: data/com.hack_computer.Clubhouse.desktop:6
+msgid "The Clubhouse application for Hack"
+msgstr ""
+
+#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
+#: data/com.hack_computer.Clubhouse.desktop:8
+msgid "com.hack_computer.Clubhouse"
+msgstr ""
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/com.hack_computer.Clubhouse.desktop:14
+msgid "hack;learn;code;programming;game;clubhouse;"
+msgstr ""
+
+#: data/com.hack_computer.Clubhouse.metainfo.xml:21
+msgid "The destination for kids to learn how to code"
+msgstr ""
+
+#: data/com.hack_computer.Clubhouse.metainfo.xml:23
+msgid ""
+"Kids learn how to code, develop creative problem-solving skills and build "
+"confidence in a fun and safe environment."
+msgstr ""
+
+#: data/com.hack_computer.Clubhouse.metainfo.xml:30
+msgid "The main window with a quest running"
+msgstr ""
+
+#: data/com.hack_computer.Clubhouse.metainfo.xml:34
+msgid "The game pathway"
+msgstr ""
+
+#: data/com.hack_computer.Clubhouse.metainfo.xml:38
+msgid "The game pathway with a quest running"
+msgstr ""
+
+#: data/com.hack_computer.Clubhouse.metainfo.xml:42
+msgid "The main window"
+msgstr ""
+
+#: data/com.hack_computer.Clubhouse.metainfo.xml:51
+msgid "The Hack Team"
+msgstr ""
+
+#: data/quest-set-info-tip.ui:46
+msgid "Character Name"
+msgstr ""
+
+#: data/quest-set-info-tip.ui:59
+msgid "Pathway"
+msgstr ""
+
+#: eosclubhouse/clubhouse.py:114
+msgid "Operating Systems"
+msgstr ""

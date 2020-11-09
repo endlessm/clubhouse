@@ -37,6 +37,7 @@ install_dir = join_paths(pythondir, 'eosclubhouse')
 sources = []
 
 subdir('data')
+subdir('po')
 
 if get_option('run-lint')
     lint_tool = find_program(['./tools/run-lint', 'run-lint'], required: true)

@@ -49,7 +49,7 @@
                 <property name="can_focus">True</property>
                 <property name="focus_on_click">False</property>
                 <property name="receives_default">False</property>
-                <property name="tooltip_text" translatable="yes">instagram.com/madetohack</property>
+                <property name="tooltip_text" translatable="no">instagram.com/madetohack</property>
                 <property name="halign">start</property>
                 <property name="valign">end</property>
                 <property name="relief">none</property>
@@ -78,7 +78,7 @@
                 <property name="can_focus">True</property>
                 <property name="focus_on_click">False</property>
                 <property name="receives_default">False</property>
-                <property name="tooltip_text" translatable="yes">twitter.com/madetohack</property>
+                <property name="tooltip_text" translatable="no">twitter.com/madetohack</property>
                 <property name="halign">center</property>
                 <property name="valign">start</property>
                 <property name="relief">none</property>
@@ -107,7 +107,7 @@
                 <property name="can_focus">True</property>
                 <property name="focus_on_click">False</property>
                 <property name="receives_default">False</property>
-                <property name="tooltip_text" translatable="yes">facebook.com/madetohack</property>
+                <property name="tooltip_text" translatable="no">facebook.com/madetohack</property>
                 <property name="halign">center</property>
                 <property name="valign">start</property>
                 <property name="relief">none</property>
