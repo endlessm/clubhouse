@@ -25,7 +25,6 @@ APP_ID = 'com.hack_computer.Clubhouse'
 MODULES = [
     'hack-sound-server',
     'hack-toolbox-app',
-    'hack-components',
     'hack-toy-apps',
     'hack-game-state-service',
     'clubhouse',
