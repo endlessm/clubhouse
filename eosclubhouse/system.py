@@ -337,15 +337,23 @@ class Desktop:
         return True
 
     @classmethod
-    def focus_app(klass, app_name):
+    def focus_app(klass, app_name, delay=1):
         app_name = klass.get_app_desktop_name(app_name)
 
         try:
+            # workaround to avoid this issue:
+            # https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/3388
+            # FIXME: remove this delay once this issue is fixed and released
+            if delay:
+                klass.get_shell_proxy().ShowApplications()
+                GLib.timeout_add_seconds(delay, klass.focus_app, app_name, 0)
+                return GLib.SOURCE_REMOVE
+
             klass.get_shell_proxy().FocusApp('(s)', app_name)
         except GLib.Error as e:
             logger.error(e)
-            return False
-        return True
+
+        return GLib.SOURCE_REMOVE
 
     @classmethod
     def is_app_in_grid(klass, app_name):
