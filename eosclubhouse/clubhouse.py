@@ -77,6 +77,11 @@ ClubhouseIface = ('<node>'
                   '</method>'
                   '<method name="migrationQuest">'
                   '</method>'
+                  '<method name="recordMetric">'
+                  '<arg type="s" direction="in" name="key"/>'
+                  '<arg type="v" direction="in" name="payload"/>'
+                  '<arg type="a{sv}" direction="in" name="custom"/>'
+                  '</method>'
                   '<property name="Visible" type="b" access="read"/>'
                   '<property name="RunningQuest" type="s" access="read"/>'
                   '<property name="SuggestingOpen" type="b" access="read"/>'
@@ -3529,6 +3534,10 @@ class ClubhouseApplication(Gtk.Application):
             self._window.hide()
 
         return None
+
+    # D-Bus implementation
+    def recordMetric(self, key, payload, custom):
+        metrics.record(key, payload, custom)
 
     def _show_and_focus_window(self, timestamp=None):
         # We deliberately show + present the window here to ensure it gets focused
