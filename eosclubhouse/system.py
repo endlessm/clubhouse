@@ -1189,6 +1189,8 @@ class Hostname(GObject.GObject):
 
     _proxy = None
     _props = None
+    _os_name = None
+    _os_version = None
 
     @classmethod
     def proxy(klass):
@@ -1205,6 +1207,23 @@ class Hostname(GObject.GObject):
     def get_chassis(klass):
         prop = klass.proxy().get_cached_property('Chassis')
         return prop.unpack()
+
+    @classmethod
+    def get_os(klass):
+        if klass._os_name:
+            return klass._os_name, klass._os_version
+
+        prop = klass.proxy().get_cached_property('OperatingSystemPrettyName')
+        if not prop:
+            logger.warning('Can not get the OperatingSystemPrettyName property')
+            return 'unknown', ''
+
+        os_name = prop.unpack()
+
+        if ' ' in os_name:
+            klass._os_name, klass._os_version = os_name.split(' ', 1)
+
+        return klass._os_name, klass._os_version
 
     @classmethod
     def is_laptop(klass):

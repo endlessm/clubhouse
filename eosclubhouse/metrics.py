@@ -24,6 +24,7 @@ from gi.repository import GLib
 
 from eosclubhouse import config
 from eosclubhouse.network import NetworkManager
+from eosclubhouse.system import Hostname
 
 import datetime
 import json
@@ -176,35 +177,61 @@ def _build_fake_url(data, base='https://hack-computer.com/'):
     return base + str(data)
 
 
-def record(event, payload):
+def _build_custom_vars(extra={}):
+    '''
+    Creates the custom vars string following the matomo format:
+
+    {
+     "1": ["key": "value"],
+     "2": ["key": "value"],
+     ...
+    }
+
+    Adds the default custom values like the operating system and after that the
+    extra custom variables
+    '''
+
+    name, version = Hostname.get_os()
+    custom = {
+        '1': ['os', name],
+        '2': ['os_version', version],
+    }
+
+    for i, extra_var in enumerate(extra.items()):
+        custom[f'{i + 3}'] = extra_var
+
+    return json.dumps(custom)
+
+
+def record(event, payload, custom={}):
 
     base = f'https://hack-computer.com/{event}/'
     data = {
         **_get_matomo_data(),
         'action_name': event,
-        'cvar': json.dumps(payload),
+        '_cvar': _build_custom_vars(custom),
         'url': _build_fake_url(payload, base),
     }
     threading.Thread(target=_record_matomo, args=(data, )).start()
 
 
-def record_start(event, key, payload):
+def record_start(event, key, payload, custom={}):
     base = f'https://hack-computer.com/{event}/{key}/'
     data = {
         **_get_matomo_data(),
         'action_name': f'{event}_START',
-        'cvar': json.dumps(payload),
+        '_cvar': _build_custom_vars(custom),
         'url': _build_fake_url(payload, base=base),
     }
     threading.Thread(target=_record_matomo, args=(data, )).start()
 
 
-def record_stop(event, key, payload):
+def record_stop(event, key, payload, custom={}):
     base = f'https://hack-computer.com/{event}/{key}/'
     data = {
         **_get_matomo_data(),
         'action_name': f'{event}_STOP',
-        'cvar': json.dumps(payload),
+        '_cvar': _build_custom_vars(custom),
         'url': _build_fake_url(payload, base=base),
     }
     threading.Thread(target=_record_matomo, args=(data, )).start()
