@@ -9,7 +9,7 @@ You need to download it from the App Center if you'd like to learn how to use it
 Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Blender</span></tt>, and install it. ",daemon,,,
 BLENDERQUEST_WARN1,"So, you're interested in 3D Modeling, <b>{{user_name}}</b>?
 
-Your Hack system has access to Blender, a super-powerful 3D modeling program, through the App Center.
+You're in luck - you can use Blender, a super-powerful 3D modeling program!
 
 We've combed the web and found good guides to help you get started - and there are many more coming!",estelle,,,
 BLENDERQUEST_WARN2,"One important thing before you start - Blender is a complicated program with a lot of commands.
