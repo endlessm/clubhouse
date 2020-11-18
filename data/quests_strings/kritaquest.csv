@@ -2,11 +2,6 @@ KRITAQUEST_QUEST_NAME,Digital Painting - Monet in Mirrorshades,,,,
 KRITAQUEST_FWD,❯,,,,
 KRITAQUEST_BAK,❮,,,,
 KRITAQUEST_QUIT,See you later!,,,,
-KRITAQUEST_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt> isn't installed!
-
-You need to download it from the App Center if you'd like to learn how to use it.
-
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt>, and install it. ",daemon,,,
 KRITAQUEST_LAUNCH,"Krita's an art program for people of any skill level - it's got all the tools for amazing visuals.
 
 We've got some useful tutorials linked in here for you, give them a try!

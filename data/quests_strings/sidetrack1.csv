@@ -1,11 +1,6 @@
 SIDETRACK1_QUEST_NAME,Sidetrack #1 - Robots and Pits,,,,
 SIDETRACK1_QUEST_SUBTITLE,What you'll do,,,,
 SIDETRACK1_QUEST_DESCRIPTION,"Explore a new game with Riley, full of robots and pits!",,,,
-SIDETRACK1_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sidetrack</span></tt> isn't installed!
-
-You need to download it from the App Center to run this quest.
-
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sidetrack</span></tt>, and install it.",daemon,,,
 SIDETRACK1_LAUNCH_ADA,"Hi, <b>{{user_name}}</b>! I've got a new game for you to try out. It's called <b>Sidetrack</b>, and it should be sitting on your desktop. Let's check it out!",ada,,,
 SIDETRACK1_LAUNCH_ADA_HINT1,Click the <b>Sidetrack</b> icon on the desktop.,,,,quests/horse-tale
 SIDETRACK1_ASSIGNMENT_ADA,"Last summer, we decided to try something new - Instead of a book report, or an essay, all the students here at The Academy had to build a game.

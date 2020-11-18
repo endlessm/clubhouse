@@ -2,11 +2,6 @@ BOOTQUEST_QUEST_NAME,Bootstrapping your way to faster websites,,,,
 BOOTQUEST_QUEST_SUBTITLE,What you'll do,,,,
 BOOTQUEST_QUEST_DESCRIPTION,"Learn to use Bootstrap, one of the fastest and most popular web libraries out there!",,,,
 BOOTQUEST_QUIT,See you later!,,,,
-BOOTQUEST_NOTINSTALLED,"""Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sublime Text</span></tt> isn't installed!
-
-You need to download it from the App Center because we'll be using it for this activity.
-
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sublime Text</span></tt>, and install it.",,,,
 BOOTQUEST_1,"Hiya, <b>{{user_name}}</b>! You've been doing some great website work so far - but I'm sure you've wondered if there was a <b>really</b> fast way to build a website.",daemon,,,
 BOOTQUEST_2,"Well, there is! There's lots of code out there in these big collections called <b>libraries</b>- grab one of those, and you've got a ton of basic (and sometimes advanced!) functions and pieces already figured out for you. ",daemon,,,
 BOOTQUEST_3,"We've already hooked up all the Bootstrap bits for you - it's going to do all the heavy lifting so you can concentrate on designing the website. Let's take a look at the toolbox you'll use. If your browser doesn’t open, click on the following link: <u><span insert_hyphens=""false"" foreground=""#3584E4"">https://getbootstrap.com/docs/4.4/components/</span></u>",daemon,,,

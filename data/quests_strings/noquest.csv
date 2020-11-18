@@ -27,42 +27,37 @@ NOQUEST_POSITIVE,👍,,,,
 NOQUEST_NEGATIVE,👎,,,,
 NOQUEST_NAV_FWD,❯,,,,
 NOQUEST_NAV_BAK,❮,,,,
-NOQUEST_NOTINSTALLED,"Uh-oh! It looks like this App isn't installed!
-
-You need to download it from the App Center if you want to play.
-
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
-NOQUEST_NOCONNECTION,"Uh-oh! It looks like you don't have an active internet connection.
-
-We need an active internet connection to display the steps and materials for this activity.
+NOQUEST_NOTINSTALLED_GENERIC,Uh-oh! It looks like the App this quest needs isn't installed! Would you like me to help you install it?,daemon,,,
+NOQUEST_AUTOINSTALL,"OK, I'll try to start the App install, this shouldn't take too long!",daemon,,,
+NOQUEST_NOCONNECTION,"Uh-oh! It looks like you don't have an active internet connection. We need an active internet connection to display the steps and materials for this activity.
 
 Come back when you've got an internet connection, and you can play this activity!",daemon,,,
 NOQUEST_QUEST_NAME,High-Clearance Memory,,,,
 NOQUEST_SUBTITLE,What could this be?,,,,
 NOQUEST_DESCRIPTION,It's a secret to everyone.,,,,
 NOQUEST_GIVE_BADGE,You've unlocked a new badge: <b>{{achievement.name}}</b>,,,,
+NOQUEST_SIDETRACK_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sidetrack</span></tt> isn't installed! We need it installed before you can play the quest.
+
+Would you like me to help you install it?",daemon,,,
+NOQUEST_SUBLIMETEXT_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sublime Text</span></tt> isn't installed! We need it installed before you can play the quest.
+
+Would you like me to help you install it?",daemon,,,
 NOQUEST_PROJLIB_NOTINSTALLED,"Uh-oh! It looks like the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Project Library</span></tt> App isn't installed!
 You need to download it from the App Center if you want to check out this quest.
-
 Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for ""Project Library"".",daemon,,,
-NOQUEST_BLENDER_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Blender</span></tt> isn't installed!
+NOQUEST_BLENDER_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Blender</span></tt> isn't installed! We need it installed before you can play the quest.
 
-You need to download it from the App Center if you'd like to learn how to use it.
+Would you like me to help you install it?",daemon,,,
+NOQUEST_LMMS_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">LMMS</span></tt> isn't installed! We need it installed before you can play the quest.
 
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Blender</span></tt>, and install it. ",daemon,,,
-NOQUEST_LMMS_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">LMMS</span></tt> isn't installed!
+Would you like me to help you install it?",daemon,,,
+NOQUEST_GIMP_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">GIMP</span></tt> isn't installed! We need it installed before you can play the quest.
 
-You need to download it from the App Center if you'd like to learn how to use it.
+Would you like me to help you install it?",daemon,,,
+NOQUEST_KRITA_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt> isn't installed! We need it installed before you can play the quest.
 
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">LMMS</span></tt>, and install it. ",daemon,,,
-NOQUEST_GLIMPSE_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">GIMP</span></tt> isn't installed!
+Would you like me to help you install it?",daemon,,,
+NOQUEST_TURTLEBLOCKS_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">TurtleBlocks</span></tt> isn't installed! We need it installed before you can play the quest.
 
-You need to download it from the App Center if you'd like to learn how to use it.
-
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">GIMP</span></tt>, and install it. ",daemon,,,
-NOQUEST_KRITA_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt> isn't installed!
-
-You need to download it from the App Center if you'd like to learn how to use it.
-
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt>, and install it. ",daemon,,,
+Would you like me to help you install it?",,,,
 NOQUEST_DEFAULT_ABORT,Quitting this activity - See you again soon!,daemon,,,

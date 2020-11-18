@@ -39,8 +39,3 @@ KRITACOLORING_35,"Doesn't it look lovely? You can do all kinds of stuff with lay
 KRITACOLORING_36,"We'll learn more about what you can add next time, and how to ""photoshop"" decorations onto your photos.",daemon2,,,
 KRITACOLORING_37,"In the meantime, you can try customizing an image of your favorite cartoon character. Just download an image from the internet, open it in Krita and use the Fill Tool. See what they look like with dyed green hair, or hot pink clothes.",daemon2,,,
 KRITACOLORING_38,See you soon!,daemon2,,,
-KRITACOLORING_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt> isn't installed!
-
-You need to download it from the App Center if you'd like to learn how to use it.
-
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Krita</span></tt>, and install it. ",daemon2,,,
