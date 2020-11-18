@@ -79,7 +79,7 @@ clubhouse = .
 
 run_lint = no
 run_tests = yes
-build_args =
+build_args = []
 
 [Advanced]
 

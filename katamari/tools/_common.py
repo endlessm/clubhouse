@@ -165,7 +165,10 @@ class Config:
                 for option in self._defs[module]:
                     option_key = _get_option_key(module, option)
                     value = self.get(module, option)
-                    template_values[option_key] = json.dumps(value)
+                    if isinstance(value, str):
+                        template_values[option_key] = value
+                    else:
+                        template_values[option_key] = json.dumps(value)
 
         return template_values
 

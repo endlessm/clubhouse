@@ -8,3 +8,15 @@ option('run-lint',
        type: 'boolean',
        value: true
 )
+
+option('matomo-host',
+       description: 'the matomo url',
+       type: 'string',
+       value: 'http://matomo.test.endlessos.org'
+)
+
+option('matomo-site',
+       description: 'The default matomo site id',
+       type: 'string',
+       value: '1'
+)

@@ -23,12 +23,9 @@ from enum import IntEnum
 
 from eosclubhouse import config, logger
 from eosclubhouse.utils import DictFromCSV
+from eosclubhouse import metrics
 
-from gi.repository import EosMetrics, GLib, GObject
-
-
-ACHIEVEMENT_POINTS_EVENT = '86521913-bfa3-4d13-b511-a03d4e339d2f'
-ACHIEVEMENT_EVENT = '62ce2e93-bfdc-4cae-af4c-54068abfaf02'
+from gi.repository import GObject
 
 
 Achievement = namedtuple('Achievement', ['id', 'name', 'description',
@@ -123,15 +120,12 @@ class _AchievementsManager(GObject.Object):
                     self._record_achievement(skillset, achievement)
 
     def _record_points(self, skillset, points):
-        recorder = EosMetrics.EventRecorder.get_default()
-        variant = GLib.Variant('(sii)', (skillset, points,
-                                         self._points_per_skillset[skillset]))
-        recorder.record_event(ACHIEVEMENT_POINTS_EVENT, variant)
+        payload = (skillset, points, self._points_per_skillset[skillset])
+        metrics.record('ACHIEVEMENT_POINTS', payload)
 
     def _record_achievement(self, skillset, achievement):
-        recorder = EosMetrics.EventRecorder.get_default()
-        variant = GLib.Variant('(ss)', (achievement.id, achievement.name))
-        recorder.record_event(ACHIEVEMENT_EVENT, variant)
+        payload = (achievement.id, achievement.name)
+        metrics.record('ACHIEVEMENT', payload)
 
     def _get_empty_state_achievement(self):
         return self._empty_state_achievement
