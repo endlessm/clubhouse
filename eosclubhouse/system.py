@@ -311,6 +311,11 @@ class Desktop:
         return True
 
     @classmethod
+    def reload_dbus_config(klass):
+        proxy = klass.get_dbus_proxy()
+        proxy.ReloadConfig()
+
+    @classmethod
     def launch_app(klass, name):
         try:
             klass.get_app_launcher_proxy().Launch('(su)', name, int(time.time()))

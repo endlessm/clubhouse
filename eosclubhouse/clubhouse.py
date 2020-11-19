@@ -2236,7 +2236,6 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
     def __init__(self, app):
         super().__init__(application=app, title='Clubhouse')
-
         self._app = app
         self._gss = GameStateService()
         self._user = UserAccount()
@@ -3347,6 +3346,7 @@ class ClubhouseApplication(Gtk.Application):
 
     def _ensure_registry_loaded(self):
         if not self._registry_loaded:
+            Desktop.reload_dbus_config()
             libquest.Registry.load_current_episode()
             self._registry_loaded = True
 
