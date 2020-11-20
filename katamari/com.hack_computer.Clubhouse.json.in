@@ -21,6 +21,11 @@
         "--env=GSETTINGS_SCHEMA_DIR=/run/host/usr/share/glib-2.0/schemas/",
         "--env=GTK3_MODULES=/app/clippy/lib/libclippy-module.so",
         "--filesystem=/var/lib/AccountsService/icons/:ro",
+        /** Needed for toolbox to get the app name and icon **/
+        "--filesystem=/var/lib/flatpak/exports/:ro",
+        "--filesystem=/var/lib/flatpak/app/:ro",
+        "--filesystem=~/.local/share/flatpak/exports/:ro",
+        "--filesystem=~/.local/share/flatpak/app/:ro",
         "--filesystem=host",
         "--own-name=com.endlessm.GameStateService",
         "--own-name=com.hack_computer.GameStateService",
