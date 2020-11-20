@@ -24,6 +24,7 @@ from eosclubhouse.libquest import Quest
 class BlenderQuest(Quest):
 
     __app_id__ = 'org.blender.Blender'
+    __app_common_install_name__ = 'BLENDER'
     __tags__ = ['pathway:art', 'difficulty:hard', 'skillset:LaunchQuests', 'require:network']
     __pathway_order__ = 100
 
@@ -31,10 +32,6 @@ class BlenderQuest(Quest):
         self._info_messages = self.get_loop_messages('INFO')
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOTINSTALLED', confirm_label='Got it!')
-            return self.step_abort
-
         self.wait_confirm('WARN1')
         self.wait_confirm('WARN2')
 
