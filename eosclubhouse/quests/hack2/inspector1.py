@@ -35,7 +35,7 @@ class Inspector1(Quest):
         return self.step_launch
 
     def step_launch(self):
-        self.open_url_in_browser('about:blank')
+        self.open_url_in_browser('https://www.hack-computer.com/about')
         return self.step_main_loop
 
     def step_main_loop(self, message_index=0):
