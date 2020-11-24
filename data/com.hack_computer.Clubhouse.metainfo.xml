@@ -15,6 +15,27 @@
   </categories>
 
   <releases>
+    <release version="1.10.0" type="stable" date="2020-11-24" urgency="high">
+      <description>
+        <p>This new major release is the result of one year of hard work.</p>
+        <p>New features:</p>
+        <ul>
+          <li>Do not change the system background and cursor anymore</li>
+          <li>
+            "Hack mode" has been removed, that concept has been removed and
+            now it's like a normal app, always enabled when opened
+          </li>
+          <li>Install the hack shell extension if it's not installed</li>
+          <li>Remove ProjectLibrary dependency</li>
+          <li>Open gnome-software automatically for required apps</li>
+          <li>Detect network status and show feedback if there's no connection</li>
+          <li>
+            Do not depend on EndlessOS anymore, it should work on any linux with
+            GNOME (gnome-shell: &gt;=3.36, flatpak: &gt;1.8.2)
+          </li>
+        </ul>
+      </description>
+    </release>
     <release version="0.0.99" date="2019-10-18"/>
   </releases>
 
