@@ -24,6 +24,7 @@ from eosclubhouse.libquest import Quest, App
 class NewCursor(Quest):
 
     __app_id__ = 'org.gimp.GIMP'
+    __app_common_install_name__ = 'GIMP'
     __tags__ = ['pathway:operating system', 'difficulty:hard', 'since:1.6']
     __pathway_order__ = 420
 
@@ -32,10 +33,6 @@ class NewCursor(Quest):
         self._info_messages = self.get_loop_messages('NEWCURSOR')
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOTINSTALLED', confirm_label='Got it!')
-            return self.step_abort
-
         self.deploy_file('cursor_template.xmc', '~/Documents/', override=True)
         self.wait_confirm('GREET1')
         self.wait_confirm('GREET2')
@@ -45,10 +42,7 @@ class NewCursor(Quest):
 
     def step_launch(self):
         self.app.launch()
-        # self.app.launch(message_id='LAUNCHGLIMPSE')
         self.wait_confirm('LAUNCH')
-        # self.pause(4)
-        # self.wait_for_app_in_foreground(timeout=4)
         return self.step_main_loop
 
     def step_main_loop(self, message_index=0):
