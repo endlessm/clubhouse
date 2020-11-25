@@ -49,6 +49,7 @@ from eosclubhouse.utils import ClubhouseState, Performance, \
 from eosclubhouse.animation import Animation, AnimationImage, AnimationSystem, Animator, \
     get_character_animation_dirs
 from eosclubhouse import metrics
+from eosclubhouse.portal import Portal
 
 from eosclubhouse.widgets import FixedLayerGroup, ScalableImage, gtk_widget_add_custom_css_provider
 
@@ -2240,6 +2241,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self._gss = GameStateService()
         self._user = UserAccount()
         self._page_reset_timeout = 0
+        self._background_permission = None
 
         self._scale = 1
         self._ambient_sound_item = SoundItem('clubhouse/ambient')
@@ -2294,10 +2296,17 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
+        self.connect('notify::has-toplevel-focus', self._request_background_permission)
 
     @GObject.Property(type=float)
     def scale(self):
         return self._scale
+
+    def _request_background_permission(self, _win, _param):
+        if self._background_permission is None:
+            def set_bg_perm(value):
+                self._background_permission = value
+            Portal.request_background(callback=set_bg_perm)
 
     def _user_event_box_button_press_event_cb(self, _button, event, achievements_view):
         if not achievements_view.hover:
@@ -3082,7 +3091,6 @@ class ClubhouseApplication(Gtk.Application):
         super().__init__(application_id=CLUBHOUSE_NAME,
                          inactivity_timeout=self._INACTIVITY_TIMEOUT,
                          resource_base_path='/com/hack_computer/Clubhouse')
-
         self._installing_extension = False
         self._use_inapp_notifications = False
         self._quest_runner_handler = None
