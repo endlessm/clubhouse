@@ -18,13 +18,13 @@
     <release version="1.10.0" type="stable" date="2020-11-24" urgency="high">
       <description>
         <p>We heard you! Following up on feedback we received in several channels, we removed the concept of a Hack mode from our first class learning environment. In Hack mode, the user had the hacking affordances available, namely the Flip to Hack functionality to look behind an application, see what is happening behind the scenes, modify the application and run it in a sandbox environment.</p>
-	<p>To provide the user with a sense when those affordances were available, the desktop background wallpaper changed and the cursor switched to the Hack cursor. Those changes have been perceived as intrusive (“it spoils the system and it changes your cursor style”). We decided to reduce that barrier of adoption and removed changing the cursor and wallpaper. The hacking affordances are available by default and not tied to a specific mode, so you can still enjoy the Sidetrack quests and use the Hacking Toolbox on the flip side of the app to solve the riddles.</p>
-	<p>We are very happy to announce that Hack is now fully open source. All of the components have been released under an open source license.</p>
+        <p>To provide the user with a sense when those affordances were available, the desktop background wallpaper changed and the cursor switched to the Hack cursor. Those changes have been perceived as intrusive (“it spoils the system and it changes your cursor style”). We decided to reduce that barrier of adoption and removed changing the cursor and wallpaper. The hacking affordances are available by default and not tied to a specific mode, so you can still enjoy the Sidetrack quests and use the Hacking Toolbox on the flip side of the app to solve the riddles.</p>
+        <p>We are very happy to announce that Hack is now fully open source. All of the components have been released under an open source license.</p>
         <p>Hack and it's components is now available outside of Endless OS. It will run on any GNOME based Linux system with (GNOME Shell: &gt;=3.36, Flatpak: &gt;1.8.2).</p>
-	<p>Hack relies on a GNOME Shell extension to enable features like Flip to Hack. If the extension is not installed the user can instal it from within the Clubhouse UI.</p>
-	<p>The dependency of the Maker and some Art quests on the Project Library app has been removed. The content is now shipped with the Clubhouse itself.</p>
-	<p>The installation flow of apps needed by quests has been improved. The quest will open GNOME Software automatically with the required application detail page to guide the user through the installation process.</p>
-	<p>The Clubhouse detects the network status. Feedback is shown if quests have network dependencies and can not run without a connection.</p>
+        <p>Hack relies on a GNOME Shell extension to enable features like Flip to Hack. If the extension is not installed the user can instal it from within the Clubhouse UI.</p>
+        <p>The dependency of the Maker and some Art quests on the Project Library app has been removed. The content is now shipped with the Clubhouse itself.</p>
+        <p>The installation flow of apps needed by quests has been improved. The quest will open GNOME Software automatically with the required application detail page to guide the user through the installation process.</p>
+        <p>The Clubhouse detects the network status. Feedback is shown if quests have network dependencies and can not run without a connection.</p>
       </description>
     </release>
     <release version="0.0.99" date="2019-10-18"/>
