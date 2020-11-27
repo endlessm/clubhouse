@@ -25,7 +25,7 @@ from eosclubhouse import logger
 class Sidetrack1(Quest):
 
     __app_id__ = 'com.hack_computer.Sidetrack'
-
+    __app_common_install_name__ = 'SIDETRACK'
     __tags__ = ['pathway:games', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 100
 
@@ -46,10 +46,6 @@ class Sidetrack1(Quest):
         return None
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOTINSTALLED', confirm_label='Got it!')
-            return self.step_abort
-
         self.ask_for_app_launch(message_id='LAUNCH_ADA')
 
         highest_achieved_level = self.app.get_js_property('highestAchievedLevel')

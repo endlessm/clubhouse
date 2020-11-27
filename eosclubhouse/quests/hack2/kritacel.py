@@ -4,6 +4,7 @@ from eosclubhouse.libquest import Quest
 class KritaCel(Quest):
 
     __app_id__ = 'org.kde.krita'
+    __app_common_install_name__ = 'KRITA'
     __tags__ = ['pathway:art', 'difficulty:medium', 'since:2.0']
     __pathway_order__ = 652
 
@@ -11,9 +12,6 @@ class KritaCel(Quest):
         self._info_messages = self.get_loop_messages('KRITACEL', start=2)
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOQUEST_KRITA_NOTINSTALLED', confirm_label='Got it!')
-            return self.step_abort
         return self.step_launch
 
     def step_launch(self):

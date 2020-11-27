@@ -24,6 +24,7 @@ from eosclubhouse.libquest import Quest
 class LMMSQuest2(Quest):
 
     __app_id__ = 'io.lmms.LMMS'
+    __app_common_install_name__ = 'LMMS'
     __tags__ = ['pathway:art', 'difficulty:medium', 'since:1.4', 'require:network']
     __pathway_order__ = 616
 
@@ -31,9 +32,6 @@ class LMMSQuest2(Quest):
         self._info_messages = self.get_loop_messages('LMMSQUEST2')
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOQUEST_LMMS_NOTINSTALLED', confirm_label='Got it!')
-            return self.step_abort
         return self.step_launch
 
     def step_launch(self):

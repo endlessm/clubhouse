@@ -24,6 +24,7 @@ from eosclubhouse.libquest import Quest
 class KritaPhotos(Quest):
 
     __app_id__ = 'org.kde.krita'
+    __app_common_install_name__ = 'KRITA'
     __tags__ = ['pathway:art', 'difficulty:easy', 'since:1.6']
     __pathway_order__ = 631
 
@@ -31,9 +32,6 @@ class KritaPhotos(Quest):
         self._info_messages = self.get_loop_messages('KRITAPHOTOS', start=2)
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOTINSTALLED', confirm_label='Got it!')
-            return self.step_abort
         return self.step_launch
 
     def step_launch(self):

@@ -25,7 +25,7 @@ from eosclubhouse import logger
 class Sidetrack2(Quest):
 
     __app_id__ = 'com.hack_computer.Sidetrack'
-
+    __app_common_install_name__ = 'SIDETRACK'
     __items_on_completion__ = {'item.key.sidetrack.1': {}}
     __available_after_completing_quests__ = ['Sidetrack1']
     __tags__ = ['pathway:games', 'difficulty:medium', 'skillset:LaunchQuests', 'since:1.4']

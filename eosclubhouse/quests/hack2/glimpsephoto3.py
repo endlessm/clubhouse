@@ -24,6 +24,7 @@ from eosclubhouse.libquest import Quest
 class GlimpsePhoto3(Quest):
 
     __app_id__ = 'org.gimp.GIMP'
+    __app_common_install_name__ = 'GIMP'
     __tags__ = ['pathway:art', 'difficulty:easy', 'since:1.8']
     __pathway_order__ = 642
 
@@ -31,9 +32,6 @@ class GlimpsePhoto3(Quest):
         self._info_messages = self.get_loop_messages('GLIMPSEPHOTO3', start=1)
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOQUEST_GLIMPSE_NOTINSTALLED', confirm_label='Got it!')
-            return self.step_abort
         return self.step_launch
 
     def step_launch(self):
