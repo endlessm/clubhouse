@@ -4,6 +4,7 @@ from eosclubhouse.libquest import Quest
 class TurtleStop(Quest):
 
     __app_id__ = 'org.laptop.TurtleArtActivity'
+    __app_common_install_name__ = 'TURTLEBLOCKS'
     __tags__ = ['pathway:operating system', 'difficulty:easy', 'since:2.0']
     __pathway_order__ = 660
 
@@ -11,9 +12,6 @@ class TurtleStop(Quest):
         self._info_messages = self.get_loop_messages('TURTLESTOP', start=2)
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOTINSTALLED', confirm_label='Got it!')
-            return self.step_abort
         return self.step_launch
 
     def step_launch(self):

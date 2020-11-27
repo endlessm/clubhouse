@@ -25,7 +25,7 @@ from eosclubhouse import logger
 class Sidetrack3(Quest):
 
     __app_id__ = 'com.hack_computer.Sidetrack'
-
+    __app_common_install_name__ = 'SIDETRACK'
     __available_after_completing_quests__ = ['Sidetrack2']
     __tags__ = ['pathway:games', 'difficulty:medium', 'skillset:LaunchQuests', 'since:1.6']
     __pathway_order__ = 102
