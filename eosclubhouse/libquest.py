@@ -1455,6 +1455,11 @@ class Quest(_Quest):
 
     '''
 
+    __app_common_install_name__ = None
+    '''If this quest's app is used by several quests, it may have a common install string
+    in the 'NOQUEST' section of the string database. See step_app_not_installed()
+    '''
+
     __app_repository__ = config.DEFAULT_INSTALL_REPO
     '''Repository of the application used by this quest, otherwise the default repo.'''
 
@@ -1653,17 +1658,27 @@ class Quest(_Quest):
         '''Step method that is executed to check if the corresponding app is installed.
 
         This method is launched before the actual quest is run. It will
-        guide the user through the installtion of the app through the
+        guide the user through the installation of the app through the
         software backend.
 
-        By default shows a message and then abort.
+        If __app_common_install_name__ is defined, it will be used to construct the install
+        question's string.
+        Failing that, if there is a quest-specific _NOTINSTALLED string available, it is used.
+        Finally, it falls back on the generic NOTINSTALLED string.
         '''
-        action = self.show_choices_message('NOQUEST_NOTINSTALLED',
+
+        if self.__app_common_install_name__ is not None:
+            install_msg = 'NOQUEST_' + self.__app_common_install_name__ + '_NOTINSTALLED'
+        else:
+            has_install_msg = self._get_message_info('{}_NOTINSTALLED'.format(self._qs_base_id))
+            install_msg = 'NOTINSTALLED' if has_install_msg else 'NOQUEST_NOTINSTALLED_GENERIC'
+
+        action = self.show_choices_message(install_msg,
                                            ('NOQUEST_POSITIVE', None, True),
                                            ('NOQUEST_NEGATIVE', None, False)).wait()
         if action.future.result():
-            self.show_message('NOQUEST_DESCRIPTION')
-            self.wait_for_app_install(self.app, confirm=True, repo=self.__app_repository__)
+            self.show_message('NOQUEST_AUTOINSTALL')
+            self.wait_for_app_install(self.app, confirm=False, repo=self.__app_repository__)
             return self.step_begin
         else:
             return self.step_abort

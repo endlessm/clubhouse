@@ -24,6 +24,7 @@ from eosclubhouse.libquest import Quest
 class BlendWell2(Quest):
 
     __app_id__ = 'org.blender.Blender'
+    __app_common_install_name__ = 'BLENDER'
     __tags__ = ['pathway:art', 'difficulty:medium', 'since:1.8', 'require:network']
     __pathway_order__ = 646
 
@@ -31,10 +32,6 @@ class BlendWell2(Quest):
         self._info_messages = self.get_loop_messages('BLENDWELL2')
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOQUEST_BLENDER_NOTINSTALLED', confirm_label='Got it!')
-            return self.step_abort
-
         self.app.launch()
         return self.step_main_loop
 
