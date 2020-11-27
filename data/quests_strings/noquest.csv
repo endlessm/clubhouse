@@ -39,6 +39,9 @@ NOQUEST_GIVE_BADGE,You've unlocked a new badge: <b>{{achievement.name}}</b>,,,,
 NOQUEST_SIDETRACK_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sidetrack</span></tt> isn't installed! We need it installed before you can play the quest.
 
 Would you like me to install it for you?",daemon,,,
+NOQUEST_SYSTEM_NOTINSTALLED,"Uh-oh! Looks like the <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">System</span></tt> app isn't installed! We need it installed before you can play the quest.
+
+Would you like me to install it for you?",daemon,,,
 NOQUEST_SUBLIMETEXT_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Sublime Text</span></tt> isn't installed! We need it installed before you can play the quest.
 
 Would you like me to install it for you?",daemon,,,

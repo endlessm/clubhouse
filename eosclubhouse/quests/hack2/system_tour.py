@@ -25,6 +25,7 @@ from eosclubhouse.system import GameStateService
 class System_Tour(Quest):
 
     __app_id__ = 'com.hack_computer.OperatingSystemApp'
+    __app_common_install_name__ = 'SYSTEM'
     __tags__ = ['pathway:operating system', 'difficulty:easy', 'skillset:LaunchQuests']
     __pathway_order__ = 100
 
