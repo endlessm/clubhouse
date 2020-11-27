@@ -46,7 +46,7 @@ class NewCursor(Quest):
     def step_launch(self):
         self.app.launch()
         # self.app.launch(message_id='LAUNCHGLIMPSE')
-        self.wait_confirm('LAUNCHGLIMPSE')
+        self.wait_confirm('LAUNCH')
         # self.pause(4)
         # self.wait_for_app_in_foreground(timeout=4)
         return self.step_main_loop
