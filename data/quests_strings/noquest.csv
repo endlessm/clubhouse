@@ -27,7 +27,7 @@ NOQUEST_POSITIVE,👍,,,,
 NOQUEST_NEGATIVE,👎,,,,
 NOQUEST_NAV_FWD,❯,,,,
 NOQUEST_NAV_BAK,❮,,,,
-NOQUEST_NOTINSTALLED_GENERIC,Uh-oh! It looks like the App this quest needs isn't installed! Would you like me to help you install it?,daemon,,,
+NOQUEST_NOTINSTALLED_GENERIC,Uh-oh! It looks like the App this quest needs isn't installed! Would you like me to install it for you?,daemon,,,
 NOQUEST_AUTOINSTALL,"OK, I'll try to start the App install, this shouldn't take too long!",daemon,,,
 NOQUEST_NOCONNECTION,"Uh-oh! It looks like you don't have an active internet connection. We need an active internet connection to display the steps and materials for this activity.
 
