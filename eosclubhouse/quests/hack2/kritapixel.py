@@ -4,6 +4,7 @@ from eosclubhouse.libquest import Quest
 class KritaPixel(Quest):
 
     __app_id__ = 'org.kde.krita'
+    __app_common_install_name__ = 'KRITA'
     __tags__ = ['pathway:art', 'difficulty:medium', 'since:2.0']
     __pathway_order__ = 653
 
@@ -11,9 +12,6 @@ class KritaPixel(Quest):
         self._info_messages = self.get_loop_messages('KRITAPIXEL', start=2)
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOQUEST_KRITA_NOTINSTALLED', confirm_label='Got it!')
-            return self.step_abort
         return self.step_launch
 
     def step_launch(self):
