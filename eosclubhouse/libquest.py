@@ -1671,17 +1671,14 @@ class Quest(_Quest):
             install_msg = 'NOQUEST_' + self.__app_common_install_name__ + '_NOTINSTALLED'
         else:
             has_install_msg = self._get_message_info('{}_NOTINSTALLED'.format(self._qs_base_id))
-            if has_install_msg:
-                install_msg = 'NOTINSTALLED'
-            else:
-                install_msg = 'NOQUEST_NOTINSTALLED_GENERIC'
+            install_msg = 'NOTINSTALLED' if has_install_msg else 'NOQUEST_NOTINSTALLED_GENERIC'
 
         action = self.show_choices_message(install_msg,
                                            ('NOQUEST_POSITIVE', None, True),
                                            ('NOQUEST_NEGATIVE', None, False)).wait()
         if action.future.result():
             self.show_message('NOQUEST_AUTOINSTALL')
-            self.wait_for_app_install(self.app, confirm=True, repo=self.__app_repository__)
+            self.wait_for_app_install(self.app, confirm=False, repo=self.__app_repository__)
             return self.step_begin
         else:
             return self.step_abort
