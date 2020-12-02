@@ -80,6 +80,9 @@ clubhouse = .
 run_lint = no
 run_tests = yes
 build_args = []
+matomo_host = https://endlessos.matomo.cloud
+matomo_site = 1
+matomo_base_url = https://www.endlessos.org
 
 [Advanced]
 

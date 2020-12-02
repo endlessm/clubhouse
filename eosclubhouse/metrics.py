@@ -166,7 +166,7 @@ def _get_matomo_data():
     return data
 
 
-def _build_fake_url(data, base='https://hack-computer.com/'):
+def _build_fake_url(data, base=config.MATOMO_BASE_URL):
     if isinstance(data, tuple) or isinstance(data, list):
         values = [_build_fake_url(v, base='') for v in data]
         return base + '/'.join(values)
@@ -205,7 +205,7 @@ def _build_custom_vars(extra={}):
 
 def record(event, payload, custom={}):
 
-    base = f'https://hack-computer.com/{event}/'
+    base = f'{config.MATOMO_BASE_URL}/{event}/'
     data = {
         **_get_matomo_data(),
         'action_name': event,
@@ -216,7 +216,7 @@ def record(event, payload, custom={}):
 
 
 def record_start(event, key, payload, custom={}):
-    base = f'https://hack-computer.com/{event}/{key}/'
+    base = f'{config.MATOMO_BASE_URL}/{event}/{key}/'
     data = {
         **_get_matomo_data(),
         'action_name': f'{event}_START',
@@ -227,7 +227,7 @@ def record_start(event, key, payload, custom={}):
 
 
 def record_stop(event, key, payload, custom={}):
-    base = f'https://hack-computer.com/{event}/{key}/'
+    base = f'{config.MATOMO_BASE_URL}/{event}/{key}/'
     data = {
         **_get_matomo_data(),
         'action_name': f'{event}_STOP',

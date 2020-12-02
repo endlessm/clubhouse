@@ -20,3 +20,9 @@ option('matomo-site',
        type: 'string',
        value: '1'
 )
+
+option('matomo-base-url',
+       description: 'The default url to use for matomo urls',
+       type: 'string',
+       value: 'https://www.endlessos.org'
+)

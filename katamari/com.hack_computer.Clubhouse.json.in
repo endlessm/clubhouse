@@ -209,6 +209,7 @@
                 "-Dsession-bus-services-dir=/app/share/dbus-1/services",
                 "-Dmatomo-host=${CLUBHOUSE_MATOMO_HOST}",
                 "-Dmatomo-site=${CLUBHOUSE_MATOMO_SITE}",
+                "-Dmatomo-base-url=${CLUBHOUSE_MATOMO_BASE_URL}",
                 "-Drun-lint=${CLUBHOUSE_RUN_LINT}"
             ],
             "run-tests": ${CLUBHOUSE_RUN_TESTS},

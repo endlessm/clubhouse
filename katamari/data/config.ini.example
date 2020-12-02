@@ -78,8 +78,9 @@ clubhouse = .
 
 # run_lint = yes
 # run_tests = yes
-# matomo_host = http://matomo.test.endlessos.org
-# matomo_site = 1
+# matomo_host = https://endlessos.matomo.cloud
+# matomo_site = 2
+# matomo_base_url = https://www.endlessos.org
 
 [Advanced]
 
