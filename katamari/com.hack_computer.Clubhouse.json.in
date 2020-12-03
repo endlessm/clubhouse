@@ -29,6 +29,7 @@
         "--own-name=com.hack_computer.GameStateService",
         "--own-name=com.hack_computer.HackSoundServer",
         "--own-name=com.hack_computer.HackToolbox",
+        "--own-name=com.hack_computer.Libquest",
         "--share=ipc",
         "--share=network",
         "--socket=pulseaudio",
@@ -170,6 +171,19 @@
             ],
             "sources": [
                 ${HACK_GAME_STATE_SERVICE_SOURCE}
+            ]
+        },
+
+        /** libquest **/
+        {
+            "name": "libquest",
+            "buildsystem": "meson",
+            "run-tests": false,
+            "config-opts" : [
+                "-Dsession-bus-services-dir=/app/share/dbus-1/services"
+            ],
+            "sources": [
+                ${LIBQUEST_SOURCE}
             ]
         },
 
