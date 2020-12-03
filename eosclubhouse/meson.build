@@ -38,7 +38,7 @@ conf.set_quoted(
 )
 
 conf.set_quoted('matomo_host', get_option('matomo-host'))
-conf.set_quoted('matomo_site', get_option('matomo-site'))
+conf.set_quoted('matomo_site_id', get_option('matomo-site-id'))
 conf.set_quoted('matomo_base_url', get_option('matomo-base-url'))
 
 configure_file(

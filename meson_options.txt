@@ -15,7 +15,7 @@ option('matomo-host',
        value: 'http://matomo.test.endlessos.org'
 )
 
-option('matomo-site',
+option('matomo-site-id',
        description: 'The default matomo site id',
        type: 'string',
        value: '1'

@@ -78,8 +78,11 @@ clubhouse = .
 
 # run_lint = yes
 # run_tests = yes
+
+## Configure the Matomo metrics server:
+
 # matomo_host = https://endlessos.matomo.cloud
-# matomo_site = 2
+# matomo_site_id = 2
 # matomo_base_url = https://www.endlessos.org
 
 [Advanced]
