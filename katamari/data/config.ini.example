@@ -70,6 +70,7 @@ clubhouse = .
 # hack-toolbox-app = custom
 # hack-toy-apps = custom
 # hack-game-state-service = custom
+# libquest = custom
 # clubhouse = custom
 
 [clubhouse]
