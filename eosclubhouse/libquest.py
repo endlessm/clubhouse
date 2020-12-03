@@ -24,6 +24,7 @@ import functools
 import glibcoro
 import os
 import pkgutil
+import re
 import shutil
 import subprocess
 import sys
@@ -34,7 +35,7 @@ from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.network import NetworkManager
-from eosclubhouse.system import App, Desktop, GameStateService, Sound, ToolBoxCodeView, \
+from eosclubhouse.system import App, Desktop, GameStateService, Libquest, Sound, ToolBoxCodeView, \
     UserAccount, Tour
 from eosclubhouse.utils import (get_alternative_quests_dir, get_flatpak_sandbox,
                                 ClubhouseState, MessageTemplate, Performance,
@@ -346,7 +347,7 @@ class Registry(GObject.GObject):
     @classmethod
     def _get_episode_quests_classes(class_):
         current_episode = class_.get_loaded_episode_name()
-        for subclass in Quest.__subclasses__():
+        for subclass in Quest.__subclasses__() + InkQuest.__subclasses__():
             # Avoid matching subclasses with the same name but in different episodes
             episode = subclass.__module__.split('.', 1)[0]
             if episode != current_episode:
@@ -2143,19 +2144,7 @@ class Quest(_Quest):
 
         Desktop.focus_app(app_name)
 
-    def wait_for_app_launch(self, app=None, timeout=None, pause_after_launch=0):
-        '''Wait until `app` is launched.
-
-        You can use `:meth:ask_for_app_launch()` instead to also ask the player to launch the
-        app with a dialogue.
-
-        :param app: The application. If not passed, it will use :attr:`app`.
-        :param timeout: If not None, the wait will timeout after this amount of seconds.
-        :type timeout: int or None
-        :param int pause_after_launch: Pause in seconds after the app is launched.
-        :rtype: AsyncAction
-
-        '''
+    def connect_wait_for_app_launch(self, app=None):
         assert self._run_context is not None
 
         if app is None:
@@ -2173,11 +2162,31 @@ class Quest(_Quest):
             if app.is_running() and not async_action.is_resolved():
                 async_action.resolve()
 
+        handler_id = 0
+
+        def _disconnect_app(_future):
+            nonlocal handler_id
+            nonlocal app
+            app.disconnect_running_change(handler_id)
+
+        async_action.future.add_done_callback(_disconnect_app)
         handler_id = app.connect_running_change(_on_app_running_changed, app, async_action)
 
-        self._run_context.wait_for_action(async_action, timeout)
+        return async_action
 
-        app.disconnect_running_change(handler_id)
+    def wait_for_app_launch(self, app=None, timeout=None, pause_after_launch=0):
+        '''Wait until `app` is launched.
+        You can use `:meth:ask_for_app_launch()` instead to also ask the player to launch the
+        app with a dialogue.
+        :param app: The application. If not passed, it will use :attr:`app`.
+        :param timeout: If not None, the wait will timeout after this amount of seconds.
+        :type timeout: int or None
+        :param int pause_after_launch: Pause in seconds after the app is launched.
+        :rtype: AsyncAction
+        '''
+        async_action = self.connect_wait_for_app_launch(app)
+
+        self._run_context.wait_for_action(async_action, timeout)
 
         if async_action.is_done() and pause_after_launch > 0:
             self.pause(pause_after_launch)
@@ -2813,3 +2822,140 @@ class QuestSet(GObject.GObject):
         return string_info['txt']
 
     highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False)
+
+
+class InkQuest(Quest):
+    __ink_quest_id__ = ''
+    '''ID of the Ink quest to load, by filename convention.'''
+
+    __confirm_label__ = '❯'
+    '''This is the button label used to go to the next line.'''
+
+    def __init__(self):
+        self._ink_quest = None
+        self._dialogue = None
+        self._choices = None
+        self._waiters_info = []
+        super().__init__()
+
+    def _show_message(self, options):
+        message_id = 'INK'
+
+        possible_answers = []
+        if options.get('choices'):
+            possible_answers = [(text, callback, *args)
+                                for text, callback, *args
+                                in options['choices']]
+
+        sfx_sound = self._OPEN_DIALOG_SOUND
+        bg_sound = options.get('bg_sound')
+        message_type = self.MessageType.POPUP
+        self.emit('message', {
+            'id': message_id,
+            'text': options['parsed_text'],
+            'choices': possible_answers,
+            'character_id': options.get('character_id') or self.get_main_character(),
+            'character_mood': options.get('mood') or self._DEFAULT_MOOD,
+            'sound_fx': sfx_sound,
+            'sound_bg': bg_sound,
+            'type': message_type,
+        })
+
+    def _extract_info_from_tags(self, tags, regex):
+        regex = re.compile(regex)
+        for tag in tags:
+            match = regex.fullmatch(tag)
+            if match is not None:
+                return match
+        return None
+
+    def _extract_line_character(self, current_tags):
+        regex = r'character: (?P<character>.*)'
+        info = self._extract_info_from_tags(current_tags, regex)
+        if info:
+            return info['character']
+        return None
+
+    def get_main_character(self):
+        regex = r'main character: (?P<character>.*)'
+        info = self._extract_info_from_tags(self._ink_quest.globalTags, regex)
+        if info is not None:
+            return info['character']
+        return self._DEFAULT_CHARACTER
+
+    def setup(self):
+        self._ink_quest = Libquest.load_quest(self.__ink_quest_id__)
+
+    def _update_dialogue_choices(self):
+        self._dialogue, choices = self._ink_quest.continueStory()
+        self._choices = self._convert_choices(choices)
+
+    def _convert_choices(self, choices):
+        def convert_choice(c):
+            return (c['text'], self.step_continue, c['index'])
+
+        if not choices:
+            return [(self.__confirm_label__, self.step_complete_and_stop)]
+
+        self._waiters_info = []
+        converted_choices = []
+        for c in choices:
+            # FIXME: parse. These are hardcoded for now:
+            if c['text'] == '(wait for app launch)':
+                self._waiters_info.append((self.connect_wait_for_app_launch, [], c['index']))
+            elif c['text'] == '(wait for clubhouse: current-page)':
+                self._waiters_info.append((self.connect_clubhouse_changes,
+                                           [['current-page']], c['index']))
+            else:
+                converted_choices.append(convert_choice(c))
+
+        return converted_choices
+
+    def _extract_triggers_from_tags(self, tags):
+        # FIXME: trigger things like give_app_icon
+        triggers = []
+        return triggers
+
+    def step_begin(self):
+        self._ink_quest.restart()
+        self._update_dialogue_choices()
+        return self.step_continue
+
+    def step_continue(self, choice_index=None):
+        if choice_index is not None:
+            self._ink_quest.choose(choice_index)
+            self._update_dialogue_choices()
+
+        if not self._dialogue and self._ink_quest.hasEnded:
+            self.step_complete_and_stop()
+            return
+
+        dialogue = self._dialogue.pop(0)
+
+        choices = None
+        if not self._dialogue:
+            choices = self._choices
+        else:
+            choices = [(self.__confirm_label__, self.step_continue)]
+
+        self._show_message({
+            'parsed_text': dialogue['text'],
+            'character_id': self._extract_line_character(dialogue['tags']),
+            'choices': choices,
+        })
+
+        for trigger in self._extract_triggers_from_tags(dialogue['tags']):
+            trigger()
+
+        if not self._dialogue and self._waiters_info:
+            actions_by_index = {}
+            for waiter, args, i in self._waiters_info:
+                async_action = waiter(*args)
+                actions_by_index[i] = async_action
+
+            # FIXME add the wait for message here?
+            self.wait_for_one(actions_by_index.values())
+
+            for i, async_action in actions_by_index.items():
+                if async_action.state == AsyncAction.State.DONE:
+                    self.step_continue(i)
