@@ -42,7 +42,7 @@ DEFAULTS = {
         'run_lint': True,
         'run_tests': True,
         'matomo_host': 'https://endlessos.matomo.cloud',
-        'matomo_site': '2',
+        'matomo_site_id': '2',
         'matomo_base_url': 'https://www.endlessos.org',
         'build_args': [ '--share=network' ],
     },

@@ -20,5 +20,5 @@ DEFAULT_EPISODE_NAME = 'hack2'
 DEFAULT_INSTALL_REPO = 'flathub'
 LOCALEDIR = @localedir@
 MATOMO = @matomo_host@
-MATOMO_SITE_ID = @matomo_site@
+MATOMO_SITE_ID = @matomo_site_id@
 MATOMO_BASE_URL = @matomo_base_url@

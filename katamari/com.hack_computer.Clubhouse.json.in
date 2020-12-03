@@ -208,7 +208,7 @@
             "config-opts" : [
                 "-Dsession-bus-services-dir=/app/share/dbus-1/services",
                 "-Dmatomo-host=${CLUBHOUSE_MATOMO_HOST}",
-                "-Dmatomo-site=${CLUBHOUSE_MATOMO_SITE}",
+                "-Dmatomo-site-id=${CLUBHOUSE_MATOMO_SITE_ID}",
                 "-Dmatomo-base-url=${CLUBHOUSE_MATOMO_BASE_URL}",
                 "-Drun-lint=${CLUBHOUSE_RUN_LINT}"
             ],
