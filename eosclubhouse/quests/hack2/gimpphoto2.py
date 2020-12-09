@@ -21,15 +21,15 @@
 from eosclubhouse.libquest import Quest
 
 
-class GlimpsePhoto3(Quest):
+class GIMPPhoto2(Quest):
 
     __app_id__ = 'org.gimp.GIMP'
     __app_common_install_name__ = 'GIMP'
     __tags__ = ['pathway:art', 'difficulty:easy', 'since:1.8']
-    __pathway_order__ = 642
+    __pathway_order__ = 641
 
     def setup(self):
-        self._info_messages = self.get_loop_messages('GLIMPSEPHOTO3', start=1)
+        self._info_messages = self.get_loop_messages('GIMPPHOTO2', start=1)
 
     def step_begin(self):
         return self.step_launch
@@ -37,8 +37,6 @@ class GlimpsePhoto3(Quest):
     def step_launch(self):
         if self.is_cancelled():
             return self.step_abort()
-        self.deploy_file('GlimpsePhoto/star.png',
-                         '~/Pictures/PhotoSources/', override=True)
         self.app.launch()
         return self.step_main_loop
 
