@@ -2294,6 +2294,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
 
         self._user.connect('changed', lambda _user: self.update_user_info())
         self.update_user_info()
+        self._add_season_decoration()
 
     @GObject.Property(type=float)
     def scale(self):
@@ -2330,6 +2331,13 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             ctx.add_class('off')
             self.hide_achievements_view()
             self.stop_ambient_sound()
+
+    def _add_season_decoration(self):
+        ctx = self.get_style_context()
+
+        # xmas: December
+        if datetime.date.today().month == 12:
+            ctx.add_class('xmas')
 
     def _running_quest_notify_cb(self, _clubhouse, _pspec):
         quest = self._app.quest_runner.props.running_quest
