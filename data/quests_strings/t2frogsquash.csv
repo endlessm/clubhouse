@@ -9,10 +9,8 @@ T2FROGSQUASH_FIRSTRUN3,Go enjoy yourself - and return to the Clubhouse if you'd 
 T2FROGSQUASH_GREET1,"This game is part of a network of activities outside the main Academy, and you can run all of them from your Desktop, if you like.",saniel,,,
 T2FROGSQUASH_GREET2,"Frog Squash - Isn't the goal to <b>avoid</b> being squashed? You'll find out, I suppose.",saniel,,,
 T2FROGSQUASH_BYE,Excellent. You're on your way!,saniel,hurray,,
-T2FROGSQUASH_NOTINSTALLED,"Uh-oh! I'm detecting that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Frog Squash</span></tt> isn't installed!
+T2FROGSQUASH_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Frog Squash</span></tt> isn't installed! We need it installed before you can play the quest.
 
-You need to download it from the App Center if you want to play.
-
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
+Would you like me to install it for you?",daemon,,,
 T2FROGSQUASH_QUEST_SUBTITLE,What you'll do,,,,
 T2FROGSQUASH_QUEST_DESCRIPTION,"Program your frog to avoid danger and grab coins, or just play it yourself!",,,,

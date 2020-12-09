@@ -1,10 +1,8 @@
 T2WHITEHOUSE_QUEST_NAME,Terminal 2 - White House,,,,
 T2WHITEHOUSE_GREET1,"This one's about color, and exploration. Give it a shot! You can also launch it through the Desktop, if you want.",ada,,,
 T2WHITEHOUSE_GREET2,It's always interesting when people mash up art and games - see what you think.,ada,,,
-T2WHITEHOUSE_NOTINSTALLED,"Uh-oh! I'm detecting that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">White House</span></tt> isn't installed!
+T2WHITEHOUSE_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">White House</span></tt> isn't installed! We need it installed before you can play the quest.
 
-You need to download it from the App Center if you want to play.
-
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
+Would you like me to install it for you?",daemon,,,
 T2WHITEHOUSE_QUEST_SUBTITLE,What you'll do,,,,
 T2WHITEHOUSE_QUEST_DESCRIPTION,"Paint the town red (or green, or blue...) as you learn how CSS colors work in this low-key first-person adventure.",,,,
