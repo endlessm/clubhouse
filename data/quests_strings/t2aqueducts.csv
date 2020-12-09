@@ -5,10 +5,8 @@ You can launch Aqueducts through the Desktop, too.",faber,,,
 T2AQUEDUCTS_GREET2,"I always admired the Roman Empire's aqueducts. Did you know that ancient Roman concrete is actually stronger than modern concrete?
 
 It's still being studied today, nobody knows exactly how they did it, it's wild!",faber,,,
-T2AQUEDUCTS_NOTINSTALLED,"Uh-oh! I'm detecting that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Aqueducts</span></tt> isn't installed!
+T2AQUEDUCTS_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">Aqueducts</span></tt> isn't installed! We need it installed before you can play the quest.
 
-You need to download it from the App Center if you want to play.
-
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
+Would you like me to install it for you?",daemon,,,
 T2AQUEDUCTS_QUEST_SUBTITLE,What you'll do,,,,
 T2AQUEDUCTS_QUEST_DESCRIPTION,"Restore the flow of water to your village by adventuring through a voxel world, learning about variables and code blocks as you go!",,,,

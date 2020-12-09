@@ -1,10 +1,8 @@
 T2PASSAGE_QUEST_NAME,Terminal 2 - The Passage,,,,
 T2PASSAGE_GREET1,"Oh, I love this one! The Passage is also part of the Terminal 2 Network, and you can launch it through the Clubhouse or the Desktop.",riley,,,
 T2PASSAGE_GREET2,"I think this game might have been made by a friend of Ada's. The main character looks a lot like her, and it doesn't hurt that I totally dig her style, too.",riley,,,
-T2PASSAGE_NOTINSTALLED,"Uh-oh! I'm detecting that <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">The Passage</span></tt> isn't installed!
+T2PASSAGE_NOTINSTALLED,"Uh-oh! Looks like <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">The Passage</span></tt> isn't installed! We need it installed before you can play the quest.
 
-You need to download it from the App Center if you want to play.
-
-Click the icon named <tt><span insert_hyphens=""false"" foreground=""#287A8C"" background=""#FFFFFF"">App Center</span></tt> on the Desktop, then search for the program you want to install.",daemon,,,
+Would you like me to install it for you?",daemon,,,
 T2PASSAGE_QUEST_SUBTITLE,What you'll do,,,,
 T2PASSAGE_QUEST_DESCRIPTION,Use code blocks and platforming to navigate a strange and hostile alien planet.,,,,
