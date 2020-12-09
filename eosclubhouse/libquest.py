@@ -29,7 +29,7 @@ import subprocess
 import sys
 
 from collections import OrderedDict
-from datetime import date
+from datetime import date, datetime
 from enum import Enum, IntEnum
 from eosclubhouse import config, logger
 from eosclubhouse.achievements import AchievementsDB
@@ -735,6 +735,11 @@ class _Quest(GObject.GObject):
 
         self.setup()
 
+        # update availability again here because available_since and
+        # available_until are usually updated in the setup method and the
+        # 'notify::available-since' signal could cause race conditions
+        self._available = self._get_availability()
+
     def _get_message_info(self, message_id):
         message_info = QuestStringCatalog.get_info(message_id)
 
@@ -773,7 +778,29 @@ class _Quest(GObject.GObject):
     def get_dependency_quests(self):
         return self.__available_after_completing_quests__
 
+    def _is_contemporary_available(self):
+        if self.available_since or self.available_until:
+            # Remove minutes and seconds from time
+            today = datetime(*datetime.now().timetuple()[:3])
+            start = today
+            end = today
+
+            if self.available_since:
+                start = datetime.strptime(self.available_since, '%Y-%m-%d')
+            if self.available_until:
+                end = datetime.strptime(self.available_until, '%Y-%m-%d')
+
+            return start <= today <= end
+
+        return True
+
     def _get_availability(self):
+        # First we check if the quest should be available at this datetime:
+        if not self._is_contemporary_available():
+            return False
+
+        # Then we check if this quest depends on others, and if so if they are
+        # complete:
         return all(self.is_named_quest_complete(q)
                    for q in self.get_dependency_quests())
 
@@ -1528,6 +1555,12 @@ class Quest(_Quest):
     Define this in the :meth:`setup()` method.
     '''
 
+    available_since = GObject.Property(type=str, default='')
+    '''Defines the quest availability start date in the following form YYYY-MM-DD.'''
+
+    available_until = GObject.Property(type=str, default='')
+    '''Defines the quest availability end date in the following form YYYY-MM-DD.'''
+
     # @todo: This should be __skippable__ like other Quest attributes.
     skippable = GObject.Property(type=bool, default=False)
     '''True if the quest shouldn't be presented in the UI.
@@ -1591,6 +1624,8 @@ class Quest(_Quest):
 
     def __init__(self):
         super().__init__()
+        self.connect('notify::available-since', lambda _a, _b: self._update_availability())
+        self.connect('notify::available-until', lambda _a, _b: self._update_availability())
 
     # ** Setup and steps **
 

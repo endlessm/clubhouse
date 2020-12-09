@@ -18,6 +18,8 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
+import datetime
+
 from eosclubhouse.libquest import Registry, NoMessageIdError
 from eosclubhouse.utils import QuestStringCatalog
 from eosclubhouse.system import GameStateService
@@ -141,3 +143,55 @@ class TestQuests(ClubhouseTestCase):
         quest_b = quest_b_class()
         conf = quest_b.get_named_quest_conf('QuestA', 'hints_given')
         self.assertEqual(conf, True)
+
+    def test_available(self):
+        '''Tests quest availability flags.'''
+        QuestA = define_quest('QuestAvailable')
+
+        PhonyAlice = define_questset('PhonyAlice', 'web', 'alice')
+        PhonyAlice.__quests__ = [QuestA]
+
+        setup_episode([PhonyAlice()])
+
+        quest_a = Registry.get_quest_by_name('QuestAvailable')
+        self.assertEqual(quest_a.available, True)
+
+        today = datetime.datetime.now()
+        yesterday = today - datetime.timedelta(days=1)
+        tomorrow = today + datetime.timedelta(days=1)
+        tomorrow1 = today + datetime.timedelta(days=2)
+
+        # Testing available_since
+        quest_a.available_until = ''
+        quest_a.available_since = tomorrow.strftime('%Y-%m-%d')
+        self.assertEqual(quest_a.available, False)
+        quest_a.available_since = yesterday.strftime('%Y-%m-%d')
+        self.assertEqual(quest_a.available, True)
+
+        # Testing available_until
+        quest_a.available_since = ''
+        quest_a.available_until = yesterday.strftime('%Y-%m-%d')
+        self.assertEqual(quest_a.available, False)
+        quest_a.available_until = tomorrow.strftime('%Y-%m-%d')
+        self.assertEqual(quest_a.available, True)
+
+        # Testing available_since and available_until
+        quest_a.available_since = yesterday.strftime('%Y-%m-%d')
+        quest_a.available_until = yesterday.strftime('%Y-%m-%d')
+        self.assertEqual(quest_a.available, False)
+
+        quest_a.available_since = yesterday.strftime('%Y-%m-%d')
+        quest_a.available_until = tomorrow.strftime('%Y-%m-%d')
+        self.assertEqual(quest_a.available, True)
+
+        quest_a.available_since = today.strftime('%Y-%m-%d')
+        quest_a.available_until = tomorrow.strftime('%Y-%m-%d')
+        self.assertEqual(quest_a.available, True)
+
+        quest_a.available_since = today.strftime('%Y-%m-%d')
+        quest_a.available_until = today.strftime('%Y-%m-%d')
+        self.assertEqual(quest_a.available, True)
+
+        quest_a.available_since = tomorrow.strftime('%Y-%m-%d')
+        quest_a.available_until = tomorrow1.strftime('%Y-%m-%d')
+        self.assertEqual(quest_a.available, False)
