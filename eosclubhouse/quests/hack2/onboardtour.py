@@ -130,7 +130,7 @@ class OnboardTour(Quest):
         # Wait for user to open App Center
         #   We need to do it this way because g-s is always running,
         #   so we detect foregrounding instead
-        self.show_highlight_widget('App Center')
+        self.show_highlight_icon('org.gnome.Software')
         self.show_hints_message(message_id='APPS3')
         self.wait_for_app_in_foreground(app=self.softwareApp)
 
