@@ -24,6 +24,7 @@ from eosclubhouse.libquest import Quest
 class BootQuest2(Quest):
 
     __app_id__ = 'com.sublimetext.three'
+    __app_common_install_name__ = 'SUBLIMETEXT'
     __tags__ = ['pathway:web', 'difficulty:medium', 'since:1.8', 'require:network']
     __pathway_order__ = 615
 
@@ -31,10 +32,6 @@ class BootQuest2(Quest):
         self._info_messages = self.get_loop_messages('BOOTQUEST2', start=3)
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOTINSTALLED', confirm_label='Got it!')
-            return self.step_abort
-
         self.wait_confirm('1')
         self.wait_confirm('2')
         self.deploy_file('Bootstrap2Quest/images/dog.jpg',
