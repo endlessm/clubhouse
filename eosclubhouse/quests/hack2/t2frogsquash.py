@@ -28,11 +28,7 @@ class T2FrogSquash(Quest):
     __pathway_order__ = 125
 
     def step_begin(self):
-        if not self.app.is_installed():
-            self.wait_confirm('NOTINSTALLED', confirm_label='App Center, got it.')
-            return self.step_abort
-        else:
-            return self.step_check_intro
+        return self.step_check_intro
 
     def step_check_intro(self):
         if self.get_named_quest_conf('T2Intro', 'has_seen_intro'):
