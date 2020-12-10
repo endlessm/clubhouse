@@ -24,6 +24,7 @@
         /** Needed for toolbox to get the app name and icon **/
         "--filesystem=/var/lib/flatpak/exports/:ro",
         "--filesystem=/var/lib/flatpak/app/:ro",
+        "--filesystem=~/.local/share/flatpak/overrides/:rw",
         "--filesystem=~/.local/share/flatpak/exports/:ro",
         "--filesystem=~/.local/share/flatpak/app/:ro",
         "--filesystem=host",

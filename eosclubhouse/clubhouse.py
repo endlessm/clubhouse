@@ -3129,6 +3129,7 @@ class ClubhouseApplication(Gtk.Application):
 
         # This will set the hack mode for old EOS < 3.9
         Desktop.set_legacy_hack_mode(True)
+        Desktop.remove_all_flatpak_overrides()
 
         # Listen to connection change to force update
         NetworkManager.connect_connection_change(self._connection_change)

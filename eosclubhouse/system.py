@@ -19,6 +19,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+import os
 import json
 import subprocess
 import time
@@ -42,6 +43,24 @@ class Desktop:
 
     SETTINGS_HACK_MODE_KEY = 'HackModeEnabled'
     SETTINGS_HACK_ICON_PULSE = 'HackIconPulse'
+
+    # Apps ids to override flatpak GTK3_MODULES with libclippy
+    CLIPPY_APPS = [
+        'com.endlessm.Fizzics',
+        'com.endlessm.Hackdex_chapter_one',
+        'com.endlessm.Hackdex_chapter_two',
+        'com.endlessm.LightSpeed',
+        'com.endlessm.OperatingSystemApp',
+        'com.endlessm.Sidetrack',
+        'com.endlessm.dinosaurs.en',
+        'com.endlessm.encyclopedia.en',
+        'com.hack_computer.Fizzics',
+        'com.hack_computer.Hackdex_chapter_one',
+        'com.hack_computer.Hackdex_chapter_two',
+        'com.hack_computer.LightSpeed',
+        'com.hack_computer.OperatingSystemApp',
+        'com.hack_computer.Sidetrack',
+    ]
 
     _dbus_proxy = None
     _app_launcher_proxy = None
@@ -527,6 +546,11 @@ class Desktop:
             else:
                 GObject.signal_handler_unblock(shell_settings, handler)
 
+    @classmethod
+    def remove_all_flatpak_overrides(klass):
+        for name in klass.CLIPPY_APPS:
+            App(name).remove_flatpak_override()
+
 
 class App:
     '''A Desktop Application.
@@ -891,6 +915,16 @@ class App:
         app = HackableAppsManager.get_hackable_app(self._app_dbus_name)
         if app:
             app.pulse_flip_to_hack_button = enable
+
+    def remove_flatpak_override(self):
+        filename = f'~/.local/share/flatpak/overrides/{self.dbus_name}'
+        full_filename = os.path.expanduser(filename)
+
+        if os.path.exists(full_filename):
+            try:
+                os.remove(full_filename)
+            except FileNotFoundError:
+                logger.warning(f'Can not remove the override file {self.dbus_name}')
 
 
 class GameStateService(GObject.GObject):
