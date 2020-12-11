@@ -228,6 +228,11 @@ class Registry(GObject.GObject):
 
             class_._loaded_episode = episode_name
 
+            # loading custom quests on HOME folder. This should be done before
+            # the episode loading because in other case the quest is not added
+            # to the pathway
+            class_.load(get_alternative_quests_dir())
+
             episode_folder = class_._get_episode_folder(episode_name)
 
             module = class_._get_episode_module(episode_folder)
@@ -246,8 +251,6 @@ class Registry(GObject.GObject):
 
             loaded_episodes[episode_name] = class_._loaded_episode
             episode_name = class_.get_current_episode()['name']
-
-        class_.load(get_alternative_quests_dir())
 
     @classmethod
     def get_loaded_episode_name(class_):
@@ -349,8 +352,13 @@ class Registry(GObject.GObject):
         for subclass in Quest.__subclasses__():
             # Avoid matching subclasses with the same name but in different episodes
             episode = subclass.__module__.split('.', 1)[0]
-            if episode != current_episode:
+
+            # custom quest in the HOME folder doesn't have a real episode name
+            # and the module is quests
+            is_alternative_quests = 'quests' == episode
+            if not is_alternative_quests and episode != current_episode:
                 continue
+
             yield subclass
 
     @classmethod
