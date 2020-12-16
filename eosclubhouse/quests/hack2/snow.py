@@ -27,7 +27,7 @@ class Snow(Quest):
     __EXTENSION__ = 'snow@endlessos.org'
     __APP__ = 'org.gnome.Extensions'
 
-    __tags__ = ['pathway:operating system', 'difficulty:medium', 'since:1.4', 'require:network']
+    __tags__ = ['pathway:operating system', 'difficulty:medium', 'since:2.0', 'require:network']
 
     def setup(self):
         self._installing = False
