@@ -37,12 +37,7 @@ class Snow(Quest):
         self._app = App(self.__APP__)
 
     def step_begin(self):
-        action = self.show_choices_message('HELLO1', ('NOQUEST_POSITIVE', None, True),
-                                           ('NOQUEST_NEGATIVE', None, False)).wait()
-        if action.future.result():
-            return self.step_install_extension
-        else:
-            return self.step_abort
+        return self.step_install_extension
 
     def step_install_extension(self):
         for message_id in ['EXTENSION1', 'EXTENSION2', 'EXTENSION3']:
