@@ -52,6 +52,9 @@ class Snow(Quest):
             def callback(value):
                 self._installing = False
                 self._installed = value
+                if self._installed:
+                    # Disable by default
+                    Desktop.disable_extension(self.__EXTENSION__)
 
             self.show_message('EXTENSION4')
             # not installed let's try to install
@@ -71,7 +74,7 @@ class Snow(Quest):
     def step_install_extensions_app(self):
         if not self._app.is_installed():
             self.wait_confirm('EXTENSION_APP1')
-            self.wait_for_app_install(confirm=False)
+            self.wait_for_app_install(self._app, confirm=False)
 
         return self.step_enable_disable
 

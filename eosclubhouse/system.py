@@ -266,6 +266,11 @@ class Desktop:
         proxy.EnableExtension('(s)', extension)
 
     @classmethod
+    def disable_extension(klass, extension):
+        proxy = klass.get_extensions_proxy()
+        proxy.DisableExtension('(s)', extension)
+
+    @classmethod
     def install_hack_extension(klass, callback=None):
         '''Install the hack extension on the user space'''
         klass.install_extension(klass._HACK_EXTENSION, callback)
