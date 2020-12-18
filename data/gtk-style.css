@@ -173,6 +173,10 @@ ClubhouseWindow {
     background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_bg.jpg"); }
     ClubhouseWindow.CLUBHOUSE.off {
       background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-off.jpg"); }
+    ClubhouseWindow.CLUBHOUSE.xmas {
+      background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-xmas.jpg"); }
+    ClubhouseWindow.CLUBHOUSE.xmas.off {
+      background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-xmas-off.jpg"); }
   ClubhouseWindow.off {
     background-image: url("resource:///com/hack_computer/Clubhouse/images/clubhouse_bg-blur-off.jpg"); }
     ClubhouseWindow.off headerbar > button {
