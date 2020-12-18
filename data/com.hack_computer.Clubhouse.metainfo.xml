@@ -15,6 +15,12 @@
   </categories>
 
   <releases>
+    <release version="1.10.1" type="stable" date="2020-12-18" urgency="high">
+      <description>
+        <p>New Snow quest available in the Operating System pathway</p>
+        <p>New clubhouse background for winter holidays with a tree</p>
+      </description>
+    </release>
     <release version="1.10.0" type="stable" date="2020-11-24" urgency="high">
       <description>
         <p>We heard you! Following up on feedback we received in several channels, we removed the concept of a Hack mode from our first class learning environment. In Hack mode, the user had the hacking affordances available, namely the Flip to Hack functionality to look behind an application, see what is happening behind the scenes, modify the application and run it in a sandbox environment.</p>
