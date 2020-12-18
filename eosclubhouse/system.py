@@ -242,29 +242,42 @@ class Desktop:
             return info
 
     @classmethod
-    def install_hack_extension(klass, callback=None):
-        '''Install the hack extension on the user space'''
-
+    def install_extension(klass, extension, callback=None):
+        '''Install the extension on the user space'''
         def on_installed(proxy, result, callback):
-            klass.enable_hack_extension()
+            klass.enable_extension(extension)
             if callback:
                 callback(True)
 
         def on_install_error(proxy, error, callback):
-            logger.error('Error installing eos-hack extension: %s', error.message)
+            logger.error('Error installing %s extension: %s', extension, error.message)
             if callback:
                 callback(False)
 
         extensions_proxy = klass.get_extensions_proxy()
-        extensions_proxy.InstallRemoteExtension('(s)', klass._HACK_EXTENSION,
+        extensions_proxy.InstallRemoteExtension('(s)', extension,
                                                 result_handler=on_installed,
                                                 error_handler=on_install_error,
                                                 user_data=callback)
 
     @classmethod
-    def enable_hack_extension(klass):
+    def enable_extension(klass, extension):
         proxy = klass.get_extensions_proxy()
-        proxy.EnableExtension('(s)', klass._HACK_EXTENSION)
+        proxy.EnableExtension('(s)', extension)
+
+    @classmethod
+    def disable_extension(klass, extension):
+        proxy = klass.get_extensions_proxy()
+        proxy.DisableExtension('(s)', extension)
+
+    @classmethod
+    def install_hack_extension(klass, callback=None):
+        '''Install the hack extension on the user space'''
+        klass.install_extension(klass._HACK_EXTENSION, callback)
+
+    @classmethod
+    def enable_hack_extension(klass):
+        klass.enable_extension(klass._HACK_EXTENSION)
 
     @classmethod
     def get_hack_property(klass, prop_name):
