@@ -1,0 +1,44 @@
+html {
+    font-family: "Helvetica", "Trebuchet MS", "Open Sans", sans-serif;
+    font-size: 13pt;
+    color: #FFA585;
+    background-color: #0A3055;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns:
+        1fr
+        min(70ch, 100%)
+        1fr;
+}
+
+.wrapper > * {
+    grid-column: 2;
+}
+
+.img-embed {
+    float: right;
+    margin-left: 5%;
+    width: 20%;
+}
+
+.img-hr {
+    width: 100%;
+}
+
+p {
+    float: left;
+}
+
+h1, h2, h3 {
+    margin-bottom: -0.1ch;
+}
+
+a {
+    color: #FFA585;
+}
+
+a:visited{
+    color: #FFA585;
+}
