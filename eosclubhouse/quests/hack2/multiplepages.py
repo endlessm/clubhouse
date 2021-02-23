@@ -24,6 +24,7 @@ from eosclubhouse.libquest import Quest
 class MultiplePages(Quest):
 
     __app_id__ = 'com.sublimetext.three'
+    __app_common_install_name__ = 'SUBLIMETEXT'
     __tags__ = ['pathway:web', 'difficulty:medium', 'since:1.8', 'require:network']
     __pathway_order__ = 615
 
