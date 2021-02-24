@@ -2026,8 +2026,7 @@ class AchievementsView(Gtk.Box):
         self._achievement_summary_view.show_all()
 
         self._populate()
-        self._manager.connect('achievement-achieved',
-                              lambda _manager, achievement: self._give_achievement(achievement))
+        self._manager.connect('achievement-achieved', self._give_achievement)
 
         self._event_box.connect('motion-notify-event', self._motion_notify_event_cb)
         self._event_box.connect('leave-notify-event', self._leave_notify_event_cb)
@@ -2066,11 +2065,13 @@ class AchievementsView(Gtk.Box):
         for achievement in self._manager.get_achievements_achieved():
             self._add_achievement(achievement)
 
-    def _give_achievement(self, achievement):
-        if self._app.use_inapp_notifications:
-            self._inapp_popup_achievement_badge(achievement)
-        else:
-            self._shell_popup_achievement_badge(achievement)
+    def _give_achievement(self, _manager, achievement, user_initiated=False):
+        if user_initiated:
+            if self._app.use_inapp_notifications:
+                self._inapp_popup_achievement_badge(achievement)
+            else:
+                self._shell_popup_achievement_badge(achievement)
+
         self._add_achievement(achievement)
 
     def _shell_popup_achievement_badge(self, achievement):

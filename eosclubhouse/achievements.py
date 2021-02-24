@@ -36,7 +36,7 @@ class _AchievementsManager(GObject.Object):
 
     __gsignals__ = {
         'achievement-achieved': (
-            GObject.SignalFlags.RUN_FIRST, None, (object, )
+            GObject.SignalFlags.RUN_FIRST, None, (object, bool)
         ),
     }
 
@@ -115,7 +115,7 @@ class _AchievementsManager(GObject.Object):
                 continue
 
             if not self.achieved(achievement, previous_points) and self.achieved(achievement):
-                self.emit('achievement-achieved', achievement)
+                self.emit('achievement-achieved', achievement, record_points)
                 if record_points:
                     self._record_achievement(skillset, achievement)
 
