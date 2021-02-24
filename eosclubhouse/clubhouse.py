@@ -3626,6 +3626,9 @@ class ClubhouseApplication(Gtk.Application):
                 return 1
         else:
             episode_name = libquest.Registry.get_loaded_episode_name()
+            # episode_name can be None if it's not loaded yet, so we fallback
+            # to default
+            episode_name = episode_name or config.DEFAULT_EPISODE_NAME
 
         libquest.Registry.set_current_episode(episode_name, force=True)
         libquest.Registry.load_current_episode()
