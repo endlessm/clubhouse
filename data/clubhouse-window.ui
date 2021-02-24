@@ -524,18 +524,45 @@
                           <object class="GtkEventBox" id="_user_event_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="above_child">True</property>
                             <child>
-                              <object class="GtkBox" id="_achievements_view_box">
+                              <object class="GtkBox" id="_achievements_view_stack_box">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="orientation">vertical</property>
                                 <child>
-                                  <object class="GtkRevealer" id="_achievements_view_revealer">
+                                  <object class="GtkStack" id="_achievements_view_stack">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <signal name="notify::child-revealed" handler="_achievements_view_revealer_child_revealed_notify_cb" swapped="no"/>
+                                    <signal name="notify::transition-running" handler="_achievements_view_stack_transition_running_notify_cb" swapped="no"/>
                                     <child>
-                                      <placeholder/>
+                                      <object class="GtkBox" id="_achievements_view_box">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                        <child>
+                                          <placeholder/>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="name">ACHIEVEMENTS_PAGE</property>
+                                        <property name="title" translatable="yes">page0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox" id="_achievements_dummy_page">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                        <child>
+                                          <placeholder/>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="name">DUMMY_PAGE</property>
+                                        <property name="title" translatable="yes">page0</property>
+                                        <property name="position">1</property>
+                                      </packing>
                                     </child>
                                   </object>
                                   <packing>
@@ -543,6 +570,12 @@
                                     <property name="fill">True</property>
                                     <property name="position">0</property>
                                   </packing>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
                                 </child>
                                 <style>
                                   <class name="achievements-view-box"/>
@@ -581,6 +614,7 @@
             </style>
           </object>
           <packing>
+            <property name="pass_through">True</property>
             <property name="index">2</property>
           </packing>
         </child>

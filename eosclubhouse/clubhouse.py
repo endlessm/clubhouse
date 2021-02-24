@@ -2226,7 +2226,8 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
     _user_button_image_revealer = Gtk.Template.Child()
     _user_image_button = Gtk.Template.Child()
     _achievements_view_box = Gtk.Template.Child()
-    _achievements_view_revealer = Gtk.Template.Child()
+    _achievements_view_stack = Gtk.Template.Child()
+    _achievements_view_stack_box = Gtk.Template.Child()
     _achievements_view_revealer_revealer = Gtk.Template.Child()
 
     _pathways_menu_button = Gtk.Template.Child()
@@ -2264,7 +2265,10 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         self.character = CharacterView()
 
         self._achievements_view = AchievementsView()
-        self._achievements_view_revealer.add(self._achievements_view)
+        self._achievements_view_box.add(self._achievements_view)
+
+        # Otherwise it's impossible to click Ada and Riley characters.
+        self._user_event_box.remove(self._achievements_view_stack_box)
 
         self._stack_event_box.connect('button-press-event',
                                       lambda _box, _event: self.hide_achievements_view())
@@ -2547,23 +2551,34 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         else:
             self.hide_achievements_view()
 
+    def hide_achievements_view(self):
+        self._user_box.props.valign = Gtk.Align.START
+        # self._achievements_view_stack.props.valign = Gtk.Align.START
+        self._achievements_view_stack.props.transition_type = Gtk.StackTransitionType.SLIDE_UP
+        self._achievements_view_stack.props.visible_child_name = 'DUMMY_PAGE'
+
     @Gtk.Template.Callback()
     def _achievements_view_revealer_revealer_child_revealed_notify_cb(self, revealer, _pspec):
         if revealer.props.child_revealed:
             self._user_button_image_revealer.props.reveal_child = True
-            self._achievements_view_revealer.props.reveal_child = True
+
+            self._user_box.props.valign = Gtk.Align.FILL
+            self._user_event_box.add(self._achievements_view_stack_box)
+
+            self._achievements_view_stack.props.transition_type = Gtk.StackTransitionType.SLIDE_DOWN
+            self._achievements_view_stack.props.visible_child_name = 'ACHIEVEMENTS_PAGE'
             # Set the achievements view to its default state.
             self._achievements_view.set_page(AchievementsView.PAGE_GRID)
             self._achievements_view.reset_scrollbar_position()
 
     @Gtk.Template.Callback()
-    def _achievements_view_revealer_child_revealed_notify_cb(self, revealer, _pspec):
-        if not revealer.props.child_revealed:
+    def _achievements_view_stack_transition_running_notify_cb(self, stack, _pspec):
+        if not stack.props.transition_running and stack.props.visible_child_name == 'DUMMY_PAGE':
             self._user_button_image_revealer.props.reveal_child = False
             self._achievements_view_revealer_revealer.props.reveal_child = False
 
-    def hide_achievements_view(self):
-        self._achievements_view_revealer.props.reveal_child = False
+            # Otherwise it's impossible to click Ada and Riley characters.
+            self._user_event_box.remove(self._achievements_view_stack_box)
 
     @Gtk.Template.Callback()
     def _on_visibile_property_changed(self, _window, _param):
