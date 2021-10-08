@@ -96,11 +96,17 @@
                 "/share/gtk-doc"
             ],
             "sources": [
-                 {
-                     "type": "archive",
-                     "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz",
-                     "sha256": "f1cb7aa2389569a5343661aae473f0a940a90b872001824bc47fa8072a041e74"
-                 }
+                {
+                    "type": "archive",
+                    "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz",
+                    "sha256": "a164923b94f0d08578a6fcaeaac6e0c05da788a46903a1086870e9ca45ad678e",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 21849,
+                        "stable-only": true,
+                        "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$$version.tar.xz"
+                    }
+                }
             ]
         },
         {
