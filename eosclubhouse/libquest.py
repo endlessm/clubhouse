@@ -384,7 +384,7 @@ class _QuestRunContext:
 
     def _cancel_and_close_loop(self, loop):
         if not loop.is_closed():
-            for task in asyncio.Task.all_tasks(loop=loop):
+            for task in asyncio.all_tasks(loop=loop):
                 task.cancel()
 
             loop.stop()
@@ -532,7 +532,10 @@ class _QuestRunContext:
             pending = []
 
             try:
+                # The "loop" parameter is deprecated and should be removed for python 3.10
+                # https://docs.python.org/3.9/library/asyncio-task.html#waiting-primitives
                 _done, pending = await asyncio.wait(futures, timeout=timeout,
+                                                    loop=asyncio.get_event_loop(),
                                                     return_when=asyncio.FIRST_COMPLETED)
             except asyncio.TimeoutError:
                 logger.debug('Wait for action timed out.')

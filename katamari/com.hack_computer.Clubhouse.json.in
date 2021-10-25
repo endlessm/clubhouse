@@ -9,13 +9,10 @@
         }
     },
     "branch": "${BRANCH}",
-
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.36",
+    "runtime-version": "41",
     "sdk": "org.gnome.Sdk",
-
     "command": "eos-clubhouse",
-
     "finish-args": [
         "--env=GNOTIFICATION_BACKEND=gtk",
         "--env=GSETTINGS_SCHEMA_DIR=/run/host/usr/share/glib-2.0/schemas/",
@@ -48,13 +45,13 @@
         "--talk-name=org.endlessos.onboarding",
         "--talk-name=org.gnome.Software",
         "--talk-name=com.endlessm.EknServices3.SearchProviderV3",
+        "--talk-name=com.endlessm.EknServices4.SearchProviderV4",
         "--filesystem=xdg-run/dconf",
         "--filesystem=~/.config/dconf:ro",
         "--talk-name=ca.desrt.dconf",
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--require-version=1.8.2"
     ],
-
     "modules": [
         /** Clippy extension folder needed to make it work **/
         {
@@ -79,7 +76,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.com/soundtouch/soundtouch.git",
+                    "url": "https://codeberg.org/soundtouch/soundtouch.git",
                     "tag": "2.1.2",
                     "commit": "9205fc971ed23cff407a67242bb9036a51113af4"
                 }
@@ -96,17 +93,23 @@
                 "/share/gtk-doc"
             ],
             "sources": [
-                 {
-                     "type": "archive",
-                     "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz",
-                     "sha256": "f1cb7aa2389569a5343661aae473f0a940a90b872001824bc47fa8072a041e74"
-                 }
+                {
+                    "type": "archive",
+                    "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz",
+                    "sha256": "a164923b94f0d08578a6fcaeaac6e0c05da788a46903a1086870e9ca45ad678e",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 21849,
+                        "stable-only": true,
+                        "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$$version.tar.xz"
+                    }
+                }
             ]
         },
         {
             "name": "hack-sound-server",
             "buildsystem": "meson",
-            "config-opts" : [
+            "config-opts": [
                 "-Dsession-bus-services-dir=/app/share/dbus-1/services"
             ],
             "sources": [
@@ -162,7 +165,7 @@
         {
             "name": "game-state-service",
             "buildsystem": "meson",
-            "config-opts" : [
+            "config-opts": [
                 "-Dsession-bus-services-dir=/app/share/dbus-1/services"
             ],
             "sources": [
