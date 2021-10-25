@@ -76,7 +76,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.com/soundtouch/soundtouch.git",
+                    "url": "https://codeberg.org/soundtouch/soundtouch.git",
                     "tag": "2.1.2",
                     "commit": "9205fc971ed23cff407a67242bb9036a51113af4"
                 }
