@@ -1184,8 +1184,16 @@ class ActivityCard(Gtk.FlowBoxChild):
 
         return False
 
+    def _setup_background_image(self, img):
+        css = "box {{ background-image: url('{}') }}".format(img).encode()
+        self._css_provider.load_from_data(css)
+
     def _setup_background(self):
         self._css_provider = gtk_widget_add_custom_css_provider(self._topbox)
+
+        if self._quest.image:
+            self._setup_background_image(self._quest.image)
+            return
 
         quest_id = self._quest.get_id().lower()
         character = self._quest_set.get_character()
@@ -1217,8 +1225,7 @@ class ActivityCard(Gtk.FlowBoxChild):
                     pixbuf.saturate_and_pixelate(pixbuf2, 0, False)
                     pixbuf2.savev(img, 'jpeg', [None], [None])
 
-        css = "box {{ background-image: url('{}') }}".format(img).encode()
-        self._css_provider.load_from_data(css)
+        self._setup_background_image(img)
 
     def _create_description_label(self, description):
         return Gtk.Label(visible=True,

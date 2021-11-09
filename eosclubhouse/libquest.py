@@ -676,6 +676,8 @@ class _Quest(GObject.GObject):
     _DEFAULT_MOOD = 'talk'
     _LABELS = {}
 
+    image = None
+
     since = None
 
     stop_timeout = GObject.Property(type=int, default=_DEFAULT_TIMEOUT)
@@ -2987,13 +2989,20 @@ def create_ink_quest(name):
         except:
             return None
 
+    # looking for the metadata
     try:
         metadata = _load_quest_metadata(QUEST_PATH)
     except:
         return None
 
+    # looking for the card image
+    img = os.path.join(QUEST_PATH, 'quest.jpg')
+    if not os.path.exists(img):
+        img = os.path.join(config.QUESTS_FILES_DIR, 'cards', 'custom.jpg')
+
     attrs = {
         '__ink_quest_id__': name,
+        'image': img,
         **metadata,
     }
     QuestClass = type(name, (InkQuest, ), attrs)
