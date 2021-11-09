@@ -186,6 +186,20 @@
                 ${LIBQUEST_SOURCE}
             ]
         },
+        {
+            "name": "ink",
+            "buildsystem": "simple",
+            "build-commands": [
+                "install -D inklecate /app/bin"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/inkle/ink/releases/download/v1.0.0/inklecate_linux.zip",
+                    "sha256": "6e17db766222998ba0ae5a5da9857e34896e683b9ec42fad528c3f8bea7398ea"
+                }
+            ]
+        },
 
         /** clubhouse **/
         {

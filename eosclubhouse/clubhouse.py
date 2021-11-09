@@ -2746,6 +2746,15 @@ class QuestRunner(GObject.GObject):
 
         self.run_quest(quest)
 
+    def run_custom_quest(self, quest_name):
+        quest = libquest.create_ink_quest(quest_name)
+        if not quest:
+            logger.warning('No quest with name "%s" found!', quest_name)
+            return
+
+        self._cancel_ongoing_task()
+        self.run_quest(quest)
+
     def _is_current_quest(self, quest):
         return self._current_quest is not None and self._current_quest == quest
 

@@ -28,6 +28,7 @@ import re
 import shutil
 import subprocess
 import sys
+import json
 
 from collections import OrderedDict
 from datetime import date, datetime
@@ -673,6 +674,7 @@ class _Quest(GObject.GObject):
 
     _DEFAULT_CHARACTER = 'ada'
     _DEFAULT_MOOD = 'talk'
+    _LABELS = {}
 
     since = None
 
@@ -699,6 +701,7 @@ class _Quest(GObject.GObject):
             'QUEST_DESCRIPTION': None,
             'QUEST_CONTENT_TAGS': None,
             'QUEST_CONTENT_TAGS_TITLE': 'Objectives',
+            **self._LABELS,
         }
 
         self._load_since()
@@ -2970,3 +2973,46 @@ class InkQuest(Quest):
             for i, async_action in actions_by_index.items():
                 if async_action.state == AsyncAction.State.DONE:
                     self.step_continue(i)
+
+
+def create_ink_quest(name):
+    QUEST_PATH = os.path.join(GLib.get_user_data_dir(), 'quests', name)
+
+    # looking for the ink file
+    story_path = os.path.join(QUEST_PATH, 'quest.ink.json')
+    if not os.path.exists(story_path):
+        story_path = os.path.join(QUEST_PATH, 'quest.ink')
+        try:
+            _create_ink_json(story_path)
+        except:
+            return None
+
+    try:
+        metadata = _load_quest_metadata(QUEST_PATH)
+    except:
+        return None
+
+    attrs = {
+        '__ink_quest_id__': name,
+        **metadata,
+    }
+    QuestClass = type(name, (InkQuest, ), attrs)
+    return QuestClass()
+
+
+def _create_ink_json(path):
+    output = subprocess.check_output(['inklecate', '-j', path])
+    first_line = output.splitlines()[0]
+    output = json.loads(first_line)
+    if not output.get('compile-success', False):
+        logger.error('Can not compile ink quest: %s', path)
+        raise Exception(f'Can not compile ink quest: {path}')
+
+
+def _load_quest_metadata(path):
+    metadata = {}
+    metadata_path = os.path.join(path, 'metadata.json')
+    if os.path.exists(metadata_path):
+        with open(metadata_path) as f:
+            metadata = json.load(f)
+    return metadata
