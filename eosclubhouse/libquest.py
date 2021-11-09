@@ -56,6 +56,7 @@ class Registry(GObject.GObject):
 
     _quest_sets_to_register = []
     _quest_sets = []
+    _custom_quest_set = None
     _quest_instances = {}
     _loaded_modules = set()
     _loaded_episode = None
@@ -130,6 +131,11 @@ class Registry(GObject.GObject):
         if parent_dir is not None:
             del sys.path[sys.path.index(parent_dir)]
         class_._quest_sets_to_register = []
+        class_.load_custom()
+
+    @classmethod
+    def load_custom(class_):
+        class_._custom_quest_set = CustomQuestSet()
 
     @classmethod
     def _reset(class_):
@@ -154,7 +160,14 @@ class Registry(GObject.GObject):
         return class_._quest_sets
 
     @classmethod
+    def get_custom_quest_set(class_):
+        return class_._custom_quest_set
+
+    @classmethod
     def get_questset_for_character(class_, character_id):
+        if character_id == 'custom':
+            return class_.get_custom_quest_set()
+
         for qs in class_.get_quest_sets():
             if qs.get_character() == character_id:
                 return qs
@@ -2838,6 +2851,18 @@ class QuestSet(GObject.GObject):
         return string_info['txt']
 
     highlighted = GObject.Property(_get_highlighted, _set_highlighted, type=bool, default=False)
+
+
+class CustomQuestSet(QuestSet):
+    __pathway_name__ = 'custom'
+    __character_id__ = 'custom'
+
+    def __init__(self):
+        super().__init__()
+        quests_path = os.path.join(GLib.get_user_data_dir(), 'quests')
+        for quest_id in os.listdir(quests_path):
+            quest = create_ink_quest(quest_id)
+            self._quest_objs.append(quest)
 
 
 class InkQuest(Quest):

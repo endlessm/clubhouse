@@ -131,6 +131,12 @@ def CharacterInfo():
             'pathway': None,
             'pathway_title': None
         },
+        'custom': {
+            'position': None,
+            'username': 'custom',
+            'pathway': 'custom',
+            'pathway_title': _('Custom Quests'),
+        },
         'endless': {
             'position': None,
             'username': 'Endless',
