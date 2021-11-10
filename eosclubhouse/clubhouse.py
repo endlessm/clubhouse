@@ -2418,7 +2418,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
         icon_file = self._user.get('IconFile')
 
         default_avatar_path = '/var/lib/AccountsService/icons'
-        if not icon_file.startswith(default_avatar_path):
+        if icon_file and not icon_file.startswith(default_avatar_path):
             icon_file = '/var/run/host/{}'.format(icon_file)
 
         self._user_label.set_label(real_name)
