@@ -39,7 +39,7 @@ from eosclubhouse import config, logger
 
 
 def get_alternative_quests_dir():
-    return os.path.join(GLib.get_user_data_dir(), 'quests')
+    return os.path.join(GLib.get_home_dir(), 'quests')
 
 
 class _CircleList(list):
