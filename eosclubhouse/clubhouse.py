@@ -2429,7 +2429,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                 background-image: url('{}');\
             }}".format(icon_file).encode())
         else:
-            tokens = real_name.split(' ')
+            tokens = real_name.split()
 
             if len(tokens) > 1:
                 initials = tokens[0][0] + tokens[-1][0]
