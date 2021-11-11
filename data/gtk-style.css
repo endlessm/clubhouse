@@ -9,7 +9,7 @@ tooltip {
   font-size: 1.4em;
   border: 0; }
 
-button {
+ClubhouseWindow button {
   border: 0;
   padding: 0;
   margin: 0;
@@ -131,13 +131,19 @@ ClubhouseWindow {
           background: linear-gradient(to bottom right, #37dcb1, #2d9b98); }
         ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:first-child:checked {
           background: linear-gradient(to bottom right, rgba(55, 220, 177, 0.95), rgba(45, 155, 152, 0.95)); }
-      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:last-child {
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(2) {
         background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.8), rgba(24, 24, 102, 0.8));
         border-radius: 0 3em 3em 0; }
-        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:last-child:hover {
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(2):hover {
           background: linear-gradient(to bottom right, #22597f, #181866); }
-        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:last-child:checked {
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(2):checked {
           background: linear-gradient(to bottom right, rgba(34, 89, 127, 0.95), rgba(24, 24, 102, 0.95)); }
+      ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(4) {
+        background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.8), rgba(34, 89, 127, 0.8)); }
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(4):hover {
+          background: linear-gradient(to bottom right, #2d9b98, #22597f); }
+        ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button:nth-child(4):checked {
+          background: linear-gradient(to bottom right, rgba(45, 155, 152, 0.95), rgba(34, 89, 127, 0.95)); }
       ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button > box > label {
         margin: 0 1em 0 0; }
       ClubhouseWindow headerbar .headerbar-buttonbox.CHARACTER > button > box > image {
@@ -843,3 +849,9 @@ ScalableImage {
 .inAppNotify #out-message-box {
   margin: 0.5em 0.5em 1em 2em;
   box-shadow: 0 2px 4px 4px rgba(0, 0, 0, 0.2); }
+
+.custom-modal headerbar {
+  padding: 0 6px; }
+
+.custom-modal .main-unselected {
+  opacity: 0.3; }

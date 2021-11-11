@@ -8,6 +8,7 @@
     <file preprocess="xml-stripblanks">achievement-flow-box-child.ui</file>
     <file preprocess="xml-stripblanks">clubhouse-view-main-layer.ui</file>
     <file preprocess="xml-stripblanks">activity-card.ui</file>
+    <file preprocess="xml-stripblanks">custom-modal.ui</file>
     <file preprocess="xml-stripblanks">character-view.ui</file>
     <file preprocess="xml-stripblanks">clubhouse-window.ui</file>
     <file preprocess="xml-stripblanks">news-view.ui</file>

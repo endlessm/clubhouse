@@ -24,6 +24,7 @@ gi.require_version("Gdk", "3.0")
 gi.require_version('GdkPixbuf', '2.0')
 gi.require_version("Gtk", "3.0")
 gi.require_version('Json', '1.0')
+gi.require_version('Handy', '1')
 import functools
 import logging
 import os
@@ -37,7 +38,7 @@ import copy
 from gettext import gettext as _
 from collections import OrderedDict
 from gi.repository import Gdk, GdkPixbuf, Gio, GLib, Gtk, \
-    GObject, Json, Pango
+    GObject, Json, Pango, Handy
 from eosclubhouse import config, logger, libquest, utils
 from eosclubhouse.achievements import AchievementsDB
 from eosclubhouse.network import NetworkManager
@@ -91,6 +92,10 @@ ClubhouseIface = ('<node>'
 # Load Resources
 resource = Gio.resource_load(os.path.join(config.DATA_DIR, 'eos-clubhouse.gresource'))
 Gio.Resource._register(resource)
+
+
+GObject.type_register(Handy.Clamp)
+from eosclubhouse.custom import CustomQuestModal
 
 
 def CharacterInfo():
@@ -1365,6 +1370,7 @@ class CharacterView(Gtk.Grid):
     header_box = Gtk.Template.Child()
     character_image = Gtk.Template.Child()
     activities_sw = Gtk.Template.Child()
+    custom_create = Gtk.Template.Child()
 
     _list = Gtk.Template.Child()
     _view_overlay = Gtk.Template.Child()
@@ -1438,6 +1444,11 @@ class CharacterView(Gtk.Grid):
         self._clear_list()
         self._populate_list(quest_set)
         self._quest_set = quest_set
+
+        if self._quest_set.__pathway_name__ == 'custom':
+            self.custom_create.set_visible(True)
+        else:
+            self.custom_create.set_visible(False)
 
     def _clear_list(self):
         for child in self._list.get_children():
@@ -3378,6 +3389,7 @@ class ClubhouseApplication(Gtk.Application):
                           ('show-character', self._show_character_action_cb,
                            GLib.VariantType.new('s')),
                           ('stop-quest', self._stop_quest, None),
+                          ('custom-create', self._custom_quest_create_cb, None),
                           ]
 
         for name, callback, variant_type, *callback_args in simple_actions:
@@ -3464,6 +3476,10 @@ class ClubhouseApplication(Gtk.Application):
     def _stop_quest(self, *args):
         self.quest_runner.stop_quest()
         self.close_quest_msg_notification()
+
+    def _custom_quest_create_cb(self, *args):
+        quest_modal = CustomQuestModal(parent=self._window)
+        quest_modal.show()
 
     def _debug_logs_action_cb(self, action, arg_variant):
         logger.setLevel(logging.DEBUG)

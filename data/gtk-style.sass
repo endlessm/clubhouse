@@ -20,7 +20,7 @@ tooltip
   border: 0
 
 // Button
-button
+ClubhouseWindow button
   border: 0
   padding: 0
   margin: 0
@@ -177,9 +177,12 @@ ClubhouseWindow
             @include bg($color_index: 1)
             border-radius: 3em 0 0 3em
 
-          &:last-child
+          &:nth-child(2)
             @include bg($color_index: 3)
             border-radius: 0 3em 3em 0
+
+          &:nth-child(4)
+            @include bg($color_index: 2)
 
           > box
             > label
@@ -1016,3 +1019,9 @@ ScalableImage
 .inAppNotify #out-message-box
     margin: 0.5em 0.5em 1em 2em
     box-shadow: 0 2px 4px 4px transparentize(black,0.8)
+
+.custom-modal headerbar
+  padding: 0 6px
+
+.custom-modal .main-unselected
+  opacity: 0.3

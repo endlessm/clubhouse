@@ -529,3 +529,14 @@ def custom_quest_export(quest_id, dest_dir='~'):
             bundle.write(os.path.join(src_dir, f), arcname=f)
 
     return bundle_name
+
+
+def quest_name_to_id(quest_name):
+    return (quest_name
+                # lowercase
+                .lower()
+                # replace spaces
+                .replace(' ', '_')
+                # replace non ascii with x
+                .encode('ascii', 'replace').replace(b'?', b'x').decode()
+            )
