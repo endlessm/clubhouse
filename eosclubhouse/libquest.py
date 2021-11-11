@@ -28,7 +28,6 @@ import re
 import shutil
 import subprocess
 import sys
-import json
 
 from collections import OrderedDict
 from datetime import date, datetime
@@ -44,7 +43,8 @@ from eosclubhouse.utils import (get_alternative_quests_dir, get_flatpak_sandbox,
 from eosclubhouse import metrics
 from eosclubhouse.utils import (get_custom_quest_story,
                                 get_custom_quest_metadata,
-                                get_custom_quest_image)
+                                get_custom_quest_image,
+                                compile_ink_json)
 from gi.repository import Gdk, Gio, Gtk, GObject, GLib
 
 
@@ -2872,6 +2872,9 @@ class InkQuest(Quest):
     __ink_quest_id__ = ''
     '''ID of the Ink quest to load, by filename convention.'''
 
+    __ink_quest_story__ = ''
+    '''Path to the ink.json quest story or Empty to use the default custom quest path.'''
+
     __confirm_label__ = '❯'
     '''This is the button label used to go to the next line.'''
 
@@ -2928,7 +2931,7 @@ class InkQuest(Quest):
         return self._DEFAULT_CHARACTER
 
     def setup(self):
-        self._ink_quest = Libquest.load_quest(self.__ink_quest_id__)
+        self._ink_quest = Libquest.load_quest(self.__ink_quest_id__, self.__ink_quest_story__)
 
     def _update_dialogue_choices(self):
         self._dialogue, choices = self._ink_quest.continueStory()
@@ -3005,17 +3008,32 @@ class InkQuest(Quest):
                     self.step_continue(i)
 
 
-def create_ink_quest(name):
+def create_ink_quest(name, ink_path=None):
+    if ink_path is None:
+        try:
+            story_path = get_custom_quest_story(name)
+        except Exception as e:
+            logger.error('Error loading quest story: %s', e)
+            return None
+    else:
+        story_path = f'{ink_path}.json'
+        try:
+            compile_ink_json(ink_path)
+        except Exception as e:
+            logger.error('Error loading quest story: %s', e)
+            return None
+
     try:
-        story_path = get_custom_quest_story(name)
         metadata = get_custom_quest_metadata(name)
     except Exception as e:
         logger.error('Error loading quest story: %s', e)
+        return None
 
     img = get_custom_quest_image(name)
 
     attrs = {
         '__ink_quest_id__': name,
+        '__ink_quest_story__': story_path,
         'image': img,
         **metadata,
     }

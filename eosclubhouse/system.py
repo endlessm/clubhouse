@@ -1375,8 +1375,8 @@ class Libquest(GObject.GObject):
         return klass._proxy
 
     @classmethod
-    def load_quest(klass, quest_id):
-        dbus_path = klass._get_proxy().LoadQuest('(s)', quest_id)
+    def load_quest(klass, quest_id, story_path):
+        dbus_path = klass._get_proxy().LoadQuest('(ss)', quest_id, story_path)
         return LibquestQuest(quest_id, dbus_path)
 
 

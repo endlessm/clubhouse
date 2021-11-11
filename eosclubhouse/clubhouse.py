@@ -2759,8 +2759,8 @@ class QuestRunner(GObject.GObject):
 
         self.run_quest(quest)
 
-    def run_custom_quest(self, quest_name):
-        quest = libquest.create_ink_quest(quest_name)
+    def run_custom_quest(self, quest_name, ink_path=None):
+        quest = libquest.create_ink_quest(quest_name, ink_path)
         if not quest:
             logger.warning('No quest with name "%s" found!', quest_name)
             return
@@ -3137,6 +3137,9 @@ class ClubhouseApplication(Gtk.Application):
         self.add_main_option('set-quest', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
                              'Start a quest.',
                              '[EPISODE_NAME.]QUEST_NAME')
+        self.add_main_option('play-ink', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
+                             'Start a custom ink quest.',
+                             'FULL_INK_FILE_PATH')
         self.add_main_option('reset', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Reset all quests state and game progress', None)
         self.add_main_option('debug', ord('d'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
@@ -3299,6 +3302,12 @@ class ClubhouseApplication(Gtk.Application):
 
             self._setup_quest(episode_name, quest_id)
 
+            return 0
+
+        if options.contains('play-ink'):
+            ink_path = options.lookup_value('play-ink', GLib.VariantType('s'))
+            ink_path = os.path.expanduser(ink_path.get_string())
+            self._quest_runner.run_custom_quest('PLAYINK', ink_path)
             return 0
 
         if options.contains('reset'):
