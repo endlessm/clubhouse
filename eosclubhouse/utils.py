@@ -29,6 +29,7 @@ gi.require_version('Json', '1.0')
 import os
 import time
 import datetime
+import subprocess
 
 from collections import OrderedDict
 from enum import Enum
@@ -36,6 +37,10 @@ from gi.repository import GLib, GObject, Json
 from string import Template
 
 from eosclubhouse import config, logger
+
+
+CUSTOM_QUEST_PATH = os.path.join(GLib.get_user_data_dir(), 'quests')
+CUSTOM_QUEST_TEMPLATE = os.path.join(config.QUESTS_FILES_DIR, 'custom-quest-template')
 
 
 def get_alternative_quests_dir():
@@ -429,3 +434,39 @@ class Version(list):
     def __init__(self, version_string, ignore_micro=False):
         n = 2 if ignore_micro else 3
         list.__init__(self, [int(s) for s in version_string.split('.')[:n]])
+
+
+def get_custom_quest_story(quest_id):
+    path = os.path.join(CUSTOM_QUEST_PATH, quest_id)
+
+    # looking for the ink file
+    story_path = os.path.join(path, 'quest.ink.json')
+    if not os.path.exists(story_path):
+        quest_path = os.path.join(path, 'quest.ink')
+        compile_ink_json(quest_path)
+    return story_path
+
+
+def get_custom_quest_metadata(quest_id):
+    path = os.path.join(CUSTOM_QUEST_PATH, quest_id, 'metadata.json')
+
+    metadata = {}
+    if os.path.exists(path):
+        with open(path) as f:
+            metadata = json.load(f)
+    return metadata
+
+
+def get_custom_quest_image(quest_id):
+    img = os.path.join(CUSTOM_QUEST_PATH, quest_id, 'quest.jpg')
+    if not os.path.exists(img):
+        img = os.path.join(CUSTOM_QUEST_TEMPLATE, 'quest.jpg')
+    return img
+
+
+def compile_ink_json(path):
+    output = subprocess.check_output(['inklecate', '-j', path])
+    first_line = output.splitlines()[0]
+    output = json.loads(first_line)
+    if not output.get('compile-success', False):
+        raise Exception(f'Can not compile ink quest: {path}')

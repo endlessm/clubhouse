@@ -42,6 +42,9 @@ from eosclubhouse.utils import (get_alternative_quests_dir, get_flatpak_sandbox,
                                 ClubhouseState, MessageTemplate, Performance,
                                 QuestStringCatalog, convert_variant_arg, Version)
 from eosclubhouse import metrics
+from eosclubhouse.utils import (get_custom_quest_story,
+                                get_custom_quest_metadata,
+                                get_custom_quest_image)
 from gi.repository import Gdk, Gio, Gtk, GObject, GLib
 
 
@@ -3003,27 +3006,13 @@ class InkQuest(Quest):
 
 
 def create_ink_quest(name):
-    QUEST_PATH = os.path.join(GLib.get_user_data_dir(), 'quests', name)
-
-    # looking for the ink file
-    story_path = os.path.join(QUEST_PATH, 'quest.ink.json')
-    if not os.path.exists(story_path):
-        story_path = os.path.join(QUEST_PATH, 'quest.ink')
-        try:
-            _create_ink_json(story_path)
-        except:
-            return None
-
-    # looking for the metadata
     try:
-        metadata = _load_quest_metadata(QUEST_PATH)
-    except:
-        return None
+        story_path = get_custom_quest_story(name)
+        metadata = get_custom_quest_metadata(name)
+    except Exception as e:
+        logger.error('Error loading quest story: %s', e)
 
-    # looking for the card image
-    img = os.path.join(QUEST_PATH, 'quest.jpg')
-    if not os.path.exists(img):
-        img = os.path.join(config.QUESTS_FILES_DIR, 'cards', 'custom.jpg')
+    img = get_custom_quest_image(name)
 
     attrs = {
         '__ink_quest_id__': name,
@@ -3032,21 +3021,3 @@ def create_ink_quest(name):
     }
     QuestClass = type(name, (InkQuest, ), attrs)
     return QuestClass()
-
-
-def _create_ink_json(path):
-    output = subprocess.check_output(['inklecate', '-j', path])
-    first_line = output.splitlines()[0]
-    output = json.loads(first_line)
-    if not output.get('compile-success', False):
-        logger.error('Can not compile ink quest: %s', path)
-        raise Exception(f'Can not compile ink quest: {path}')
-
-
-def _load_quest_metadata(path):
-    metadata = {}
-    metadata_path = os.path.join(path, 'metadata.json')
-    if os.path.exists(metadata_path):
-        with open(metadata_path) as f:
-            metadata = json.load(f)
-    return metadata
