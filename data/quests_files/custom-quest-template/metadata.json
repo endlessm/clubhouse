@@ -1,0 +1,9 @@
+{
+    "_LABELS": {
+        "QUEST_NAME": "Test quest",
+        "QUEST_SUBTITLE": "Test quest subtitle",
+        "QUEST_DESCRIPTION": "Test custom quest"
+    },
+    "_DEFAULT_CHARACTER": "saniel",
+    "__tags__": ["difficulty:medium"]
+}
