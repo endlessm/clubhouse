@@ -3143,6 +3143,9 @@ class ClubhouseApplication(Gtk.Application):
         self.add_main_option('play-ink', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
                              'Start a custom ink quest.',
                              'FULL_INK_FILE_PATH')
+        self.add_main_option('import-quest', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
+                             'Import a custom ink quest.',
+                             'PATH_TO_BUNDLE_OR_INK_FILE')
         self.add_main_option('reset', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Reset all quests state and game progress', None)
         self.add_main_option('debug', ord('d'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
@@ -3311,6 +3314,12 @@ class ClubhouseApplication(Gtk.Application):
             ink_path = options.lookup_value('play-ink', GLib.VariantType('s'))
             ink_path = os.path.expanduser(ink_path.get_string())
             self._quest_runner.run_custom_quest('PLAYINK', ink_path)
+            return 0
+
+        if options.contains('import-quest'):
+            quest_path = options.lookup_value('import-quest', GLib.VariantType('s'))
+            quest_path = os.path.expanduser(quest_path.get_string())
+            self._import_custom_quest(quest_path)
             return 0
 
         if options.contains('reset'):
@@ -3669,6 +3678,13 @@ class ClubhouseApplication(Gtk.Application):
 
         print('Setting up {} as available'.format(quest_id))
         self.quest_runner.run_quest_by_name(quest_id)
+
+    def _import_custom_quest(self, quest_path):
+        if not os.path.exists(quest_path):
+            logger.error('Can not find the quest: %s', quest_path)
+            return
+
+        utils.custom_quest_import(quest_path)
 
     def _reset(self):
         try:

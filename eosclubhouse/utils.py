@@ -30,6 +30,8 @@ import os
 import time
 import datetime
 import subprocess
+import zipfile
+import shutil
 
 from collections import OrderedDict
 from enum import Enum
@@ -470,3 +472,46 @@ def compile_ink_json(path):
     output = json.loads(first_line)
     if not output.get('compile-success', False):
         raise Exception(f'Can not compile ink quest: {path}')
+
+
+def custom_quest_import(quest_path):
+    quest_id = os.path.splitext(os.path.basename(quest_path))[0]
+    dest_dir = os.path.join(CUSTOM_QUEST_PATH, quest_id)
+    shutil.rmtree(dest_dir, ignore_errors=True)
+    os.mkdir(dest_dir)
+
+    if quest_path.endswith('.zip'):
+        deploy_quest_bundle(quest_path, dest_dir)
+        return
+
+    if not quest_path.endswith('.ink'):
+        shutil.rmtree(dest_dir)
+        raise Exception(f'The file "{path}" is not a valid quest file, use '
+                        'a plain .ink or bundle')
+
+    story_file = os.path.join(dest_dir, 'quest.ink')
+    metadata_file = os.path.join(dest_dir, 'metadata.json')
+
+    shutil.copy(quest_path, story_file)
+    metadata = {
+        "_LABELS": {
+            "QUEST_NAME": quest_id,
+        },
+    }
+    with open(metadata_file, 'w') as f:
+        json.dump(metadata, f)
+
+
+def deploy_quest_bundle(path, dest_dir):
+    allowed_files = ['metadata.json', 'quest.jpg']
+    files = []
+
+    with zipfile.ZipFile(path) as bundle:
+        for f in bundle.namelist():
+            if f.endswith('.ink'):
+                files.append(f)
+            elif f in allowed_files:
+                files.append(f)
+
+        for name in files:
+            bundle.extract(name, dest_dir)
