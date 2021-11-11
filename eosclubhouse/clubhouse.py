@@ -2325,6 +2325,9 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             context.remove_class('button-attract')
 
     def _on_has_extension_changed_cb(self, state, _param):
+        if os.environ.get('INAPP_NOTIFY'):
+            return
+
         has_extension = self._clubhouse_state.has_extension
         state.characters_disabled = not has_extension
         state.lights_on = has_extension
