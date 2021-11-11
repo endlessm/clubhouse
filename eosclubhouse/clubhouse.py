@@ -3146,6 +3146,9 @@ class ClubhouseApplication(Gtk.Application):
         self.add_main_option('import-quest', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
                              'Import a custom ink quest.',
                              'PATH_TO_BUNDLE_OR_INK_FILE')
+        self.add_main_option('export-quest', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING,
+                             'Export a custom quest bundle.',
+                             'CUSTOM_QUEST_ID')
         self.add_main_option('reset', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
                              'Reset all quests state and game progress', None)
         self.add_main_option('debug', ord('d'), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
@@ -3320,6 +3323,13 @@ class ClubhouseApplication(Gtk.Application):
             quest_path = options.lookup_value('import-quest', GLib.VariantType('s'))
             quest_path = os.path.expanduser(quest_path.get_string())
             self._import_custom_quest(quest_path)
+            logger.info('Quest imported correctly: %s', quest_path)
+            return 0
+
+        if options.contains('export-quest'):
+            quest_id = options.lookup_value('export-quest', GLib.VariantType('s'))
+            bundle = utils.custom_quest_export(quest_id.get_string())
+            logger.info('Quest exported as: %s', bundle)
             return 0
 
         if options.contains('reset'):

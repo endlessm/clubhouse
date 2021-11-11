@@ -515,3 +515,16 @@ def deploy_quest_bundle(path, dest_dir):
 
         for name in files:
             bundle.extract(name, dest_dir)
+
+
+def custom_quest_export(quest_id):
+    src_dir = os.path.join(CUSTOM_QUEST_PATH, quest_id)
+    # Do not add ink.json in the bundle
+    files = [i for i in os.listdir(src_dir) if not i.endswith('.ink.json')]
+
+    bundle_name = f'{quest_id}.zip'
+    with zipfile.ZipFile(bundle_name, 'w') as bundle:
+        for f in files:
+            bundle.write(os.path.join(src_dir, f), arcname=f)
+
+    return bundle_name
