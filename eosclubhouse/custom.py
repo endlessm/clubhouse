@@ -20,6 +20,8 @@ class CustomQuestModal(Gtk.Dialog):
     character = Gtk.Template.Child()
     code_list_box = Gtk.Template.Child()
     add_code_row = Gtk.Template.Child()
+    stack = Gtk.Template.Child()
+    import_button = Gtk.Template.Child()
 
     def __init__(self, quest=None, **kwargs):
         self._app = Gio.Application.get_default()
@@ -38,10 +40,25 @@ class CustomQuestModal(Gtk.Dialog):
         if quest is None:
             self.load_template()
 
+        image_filter = Gtk.FileFilter()
+        image_filter.set_name('Image')
+        image_filter.add_pattern('*.jpg')
+        image_filter.add_pattern('*.jpeg')
+        self.image.add_filter(image_filter)
+
+        zip_filter = Gtk.FileFilter()
+        zip_filter.set_name('Bundle')
+        zip_filter.add_pattern('*.zip')
+        self.import_button.add_filter(zip_filter)
+
         header = self.get_header_bar()
         cancel = Gtk.Button(label=_("Cancel"))
         cancel.connect("clicked", lambda x: self.on_response(0))
         header.pack_start(cancel)
+
+        stack_switcher = Gtk.StackSwitcher()
+        stack_switcher.set_stack(self.stack)
+        header.set_custom_title(stack_switcher)
 
         ok = Gtk.Button(label=_("Ok"))
         ok.connect("clicked", lambda x: self.on_response(Gtk.ResponseType.OK))
@@ -52,9 +69,30 @@ class CustomQuestModal(Gtk.Dialog):
 
     def on_response(self, response_id, user_data=None):
         if response_id == Gtk.ResponseType.OK:
-            self.save()
+            if self.stack.get_visible_child_name() == 'create':
+                self.save()
+            else:
+                self.import_bundle()
         else:
             self.destroy()
+
+    def import_bundle(self):
+        bundle = self.import_button.get_filename()
+        # Check if the bundle exists
+        if not bundle or not os.path.exists(bundle):
+            self.show_error('You should select a Quest bundle file')
+            return
+
+        try:
+            utils.custom_quest_import(bundle)
+        except Exception as e:
+            self.show_error(f'There was an error trying to import the bundle: {e}')
+            return
+
+        # Reload the custom quests on libregistry
+        self.reload_custom_quests()
+
+        self.destroy()
 
     def save(self):
         title = self.title.get_text()
@@ -116,11 +154,18 @@ class CustomQuestModal(Gtk.Dialog):
             shutil.copy(f, dest_dir)
 
         # Reload the custom quests on libregistry
-        libquest.Registry.load_custom()
+        self.reload_custom_quests()
 
-        # TODO:
-        # * reload the listview!
         self.destroy()
+
+    def reload_custom_quests(self):
+        window = self._app.get_active_window()
+
+        libquest.Registry.load_custom()
+        qs = libquest.Registry.get_questset_for_character('custom')
+
+        window.character.show_mission_list(qs)
+        window.set_page('CHARACTER')
 
     def show_error(self, msg):
         dialog = Gtk.MessageDialog(self,
