@@ -154,6 +154,7 @@
     </child>
     <child>
       <object class="GtkButton" id="custom_create">
+        <property name="name">custom-create</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="receives_default">True</property>

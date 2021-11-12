@@ -875,3 +875,9 @@ ScalableImage {
 
 .custom-modal .main-unselected {
   opacity: 0.3; }
+
+#custom-create image {
+  padding: 0 0.5ex; }
+
+#custom-create:hover {
+  background: #8eebd3; }
