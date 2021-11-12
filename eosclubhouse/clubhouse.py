@@ -1108,6 +1108,7 @@ class ActivityCard(Gtk.FlowBoxChild):
     _topbox = Gtk.Template.Child()
     _revealer = Gtk.Template.Child()
     _difficulty_box = Gtk.Template.Child()
+    _export_button = Gtk.Template.Child()
 
     def __init__(self, quest_set, quest):
         super().__init__()
@@ -1132,8 +1133,39 @@ class ActivityCard(Gtk.FlowBoxChild):
         self._connectivity_handler = NetworkManager.connect_connection_change(
             self._sync_availability)
 
+        is_custom = self._quest_set.__pathway_name__ == 'custom'
+        self._export_button.set_visible(is_custom)
+
     def _on_destroy(self, _card):
         NetworkManager.disconnect_connection_change(self._connectivity_handler)
+
+    @Gtk.Template.Callback()
+    def _on_export_button_clicked(self, widget):
+        window = self._app.get_active_window()
+        dialog = Gtk.FileChooserNative.new(_('Export Quest'),
+                                           window,
+                                           Gtk.FileChooserAction.SELECT_FOLDER,
+                                           _('_Save'),
+                                           _('_Cancel'))
+        response = dialog.run()
+        if response == Gtk.ResponseType.ACCEPT:
+            filename = dialog.get_filename()
+            try:
+                utils.custom_quest_export(self._quest.__ink_quest_id__, filename)
+                dialog = Gtk.MessageDialog(window, 0,
+                                           Gtk.MessageType.INFO,
+                                           Gtk.ButtonsType.CLOSE,
+                                           f'Quest bundle created correctly')
+            except Exception as e:
+                dialog = Gtk.MessageDialog(window, 0, Gtk.MessageType.ERROR,
+                                           Gtk.ButtonsType.CLOSE,
+                                           f'There was an error trying to export the Quest: {e}')
+
+            dialog.set_transient_for(window)
+            dialog.set_destroy_with_parent(True)
+            dialog.set_modal(True)
+            dialog.run()
+            dialog.destroy()
 
     @Gtk.Template.Callback()
     def _on_enter_notify_event(self, widget, event):

@@ -476,6 +476,16 @@ ActivityCard {
       border-radius: 50%;
       padding: 0.4em;
       color: white; }
+    ActivityCard #bottombox #export {
+      color: white;
+      text-shadow: none;
+      border-radius: 1em;
+      margin-top: 1ex;
+      background: #3f3f3f; }
+      ActivityCard #bottombox #export > label {
+        padding: 1em; }
+      ActivityCard #bottombox #export:hover {
+        background: #727272; }
     ActivityCard #bottombox #play {
       color: white;
       text-shadow: none;
@@ -611,6 +621,16 @@ ActivityCard {
         border-radius: 50%;
         padding: 0.4em;
         color: white; }
+      ActivityCard.available #bottombox #export {
+        color: white;
+        text-shadow: none;
+        border-radius: 1em;
+        margin-top: 1ex;
+        background: #181866; }
+        ActivityCard.available #bottombox #export > label {
+          padding: 1em; }
+        ActivityCard.available #bottombox #export:hover {
+          background: #2b2bb9; }
       ActivityCard.available #bottombox #play {
         color: white;
         text-shadow: none;

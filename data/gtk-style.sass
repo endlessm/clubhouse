@@ -668,6 +668,20 @@ CharacterView
       padding: 0.4em
       color: call($colorize, white)
 
+    #export
+      $normal_color: call($colorize, #181866)
+      color: white
+      text-shadow: none
+      border-radius: 1em
+      margin-top: 1ex
+      background: $normal_color
+
+      > label
+        padding: 1em
+
+      &:hover
+        background: lighten($normal_color, 20%)
+
     #play
       $normal_color: call($colorize, #181866)
       $complete_color: call($colorize, #37DCB1)
