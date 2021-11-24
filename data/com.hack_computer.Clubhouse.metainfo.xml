@@ -15,6 +15,12 @@
   </categories>
 
   <releases>
+    <release version="1.10.2" type="stable" date="2021-11-22" urgency="high">
+      <description>
+        <p>Use org.gnome.Platform//41</p>
+        <p>Minor development improvements</p>
+      </description>
+    </release>
     <release version="1.10.1" type="stable" date="2020-12-18" urgency="high">
       <description>
         <p>New Snow quest available in the Operating System pathway</p>
