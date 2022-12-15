@@ -75,5 +75,8 @@
   <launchable type="desktop-id">com.hack_computer.Clubhouse.desktop</launchable>
   <developer_name>The Hack Team</developer_name>
 
-  <content_rating type="oars-1.1" />
+  <content_rating type="oars-1.1">
+    <content_attribute id="language-humor">mild</content_attribute>
+    <content_attribute id="social-info">moderate</content_attribute>
+  </content_rating>
 </component>
