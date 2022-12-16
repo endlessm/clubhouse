@@ -210,7 +210,7 @@ class Desktop:
         info = klass.get_extension_info(klass._OLD_HACK_EXTENSION)
 
         if 'state' in info:
-            logger.info('Old hack extension installed, not checking new')
+            logger.debug('Old hack extension installed, not checking new')
             return True
 
         info = klass.get_extension_info(klass._HACK_EXTENSION)
