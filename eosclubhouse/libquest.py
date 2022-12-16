@@ -365,6 +365,14 @@ class Registry(GObject.GObject):
     def get_matching_quests(class_, tag):
         for subclass in class_._get_episode_quests_classes():
             if tag in subclass.get_tags():
+                # bail out early if the quest script contains any errors
+                # and log it accordingly
+                try:
+                    subclass()
+                except Exception as e:
+                    logger.error('Error loading quest: {0}'.format(e))
+                    continue
+
                 if subclass not in class_._quest_instances:
                     class_._quest_instances[subclass] = subclass()
                 yield class_._quest_instances[subclass]
