@@ -107,6 +107,22 @@
             ]
         },
         {
+            "name": "setproctitle",
+            "buildsystem": "simple",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/dvarrazzo/py-setproctitle.git"
+                }
+            ],
+            "build-options": [
+
+            ],
+            "build-commands": [
+                "python3 ./setup.py install --prefix=/app"
+            ]
+        },
+        {
             "name": "hack-sound-server",
             "buildsystem": "meson",
             "config-opts": [
