@@ -2414,14 +2414,17 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
             self._hack_news_button.get_style_context().add_class('nav-attract')
 
     def update_user_info(self):
+        user_name = self._user.get('UserName')
         real_name = self._user.get('RealName')
         icon_file = self._user.get('IconFile')
 
+        name = real_name.strip() or user_name
+
         default_avatar_path = '/var/lib/AccountsService/icons'
-        if not icon_file.startswith(default_avatar_path):
+        if icon_file and not icon_file.startswith(default_avatar_path):
             icon_file = '/var/run/host/{}'.format(icon_file)
 
-        self._user_label.set_label(real_name)
+        self._user_label.set_label(name)
 
         if icon_file and os.path.exists(icon_file):
             self._user_image_button.set_label('')
@@ -2429,7 +2432,7 @@ class ClubhouseWindow(Gtk.ApplicationWindow):
                 background-image: url('{}');\
             }}".format(icon_file).encode())
         else:
-            tokens = real_name.split(' ')
+            tokens = name.split()
 
             if len(tokens) > 1:
                 initials = tokens[0][0] + tokens[-1][0]
